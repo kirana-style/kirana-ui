@@ -264,7 +264,19 @@ implicit default is deliberately gone.
 
 **One package, internal layers.** Token and relation identities hash from the
 package name plus the namespace and key, never the file path, so files can move
-freely.
+freely. The same group name in two packages is two sets of properties: the
+registry's `theme` and `packages/ui`'s `theme` never collide.
+
+**The design system is a set of attributes on `<html>`.** Being rebuilt in
+`registry/` (its README has the details). Every customization axis is an
+attribute (`data-style`, `data-base-color`, `data-theme`, `data-radius` …), and
+every value of every axis is compiled into the stylesheet ahead of time, so
+choosing a design changes attributes and never writes CSS: Kirana makes no rules
+at runtime. Colours, fonts and the radius are variable tokens reassigned under
+conditions on `<html>`; the visual styles are conditions components read through
+a relation anchored there. It replaces shadcn/ui's approach of a `<style>` element
+of custom properties and a class per style on `<body>`. What a project installs is
+the same code with one design flattened into it.
 
 ## The build setup
 

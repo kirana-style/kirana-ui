@@ -178,6 +178,25 @@ hydrates in the system mode while the script has already set the saved one. A th
 control shows its mode from `data-mode` in CSS, never from React state, for the same
 reason.
 
+## The design system (`registry/core`, being built)
+
+The customizable design system the components move to. Nothing renders from it
+yet; see `registry/README.md`.
+
+| Export                                                 | File          | For                                                                                                                  |
+| ------------------------------------------------------ | ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `theme` `radiusBase` `radius` `font`                   | `tokens.ts`   | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`    |
+| `root`                                                 | `root.ts`     | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                 |
+| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`     | `axes.ts`     | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts` |
+| `AXIS_ATTRIBUTES`                                      | `axes.ts`     | The attribute each axis is written to (`data-base-color` …)                                                          |
+| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem` | `config.ts`   | Every axis's values (append-only), the defaults, the rules between axes                                              |
+| `encodePreset`, `decodePreset`, `readDesignSystem`     | `preset.ts`   | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
+| `baseColors`, `themeColors`, `chartColors`             | `palettes.ts` | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
+
+Adding a value to an axis: append it to its list in `config.ts` (never insert or
+reorder: saved codes would change meaning), add its colours or family, an `on`
+condition in `axes.ts`, and its entries in `root.ts`.
+
 ## Layer 5 — primitives
 
 | Component        | For                                                                                          |
