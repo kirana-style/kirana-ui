@@ -31,7 +31,8 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "packages/*"
+      "packages/*",
+      "registry"
     ],
     "catalog": {
       "@kirana-style/core": "0.3.1",

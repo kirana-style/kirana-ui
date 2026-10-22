@@ -48,6 +48,11 @@ export default defineConfig({
         command: "vp check",
         cache: { input: SOURCES, output: [] },
       },
+      // Vitest: the registry's codec, configuration and palettes (`registry/**/*.test.ts`).
+      test: {
+        command: "vp test run",
+        cache: { input: SOURCES, output: [] },
+      },
       // Every installed JavaScript dependency's licence against the policy in the script; it
       // changes only with the lockfile.
       licenses: {
@@ -57,7 +62,7 @@ export default defineConfig({
       // Everything CI requires of a pull request that runs on this machine; the pre-push hook.
       prepush: {
         command: "echo All checks passed.",
-        dependsOn: ["check", "licenses", "build"],
+        dependsOn: ["check", "test", "licenses", "build"],
         cache: false,
       },
     },
