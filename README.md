@@ -95,13 +95,20 @@ the element's own. An array composes several styles, and later entries win:
 Every colour token is one `light-dark(<light>, <dark>)` value. `ThemeProvider`
 sets `color-scheme` on `<html>` for the three modes through Kirana's `mode`
 handles: `light dark` for system, which follows the OS with no JavaScript, so the
-first paint is already correct, and `light` or `dark` to pin one. Given a
-`cookie` name, it keeps the choice across reloads and tabs. It needs Chrome 123,
-Safari 17.5 or Firefox 120.
+first paint is already correct, and `light` or `dark` to pin one. It needs
+Chrome 123, Safari 17.5 or Firefox 120.
 
 ```tsx
 import { ThemeProvider, useTheme } from "@workspace/ui/theme/theme-provider"
 ```
+
+The apps keep the reader's choice the way the Kirana site does: in the
+`kirana-theme` cookie, read by the root route on the server, applied before the
+first paint by a small inline script (so a prerendered page never flashes the
+wrong mode), and shared between open tabs. The header's theme menu and the demo's
+theme pill both answer the `D` key. The pieces are in `packages/shell`
+(`theme-mode.ts`, `theme-document.ts`, `theme-menu.tsx`, `theme-toggle.tsx`);
+[docs/catalogue.md](docs/catalogue.md) shows how a root route wires them.
 
 ## Getting started
 

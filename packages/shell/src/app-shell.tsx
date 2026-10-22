@@ -32,7 +32,7 @@ import {
 import { flattenNav } from "./nav"
 import type { NavGroup, NavItem } from "./nav"
 import { SearchCommand } from "./search-command"
-import { ThemeToggle } from "./theme-toggle"
+import { ThemeMenu } from "./theme-menu"
 import { Icon } from "@workspace/ui/primitives/icon"
 import { radius, theme } from "@workspace/ui/theme/semantic"
 import { duration, easing } from "@workspace/ui/tokens/motion"
@@ -195,7 +195,7 @@ export function AppShell({
           </span>
           <div sx={styles.row}>
             <SearchCommand groups={groups} />
-            <ThemeToggle />
+            <ThemeMenu />
           </div>
         </header>
         <div sx={styles.box}>{children}</div>

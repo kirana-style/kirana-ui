@@ -11,11 +11,7 @@ import appCss from "@workspace/ui/globals.css?url"
 import { DirectionProvider } from "@workspace/ui/components/direction"
 import { Toaster } from "@workspace/ui/components/toast"
 import { TooltipProvider } from "@workspace/ui/components/tooltip"
-import {
-  ThemeProvider,
-  themeStyles,
-  useTheme,
-} from "@workspace/ui/theme/theme-provider"
+import { ThemeProvider, useTheme } from "@workspace/ui/theme/theme-provider"
 import { theme } from "@workspace/ui/theme/semantic"
 import type { ThemeMode } from "@workspace/ui/theme/themes"
 import {
@@ -24,6 +20,17 @@ import {
   lineHeight,
 } from "@workspace/ui/tokens/typography"
 import { AppShell } from "@workspace/shell/app-shell"
+import {
+  ThemeColorMeta,
+  headLinks,
+  headMeta,
+  siteTitle,
+} from "@workspace/shell/head"
+import {
+  THEME_SCRIPT,
+  themeDocumentProps,
+} from "@workspace/shell/theme-document"
+import { THEME_COOKIE, readThemeMode } from "@workspace/shell/theme-mode"
 
 import { NAV } from "@/registry"
 
@@ -44,18 +51,17 @@ const styles = {
 
 export const Route = createRootRoute({
   head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Blocks · shadcn/ui on Kirana" },
-    ],
+    meta: [...headMeta, { title: siteTitle("Blocks") }],
     links: [
       // First, so its `@layer reset, base, kirana` statement fixes the layer
       // order before globals.css opens the reset and base layers.
       { rel: "stylesheet", href: kiranaCss },
       { rel: "stylesheet", href: appCss },
+      ...headLinks,
     ],
   }),
+  // The saved colour mode, before the document renders: the server writes `<html>` in it.
+  beforeLoad: () => ({ mode: readThemeMode() }),
   notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
@@ -73,10 +79,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const location = useRouterState({ select: (state) => state.location })
   // The block viewer's iframe says which scheme to start in.
   const viewTheme = (location.search as { theme?: ThemeMode }).theme
+  const { mode } = Route.useRouteContext()
 
   return (
     <DirectionProvider direction="ltr">
-      <ThemeProvider defaultMode={viewTheme ?? "system"}>
+      <ThemeProvider defaultMode={viewTheme ?? mode} cookie={THEME_COOKIE}>
         <ThemedDocument>{children}</ThemedDocument>
       </ThemeProvider>
     </DirectionProvider>
@@ -89,10 +96,20 @@ function ThemedDocument({ children }: { children: React.ReactNode }) {
   // `color-scheme` goes on the root element, not the body: the root decides the
   // page's scrollbars and canvas, and an iframe whose root scheme differs from
   // the frame element's gets an opaque light backdrop behind the page.
+  // A page hydrates in the mode the server or the viewer named while THEME_SCRIPT may already
+  // have set the saved one, until the provider reads the cookie: React keeps the attributes it
+  // finds.
   return (
-    <html lang="en" sx={themeStyles(mode)}>
+    <html
+      lang="en"
+      data-mode={mode}
+      {...themeDocumentProps(mode)}
+      suppressHydrationWarning
+    >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <HeadContent />
+        <ThemeColorMeta />
       </head>
       <body sx={styles.body}>
         <TooltipProvider>

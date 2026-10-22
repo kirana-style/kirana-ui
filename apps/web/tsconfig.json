@@ -8,7 +8,8 @@
     "types": ["vite/client"],
     "paths": {
       "@/*": ["./src/*"],
-      "@workspace/ui/*": ["../../packages/ui/src/*"]
+      "@workspace/ui/*": ["../../packages/ui/src/*"],
+      "@workspace/shell/*": ["../../packages/shell/src/*"]
     },
 
     /* Bundler mode */
