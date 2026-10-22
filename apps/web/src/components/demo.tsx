@@ -220,7 +220,7 @@ import {
   lineHeight,
 } from "@workspace/ui/tokens/typography"
 
-import { ThemeToggle } from "@/components/theme-toggle"
+import { ThemeToggle } from "@workspace/shell/theme-toggle"
 
 /* -------------------------------------------------------------------------- */
 /*  Data. Every repeated block in this page is a map over one of these.        */

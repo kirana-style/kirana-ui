@@ -12,6 +12,9 @@ const SOURCES = [
   "!**/coverage/**",
   "!**/.tanstack/**",
   "!**/.wrangler/**",
+  // Local agent files: never part of a build or a check.
+  "!.agents/**",
+  "!.claude/**",
   "bun.lock",
 ]
 

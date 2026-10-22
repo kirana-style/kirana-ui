@@ -37,7 +37,7 @@ Apps spread the same object into their own configuration.
 | `typography.ts`  | `fontFamily` `fontSize` `lineHeight` `fontWeight` `letterSpacing` `leading` | `fontSize.sm` pairs with `lineHeight.sm` — always set both. Ratios are stored rounded up; see the file                                                                                                                       |
 | `shadows.ts`     | `shadow`                                                                    | Re-exports `@kirana-style/preset-scales`. `shadow.sm` … `shadow.2xl`                                                                                                                                                         |
 | `blur.ts`        | `blur`                                                                      | Re-exports `@kirana-style/preset-scales`. Lengths for `blur(${blur.xs})`. `backdrop-blur-xs` is 4px, not 2px                                                                                                                 |
-| `breakpoints.ts` | `breakpoint` `screen`                                                       | `breakpoint.md` is a condition key; `screen.md` is the raw width. `3xl` (100rem) is shadcn's addition, not Tailwind's                                                                                                        |
+| `breakpoints.ts` | `breakpoint` `screen` `pointer`                                             | `breakpoint.md` is a condition key; `screen.md` is the raw width. `3xl` (100rem) is shadcn's addition, not Tailwind's. `pointer.coarse` is a touch screen                                                                    |
 | `container.ts`   | `container` `containerName` `fieldGroupQuery` `cardHeaderQuery`             | Named container queries                                                                                                                                                                                                      |
 | `motion.ts`      | `duration` `easing` `motion`                                                | `easing.inOut` for transitions. `easing.cssOut` for ported `animate-*` keyframes. `easing.cssEase` for overlay enter/exit. `duration[2000]` and `easing.pulse` exist for `animate-pulse`, which is 2 s on a curve of its own |
 | `z-index.ts`     | `zIndex`                                                                    | Named layers: `base` … `toast`. `overlay` and `popover` are both 50, as shadcn's `z-50`                                                                                                                                      |
@@ -85,6 +85,12 @@ shared `markers.ts`, which every app compiles, the docs app failed its build as 
 as it stopped rendering a `ButtonGroup`. `kirana check` still checks the relation
 project-wide.
 
+**`theme/scheme-marker.ts`** — `schemeMarker`, the colour mode on `<html>`: every app's
+root applies its anchor with `data-mode="light" | "dark" | "system"`, and the theme
+controls read it to show the mode's icon (`schemeMarker.within('[data-mode="dark"]')`).
+It is for what `light-dark()` cannot switch, such as an image per scheme. On its own
+for the same reason as `buttonGroupMarker`.
+
 A relation earns its place only when some element applies its `anchor` **and**
 some style reads it. The anchor goes on the element whose state is read: the
 ancestor for `within`, the earlier sibling for `after`, the later sibling for
@@ -128,6 +134,7 @@ variables.
 | `overlayStyles`                             | `recipes/overlay.ts`      | Enter/exit motion: `popup` `modal` `panel` `backdrop`                                             |
 | `menuStyles`, `menuItem`                    | `recipes/menu.ts`         | Any menu-shaped popup. `content` is solid; add `glass` after it for the translucent surface       |
 | `scrollFadeStyles`                          | `recipes/scroll-fade.ts`  | Fading a scroll container's trailing edge while there is more to scroll                           |
+| `touchTarget`                               | `recipes/touch.ts`        | The site's own small controls: 44 × 44 px on a touch screen. Never on a ported shadcn component   |
 
 The package's `recipe()` helper predates Kirana's own `recipe()` from
 `@kirana-style/core`, which adds compound variants, slots and build-time resolution.
@@ -151,6 +158,25 @@ Using a recipe:
 Order matters: ring, then the recipe, then anything contextual, then `sx` last so
 callers can override. On a plain element the same list goes in
 `sx={[buttonRing, ...button({ variant, size }), sx]}`.
+
+## The colour mode (`packages/shell`)
+
+The same system as the Kirana site's. Every app's root route wires it the same way:
+
+| Piece                                        | File                    | Does                                                                                                                         |
+| -------------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `THEME_COOKIE`, `readThemeMode()`            | `theme-mode.ts`         | The `kirana-theme` cookie, read in the root's `beforeLoad` on the server and in the browser                                  |
+| `ThemeProvider` with `cookie={THEME_COOKIE}` | `@workspace/ui/theme/…` | Writes the cookie on a change and tells the site's other tabs (a `BroadcastChannel`)                                         |
+| `themeDocumentProps(mode)`, `THEME_SCRIPT`   | `theme-document.ts`     | `<html>`'s classes and the scheme anchor; an inline script that applies the saved mode (or a frame's `?theme=`) before paint |
+| `ThemeMenu`                                  | `theme-menu.tsx`        | The app shell's header control: sun or moon, opening Light, Dark and System                                                  |
+| `ThemeToggle`, `useThemeHotkey`              | `theme-toggle.tsx`      | A pill stepping System, Light, Dark with the `D` key; the hotkey alone. One hotkey per page                                  |
+| `headMeta`, `headLinks`, `siteTitle()`       | `head.ts`               | The Kirana mark as the icons, the manifest, `theme-color` per scheme, "Blocks · Kirana UI" titles                            |
+
+`<html>` renders `data-mode={mode}`, `{...themeDocumentProps(mode)}` and
+`suppressHydrationWarning`, with `THEME_SCRIPT` first in `<head>`: a prerendered page
+hydrates in the system mode while the script has already set the saved one. A theme
+control shows its mode from `data-mode` in CSS, never from React state, for the same
+reason.
 
 ## Layer 5 — primitives
 

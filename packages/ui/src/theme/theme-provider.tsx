@@ -64,7 +64,19 @@ export function ThemeProvider({
   /** The cookie, and the channel, that keep the choice across reloads and tabs. */
   cookie?: string
 }) {
-  const [mode, setModeState] = useState<ThemeMode>(defaultMode)
+  // In the browser, start from the mode the document shows. A prerendered page is written in the
+  // system mode, while the pre-paint script (`THEME_SCRIPT` in `@workspace/shell`) has already set
+  // `<html data-mode>` from a frame's `?theme=` or the cookie; starting from `defaultMode` would
+  // make the first step (`D`) leave System rather than the mode on screen. A server-rendered page
+  // is written in that mode already, so the two agree; on a prerendered one only `<html>`'s
+  // attributes depend on the mode at first render, and it renders with `suppressHydrationWarning`.
+  const [mode, setModeState] = useState<ThemeMode>(() => {
+    const shown =
+      typeof document === "undefined"
+        ? undefined
+        : document.documentElement.dataset.mode
+    return isThemeMode(shown) ? shown : defaultMode
+  })
   const channel = useRef<BroadcastChannel | null>(null)
 
   useEffect(() => {

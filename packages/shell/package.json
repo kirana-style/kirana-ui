@@ -5,11 +5,12 @@
   "private": true,
   "dependencies": {
     "@hugeicons/core-free-icons": "catalog:",
+    "@kirana-style/core": "catalog:",
     "@tanstack/react-router": "catalog:",
+    "@tanstack/react-start": "catalog:",
     "@workspace/ui": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:",
-    "@kirana-style/core": "catalog:"
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",
