@@ -4,10 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite dev --port 3000",
-    "build": "vite build",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "dev": "vp dev --port 3000",
+    "build": "vp build",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "catalog:",
@@ -16,13 +17,15 @@
     "@workspace/ui": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "@kirana-style/core": "workspace:*"
+    "@kirana-style/core": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/vite-config": "workspace:*",
     "typescript": "catalog:",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "wrangler": "^4.152.0"
   }
 }

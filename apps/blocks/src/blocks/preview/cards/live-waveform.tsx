@@ -259,7 +259,7 @@ const LiveWaveform = ({
         audioContextRef.current &&
         audioContextRef.current.state !== "closed"
       ) {
-        audioContextRef.current.close()
+        void audioContextRef.current.close()
         audioContextRef.current = null
       }
       if (animationRef.current) {
@@ -303,7 +303,7 @@ const LiveWaveform = ({
         onError?.(error as Error)
       }
     }
-    setupMicrophone()
+    void setupMicrophone()
     return () => {
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((track) => track.stop())
@@ -314,7 +314,7 @@ const LiveWaveform = ({
         audioContextRef.current &&
         audioContextRef.current.state !== "closed"
       ) {
-        audioContextRef.current.close()
+        void audioContextRef.current.close()
         audioContextRef.current = null
       }
       if (animationRef.current) {

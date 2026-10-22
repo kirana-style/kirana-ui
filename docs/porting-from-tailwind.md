@@ -121,7 +121,7 @@ A few smaller translations that are easy to get slightly wrong:
 | `animate-accordion-down`       | `keyframes()`, `easing.cssOut`                                              | a transition, or `easing.out`. `tw-animate-css` uses the CSS `ease-out` keyword                                                   |
 | `p-0` on an icon button        | the longhands the button sets (`paddingInlineStart`, `paddingInlineEnd`, …) | `padding: 0`, which sets the physical longhands beside the button's logical ones                                                  |
 | padding on a `span`            | add `display: "block"`                                                      | vertical padding on an inline box, which does not grow the line                                                                   |
-| `backdrop-blur-xs`             | `` `blur(${blur.xs})` ``                                                    | a guessed pixel value. The scale is `blur` from `@kirana-style/preset-scales`                                                           |
+| `backdrop-blur-xs`             | `` `blur(${blur.xs})` ``                                                    | a guessed pixel value. The scale is `blur` from `@kirana-style/preset-scales`                                                     |
 | `animate-in duration-100`      | a transition at `duration[100]`, `easing.cssEase`                           | Tailwind's transition defaults. `tw-animate-css` uses the CSS `ease` keyword                                                      |
 | `calc(1.25 / 0.875)`           | the rounded-up ratio in `lineHeight`                                        | the expression, which the minifier rounds down to 1/64px short                                                                    |
 | text in a fixed-height control | the label wrapped in an element with `textBox: "trim-both cap alphabetic"`  | a centred line box. Inter's capitals sit up to 3px high once the baseline snaps, and by a different amount per sub-pixel position |
@@ -342,7 +342,7 @@ flowchart TD
     B & C & D --> E["cva → recipe()"]
     E --> F["className → sx on elements,<br/>styleProps on library parts, sx last"]
     F --> G["HugeiconsIcon → Icon primitive"]
-    G --> H["bun run check && bun run kirana:check && bun run build"]
+    G --> H["vp run check && vp run build"]
     H --> I["Compare computed styles<br/>against the original"]
 ```
 

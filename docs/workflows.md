@@ -6,7 +6,7 @@
 flowchart TD
     A["Where is it from?"] --> B{"Tailwind-based?<br/>(shadcn, a registry, a snippet)"}
     B -->|yes| C["Port it: porting-from-tailwind.md"]
-    B -->|"StyleX, from the stylex branch"| S["Port it: the StyleX section below"]
+    B -->|"StyleX code"| S["Port it: the StyleX section below"]
     B -->|no, headless/unstyled| D["Style it directly against the tokens"]
     C & S & D --> E{"Does a recipe already cover<br/>this chrome?"}
     E -->|yes| F["Reuse control / overlay / menu / button"]
@@ -20,8 +20,8 @@ flowchart TD
     J & K & L & M --> N{"Reads an ancestor or sibling?"}
     N -->|yes| O["Add a relation, apply its anchor on the element whose state is read"]
     N -->|no| P["skip"]
-    O & P --> Q["bun run check && bun run build"]
-    Q --> R["Update catalogue.md and the skill"]
+    O & P --> Q["vp run check && vp run build"]
+    Q --> R["Update catalogue.md"]
 ```
 
 Concretely, for a component that arrives as Tailwind:
@@ -34,9 +34,9 @@ Concretely, for a component that arrives as Tailwind:
    `{...styleProps(…)}` on Base UI parts, `cva` → `recipe()`, `lucide-react` →
    `@hugeicons/core-free-icons` via the `Icon` primitive, `@/components/ui/x` → a
    relative import, `className` → `sx`.
-4. **Read the compiler's diagnostics.** `bun run build` prints them, and
-   `node packages/kirana/npm/compiler/bin/kirana.ts check packages/ui/src apps/web/src`
-   lists every one with its source line. Errors fail the build; warnings name
+4. **Read the compiler's diagnostics.** `vp run build` prints them, and
+   `bunx kirana-style check ../../packages/ui/src src` from an app's folder (so it
+   reads that app's `kirana.config.ts`) lists every one with its source line. Errors fail the build; warnings name
    real risks (`ambiguous-precedence`, `mixed-logical-physical`,
    `sx-on-external-component`). `unresolved-import` means an import did not
    resolve — usually dependencies are not installed — so every token behind it
@@ -51,23 +51,23 @@ live once, in the Bun catalog in the root `package.json`
 `"catalog:"`. A library only one workspace uses stays a plain version in that
 workspace's own `package.json`.
 
-### Porting a component from the `stylex` branch
+### Porting a component written for StyleX
 
-Blocks, examples, the shell and all of `packages/ui` were ported from the
-`stylex` branch with the three passes in `packages/kirana/scripts/`, run in order
-over directories or single files:
+Blocks, examples, the shell and all of `packages/ui` were ported from a StyleX
+port of the same apps, with the passes that are now Kirana's own codemod. Run it
+over directories or single files; it prints a diff and a report, and `--write`
+applies it:
 
 ```bash
-cd packages/kirana
-bun scripts/migrate-stylex.ts <dir>           # create → css, defineVars → defineTokens, markers → relation, …
-bun scripts/migrate-stylex-spreads.ts <dir>   # {...stylex.props(a, b)} → sx={[a, b]}
-bun scripts/migrate-stylex-external.ts <dir>  # sx on Base UI parts → {...styleProps(…)}
+bunx kirana-style migrate stylex <dir>            # create → css, defineVars → defineTokens, markers → relation, …
+bunx kirana-style migrate stylex <dir> --write
 ```
 
-Each prints what it could not decide. Then build, read the diagnostics, and run
-the conformance comparison for every app the code appears in; the table in
-[Porting from the StyleX branch: what the merge changes](#porting-from-the-stylex-branch-what-the-merge-changes)
-lists what the scripts cannot see. The script drops StyleX's `default: null` entries
+`bunx kirana-style migrate tailwind` does the same for Tailwind class strings.
+Then build, read the diagnostics, and run the conformance comparison for every
+app the code appears in; the table in
+[Porting from StyleX: what the merge changes](#porting-from-stylex-what-the-merge-changes)
+lists what the codemod cannot see. The script drops StyleX's `default: null` entries
 rather than mapping them to `base: null` (which removes an earlier value). A
 component that used a StyleX workaround — closed breakpoint ranges, a `null`
 default beside a custom-property condition, props picked in JavaScript to dodge
@@ -87,8 +87,8 @@ flowchart TD
     H -->|yes| I["bun remove it<br/><i>and its catalog entry, if now unused</i>"]
     H -->|no| J["leave"]
     I & J --> K["grep the name across the repo"]
-    K --> L["bun run check && bun run build"]
-    L --> M["Update catalogue.md and the skill"]
+    K --> L["vp run check && vp run build"]
+    L --> M["Update catalogue.md"]
 ```
 
 The checklist, in grep form:
@@ -126,25 +126,29 @@ quietly dropped a state. Compare computed styles instead.
 
 ### The conformance harness
 
-`packages/kirana/conformance` compares every route of the demo, blocks and
-examples against the StyleX port and the Tailwind original, element by element,
-in Chrome through Playwright. The full method, what to prepare and how to read a
-report are in `packages/kirana/conformance/README.md`:
+The harness lives in [kirana-lab](https://github.com/kirana-style/kirana-lab)
+(`packages/harness/conformance`), beside the baselines it compares with: the
+StyleX port (`baselines/stylex`) and the Tailwind original
+(`baselines/tailwind`) of the apps in this repository. It compares every route
+of the demo, blocks and examples, element by element, in Chrome through
+Playwright. The full method, what to prepare and how to read a report are in its
+README; from a kirana-lab checkout:
 
 ```bash
-bun run build                                            # this repository's apps
-bun run kirana:conformance --app examples --serve        # web | blocks | examples
-bun run kirana:conformance --app web --serve --states    # overlays, menus, hover, focus
+bun run conformance --app examples --serve           # web | blocks | examples
+bun run conformance --app web --serve --states       # overlays, menus, hover, focus
 ```
+
+kirana-lab's Kirana corpus started as a copy of this repository's apps. To check a
+change made here, copy the changed files into the corpus first.
 
 It walks every `[data-slot]` element, portals included, at 1400, 900 and 390px in
 light and dark, and reads the property list below plus `::before` and `::after`.
 The run passes when Kirana renders like the StyleX port, except where it renders
 like the Tailwind original instead (the port was wrong there); against the
-original, only differences the port does not share count. CI runs all three apps
-on every push, blocks and examples in three shards each. Today: 0 unexpected
-differences on 189 routes, with 82 corrections where Kirana matches the original
-and the StyleX port did not.
+original, only differences the port does not share count. When the apps moved
+out of the Kirana repository: 0 unexpected differences on 189 routes, with 82
+corrections where Kirana matches the original and the StyleX port did not.
 
 Colours are normalised by letting the browser convert them to one space: set
 `background-color: color-mix(in srgb, <colour> 100%, transparent)` on a probe
@@ -194,7 +198,7 @@ can run, while the original's keyframes start on mount.
 
 When the original itself is wrong, fix the original.
 
-### Porting from the StyleX branch: what the merge changes
+### Porting from StyleX: what the merge changes
 
 The conformance run over blocks and examples found every class of difference
 below; each is a StyleX habit that Kirana's per-entry merge turns into a bug.
@@ -211,9 +215,9 @@ below; each is a StyleX habit that Kirana's per-entry merge turns into a bug.
 
 ### Keep the demos in step
 
-`apps/web/src/components/demo.tsx` here and on the `stylex` and `tailwind`
-branches are the same page: same cards, same data arrays, same components in the
-same nesting. That is what makes a slot-by-slot diff meaningful. When you add a
+`apps/web/src/components/demo.tsx` here and in kirana-lab's `baselines/stylex`
+and `baselines/tailwind` are the same page: same cards, same data arrays, same
+components in the same nesting. That is what makes a slot-by-slot diff meaningful. When you add a
 component to one, add it to the others in the same shape.
 
 Expect these to differ harmlessly:
@@ -256,16 +260,14 @@ The enumerated list is the safer default and the less faithful one. Restoring `a
 change per component if fidelity is the goal; leaving it is a deliberate improvement, and this
 paragraph is here so it stays deliberate.
 
-For a quick look rather than a diff, use Bun's webview (see `CLAUDE.md`).
+For a quick look rather than a diff, open the page with `vp run dev`.
 
 ## Static checks
 
-`bun run check` runs oxlint, oxfmt and the TypeScript typecheck across the
-workspace. `bun run kirana:check` runs the compiler's own checks: `cargo fmt`,
-Clippy, `cargo deny`, the Rust tests, and Vitest. It needs the native engine
-built (`bun run kirana:build`, or any `bun run build`) and
-`cargo install --locked cargo-nextest cargo-deny`; a missing tool stops it with
-that line.
+`vp run check` runs Oxfmt, Oxlint with the Kirana rules, and the TypeScript type
+check (tsgolint) across the workspace, from the `fmt` and `lint` blocks of the
+root `vite.config.ts`. The compiler is installed from npm with its native engine,
+so nothing needs building first.
 
 The design system's bug classes are compiler diagnostics now, not a script:
 
@@ -278,7 +280,7 @@ The design system's bug classes are compiler diagnostics now, not a script:
 | `sx` in a file that never imports the compiler   | nothing to check: `sx` compiles in any module                  |
 | `defineVars` defaults reading a library variable | `variable-default-scope` — catalogued, not implemented yet     |
 
-The lint plugin (`@kirana-style/eslint-plugin`, loaded by oxlint in `bun run check`)
+The lint plugin (`@kirana-style/eslint-plugin`, loaded by Oxlint in `vp run check`)
 catches the classes the compiler cannot, because they are about how source is
 written rather than what it compiles to:
 
@@ -291,18 +293,15 @@ written rather than what it compiles to:
 | a styles-object key or recipe option nothing applies                     | `kirana/no-unused`                 |
 | every compiler diagnostic, so lint alone fails on what the build would   | `kirana/diagnostics`               |
 
-The rules read the compiler, so `bun run lint` needs the native engine built
-(`bun run kirana:build`, or any `bun run build`); without it every file reports
-"Kirana has no engine". CI's lint job builds it first. The examples and the
-editor extensions are excluded (`.oxlintrc.json`). A tool
+The rules read the compiler, which comes with its native engine from npm. A tool
 run inside `packages/ui` reads `packages/ui/kirana.config.ts`, which exports the
 same `uiConfig` the apps spread, so it sees the exclusive pairs too. For the same
-answers while editing, open the repository in VS Code with the extension from
-`packages/kirana/editors/vscode` (or any editor running `kirana lsp`).
+answers while editing, install the Kirana extension (VS Code Marketplace or Open
+VSX, `kirana-style.kirana`), which runs this project's own `kirana-style lsp`.
 
 ### Compiler warnings
 
-`bun dev` and `bun run build` print each warning once, as
+`vp run dev` and `vp run build` print each warning once, as
 `file:line:column`. Warnings never change the output; they point at styles whose
 result depends on something the author did not state:
 
@@ -311,7 +310,7 @@ result depends on something the author did not state:
 | `ambiguous-precedence`   | two entries for one property, with different values, tie on the ladder and can match together; text order decides           | nest the one that should win inside the other; when the library never sets both (`data-open` / `data-closed`), declare the pair (below) |
 | `mixed-logical-physical` | a logical and a physical longhand of one side are both set and the result can mislead: same breadth, or a later write loses | use one family, or write the narrower one last (`padding`, then `paddingInlineEnd`)                                                     |
 | `unsplittable-shorthand` | a shorthand whose value cannot be split per side stays whole                                                                | only a problem if a later style removes one side; write the longhands then                                                              |
-| `unresolved-import`      | an import did not resolve, so everything behind it compiled as a runtime value                                              | `bun install`, or fix the specifier or tsconfig `paths`                                                                                 |
+| `unresolved-import`      | an import did not resolve, so everything behind it compiled as a runtime value                                              | `vp install`, or fix the specifier or tsconfig `paths`                                                                                  |
 
 Pairs the compiler can prove never match together (`[data-size="sm"]` /
 `[data-size="lg"]`, `X` / `:not(X)`, `:last-child` / `:nth-last-child(2)`),
@@ -339,10 +338,11 @@ export default defineConfig({
 diagnostics. The same keys work as `kirana({ config: { diagnostics: … } })`.
 
 When a new silent bug class turns up, it becomes a diagnostic in the compiler
-with a fixture (`products/kirana/10-compiler-architecture.md#diagnostic-catalogue`),
-never an ad-hoc script.
+with a fixture, never an ad-hoc script: open an issue on
+[kirana](https://github.com/kirana-style/kirana) with a reproduction (the
+diagnostic catalogue is in its `spec/10-compiler-architecture.md`).
 
-oxlint treats `no-shadow` and `prefer-for-of` as errors. Shadowing bites harder
+Oxlint treats `no-shadow` and `prefer-for-of` as errors. Shadowing bites harder
 here than usual: a local `theme` or `spacing` state hides the design token of the
 same name for the rest of the function. Name the inner binding for what it holds
 (`themeMode`, `child`, `option`, `rows`).
@@ -359,12 +359,12 @@ grows. The things that actually cost bytes here:
 | Shorthands                              | A single-component box shorthand is one rule (`padding: spacing[4]`); a multi-component one expands (`border: "1px solid …"` is 12 atoms). Prefer `borderWidth`/`borderStyle`/`borderColor` with one value each |
 | Dynamic values                          | `css({ width: \`${n}%\` })` bridges through one custom property; a fixed set of values belongs in a lookup table                                                                                                |
 
-`bun run kirana:bench kirana=$PWD/apps/web stylex=<stylex checkout>/apps/web tailwind=<tailwind checkout>/apps/web`
-prints build time and the client CSS and JavaScript sizes, raw and gzip (paths are
-resolved from `packages/kirana`, so pass absolute ones);
-`packages/kirana/bench/results.md` records the comparison. On the demo: Kirana builds in 1.6 s against StyleX's 3.4 s and
-Tailwind's 1.7 s; its CSS is 17.2 kB gzip against StyleX's 17.6 kB, and its client
-JavaScript 7 kB gzip smaller.
+[kirana-lab](https://github.com/kirana-style/kirana-lab) measures build time and
+the client CSS and JavaScript sizes of these apps against the StyleX and Tailwind
+baselines for every Kirana release, and publishes the results as releases of its
+own. When the apps were measured in the Kirana repository: Kirana built the demo
+in 1.6 s against StyleX's 3.4 s and Tailwind's 1.7 s; its CSS was 17.2 kB gzip
+against StyleX's 17.6 kB, and its client JavaScript 7 kB gzip smaller.
 
 Runtime cost is the 1 kB private runtime merging class strings where something
 is only known at render time — a prop's `sx`, a spread `className`, a bridged
@@ -377,11 +377,11 @@ value. A static `sx` with nothing else to merge compiles to a constant
 flowchart TD
     A["You changed something"] --> B{"What kind?"}
     B -->|"new token, recipe, relation, primitive"| C["catalogue.md"]
-    B -->|"a silent bug class"| H["a compiler diagnostic<br/>(products/kirana)"]
+    B -->|"a silent bug class"| H["an issue on kirana:<br/>a compiler diagnostic"]
     B -->|"new porting rule or pitfall"| D["porting-from-tailwind.md"]
     B -->|"a structural decision"| E["architecture.md — say what it replaces"]
-    B -->|"anything an agent must not get wrong"| F[".agents/skills/kirana-design-system/SKILL.md"]
-    B -->|"compiler behaviour"| K["products/kirana + 21-implementation-tracker.md"]
+    B -->|"anything an agent must not get wrong"| F["your agent's instructions<br/>(kept out of the repository)"]
+    B -->|"compiler behaviour"| K["an issue on kirana"]
     C & D & E & F & H & K --> G["README.md if the surface changed"]
 ```
 

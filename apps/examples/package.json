@@ -4,10 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite dev --port 3002",
-    "build": "vite build",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "dev": "vp dev --port 3002",
+    "build": "vp build",
+    "preview": "vp preview"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "catalog:",
@@ -22,13 +21,14 @@
     "react-dom": "catalog:",
     "react-resizable-panels": "catalog:",
     "recharts": "catalog:",
-    "@kirana-style/core": "workspace:*"
+    "@kirana-style/core": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/vite-config": "workspace:*",
     "typescript": "catalog:",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   }
 }

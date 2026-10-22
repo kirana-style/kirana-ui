@@ -43,10 +43,9 @@ flowchart TD
     K --> L["one layered atomic stylesheet<br/>+ class strings in the modules"]
 ```
 
-Kirana is this repository's own styling compiler, in `packages/kirana/`. Its
-specification is `products/kirana/`; the implementation state, and every place the
-implementation improved on the specification, is
-`products/kirana/21-implementation-tracker.md`. This document covers the design
+Kirana is the styling compiler, installed from npm (`@kirana-style/*`); its
+source, specification and decision log are in the
+[kirana repository](https://github.com/kirana-style/kirana/blob/main/README.md) (`spec/`). This document covers the design
 system built on it.
 
 ## Why each layer is the way it is
@@ -59,7 +58,7 @@ emits nothing, so the entire Tailwind vocabulary costs zero bytes until somethin
 references it.
 
 Kirana decides a token's representation from its definition alone
-(`products/kirana/07-tokens-themes-presets.md`):
+([tokens, themes and presets](https://github.com/kirana-style/kirana/blob/main/spec/07-tokens-themes-presets.md)):
 
 | Written                                          | Compiles to                                            |
 | ------------------------------------------------ | ------------------------------------------------------ |
@@ -208,7 +207,7 @@ Kirana merges styles into a table keyed by **(target, longhand, condition set)**
 A single-component box shorthand (`padding: spacing[4]`, `gap`, `borderColor`)
 stays one CSS rule — a _shorthand atom_ — but merges as if it were its
 longhands: a later `paddingTop` still overrides one side, and removing a side
-keeps the others (`packages/kirana/design-notes/shorthand-atoms.md`). A later
+keeps the others ([shorthand atoms](https://github.com/kirana-style/kirana/blob/main/packages/kirana/design-notes/shorthand-atoms.md)). A later
 style replaces only the entries it names:
 
 | Written later                         | Effect                                                   |
