@@ -1,7 +1,7 @@
 # Documentation
 
-This project is the shadcn/ui component set rebuilt on Kirana, this repository's
-own styling compiler, with a design system layered on top that keeps Tailwind's
+This project is the shadcn/ui component set rebuilt on Kirana, a compile-time
+styling system, with a design system layered on top that keeps Tailwind's
 vocabulary.
 
 > **Kirana is the compiler, Panda is the inspiration for the API, and Tailwind is
@@ -16,19 +16,20 @@ vocabulary.
 | [catalogue.md](catalogue.md)                         | What already exists, and how to use it instead of rebuilding it         |
 | [workflows.md](workflows.md)                         | Adding a component, removing one, verifying it, keeping these docs true |
 
-The compiler itself:
+The compiler itself, in the [kirana repository](https://github.com/kirana-style/kirana/blob/main/README.md):
 
-- [`products/kirana/`](../products/kirana/README.md) — the specification: the
-  authoring API, merge and precedence rules, the diagnostic catalogue.
-- [`products/kirana/21-implementation-tracker.md`](../products/kirana/21-implementation-tracker.md)
-  — what is built, and where the implementation improved on the specification.
-- `packages/kirana/npm/core/README.md` — the authoring API in one page.
+- [`spec/`](https://github.com/kirana-style/kirana/blob/main/spec/README.md) — the specification: the authoring API, merge and
+  precedence rules, the diagnostic catalogue, and the decision log.
+- [`CHANGELOG.md`](https://github.com/kirana-style/kirana/blob/main/CHANGELOG.md) — what each release changed; this repository
+  pins one release (`scripts/use-kirana.ts`).
+- [`@kirana-style/core`'s README](https://github.com/kirana-style/kirana/blob/main/packages/kirana/npm/core/README.md) — the
+  authoring API in one page.
 
 ## The one rule about these docs
 
 **They are part of the deliverable, not a report on it.** A change that adds a
 token, a recipe, a relation, or a pattern is not finished until the relevant
-document and the skill at `.agents/skills/kirana-design-system/` say so.
+document says so (and the instructions you give a coding agent, if you use one).
 
 The point is that the next person — or the next agent — can extend this system
 instead of inventing a second one beside it. Every time someone re-derives a

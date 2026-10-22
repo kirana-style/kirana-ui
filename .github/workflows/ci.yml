@@ -1,0 +1,100 @@
+name: ci
+
+# What a pull request must keep true: the workspace checks itself (format, lint with the Kirana
+# rules, types, licences) and every app builds with 0 compiler errors. The push to `main` keeps the
+# caches warm: only `main` saves them.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A second push to the same branch makes the first one's answer worthless, so
+# stop paying for it.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Runner images are pinned, not `*-latest`: a label that moves changes the build under us, and
+# GitHub annotates every job that uses one. Kirana's engine comes from npm as a prebuilt platform
+# package, so no job needs Rust.
+
+jobs:
+  check:
+    runs-on: ubuntu-26.04
+    name: lint, format and types
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+
+      # Separate steps so a red build names the stage that failed. The same checks run in the
+      # pre-push hook (`vp run prepush`).
+      - name: Format
+        run: vp fmt --check
+
+      # Oxlint with the Kirana rules (@kirana-style/eslint-plugin), and the TypeScript type check
+      # (tsgolint) in the same pass.
+      - name: Lint and types
+        run: vp lint
+
+      # Every installed JavaScript dependency's licence against scripts/check-licenses.ts.
+      - name: Licences
+        run: vp run licenses
+
+  build:
+    runs-on: ubuntu-26.04
+    name: build
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+
+      # The demo, blocks and examples; a Kirana compiler error fails the build.
+      - name: Build
+        run: vp run build
+
+      # The apps ship `light-dark()` as written. A CSS minifier aiming below Kirana's browser floor
+      # rewrites it into `--lightningcss-light/dark` switches that nothing sets, and the colours
+      # vanish in production only: the dev server does not minify.
+      - name: Colours survive the build
+        run: |
+          if grep -rl -- "--lightningcss-" apps/*/dist/client/assets; then
+            echo "::error::a built stylesheet lowered light-dark(); set build.cssTarget to Kirana's floor"
+            exit 1
+          fi
+
+  # The one check branch protection requires from this workflow, so adding or renaming a job never
+  # changes the ruleset. It always runs, and passes when every job passed or was skipped.
+  result:
+    name: ci result
+    if: always()
+    needs: [check, build]
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Every job passed or was skipped
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "$RESULTS"
+          for result in $RESULTS; do
+            case "$result" in
+              success | skipped) ;;
+              *) echo "::error::a job ended in $result"; exit 1 ;;
+            esac
+          done

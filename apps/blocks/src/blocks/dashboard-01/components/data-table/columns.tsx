@@ -108,7 +108,7 @@ const styles = {
 
 /** Saves an inline edit; the toast stands in for a request. */
 function saveCell(item: DocumentRow) {
-  toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
+  void toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
     loading: `Saving ${item.header}`,
     success: "Done",
     error: "Error",
