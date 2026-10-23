@@ -52,6 +52,11 @@ jobs:
       - name: Licences
         run: vp run licenses
 
+      # The registry's style modules, which no app compiles yet: Kirana's diagnostics, warnings
+      # included.
+      - name: Registry styles
+        run: vp run styles
+
       # The registry's preset codec, configuration and palettes.
       - name: Tests
         run: vp run test

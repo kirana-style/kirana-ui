@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "scripts": {
+    "styles": "kirana-style check . --max-warnings 0"
+  },
   "dependencies": {
-    "@kirana-style/core": "catalog:"
+    "@kirana-style/core": "catalog:",
+    "@kirana-style/preset-scales": "catalog:",
+    "@kirana-style/states": "catalog:"
   },
   "devDependencies": {
     "typescript": "catalog:",

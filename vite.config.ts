@@ -48,6 +48,12 @@ export default defineConfig({
         command: "vp check",
         cache: { input: SOURCES, output: [] },
       },
+      // The registry's style modules, compiled with its own `kirana.config.ts`: no app builds them
+      // yet, so this is where a diagnostic in one shows. A warning fails it too.
+      styles: {
+        command: "bun run --cwd registry styles",
+        cache: { input: SOURCES, output: [] },
+      },
       // Vitest: the registry's codec, configuration and palettes (`registry/**/*.test.ts`).
       test: {
         command: "vp test run",
@@ -62,7 +68,7 @@ export default defineConfig({
       // Everything CI requires of a pull request that runs on this machine; the pre-push hook.
       prepush: {
         command: "echo All checks passed.",
-        dependsOn: ["check", "test", "licenses", "build"],
+        dependsOn: ["check", "styles", "test", "licenses", "build"],
         cache: false,
       },
     },
