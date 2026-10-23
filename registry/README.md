@@ -20,9 +20,18 @@ What is here so far, `core/`, the design system:
 | `scales.ts`   | The Tailwind vocabulary styles are written in: spacing, type, shadows, durations, layers                                                                                                                    |
 | `kirana.ts`   | `registryConfig`, which every app compiling the registry spreads into its `kirana.config.ts`                                                                                                                |
 
-And `styles/`, each component's look in every style: `button`, `dialog`, `select` and
-`dropdown-menu`, over the shared `menu`, `overlay` and `ring` modules. `docs/catalogue.md` lists
-their exports and how to write one.
+And beside it:
+
+- `styles/`, each component's look in every style: `button`, `dialog`, `select`, `dropdown-menu`,
+  `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
+  modules, with the page's own styles and `reset.css`;
+- `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
+  with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select and
+  DropdownMenu;
+- `icons/`, `IconPlaceholder` for React and Vue over one map of icon data;
+- `lib/`, the `Sx` type and, for Vue, `useStyleAttrs`.
+
+`docs/catalogue.md` lists their exports and how to write each.
 
 ## The design system on `<html>`
 
@@ -54,6 +63,13 @@ component, written per framework and base, composes the parts with `sx`.
 
 `vp run styles` compiles every module with this package's `kirana.config.ts` and fails on any
 diagnostic, warnings included; no app compiles them yet.
+
+## Markup
+
+A component's copy for a framework and base applies the style modules and holds no style values:
+`sx` on an element, `props()` spread on a library's part, and in Vue `useStyleAttrs`, which merges
+the component's styles with its caller's `:sx`. Its part and prop names follow upstream's copy for
+that base. `apps/preview-vue` renders the Vue copies, and its build is where they compile.
 
 ## Tests
 

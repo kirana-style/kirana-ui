@@ -87,6 +87,9 @@ export const dialog = {
     lineHeight: { base: lineHeight.sm, [lyra]: leading.relaxed },
   }),
 
+  // React Aria's Dialog, inside the modal: it lays out as the content does.
+  inner: css({ display: "inherit", gap: "inherit", outlineStyle: "none" }),
+
   // cn-dialog-close
   close: css({
     position: "absolute",

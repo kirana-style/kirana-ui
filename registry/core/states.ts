@@ -6,7 +6,7 @@
  *
  * Where a base has no such state the key is left out. Ark UI marks a popup's enter and exit with
  * `data-state` and keeps it mounted only for a CSS animation, not a transition, so its motion is
- * keyframes of its own (with its markup, in P1-05) rather than `overlay.starting`.
+ * keyframes on `presence` rather than a transition on `overlay.starting`.
  */
 import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
@@ -30,6 +30,15 @@ export const overlay = {
     aria: Aria.Modal.entering,
   },
   ending: { base: Base.Dialog.Popup.endingStyle, aria: Aria.Modal.exiting },
+} as const satisfies Record<string, StateKeys>
+
+/**
+ * Ark UI's popups and modals, open or leaving: Ark keeps a closing one mounted only while a CSS
+ * animation runs, so their motion is keyframes on these rather than a transition (`overlay.styles`).
+ */
+export const presence = {
+  open: { ark: Ark.Dialog.Content.state.open },
+  closed: { ark: Ark.Dialog.Content.state.closed },
 } as const satisfies Record<string, StateKeys>
 
 /** The side a popup opened on, against its trigger. React Aria has no logical sides. */
@@ -70,6 +79,24 @@ export const item = {
 
 /** A select's trigger with no value chosen. React Aria marks its value element instead. */
 export const placeholder = {
-  trigger: { base: Base.Select.Trigger.placeholder },
+  trigger: {
+    base: Base.Select.Trigger.placeholder,
+    ark: Ark.Select.Trigger.placeholderShown,
+  },
   value: { aria: Aria.SelectValue.placeholder },
+} as const satisfies Record<string, StateKeys>
+
+/**
+ * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
+ * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); `@kirana-style/states` has no keys for it.
+ */
+export const orientation = {
+  horizontal: {
+    base: Base.Separator.orientation.horizontal,
+    aria: '[aria-orientation="horizontal"]',
+  },
+  vertical: {
+    base: Base.Separator.orientation.vertical,
+    aria: '[aria-orientation="vertical"]',
+  },
 } as const satisfies Record<string, StateKeys>

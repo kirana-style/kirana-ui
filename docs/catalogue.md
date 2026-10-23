@@ -183,20 +183,20 @@ reason.
 The customizable design system the components move to. Nothing renders from it
 yet; see `registry/README.md`.
 
-| Export                                                 | File          | For                                                                                                                  |
-| ------------------------------------------------------ | ------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `theme` `radiusBase` `radius` `font`                   | `tokens.ts`   | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`    |
-| `root`                                                 | `root.ts`     | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                 |
-| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`     | `axes.ts`     | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts` |
-| `AXIS_ATTRIBUTES`                                      | `axes.ts`     | The attribute each axis is written to (`data-base-color` …)                                                          |
-| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem` | `config.ts`   | Every axis's values (append-only), the defaults, the rules between axes                                              |
-| `encodePreset`, `decodePreset`, `readDesignSystem`     | `preset.ts`   | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
-| `baseColors`, `themeColors`, `chartColors`             | `palettes.ts` | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
-| `alpha`, `surface`                                     | `tokens.ts`   | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                 |
-| `ctx`, `menuCtx`                                       | `context.ts`  | Values a parent hands its children: the icon size, and the colours a menu surface gives its rows                     |
-| `when`, `overlay`, `side`, `item`, `placeholder`       | `states.ts`   | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                            |
-| `space`, `fontSize`, `lineHeight`, `duration` …        | `scales.ts`   | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels     |
-| `registryConfig`                                       | `kirana.ts`   | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together       |
+| Export                                                                      | File          | For                                                                                                                  |
+| --------------------------------------------------------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `theme` `radiusBase` `radius` `font`                                        | `tokens.ts`   | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`    |
+| `root`                                                                      | `root.ts`     | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                 |
+| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`                          | `axes.ts`     | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts` |
+| `AXIS_ATTRIBUTES`                                                           | `axes.ts`     | The attribute each axis is written to (`data-base-color` …)                                                          |
+| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem`                      | `config.ts`   | Every axis's values (append-only), the defaults, the rules between axes                                              |
+| `encodePreset`, `decodePreset`, `readDesignSystem`                          | `preset.ts`   | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
+| `baseColors`, `themeColors`, `chartColors`                                  | `palettes.ts` | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
+| `alpha`, `surface`                                                          | `tokens.ts`   | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                 |
+| `ctx`, `menuCtx`, `cardCtx`                                                 | `context.ts`  | Values a parent hands its children: the icon size, a menu surface's row colours, a card's rhythm                     |
+| `when`, `overlay`, `presence`, `side`, `item`, `placeholder`, `orientation` | `states.ts`   | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                            |
+| `space`, `fontSize`, `lineHeight`, `duration` …                             | `scales.ts`   | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels     |
+| `registryConfig`                                                            | `kirana.ts`   | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together       |
 
 Adding a value to an axis: append it to its list in `config.ts` (never insert or
 reorder: saved codes would change meaning), add its colours or family, an `on`
@@ -205,18 +205,27 @@ condition in `axes.ts`, and its entries in `root.ts`.
 ## The registry's styles (`registry/styles`, being built)
 
 Each component's look in every style, as `css()` handles its parts compose. Nova
-is the base value; Vega, Lyra and Maia override per property. Nothing renders
-from them yet.
+is the base value; Vega, Lyra and Maia override per property. The markup in
+`registry/bases` applies them; the Vue preview renders the `vue-ark` copy.
 
-| Module                    | Exports                                                                                                                          | For                                                                                    |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `button.styles.ts`        | `button` (a recipe: `variant`, `size`), `buttonLabel`                                                                            | Button, and the controls drawn as one (the dialog's close)                             |
-| `dialog.styles.ts`        | `dialog.overlay` `.content` `.close` `.header` `.footer` `.title` `.description`                                                 | Dialog                                                                                 |
-| `select.styles.ts`        | `select.trigger` `.triggerIcon` `.value` `.content` `.list` `.group` `.item` `.itemText` `.indicator` `.scrollButton` `.empty` … | Select, over the menu parts                                                            |
-| `dropdown-menu.styles.ts` | `dropdownMenu.content` `.subContent` `.subTrigger` `.subTriggerIcon`                                                             | DropdownMenu, over the menu parts                                                      |
-| `menu.styles.ts`          | `menuSurface`, `menuRowBase`, `menuRowPadding`, `menuCheckableRowPadding`, `menuRowDestructive`, `menuIndicator`, `menuLabel` …  | What every menu-shaped popup shares; the menu colour axis (inverted, translucent) here |
-| `overlay.styles.ts`       | `popupMotion`, `modalMotion`, `backdropMotion`, `ANCHOR_WIDTH`, `TRANSFORM_ORIGIN`                                               | How popups, modals and backdrops come and go; the positioner's variables of any base   |
-| `ring.ts`                 | `focusRing`, `controlShadow`                                                                                                     | A control's focus and invalid rings, with Vega's `shadow-xs` composed under them       |
+| Module                      | Exports                                                                                                                    | For                                                                                    |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `button.styles.ts`          | `button` (a recipe: `variant`, `size`), `buttonLabel`                                                                      | Button, and the controls drawn as one (the dialog's close)                             |
+| `dialog.styles.ts`          | `dialog.overlay` `.content` `.inner` `.close` `.header` `.footer` `.title` `.description`                                  | Dialog (`.inner` is React Aria's `Dialog` inside its modal)                            |
+| `select.styles.ts`          | `select.trigger` `.triggerIcon` `.value` `.content` `.popover` `.list` `.group` `.item` `.itemText` `.indicator` `.root` … | Select, over the menu parts                                                            |
+| `dropdown-menu.styles.ts`   | `dropdownMenu.content` `.subContent` `.subTrigger` `.subTriggerIcon`                                                       | DropdownMenu, over the menu parts                                                      |
+| `menu.styles.ts`            | `menuSurface`, `menuPositioner`, `menuList`, `menuRowBase`, `menuRowPadding`, `menuCheckableRowPadding`, `menuLabel` …     | What every menu-shaped popup shares; the menu colour axis (inverted, translucent) here |
+| `overlay.styles.ts`         | `popupMotion`, `modalMotion`, `backdropMotion`, `ANCHOR_WIDTH`, `TRANSFORM_ORIGIN`                                         | How popups, modals and backdrops come and go, on every base; the positioner's sizes    |
+| `card.styles.ts`            | `card.root` `.header` `.title` `.description` `.action` `.content` `.footer`, `cardScope`                                  | Card; its rhythm is `cardCtx.spacing`                                                  |
+| `field.styles.ts`           | `field.set` `.legend` `.group` `.root` `.content` `.label` `.title` `.description` `.separator` `.error` …, `fieldScope`   | Field and its parts                                                                    |
+| `input.styles.ts`           | `input`                                                                                                                    | Input                                                                                  |
+| `label.styles.ts`           | `label`                                                                                                                    | Label, and FieldLabel under the field's own                                            |
+| `separator.styles.ts`       | `separator`                                                                                                                | Separator, on Base UI's `data-orientation` and React Aria's `aria-orientation`         |
+| `control.ts`                | `focusRing`, `controlShadow`, `controlTransition`                                                                          | What form controls share: rings, Vega's `shadow-xs` under them, how colours move       |
+| `icon.styles.ts`            | `icon`                                                                                                                     | An icon inside a control, sized by `ctx.iconSize`                                      |
+| `visually-hidden.styles.ts` | `visuallyHidden`                                                                                                           | Text only a screen reader reaches (`sr-only`)                                          |
+| `page.styles.ts`            | `page.document`, `page.body`                                                                                               | The colour scheme on `<html>`; the page's background, text colour and font             |
+| `reset.css`                 | the `reset` layer                                                                                                          | Tailwind's preflight as far as the components rely on it; no pointer cursor            |
 
 Writing one:
 
@@ -225,11 +234,57 @@ Writing one:
 - write Nova as `base` and each other style as `[axes.style.<name>]` inside the
   property. A state or breakpoint entry whose value differs in a style is
   restated under that style (`[SMALL]: { base: …, [vega]: … }`);
+- upstream draws its style rules in a layer below its components' own classes:
+  where both set a property, write the component's value;
 - write a state with `...when(state, value)`; a value that needs two states is a
   block per base (`overlay.styles.ts`), and a state two bases name differently is
   an exclusive pair in `kirana.ts`;
+- a part that styles itself by its parent asks with a pseudo-class,
+  `':where([data-slot="field"][data-orientation="vertical"] > *)'`, where
+  upstream's parent reached in with `*:`; a relation's `within` means any
+  ancestor, not the parent;
 - `vp run styles` compiles the registry with its own config and fails on any
   warning.
+
+## The registry's markup (`registry/bases`, being built)
+
+The components, once per framework and base, applying the style modules and
+holding no style values of their own. Part names, `data-slot` names and props
+follow upstream's copy for that base.
+
+| Folder                    | Holds                                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `react-base/ui`           | Button, Dialog, Select, DropdownMenu, Card, Field, Input, Label, Separator on Base UI; `sx` on each part           |
+| `react-base/blocks`       | `login-01`                                                                                                         |
+| `react-aria/ui`, `blocks` | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover |
+| `vue-ark/ui`              | Button, Dialog, Select, DropdownMenu on Ark UI, one single-file component per part, `index.ts` per component       |
+
+And what they share:
+
+| File                                        | For                                                                                                              |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `icons/data.ts`                             | The icons components name through `IconPlaceholder`, as Lucide's and Hugeicons' framework-neutral data           |
+| `icons/react.tsx`                           | `IconPlaceholder` and `IconLibraryProvider` for React                                                            |
+| `icons/IconPlaceholder.vue`, `icons/vue.ts` | `IconPlaceholder` for Vue, and `ICON_LIBRARY`, the key a page provides its library under                         |
+| `lib/sx.ts`                                 | The `Sx` type and `WithSx<P>`                                                                                    |
+| `lib/vue.ts`                                | `useStyleAttrs(() => styles)`: a Vue component's styles merged with its caller's `:sx`, which arrives as `class` |
+
+Writing a Vue part:
+
+- `defineOptions({ inheritAttrs: false })` and bind `useStyleAttrs(…)` on the
+  root, so a caller's `:sx` overrides per property rather than adding a second
+  class for it;
+- declare only the component's own props, with a type written in the file:
+  Vue resolves an imported props type through TypeScript's JavaScript API,
+  which TypeScript 7 does not have. Ark's own props pass through as attributes;
+- Ark UI builds a select from a collection (`createListCollection`), so its
+  `SelectItem` takes `item`, and every menu item a `value`;
+- the Vue preview's dev server does not reload a `.vue` file of the registry
+  when it changes: restart it.
+
+The Vue preview (`apps/preview-vue`, port 3003) renders each item at
+`/preview/vue/ark/<item>`; `vp run build` builds it, which is where the
+`vue-ark` components compile.
 
 ## Layer 5 — primitives
 

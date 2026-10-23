@@ -69,6 +69,10 @@ export const alpha = defineTokens(
   {
     foreground5: `color-mix(in oklab, ${theme.foreground} 5%, transparent)`,
     foreground10: `color-mix(in oklab, ${theme.foreground} 10%, transparent)`,
+    primary5: `color-mix(in oklab, ${theme.primary} 5%, transparent)`,
+    primary10: `color-mix(in oklab, ${theme.primary} 10%, transparent)`,
+    primary20: `color-mix(in oklab, ${theme.primary} 20%, transparent)`,
+    primary30: `color-mix(in oklab, ${theme.primary} 30%, transparent)`,
     primary80: `color-mix(in oklab, ${theme.primary} 80%, transparent)`,
     muted50: `color-mix(in oklab, ${theme.muted} 50%, transparent)`,
     destructive10: `color-mix(in oklab, ${theme.destructive} 10%, transparent)`,
@@ -77,7 +81,9 @@ export const alpha = defineTokens(
     destructive40: `color-mix(in oklab, ${theme.destructive} 40%, transparent)`,
     destructive50: `color-mix(in oklab, ${theme.destructive} 50%, transparent)`,
     input30: `color-mix(in oklab, ${theme.input} 30%, transparent)`,
+    input40: `color-mix(in oklab, ${theme.input} 40%, transparent)`,
     input50: `color-mix(in oklab, ${theme.input} 50%, transparent)`,
+    input80: `color-mix(in oklab, ${theme.input} 80%, transparent)`,
     popover70: `color-mix(in oklab, ${theme.popover} 70%, transparent)`,
     border50: `color-mix(in oklab, ${theme.border} 50%, transparent)`,
     ring50: `color-mix(in oklab, ${theme.ring} 50%, transparent)`,
@@ -97,6 +103,8 @@ export const surface = defineTokens(
     control: `light-dark(transparent, ${alpha.input30})`,
     /** Its fill on hover: `dark:hover:bg-input/50`. */
     controlHover: `light-dark(transparent, ${alpha.input50})`,
+    /** Disabled: `disabled:bg-input/50 dark:disabled:bg-input/80`. */
+    controlDisabled: `light-dark(${alpha.input50}, ${alpha.input80})`,
     /** Border of anything failing validation: `aria-invalid:border-destructive dark:…/50`. */
     borderInvalid: `light-dark(${theme.destructive}, ${alpha.destructive50})`,
     /** Its ring: `aria-invalid:ring-destructive/20 dark:…/40`. */
@@ -115,6 +123,9 @@ export const surface = defineTokens(
     /** A destructive control is tinted, not filled: `bg-destructive/10 dark:…/20`, hover /20 and /30. */
     destructiveSoft: `light-dark(${alpha.destructive10}, ${alpha.destructive20})`,
     destructiveSoftHover: `light-dark(${alpha.destructive20}, ${alpha.destructive30})`,
+    /** A chosen card-like label: `has-data-checked:bg-primary/5 dark:…/10`, border `/30` and `/20`. */
+    checkedSoft: `light-dark(${alpha.primary5}, ${alpha.primary10})`,
+    checkedSoftBorder: `light-dark(${alpha.primary30}, ${alpha.primary20})`,
   },
   { variable: true }
 )

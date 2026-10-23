@@ -294,8 +294,21 @@ two bases name differently. A condition that needs two states, such as a side
 during the first frame, is written per base, never as one `when()` inside
 another. It replaces shadcn/ui's `cn-*` class per part and its copy of each rule in
 every style's stylesheet. Popups move with transitions, which reverse mid-flight;
-Ark UI keeps a popup mounted only for an animation, so its motion is keyframes,
-added with its components.
+Ark UI keeps a popup mounted only for an animation, so on Ark the same fade and
+zoom are keyframes on its `data-state`.
+
+**Markup is written per framework and base, and holds no style values.**
+`registry/bases/react-base`, `react-aria` and `vue-ark` each hold their copy of a
+component, applying the same style modules: `sx` on elements, `props()` spread
+on a library's part. Part and prop names follow upstream's copy for that base,
+so a shadcn/ui user on React Aria finds the API they know (its `Dialog` is the
+modal, inside `DialogTrigger`), and every copy writes the same `data-slot`s. A
+Vue component cannot receive `sx` as a prop: a caller's `:sx` reaches it as a
+`class`, which Vue adds to the root's own classes instead of merging them, so
+each Vue part turns attribute fallthrough off and merges its styles with the
+caller's through `useStyleAttrs` (`registry/lib/vue.ts`), the same per-property
+merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
+drawn from framework-neutral data, so one map serves React and Vue.
 
 ## The build setup
 

@@ -32,3 +32,10 @@ export const menuCtx = defineTokens(
   },
   { variable: true }
 )
+
+/** A card's inner rhythm (`--card-spacing`): its padding and gaps, set by the card's size. */
+export const cardCtx = defineTokens(
+  "cardCtx",
+  { spacing: "1rem" },
+  { variable: true }
+)
