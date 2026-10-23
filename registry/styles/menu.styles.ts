@@ -12,7 +12,7 @@
 import { css, relation } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
-import { ctx, menuCtx } from "../core/context"
+import { menuCtx } from "../core/context"
 import {
   blur,
   fontSize,
@@ -25,6 +25,7 @@ import {
 } from "../core/scales"
 import { item, when } from "../core/states"
 import { alpha, radius, theme } from "../core/tokens"
+import { controlIcons } from "./control"
 
 const { vega, lyra, maia } = axes.style
 const { inverted, translucent } = axes.menuColor
@@ -75,7 +76,7 @@ export const menuSurface = css({
     base: ringAndShadow(alpha.foreground10, shadow.md),
     [maia]: ringAndShadow(alpha.foreground5, shadow["2xl"]),
   },
-  [ctx.iconSize]: "1rem",
+  ...controlIcons,
 
   // cn-menu-target: `inverted` puts the menu in the dark scheme.
   colorScheme: { [inverted]: "dark" },
@@ -122,7 +123,7 @@ export const menuRowBase = css(menuRow.anchor, {
   userSelect: "none",
   pointerEvents: { ...when(item.disabled, "none") },
   opacity: { ...when(item.disabled, 0.5) },
-  [ctx.iconSize]: "1rem",
+  ...controlIcons,
 
   gap: {
     base: space["1.5"],

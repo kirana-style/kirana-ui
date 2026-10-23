@@ -1,8 +1,11 @@
 /**
  * What form controls share: the rings they draw on focus and when invalid (as Tailwind composes
- * `ring-*` with `shadow-*`), and how their colours move.
+ * `ring-*` with `shadow-*`), how their colours move, and how they size their icons.
  */
+import { select } from "@kirana-style/core"
+
 import { axes } from "../core/axes"
+import { ctx } from "../core/context"
 import { duration, easing, shadow } from "../core/scales"
 
 const { vega, lyra } = axes.style
@@ -35,4 +38,24 @@ export const controlTransition = {
   },
   transitionDuration: duration[150],
   transitionTimingFunction: easing.inOut,
+}
+
+/**
+ * A control's icons, whatever draws them: the registry's placeholder on the site, the project's
+ * icon library once installed (shadcn/ui's CLI puts its component in the placeholder's place), or
+ * an icon the project adds itself. Each is the size the control hands down (`ctx.iconSize`, which a
+ * size variant changes), never shrunk, never the target of a click: shadcn/ui's
+ * `[&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 [&_svg]:pointer-events-none`. Kirana puts
+ * a descendant style below the element's own, so an icon that sizes itself wins without the
+ * `:not([class*='size-'])` guard. Controls nest (a button in a menu row): each sets the variable,
+ * and an icon reads the nearest.
+ */
+export const controlIcons = {
+  [ctx.iconSize]: "1rem",
+  [select.descendant("svg")]: {
+    width: ctx.iconSize,
+    height: ctx.iconSize,
+    flexShrink: 0,
+    pointerEvents: "none",
+  },
 }

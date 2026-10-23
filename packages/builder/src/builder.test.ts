@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vite-plus/test"
 
-import { classifier, flattenValue } from "./flatten"
+import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
-import type { StyleHandle } from "./kirana-stub"
+import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
@@ -101,6 +101,51 @@ describe("flattening", () => {
     ).toEqual({
       '[data-orientation="vertical"]': "column",
     })
+  })
+})
+
+describe("flattening a recipe", () => {
+  const lyra = classifier({ style: "lyra", base: "base" })
+  const nova = classifier({ style: "nova", base: "base" })
+  // Button's `sm`: Nova's `text-[0.8rem]`, while Lyra keeps the base's `text-xs`, whose condition
+  // outranks the variant's plain value on the site.
+  const button: RecipeHandle = {
+    kind: "recipe",
+    config: {
+      base: { fontSize: { base: "0.875rem", [style("lyra")]: "0.75rem" } },
+      variants: {
+        size: {
+          default: {},
+          sm: { fontSize: { base: "0.8rem", [style("vega")]: "0.875rem" } },
+        },
+      },
+    },
+    site: { file: "", line: 0 },
+  }
+  const sizeOf = (recipe: RecipeHandle) =>
+    (recipe.config as { variants: { size: Record<string, unknown> } }).variants
+      .size
+
+  it("drops a variant's value that the base's style entry beat", () => {
+    expect(sizeOf(flattenRecipe(button, lyra)).sm).toEqual({})
+  })
+
+  it("keeps it where nothing outranked it", () => {
+    expect(sizeOf(flattenRecipe(button, nova)).sm).toEqual({
+      fontSize: "0.8rem",
+    })
+  })
+
+  it("writes what a variant changes, and drops what it removed", () => {
+    expect(
+      changesFrom(
+        { color: { base: "a", ":hover": "b" }, padding: "1px" },
+        { color: { base: "a", ":hover": "c" } }
+      )
+    ).toEqual({ color: { ":hover": "c" }, padding: null })
+    expect(
+      changesFrom({ color: { base: "a", ":hover": "b" } }, { color: "d" })
+    ).toEqual({ color: { "*": null, base: "d" } })
   })
 })
 

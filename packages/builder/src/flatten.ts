@@ -8,12 +8,24 @@
  *    winning (it outranked the other on the site);
  * 4. write `{ base: x }` as `x`.
  *
+ * Styles that are merged must be flattened merged. A recipe's variant merges over its base entry by
+ * entry, and a style's entry in the base outranks the variant's plain one on the site (it has one
+ * condition more), but not once its condition is removed. So a variant is written as what it changes
+ * in the flattened base (`flattenRecipe`), and a handle of several style objects as one.
+ *
  * Removing a condition can change which entry wins (03, "Flattening, precisely"), so `check.ts` asks
  * Kirana for the winners before and after.
  */
 import { only } from "./markers"
 import type { RecipeHandle, StyleHandle, StyleObject } from "./kirana-stub"
-import { entriesOf, isNestedStyleKey, setKey, valueOf } from "./styles"
+import {
+  byConditionSet,
+  entriesOf,
+  isNestedStyleKey,
+  mergeStyles,
+  setKey,
+  valueOf,
+} from "./styles"
 import type { Entry } from "./styles"
 
 export type Base = "base" | "aria" | "ark"
@@ -98,10 +110,57 @@ export function flattenHandle(
 ): StyleHandle {
   return {
     ...handle,
-    styles: handle.styles.map((style) => flattenStyle(style, classify)),
+    styles: [flattenStyle(handle.styles.reduce(mergeStyles, {}), classify)],
   }
 }
 
+/**
+ * What `style` changes when merged over `base`, both flattened: the entries whose value differs or
+ * whose condition set `base` lacks. A property `style` removed is `null`; one that lost some of
+ * `base`'s entries is written whole, the rest dropped with `"*": null`.
+ */
+export function changesFrom(
+  base: StyleObject,
+  style: StyleObject
+): StyleObject {
+  const changes: StyleObject = {}
+  for (const key of new Set([...Object.keys(base), ...Object.keys(style)])) {
+    if (!(key in style)) {
+      changes[key] = null
+    } else if (isNestedStyleKey(key)) {
+      const nested = changesFrom(
+        (base[key] ?? {}) as StyleObject,
+        style[key] as StyleObject
+      )
+      if (Object.keys(nested).length) changes[key] = nested
+    } else if (!(key in base)) {
+      changes[key] = style[key]
+    } else {
+      const before = byConditionSet(entriesOf(base[key]))
+      const after = byConditionSet(entriesOf(style[key]))
+      const differing = [...after].filter(
+        ([set, entry]) => before.get(set)?.value !== entry.value
+      )
+      if ([...before.keys()].some((set) => !after.has(set))) {
+        const whole = valueOf([...after.values()])
+        changes[key] = {
+          "*": null,
+          ...(typeof whole === "object" && whole !== null
+            ? (whole as StyleObject)
+            : { base: whole }),
+        }
+      } else if (differing.length) {
+        changes[key] = valueOf(differing.map(([, entry]) => entry))
+      }
+    }
+  }
+  return changes
+}
+
+/**
+ * A recipe flattened: its base, and each variant as what it changes in the flattened base, so that
+ * merging the two picks what flattening them merged picks.
+ */
 export function flattenRecipe(
   handle: RecipeHandle,
   classify: Classify
@@ -109,13 +168,17 @@ export function flattenRecipe(
   const config = handle.config as {
     base?: StyleObject
     variants?: Record<string, Record<string, StyleObject>>
-    compoundVariants?: StyleObject[]
+    compoundVariants?: unknown[]
   }
+  if (config.compoundVariants?.length)
+    throw new Error("A recipe's compound variants are not flattened yet.")
+  const base = config.base ?? {}
+  const flatBase = flattenStyle(base, classify)
   return {
     ...handle,
     config: {
       ...config,
-      ...(config.base ? { base: flattenStyle(config.base, classify) } : {}),
+      ...(config.base ? { base: flatBase } : {}),
       ...(config.variants
         ? {
             variants: Object.fromEntries(
@@ -124,7 +187,10 @@ export function flattenRecipe(
                 Object.fromEntries(
                   Object.entries(options).map(([option, style]) => [
                     option,
-                    flattenStyle(style, classify),
+                    changesFrom(
+                      flatBase,
+                      flattenStyle(mergeStyles(base, style), classify)
+                    ),
                   ])
                 ),
               ])

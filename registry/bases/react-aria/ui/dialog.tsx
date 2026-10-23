@@ -15,7 +15,7 @@ import type {
   ModalOverlayProps as ModalOverlayPrimitiveProps,
 } from "react-aria-components"
 
-import { IconPlaceholder } from "../../../icons/react"
+import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
 import { dialog } from "../../../styles/dialog.styles"
 import { backdropMotion, modalMotion } from "../../../styles/overlay.styles"

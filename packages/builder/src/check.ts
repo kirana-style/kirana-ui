@@ -17,7 +17,7 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 
 import type { Classify } from "./flatten"
-import { flattenHandle, flattenStyle } from "./flatten"
+import { flattenHandle, flattenRecipe } from "./flatten"
 import type { Generated, Names } from "./generate"
 import { generate } from "./generate"
 import type { Combination } from "./items"
@@ -56,47 +56,94 @@ const ownProperties = (style: StyleObject) =>
     (key) => !isNestedStyleKey(key) && !key.includes("")
   )
 
+/**
+ * A style object the check compares: `live` as the site merges it, `flat` as the installed module
+ * merges it, from the flattener's own output (a recipe's flattened base and variant, merged).
+ */
+export type Probe = {
+  live: StyleObject
+  flat: (classify: Classify) => StyleObject
+}
+
+type RecipeConfig = {
+  base?: StyleObject
+  variants?: Record<string, Record<string, StyleObject>>
+}
+
+const ownStyle = (style: StyleObject) =>
+  Object.fromEntries(
+    Object.entries(style).filter(([key]) => !isNestedStyleKey(key))
+  )
+
 /** The style objects worth probing: each handle's own, its nested styles, each recipe variant. */
 export function probesOf(exports: Record<string, unknown>) {
-  const probes = new Map<string, StyleObject>()
-  const add = (path: string, style: StyleObject) => {
-    const own = Object.fromEntries(
-      Object.entries(style).filter(([key]) => !isNestedStyleKey(key))
-    )
-    probes.set(path, own)
-    for (const [key, nested] of Object.entries(style)) {
+  const probes = new Map<string, Probe>()
+  const add = (
+    path: string,
+    live: StyleObject,
+    flat: (classify: Classify) => StyleObject
+  ) => {
+    probes.set(path, {
+      live: ownStyle(live),
+      flat: (classify) => ownStyle(flat(classify)),
+    })
+    for (const [key, nested] of Object.entries(live)) {
       if (isNestedStyleKey(key) && isObject(nested))
-        add(`${path} ${key}`, nested)
+        add(`${path} ${key}`, nested, (classify) => {
+          const value = flat(classify)[key]
+          return isObject(value) ? value : {}
+        })
     }
   }
-  for (const [path, handle] of handlesOf(exports)) {
-    add(path, handle.styles.reduce(mergeStyles, {} as StyleObject))
+  for (const [path, h] of handlesOf(exports)) {
+    add(path, h.styles.reduce(mergeStyles, {} as StyleObject), (classify) =>
+      flattenHandle(h, classify).styles.reduce(mergeStyles, {} as StyleObject)
+    )
   }
   for (const [name, value] of Object.entries(exports)) {
     if (!isObject(value) || value.kind !== "recipe") continue
-    const config = (value as RecipeHandle).config as {
-      base?: StyleObject
-      variants?: Record<string, Record<string, StyleObject>>
-    }
-    const groups = Object.entries(config.variants ?? {})
-    // Each variant over the base, and each pair of variants from two groups: a style's override in
-    // one group can meet a state in another.
-    for (const [group, options] of groups) {
-      for (const [option, style] of Object.entries(options)) {
-        add(
-          `${name}[${group}=${option}]`,
-          mergeStyles(config.base ?? {}, style)
+    const recipe = value as RecipeHandle
+    const config = recipe.config as RecipeConfig
+    const flattened = new Map<Classify, RecipeConfig>()
+    const flatConfig = (classify: Classify) => {
+      if (!flattened.has(classify))
+        flattened.set(
+          classify,
+          flattenRecipe(recipe, classify).config as RecipeConfig
         )
-      }
+      return flattened.get(classify)!
+    }
+    // The base and its variants as the site and the installed module merge them: one variant, then
+    // one of each of two groups (a style's override in one group can meet a state in another).
+    const probe = (choices: [string, string][]) =>
+      add(
+        `${name}[${choices.map(([group, option]) => `${group}=${option}`).join(",")}]`,
+        choices.reduce(
+          (style, [group, option]) =>
+            mergeStyles(style, config.variants![group][option]),
+          config.base ?? {}
+        ),
+        (classify) => {
+          const flat = flatConfig(classify)
+          return choices.reduce(
+            (style, [group, option]) =>
+              mergeStyles(style, flat.variants![group][option]),
+            flat.base ?? {}
+          )
+        }
+      )
+    const groups = Object.entries(config.variants ?? {})
+    for (const [group, options] of groups) {
+      for (const option of Object.keys(options)) probe([[group, option]])
     }
     for (let i = 0; i < groups.length; i++) {
       for (let j = i + 1; j < groups.length; j++) {
-        for (const [a, styleA] of Object.entries(groups[i][1])) {
-          for (const [b, styleB] of Object.entries(groups[j][1])) {
-            add(
-              `${name}[${groups[i][0]}=${a},${groups[j][0]}=${b}]`,
-              [config.base ?? {}, styleA, styleB].reduce(mergeStyles)
-            )
+        for (const a of Object.keys(groups[i][1])) {
+          for (const b of Object.keys(groups[j][1])) {
+            probe([
+              [groups[i][0], a],
+              [groups[j][0], b],
+            ])
           }
         }
       }
@@ -190,7 +237,7 @@ export async function checkWinners(
   const probes = probesOf(exports)
   // Only a property under a style's condition or a base's state key can change.
   const changed = new Map<string, string[]>()
-  for (const [path, style] of probes) {
+  for (const [path, { live: style }] of probes) {
     const properties = ownProperties(style).filter((property) =>
       entriesOf(style[property]).some((entry) => entry.path.some(flattens))
     )
@@ -201,7 +248,10 @@ export async function checkWinners(
   const ids = [...changed.keys()]
   const probeExports = (map: (style: StyleObject) => StyleObject) =>
     Object.fromEntries(
-      ids.map((path, index) => [`p${index}`, handle(map(probes.get(path)!))])
+      ids.map((path, index) => [
+        `p${index}`,
+        handle(map(probes.get(path)!.live)),
+      ])
     )
   const options = (header: string) => ({
     flatten: (h: StyleHandle) => h,
@@ -244,7 +294,7 @@ export async function checkWinners(
   for (const combination of combinations) {
     const classify = classifyFor(combination)
     ids.forEach((path) => {
-      const style = flattenStyle(probes.get(path)!, classify)
+      const style = probes.get(path)!.flat(classify)
       const text = JSON.stringify(style)
       if (!unique.has(text)) unique.set(text, { style, key: `f${unique.size}` })
       flatOf.set(`${combination.id} ${path}`, unique.get(text)!.key)
@@ -278,7 +328,7 @@ export async function checkWinners(
 
   for (const combination of combinations) {
     ids.forEach((path, index) => {
-      const foreign = foreignTexts(probes.get(path)!, combination)
+      const foreign = foreignTexts(probes.get(path)!.live, combination)
       const key = flatOf.get(`${combination.id} ${path}`)!
       for (const property of changed.get(path)!) {
         tasks.push(async () => {

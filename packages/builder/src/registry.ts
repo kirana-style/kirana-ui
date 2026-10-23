@@ -23,6 +23,15 @@ export const SCHEMA_REGISTRY = "https://ui.shadcn.com/schema/registry.json"
 /** Packages a project has by being of its framework. */
 const FRAMEWORK_PACKAGES = new Set(["react", "react-dom", "vue"])
 
+/**
+ * React's icon placeholder, which shadcn/ui's CLI resolves at install: each `<IconPlaceholder … />`
+ * becomes the project's icon library's component (`iconLibrary` in `components.json`), and the
+ * import of a path holding `icon-placeholder` is dropped. A component that imports it does not
+ * depend on the `icon-placeholder` item, which stays in the registry for a project that wants the
+ * placeholder itself.
+ */
+const RESOLVED_AT_INSTALL = "lib/kirana/icons/icon-placeholder"
+
 const IMPORT =
   /(?:import|export)\s[^'"]*?from\s*["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)|import\s+["']([^"']+)["']/g
 
@@ -181,6 +190,7 @@ export function buildCombination(
           const path = withoutExtension(
             specifier.slice(`@/registry/${combination.id}/`.length)
           )
+          if (path === RESOLVED_AT_INSTALL) continue
           const provider = owner.get(path) ?? owner.get(`${path}/index`)
           if (!provider)
             problems.push(

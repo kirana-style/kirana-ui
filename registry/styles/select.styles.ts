@@ -10,7 +10,7 @@
  * Different from upstream on purpose:
  * - the value's `line-clamp-1` is an ellipsis on one line, and the value styles itself rather than
  *   being reached into from the trigger (`*:data-[slot=select-value]:…`);
- * - `[&_svg:not([class*='size-'])]:size-4` became `ctx.iconSize`, read by the `Icon` primitive;
+ * - `[&_svg:not([class*='size-'])]:size-4` is `controlIcons` (`./control.ts`), without the guard;
  * - Lyra's `text-left` is `start`, and `right-2` is `insetInlineEnd`, as shadcn/ui's RTL transform
  *   writes them.
  *
@@ -20,12 +20,11 @@
 import { css, relation, select as target } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
-import { ctx } from "../core/context"
 import { fontSize, lineHeight, space, zIndex } from "../core/scales"
 import { placeholder, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { ANCHOR_WIDTH } from "./overlay.styles"
-import { controlShadow, controlTransition } from "./control"
+import { controlIcons, controlShadow, controlTransition } from "./control"
 
 const { vega, lyra, maia } = axes.style
 
@@ -47,7 +46,7 @@ export const select = {
     userSelect: { base: "none", [vega]: "auto", [maia]: "auto" },
     cursor: { ":disabled": "not-allowed" },
     opacity: { ":disabled": 0.5 },
-    [ctx.iconSize]: "1rem",
+    ...controlIcons,
     ...controlTransition,
 
     borderWidth: "1px",
@@ -185,7 +184,7 @@ export const select = {
     justifyContent: "center",
     backgroundColor: theme.popover,
     paddingBlock: space[1],
-    [ctx.iconSize]: "1rem",
+    ...controlIcons,
   }),
   scrollUp: css({ top: 0 }),
   scrollDown: css({ bottom: 0 }),

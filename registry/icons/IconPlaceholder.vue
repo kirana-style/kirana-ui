@@ -1,17 +1,13 @@
 <script setup lang="ts">
 /**
  * `IconPlaceholder` for Vue. The library is the design system's, provided under `ICON_LIBRARY`
- * (`./vue.ts`); the size is the control's (`ctx.iconSize`, read by `icon.styles.ts`).
+ * (`./vue.ts`); the size is the control's (`controlIcons` in `styles/control.ts`).
  */
 import { computed, inject, ref } from "vue"
 
 import { DEFAULT_DESIGN_SYSTEM } from "../core/config"
-import { useStyleAttrs } from "../lib/vue"
-import { icon } from "../styles/icon.styles"
 import { resolveIcon } from "./data"
 import { ICON_LIBRARY } from "./vue"
-
-defineOptions({ inheritAttrs: false })
 
 // Declared here, not imported: Vue resolves an imported props type through TypeScript's JavaScript
 // API, which TypeScript 7 does not have.
@@ -22,17 +18,12 @@ const props = defineProps<{
   phosphor: string
   remixicon: string
 }>()
-const bound = useStyleAttrs(() => icon)
 const library = inject(ICON_LIBRARY, ref(DEFAULT_DESIGN_SYSTEM.iconLibrary))
 const resolved = computed(() => resolveIcon(library.value, props))
 </script>
 
 <template>
-  <svg
-    v-if="resolved"
-    aria-hidden="true"
-    v-bind="{ ...resolved.svg, ...bound }"
-  >
+  <svg v-if="resolved" aria-hidden="true" v-bind="resolved.svg">
     <component
       :is="tag"
       v-for="([tag, attributes], index) in resolved.nodes"

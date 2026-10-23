@@ -15,7 +15,7 @@ What is here so far, `core/`, the design system:
 | `tokens.ts`   | The variable tokens components read: `theme`, `radiusBase`, `radius`, `font`                                                                                                                                |
 | `axes.ts`     | The attributes on `<html>` and the conditions that read them: `on` (for `root.ts`) and `axes` (a relation, for components)                                                                                  |
 | `root.ts`     | The `css()` handle applied to `<html>`: it reassigns the tokens for every value of the token axes                                                                                                           |
-| `context.ts`  | Values a parent hands its children: `ctx.iconSize`, and `menuCtx`, the colours a menu surface gives its rows                                                                                                |
+| `context.ts`  | Values a parent hands its children: `ctx.iconSize` (a control's icons, `styles/control.ts`), and `menuCtx`, the colours a menu surface gives its rows                                                       |
 | `states.ts`   | Component states with each base's key (Base UI, React Aria, Ark UI), and `when(state, value)`, which writes them all                                                                                        |
 | `scales.ts`   | The Tailwind vocabulary styles are written in: spacing, type, shadows, durations, layers                                                                                                                    |
 | `kirana.ts`   | `registryConfig`, which every app compiling the registry spreads into its `kirana.config.ts`                                                                                                                |
@@ -28,7 +28,9 @@ And beside it:
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
   with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select and
   DropdownMenu;
-- `icons/`, `IconPlaceholder` for React and Vue over one map of icon data;
+- `icons/`, `IconPlaceholder` for React and Vue over one map of icon data. Installed with
+  shadcn/ui's CLI, a React placeholder becomes the project's own icon component, and the import of
+  `icon-placeholder.tsx` is dropped;
 - `lib/`, the `Sx` type and, for Vue, `useStyleAttrs`.
 
 `docs/catalogue.md` lists their exports and how to write each.
