@@ -45,7 +45,9 @@ const styles = {
   }),
   previousVertical: css({
     top: `calc(${spacing[12]} * -1)`,
-    insetInlineStart: "50%",
+    // Physical, as `translate` is: a logical start would be `right` in
+    // right-to-left text, a whole width off centre.
+    left: "50%",
     translate: "-50% 0",
     rotate: "90deg",
   }),
@@ -56,7 +58,7 @@ const styles = {
   }),
   nextVertical: css({
     bottom: `calc(${spacing[12]} * -1)`,
-    insetInlineStart: "50%",
+    left: "50%",
     translate: "-50% 0",
     rotate: "90deg",
   }),

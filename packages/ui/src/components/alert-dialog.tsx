@@ -45,7 +45,9 @@ const styles = {
   }),
   content: css({
     position: "fixed",
-    insetInlineStart: "50%",
+    // Physical, as `translate` is: a logical start would be `right` in
+    // right-to-left text, a whole width off centre.
+    left: "50%",
     top: "50%",
     zIndex: zIndex.popover,
     display: "grid",
