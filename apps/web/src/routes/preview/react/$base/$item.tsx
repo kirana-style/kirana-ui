@@ -10,7 +10,7 @@ import {
   listenForDesign,
   previewQuery,
 } from "@workspace/registry/core/preview"
-import { IconLibraryProvider } from "@workspace/registry/icons/react"
+import { IconLibraryProvider } from "@workspace/registry/icons/icon-placeholder"
 
 /**
  * Each base's items, `/preview/react/base/<item>` and `/preview/react/aria/<item>`, loaded only on

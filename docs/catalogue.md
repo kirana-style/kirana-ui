@@ -222,8 +222,7 @@ is the base value; Vega, Lyra and Maia override per property. The markup in
 | `input.styles.ts`           | `input`                                                                                                                    | Input                                                                                  |
 | `label.styles.ts`           | `label`                                                                                                                    | Label, and FieldLabel under the field's own                                            |
 | `separator.styles.ts`       | `separator`                                                                                                                | Separator, on Base UI's `data-orientation` and React Aria's `aria-orientation`         |
-| `control.ts`                | `focusRing`, `controlShadow`, `controlTransition`                                                                          | What form controls share: rings, Vega's `shadow-xs` under them, how colours move       |
-| `icon.styles.ts`            | `icon`                                                                                                                     | An icon inside a control, sized by `ctx.iconSize`                                      |
+| `control.ts`                | `focusRing`, `controlShadow`, `controlTransition`, `controlIcons`                                                          | What controls share: rings, Vega's `shadow-xs` under them, how colours move, icon size |
 | `visually-hidden.styles.ts` | `visuallyHidden`                                                                                                           | Text only a screen reader reaches (`sr-only`)                                          |
 | `page.styles.ts`            | `page.document`, `page.body`                                                                                               | The colour scheme on `<html>`; the page's background, text colour and font             |
 | `reset.css`                 | the `reset` layer                                                                                                          | Tailwind's preflight as far as the components rely on it; no pointer cursor            |
@@ -244,6 +243,11 @@ Writing one:
   `':where([data-slot="field"][data-orientation="vertical"] > *)'`, where
   upstream's parent reached in with `*:`; a relation's `within` means any
   ancestor, not the parent;
+- a control with icons spreads `...controlIcons`: every `svg` inside it is
+  `ctx.iconSize`, never shrunk, never the target of a click, and a size variant
+  only changes `ctx.iconSize`. An icon's own style is spread on the placeholder as
+  `{...props(…)}`, never `sx`: once installed, the placeholder is the project's
+  icon component;
 - `vp run styles` compiles the registry with its own config and fails on any
   warning.
 
@@ -266,7 +270,7 @@ And what they share:
 | File                                        | For                                                                                                              |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `icons/data.ts`                             | The icons components name through `IconPlaceholder`, as Lucide's and Hugeicons' framework-neutral data           |
-| `icons/react.tsx`                           | `IconPlaceholder` and `IconLibraryProvider` for React                                                            |
+| `icons/icon-placeholder.tsx`                | `IconPlaceholder` and `IconLibraryProvider` for React; named for shadcn/ui's CLI, which drops its import         |
 | `icons/IconPlaceholder.vue`, `icons/vue.ts` | `IconPlaceholder` for Vue, and `ICON_LIBRARY`, the key a page provides its library under                         |
 | `lib/sx.ts`                                 | The `Sx` type and `WithSx<P>`                                                                                    |
 | `lib/vue.ts`                                | `useStyleAttrs(() => styles)`: a Vue component's styles merged with its caller's `:sx`, which arrives as `class` |
@@ -326,7 +330,9 @@ An item's files install as markup and style modules in `ui/`, the design system
 in `lib/kirana/`, a block's parts in `components/`; an import between items is
 `@/registry/<combination>/…`, which shadcn/ui's CLI rewrites to the project's
 aliases. A relation is declared by one module, which a flattened module imports
-it from.
+it from. A React component does not depend on the `icon-placeholder` item: the
+CLI replaces its placeholders with the project's icon library
+(`components.json`'s `iconLibrary`), whose package the project installs once.
 
 ## Layer 5 — primitives
 

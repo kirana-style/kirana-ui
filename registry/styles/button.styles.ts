@@ -9,7 +9,8 @@
  *
  * Kept from kirana-ui's earlier port, and different from upstream on purpose:
  * - `transition-all` became the properties that actually move (`docs/workflows.md`);
- * - `[&_svg:not([class*='size-'])]:size-*` became `ctx.iconSize`, which the `Icon` primitive reads;
+ * - `[&_svg:not([class*='size-'])]:size-*` became `controlIcons` (`./control.ts`): a size variant sets
+ *   `ctx.iconSize`, and the icons read the nearest control's;
  * - the button-group corners (`in-data-[slot=button-group]:rounded-*`) wait for ButtonGroup, so a
  *   relation with no anchor in the build is not read.
  */
@@ -26,7 +27,7 @@ import {
   space,
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import { controlShadow, focusRing } from "./control"
+import { controlIcons, controlShadow, focusRing } from "./control"
 
 const { vega, lyra, maia } = axes.style
 
@@ -68,7 +69,7 @@ export const button = recipe({
     transitionTimingFunction: easing.inOut,
     pointerEvents: { ":disabled": "none" },
     opacity: { ":disabled": 0.5 },
-    [ctx.iconSize]: "1rem",
+    ...controlIcons,
 
     borderWidth: "1px",
     borderStyle: "solid",

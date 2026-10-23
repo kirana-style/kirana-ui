@@ -108,9 +108,8 @@ export const ITEMS: Item[] = [
     files: (combination) => [
       "icons/data.ts",
       ...(react(combination)
-        ? ["icons/react.tsx"]
+        ? ["icons/icon-placeholder.tsx"]
         : ["icons/IconPlaceholder.vue", "icons/vue.ts"]),
-      "styles/icon.styles.ts",
     ],
   },
   sharedStyles("overlay", "How popups, modals and backdrops come and go."),

@@ -4,7 +4,7 @@ import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { props as styleProps } from "@kirana-style/core"
 
-import { IconPlaceholder } from "../../../icons/react"
+import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
 import { dropdownMenu } from "../../../styles/dropdown-menu.styles"
 import {
@@ -140,7 +140,7 @@ function DropdownMenuSubTrigger({
         hugeicons="ArrowRight01Icon"
         phosphor="CaretRightIcon"
         remixicon="RiArrowRightSLine"
-        sx={dropdownMenu.subTriggerIcon}
+        {...styleProps(dropdownMenu.subTriggerIcon)}
       />
     </MenuPrimitive.SubmenuTrigger>
   )

@@ -1,15 +1,19 @@
 /**
  * `IconPlaceholder` for React, and the library it draws. The library is the design system's
  * (`IconLibraryProvider`, set by the page from the preset); the size is the control's
- * (`ctx.iconSize`, read by `icon.styles.ts`).
+ * (`controlIcons` in `styles/control.ts`).
+ *
+ * It stands for the project's own icon once installed: shadcn/ui's CLI replaces each
+ * `<IconPlaceholder … />` with the icon library's component (`<XIcon />`), keeping every other
+ * attribute, and drops the import of any module whose path holds `icon-placeholder`, hence this
+ * file's name. So a placeholder takes only what an icon component takes: no `sx`, which an icon
+ * library does not read; a style is spread as `{...props(…)}`.
  */
 import { createContext, createElement, useContext } from "react"
 import type { ComponentProps, ReactNode } from "react"
 
 import { DEFAULT_DESIGN_SYSTEM } from "../core/config"
 import type { IconLibrary } from "../core/config"
-import type { Sx } from "../lib/sx"
-import { icon } from "../styles/icon.styles"
 import { resolveIcon } from "./data"
 import type { IconNames } from "./data"
 
@@ -42,8 +46,7 @@ const reactAttributes = (
     Object.entries(attributes).map(([key, value]) => [reactName(key), value])
   )
 
-export type IconPlaceholderProps = IconNames &
-  Omit<ComponentProps<"svg">, "className"> & { sx?: Sx }
+export type IconPlaceholderProps = IconNames & ComponentProps<"svg">
 
 export function IconPlaceholder({
   lucide,
@@ -51,7 +54,6 @@ export function IconPlaceholder({
   tabler,
   phosphor,
   remixicon,
-  sx,
   ...props
 }: IconPlaceholderProps) {
   const library = useContext(IconLibraryContext)
@@ -64,12 +66,7 @@ export function IconPlaceholder({
   })
   if (!resolved) return null
   return (
-    <svg
-      aria-hidden
-      {...reactAttributes(resolved.svg)}
-      {...props}
-      sx={[icon, sx]}
-    >
+    <svg aria-hidden {...reactAttributes(resolved.svg)} {...props}>
       {resolved.nodes.map(([tag, attributes], index) =>
         createElement(tag, { key: index, ...reactAttributes(attributes) })
       )}

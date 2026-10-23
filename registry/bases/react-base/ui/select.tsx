@@ -4,7 +4,7 @@ import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { props as styleProps } from "@kirana-style/core"
 
-import { IconPlaceholder } from "../../../icons/react"
+import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
 import {
   menuCheckableRowPadding,
@@ -71,7 +71,7 @@ function SelectTrigger({
             hugeicons="UnfoldMoreIcon"
             phosphor="CaretDownIcon"
             remixicon="RiArrowDownSLine"
-            sx={select.triggerIcon}
+            {...styleProps(select.triggerIcon)}
           />
         }
       />

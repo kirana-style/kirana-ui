@@ -15,7 +15,11 @@ import { relation } from "@kirana-style/core"
 
 export { AXIS_ATTRIBUTES, POINTER_ATTRIBUTE } from "./attributes"
 
-const ui = relation("ui")
+// Exported only so that a project's build does not report it unused (KF-024 in Kirana's feedback
+// log, until the release that fixes it): its anchor and readers leave this module inside `axes`, but
+// Kirana counts a relation as kept to its module unless the `relation()` itself is exported, and a
+// project with only a button installed reads no axis.
+export const ui = relation("ui")
 
 export const axes = {
   /** On `<html>`, with the attributes of `attributes.ts`. */

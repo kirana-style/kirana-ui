@@ -68,7 +68,7 @@ and at-rules nest **inside a property value**. Only pseudo-_elements_ and
 | `group-has-[:disabled]/field:`       | `[fieldMarker.within(":has(:disabled)")]`                                                                      |
 | `in-data-[slot=x]:`                  | `[xMarker.within('[data-slot="x"]')]`                                                                          |
 | `@container/name` + `@md/name:`      | `containerName` + `'@container name (min-width: …)'`                                                           |
-| `[&_svg]:size-4` in a parent         | `ctx.iconSize` read by `Icon`; `[select.descendant("svg")]: { … }` when there is no component to read it       |
+| `[&_svg]:size-4` in a parent         | `ctx.iconSize` read by `Icon`; in the registry, `...controlIcons` on the control (any `svg` inside, sized)     |
 | `*:[a]:hover:text-x`                 | `[select.child("a:hover")]: { color: x }`; under `select.child("a")`, `:hover` is the parent's                 |
 | `style-vega:h-9`                     | `height: { base: …, [axes.style.vega]: space[9] }` in a registry style module                                  |
 | `data-open:`, `data-entering:`       | `...when(overlay.starting, x)` in the registry: every base's key (`core/states.ts`)                            |
@@ -146,7 +146,11 @@ times. It became the `Icon` primitive reading a `ctx.iconSize` variable each
 control sets. The same hand-off replaced `[&>input]`, `*:[img:first-child]` and
 `[&_a]` — the last became the `Link` primitive. `select.descendant` can express
 the selector half (and contextual styles always lose to the child's own), but the
-`[class*='size-']` half never works with hashed names.
+`[class*='size-']` half never works with hashed names. The registry's controls do
+size their `svg`s from outside (`controlIcons`, `[select.descendant("svg")]` at
+`ctx.iconSize`): installed, their icons are the project's icon library's
+components, which read no token, and the guard is not needed, since the
+contextual style loses to any size the icon gives itself.
 
 **2. Parent-driven child styling.** `ButtonGroup` styled its children's corners
 from the parent. Inverted: each child decides its own corners from its own
@@ -277,7 +281,7 @@ comparison sees the same behaviour on both sides.
 
 - **An inline brand logo** (`<svg>` in a "Login with Google" button) was sized by
   the button's `[&_svg]:size-4`. Give it `width: ctx.iconSize` and
-  `height: ctx.iconSize`.
+  `height: ctx.iconSize`. A registry control (`controlIcons`) sizes it already.
 - **`style={{ "--sidebar-width": … }}`** on a SidebarProvider set Tailwind's
   variable. The width is `sidebarCtx.width`, a hashed name, so set it in `sx`:
   `css({ [sidebarCtx.width]: "20rem" })`. The same goes for `--cell-size`

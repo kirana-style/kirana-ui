@@ -197,9 +197,15 @@ compiled and never matched.
 A parent can style a descendant with `select.descendant("svg")`. Those rules live
 in a lower layer than every element's own styles, so a child's own style always
 wins — which is what Tailwind's `[&_svg:not([class*='size-'])]` guard was faking.
-This design system still prefers handing a value down (`ctx.iconSize` read by the
-`Icon` primitive): the contract is a named token rather than a selector reaching
-into markup.
+`packages/ui` still prefers handing a value down (`ctx.iconSize` read by the `Icon`
+primitive): the contract is a named token rather than a selector reaching into
+markup. The registry cannot: once installed, a control's icons are the project's
+own icon library's components, which shadcn/ui's CLI puts in place of the
+placeholder, or icons the project adds itself, and none of them reads a token. So
+each registry control sets `ctx.iconSize` and sizes every `svg` inside it to it
+(`controlIcons` in `registry/styles/control.ts`). Controls nest, a button in a
+menu row: each sets the variable and every one sizes its `svg`s to it, so an icon
+takes the nearest control's size.
 
 ## Merging and precedence
 
@@ -308,7 +314,13 @@ Vue component cannot receive `sx` as a prop: a caller's `:sx` reaches it as a
 each Vue part turns attribute fallthrough off and merges its styles with the
 caller's through `useStyleAttrs` (`registry/lib/vue.ts`), the same per-property
 merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
-drawn from framework-neutral data, so one map serves React and Vue.
+drawn from framework-neutral data, so one map serves React and Vue. In an installed
+React project the placeholder is gone: shadcn/ui's CLI replaces each one with the
+project's icon library's component, keeping its other attributes, and drops the
+import of any module whose path holds `icon-placeholder` (hence
+`registry/icons/icon-placeholder.tsx`). So a placeholder takes only what an icon
+component takes: a style is spread on it as `{...props(…)}`, never given as `sx`,
+which an icon library would not read.
 
 **What a project installs is the same module, flattened, and Kirana checks it.**
 `packages/builder` writes the registry (`vp run registry`): for each combination of
@@ -322,8 +334,30 @@ on a difference. It reads the modules by running them with Kirana's functions
 recording their arguments, and proves that reading faithful by writing each
 module back unflattened and comparing Kirana's ranking with the source's. State
 keys carry their base from `core/states.ts`, so a component's own attribute that
-looks like another base's key is never removed. The items speak shadcn/ui's
-schema and are validated with its own.
+looks like another base's key is never removed. Styles that merge are flattened
+merged: a recipe's variant merges over its base entry by entry, and on the site a
+style's entry in the base outranks the variant's plain one, which it no longer
+does once its condition is removed. So a variant is written as what it changes
+in the flattened base, and the check compares the flattened base and variant
+merged, as the installed recipe merges them. The items speak shadcn/ui's schema
+and are validated with its own.
+
+**A React project installs with shadcn/ui's CLI, without Tailwind.**
+`shadcn add @kirana/<item>` works in a Vite, React and Kirana project with no
+Tailwind: the items carry no CSS variables for the CLI to write, and its import,
+icon and `"use client"` transforms apply as they do to upstream's items. Installed
+this way, the slice builds, type-checks, and renders the computed styles of the
+site's preview pages, value for value. `shadcn init` does not work: it checks for
+Tailwind first, with no way to skip the check. So a project's `components.json`
+comes from this site: the `@kirana` registry, the combination as its `style`,
+the `iconLibrary` the CLI resolves icons with, and `tailwind.css` pointing at any
+stylesheet, which the CLI leaves alone. The design system comes as a
+`registry:base` item, which `shadcn add` installs, files and packages, but
+without merging its configuration into `components.json`: one more reason that
+file comes from here. What no item can do is left to `kirana-style init` and the
+app's entry: Kirana's plugin and configuration (spreading the design system's
+`registryConfig`, with the `reset` layer), the stylesheet, the reset, the font,
+and the design system's classes on `<html>` and `<body>`.
 
 **A preview is the item alone, in the design its URL names, on every framework.**
 `/preview/react/<base>/<item>` is a route of the site, rendered by the Worker
