@@ -12,7 +12,7 @@ import * as Ark from "@kirana-style/states/ark-ui"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
 // With its extension: the configuration is loaded by Node, not the bundler (KF-016).
-import { overlay } from "./states.ts"
+import { orientation, overlay } from "./states.ts"
 
 export const registryConfig = {
   conditions: {
@@ -23,6 +23,9 @@ export const registryConfig = {
       // Listed by hand until `@kirana-style/states` can say it (KF-015 in Kirana's feedback log).
       [overlay.starting.base, overlay.starting.aria],
       [overlay.ending.base, overlay.ending.aria],
+      [orientation.horizontal.base, orientation.vertical.aria],
+      [orientation.vertical.base, orientation.horizontal.aria],
+      [orientation.horizontal.aria, orientation.vertical.aria],
     ],
   },
 } satisfies KiranaConfig

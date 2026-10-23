@@ -18,8 +18,11 @@ const SOURCES = [
   "bun.lock",
 ]
 
-/** The three apps, each built by its own `build` script (`vp build`). */
-const APPS = ["web", "blocks", "examples"]
+/**
+ * The apps, each built by its own `build` script (`vp build`): the demo, blocks and examples, and
+ * the Vue preview, whose build is where the registry's `vue-ark` components compile.
+ */
+const APPS = ["web", "blocks", "examples", "preview-vue"]
 
 export default defineConfig({
   // The workspace's tasks: `vp run <name>`. Each is cached (node_modules/.vite/task-cache) unless
@@ -38,7 +41,7 @@ export default defineConfig({
           output: APPS.map((app) => `apps/${app}/dist/**`),
         },
       },
-      // The demo :3000, blocks :3001 and examples :3002, side by side.
+      // The demo :3000, blocks :3001, examples :3002 and the Vue preview :3003, side by side.
       dev: {
         command: 'vp run --filter "./apps/*" --parallel dev',
         cache: false,

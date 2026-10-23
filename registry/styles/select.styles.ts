@@ -14,24 +14,18 @@
  * - Lyra's `text-left` is `start`, and `right-2` is `insetInlineEnd`, as shadcn/ui's RTL transform
  *   writes them.
  *
- * The trigger is `w-fit` on Base UI and `w-full` on React Aria; the component sets the latter.
+ * The trigger is `w-fit` on Base UI. On React Aria it is `w-full` (`triggerFill`) inside a root that
+ * is itself `w-fit` (`root`), so it lands the same.
  */
 import { css, relation, select as target } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import { ctx } from "../core/context"
-import {
-  duration,
-  easing,
-  fontSize,
-  lineHeight,
-  space,
-  zIndex,
-} from "../core/scales"
+import { fontSize, lineHeight, space, zIndex } from "../core/scales"
 import { placeholder, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { ANCHOR_WIDTH } from "./overlay.styles"
-import { controlShadow } from "./ring"
+import { controlShadow, controlTransition } from "./control"
 
 const { vega, lyra, maia } = axes.style
 
@@ -54,13 +48,7 @@ export const select = {
     cursor: { ":disabled": "not-allowed" },
     opacity: { ":disabled": 0.5 },
     [ctx.iconSize]: "1rem",
-    // `transition-colors`, `transition-[color,box-shadow]` in Vega.
-    transitionProperty: {
-      base: "color, background-color, border-color",
-      [vega]: "color, box-shadow",
-    },
-    transitionDuration: duration[150],
-    transitionTimingFunction: easing.inOut,
+    ...controlTransition,
 
     borderWidth: "1px",
     borderStyle: "solid",
@@ -109,6 +97,11 @@ export const select = {
     },
   }),
 
+  // React Aria's Select, which wraps the trigger and the hidden form control.
+  root: css({ width: "fit-content" }),
+  // React Aria's trigger fills that root.
+  triggerFill: css({ width: "100%" }),
+
   // cn-select-trigger-icon
   triggerIcon: css({
     pointerEvents: "none",
@@ -140,7 +133,11 @@ export const select = {
     transitionProperty: { '[data-align-trigger="true"]': "none" },
   }),
 
-  // React Aria's list box inside the popup, which scrolls in its place.
+  // React Aria's popup does not scroll: its list box does.
+  popover: css({ overflowY: "hidden" }),
+
+  // The list inside the popup (React Aria's list box, Ark UI's list), which scrolls in its place
+  // and draws no focus ring: both libraries focus it while the arrow keys move the highlight.
   list: css(selectList.anchor, {
     maxHeight: "inherit",
     overflowX: "hidden",

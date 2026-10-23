@@ -5,13 +5,14 @@
  *
  * Written as transitions from each base's first frame and exit (`overlay.starting`, `.ending`) rather
  * than as keyframes: a transition reverses mid-flight, so a popup closed while it opens leaves from
- * where it is. Timing is `tw-animate-css`'s: 100ms on the CSS `ease` curve. Ark UI animates with
- * keyframes (`core/states.ts`).
+ * where it is. Timing is `tw-animate-css`'s: 100ms on the CSS `ease` curve. Ark UI keeps a closing
+ * popup mounted only while an animation runs, so on Ark the same fade and zoom are keyframes on its
+ * `data-state` (`presence`), without the slide.
  */
-import { css } from "@kirana-style/core"
+import { css, keyframes } from "@kirana-style/core"
 
 import { duration, easing, space } from "../core/scales"
-import { overlay, side, when } from "../core/states"
+import { overlay, presence, side, when } from "../core/states"
 
 /**
  * What a base's positioner tells its popup, under each base's own name: Base UI's, then React
@@ -26,9 +27,31 @@ export const TRANSFORM_ORIGIN =
 const SLIDE = space[2]
 const BACK = `calc(${SLIDE} * -1)`
 
+/** Ark UI's enter and exit: `animate-in fade-in-0 zoom-in-95` and its `animate-out`. */
+const zoomIn = keyframes({
+  from: { opacity: 0, scale: 0.95 },
+  to: { opacity: 1, scale: 1 },
+})
+const zoomOut = keyframes({
+  from: { opacity: 1, scale: 1 },
+  to: { opacity: 0, scale: 0.95 },
+})
+const fadeIn = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } })
+const fadeOut = keyframes({ from: { opacity: 1 }, to: { opacity: 0 } })
+
+const arkTiming = {
+  animationDuration: duration[100],
+  animationTimingFunction: easing.ease,
+}
+
 const fadeAndZoom = {
   transitionDuration: duration[100],
   transitionTimingFunction: easing.ease,
+  ...arkTiming,
+  animationName: {
+    ...when(presence.open, zoomIn),
+    ...when(presence.closed, zoomOut),
+  },
   opacity: {
     base: 1,
     ...when(overlay.starting, 0),
@@ -83,6 +106,11 @@ export const backdropMotion = css({
   transitionProperty: "opacity",
   transitionDuration: duration[100],
   transitionTimingFunction: easing.ease,
+  ...arkTiming,
+  animationName: {
+    ...when(presence.open, fadeIn),
+    ...when(presence.closed, fadeOut),
+  },
   opacity: {
     base: 1,
     ...when(overlay.starting, 0),

@@ -1,8 +1,9 @@
 /**
- * The rings controls draw on focus and when invalid, as Tailwind composes `ring-*` with `shadow-*`.
+ * What form controls share: the rings they draw on focus and when invalid (as Tailwind composes
+ * `ring-*` with `shadow-*`), and how their colours move.
  */
 import { axes } from "../core/axes"
-import { shadow } from "../core/scales"
+import { duration, easing, shadow } from "../core/scales"
 
 const { vega, lyra } = axes.style
 
@@ -25,3 +26,13 @@ export const controlShadow = (focus: string, invalid: string) => ({
     '[aria-invalid="true"]': `0 0 0 3px ${invalid}, ${shadow.xs}`,
   },
 })
+
+/** `transition-colors`; Vega's controls are `transition-[color,box-shadow]`. */
+export const controlTransition = {
+  transitionProperty: {
+    base: "color, background-color, border-color",
+    [vega]: "color, box-shadow",
+  },
+  transitionDuration: duration[150],
+  transitionTimingFunction: easing.inOut,
+}

@@ -26,7 +26,7 @@ import {
   space,
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import { controlShadow, focusRing } from "./ring"
+import { controlShadow, focusRing } from "./control"
 
 const { vega, lyra, maia } = axes.style
 

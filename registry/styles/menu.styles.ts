@@ -50,6 +50,13 @@ const ROW_INLINE = {
  */
 const INSET = { base: space[7], [vega]: space[8], [maia]: "2.375rem" }
 
+/** What positions a menu-shaped popup (`isolate z-50 outline-none` on Base UI's positioner). */
+export const menuPositioner = css({
+  isolation: "isolate",
+  zIndex: zIndex.popover,
+  outlineStyle: "none",
+})
+
 /** The popup itself: solid, inverted or glass by the menu colour. Padding is the menu's own. */
 export const menuSurface = css({
   zIndex: zIndex.popover,
@@ -95,6 +102,14 @@ export const menuSurface = css({
     borderRadius: { [translucent]: "inherit" },
     backdropFilter: { [translucent]: `blur(${blur["2xl"]}) saturate(150%)` },
   },
+})
+
+/** React Aria's menu inside its popover: it scrolls within the popover's height. */
+export const menuList = css({
+  maxHeight: "inherit",
+  overflowX: "hidden",
+  overflowY: "auto",
+  outlineStyle: "none",
 })
 
 /** Every row: an item, a checkbox or radio item, a submenu trigger, a select item. */
