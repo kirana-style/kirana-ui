@@ -13,28 +13,12 @@
  */
 import { relation } from "@kirana-style/core"
 
-import type { Axis } from "./config"
-
-/** The attribute each axis is written to on `<html>`. The framework and base change no style. */
-export const AXIS_ATTRIBUTES = {
-  style: "data-style",
-  baseColor: "data-base-color",
-  theme: "data-theme",
-  chartColor: "data-chart-color",
-  font: "data-font",
-  fontHeading: "data-font-heading",
-  radius: "data-radius",
-  menuColor: "data-menu-color",
-  menuAccent: "data-menu-accent",
-} as const satisfies Partial<Record<Axis, string>>
-
-/** The pointer cursor on buttons, a project option rather than a preset axis (as shadcn/ui's). */
-export const POINTER_ATTRIBUTE = "data-pointer"
+export { AXIS_ATTRIBUTES, POINTER_ATTRIBUTE } from "./attributes"
 
 const ui = relation("ui")
 
 export const axes = {
-  /** On `<html>`, with the attributes above. */
+  /** On `<html>`, with the attributes of `attributes.ts`. */
   anchor: ui.anchor,
   style: {
     nova: ui.within('[data-style="nova"]'),

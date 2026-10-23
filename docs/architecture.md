@@ -310,6 +310,16 @@ caller's through `useStyleAttrs` (`registry/lib/vue.ts`), the same per-property
 merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
 drawn from framework-neutral data, so one map serves React and Vue.
 
+**A preview is the item alone, in the design its URL names, on every framework.**
+`/preview/react/<base>/<item>` is a route of the site, rendered by the Worker
+with the design's attributes already on `<html>`; `/preview/vue/ark/<item>` is a
+page of the Vue preview app, built into the same Worker's static files, since a
+Vue component cannot render inside the React site. Both read the same query and
+take the same message (`registry/core/preview.ts`): upstream's `?preset=` and
+`design-system-params`, so shadcn/ui's customizer and ours can drive either, and
+the conformance harness can open one item and preset on both sites. A change of
+design changes attributes and the URL, never CSS.
+
 ## The build setup
 
 `packages/vite-config` exports `defineAppConfig()`; each app's `vite.config.ts` is

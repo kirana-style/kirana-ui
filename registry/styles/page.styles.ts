@@ -5,6 +5,7 @@
  */
 import { css } from "@kirana-style/core"
 
+import { space } from "../core/scales"
 import { font, theme } from "../core/tokens"
 
 export const page = {
@@ -21,4 +22,6 @@ export const page = {
     color: theme.foreground,
     fontFamily: font.sans,
   }),
+  // A demo's frame on its preview page, in every framework; a block brings its own.
+  example: css({ padding: space[6] }),
 }

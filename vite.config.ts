@@ -20,7 +20,8 @@ const SOURCES = [
 
 /**
  * The apps, each built by its own `build` script (`vp build`): the demo, blocks and examples, and
- * the Vue preview, whose build is where the registry's `vue-ark` components compile.
+ * the Vue preview, whose build is where the registry's `vue-ark` components compile. In this order:
+ * the Vue preview writes into the demo's `dist/client/preview/vue/`, which the `ui` Worker serves.
  */
 const APPS = ["web", "blocks", "examples", "preview-vue"]
 

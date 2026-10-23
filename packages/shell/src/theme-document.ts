@@ -25,13 +25,16 @@ export function themeDocumentProps(mode: ThemeMode) {
  * without this a reader who chose dark would see the light page first on a slow connection. A
  * preview frame's `?theme=` comes first: the block viewer names the mode it shows. It writes the
  * classes the document renders for that mode, so React finds them as it renders them; render
- * `<html>` with `suppressHydrationWarning`.
+ * `<html>` with `suppressHydrationWarning`. It swaps the mode's classes and leaves the others: a preview page's
+`<html>` also carries the registry's design.
  */
 export const THEME_SCRIPT = `(() => {
   const classes = ${JSON.stringify(Object.fromEntries(THEME_MODES.map((mode) => [mode, themeDocumentProps(mode).className ?? ""])))}
   const asked = new URLSearchParams(location.search).get("theme")
   const saved = asked ?? document.cookie.split(";").map((part) => part.trim()).find((part) => part.startsWith("${THEME_COOKIE}="))?.slice(${THEME_COOKIE.length + 1})
   if (!saved || !(saved in classes)) return
-  document.documentElement.className = classes[saved]
+  const list = document.documentElement.classList
+  for (const name of Object.values(classes).join(" ").split(" ")) if (name) list.remove(name)
+  for (const name of classes[saved].split(" ")) if (name) list.add(name)
   document.documentElement.dataset.mode = saved
 })()`

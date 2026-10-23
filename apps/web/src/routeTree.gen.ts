@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as IndexRouteImport } from "./routes/index"
+import { Route as PreviewReactBaseItemRouteImport } from "./routes/preview/react/$base/$item"
 
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRouteImport,
 } as any)
+const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
+  id: "/preview/react/$base/$item",
+  path: "/preview/react/$base/$item",
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
+  "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
+  "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/"
+  fullPaths: "/" | "/preview/react/$base/$item"
   fileRoutesByTo: FileRoutesByTo
-  to: "/"
-  id: "__root__" | "/"
+  to: "/" | "/preview/react/$base/$item"
+  id: "__root__" | "/" | "/preview/react/$base/$item"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PreviewReactBaseItemRoute: typeof PreviewReactBaseItemRoute
 }
 
 declare module "@tanstack/react-router" {
@@ -48,11 +58,19 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/preview/react/$base/$item": {
+      id: "/preview/react/$base/$item"
+      path: "/preview/react/$base/$item"
+      fullPath: "/preview/react/$base/$item"
+      preLoaderRoute: typeof PreviewReactBaseItemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PreviewReactBaseItemRoute: PreviewReactBaseItemRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
