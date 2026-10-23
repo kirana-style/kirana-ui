@@ -1,0 +1,19 @@
+{
+  "name": "@workspace/builder",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "registry": "bun src/cli.ts"
+  },
+  "dependencies": {
+    "@shadcn/registry": "^0.2.0",
+    "@workspace/registry": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

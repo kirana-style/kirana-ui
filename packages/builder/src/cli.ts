@@ -1,0 +1,201 @@
+/**
+ * `bun packages/builder/src/cli.ts [--out <dir>] [--skip-check]`: the registry for every
+ * combination, flattened, checked against the live styles with Kirana, and validated against
+ * shadcn/ui's schema. Writes `<out>/<combination>/<item>.json`, `<out>/<combination>/registry.json`
+ * and `<out>/index.json` (by default into the site's static files, `apps/web/dist/client/r`), and
+ * exits non-zero on any problem.
+ */
+import { spawnSync } from "node:child_process"
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
+import { availableParallelism } from "node:os"
+import { join, relative } from "node:path"
+import { parseArgs } from "node:util"
+
+import {
+  checkWinners,
+  clean,
+  compileGenerated,
+  exclusiveFrom,
+  roundTrip,
+} from "./check"
+import { evaluate, tagStates } from "./evaluate"
+import { classifier, flattenHandle, flattenRecipe } from "./flatten"
+import { generate } from "./generate"
+import { COMBINATIONS } from "./items"
+import { split } from "./markers"
+import { loadNames } from "./names"
+import { buildCombination, versionsFrom } from "./registry"
+import { calls } from "./trace"
+
+const ROOT = join(import.meta.dir, "..", "..", "..")
+const REGISTRY = join(ROOT, "registry")
+const CLI = join(ROOT, "node_modules", ".bin", "kirana-style")
+
+const { values } = parseArgs({
+  options: {
+    out: {
+      type: "string",
+      default: join(ROOT, "apps", "web", "dist", "client", "r"),
+    },
+    "skip-check": { type: "boolean", default: false },
+  },
+})
+
+const BASE_NAMES = {
+  base: "Base UI",
+  aria: "React Aria",
+  ark: "Ark UI",
+} as const
+
+const started = performance.now()
+await tagStates(join(REGISTRY, "core", "states.ts"))
+const names = await loadNames(REGISTRY)
+
+const modules = new Map<string, Record<string, unknown>>()
+for (const file of readdirSync(join(REGISTRY, "styles")).sort()) {
+  if (file.endsWith(".styles.ts")) {
+    modules.set(file, await evaluate(join(REGISTRY, "styles", file)))
+  }
+}
+
+const problems: string[] = []
+let roundTrips = 0
+let winnerChecks = 0
+if (!values["skip-check"]) {
+  const plainText = (text: string) =>
+    split(text)
+      .map((part) =>
+        typeof part === "string" ? part : part.kind === "state" ? part.key : ""
+      )
+      .join("")
+  const { registryConfig } = await evaluate(join(REGISTRY, "core", "kirana.ts"))
+  const pairs = (registryConfig as { conditions: { exclusive: string[][] } })
+    .conditions.exclusive
+  const exclusive = exclusiveFrom(pairs.map((pair) => pair.map(plainText)))
+  const context = {
+    registry: REGISTRY,
+    cli: CLI,
+    names,
+    concurrency: availableParallelism(),
+  }
+  try {
+    const trip = await roundTrip(context, modules)
+    problems.push(...trip.problems)
+    roundTrips = trip.compared
+    for (const [module, exports] of modules) {
+      const result = await checkWinners(
+        context,
+        module,
+        exports,
+        COMBINATIONS,
+        (combination) => classifier(combination),
+        exclusive
+      )
+      problems.push(...result.problems)
+      winnerChecks += result.compared
+    }
+    problems.push(...compileGenerated(context))
+  } finally {
+    clean(REGISTRY)
+  }
+}
+
+// Every combination's flattened style modules, formatted as the repository formats its own code.
+const flattened = new Map<string, string>()
+const dist = join(REGISTRY, ".flat", "install")
+const written: string[] = []
+try {
+  for (const combination of COMBINATIONS) {
+    const classify = classifier(combination)
+    for (const [module, exports] of modules) {
+      const code = generate(exports, names, {
+        flatten: (handle) => flattenHandle(handle, classify),
+        flattenRecipe: (handle) => flattenRecipe(handle, classify),
+        imports: (core) => `@/registry/${combination.id}/lib/kirana/${core}`,
+        module,
+        // Installed beside each other in `ui/`.
+        relationsFrom: (owner) => ({
+          specifier: `./${owner.replace(/\.ts$/, "")}`,
+          own: false,
+        }),
+        header: `// ${module.replace(".styles.ts", "")}: the ${combination.style} style on ${BASE_NAMES[combination.base]}, flattened from Kirana UI's registry.`,
+      }).code
+      mkdirSync(join(dist, combination.id), { recursive: true })
+      writeFileSync(join(dist, combination.id, module), code)
+      written.push(join(dist, combination.id, module))
+    }
+  }
+  // Named one by one: a folder the repository ignores is skipped.
+  const formatted = spawnSync(
+    join(ROOT, "node_modules", ".bin", "vp"),
+    ["fmt", ...written.map((file) => relative(ROOT, file))],
+    {
+      cwd: ROOT,
+      encoding: "utf8",
+    }
+  )
+  if (formatted.status !== 0)
+    throw new Error(
+      `vp fmt failed (${formatted.status}):\n${formatted.stdout}${formatted.stderr}${formatted.error ?? ""}`
+    )
+  for (const combination of COMBINATIONS) {
+    for (const module of modules.keys()) {
+      flattened.set(
+        `${combination.id}/${module}`,
+        readFileSync(join(dist, combination.id, module), "utf8")
+      )
+    }
+  }
+} finally {
+  clean(REGISTRY)
+}
+
+const versions = versionsFrom(ROOT)
+let itemCount = 0
+const index: { combinations: object[] } = { combinations: [] }
+for (const combination of COMBINATIONS) {
+  const contentOf = (source: string) => {
+    const module = /^styles\/(.+\.styles\.ts)$/.exec(source)?.[1]
+    return module
+      ? flattened.get(`${combination.id}/${module}`)!
+      : readFileSync(join(REGISTRY, source), "utf8")
+  }
+  const built = buildCombination(REGISTRY, combination, contentOf, versions)
+  problems.push(...built.problems)
+  const folder = join(values.out!, combination.id)
+  mkdirSync(folder, { recursive: true })
+  for (const item of built.items) {
+    writeFileSync(
+      join(folder, `${item.name}.json`),
+      `${JSON.stringify(item, null, 2)}\n`
+    )
+  }
+  writeFileSync(
+    join(folder, "registry.json"),
+    `${JSON.stringify(built.index, null, 2)}\n`
+  )
+  itemCount += built.items.length
+  index.combinations.push({
+    id: combination.id,
+    framework: combination.framework,
+    base: combination.base,
+    style: combination.style,
+    items: built.items.map((item) => item.name),
+  })
+}
+writeFileSync(
+  join(values.out!, "index.json"),
+  `${JSON.stringify(index, null, 2)}\n`
+)
+
+const seconds = ((performance.now() - started) / 1000).toFixed(1)
+if (problems.length) {
+  console.error(problems.join("\n"))
+  console.error(
+    `\nregistry: ${problems.length} problem(s), ${itemCount} item(s), ${seconds}s`
+  )
+  process.exit(1)
+}
+console.log(
+  `registry: ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${calls.count} traces); ${seconds}s`
+)

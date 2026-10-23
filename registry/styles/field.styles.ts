@@ -31,7 +31,7 @@ const { vega, lyra, maia } = axes.style
 /** A Field, read by its label, title and description (`group/field`). */
 export const fieldScope = relation("field")
 /** A legend, read by the description that follows it (`[[data-variant=legend]+&]`). */
-const legend = relation("field-legend")
+export const fieldLegend = relation("field-legend")
 
 const VERTICAL = '[data-orientation="vertical"]'
 const HORIZONTAL = '[data-orientation="horizontal"]'
@@ -81,7 +81,7 @@ export const field = {
   }),
 
   // cn-field-legend: a legend, or a legend drawn as a label.
-  legend: css(legend.anchor, {
+  legend: css(fieldLegend.anchor, {
     marginBottom: {
       base: space["1.5"],
       [vega]: space[3],
@@ -240,7 +240,8 @@ export const field = {
     },
     // Pulled up under a legend; tightened above the control it describes, flush at the end.
     marginTop: {
-      [legend.after('[data-variant="legend"]')]: `calc(${space["1.5"]} * -1)`,
+      [fieldLegend.after('[data-variant="legend"]')]:
+        `calc(${space["1.5"]} * -1)`,
       ":nth-last-child(2)": `calc(${space[1]} * -1)`,
       ":last-child": "0",
     },

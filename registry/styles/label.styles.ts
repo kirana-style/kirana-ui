@@ -4,18 +4,16 @@
  * overrides what differs.
  *
  * Its `peer-disabled:` rules (a label after a disabled checkbox, switch or radio) arrive with those
- * controls, which anchor the peer; nothing in the registry draws one yet.
+ * controls, which anchor the peer; nothing in the registry draws one yet. Its
+ * `group-data-[disabled=true]:` rules read an unnamed `group`, which a Field is not (`group/field`):
+ * a FieldLabel dims itself in a disabled Field (`field.styles.ts`).
  */
 import { css } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import { fontSize, fontWeight, space } from "../core/scales"
-import { fieldScope } from "./field.styles"
 
 const { lyra } = axes.style
-
-/** A Field marked disabled (`group-data-[disabled=true]:`). */
-const inDisabledField = fieldScope.within('[data-disabled="true"]')
 
 export const label = css({
   display: "flex",
@@ -26,6 +24,4 @@ export const label = css({
   lineHeight: "1",
   // Lyra's labels take the text's weight.
   fontWeight: { base: fontWeight.medium, [lyra]: "inherit" },
-  pointerEvents: { [inDisabledField]: "none" },
-  opacity: { [inDisabledField]: 0.5 },
 })

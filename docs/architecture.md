@@ -310,6 +310,21 @@ caller's through `useStyleAttrs` (`registry/lib/vue.ts`), the same per-property
 merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
 drawn from framework-neutral data, so one map serves React and Vue.
 
+**What a project installs is the same module, flattened, and Kirana checks it.**
+`packages/builder` writes the registry (`vp run registry`): for each combination of
+framework, base and style, every style module with the other styles' entries and
+the other bases' state keys removed and the chosen style's merged into the base
+look, as readable source. Removing a condition that always holds can change which
+entry wins (a style's override outranks a breakpoint only while it is a
+condition), so the builder asks Kirana, through `kirana-style trace`, which value
+wins in every combination of the remaining conditions, before and after, and fails
+on a difference. It reads the modules by running them with Kirana's functions
+recording their arguments, and proves that reading faithful by writing each
+module back unflattened and comparing Kirana's ranking with the source's. State
+keys carry their base from `core/states.ts`, so a component's own attribute that
+looks like another base's key is never removed. The items speak shadcn/ui's
+schema and are validated with its own.
+
 **A preview is the item alone, in the design its URL names, on every framework.**
 `/preview/react/<base>/<item>` is a route of the site, rendered by the Worker
 with the design's attributes already on `<html>`; `/preview/vue/ark/<item>` is a
