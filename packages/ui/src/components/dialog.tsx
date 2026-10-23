@@ -30,14 +30,16 @@ const styles = {
   }),
   content: css({
     position: "fixed",
-    insetInlineStart: "50%",
+    // `translate` is physical, so the offset it pulls back must be too: in
+    // right-to-left text `insetInlineStart` is `right`, and `-50%` would then
+    // push the dialog a whole width off centre. One value in both directions
+    // replaces the original's `rtl:translate-x-1/2` override.
+    left: "50%",
     top: "50%",
     zIndex: zIndex.popover,
     display: "grid",
     width: "100%",
     maxWidth: { base: "calc(100% - 2rem)", [breakpoint.sm]: "24rem" },
-    // `translate` follows writing direction, so this one value replaces the
-    // original's `-translate-x-1/2` plus its `rtl:translate-x-1/2` override.
     translate: "-50% -50%",
     gap: spacing[4],
     borderRadius: radius.xl,

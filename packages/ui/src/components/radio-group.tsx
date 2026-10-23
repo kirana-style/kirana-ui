@@ -62,12 +62,12 @@ const styles = {
   }),
   dot: css({
     position: "absolute",
-    insetInlineStart: "50%",
+    // Physical, as `translate` is: a logical start would be `right` in
+    // right-to-left text, and the dot would sit a whole width off centre.
+    left: "50%",
     top: "50%",
     width: spacing[2],
     height: spacing[2],
-    // `-translate-x-1/2` flips direction in RTL, which logical properties do not
-    // cover, so the inline axis is handled explicitly.
     translate: "-50% -50%",
     borderRadius: radius.full,
     backgroundColor: theme.primaryForeground,

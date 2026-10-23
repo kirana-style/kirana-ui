@@ -65,7 +65,9 @@ const styles = {
 
   button: css({
     position: "absolute",
-    insetInlineStart: "50%",
+    // Physical, as `translate` is: a logical start would be `right` in
+    // right-to-left text, a whole width off centre.
+    left: "50%",
     borderColor: theme.border,
     backgroundColor: { base: theme.background, ":hover": theme.muted },
     color: { base: theme.foreground, ":hover": theme.foreground },
