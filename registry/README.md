@@ -5,7 +5,7 @@ colour, font and radius compiled ahead of time and chosen by attributes on `<htm
 components written once per framework and base. It grows beside `packages/ui`, which keeps serving
 the demo, blocks and examples until the components move here.
 
-What is here so far, `core/`:
+What is here so far, `core/`, the design system:
 
 | File          | Holds                                                                                                                                                                                                       |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -15,6 +15,14 @@ What is here so far, `core/`:
 | `tokens.ts`   | The variable tokens components read: `theme`, `radiusBase`, `radius`, `font`                                                                                                                                |
 | `axes.ts`     | The attributes on `<html>` and the conditions that read them: `on` (for `root.ts`) and `axes` (a relation, for components)                                                                                  |
 | `root.ts`     | The `css()` handle applied to `<html>`: it reassigns the tokens for every value of the token axes                                                                                                           |
+| `context.ts`  | Values a parent hands its children: `ctx.iconSize`, and `menuCtx`, the colours a menu surface gives its rows                                                                                                |
+| `states.ts`   | Component states with each base's key (Base UI, React Aria, Ark UI), and `when(state, value)`, which writes them all                                                                                        |
+| `scales.ts`   | The Tailwind vocabulary styles are written in: spacing, type, shadows, durations, layers                                                                                                                    |
+| `kirana.ts`   | `registryConfig`, which every app compiling the registry spreads into its `kirana.config.ts`                                                                                                                |
+
+And `styles/`, each component's look in every style: `button`, `dialog`, `select` and
+`dropdown-menu`, over the shared `menu`, `overlay` and `ring` modules. `docs/catalogue.md` lists
+their exports and how to write one.
 
 ## The design system on `<html>`
 
@@ -36,6 +44,16 @@ design system; any shadcn/ui code (`b0`, `b6ZjlcKFk`) is read as shadcn/ui reads
 framework and base taken from the URL. `readDesignSystem(new URLSearchParams(location.search))`
 gives the design system a URL asks for. The value lists in `config.ts` only ever grow at their end,
 so a code saved today keeps its meaning.
+
+## Styles
+
+A style module is a component's parts as `css()` handles, written once for every style and every
+base: Nova, the default style, is each property's base value, and the other styles override it
+under `axes.style.*`. A state is written with `when()`, which gives every base's key for it. The
+component, written per framework and base, composes the parts with `sx`.
+
+`vp run styles` compiles every module with this package's `kirana.config.ts` and fails on any
+diagnostic, warnings included; no app compiles them yet.
 
 ## Tests
 

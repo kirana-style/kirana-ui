@@ -69,6 +69,9 @@ and at-rules nest **inside a property value**. Only pseudo-_elements_ and
 | `in-data-[slot=x]:`                  | `[xMarker.within('[data-slot="x"]')]`                                                                          |
 | `@container/name` + `@md/name:`      | `containerName` + `'@container name (min-width: …)'`                                                           |
 | `[&_svg]:size-4` in a parent         | `ctx.iconSize` read by `Icon`; `[select.descendant("svg")]: { … }` when there is no component to read it       |
+| `*:[a]:hover:text-x`                 | `[select.child("a:hover")]: { color: x }`; under `select.child("a")`, `:hover` is the parent's                 |
+| `style-vega:h-9`                     | `height: { base: …, [axes.style.vega]: space[9] }` in a registry style module                                  |
+| `data-open:`, `data-entering:`       | `...when(overlay.starting, x)` in the registry: every base's key (`core/states.ts`)                            |
 | `animate-in fade-in-0`               | transitions against `data-starting-style`                                                                      |
 | `animate-spin`                       | `animationName: animation.spin` (`keyframes()` in `theme/animations.ts`)                                       |
 | `ring-3`                             | `boxShadow: \`0 0 0 ${ring.width} …\``                                                                         |

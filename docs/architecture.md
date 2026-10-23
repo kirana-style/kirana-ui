@@ -278,6 +278,25 @@ a relation anchored there. It replaces shadcn/ui's approach of a `<style>` eleme
 of custom properties and a class per style on `<body>`. What a project installs is
 the same code with one design flattened into it.
 
+**A component's look is a style module, written once for every style and every
+base.** `registry/styles/<component>.styles.ts` holds the `css()` handles a
+component's parts use, separate from the component, which is written per
+framework and base. Nova, the default style, is the base value of each property;
+Vega, Lyra and Maia add an `axes.style.*` entry only where they differ. Where the
+base value has a state or a breakpoint entry and a style's differs, the style
+restates the entry under its own condition: a pseudo-class or an attribute outranks
+a relation read, so the Nova entry would otherwise win in that state. States are
+written once for every base with `when(state, value)` (`registry/core/states.ts`),
+which spreads Base UI's, React Aria's and Ark UI's key for it; a component is built
+on one base, so only that base's attributes ever appear on it, and
+`registry/core/kirana.ts` tells Kirana so (`conditions.exclusive`) for the states
+two bases name differently. A condition that needs two states, such as a side
+during the first frame, is written per base, never as one `when()` inside
+another. It replaces shadcn/ui's `cn-*` class per part and its copy of each rule in
+every style's stylesheet. Popups move with transitions, which reverse mid-flight;
+Ark UI keeps a popup mounted only for an animation, so its motion is keyframes,
+added with its components.
+
 ## The build setup
 
 `packages/vite-config` exports `defineAppConfig()`; each app's `vite.config.ts` is

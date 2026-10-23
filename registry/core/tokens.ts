@@ -58,3 +58,63 @@ export const font = defineTokens(
   },
   { variable: true }
 )
+
+/**
+ * Translucent derivatives of the colours, replacing Tailwind's `bg-primary/80`: each a
+ * `color-mix()` over the colour's variable, so it follows the design and the mode. Only the ones a
+ * component uses are here; adding one is a design decision.
+ */
+export const alpha = defineTokens(
+  "alpha",
+  {
+    foreground5: `color-mix(in oklab, ${theme.foreground} 5%, transparent)`,
+    foreground10: `color-mix(in oklab, ${theme.foreground} 10%, transparent)`,
+    primary80: `color-mix(in oklab, ${theme.primary} 80%, transparent)`,
+    muted50: `color-mix(in oklab, ${theme.muted} 50%, transparent)`,
+    destructive10: `color-mix(in oklab, ${theme.destructive} 10%, transparent)`,
+    destructive20: `color-mix(in oklab, ${theme.destructive} 20%, transparent)`,
+    destructive30: `color-mix(in oklab, ${theme.destructive} 30%, transparent)`,
+    destructive40: `color-mix(in oklab, ${theme.destructive} 40%, transparent)`,
+    destructive50: `color-mix(in oklab, ${theme.destructive} 50%, transparent)`,
+    input30: `color-mix(in oklab, ${theme.input} 30%, transparent)`,
+    input50: `color-mix(in oklab, ${theme.input} 50%, transparent)`,
+    popover70: `color-mix(in oklab, ${theme.popover} 70%, transparent)`,
+    border50: `color-mix(in oklab, ${theme.border} 50%, transparent)`,
+    ring50: `color-mix(in oklab, ${theme.ring} 50%, transparent)`,
+  },
+  { variable: true }
+)
+
+/**
+ * What shadcn/ui wrote with `dark:`, named by intent: one token, one `light-dark()` value, where
+ * the light and dark halves differ in structure rather than in palette (a control is transparent in
+ * light mode and a translucent fill in dark).
+ */
+export const surface = defineTokens(
+  "surface",
+  {
+    /** A form control's fill: `bg-transparent dark:bg-input/30`. */
+    control: `light-dark(transparent, ${alpha.input30})`,
+    /** Its fill on hover: `dark:hover:bg-input/50`. */
+    controlHover: `light-dark(transparent, ${alpha.input50})`,
+    /** Border of anything failing validation: `aria-invalid:border-destructive dark:…/50`. */
+    borderInvalid: `light-dark(${theme.destructive}, ${alpha.destructive50})`,
+    /** Its ring: `aria-invalid:ring-destructive/20 dark:…/40`. */
+    ringInvalid: `light-dark(${alpha.destructive20}, ${alpha.destructive40})`,
+    /** A ghost control's hover: `hover:bg-muted dark:hover:bg-muted/50`. */
+    hover: `light-dark(${theme.muted}, ${alpha.muted50})`,
+    /** The outline button: `border-border dark:border-input`, `bg-background dark:bg-input/30` … */
+    outlineBorder: `light-dark(${theme.border}, ${theme.input})`,
+    outlineBackground: `light-dark(${theme.background}, ${alpha.input30})`,
+    outlineHover: `light-dark(${theme.muted}, ${alpha.input50})`,
+    /**
+     * An outline button whose popup is open: `muted` in light, but in dark the original's
+     * `dark:bg-input/30` outranks `aria-expanded:bg-muted`, so it keeps its resting fill.
+     */
+    outlineExpanded: `light-dark(${theme.muted}, ${alpha.input30})`,
+    /** A destructive control is tinted, not filled: `bg-destructive/10 dark:…/20`, hover /20 and /30. */
+    destructiveSoft: `light-dark(${alpha.destructive10}, ${alpha.destructive20})`,
+    destructiveSoftHover: `light-dark(${alpha.destructive20}, ${alpha.destructive30})`,
+  },
+  { variable: true }
+)

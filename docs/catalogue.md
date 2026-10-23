@@ -192,10 +192,44 @@ yet; see `registry/README.md`.
 | `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem` | `config.ts`   | Every axis's values (append-only), the defaults, the rules between axes                                              |
 | `encodePreset`, `decodePreset`, `readDesignSystem`     | `preset.ts`   | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
 | `baseColors`, `themeColors`, `chartColors`             | `palettes.ts` | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
+| `alpha`, `surface`                                     | `tokens.ts`   | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                 |
+| `ctx`, `menuCtx`                                       | `context.ts`  | Values a parent hands its children: the icon size, and the colours a menu surface gives its rows                     |
+| `when`, `overlay`, `side`, `item`, `placeholder`       | `states.ts`   | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                            |
+| `space`, `fontSize`, `lineHeight`, `duration` …        | `scales.ts`   | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels     |
+| `registryConfig`                                       | `kirana.ts`   | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together       |
 
 Adding a value to an axis: append it to its list in `config.ts` (never insert or
 reorder: saved codes would change meaning), add its colours or family, an `on`
 condition in `axes.ts`, and its entries in `root.ts`.
+
+## The registry's styles (`registry/styles`, being built)
+
+Each component's look in every style, as `css()` handles its parts compose. Nova
+is the base value; Vega, Lyra and Maia override per property. Nothing renders
+from them yet.
+
+| Module                    | Exports                                                                                                                          | For                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `button.styles.ts`        | `button` (a recipe: `variant`, `size`), `buttonLabel`                                                                            | Button, and the controls drawn as one (the dialog's close)                             |
+| `dialog.styles.ts`        | `dialog.overlay` `.content` `.close` `.header` `.footer` `.title` `.description`                                                 | Dialog                                                                                 |
+| `select.styles.ts`        | `select.trigger` `.triggerIcon` `.value` `.content` `.list` `.group` `.item` `.itemText` `.indicator` `.scrollButton` `.empty` … | Select, over the menu parts                                                            |
+| `dropdown-menu.styles.ts` | `dropdownMenu.content` `.subContent` `.subTrigger` `.subTriggerIcon`                                                             | DropdownMenu, over the menu parts                                                      |
+| `menu.styles.ts`          | `menuSurface`, `menuRowBase`, `menuRowPadding`, `menuCheckableRowPadding`, `menuRowDestructive`, `menuIndicator`, `menuLabel` …  | What every menu-shaped popup shares; the menu colour axis (inverted, translucent) here |
+| `overlay.styles.ts`       | `popupMotion`, `modalMotion`, `backdropMotion`, `ANCHOR_WIDTH`, `TRANSFORM_ORIGIN`                                               | How popups, modals and backdrops come and go; the positioner's variables of any base   |
+| `ring.ts`                 | `focusRing`, `controlShadow`                                                                                                     | A control's focus and invalid rings, with Vega's `shadow-xs` composed under them       |
+
+Writing one:
+
+- name the upstream rule each part comes from (`// cn-select-trigger`) and the
+  commit it was read at, and say in the header what differs on purpose;
+- write Nova as `base` and each other style as `[axes.style.<name>]` inside the
+  property. A state or breakpoint entry whose value differs in a style is
+  restated under that style (`[SMALL]: { base: …, [vega]: … }`);
+- write a state with `...when(state, value)`; a value that needs two states is a
+  block per base (`overlay.styles.ts`), and a state two bases name differently is
+  an exclusive pair in `kirana.ts`;
+- `vp run styles` compiles the registry with its own config and fails on any
+  warning.
 
 ## Layer 5 — primitives
 
