@@ -1,41 +1,36 @@
 <script setup lang="ts">
+import { LocaleProvider } from "@ark-ui/vue"
 import { css } from "@kirana-style/core"
+import { previews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { space } from "@workspace/registry/core/scales.ts"
-import type { Component } from "vue"
+import { computed } from "vue"
 
-import ButtonItem from "./items/button.vue"
-import DialogItem from "./items/dialog.vue"
-import DropdownMenuItem from "./items/dropdown-menu.vue"
-import SelectItem from "./items/select.vue"
+import { design } from "./design"
 
 /** One page per item, as `/preview/vue/ark/<item>`; anything else lists them. */
-const ITEMS: Record<string, Component> = {
-  button: ButtonItem,
-  dialog: DialogItem,
-  "dropdown-menu": DropdownMenuItem,
-  select: SelectItem,
-}
+const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
+const current = item ? previews[item] : undefined
+const locale = computed(() => (design.value.options.rtl ? "ar" : "en-US"))
 
-const item = location.pathname.match(/\/ark\/([a-z-]+)\/?$/)?.[1]
-const current = item ? ITEMS[item] : undefined
-
-const styles = {
-  page: css({ padding: space[6] }),
-  list: css({ display: "flex", flexDirection: "column", gap: space[2] }),
-}
+const list = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: space[2],
+  padding: space[6],
+})
 </script>
 
 <template>
-  <main :sx="styles.page">
+  <LocaleProvider :locale="locale">
     <component :is="current" v-if="current" />
-    <nav v-else :sx="styles.list">
+    <nav v-else :sx="list">
       <a
-        v-for="(_, name) in ITEMS"
+        v-for="(_, name) in previews"
         :key="name"
         :href="`/preview/vue/ark/${name}`"
       >
         {{ name }}
       </a>
     </nav>
-  </main>
+  </LocaleProvider>
 </template>

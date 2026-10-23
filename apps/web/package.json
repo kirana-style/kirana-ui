@@ -11,13 +11,18 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@base-ui/react": "catalog:",
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
     "@hugeicons/core-free-icons": "catalog:",
     "@kirana-style/core": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
+    "@workspace/registry": "workspace:*",
     "@workspace/shell": "workspace:*",
     "@workspace/ui": "workspace:*",
     "react": "catalog:",
+    "react-aria-components": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {

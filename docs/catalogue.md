@@ -183,20 +183,21 @@ reason.
 The customizable design system the components move to. Nothing renders from it
 yet; see `registry/README.md`.
 
-| Export                                                                      | File          | For                                                                                                                  |
-| --------------------------------------------------------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `theme` `radiusBase` `radius` `font`                                        | `tokens.ts`   | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`    |
-| `root`                                                                      | `root.ts`     | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                 |
-| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`                          | `axes.ts`     | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts` |
-| `AXIS_ATTRIBUTES`                                                           | `axes.ts`     | The attribute each axis is written to (`data-base-color` …)                                                          |
-| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem`                      | `config.ts`   | Every axis's values (append-only), the defaults, the rules between axes                                              |
-| `encodePreset`, `decodePreset`, `readDesignSystem`                          | `preset.ts`   | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
-| `baseColors`, `themeColors`, `chartColors`                                  | `palettes.ts` | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
-| `alpha`, `surface`                                                          | `tokens.ts`   | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                 |
-| `ctx`, `menuCtx`, `cardCtx`                                                 | `context.ts`  | Values a parent hands its children: the icon size, a menu surface's row colours, a card's rhythm                     |
-| `when`, `overlay`, `presence`, `side`, `item`, `placeholder`, `orientation` | `states.ts`   | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                            |
-| `space`, `fontSize`, `lineHeight`, `duration` …                             | `scales.ts`   | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels     |
-| `registryConfig`                                                            | `kirana.ts`   | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together       |
+| Export                                                                           | File            | For                                                                                                                  |
+| -------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `theme` `radiusBase` `radius` `font`                                             | `tokens.ts`     | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`    |
+| `root`                                                                           | `root.ts`       | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                 |
+| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`                               | `axes.ts`       | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts` |
+| `AXIS_ATTRIBUTES`, `POINTER_ATTRIBUTE`                                           | `attributes.ts` | The attribute each axis is written to (`data-base-color` …), with no Kirana call, so a test or a script can read it  |
+| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem`                           | `config.ts`     | Every axis's values (append-only), the defaults, the rules between axes                                              |
+| `encodePreset`, `decodePreset`, `readDesignSystem`                               | `preset.ts`     | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
+| `baseColors`, `themeColors`, `chartColors`                                       | `palettes.ts`   | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
+| `alpha`, `surface`                                                               | `tokens.ts`     | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                 |
+| `ctx`, `menuCtx`, `cardCtx`                                                      | `context.ts`    | Values a parent hands its children: the icon size, a menu surface's row colours, a card's rhythm                     |
+| `when`, `overlay`, `presence`, `side`, `item`, `placeholder`, `orientation`      | `states.ts`     | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                            |
+| `space`, `fontSize`, `lineHeight`, `duration` …                                  | `scales.ts`     | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels     |
+| `registryConfig`                                                                 | `kirana.ts`     | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together       |
+| `readPreviewDesign`, `documentAttributes`, `listenForDesign`, `forwardModeKey` … | `preview.ts`    | The preview pages' protocol: the design a URL or a framing page's message names, as attributes on `<html>`           |
 
 Adding a value to an axis: append it to its list in `config.ts` (never insert or
 reorder: saved codes would change meaning), add its colours or family, an `on`
@@ -252,12 +253,13 @@ The components, once per framework and base, applying the style modules and
 holding no style values of their own. Part names, `data-slot` names and props
 follow upstream's copy for that base.
 
-| Folder                    | Holds                                                                                                              |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `react-base/ui`           | Button, Dialog, Select, DropdownMenu, Card, Field, Input, Label, Separator on Base UI; `sx` on each part           |
-| `react-base/blocks`       | `login-01`                                                                                                         |
-| `react-aria/ui`, `blocks` | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover |
-| `vue-ark/ui`              | Button, Dialog, Select, DropdownMenu on Ark UI, one single-file component per part, `index.ts` per component       |
+| Folder                          | Holds                                                                                                              |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `react-base/ui`                 | Button, Dialog, Select, DropdownMenu, Card, Field, Input, Label, Separator on Base UI; `sx` on each part           |
+| `react-base/blocks`, `examples` | `login-01`; a demo per component (`button-demo` …), each in the shared `page.example` frame                        |
+| `*/previews.ts`                 | Each base's items by registry name, for its preview pages                                                          |
+| `react-aria/ui`, `blocks`       | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover |
+| `vue-ark/ui`                    | Button, Dialog, Select, DropdownMenu on Ark UI, one single-file component per part, `index.ts` per component       |
 
 And what they share:
 
@@ -282,9 +284,29 @@ Writing a Vue part:
 - the Vue preview's dev server does not reload a `.vue` file of the registry
   when it changes: restart it.
 
-The Vue preview (`apps/preview-vue`, port 3003) renders each item at
-`/preview/vue/ark/<item>`; `vp run build` builds it, which is where the
-`vue-ark` components compile.
+## The preview pages
+
+Each item alone on a page, in the design its URL names, as upstream's
+`/preview/<base>/<item>?preset=…` (so the conformance harness can open the same
+item and preset on both sites):
+
+| Route                                  | Served by                                                                                      |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `/preview/react/base/<item>`, `aria/…` | `apps/web`'s route, rendered by the `ui` Worker with the design already on `<html>`            |
+| `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev |
+
+- **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
+  upstream's axis parameters (`style`, `theme` …), and `rtl` and `pointer`;
+  `registry/core/preview.ts` turns it into the attributes on `<html>`.
+- **Live changes** come from the framing page as upstream's message,
+  `{ type: "design-system-params", data: { preset, style, … } }`; the page takes
+  the new design, and its URL with it, so a reload keeps it. The base and item
+  stay the page's own.
+- **The colour mode** is the site's: its cookie, or `?theme=`. In a frame, `D`
+  is sent to the parent (`{ type: "dark-mode-forward" }`) as upstream's previews
+  do.
+- A preview page loads the registry's `reset.css` and fonts, never the demo's
+  `globals.css`, whose rules would reach the registry's components.
 
 ## Layer 5 — primitives
 

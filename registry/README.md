@@ -71,9 +71,16 @@ A component's copy for a framework and base applies the style modules and holds 
 the component's styles with its caller's `:sx`. Its part and prop names follow upstream's copy for
 that base. `apps/preview-vue` renders the Vue copies, and its build is where they compile.
 
+## Previews
+
+`core/preview.ts` is how a preview page takes its design: the URL's `?preset=` and upstream's axis
+parameters, then the framing page's `design-system-params` messages, as attributes on `<html>`.
+Each base's `previews.ts` maps item names to components; the site's `/preview/react/<base>/<item>`
+and the Vue preview's `/preview/vue/ark/<item>` render them. `docs/catalogue.md` has the protocol.
+
 ## Tests
 
-`vp run test` (Vitest) checks the codec against codes written by shadcn/ui's own encoder, every
+`vp run test` (Vitest) checks the preview protocol, the codec against codes written by shadcn/ui's own encoder, every
 value of every axis in a round trip, the rules between axes, and the palettes' shape.
 
 ## Credit
