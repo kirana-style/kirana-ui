@@ -42,6 +42,15 @@ export default defineConfig({
           output: APPS.map((app) => `apps/${app}/dist/**`),
         },
       },
+      // The registry for every combination (`packages/builder`): each style module flattened to one
+      // style and base, checked against the live module with Kirana (`kirana-style trace`), every
+      // item validated against shadcn/ui's schema, written into the demo's static files
+      // (`apps/web/dist/client/r`), which the `ui` Worker serves at `/r`.
+      registry: {
+        command: "bun packages/builder/src/cli.ts",
+        dependsOn: ["build"],
+        cache: { input: SOURCES, output: ["apps/web/dist/client/r/**"] },
+      },
       // The demo :3000, blocks :3001, examples :3002 and the Vue preview :3003, side by side.
       dev: {
         command: 'vp run --filter "./apps/*" --parallel dev',
@@ -72,7 +81,7 @@ export default defineConfig({
       // Everything CI requires of a pull request that runs on this machine; the pre-push hook.
       prepush: {
         command: "echo All checks passed.",
-        dependsOn: ["check", "styles", "test", "licenses", "build"],
+        dependsOn: ["check", "styles", "test", "licenses", "build", "registry"],
         cache: false,
       },
     },
@@ -127,6 +136,8 @@ export default defineConfig({
       "**/.vinxi/**",
       "**/.wrangler/**",
       "**/routeTree.gen.ts",
+      // The builder's scratch modules, removed when it finishes.
+      "**/.flat/**",
       "**/vite.config.*.timestamp-*.*",
     ],
     rules: {

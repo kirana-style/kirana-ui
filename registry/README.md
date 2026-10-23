@@ -78,6 +78,14 @@ parameters, then the framing page's `design-system-params` messages, as attribut
 Each base's `previews.ts` maps item names to components; the site's `/preview/react/<base>/<item>`
 and the Vue preview's `/preview/vue/ark/<item>` render them. `docs/catalogue.md` has the protocol.
 
+## The registry build
+
+`vp run registry` (`packages/builder`) flattens every style module to each combination of
+framework, base and style, checks with Kirana that the flattened module renders what the live one
+does, and writes shadcn/ui-format items into the site's static files (`/r`). A style module must
+stay readable by it: Kirana's functions called at the top level, state keys through `core/states.ts`
+(`when()`, its groups), a relation declared in one module and imported elsewhere.
+
 ## Tests
 
 `vp run test` (Vitest) checks the preview protocol, the codec against codes written by shadcn/ui's own encoder, every

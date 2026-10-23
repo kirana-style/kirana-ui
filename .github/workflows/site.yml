@@ -44,6 +44,11 @@ jobs:
       - name: Build
         run: vp run build
 
+      # The registry's JSON into the static files. The pull request's `ci` run checked flattening
+      # on these sources, so it is written without the check here.
+      - name: Registry
+        run: bun packages/builder/src/cli.ts --skip-check
+
       - name: Deploy
         id: deploy
         working-directory: apps/web
@@ -76,6 +81,11 @@ jobs:
 
       - name: Build
         run: vp run build
+
+      # The registry's JSON into the static files. The pull request's `ci` run checked flattening
+      # on these sources, so it is written without the check here.
+      - name: Registry
+        run: bun packages/builder/src/cli.ts --skip-check
 
       # A new version of the Worker that production does not serve, reachable at
       # https://pr-<number>-ui.<subdomain>.workers.dev while the alias points at it.

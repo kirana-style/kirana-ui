@@ -308,6 +308,26 @@ item and preset on both sites):
 - A preview page loads the registry's `reset.css` and fonts, never the demo's
   `globals.css`, whose rules would reach the registry's components.
 
+## The registry build (`packages/builder`)
+
+`vp run registry` writes `apps/web/dist/client/r/<combination>/<item>.json`,
+`<combination>/registry.json` and `index.json`, for every combination of
+`react-base`, `react-aria`, `vue-ark` and the four styles.
+
+| Module                               | Does                                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `kirana-stub.ts`, `evaluate.ts`      | Runs a style module with Kirana's functions recording their arguments; tags the state keys of `core/states.ts` with their base |
+| `flatten.ts`                         | One style and one base: other styles' and bases' entries out, the style's merged into the base look                            |
+| `generate.ts`                        | Writes a module back as source: tokens, relations, targets and keyframes as code; each `css()` line                            |
+| `check.ts`, `winners.ts`, `trace.ts` | The round trip and the winners, before and after, read from `kirana-style trace`                                               |
+| `items.ts`, `registry.ts`            | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                       |
+
+An item's files install as markup and style modules in `ui/`, the design system
+in `lib/kirana/`, a block's parts in `components/`; an import between items is
+`@/registry/<combination>/…`, which shadcn/ui's CLI rewrites to the project's
+aliases. A relation is declared by one module, which a flattened module imports
+it from.
+
 ## Layer 5 — primitives
 
 | Component        | For                                                                                          |
