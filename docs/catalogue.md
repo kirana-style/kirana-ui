@@ -286,7 +286,10 @@ Writing a Vue part:
   unused); `vp run styles` and the Vue preview's build check them whole;
 - declare only the component's own props, with a type written in the file:
   Vue resolves an imported props type through TypeScript's JavaScript API,
-  which TypeScript 7 does not have. Ark's own props pass through as attributes;
+  which TypeScript 7 does not have. Ark's own props pass through as attributes,
+  except one Ark requires (Select's `collection`): declare it at runtime,
+  `{ type: Object as PropType<…>, required: true }`, and pass it on, or a
+  project's `vue-tsc` reports it missing;
 - Ark UI builds a select from a collection (`createListCollection`), so its
   `SelectItem` takes `item`, and every menu item a `value`.
 
