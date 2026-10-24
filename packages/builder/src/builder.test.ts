@@ -7,7 +7,8 @@ import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
-import { readLine, readTrace, splitTop } from "./trace"
+import { conditionText, partText, ranked } from "./session"
+import type { Ranked } from "./session"
 import { compareWinners, sameAttribute, styleOf } from "./winners"
 
 const style = (name: string) =>
@@ -173,58 +174,56 @@ describe("exclusive conditions", () => {
   })
 })
 
-describe("reading kirana-style trace", () => {
-  it("splits outside brackets and quotes", () => {
-    expect(splitTop(':not(:has(a & b)) & [x="a & b"] & :hover', " & ")).toEqual(
-      [":not(:has(a & b))", '[x="a & b"]', ":hover"]
+describe("Kirana's answers", () => {
+  it("name each condition by kind: a relation with its placement, an at-rule with its keyword", () => {
+    expect(
+      conditionText({
+        kind: "relation",
+        text: '[data-style="lyra"]',
+        relation: "ui",
+        placement: "within",
+      })
+    ).toBe('relation within ui [data-style="lyra"]')
+    expect(
+      conditionText({
+        kind: "relation",
+        text: "",
+        relation: "menu-row",
+        placement: "after",
+      })
+    ).toBe("relation after menu-row")
+    expect(conditionText({ kind: "media", text: "(width >= 40rem)" })).toBe(
+      "@media (width >= 40rem)"
+    )
+    expect(conditionText({ kind: "attribute", text: '[data-size="sm"]' })).toBe(
+      '[data-size="sm"]'
     )
   })
 
-  it("reads a value and its conditions, short or long", () => {
+  it("tell a recipe's parts apart", () => {
+    expect(partText({ options: {}, compound: false })).toBe("")
+    expect(partText({ options: { size: "sm" }, compound: false })).toBe(
+      "size=sm"
+    )
     expect(
-      readLine(
-        '  ✓ 2rem                     [data-size="sm"] & relation Within .kr0UoJ[data-style="vega"] kirana.atoms       step 6 (deterministic tie-break; see ambiguous-precedence)'
-      )
+      ranked({
+        value: "0.8rem",
+        conditions: [],
+        layer: "kirana.atoms",
+        class: "k1",
+        part: { options: { variant: "link", size: "sm" }, compound: true },
+        reason: "",
+      })
     ).toEqual({
-      value: "2rem",
-      conditions: [
-        '[data-size="sm"]',
-        'relation Within .kr0UoJ[data-style="vega"]',
-      ],
-    })
-    expect(
-      readLine(
-        '  ✓ light-dark(var(--kvFpAq), var(--kvEiqo)) :hover & relation Within .kr0UoJ[data-style="maia"] kirana.atoms       step 2 (2 conditions > 1)'
-      ).value
-    ).toBe("light-dark(var(--kvFpAq), var(--kvEiqo))")
-    expect(
-      readLine(
-        "    calc(0.5rem * -1) 0      base                             kirana.atoms       "
-      )
-    ).toEqual({
-      value: "calc(0.5rem * -1) 0",
+      value: "0.8rem",
       conditions: [],
+      part: "variant=link,size=sm!",
     })
-  })
-
-  it("takes the entries after the header, in order", () => {
-    const ranked = readTrace(
-      [
-        "height at styles/x.ts:3",
-        '  ✓ 2rem                     [data-size="sm"]                 kirana.atoms       step 2 (1 condition > 0)',
-        "    1rem                     base                             kirana.atoms       ",
-      ].join("\n")
-    )
-    expect(ranked.map((entry) => entry.value)).toEqual(["2rem", "1rem"])
-  })
-
-  it("refuses a line it cannot take apart", () => {
-    expect(() => readLine("  ✓ ???")).toThrow()
   })
 })
 
 describe("winners", () => {
-  const lyra = 'relation Within .kr0UoJ[data-style="lyra"]'
+  const lyra = 'relation within ui [data-style="lyra"]'
   const md = "@media (width >= 48rem)"
   const fixed = (condition: string) => {
     const name = styleOf(condition)
@@ -263,6 +262,82 @@ describe("winners", () => {
   it("skip two values of one attribute together", () => {
     expect(sameAttribute('[data-size="sm"]', '[data-size="lg"]')).toBe(true)
     expect(sameAttribute('[data-size="sm"]', "[data-inset]")).toBe(false)
+  })
+})
+
+describe("winners, against trying every combination", () => {
+  // The definition the check stands for: every subset of the free conditions, one by one.
+  const enumerate = (
+    before: Ranked[],
+    after: Ranked[],
+    fixed: (condition: string) => boolean | undefined,
+    exclusive: (a: string, b: string) => boolean
+  ) => {
+    const free = [
+      ...new Set(
+        [...before, ...after].flatMap((entry) =>
+          entry.conditions.filter((condition) => fixed(condition) === undefined)
+        )
+      ),
+    ]
+    const differing: string[][] = []
+    for (let mask = 0; mask < 1 << free.length; mask++) {
+      const holding = free.filter((_, index) => mask & (1 << index))
+      if (
+        holding.some((a, i) =>
+          holding.slice(i + 1).some((b) => exclusive(a, b))
+        )
+      )
+        continue
+      const holds = (condition: string) =>
+        fixed(condition) ?? holding.includes(condition)
+      const winner = (entries: Ranked[]) =>
+        entries.find((entry) => entry.conditions.every(holds))?.value
+      if (winner(before) !== winner(after)) differing.push(holding)
+    }
+    return differing
+  }
+
+  it("agree on every random case, and each difference reported is one", () => {
+    let seed = 7
+    const random = () => (seed = (seed * 48271) % 2147483647) / 2147483647
+    const pick = <T>(items: T[]) => items[Math.floor(random() * items.length)]
+    const pool = [
+      ":hover",
+      ":focus",
+      "[data-a]",
+      '[data-s="1"]',
+      '[data-s="2"]',
+      "@media (x)",
+      "LYRA",
+      "VEGA",
+      "FOREIGN",
+    ]
+    const fixed = (condition: string) =>
+      condition === "LYRA"
+        ? true
+        : condition === "VEGA" || condition === "FOREIGN"
+          ? false
+          : undefined
+    const list = () =>
+      Array.from({ length: 1 + Math.floor(random() * 5) }, () => ({
+        value: pick(["a", "b", "c"]),
+        conditions: [
+          ...new Set(
+            Array.from({ length: Math.floor(random() * 3) }, () => pick(pool))
+          ),
+        ],
+      }))
+    for (let run = 0; run < 2000; run++) {
+      const before = list()
+      const after = list()
+      const reported = compareWinners(before, after, fixed, sameAttribute)
+      const differing = enumerate(before, after, fixed, sameAttribute)
+      expect(reported.length > 0).toBe(differing.length > 0)
+      const sets = differing.map((set) => [...set].sort().join())
+      for (const { holding } of reported)
+        expect(sets.includes([...holding].sort().join())).toBe(true)
+    }
   })
 })
 

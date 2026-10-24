@@ -320,13 +320,14 @@ item and preset on both sites):
 `<combination>/registry.json` and `index.json`, for every combination of
 `react-base`, `react-aria`, `vue-ark` and the four styles.
 
-| Module                               | Does                                                                                                                           |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `kirana-stub.ts`, `evaluate.ts`      | Runs a style module with Kirana's functions recording their arguments; tags the state keys of `core/states.ts` with their base |
-| `flatten.ts`                         | One style and one base: other styles' and bases' entries out, the style's merged into the base look                            |
-| `generate.ts`                        | Writes a module back as source: tokens, relations, targets and keyframes as code; each `css()` line                            |
-| `check.ts`, `winners.ts`, `trace.ts` | The round trip and the winners, before and after, read from `kirana-style trace`                                               |
-| `items.ts`, `registry.ts`            | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                       |
+| Module                          | Does                                                                                                                            |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `kirana-stub.ts`, `evaluate.ts` | Runs a style module with Kirana's functions recording their arguments; tags the state keys of `core/states.ts` with their base  |
+| `flatten.ts`                    | One style and one base: other styles' and bases' entries out, the style's merged into the base look                             |
+| `generate.ts`                   | Writes a module back as source: tokens, relations, targets and keyframes as code; each `css()` line                             |
+| `session.ts`                    | One Kirana session (`Driver` from `@kirana-style/compiler`): batched `trace()`, conditions as data, `check()` for diagnostics   |
+| `check.ts`, `winners.ts`        | The round trip (recipes by part) and the winners, before and after; probes in small modules, since a trace reads its whole file |
+| `items.ts`, `registry.ts`       | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                        |
 
 An item's files install as markup and style modules in `ui/`, the design system
 in `lib/kirana/`, a block's parts in `components/`; an import between items is

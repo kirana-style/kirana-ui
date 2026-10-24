@@ -3,7 +3,7 @@
  * given instead of compiling it. `evaluate.ts` puts this module in place of the real one.
  *
  * - `css(…)` and `recipe(…)` return descriptions (`StyleHandle`, `RecipeHandle`) with the call's
- *   source line, which `kirana-style trace` takes;
+ *   source line, which Kirana's `trace()` takes;
  * - a variable token, a relation's anchor and reads, a `select` target and a keyframes rule are
  *   markers (`markers.ts`); a constant token is its value, as the compiler would inline it;
  * - `media()`, `container()` and `supports()` return the at-rule key they stand for.

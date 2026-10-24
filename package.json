@@ -35,6 +35,7 @@
       "registry"
     ],
     "catalog": {
+      "@kirana-style/compiler": "0.3.2",
       "@kirana-style/core": "0.3.2",
       "@kirana-style/eslint-plugin": "0.3.2",
       "@kirana-style/preset-scales": "0.3.2",

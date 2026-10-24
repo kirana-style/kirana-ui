@@ -43,7 +43,7 @@ export default defineConfig({
         },
       },
       // The registry for every combination (`packages/builder`): each style module flattened to one
-      // style and base, checked against the live module with Kirana (`kirana-style trace`), every
+      // style and base, checked against the live module with Kirana (one `Driver` session), every
       // item validated against shadcn/ui's schema, written into the demo's static files
       // (`apps/web/dist/client/r`), which the `ui` Worker serves at `/r`.
       registry: {

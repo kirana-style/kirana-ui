@@ -1,9 +1,10 @@
 /**
- * The checks that flattening keeps what renders, with Kirana as the judge (`kirana-style trace`):
+ * The checks that flattening keeps what renders, with Kirana as the judge (its `trace`, asked
+ * through one session, `session.ts`):
  *
  * - **Round trip.** Each module, evaluated and written back unflattened, must rank every property's
- *   entries exactly as its source does. This is what makes the evaluated module (`evaluate.ts`)
- *   trustworthy for the next check.
+ *   entries exactly as its source does, a recipe's in the part that declares them. This is what
+ *   makes the evaluated module (`evaluate.ts`) trustworthy for the next check.
  * - **Winners.** For every combination, every style object whose properties name a style or a base
  *   state (each `css()`, each nested style, each recipe's variants), the flattened entries must
  *   pick the same winner as the live ones in every combination of the conditions that remain
@@ -12,7 +13,6 @@
  * Both write their modules into `registry/.flat/`, so Kirana compiles them with the registry's
  * configuration, and remove it after.
  */
-import { spawnSync } from "node:child_process"
 import { mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 
@@ -21,10 +21,15 @@ import { flattenHandle, flattenRecipe } from "./flatten"
 import type { Generated, Names } from "./generate"
 import { generate } from "./generate"
 import type { Combination } from "./items"
-import type { RecipeHandle, StyleHandle, StyleObject } from "./kirana-stub"
+import type {
+  RecipeHandle,
+  Site,
+  StyleHandle,
+  StyleObject,
+} from "./kirana-stub"
 import { only } from "./markers"
 import { entriesOf, isNestedStyleKey, mergeStyles } from "./styles"
-import { pooled, trace } from "./trace"
+import type { Ranked, Session } from "./session"
 import type { Exclusive } from "./winners"
 import { compareWinners, sameAttribute, styleOf } from "./winners"
 
@@ -152,18 +157,40 @@ export function probesOf(exports: Record<string, unknown>) {
   return probes
 }
 
+/** How many probes one module holds (KF-028). */
+const PROBES_PER_FILE = 8
+
 export type CheckContext = {
   registry: string
-  cli: string
   names: Names
-  concurrency: number
+  session: Session
 }
 
 function write(context: CheckContext, path: string, generated: Generated) {
   const file = join(context.registry, ".flat", path)
   mkdirSync(join(file, ".."), { recursive: true })
   writeFileSync(file, generated.code)
+  context.session.changed(file)
   return `.flat/${path}`
+}
+
+/** Every `recipe()` in a module's exports, by its path. */
+export function recipesOf(exports: Record<string, unknown>) {
+  const recipes = new Map<string, RecipeHandle>()
+  const walk = (value: unknown, path: string) => {
+    if (isObject(value) && value.kind === "recipe")
+      recipes.set(path, value as RecipeHandle)
+    else if (
+      isObject(value) &&
+      value.kind !== "style" &&
+      typeof value.within !== "function"
+    ) {
+      for (const [key, member] of Object.entries(value))
+        walk(member, `${path}.${key}`)
+    }
+  }
+  for (const [name, value] of Object.entries(exports)) walk(value, name)
+  return recipes
 }
 
 /** The check's modules read every relation from the registry's own sources, beside them. */
@@ -179,12 +206,17 @@ const handle = (style: StyleObject): StyleHandle => ({
   site: { file: "", line: 0 },
 })
 
-/** Each module's evaluated exports against its source, property by property. */
-export async function roundTrip(
+/**
+ * Each module's evaluated exports against its source, property by property: every `css()`, and
+ * every `recipe()` with each entry in the part that declares it.
+ */
+export function roundTrip(
   context: CheckContext,
   modules: Map<string, Record<string, unknown>>
-): Promise<{ problems: string[]; compared: number }> {
-  const tasks: (() => Promise<string | undefined>)[] = []
+): { problems: string[]; compared: number } {
+  type Question = { module: string; path: string; property: string }
+  const questions: Question[] = []
+  const queries: { file: string; line: number; property: string }[] = []
   for (const [module, exports] of modules) {
     const generated = generate(exports, context.names, {
       flatten: (h) => h,
@@ -196,44 +228,54 @@ export async function roundTrip(
       relationsFrom: fromSources,
     })
     const file = write(context, `round-trip/${module}`, generated)
-    for (const [path, h] of handlesOf(exports)) {
-      const style = h.styles.reduce(mergeStyles, {} as StyleObject)
-      const source = h.site.file.slice(context.registry.length + 1)
-      for (const property of ownProperties(style)) {
-        tasks.push(async () => {
-          const [before, after] = await Promise.all([
-            trace(context.cli, context.registry, source, h.site.line, property),
-            trace(
-              context.cli,
-              context.registry,
-              file,
-              generated.sites.get(path)!,
-              property
-            ),
-          ])
-          return JSON.stringify(before) === JSON.stringify(after)
-            ? undefined
-            : `${module} ${path} ${property}: the evaluated module ranks its entries differently from the source.`
-        })
+    const ask = (path: string, site: Site, properties: string[]) => {
+      const source = site.file.slice(context.registry.length + 1)
+      for (const property of properties) {
+        questions.push({ module, path, property })
+        queries.push(
+          { file: source, line: site.line, property },
+          { file, line: generated.sites.get(path)!, property }
+        )
       }
     }
+    for (const [path, h] of handlesOf(exports))
+      ask(
+        path,
+        h.site,
+        ownProperties(h.styles.reduce(mergeStyles, {} as StyleObject))
+      )
+    for (const [path, recipe] of recipesOf(exports)) {
+      const config = recipe.config as RecipeConfig
+      const parts = [
+        config.base ?? {},
+        ...Object.values(config.variants ?? {}).flatMap((options) =>
+          Object.values(options)
+        ),
+      ]
+      ask(path, recipe.site, [...new Set(parts.flatMap(ownProperties))])
+    }
   }
-  const results = await pooled(tasks, context.concurrency)
-  return {
-    problems: results.filter((p) => p !== undefined),
-    compared: results.length,
-  }
+  const answers = context.session.trace(queries)
+  const problems = questions.flatMap((question, index) =>
+    JSON.stringify(answers[2 * index]) ===
+    JSON.stringify(answers[2 * index + 1])
+      ? []
+      : [
+          `${question.module} ${question.path} ${question.property}: the evaluated module ranks its entries differently from the source.`,
+        ]
+  )
+  return { problems, compared: questions.length }
 }
 
 /** The flattened probes of a module against the live ones, for every combination. */
-export async function checkWinners(
+export function checkWinners(
   context: CheckContext,
   module: string,
   exports: Record<string, unknown>,
   combinations: Combination[],
   classifyFor: (combination: Combination) => Classify,
   exclusive: Exclusive
-): Promise<{ problems: string[]; compared: number }> {
+): { problems: string[]; compared: number } {
   const probes = probesOf(exports)
   // Only a property under a style's condition or a base's state key can change.
   const changed = new Map<string, string[]>()
@@ -246,13 +288,6 @@ export async function checkWinners(
   if (changed.size === 0) return { problems: [], compared: 0 }
 
   const ids = [...changed.keys()]
-  const probeExports = (map: (style: StyleObject) => StyleObject) =>
-    Object.fromEntries(
-      ids.map((path, index) => [
-        `p${index}`,
-        handle(map(probes.get(path)!.live)),
-      ])
-    )
   const options = (header: string) => ({
     flatten: (h: StyleHandle) => h,
     flattenRecipe: (h: RecipeHandle) => h,
@@ -261,31 +296,36 @@ export async function checkWinners(
     module,
     relationsFrom: fromSources,
   })
-  const live = generate(
-    probeExports((s) => s),
-    context.names,
-    options("// Live probes.")
-  )
-  const liveFile = write(context, `before/${module}`, live)
-
-  const tasks: (() => Promise<string[]>)[] = []
-  const liveRanks = new Map<string, ReturnType<typeof trace>>()
-  const liveRank = (index: number, property: string) => {
-    const key = `${index} ${property}`
-    if (!liveRanks.has(key)) {
-      liveRanks.set(
-        key,
-        trace(
-          context.cli,
-          context.registry,
-          liveFile,
-          live.sites.get(`p${index}`)!,
-          property
-        )
+  // Probes in small modules: Kirana's trace takes time in proportion to the file it reads, for
+  // each question (KF-028), so one module of every probe would make Button's 1,925 questions 26 s.
+  const writeProbes = (
+    folder: "before" | "after",
+    header: string,
+    styles: [string, StyleObject][]
+  ) => {
+    const where = new Map<string, { file: string; line: number }>()
+    for (let start = 0; start < styles.length; start += PROBES_PER_FILE) {
+      const part = styles.slice(start, start + PROBES_PER_FILE)
+      const generated = generate(
+        Object.fromEntries(part.map(([key, style]) => [key, handle(style)])),
+        context.names,
+        options(header)
       )
+      const file = write(
+        context,
+        `${folder}/${module.replace(/\.ts$/, `.${start / PROBES_PER_FILE}.ts`)}`,
+        generated
+      )
+      for (const [key] of part)
+        where.set(key, { file, line: generated.sites.get(key)! })
     }
-    return liveRanks.get(key)!
+    return where
   }
+  const live = writeProbes(
+    "before",
+    "// Live probes.",
+    ids.map((path, index) => [`p${index}`, probes.get(path)!.live])
+  )
 
   // Every combination's flattened probes, each distinct one traced once: a style object that
   // flattens alike for two combinations (one style on two bases, say) is the same module text.
@@ -300,57 +340,70 @@ export async function checkWinners(
       flatOf.set(`${combination.id} ${path}`, unique.get(text)!.key)
     })
   }
-  const flat = generate(
-    Object.fromEntries(
-      [...unique.values()].map(({ style, key }) => [key, handle(style)])
-    ),
-    context.names,
-    options("// Flattened probes, each distinct one once.")
+  const flat = writeProbes(
+    "after",
+    "// Flattened probes, each distinct one once.",
+    [...unique.values()].map(({ style, key }) => [key, style])
   )
-  const flatFile = write(context, `after/${module}`, flat)
-  const flatRanks = new Map<string, ReturnType<typeof trace>>()
-  const flatRank = (key: string, property: string) => {
-    const id = `${key} ${property}`
-    if (!flatRanks.has(id)) {
-      flatRanks.set(
-        id,
-        trace(
-          context.cli,
-          context.registry,
-          flatFile,
-          flat.sites.get(key)!,
-          property
-        )
-      )
-    }
-    return flatRanks.get(id)!
-  }
 
+  // Every question at once: each live probe's changed properties, and each distinct flattened
+  // probe's properties for the combinations that use it.
+  const queries: { file: string; line: number; property: string }[] = []
+  const asked = new Map<string, number>()
+  const ask = (
+    { file, line }: { file: string; line: number },
+    property: string
+  ) => {
+    const id = `${file}:${line} ${property}`
+    if (!asked.has(id)) {
+      asked.set(id, queries.length)
+      queries.push({ file, line, property })
+    }
+    return asked.get(id)!
+  }
+  const comparisons: {
+    combination: Combination
+    path: string
+    property: string
+    before: number
+    after: number
+  }[] = []
   for (const combination of combinations) {
     ids.forEach((path, index) => {
-      const foreign = foreignTexts(probes.get(path)!.live, combination)
       const key = flatOf.get(`${combination.id} ${path}`)!
       for (const property of changed.get(path)!) {
-        tasks.push(async () => {
-          const [before, after] = await Promise.all([
-            liveRank(index, property),
-            flatRank(key, property),
-          ])
-          const fixed = (condition: string) => {
-            const style = styleOf(condition)
-            if (style) return style === combination.style
-            return foreign.has(condition) ? false : undefined
-          }
-          return compareWinners(before, after, fixed, exclusive).map(
-            (m) =>
-              `${combination.id} ${module} ${path} ${property}: with ${m.holding.join(" & ") || "nothing"}, ${m.before} live but ${m.after} flattened.`
-          )
+        comparisons.push({
+          combination,
+          path,
+          property,
+          before: ask(live.get(`p${index}`)!, property),
+          after: ask(flat.get(key)!, property),
         })
       }
     })
   }
-  const results = await pooled(tasks, context.concurrency)
-  return { problems: results.flat(), compared: results.length }
+  const answers: Ranked[][] = context.session.trace(queries)
+
+  const problems = comparisons.flatMap(
+    ({ combination, path, property, before, after }) => {
+      const foreign = foreignTexts(probes.get(path)!.live, combination)
+      const fixed = (condition: string) => {
+        const style = styleOf(condition)
+        if (style) return style === combination.style
+        return foreign.has(condition) ? false : undefined
+      }
+      return compareWinners(
+        answers[before],
+        answers[after],
+        fixed,
+        exclusive
+      ).map(
+        (m) =>
+          `${combination.id} ${module} ${path} ${property}: with ${m.holding.join(" & ") || "nothing"}, ${m.before} live but ${m.after} flattened.`
+      )
+    }
+  )
+  return { problems, compared: comparisons.length }
 }
 
 /** A style's condition or a base's state key: what flattening removes or keeps. */
@@ -417,16 +470,9 @@ export function exclusiveFrom(
  * that shadows Kirana's, a key it cannot read) is an error there even where no trace looks.
  */
 export function compileGenerated(context: CheckContext): string[] {
-  const result = spawnSync(context.cli, ["check", ".flat"], {
-    cwd: context.registry,
-    encoding: "utf8",
-  })
-  const output = `${result.stdout}${result.stderr}`
-  const errors = output
-    .split("\n")
-    .filter((line) => /^(error|warning)\[/.test(line))
-  return errors.length
-    ? [`The generated modules do not compile cleanly:\n${output}`]
+  const problems = context.session.problems([".flat"])
+  return problems.length
+    ? [`The generated modules do not compile cleanly:\n${problems.join("\n")}`]
     : []
 }
 

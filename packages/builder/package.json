@@ -7,6 +7,7 @@
     "registry": "bun src/cli.ts"
   },
   "dependencies": {
+    "@kirana-style/compiler": "catalog:",
     "@shadcn/registry": "^0.2.0",
     "@workspace/registry": "workspace:*"
   },

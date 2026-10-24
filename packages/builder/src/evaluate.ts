@@ -10,7 +10,12 @@ const STUB = fileURLToPath(new URL("./kirana-stub.ts", import.meta.url))
 
 let installed = false
 
-function installStub() {
+/**
+ * Swaps `@kirana-style/core` for the stand-in in every module loaded from now on. Called before any
+ * Kirana session opens in this process, so a configuration the session loads cannot cache the real
+ * module first.
+ */
+export function installStub() {
   if (installed) return
   installed = true
   Bun.plugin({

@@ -4,7 +4,7 @@
  * `select.child("…")`, keyframes declared once. Helper functions and the comments are not carried
  * over: the values they produced are written out.
  *
- * It records the line of each `css()` it writes, which `kirana-style trace` takes.
+ * It records the line of each `css()` and `recipe()` it writes, which Kirana's `trace()` takes.
  */
 import { readFileSync } from "node:fs"
 
@@ -193,8 +193,12 @@ export function generate(
     return `/*@site ${path}*/${css}(${anchors}${object(merged, indent)})`
   }
 
-  function recipeCode(handle: RecipeHandle, indent: string): string {
-    return `${kirana("recipe")}(${object(options.flattenRecipe(handle).config, indent)})`
+  function recipeCode(
+    handle: RecipeHandle,
+    path: string,
+    indent: string
+  ): string {
+    return `/*@site ${path}*/${kirana("recipe")}(${object(options.flattenRecipe(handle).config, indent)})`
   }
 
   function member(
@@ -203,7 +207,7 @@ export function generate(
     indent: string
   ): string | undefined {
     if (isStyle(entry)) return style(entry, path, indent)
-    if (isRecipe(entry)) return recipeCode(entry, indent)
+    if (isRecipe(entry)) return recipeCode(entry, path, indent)
     if (typeof entry === "string" || typeof entry === "number")
       return leaf(entry)
     if (isObject(entry) && !isRelation(entry)) {
