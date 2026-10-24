@@ -31,7 +31,7 @@ And beside it:
 - `icons/`, `IconPlaceholder` for React and Vue over one map of icon data. Installed with
   shadcn/ui's CLI, a React placeholder becomes the project's own icon component, and the import of
   `icon-placeholder.tsx` is dropped;
-- `lib/`, the `Sx` type and, for Vue, `useStyleAttrs`.
+- `lib/`, the `Sx` type for React (a Vue part takes its caller's `:sx` with Kirana's `useSx()`).
 
 `docs/catalogue.md` lists their exports and how to write each.
 
@@ -69,8 +69,8 @@ diagnostic, warnings included; no app compiles them yet.
 ## Markup
 
 A component's copy for a framework and base applies the style modules and holds no style values:
-`sx` on an element, `props()` spread on a library's part, and in Vue `useStyleAttrs`, which merges
-the component's styles with its caller's `:sx`. Its part and prop names follow upstream's copy for
+`sx` on an element, `props()` spread on a library's part, and in Vue Kirana's `useSx()`, whose
+caller's classes go last in the root's own `:sx`. Its part and prop names follow upstream's copy for
 that base. `apps/preview-vue` renders the Vue copies, and its build is where they compile.
 
 ## Previews

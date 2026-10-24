@@ -169,15 +169,16 @@ const styles = {
     width: spacing[4],
     transitionProperty: "all",
     transitionTimingFunction: "linear",
-    // Centred on the edge it straddles, in either writing direction.
+    // Centred on the edge it straddles. Physical, like the container's own `left`/`right` and the
+    // translate, so a right-to-left page keeps the rail on the panel's edge.
     translate: "-50% 0",
-    insetInlineEnd: {
+    right: {
       [sidebarMarker.within('[data-side="left"]')]: `calc(${spacing[4]} * -1)`,
       [sidebarMarker.within(
         '[data-side="left"][data-collapsible="offcanvas"]'
       )]: null,
     },
-    insetInlineStart: {
+    left: {
       [sidebarMarker.within('[data-side="right"]')]: 0,
     },
     // Which way the cursor says the panel will move.
@@ -194,8 +195,8 @@ const styles = {
       position: "absolute",
       insetBlock: 0,
       // An offcanvas sidebar's rail sits outside it, so the line moves to the
-      // far edge, where the panel's border is.
-      insetInlineStart: {
+      // far edge, where the panel's border is (`after:left-full`, physical).
+      left: {
         base: "50%",
         [sidebarMarker.within('[data-collapsible="offcanvas"]')]: "100%",
       },

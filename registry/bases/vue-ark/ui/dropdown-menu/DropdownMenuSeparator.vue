@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { MenuSeparator } from "@ark-ui/vue"
+import { useSx } from "@kirana-style/core/vue"
 
-import { useStyleAttrs } from "../../../../lib/vue"
 import { menuSeparator } from "../../../../styles/menu.styles"
 
 defineOptions({ inheritAttrs: false })
 
-const bound = useStyleAttrs(() => menuSeparator)
+const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <MenuSeparator data-slot="dropdown-menu-separator" v-bind="bound" />
+  <MenuSeparator
+    data-slot="dropdown-menu-separator"
+    v-bind="attrs"
+    :sx="[menuSeparator, sx]"
+  />
 </template>

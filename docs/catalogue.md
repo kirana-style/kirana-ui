@@ -237,8 +237,10 @@ Writing one:
 - upstream draws its style rules in a layer below its components' own classes:
   where both set a property, write the component's value;
 - write a state with `...when(state, value)`; a value that needs two states is a
-  block per base (`overlay.styles.ts`), and a state two bases name differently is
-  an exclusive pair in `kirana.ts`;
+  block per base (`overlay.styles.ts`). Two bases' keys for one state are
+  exclusive through `exclusiveAcross` in `kirana.ts`; a key written by hand,
+  which no vocabulary names (React Aria's `aria-orientation`), needs a pair in
+  `exclusive`;
 - a part that styles itself by its parent asks with a pseudo-class,
   `':where([data-slot="field"][data-orientation="vertical"] > *)'`, where
   upstream's parent reached in with `*:`; a relation's `within` means any
@@ -267,26 +269,26 @@ follow upstream's copy for that base.
 
 And what they share:
 
-| File                                        | For                                                                                                              |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `icons/data.ts`                             | The icons components name through `IconPlaceholder`, as Lucide's and Hugeicons' framework-neutral data           |
-| `icons/icon-placeholder.tsx`                | `IconPlaceholder` and `IconLibraryProvider` for React; named for shadcn/ui's CLI, which drops its import         |
-| `icons/IconPlaceholder.vue`, `icons/vue.ts` | `IconPlaceholder` for Vue, and `ICON_LIBRARY`, the key a page provides its library under                         |
-| `lib/sx.ts`                                 | The `Sx` type and `WithSx<P>`                                                                                    |
-| `lib/vue.ts`                                | `useStyleAttrs(() => styles)`: a Vue component's styles merged with its caller's `:sx`, which arrives as `class` |
+| File                                        | For                                                                                                      |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `icons/data.ts`                             | The icons components name through `IconPlaceholder`, as Lucide's and Hugeicons' framework-neutral data   |
+| `icons/icon-placeholder.tsx`                | `IconPlaceholder` and `IconLibraryProvider` for React; named for shadcn/ui's CLI, which drops its import |
+| `icons/IconPlaceholder.vue`, `icons/vue.ts` | `IconPlaceholder` for Vue, and `ICON_LIBRARY`, the key a page provides its library under                 |
+| `lib/sx.ts`                                 | The `Sx` type and `WithSx<P>`                                                                            |
 
 Writing a Vue part:
 
-- `defineOptions({ inheritAttrs: false })` and bind `useStyleAttrs(…)` on the
-  root, so a caller's `:sx` overrides per property rather than adding a second
-  class for it;
+- `defineOptions({ inheritAttrs: false })`, `const { sx, attrs } = useSx()`
+  (`@kirana-style/core/vue`), and on the root `v-bind="attrs"` with
+  `:sx="[ownStyles, sx]"`, so a caller's `:sx` overrides per property rather
+  than adding a second class for it. The lint rule `kirana/diagnostics` is off
+  for these files (it reads the script block alone and reports that `sx` as
+  unused); `vp run styles` and the Vue preview's build check them whole;
 - declare only the component's own props, with a type written in the file:
   Vue resolves an imported props type through TypeScript's JavaScript API,
   which TypeScript 7 does not have. Ark's own props pass through as attributes;
 - Ark UI builds a select from a collection (`createListCollection`), so its
-  `SelectItem` takes `item`, and every menu item a `value`;
-- the Vue preview's dev server does not reload a `.vue` file of the registry
-  when it changes: restart it.
+  `SelectItem` takes `item`, and every menu item a `value`.
 
 ## The preview pages
 

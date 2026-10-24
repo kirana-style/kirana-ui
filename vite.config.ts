@@ -235,6 +235,15 @@ export default defineConfig({
       "typescript/triple-slash-reference": "error",
       "vite-plus/prefer-vite-plus-imports": "error",
     },
+    overrides: [
+      {
+        // KF-026, until the Kirana release that fixes it: the rule hands the compiler a `.vue` file's
+        // script block alone, so a part's `useSx()` reads as unused when its template applies it.
+        // The compiler still checks these files whole: `vp run styles` and the Vue preview's build.
+        files: ["registry/bases/vue-ark/**/*.vue"],
+        rules: { "kirana/diagnostics": "off" },
+      },
+    ],
     options: {
       typeAware: true,
       typeCheck: true,

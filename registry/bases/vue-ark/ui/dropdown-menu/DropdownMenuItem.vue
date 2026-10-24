@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // Ark names every item with `value`, which its select events report.
 import { MenuItem } from "@ark-ui/vue"
+import { useSx } from "@kirana-style/core/vue"
 
-import { useStyleAttrs } from "../../../../lib/vue"
 import {
   menuRowBase,
   menuRowDestructive,
@@ -15,11 +15,7 @@ const { inset = false, variant = "default" } = defineProps<{
   inset?: boolean
   variant?: "default" | "destructive"
 }>()
-const bound = useStyleAttrs(() => [
-  menuRowBase,
-  menuRowPadding,
-  variant === "destructive" && menuRowDestructive,
-])
+const { sx, attrs } = useSx()
 </script>
 
 <template>
@@ -27,7 +23,13 @@ const bound = useStyleAttrs(() => [
     data-slot="dropdown-menu-item"
     :data-inset="inset || undefined"
     :data-variant="variant"
-    v-bind="bound"
+    v-bind="attrs"
+    :sx="[
+      menuRowBase,
+      menuRowPadding,
+      variant === 'destructive' && menuRowDestructive,
+      sx,
+    ]"
   >
     <slot />
   </MenuItem>

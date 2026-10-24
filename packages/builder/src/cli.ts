@@ -69,9 +69,15 @@ if (!values["skip-check"]) {
       )
       .join("")
   const { registryConfig } = await evaluate(join(REGISTRY, "core", "kirana.ts"))
-  const pairs = (registryConfig as { conditions: { exclusive: string[][] } })
-    .conditions.exclusive
-  const exclusive = exclusiveFrom(pairs.map((pair) => pair.map(plainText)))
+  const { conditions } = registryConfig as {
+    conditions: { exclusive: string[][]; exclusiveAcross?: string[][] }
+  }
+  const plainGroups = (groups: string[][]) =>
+    groups.map((group) => group.map(plainText))
+  const exclusive = exclusiveFrom(
+    plainGroups(conditions.exclusive),
+    plainGroups(conditions.exclusiveAcross ?? [])
+  )
   const context = {
     registry: REGISTRY,
     cli: CLI,
