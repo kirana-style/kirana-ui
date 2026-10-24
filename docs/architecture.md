@@ -330,11 +330,19 @@ framework, base and style, every style module with the other styles' entries and
 the other bases' state keys removed and the chosen style's merged into the base
 look, as readable source. Removing a condition that always holds can change which
 entry wins (a style's override outranks a breakpoint only while it is a
-condition), so the builder asks Kirana, through `kirana-style trace`, which value
-wins in every combination of the remaining conditions, before and after, and fails
-on a difference. It reads the modules by running them with Kirana's functions
-recording their arguments, and proves that reading faithful by writing each
-module back unflattened and comparing Kirana's ranking with the source's. State
+condition), so the builder asks Kirana which value wins, before and after, and
+fails on a difference. It asks through one session of Kirana's library API
+(`Driver` from `@kirana-style/compiler`, its `trace()`), every question in a batch,
+and compares the answers as data; the whole check takes under a second. A
+difference needs no search over every combination of the remaining conditions:
+an entry applies when all its conditions hold, so for each live entry and
+flattened entry with different values, holding just their own conditions is the
+one case to test. It reads the modules by running them with Kirana's functions
+recording their arguments, which keeps what the source writes (its literals,
+constant tokens and nesting, which `when()` a state key came from), and proves
+that reading faithful by writing each module back unflattened and comparing
+Kirana's ranking with the source's, a recipe's entries in the part that declares
+them. State
 keys carry their base from `core/states.ts`, so a component's own attribute that
 looks like another base's key is never removed. Styles that merge are flattened
 merged: a recipe's variant merges over its base entry by entry, and on the site a

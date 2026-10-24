@@ -1,13 +1,12 @@
 /**
  * `bun packages/builder/src/cli.ts [--out <dir>] [--skip-check]`: the registry for every
- * combination, flattened, checked against the live styles with Kirana, and validated against
- * shadcn/ui's schema. Writes `<out>/<combination>/<item>.json`, `<out>/<combination>/registry.json`
+ * combination, flattened, checked against the live styles with Kirana (one session, `session.ts`),
+ * and validated against shadcn/ui's schema. Writes `<out>/<combination>/<item>.json`, `<out>/<combination>/registry.json`
  * and `<out>/index.json` (by default into the site's static files, `apps/web/dist/client/r`), and
  * exits non-zero on any problem.
  */
 import { spawnSync } from "node:child_process"
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
-import { availableParallelism } from "node:os"
 import { join, relative } from "node:path"
 import { parseArgs } from "node:util"
 
@@ -18,18 +17,17 @@ import {
   exclusiveFrom,
   roundTrip,
 } from "./check"
-import { evaluate, tagStates } from "./evaluate"
+import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
 import { COMBINATIONS } from "./items"
 import { split } from "./markers"
 import { loadNames } from "./names"
 import { buildCombination, versionsFrom } from "./registry"
-import { calls } from "./trace"
+import { Session } from "./session"
 
 const ROOT = join(import.meta.dir, "..", "..", "..")
 const REGISTRY = join(ROOT, "registry")
-const CLI = join(ROOT, "node_modules", ".bin", "kirana-style")
 
 const { values } = parseArgs({
   options: {
@@ -48,6 +46,10 @@ const BASE_NAMES = {
 } as const
 
 const started = performance.now()
+// In this order: the stand-in first, then Kirana's session, whose configuration loads the registry's
+// states before `tagStates` marks them (the session has already read them as plain keys).
+installStub()
+const session = values["skip-check"] ? undefined : await Session.open(REGISTRY)
 await tagStates(join(REGISTRY, "core", "states.ts"))
 const names = await loadNames(REGISTRY)
 
@@ -61,7 +63,7 @@ for (const file of readdirSync(join(REGISTRY, "styles")).sort()) {
 const problems: string[] = []
 let roundTrips = 0
 let winnerChecks = 0
-if (!values["skip-check"]) {
+if (session) {
   const plainText = (text: string) =>
     split(text)
       .map((part) =>
@@ -78,18 +80,13 @@ if (!values["skip-check"]) {
     plainGroups(conditions.exclusive),
     plainGroups(conditions.exclusiveAcross ?? [])
   )
-  const context = {
-    registry: REGISTRY,
-    cli: CLI,
-    names,
-    concurrency: availableParallelism(),
-  }
+  const context = { registry: REGISTRY, names, session }
   try {
-    const trip = await roundTrip(context, modules)
+    const trip = roundTrip(context, modules)
     problems.push(...trip.problems)
     roundTrips = trip.compared
     for (const [module, exports] of modules) {
-      const result = await checkWinners(
+      const result = checkWinners(
         context,
         module,
         exports,
@@ -203,5 +200,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${calls.count} traces); ${seconds}s`
+  `registry: ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )
