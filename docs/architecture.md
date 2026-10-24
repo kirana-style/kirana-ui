@@ -284,6 +284,20 @@ a relation anchored there. It replaces shadcn/ui's approach of a `<style>` eleme
 of custom properties and a class per style on `<body>`. What a project installs is
 the same code with one design flattened into it.
 
+**A page gets its design from an inline script, before the first paint.** The
+site's pages are static files; one script, first in `<head>` beside the colour
+mode's, reads the design from the URL's `?preset=` (and upstream's axis
+parameters) or the saved cookie and writes the attributes on `<html>`. Measured
+on a preview page under a 4× slower CPU and a slow network, with Chrome recording
+every painted frame: no frame shows the default design first, where the same
+script loaded late paints the default and then switches. It costs about 1 ms of
+script (3 ms at 4× slower) and 2 KB gzip per page, and no server work. Rewriting
+each page on the Worker with `HTMLRewriter` paints as early and works without
+JavaScript, but makes every page view a Worker request, where static files are
+free and unlimited; rendering each page on the server costs about 5 ms of CPU for
+a page of 124 buttons. The preview pages, still rendered by the Worker, become
+static files the same way.
+
 **A component's look is a style module, written once for every style and every
 base.** `registry/styles/<component>.styles.ts` holds the `css()` handles a
 component's parts use, separate from the component, which is written per
