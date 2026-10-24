@@ -339,6 +339,22 @@ import of any module whose path holds `icon-placeholder` (hence
 component takes: a style is spread on it as `{...props(…)}`, never given as `sx`,
 which an icon library would not read.
 
+**Vue, Svelte and Solid share one base, Ark UI, and it carries 61 of shadcn/ui's
+64 items.** A table of every item against each library, checked against their
+sources (Ark UI 5.39, Reka UI 2.11, Bits UI 2.20):
+
+- on Ark UI, 30 items sit on its components, 28 are plain markup, and 3 use a
+  package each framework has: embla for the carousel, TanStack Charts, and sonner's
+  ports;
+- three items have no counterpart there. Ark UI has no menubar, and the message
+  scroller's and questionnaire's logic is upstream's own React package. React Aria
+  also carries 61, lacking the menubar, navigation menu and toast;
+- Reka UI, the base shadcn-vue builds on, would carry 62 (it has a menubar);
+  Bits UI, shadcn-svelte's, 61 (a menubar, but no toast).
+
+Every component Ark UI and Reka UI need here has a state vocabulary in
+`@kirana-style/states`. Bits UI's Command and ScrollArea do not yet.
+
 **What a project installs is the same module, flattened, and Kirana checks it.**
 `packages/builder` writes the registry (`vp run registry`): for each combination of
 framework, base and style, every style module with the other styles' entries and
