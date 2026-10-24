@@ -320,6 +320,17 @@ every style's stylesheet. Popups move with transitions, which reverse mid-flight
 Ark UI keeps a popup mounted only for an animation, so on Ark the same fade and
 zoom are keyframes on its `data-state`.
 
+The alternative, one file per style as shadcn/ui writes its CSS, composed into
+this module by a generator, was built for Dialog and renders exactly the same (no
+computed-style difference in four styles and three bases, open and closed). It
+was not taken: it is twice the lines and grows by a file per style, and the
+editor's diagnostics, `trace`, navigation and hot reload would land on generated
+code. The per-style view it gives is already the builder's output, each style's
+flattened module. One rule came from it: a property only some styles set goes
+under each of their conditions, Nova's included, never a base value with
+explicit defaults for the others, so an installed style carries no dead
+declaration.
+
 **Markup is written per framework and base, and holds no style values.**
 `registry/bases/react-base`, `react-aria` and `vue-ark` each hold their copy of a
 component, applying the same style modules: `sx` on elements, `props()` spread
