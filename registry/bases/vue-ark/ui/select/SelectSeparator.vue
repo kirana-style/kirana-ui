@@ -3,6 +3,7 @@ import { useSx } from "@kirana-style/core/vue"
 
 // Ark's select has no separator part: a rule between groups, as the others draw it.
 import { menuSeparator } from "../../../../styles/menu.styles"
+import { select } from "../../../../styles/select.styles"
 
 defineOptions({ inheritAttrs: false })
 
@@ -14,6 +15,6 @@ const { sx, attrs } = useSx()
     role="separator"
     data-slot="select-separator"
     v-bind="attrs"
-    :sx="[menuSeparator, sx]"
+    :sx="[menuSeparator, select.separator, sx]"
   />
 </template>

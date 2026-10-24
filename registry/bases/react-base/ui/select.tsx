@@ -168,7 +168,7 @@ function SelectSeparator({
     <SelectPrimitive.Separator
       data-slot="select-separator"
       {...props}
-      {...styleProps(menuSeparator, sx)}
+      {...styleProps([menuSeparator, select.separator], sx)}
     />
   )
 }

@@ -205,7 +205,6 @@ export const menuLabel = css({
 
 /** A rule between groups: `-mx-1 my-1 h-px`, without the margin in Lyra; its colour is the surface's. */
 export const menuSeparator = css({
-  pointerEvents: "none",
   height: "1px",
   marginInline: `calc(${space[1]} * -1)`,
   marginBlock: { base: space[1], [lyra]: "0" },
