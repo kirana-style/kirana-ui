@@ -208,6 +208,7 @@ expected site's path rewritten.
 ```bash
 bun conformance/compare.ts --actual http://localhost:8787 --expected http://localhost:4000 \
   --label upstream --expected-path "/preview/react/=/preview/" \
+  --group '[data-slot="example"]' \
   --paths "/preview/react/base/button-example?preset=b0" [--states]
 ```
 
@@ -216,31 +217,41 @@ bun conformance/compare.ts --actual http://localhost:8787 --expected http://loca
   Nova is `b0`, Lyra `buFywKm` (upstream rewrites it as `buFywLo`, with Lyra's
   radius).
 - **Upstream's examples are ported with their layout**, in
-  `components/example.tsx`'s frame, so the two pages pair element for element. A
-  section whose components do not exist yet is left out, and its elements are
-  listed as expected.
-- **React Aria's `DialogTrigger` renders no element**, so the harness's
-  `dialog-open` state finds no `dialog-trigger` there: name the trigger,
-  `--trigger 'dialog-open=[data-slot="example-content"] button'`.
+  `components/example.tsx`'s frame. `--group` pairs elements within each titled
+  example rather than across the page, so a section whose components do not exist
+  yet is left out and reported once, by its title, instead of shifting every pair
+  after it.
+- **React Aria's `DialogTrigger` and `MenuTrigger` render no element**, so the
+  harness's `dialog-open` and `dropdown-open` states find no trigger slot there:
+  name it, `--trigger 'dialog-open=[data-slot="example-content"] button'`. A state
+  neither page reaches is skipped without a word, so check that each one ran.
 
-On the slice (`button-example`, `dialog-example`, `login-01`, on Base UI and React
-Aria, in Nova and Lyra, at rest and in every state), nothing differs beyond
-these, each reviewed:
+On the slice (`button-example`, `dialog-example`, `select-example`,
+`dropdown-menu-example` and `login-01`, on Base UI and React Aria, in Nova and
+Lyra, at rest and in every state), nothing differs beyond these, each reviewed:
 
-| Difference                                               | Why                                                                                                                                                                                   |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `font-family`                                            | Next.js's `next/font` names Inter `Inter, "Inter Fallback"` ahead of the shared `"Inter Variable"`; the same face, as every width shows                                               |
-| `transition-property`                                    | `transition-all` is written as the properties that change                                                                                                                             |
-| `span[data-slot="button-label"]`                         | Button trims its text to its capitals in a label element                                                                                                                              |
-| The line height of FieldLabel and of Nova's small Button | upstream's site and the copy its CLI installs disagree: the site's stylesheet keeps a line height that `cn` drops from the installed classes. The registry follows the installed copy |
-| `scale: 1` against `none`                                | the dialog at rest after its transition, where upstream's keyframes leave none                                                                                                        |
-| `text-align: start` against `left`                       | the same in left-to-right text, and what upstream's right-to-left install writes                                                                                                      |
-| A toast viewport                                         | upstream's preview page mounts its toaster around every item                                                                                                                          |
+| Difference                                               | Why                                                                                                                                                                                                                               |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `font-family`                                            | Next.js's `next/font` names Inter `Inter, "Inter Fallback"` ahead of the shared `"Inter Variable"`; the same face, as every width shows                                                                                           |
+| `transition-property`                                    | `transition-all` is written as the properties that change                                                                                                                                                                         |
+| `span[data-slot="button-label"]`                         | Button trims its text to its capitals in a label element                                                                                                                                                                          |
+| The line height of FieldLabel and of Nova's small Button | upstream's site and the copy its CLI installs disagree: the site's stylesheet keeps a line height that `cn` drops from the installed classes. The registry follows the installed copy                                             |
+| `scale: 1` and `translate: 0px` against `none`           | a dialog or popup at rest after its transition, where upstream's keyframes leave none                                                                                                                                             |
+| `text-align: start` against `left`                       | the same in left-to-right text, and what upstream's right-to-left install writes                                                                                                                                                  |
+| The select value's `text-overflow`                       | upstream's `line-clamp-1` is written as an ellipsis on one line: the same drawing, computed as `ellipsis` where line-clamp leaves `clip`                                                                                          |
+| A toast viewport                                         | upstream's preview page mounts its toaster around every item                                                                                                                                                                      |
+| The heights of examples, and React Aria popups' `bottom` | an example stretches to its grid row and a React Aria popup is placed from the page's end, so both move where a section is left out; what is inside is compared one by one                                                        |
+| A closed select popup's `max-height`                     | Base UI mounts it ahead, 0×0: version 1.9 gives it the available height, upstream's 1.6 none                                                                                                                                      |
+| A highlighted React Aria menu row's background           | upstream's React Aria menus always carry `cn-menu-translucent-aria`, which its menu-colour switch never removes, so their rows highlight translucent in the default colour. Ours follow the menu colour, as Base UI's do upstream |
 
 The first run found a real bug: Button gave a lone `" "` child (`Default{" "}`
 before an icon) a label of its own, an empty flex item one gap wide. Adjacent
 strings are now one label, and white space alone stays bare text, which the flex
-container drops.
+container drops. The select and dropdown examples found two more port slips: a
+select trigger inside a vertical Field stayed as wide as its text, where
+upstream's `*:w-full` fills the field (the trigger, and React Aria's root, take
+`fillInField` now); and the shared menu separator ignored the pointer, which only
+upstream's select separator does.
 
 ### Porting from StyleX: what the merge changes
 

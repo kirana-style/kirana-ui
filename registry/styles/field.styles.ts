@@ -60,7 +60,7 @@ const CHILD_OF_HORIZONTAL =
   ':where([data-slot="field"][data-orientation="horizontal"] > *)'
 const CHILD_OF_RESPONSIVE =
   ':where([data-slot="field"][data-orientation="responsive"] > *)'
-const fillInField = {
+export const fillInField = {
   base: "fit-content",
   [CHILD_OF_VERTICAL]: "100%",
   [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },

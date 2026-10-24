@@ -15,7 +15,8 @@
  *   writes them.
  *
  * The trigger is `w-fit` on Base UI. On React Aria it is `w-full` (`triggerFill`) inside a root that
- * is itself `w-fit` (`root`), so it lands the same.
+ * is itself `w-fit` (`root`), so it lands the same. Either way, the part that is a vertical field's
+ * child fills it (`fillInField`), as upstream's `*:w-full` beats the trigger's own `w-fit`.
  */
 import { css, relation, select as target } from "@kirana-style/core"
 
@@ -23,6 +24,7 @@ import { axes } from "../core/axes"
 import { fontSize, lineHeight, space, zIndex } from "../core/scales"
 import { placeholder, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
+import { fillInField } from "./field.styles"
 import { ANCHOR_WIDTH } from "./overlay.styles"
 import { controlIcons, controlShadow, controlTransition } from "./control"
 
@@ -37,7 +39,7 @@ export const select = {
   // cn-select-trigger and the component's own classes.
   trigger: css({
     display: "flex",
-    width: "fit-content",
+    width: fillInField,
     alignItems: "center",
     justifyContent: "space-between",
     gap: space["1.5"],
@@ -97,7 +99,10 @@ export const select = {
   }),
 
   // React Aria's Select, which wraps the trigger and the hidden form control.
-  root: css({ width: "fit-content" }),
+  root: css({ width: fillInField }),
+  // The separator's own class, over `menuSeparator`: upstream's select separator ignores the
+  // pointer; its dropdown menu's does not.
+  separator: css({ pointerEvents: "none" }),
   // React Aria's trigger fills that root.
   triggerFill: css({ width: "100%" }),
 

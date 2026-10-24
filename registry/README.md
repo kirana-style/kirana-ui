@@ -80,8 +80,8 @@ parameters, then the framing page's `design-system-params` messages, as attribut
 Each base's `previews.ts` maps item names to components; the site's `/preview/react/<base>/<item>`
 and the Vue preview's `/preview/vue/ark/<item>` render them. `docs/catalogue.md` has the protocol.
 
-Besides the slice's own demos (`*-demo`), the React bases carry upstream's `button-example` and
-`dialog-example` in its frame (`components/example.tsx`, `styles/example.styles.ts`), layout and
+Besides the slice's own demos (`*-demo`), the React bases carry upstream's `button-example`,
+`dialog-example`, `select-example` and `dropdown-menu-example` in its frame (`components/example.tsx`, `styles/example.styles.ts`), layout and
 all, so the conformance harness can pair them with upstream's pages element for element
 (`docs/workflows.md`, "Against shadcn/ui's own site").
 
