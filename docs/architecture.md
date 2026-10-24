@@ -342,22 +342,31 @@ in the flattened base, and the check compares the flattened base and variant
 merged, as the installed recipe merges them. The items speak shadcn/ui's schema
 and are validated with its own.
 
-**A React project installs with shadcn/ui's CLI, without Tailwind.**
-`shadcn add @kirana/<item>` works in a Vite, React and Kirana project with no
-Tailwind: the items carry no CSS variables for the CLI to write, and its import,
-icon and `"use client"` transforms apply as they do to upstream's items. Installed
-this way, the slice builds, type-checks, and renders the computed styles of the
-site's preview pages, value for value. `shadcn init` does not work: it checks for
-Tailwind first, with no way to skip the check. So a project's `components.json`
-comes from this site: the `@kirana` registry, the combination as its `style`,
-the `iconLibrary` the CLI resolves icons with, and `tailwind.css` pointing at any
-stylesheet, which the CLI leaves alone. The design system comes as a
-`registry:base` item, which `shadcn add` installs, files and packages, but
-without merging its configuration into `components.json`: one more reason that
-file comes from here. What no item can do is left to `kirana-style init` and the
-app's entry: Kirana's plugin and configuration (spreading the design system's
-`registryConfig`, with the `reset` layer), the stylesheet, the reset, the font,
-and the design system's classes on `<html>` and `<body>`.
+**Kirana's own CLI installs the registry; shadcn/ui's CLI works from an export.**
+The registry's source of truth will be one item per component, holding its style
+module as written (every style) and its markup per framework and base.
+`kirana-style ui` (Kirana's CLI, from the `@kirana-style/registry` package)
+installs it into React, Vue, Svelte, Solid or Angular projects, flattened for the
+project's own design at install, checked by the compiler, recorded in a lockfile
+for `diff` and `update`, and re-flattened when the design changes. The same
+format serves anyone who publishes a registry of their own. shadcn/ui's CLI could
+not be the installer: `shadcn init` refuses a project without Tailwind, with no
+way to skip the check; `components.json` is a strict schema with no room for a
+framework, a base or a design; and without flattening at install, every item
+would ship once per combination of framework, base and style.
+
+So the builder also writes an export for it: React only, each combination
+flattened ahead. `shadcn add @kirana/<item>` installs from it into a Vite, React
+and Kirana project with no Tailwind, and its import, icon and `"use client"`
+transforms apply as they do to upstream's items. Installed this way, every React
+combination of the slice builds, type-checks, and renders the computed styles of
+the site's preview pages, value for value. The project's `components.json` comes
+from this site (`shadcn add` installs a design-system item's files and packages
+but does not merge its configuration), and what no item can do is left to
+`kirana-style init` and the app's entry: Kirana's plugin and configuration
+(spreading the design system's `registryConfig`, with the `reset` layer), the
+stylesheet, the reset, the font, and the design system's classes on `<html>` and
+`<body>`. The export stays while it costs nothing to keep.
 
 **A preview is the item alone, in the design its URL names, on every framework.**
 `/preview/react/<base>/<item>` is a route of the site, rendered by the Worker
