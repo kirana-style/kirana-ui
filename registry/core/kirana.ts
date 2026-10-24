@@ -1,18 +1,20 @@
 /**
  * What every app compiling the registry tells Kirana, spread into its `kirana.config.ts`.
  *
- * `conditions.exclusive` lists states that never hold together on one element, so a property set
- * differently under each is not `ambiguous-precedence`: each vocabulary's own pairs (open and
- * closed …), and the same state as different bases write it, since a component is built on one base
- * and only that base's attributes appear on it (`states.ts`).
+ * States that never hold together on one element, so a property set differently under each is not
+ * `ambiguous-precedence`: each vocabulary's own pairs (open and closed …) in `exclusive`, and in
+ * `exclusiveAcross` one vocabulary per base, since a component is built on one base and only that
+ * base's attributes appear on it (`states.ts`): Base UI's `[data-starting-style]` and React Aria's
+ * `[data-entering]` never meet.
  */
+import { exclusiveAcross } from "@kirana-style/states"
 import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
-// With its extension: the configuration is loaded by Node, not the bundler (KF-016).
-import { orientation, overlay } from "./states.ts"
+// With its extension: the configuration is loaded by Node, not the bundler.
+import { orientation } from "./states.ts"
 
 export const registryConfig = {
   conditions: {
@@ -20,12 +22,11 @@ export const registryConfig = {
       ...Base.exclusive,
       ...Aria.exclusive,
       ...Ark.exclusive,
-      // Listed by hand until `@kirana-style/states` can say it (KF-015 in Kirana's feedback log).
-      [overlay.starting.base, overlay.starting.aria],
-      [overlay.ending.base, overlay.ending.aria],
+      // React Aria's separator writes `aria-orientation`, which no vocabulary names (`states.ts`).
       [orientation.horizontal.base, orientation.vertical.aria],
       [orientation.vertical.base, orientation.horizontal.aria],
       [orientation.horizontal.aria, orientation.vertical.aria],
     ],
+    exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
   },
 } satisfies KiranaConfig

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vite-plus/test"
 
+import { exclusiveFrom } from "./check"
 import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
@@ -146,6 +147,29 @@ describe("flattening a recipe", () => {
     expect(
       changesFrom({ color: { base: "a", ":hover": "b" } }, { color: "d" })
     ).toEqual({ color: { "*": null, base: "d" } })
+  })
+})
+
+describe("exclusive conditions", () => {
+  // Two vocabularies, as `exclusiveAcross(Base, Aria)` gives them: each names its first-frame key,
+  // and both name `[data-side]`.
+  const exclusive = exclusiveFrom(
+    [["[data-open]", "[data-closed]"]],
+    [
+      ["[data-side]", "[data-starting-style]"],
+      ["[data-entering]", "[data-side]"],
+    ]
+  )
+
+  it("are a configured pair, or one attribute with two values", () => {
+    expect(exclusive("[data-open]", "[data-closed]")).toBe(true)
+    expect(exclusive('[data-size="sm"]', '[data-size="lg"]')).toBe(true)
+  })
+
+  it("are two keys of different vocabularies that no vocabulary holds together", () => {
+    expect(exclusive("[data-starting-style]", "[data-entering]")).toBe(true)
+    expect(exclusive("[data-side]", "[data-entering]")).toBe(false)
+    expect(exclusive("[data-starting-style]", ":hover")).toBe(false)
   })
 })
 

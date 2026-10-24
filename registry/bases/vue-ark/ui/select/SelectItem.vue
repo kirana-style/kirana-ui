@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { SelectItem, SelectItemIndicator, SelectItemText } from "@ark-ui/vue"
+import { useSx } from "@kirana-style/core/vue"
 
 import IconPlaceholder from "../../../../icons/IconPlaceholder.vue"
-import { useStyleAttrs } from "../../../../lib/vue"
 import {
   menuCheckableRowPadding,
   menuIndicator,
@@ -12,15 +12,15 @@ import { select } from "../../../../styles/select.styles"
 
 defineOptions({ inheritAttrs: false })
 
-const bound = useStyleAttrs(() => [
-  menuRowBase,
-  menuCheckableRowPadding,
-  select.item,
-])
+const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <SelectItem data-slot="select-item" v-bind="bound">
+  <SelectItem
+    data-slot="select-item"
+    v-bind="attrs"
+    :sx="[menuRowBase, menuCheckableRowPadding, select.item, sx]"
+  >
     <SelectItemText :sx="select.itemText">
       <slot />
     </SelectItemText>

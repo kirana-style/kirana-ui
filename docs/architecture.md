@@ -295,8 +295,10 @@ a relation read, so the Nova entry would otherwise win in that state. States are
 written once for every base with `when(state, value)` (`registry/core/states.ts`),
 which spreads Base UI's, React Aria's and Ark UI's key for it; a component is built
 on one base, so only that base's attributes ever appear on it, and
-`registry/core/kirana.ts` tells Kirana so (`conditions.exclusive`) for the states
-two bases name differently. A condition that needs two states, such as a side
+`registry/core/kirana.ts` tells Kirana so: one vocabulary per base in
+`conditions.exclusiveAcross` (Base UI's `[data-starting-style]` and React Aria's
+`[data-entering]` never meet), and a pair in `conditions.exclusive` for a key no
+vocabulary names. An app that compiles the registry spreads both keys. A condition that needs two states, such as a side
 during the first frame, is written per base, never as one `when()` inside
 another. It replaces shadcn/ui's `cn-*` class per part and its copy of each rule in
 every style's stylesheet. Popups move with transitions, which reverse mid-flight;
@@ -311,9 +313,9 @@ so a shadcn/ui user on React Aria finds the API they know (its `Dialog` is the
 modal, inside `DialogTrigger`), and every copy writes the same `data-slot`s. A
 Vue component cannot receive `sx` as a prop: a caller's `:sx` reaches it as a
 `class`, which Vue adds to the root's own classes instead of merging them, so
-each Vue part turns attribute fallthrough off and merges its styles with the
-caller's through `useStyleAttrs` (`registry/lib/vue.ts`), the same per-property
-merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
+each Vue part turns attribute fallthrough off, takes the caller's classes with
+Kirana's `useSx()` (`@kirana-style/core/vue`) and puts them last in its root's
+own `:sx`, the same per-property merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
 drawn from framework-neutral data, so one map serves React and Vue. In an installed
 React project the placeholder is gone: shadcn/ui's CLI replaces each one with the
 project's icon library's component, keeping its other attributes, and drops the

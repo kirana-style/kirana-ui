@@ -43,8 +43,5 @@ function itemPages(): Plugin {
 export default defineConfig({
   base: "/preview/vue/",
   build: { outDir: OUT_DIR, emptyOutDir: true },
-  // KF-001: the compiled output imports Kirana's runtime, which no source names, so the first
-  // request would re-optimise it. Remove with the Kirana release that carries the fix.
-  optimizeDeps: { include: ["@kirana-style/core/internal"] },
   plugins: lazyPlugins(() => [kirana(), vue(), itemPages()]),
 })

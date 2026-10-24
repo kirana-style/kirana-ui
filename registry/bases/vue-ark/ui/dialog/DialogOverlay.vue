@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { DialogBackdrop } from "@ark-ui/vue"
+import { useSx } from "@kirana-style/core/vue"
 
-import { useStyleAttrs } from "../../../../lib/vue"
 import { dialog } from "../../../../styles/dialog.styles"
 import { backdropMotion } from "../../../../styles/overlay.styles"
 
 defineOptions({ inheritAttrs: false })
 
-const bound = useStyleAttrs(() => [backdropMotion, dialog.overlay])
+const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <DialogBackdrop data-slot="dialog-overlay" v-bind="bound" />
+  <DialogBackdrop
+    data-slot="dialog-overlay"
+    v-bind="attrs"
+    :sx="[backdropMotion, dialog.overlay, sx]"
+  />
 </template>

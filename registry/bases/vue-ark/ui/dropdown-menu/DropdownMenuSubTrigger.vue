@@ -1,26 +1,23 @@
 <script setup lang="ts">
 import { MenuTriggerItem } from "@ark-ui/vue"
+import { useSx } from "@kirana-style/core/vue"
 
 import IconPlaceholder from "../../../../icons/IconPlaceholder.vue"
-import { useStyleAttrs } from "../../../../lib/vue"
 import { dropdownMenu } from "../../../../styles/dropdown-menu.styles"
 import { menuRowBase, menuRowPadding } from "../../../../styles/menu.styles"
 
 defineOptions({ inheritAttrs: false })
 
 const { inset = false } = defineProps<{ inset?: boolean }>()
-const bound = useStyleAttrs(() => [
-  menuRowBase,
-  menuRowPadding,
-  dropdownMenu.subTrigger,
-])
+const { sx, attrs } = useSx()
 </script>
 
 <template>
   <MenuTriggerItem
     data-slot="dropdown-menu-sub-trigger"
     :data-inset="inset || undefined"
-    v-bind="bound"
+    v-bind="attrs"
+    :sx="[menuRowBase, menuRowPadding, dropdownMenu.subTrigger, sx]"
   >
     <slot />
     <IconPlaceholder

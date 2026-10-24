@@ -384,8 +384,16 @@ function foreignTexts(style: StyleObject, combination: Combination) {
   return new Set([...others].filter((text) => !own.has(text)))
 }
 
-/** `conditions.exclusive`'s pairs, and one attribute with two values. */
-export function exclusiveFrom(pairs: string[][]): Exclusive {
+/**
+ * Two conditions one element never holds together, as Kirana reads the configuration:
+ * `conditions.exclusive`'s pairs; `conditions.exclusiveAcross`' vocabularies, where two conditions
+ * each named by a vocabulary and held together by none are exclusive; and one attribute with two
+ * values.
+ */
+export function exclusiveFrom(
+  pairs: string[][],
+  across: string[][] = []
+): Exclusive {
   const set = new Set(
     pairs.flatMap((pair) =>
       pair.flatMap((a) =>
@@ -393,7 +401,15 @@ export function exclusiveFrom(pairs: string[][]): Exclusive {
       )
     )
   )
-  return (a, b) => sameAttribute(a, b) || set.has(`${a}\u0000${b}`)
+  const vocabularies = across.map((vocabulary) => new Set(vocabulary))
+  const named = (condition: string) =>
+    vocabularies.some((vocabulary) => vocabulary.has(condition))
+  const apart = (a: string, b: string) =>
+    named(a) &&
+    named(b) &&
+    !vocabularies.some((vocabulary) => vocabulary.has(a) && vocabulary.has(b))
+  return (a, b) =>
+    sameAttribute(a, b) || set.has(`${a}\u0000${b}`) || apart(a, b)
 }
 
 /**

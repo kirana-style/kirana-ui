@@ -96,7 +96,8 @@ export const ITEMS: Item[] = [
       "core/scales.ts",
       "core/states.ts",
       "core/tokens.ts",
-      react(combination) ? "lib/sx.ts" : "lib/vue.ts",
+      // Vue merges a caller's `:sx` with Kirana's own `useSx()`, so it needs no helper here.
+      ...(react(combination) ? ["lib/sx.ts"] : []),
     ],
   },
   {

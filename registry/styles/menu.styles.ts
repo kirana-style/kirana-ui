@@ -21,6 +21,7 @@ import {
   lineHeight,
   shadow,
   space,
+  spacing,
   zIndex,
 } from "../core/scales"
 import { item, when } from "../core/states"
@@ -45,11 +46,8 @@ const ROW_INLINE = {
   [maia]: space[3],
 }
 
-/**
- * `data-inset:pl-*`: the room a row or a label leaves for a leading icon. Maia's `pl-9.5` is a
- * multiple of 0.25 the scale has no step for (KF-013).
- */
-const INSET = { base: space[7], [vega]: space[8], [maia]: "2.375rem" }
+/** `data-inset:pl-*`: the room a row or a label leaves for a leading icon. */
+const INSET = { base: space[7], [vega]: space[8], [maia]: spacing(9.5) }
 
 /** What positions a menu-shaped popup (`isolate z-50 outline-none` on Base UI's positioner). */
 export const menuPositioner = css({

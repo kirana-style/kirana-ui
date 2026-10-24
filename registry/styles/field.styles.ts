@@ -43,8 +43,9 @@ const HAS_CONTENT = ':has(> [data-slot="field-content"])'
 /** A label wrapping a whole Field: a choice card. */
 const CARD = ':has(> [data-slot="field"])'
 /**
- * A FieldGroup directly inside another (`*:data-[slot=field-group]:`), asked of the group itself:
- * a relation read on its own anchor is the compiler's `relation-placement` error (KF-018).
+ * A FieldGroup directly inside another (`*:data-[slot=field-group]:`), asked of the group itself.
+ * Not a relation's `parent()` read: that ranks as a relation, level with the style overrides it
+ * must beat, where this condition ranks above them (KF-025 in Kirana's feedback log).
  */
 const NESTED = ':where([data-slot="field-group"] > *)'
 
@@ -203,14 +204,13 @@ export const field = {
       },
     },
     boxShadow: { [CARD]: { ":has(:focus-visible)": focusRing(alpha.ring50) } },
+    // `*:data-[slot=field]:p-2.5`: a Field child exists only on a card, so no card condition.
     [select.child('[data-slot="field"]')]: {
       padding: {
-        [CARD]: {
-          base: space["2.5"],
-          [vega]: space[3],
-          [lyra]: space[2],
-          [maia]: space[4],
-        },
+        base: space["2.5"],
+        [vega]: space[3],
+        [lyra]: space[2],
+        [maia]: space[4],
       },
     },
   }),

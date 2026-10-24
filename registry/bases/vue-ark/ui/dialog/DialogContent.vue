@@ -4,9 +4,9 @@ import {
   DialogContent,
   DialogPositioner,
 } from "@ark-ui/vue"
+import { useSx } from "@kirana-style/core/vue"
 
 import IconPlaceholder from "../../../../icons/IconPlaceholder.vue"
-import { useStyleAttrs } from "../../../../lib/vue"
 import { dialog } from "../../../../styles/dialog.styles"
 import { modalMotion } from "../../../../styles/overlay.styles"
 import { visuallyHidden } from "../../../../styles/visually-hidden.styles"
@@ -16,14 +16,18 @@ import DialogOverlay from "./DialogOverlay.vue"
 defineOptions({ inheritAttrs: false })
 
 const { showCloseButton = true } = defineProps<{ showCloseButton?: boolean }>()
-const bound = useStyleAttrs(() => [modalMotion, dialog.content])
+const { sx, attrs } = useSx()
 </script>
 
 <template>
   <Teleport to="body">
     <DialogOverlay />
     <DialogPositioner>
-      <DialogContent data-slot="dialog-content" v-bind="bound">
+      <DialogContent
+        data-slot="dialog-content"
+        v-bind="attrs"
+        :sx="[modalMotion, dialog.content, sx]"
+      >
         <slot />
         <DialogCloseTrigger
           v-if="showCloseButton"

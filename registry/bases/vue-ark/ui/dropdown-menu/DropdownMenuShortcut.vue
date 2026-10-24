@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { useStyleAttrs } from "../../../../lib/vue"
+import { useSx } from "@kirana-style/core/vue"
+
 import { menuShortcut } from "../../../../styles/menu.styles"
 
 defineOptions({ inheritAttrs: false })
 
-const bound = useStyleAttrs(() => menuShortcut)
+const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <span data-slot="dropdown-menu-shortcut" v-bind="bound">
+  <span
+    data-slot="dropdown-menu-shortcut"
+    v-bind="attrs"
+    :sx="[menuShortcut, sx]"
+  >
     <slot />
   </span>
 </template>

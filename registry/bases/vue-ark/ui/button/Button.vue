@@ -3,8 +3,8 @@ import { ark } from "@ark-ui/vue/factory"
 import { props as styleProps } from "@kirana-style/core"
 import { h, Text, useSlots } from "vue"
 import type { VNode } from "vue"
+import { useSx } from "@kirana-style/core/vue"
 
-import { useStyleAttrs } from "../../../../lib/vue"
 import { button, buttonLabel } from "../../../../styles/button.styles"
 
 defineOptions({ inheritAttrs: false })
@@ -20,9 +20,7 @@ const props = withDefaults(
   { variant: "default", size: "default", asChild: false }
 )
 
-const bound = useStyleAttrs(() =>
-  button({ variant: props.variant, size: props.size })
-)
+const { sx, attrs } = useSx()
 
 const slots = useSlots()
 const label = styleProps(buttonLabel).className
@@ -42,7 +40,8 @@ const Labelled = () =>
 
 <template>
   <ark.button
-    v-bind="bound"
+    v-bind="attrs"
+    :sx="[button({ variant: props.variant, size: props.size }), sx]"
     data-slot="button"
     :data-variant="variant"
     :data-size="size"
