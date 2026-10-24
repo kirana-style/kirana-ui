@@ -29,15 +29,7 @@ import {
 } from "../core/scales"
 import { alpha, font, radius, theme } from "../core/tokens"
 
-const { vega, lyra, maia } = axes.style
-
-/** Nova's footer is a tinted band to the content's edges; the other styles draw none. */
-const novaOnly = (value: string, other: string) => ({
-  base: value,
-  [vega]: other,
-  [lyra]: other,
-  [maia]: other,
-})
+const { nova, vega, lyra, maia } = axes.style
 
 /** The content's padding, which Nova's footer reaches back across. */
 const PADDING = space[4]
@@ -106,21 +98,22 @@ export const dialog = {
   }),
 
   // cn-dialog-footer and the component's own classes: a column, reversed so the primary action
-  // is on top, then a row to the end from `sm`.
+  // is on top, then a row to the end from `sm`. Nova's footer is a tinted band to the content's
+  // edges; the other styles draw none, so its look is Nova's alone, with no value for the rest.
   footer: css({
     display: "flex",
     flexDirection: { base: "column-reverse", [breakpoint.sm]: "row" },
     justifyContent: { [breakpoint.sm]: "flex-end" },
     gap: space[2],
-    marginInline: novaOnly(`calc(${PADDING} * -1)`, "0"),
-    marginBottom: novaOnly(`calc(${PADDING} * -1)`, "0"),
-    padding: novaOnly(PADDING, "0"),
-    borderTopWidth: novaOnly("1px", "0"),
-    borderTopStyle: "solid",
-    borderTopColor: theme.border,
-    borderEndStartRadius: novaOnly(radius.xl, "0"),
-    borderEndEndRadius: novaOnly(radius.xl, "0"),
-    backgroundColor: novaOnly(alpha.muted50, "transparent"),
+    marginInline: { [nova]: `calc(${PADDING} * -1)` },
+    marginBottom: { [nova]: `calc(${PADDING} * -1)` },
+    padding: { [nova]: PADDING },
+    borderTopWidth: { [nova]: "1px" },
+    borderTopStyle: { [nova]: "solid" },
+    borderTopColor: { [nova]: theme.border },
+    borderEndStartRadius: { [nova]: radius.xl },
+    borderEndEndRadius: { [nova]: radius.xl },
+    backgroundColor: { [nova]: alpha.muted50 },
   }),
 
   // cn-dialog-title and cn-font-heading. Vega sets no size, so its title is the content's `text-sm`.

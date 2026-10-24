@@ -235,6 +235,11 @@ Writing one:
 - write Nova as `base` and each other style as `[axes.style.<name>]` inside the
   property. A state or breakpoint entry whose value differs in a style is
   restated under that style (`[SMALL]: { base: …, [vega]: … }`);
+- a property only some styles set goes under each of those styles, Nova
+  included, with no `base`: `backgroundColor: { [nova]: alpha.muted50 }`, not
+  `{ base: alpha.muted50, [vega]: "transparent", … }`. A style that sets nothing
+  then gets what the reset or inheritance gives, as upstream's does, and its
+  installed code carries no dead declaration (Dialog's footer);
 - upstream draws its style rules in a layer below its components' own classes:
   where both set a property, write the component's value;
 - write a state with `...when(state, value)`; a value that needs two states is a
