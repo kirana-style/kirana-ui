@@ -16,17 +16,37 @@ import { button, buttonLabel } from "../../../styles/button.styles"
 
 type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
-/** Wraps each run of text so it is trimmed to its capitals; icons and elements pass through. */
+/**
+ * Wraps each run of text so it is trimmed to its capitals; icons and elements pass through.
+ * Adjacent strings are one run (`Default{" "}` is "Default "), and white space alone stays bare
+ * text, which the flex container drops as it does upstream's: a label of its own would add a gap.
+ */
 function withLabels(children: React.ReactNode) {
-  return React.Children.map(children, (child) =>
-    typeof child === "string" || typeof child === "number" ? (
-      <span data-slot="button-label" sx={buttonLabel}>
-        {child}
-      </span>
-    ) : (
-      child
-    )
-  )
+  const items: React.ReactNode[] = []
+  let text = ""
+  const flush = () => {
+    if (text.trim())
+      items.push(
+        <span
+          key={`label-${items.length}`}
+          data-slot="button-label"
+          sx={buttonLabel}
+        >
+          {text}
+        </span>
+      )
+    else if (text) items.push(text)
+    text = ""
+  }
+  for (const child of React.Children.toArray(children)) {
+    if (typeof child === "string" || typeof child === "number") text += child
+    else {
+      flush()
+      items.push(child)
+    }
+  }
+  flush()
+  return items
 }
 
 function Button({

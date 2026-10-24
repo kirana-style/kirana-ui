@@ -225,6 +225,7 @@ is the base value; Vega, Lyra and Maia override per property. The markup in
 | `control.ts`                | `focusRing`, `controlShadow`, `controlTransition`, `controlIcons`                                                          | What controls share: rings, Vega's `shadow-xs` under them, how colours move, icon size |
 | `visually-hidden.styles.ts` | `visuallyHidden`                                                                                                           | Text only a screen reader reaches (`sr-only`)                                          |
 | `page.styles.ts`            | `page.document`, `page.body`                                                                                               | The colour scheme on `<html>`; the page's background, text colour and font             |
+| `example.styles.ts`         | `example.page` `.wrapper` `.oneColumn` `.root` `.title` `.content` `.centred` `.row`                                       | The frame upstream's examples sit in on a preview page; the site's, not installable    |
 | `reset.css`                 | the `reset` layer                                                                                                          | Tailwind's preflight as far as the components rely on it; no pointer cursor            |
 
 Writing one:
@@ -260,13 +261,14 @@ The components, once per framework and base, applying the style modules and
 holding no style values of their own. Part names, `data-slot` names and props
 follow upstream's copy for that base.
 
-| Folder                          | Holds                                                                                                              |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `react-base/ui`                 | Button, Dialog, Select, DropdownMenu, Card, Field, Input, Label, Separator on Base UI; `sx` on each part           |
-| `react-base/blocks`, `examples` | `login-01`; a demo per component (`button-demo` …), each in the shared `page.example` frame                        |
-| `*/previews.ts`                 | Each base's items by registry name, for its preview pages                                                          |
-| `react-aria/ui`, `blocks`       | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover |
-| `vue-ark/ui`                    | Button, Dialog, Select, DropdownMenu on Ark UI, one single-file component per part, `index.ts` per component       |
+| Folder                          | Holds                                                                                                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `react-base/ui`                 | Button, Dialog, Select, DropdownMenu, Card, Field, Input, Label, Separator on Base UI; `sx` on each part                                                |
+| `react-base/blocks`, `examples` | `login-01`; a demo per component (`button-demo` …) in the shared `page.example` frame; upstream's `button-example` and `dialog-example`, layout and all |
+| `*/components`                  | `example.tsx`: `ExampleWrapper` and `Example`, the frame upstream's examples sit in (`containerSx` for its outer part)                                  |
+| `*/previews.ts`                 | Each base's items by registry name, for its preview pages                                                                                               |
+| `react-aria/ui`, `blocks`       | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover                                      |
+| `vue-ark/ui`                    | Button, Dialog, Select, DropdownMenu on Ark UI, one single-file component per part, `index.ts` per component                                            |
 
 And what they share:
 
@@ -317,6 +319,9 @@ item and preset on both sites):
   do.
 - A preview page loads the registry's `reset.css` and fonts, never the demo's
   `globals.css`, whose rules would reach the registry's components.
+- **Compared with upstream's own preview pages** by the conformance harness in
+  URL-pair mode (`docs/workflows.md`): upstream reads a preset code over the axis
+  parameters, so a comparison names the design with `?preset=`.
 
 ## The registry build (`packages/builder`)
 

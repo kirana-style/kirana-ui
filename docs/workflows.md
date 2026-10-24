@@ -198,6 +198,50 @@ can run, while the original's keyframes start on mount.
 
 When the original itself is wrong, fix the original.
 
+### Against shadcn/ui's own site
+
+The registry's preview pages are compared with the same pages on shadcn/ui's
+site, a local build of its `apps/v4` (`next dev` on port 4000), by the same
+harness in URL-pair mode: each route is loaded from both sites, with the
+expected site's path rewritten.
+
+```bash
+bun conformance/compare.ts --actual http://localhost:8787 --expected http://localhost:4000 \
+  --label upstream --expected-path "/preview/react/=/preview/" \
+  --paths "/preview/react/base/button-example?preset=b0" [--states]
+```
+
+- **Name the design by preset code.** Upstream's preview reads `?preset=` (`b0`
+  by default) over any axis parameter, so `?style=lyra` still shows Nova there.
+  Nova is `b0`, Lyra `buFywKm` (upstream rewrites it as `buFywLo`, with Lyra's
+  radius).
+- **Upstream's examples are ported with their layout**, in
+  `components/example.tsx`'s frame, so the two pages pair element for element. A
+  section whose components do not exist yet is left out, and its elements are
+  listed as expected.
+- **React Aria's `DialogTrigger` renders no element**, so the harness's
+  `dialog-open` state finds no `dialog-trigger` there: name the trigger,
+  `--trigger 'dialog-open=[data-slot="example-content"] button'`.
+
+On the slice (`button-example`, `dialog-example`, `login-01`, on Base UI and React
+Aria, in Nova and Lyra, at rest and in every state), nothing differs beyond
+these, each reviewed:
+
+| Difference                                               | Why                                                                                                                                                                                   |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `font-family`                                            | Next.js's `next/font` names Inter `Inter, "Inter Fallback"` ahead of the shared `"Inter Variable"`; the same face, as every width shows                                               |
+| `transition-property`                                    | `transition-all` is written as the properties that change                                                                                                                             |
+| `span[data-slot="button-label"]`                         | Button trims its text to its capitals in a label element                                                                                                                              |
+| The line height of FieldLabel and of Nova's small Button | upstream's site and the copy its CLI installs disagree: the site's stylesheet keeps a line height that `cn` drops from the installed classes. The registry follows the installed copy |
+| `scale: 1` against `none`                                | the dialog at rest after its transition, where upstream's keyframes leave none                                                                                                        |
+| `text-align: start` against `left`                       | the same in left-to-right text, and what upstream's right-to-left install writes                                                                                                      |
+| A toast viewport                                         | upstream's preview page mounts its toaster around every item                                                                                                                          |
+
+The first run found a real bug: Button gave a lone `" "` child (`Default{" "}`
+before an icon) a label of its own, an empty flex item one gap wide. Adjacent
+strings are now one label, and white space alone stays bare text, which the flex
+container drops.
+
 ### Porting from StyleX: what the merge changes
 
 The conformance run over blocks and examples found every class of difference
