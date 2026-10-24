@@ -237,7 +237,8 @@ Writing one:
 - upstream draws its style rules in a layer below its components' own classes:
   where both set a property, write the component's value;
 - write a state with `...when(state, value)`; a value that needs two states is a
-  block per base (`overlay.styles.ts`). Two bases' keys for one state are
+  block per base (`overlay.styles.ts`): one `when()` inside another compiles
+  combinations of two bases' keys, which never match, into the site's stylesheet. Two bases' keys for one state are
   exclusive through `exclusiveAcross` in `kirana.ts`; a key written by hand,
   which no vocabulary names (React Aria's `aria-orientation`), needs a pair in
   `exclusive`;

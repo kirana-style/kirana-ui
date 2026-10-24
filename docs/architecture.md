@@ -299,8 +299,9 @@ on one base, so only that base's attributes ever appear on it, and
 `conditions.exclusiveAcross` (Base UI's `[data-starting-style]` and React Aria's
 `[data-entering]` never meet), and a pair in `conditions.exclusive` for a key no
 vocabulary names. An app that compiles the registry spreads both keys. A condition that needs two states, such as a side
-during the first frame, is written per base, never as one `when()` inside
-another. It replaces shadcn/ui's `cn-*` class per part and its copy of each rule in
+during the first frame, is written per base: one `when()` inside another would
+compile every base's first frame with every other base's side, rules that never
+match, into the site's stylesheet (+40 % for the popup's slide). It replaces shadcn/ui's `cn-*` class per part and its copy of each rule in
 every style's stylesheet. Popups move with transitions, which reverse mid-flight;
 Ark UI keeps a popup mounted only for an animation, so on Ark the same fade and
 zoom are keyframes on its `data-state`.
