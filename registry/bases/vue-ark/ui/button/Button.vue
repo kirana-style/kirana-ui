@@ -25,10 +25,13 @@ const { sx, attrs } = useSx()
 const slots = useSlots()
 const label = styleProps(buttonLabel).className
 
-/** Each run of text, trimmed to its capitals; icons and elements pass through. */
+/**
+ * Each run of text, trimmed to its capitals; icons and elements pass through. White space alone
+ * stays bare text, which the flex container drops: a label of its own would add a gap.
+ */
 const Labelled = () =>
   (slots.default?.() ?? []).map((node: VNode) =>
-    node.type === Text
+    node.type === Text && String(node.children).trim()
       ? h(
           "span",
           { "data-slot": "button-label", class: label },

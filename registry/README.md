@@ -24,7 +24,7 @@ And beside it:
 
 - `styles/`, each component's look in every style: `button`, `dialog`, `select`, `dropdown-menu`,
   `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
-  modules, with the page's own styles and `reset.css`;
+  modules, with the page's own styles, the frame of upstream's examples and `reset.css`;
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
   with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select and
   DropdownMenu;
@@ -79,6 +79,11 @@ that base. `apps/preview-vue` renders the Vue copies, and its build is where the
 parameters, then the framing page's `design-system-params` messages, as attributes on `<html>`.
 Each base's `previews.ts` maps item names to components; the site's `/preview/react/<base>/<item>`
 and the Vue preview's `/preview/vue/ark/<item>` render them. `docs/catalogue.md` has the protocol.
+
+Besides the slice's own demos (`*-demo`), the React bases carry upstream's `button-example` and
+`dialog-example` in its frame (`components/example.tsx`, `styles/example.styles.ts`), layout and
+all, so the conformance harness can pair them with upstream's pages element for element
+(`docs/workflows.md`, "Against shadcn/ui's own site").
 
 ## The registry build
 

@@ -11,12 +11,22 @@
 import {
   ArrowDown01Icon,
   ArrowRight01Icon,
+  ArrowRight02Icon,
   ArrowUp01Icon,
   Cancel01Icon,
+  CircleArrowLeft02Icon,
   Tick02Icon,
   UnfoldMoreIcon,
 } from "@hugeicons/core-free-icons"
-import { Check, ChevronDown, ChevronRight, ChevronUp, X } from "lucide"
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+  CircleArrowLeft,
+  X,
+} from "lucide"
 
 import type { IconLibrary } from "../core/config"
 
@@ -56,6 +66,9 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       "stroke-linejoin": "round",
     },
     icons: {
+      // Upstream's name, from Lucide's older one for `CircleArrowLeft`.
+      ArrowLeftCircleIcon: CircleArrowLeft,
+      ArrowRightIcon: ArrowRight,
       CheckIcon: Check,
       ChevronDownIcon: ChevronDown,
       ChevronRightIcon: ChevronRight,
@@ -70,8 +83,10 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
     icons: {
       ArrowDown01Icon,
       ArrowRight01Icon,
+      ArrowRight02Icon,
       ArrowUp01Icon,
       Cancel01Icon,
+      CircleArrowLeft02Icon,
       Tick02Icon,
       UnfoldMoreIcon,
     },
