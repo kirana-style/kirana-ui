@@ -13,6 +13,9 @@ import { createHash } from "node:crypto"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
+import { AXIS_ATTRIBUTES } from "../../../registry/core/attributes"
+import { AXES } from "../../../registry/core/config"
+import { LAYOUTS } from "../../../registry/core/preset"
 import type { Combination, Framework, Item } from "./items"
 import { COMBINATIONS, ITEMS, installedPath } from "./items"
 import type { BuiltFile } from "./registry"
@@ -39,6 +42,40 @@ type Bases = Record<
   }
 >
 
+/** A design system's axes and preset layouts, as `kirana-style ui preset` reads them (D-110). */
+export type KiranaDesign = {
+  axes: Record<string, { attribute: string; values: string[] }>
+  flatten: string
+  presets: Record<string, { axis: string; values: string[]; bits: number }[]>
+}
+
+/**
+ * The design system's description: every axis written to `<html>` with its values (the first the
+ * default), `style` the axis the builder flattens for, and the preset layouts the site's codes use.
+ * shadcn/ui's `a` codes also carried a theme's charts, which the installer does not decode.
+ */
+export function designOf(): KiranaDesign {
+  return {
+    axes: Object.fromEntries(
+      Object.entries(AXIS_ATTRIBUTES).map(([axis, attribute]) => [
+        axis,
+        { attribute, values: [...AXES[axis as keyof typeof AXES]] },
+      ])
+    ),
+    flatten: "style",
+    presets: Object.fromEntries(
+      Object.entries(LAYOUTS).map(([letter, fields]) => [
+        letter,
+        fields.map((field) => ({
+          axis: field.key,
+          values: [...field.values],
+          bits: field.bits,
+        })),
+      ])
+    ),
+  }
+}
+
 export type KiranaItem = {
   $schema: string
   name: string
@@ -53,6 +90,11 @@ export type KiranaItem = {
   styles?: KiranaFile[]
   frameworks?: Partial<Record<Framework, Bases>>
   files?: KiranaFile[]
+  design?: KiranaDesign
+  flattened?: {
+    axis: string
+    builds: Record<string, Record<string, KiranaFile[]>>
+  }
   setup?: Item["setup"]
 }
 
@@ -134,7 +176,12 @@ export function buildKiranaRegistry(
   registry: string,
   versions: (name: string) => string | undefined,
   version: string,
-  kirana: string
+  kirana: string,
+  /** A style module as the builder flattened and checked it for a combination, if it did. */
+  flattenedOf: (
+    combination: Combination,
+    module: string
+  ) => string | undefined = () => undefined
 ) {
   const problems: string[] = []
   const read = (combination: Combination, source: string): BuiltFile => ({
@@ -258,6 +305,30 @@ export function buildKiranaRegistry(
       }
 
     const axes = axesOf(styles.map((file) => file.content).join("\n"))
+
+    // The style modules flattened for each style and each base the item has (D-110), from the
+    // modules the builder flattened and checked for the shadcn export, imports written as an
+    // installed project names them. None when one of its modules is not flattened (a helper).
+    const builds: Record<string, Record<string, KiranaFile[]>> = {}
+    for (const combination of COMBINATIONS) {
+      if (listsBases && !bases.has(baseKey(combination))) continue
+      const files = styles.map((file) => {
+        const module = file.source.replace(/^styles\//, "")
+        const code = flattenedOf(combination, module)
+        return code === undefined
+          ? undefined
+          : kiranaFile({
+              ...file,
+              content: code.replaceAll(
+                `@/registry/${combination.id}/`,
+                "@/registry/"
+              ),
+            })
+      })
+      if (styles.length === 0 || files.includes(undefined)) continue
+      ;(builds[combination.style] ??= {})[combination.base] =
+        files as KiranaFile[]
+    }
     items.push({
       $schema: KIRANA_ITEM,
       name: item.name,
@@ -272,6 +343,10 @@ export function buildKiranaRegistry(
       ...(styles.length > 0 ? { styles: styles.map(kiranaFile) } : {}),
       ...(listsBases ? { frameworks } : {}),
       ...(shared.length > 0 ? { files: shared.map(kiranaFile) } : {}),
+      ...(Object.keys(builds).length > 0
+        ? { flattened: { axis: "style", builds } }
+        : {}),
+      ...(kindOf(item) === "design-system" ? { design: designOf() } : {}),
       ...(item.setup ? { setup: item.setup } : {}),
     })
   }

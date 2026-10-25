@@ -339,6 +339,13 @@ item and preset on both sites):
     installation flattens them for a project's design.
   - Each base's markup travels on its own, with the packages and items only it
     needs.
+  - Each item also carries its style modules flattened for every style and base
+    (`flattened`), the very modules checked for the shadcn export, which
+    `kirana-style ui add` takes for the project's design.
+  - The `kirana` item describes the design (`design`): every axis with the
+    attribute it sets on `<html>` and its values, `style` as the axis flattened
+    for, and the preset layouts (`k`, and shadcn/ui's `a` and `b`), which
+    `kirana-style ui preset <code>` reads.
   - A file names another installed file by its type and path, as the item lists
     it: `@/registry/<type>/<path>` (`@/registry/component/login-form`), which
     installation rewrites to the project's alias for the type.

@@ -169,7 +169,8 @@ const SHADCN_A_CHARTS: Record<string, string> = {
   taupe: "cyan",
 }
 
-const LAYOUTS: Record<string, readonly Field[]> = {
+/** Every layout a code can have, by its first letter: what a design system's `presets` lists. */
+export const LAYOUTS: Record<string, readonly Field[]> = {
   a: SHADCN_FIELDS_A,
   b: SHADCN_FIELDS_B,
   k: PRESET_FIELDS,
