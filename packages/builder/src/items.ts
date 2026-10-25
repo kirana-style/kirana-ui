@@ -39,6 +39,11 @@ export type Item = {
   description: string
   /** Its files for a combination, relative to `registry/`; `undefined` when the base has none. */
   files: (combination: Combination) => string[] | undefined
+  /**
+   * Only in Kirana's format, whose style modules travel as written: a helper they import, which
+   * flattening inlines into shadcn/ui's.
+   */
+  kiranaOnly?: true
 }
 
 const react = (combination: Combination) => combination.framework === "react"
@@ -84,8 +89,8 @@ export const ITEMS: Item[] = [
     type: "registry:lib",
     title: "Kirana design system",
     description:
-      "The design system's tokens, axes and scales, the sx type, and the Kirana configuration a project spreads.",
-    files: (combination) => [
+      "The design system's tokens, axes and scales, and the Kirana configuration a project spreads.",
+    files: () => [
       "core/attributes.ts",
       "core/axes.ts",
       "core/config.ts",
@@ -96,9 +101,16 @@ export const ITEMS: Item[] = [
       "core/scales.ts",
       "core/states.ts",
       "core/tokens.ts",
-      // Vue merges a caller's `:sx` with Kirana's own `useSx()`, so it needs no helper here.
-      ...(react(combination) ? ["lib/sx.ts"] : []),
     ],
+  },
+  {
+    name: "sx",
+    type: "registry:lib",
+    title: "sx",
+    description:
+      "The sx prop React components take in place of className, and the props type that adds it.",
+    // Vue merges a caller's `:sx` with Kirana's own `useSx()`, so it needs no helper.
+    files: (combination) => (react(combination) ? ["lib/sx.ts"] : undefined),
   },
   {
     name: "icon-placeholder",
@@ -119,6 +131,15 @@ export const ITEMS: Item[] = [
     "What every menu-shaped popup shares: its surface and rows."
   ),
   sharedStyles("visually-hidden", "Text only a screen reader reaches."),
+  {
+    name: "control-styles",
+    type: "registry:ui",
+    title: "Control styles",
+    description:
+      "What form controls share: their focus and invalid rings, colour transitions and icon sizes.",
+    files: () => ["styles/control.ts"],
+    kiranaOnly: true,
+  },
   component(
     "button",
     "Button",

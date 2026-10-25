@@ -68,12 +68,16 @@ function resolveSource(
 
 const withoutExtension = (path: string) => path.replace(/\.(tsx?)$/, "")
 
-/** A registry file's imports rewritten for an installed project. */
+/**
+ * A registry file's imports rewritten for an installed project: `@/registry/<combination>/<place>`
+ * for shadcn/ui's CLI, or `prefix` (`@/registry` for Kirana's items, whose markup is one per base).
+ */
 export function rewriteImports(
   registry: string,
   source: string,
   code: string,
-  combination: Combination
+  combination: Combination,
+  prefix = `@/registry/${combination.id}`
 ): string {
   const from = installedPath(source)
   return code.replace(
@@ -92,7 +96,7 @@ export function rewriteImports(
       const rewritten =
         posix.dirname(target) === posix.dirname(from)
           ? `./${posix.basename(path)}`
-          : `@/registry/${combination.id}/${path}`
+          : `${prefix}/${path}`
       return `${lead}${quote}${rewritten}${quote}`
     }
   )
@@ -117,6 +121,74 @@ export function sourcesOf(
 }
 
 export type BuiltFile = { source: string; installed: string; content: string }
+
+/** Which item installs each place (`ui/button`, without its extension), from items' files. */
+export function ownersOf(
+  built: Iterable<[Item, BuiltFile[]]>,
+  owner = new Map<string, string>()
+): Map<string, string> {
+  for (const [item, files] of built)
+    for (const file of files)
+      owner.set(withoutExtension(file.installed), item.name)
+  return owner
+}
+
+/**
+ * What an item's files import: npm packages with their version ranges, and the other items that
+ * install what they import, by name. `prefix` is how a file names another item's place
+ * (`@/registry/<combination>` or `@/registry`).
+ */
+export function dependenciesOf(
+  files: readonly BuiltFile[],
+  item: string,
+  owner: ReadonlyMap<string, string>,
+  prefix: string,
+  versions: (name: string) => string | undefined
+) {
+  const dependencies = new Map<string, string>()
+  const registryDependencies = new Set<string>()
+  const problems: string[] = []
+  const provide = (file: BuiltFile, specifier: string, path: string) => {
+    const provider = owner.get(path) ?? owner.get(`${path}/index`)
+    if (!provider)
+      problems.push(
+        `${item}: ${file.installed} imports ${specifier}, which no item provides.`
+      )
+    else if (provider !== item) registryDependencies.add(provider)
+  }
+  for (const file of files) {
+    for (const specifier of importsOf(file.content)) {
+      if (specifier.startsWith("./")) {
+        // Installed in the same folder: the item's own file, or another item's (a dependency).
+        provide(
+          file,
+          specifier,
+          withoutExtension(posix.join(posix.dirname(file.installed), specifier))
+        )
+      } else if (specifier.startsWith(`${prefix}/`)) {
+        const path = withoutExtension(specifier.slice(prefix.length + 1))
+        if (path !== RESOLVED_AT_INSTALL) provide(file, specifier, path)
+      } else if (!specifier.startsWith(".")) {
+        const name = packageOf(specifier)
+        if (FRAMEWORK_PACKAGES.has(name)) continue
+        const version = versions(name)
+        if (!version) problems.push(`${item}: ${name} has no version.`)
+        else dependencies.set(name, version)
+      } else {
+        problems.push(
+          `${item}: ${file.installed} keeps a relative import ${specifier}.`
+        )
+      }
+    }
+  }
+  return {
+    dependencies: new Map(
+      [...dependencies].sort(([a], [b]) => a.localeCompare(b))
+    ),
+    registryDependencies: [...registryDependencies].sort(),
+    problems,
+  }
+}
 
 const fileType = (installed: string) =>
   installed.startsWith("ui/")
@@ -146,6 +218,7 @@ export function buildCombination(
 ) {
   const built = new Map<Item, BuiltFile[]>()
   for (const item of ITEMS) {
+    if (item.kiranaOnly) continue
     const sources = sourcesOf(registry, item, combination)
     if (!sources) continue
     built.set(
@@ -163,57 +236,25 @@ export function buildCombination(
     )
   }
 
-  const owner = new Map<string, Item>()
-  for (const [item, files] of built) {
-    for (const file of files) owner.set(withoutExtension(file.installed), item)
-  }
-
+  const owner = ownersOf(built)
   const problems: string[] = []
   const items = [...built].map(([item, files]) => {
-    const dependencies = new Set<string>()
-    const registryDependencies = new Set<string>()
-    for (const file of files) {
-      for (const specifier of importsOf(file.content)) {
-        if (specifier.startsWith("./")) {
-          // Installed in the same folder: the item's own file, or another item's (a dependency).
-          const target = withoutExtension(
-            posix.join(posix.dirname(file.installed), specifier)
-          )
-          const provider = owner.get(target)
-          if (!provider)
-            problems.push(
-              `${combination.id}/${item.name}: ${file.installed} imports ${specifier}, which no item provides.`
-            )
-          else if (provider !== item)
-            registryDependencies.add(`@kirana/${provider.name}`)
-        } else if (specifier.startsWith(`@/registry/${combination.id}/`)) {
-          const path = withoutExtension(
-            specifier.slice(`@/registry/${combination.id}/`.length)
-          )
-          if (path === RESOLVED_AT_INSTALL) continue
-          const provider = owner.get(path) ?? owner.get(`${path}/index`)
-          if (!provider)
-            problems.push(
-              `${combination.id}/${item.name}: ${file.installed} imports ${specifier}, which no item provides.`
-            )
-          else if (provider !== item)
-            registryDependencies.add(`@kirana/${provider.name}`)
-        } else if (!specifier.startsWith(".")) {
-          const name = packageOf(specifier)
-          if (FRAMEWORK_PACKAGES.has(name)) continue
-          const version = versions(name)
-          if (!version)
-            problems.push(
-              `${combination.id}/${item.name}: ${name} has no version.`
-            )
-          else dependencies.add(`${name}@${version}`)
-        } else {
-          problems.push(
-            `${combination.id}/${item.name}: ${file.installed} keeps a relative import ${specifier}.`
-          )
-        }
-      }
-    }
+    const found = dependenciesOf(
+      files,
+      item.name,
+      owner,
+      `@/registry/${combination.id}`,
+      versions
+    )
+    problems.push(
+      ...found.problems.map((problem) => `${combination.id}/${problem}`)
+    )
+    const dependencies = [...found.dependencies].map(
+      ([name, version]) => `${name}@${version}`
+    )
+    const registryDependencies = [...found.registryDependencies].map(
+      (name) => `@kirana/${name}`
+    )
     const json = {
       $schema: SCHEMA_ITEM,
       name: item.name,
