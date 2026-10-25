@@ -56,9 +56,10 @@ export default defineConfig({
         command: 'vp run --filter "./apps/*" --parallel dev',
         cache: false,
       },
-      // Format, lint with the Kirana rules, and types.
+      // Format, lint with the Kirana rules, and types. A lint warning fails it, as in CI, so
+      // warnings cannot pile up.
       check: {
-        command: "vp check",
+        command: "vp check --deny-warnings",
         cache: { input: SOURCES, output: [] },
       },
       // The registry's style modules, compiled with its own `kirana.config.ts`: no app builds them
