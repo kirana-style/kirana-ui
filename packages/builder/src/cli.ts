@@ -1,9 +1,13 @@
 /**
- * `bun packages/builder/src/cli.ts [--out <dir>] [--skip-check]`: the registry for every
- * combination, flattened, checked against the live styles with Kirana (one session, `session.ts`),
- * and validated against shadcn/ui's schema. Writes `<out>/<combination>/<item>.json`, `<out>/<combination>/registry.json`
- * and `<out>/index.json` (by default into the site's static files, `apps/web/dist/client/r`), and
- * exits non-zero on any problem.
+ * `bun packages/builder/src/cli.ts [--out <dir>] [--skip-check]`: the registry, into the site's
+ * static files by default (`apps/web/dist/client/r`), exiting non-zero on any problem:
+ *
+ * - in Kirana's format, which `kirana-style ui` reads: `<out>/<item>.json`, one item for every
+ *   framework and base with its style modules as written, and `<out>/index.json`;
+ * - for shadcn/ui's CLI, every combination flattened, checked against the live styles with Kirana
+ *   (one session, `session.ts`) and validated against shadcn/ui's schema:
+ *   `<out>/shadcn/<combination>/<item>.json`, `<out>/shadcn/<combination>/registry.json` and
+ *   `<out>/shadcn/index.json`.
  */
 import { spawnSync } from "node:child_process"
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
@@ -21,6 +25,8 @@ import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
 import { COMBINATIONS } from "./items"
+import { buildKiranaRegistry } from "./kirana-items"
+import { checkKiranaItems } from "./kirana-check"
 import { split } from "./markers"
 import { loadNames } from "./names"
 import { buildCombination, versionsFrom } from "./registry"
@@ -165,7 +171,7 @@ for (const combination of COMBINATIONS) {
   }
   const built = buildCombination(REGISTRY, combination, contentOf, versions)
   problems.push(...built.problems)
-  const folder = join(values.out!, combination.id)
+  const folder = join(values.out!, "shadcn", combination.id)
   mkdirSync(folder, { recursive: true })
   for (const item of built.items) {
     writeFileSync(
@@ -187,9 +193,32 @@ for (const combination of COMBINATIONS) {
   })
 }
 writeFileSync(
-  join(values.out!, "index.json"),
+  join(values.out!, "shadcn", "index.json"),
   `${JSON.stringify(index, null, 2)}\n`
 )
+
+// Kirana's format: one item for every framework and base, at the registry's root.
+const workspace = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"))
+const kirana = workspace.workspaces.catalog["@kirana-style/compiler"] as string
+const registryVersion = JSON.parse(
+  readFileSync(join(REGISTRY, "package.json"), "utf8")
+).version as string
+const own = buildKiranaRegistry(REGISTRY, versions, registryVersion, kirana)
+problems.push(...own.problems)
+for (const item of own.items)
+  writeFileSync(
+    join(values.out!, `${item.name}.json`),
+    `${JSON.stringify(item, null, 2)}\n`
+  )
+writeFileSync(
+  join(values.out!, "index.json"),
+  `${JSON.stringify(own.index, null, 2)}\n`
+)
+const checked = await checkKiranaItems([
+  ["index", own.index],
+  ...own.items.map((item) => [item.name, item] as const),
+])
+problems.push(...checked.problems)
 
 const seconds = ((performance.now() - started) / 1000).toFixed(1)
 if (problems.length) {
@@ -200,5 +229,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items (${checked.note}); for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )

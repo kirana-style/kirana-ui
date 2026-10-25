@@ -89,7 +89,9 @@ all, so the conformance harness can pair them with upstream's pages element for 
 
 `vp run registry` (`packages/builder`) flattens every style module to each combination of
 framework, base and style, checks with Kirana that the flattened module renders what the live one
-does, and writes shadcn/ui-format items into the site's static files (`/r`). A style module must
+does, and writes the items into the site's static files (`/r`): in Kirana's format, one item for
+every framework and base with its style modules as written (`/r/<item>.json`, `/r/index.json`), and
+for shadcn/ui's CLI, flattened per combination (`/r/shadcn/<combination>/<item>.json`). A style module must
 stay readable by it: Kirana's functions called at the top level, state keys through `core/states.ts`
 (`when()`, its groups), a relation declared in one module and imported elsewhere.
 

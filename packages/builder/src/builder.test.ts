@@ -6,6 +6,8 @@ import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
+import { checkKiranaItems } from "./kirana-check"
+import { axesOf, hashOf, kiranaFile } from "./kirana-items"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
 import { conditionText, partText, ranked } from "./session"
 import type { Ranked } from "./session"
@@ -406,5 +408,61 @@ describe("an item's imports", () => {
   it("name their package", () => {
     expect(packageOf("@base-ui/react/button")).toBe("@base-ui/react")
     expect(packageOf("lucide")).toBe("lucide")
+  })
+})
+
+describe("Kirana's items", () => {
+  it("place a file under the alias for its folder, with its hash", () => {
+    const file = (installed: string) =>
+      kiranaFile({ source: "", installed, content: "x" })
+    expect(file("ui/button.tsx")).toMatchObject({
+      type: "ui",
+      path: "button.tsx",
+    })
+    expect(file("lib/kirana/axes.ts")).toMatchObject({
+      type: "lib",
+      path: "kirana/axes.ts",
+    })
+    expect(file("components/login-form.tsx")).toMatchObject({
+      type: "component",
+      path: "login-form.tsx",
+    })
+    expect(file("blocks/login-01/page.tsx")).toMatchObject({
+      type: "component",
+      path: "blocks/login-01/page.tsx",
+    })
+    // What Kirana checks: `sha256-` and the base64 SHA-256 of the UTF-8 bytes.
+    expect(hashOf("")).toBe(
+      "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+    )
+  })
+
+  it("name the axes their style modules read", () => {
+    expect(
+      axesOf(
+        "const { vega } = axes.style\nfoo(axes.radius.lg, axes.style.lyra)"
+      )
+    ).toEqual(["radius", "style"])
+  })
+
+  it("are checked with Kirana's registry when it is there, and say so when not", async () => {
+    const check = () => ({
+      kind: "item",
+      problems: [{ pointer: "/version", message: "is required" }],
+    })
+    expect(
+      await checkKiranaItems([["button", {}]], async () => ({ check }))
+    ).toEqual({
+      problems: ["kirana/button: /version is required"],
+      note: "checked with @kirana-style/registry",
+    })
+    expect(
+      await checkKiranaItems([["button", {}]], async () => {
+        throw new Error("the placeholder throws")
+      })
+    ).toEqual({
+      problems: [],
+      note: "not checked: this Kirana release has no @kirana-style/registry",
+    })
   })
 })

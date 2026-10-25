@@ -330,9 +330,24 @@ item and preset on both sites):
 
 ## The registry build (`packages/builder`)
 
-`vp run registry` writes `apps/web/dist/client/r/<combination>/<item>.json`,
-`<combination>/registry.json` and `index.json`, for every combination of
-`react-base`, `react-aria`, `vue-ark` and the four styles.
+`vp run registry` writes the registry into the site's static files,
+`apps/web/dist/client/r`, in two formats:
+
+- **Kirana's**, which `kirana-style ui` reads (`view`, `search`, and `add` to come):
+  `r/<item>.json`, one item for every framework and base, and `r/index.json`.
+  - The style modules travel as written, one source for every framework, since
+    installation flattens them for a project's design.
+  - Each base's markup travels on its own, with the packages and items only it
+    needs.
+  - A file names another item's place as `@/registry/<place>`.
+- **shadcn/ui's**, for its CLI: `r/shadcn/<combination>/<item>.json`,
+  `<combination>/registry.json` and `r/shadcn/index.json`, for every combination of
+  `react-base`, `react-aria`, `vue-ark` and the four styles, each style module
+  flattened.
+
+Two items exist for Kirana's format's sake. `sx` (React only) is the props helper
+React components import. `control-styles` is the helper several style modules
+import, which flattening inlines into shadcn/ui's.
 
 | Module                          | Does                                                                                                                            |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -342,6 +357,8 @@ item and preset on both sites):
 | `session.ts`                    | One Kirana session (`Driver` from `@kirana-style/compiler`): batched `trace()`, conditions as data, `check()` for diagnostics   |
 | `check.ts`, `winners.ts`        | The round trip (recipes by part) and the winners, before and after; probes in small modules, since a trace reads its whole file |
 | `items.ts`, `registry.ts`       | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                        |
+| `kirana-items.ts`               | Kirana's format: an item's files shared by every base, each base's own, dependencies split the same way, the axes it reads      |
+| `kirana-check.ts`               | Kirana's items checked with `@kirana-style/registry`, once the project's Kirana release carries it                              |
 
 An item's files install as markup and style modules in `ui/`, the design system
 in `lib/kirana/`, a block's parts in `components/`; an import between items is
