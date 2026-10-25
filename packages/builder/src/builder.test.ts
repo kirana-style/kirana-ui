@@ -427,6 +427,17 @@ describe("Kirana's items", () => {
       type: "component",
       path: "login-form.tsx",
     })
+    // An import names a file by the type and path the item lists it with.
+    expect(
+      kiranaFile({
+        source: "",
+        installed: "blocks/login-01/page.tsx",
+        content:
+          'import { LoginForm } from "@/registry/components/login-form"\nimport x from "@/registry/blocks/x"\nimport { y } from "@/registry/ui/y"',
+      }).content
+    ).toBe(
+      'import { LoginForm } from "@/registry/component/login-form"\nimport x from "@/registry/component/blocks/x"\nimport { y } from "@/registry/ui/y"'
+    )
     expect(file("blocks/login-01/page.tsx")).toMatchObject({
       type: "component",
       path: "blocks/login-01/page.tsx",

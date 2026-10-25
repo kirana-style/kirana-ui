@@ -339,7 +339,9 @@ item and preset on both sites):
     installation flattens them for a project's design.
   - Each base's markup travels on its own, with the packages and items only it
     needs.
-  - A file names another item's place as `@/registry/<place>`.
+  - A file names another installed file by its type and path, as the item lists
+    it: `@/registry/<type>/<path>` (`@/registry/component/login-form`), which
+    installation rewrites to the project's alias for the type.
 - **shadcn/ui's**, for its CLI: `r/shadcn/<combination>/<item>.json`,
   `<combination>/registry.json` and `r/shadcn/index.json`, for every combination of
   `react-base`, `react-aria`, `vue-ark` and the four styles, each style module
