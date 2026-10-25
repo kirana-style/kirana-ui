@@ -203,7 +203,13 @@ const kirana = workspace.workspaces.catalog["@kirana-style/compiler"] as string
 const registryVersion = JSON.parse(
   readFileSync(join(REGISTRY, "package.json"), "utf8")
 ).version as string
-const own = buildKiranaRegistry(REGISTRY, versions, registryVersion, kirana)
+const own = buildKiranaRegistry(
+  REGISTRY,
+  versions,
+  registryVersion,
+  kirana,
+  (combination, module) => flattened.get(`${combination.id}/${module}`)
+)
 problems.push(...own.problems)
 for (const item of own.items)
   writeFileSync(
