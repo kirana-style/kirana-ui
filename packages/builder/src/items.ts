@@ -44,6 +44,12 @@ export type Item = {
    * flattening inlines into shadcn/ui's.
    */
   kiranaOnly?: true
+  /** A design system's wiring, in Kirana's format only. */
+  setup?: {
+    config?: { module: string; export: string }
+    stylesheets?: string[]
+    document?: { module: string; export: string }
+  }
 }
 
 const react = (combination: Combination) => combination.framework === "react"
@@ -101,7 +107,21 @@ export const ITEMS: Item[] = [
       "core/scales.ts",
       "core/states.ts",
       "core/tokens.ts",
+      "core/document.ts",
+      "styles/reset.css",
     ],
+    // How `kirana-style ui init` wires it into a project.
+    setup: {
+      config: {
+        module: "@/registry/lib/kirana/kirana",
+        export: "installConfig",
+      },
+      stylesheets: ["@/registry/ui/reset.css"],
+      document: {
+        module: "@/registry/lib/kirana/document",
+        export: "htmlStyles",
+      },
+    },
   },
   {
     name: "sx",

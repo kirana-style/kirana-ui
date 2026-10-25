@@ -4,9 +4,10 @@
  *
  * An item's style modules travel as written, one source for every framework, since installation
  * flattens them for the project's design. Its markup travels per framework and base, and the files
- * every base shares once. A file names another item's place as `@/registry/<place>`
- * (`@/registry/lib/kirana/axes`), which installation rewrites to the project's aliases; two files
- * installed in one folder keep a relative import.
+ * every base shares once. A file names another installed file by its type and path, as the item
+ * lists it: `@/registry/<type>/<path>` (`@/registry/lib/kirana/axes`, `@/registry/component/login-form`),
+ * which installation rewrites to the project's alias for the type; two files installed in one folder
+ * keep a relative import.
  */
 import { createHash } from "node:crypto"
 import { readFileSync } from "node:fs"
@@ -52,6 +53,7 @@ export type KiranaItem = {
   styles?: KiranaFile[]
   frameworks?: Partial<Record<Framework, Bases>>
   files?: KiranaFile[]
+  setup?: Item["setup"]
 }
 
 export type KiranaIndex = {
@@ -68,6 +70,9 @@ export type KiranaIndex = {
 export const hashOf = (content: string) =>
   `sha256-${createHash("sha256").update(content, "utf8").digest("base64")}`
 
+/** An import of `components/` or `blocks/`, which Kirana's format names as the type `component`. */
+const COMPONENT_IMPORT = /(["'])@\/registry\/(components|blocks)\//g
+
 /** A file as Kirana's format places it: `ui/x` under `ui`, `lib/x` under `lib`, the rest under `component`. */
 export function kiranaFile(file: BuiltFile): KiranaFile {
   const [, folder, rest] =
@@ -78,7 +83,12 @@ export function kiranaFile(file: BuiltFile): KiranaFile {
       : folder === "lib"
         ? { type: "lib" as const, path: rest! }
         : { type: "component" as const, path: rest ?? file.installed }
-  return { ...place, content: file.content, hash: hashOf(file.content) }
+  const content = file.content.replace(
+    COMPONENT_IMPORT,
+    (_, quote: string, imported: string) =>
+      `${quote}@/registry/component/${imported === "blocks" ? "blocks/" : ""}`
+  )
+  return { ...place, content, hash: hashOf(content) }
 }
 
 /** The item's kind in Kirana's format: the design system, a block, a library (style modules alone are one), or a component. */
@@ -163,7 +173,9 @@ export function buildKiranaRegistry(
   const items: KiranaItem[] = []
   for (const [item, bases] of perBase) {
     const all = [...bases.values()]
-    const isStyle = (file: BuiltFile) => file.source.startsWith("styles/")
+    // Style modules travel as written; a stylesheet beside them (the reset) is a plain file.
+    const isStyle = (file: BuiltFile) =>
+      file.source.startsWith("styles/") && file.source.endsWith(".ts")
     const styles = (all[0] ?? []).filter(isStyle)
     // Files every framework and base installs alike, when the item is for all of them.
     const everywhere = bases.size === BASES.length
@@ -260,6 +272,7 @@ export function buildKiranaRegistry(
       ...(styles.length > 0 ? { styles: styles.map(kiranaFile) } : {}),
       ...(listsBases ? { frameworks } : {}),
       ...(shared.length > 0 ? { files: shared.map(kiranaFile) } : {}),
+      ...(item.setup ? { setup: item.setup } : {}),
     })
   }
 
