@@ -347,6 +347,13 @@ item and preset on both sites):
   `react-base`, `react-aria`, `vue-ark` and the four styles, each style module
   flattened.
 
+The `kirana` item is the design system: besides its tokens and axes it carries
+the reset and its wiring, which `kirana-style ui init` follows: `installConfig`
+(`core/kirana.ts`, `registryConfig` with the reset layer) spread into the project's
+configuration, `reset.css` imported after Kirana's stylesheet, and `htmlStyles`
+(`core/document.ts`: the colour scheme, page colours and font, the root tokens and
+the axes' anchor) on `<html>`.
+
 Two items exist for Kirana's format's sake. `sx` (React only) is the props helper
 React components import. `control-styles` is the helper several style modules
 import, which flattening inlines into shadcn/ui's.

@@ -53,6 +53,7 @@ export type KiranaItem = {
   styles?: KiranaFile[]
   frameworks?: Partial<Record<Framework, Bases>>
   files?: KiranaFile[]
+  setup?: Item["setup"]
 }
 
 export type KiranaIndex = {
@@ -172,7 +173,9 @@ export function buildKiranaRegistry(
   const items: KiranaItem[] = []
   for (const [item, bases] of perBase) {
     const all = [...bases.values()]
-    const isStyle = (file: BuiltFile) => file.source.startsWith("styles/")
+    // Style modules travel as written; a stylesheet beside them (the reset) is a plain file.
+    const isStyle = (file: BuiltFile) =>
+      file.source.startsWith("styles/") && file.source.endsWith(".ts")
     const styles = (all[0] ?? []).filter(isStyle)
     // Files every framework and base installs alike, when the item is for all of them.
     const everywhere = bases.size === BASES.length
@@ -269,6 +272,7 @@ export function buildKiranaRegistry(
       ...(styles.length > 0 ? { styles: styles.map(kiranaFile) } : {}),
       ...(listsBases ? { frameworks } : {}),
       ...(shared.length > 0 ? { files: shared.map(kiranaFile) } : {}),
+      ...(item.setup ? { setup: item.setup } : {}),
     })
   }
 

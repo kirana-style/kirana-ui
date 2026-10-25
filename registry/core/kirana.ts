@@ -30,3 +30,12 @@ export const registryConfig = {
     exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
   },
 } satisfies KiranaConfig
+
+/**
+ * `registryConfig` with the reset underneath every Kirana rule: what `kirana-style ui init` spreads
+ * into a project's `kirana.config.ts`, beside the reset it imports.
+ */
+export const installConfig = {
+  ...registryConfig,
+  layers: { before: ["reset"] },
+} satisfies KiranaConfig
