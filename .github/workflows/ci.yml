@@ -44,9 +44,9 @@ jobs:
         run: vp fmt --check
 
       # Oxlint with the Kirana rules (@kirana-style/eslint-plugin), and the TypeScript type check
-      # (tsgolint) in the same pass.
+      # (tsgolint) in the same pass. A warning fails it, like an error: `vp run check` does the same.
       - name: Lint and types
-        run: vp lint
+        run: vp lint --deny-warnings
 
       # Every installed JavaScript dependency's licence against scripts/check-licenses.ts.
       - name: Licences

@@ -164,7 +164,7 @@ Every command runs from the repository root.
 | `vp install`                                       | installs every workspace and the git hooks                                                                  |
 | `vp run dev`                                       | the three apps with hot reload                                                                              |
 | `vp run build`                                     | every app into `dist/`; prints Kirana's diagnostics                                                         |
-| `vp run check`                                     | Oxfmt, Oxlint with the Kirana rules, TypeScript (tsgolint)                                                  |
+| `vp run check`                                     | Oxfmt, Oxlint with the Kirana rules, TypeScript (tsgolint); a lint warning fails it                         |
 | `vp check --fix`                                   | the same, fixing what can be fixed                                                                          |
 | `vp run licenses`                                  | every installed package's licence against `scripts/check-licenses.ts`                                       |
 | `vp run prepush`                                   | what the pre-push hook and CI run: check, licences, build                                                   |
