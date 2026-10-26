@@ -32,7 +32,7 @@ const STATIC = join(ROOT, "apps", "web", "dist", "client")
 /** What CI installs: the default, a flattened style on the second React base, and Vue. */
 const DEFAULT = ["react-base-nova", "react-aria-lyra", "vue-ark-vega"]
 
-/** The slice, per framework: Vue has the four components. */
+/** The slice, per framework: Vue has five of its components. */
 const ITEMS = {
   react: [
     "button",
@@ -44,9 +44,10 @@ const ITEMS = {
     "input",
     "label",
     "separator",
+    "tabs",
     "login-01",
   ],
-  vue: ["button", "dialog", "select", "dropdown-menu"],
+  vue: ["button", "dialog", "select", "dropdown-menu", "tabs"],
 } as const
 
 const version = (

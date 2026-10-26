@@ -7,7 +7,7 @@ import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
-import { argumentsAt } from "./compose"
+import { argumentsAt, choicesOf } from "./compose"
 import { classDiff, hookPlaces, hooksIn, placeHooks, rulesOf } from "./upstream"
 import { axesOf, kiranaFile } from "./kirana-items"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
@@ -512,6 +512,15 @@ describe("a composition at a use site", () => {
       "mix(a, [b])",
       "sx",
     ])
+  })
+})
+
+describe("a choice between handles", () => {
+  it("is each branch, and anything else is itself", () => {
+    expect(
+      choicesOf('variant === "line" ? tabs.listLine : tabs.listDefault')
+    ).toEqual(["tabs.listLine", "tabs.listDefault"])
+    expect(choicesOf("menuRowBase")).toEqual(["menuRowBase"])
   })
 })
 

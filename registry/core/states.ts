@@ -77,6 +77,20 @@ export const item = {
   },
 } as const satisfies Record<string, StateKeys>
 
+/** A tab: the chosen one, and one that cannot be chosen. */
+export const tab = {
+  active: {
+    base: Base.Tabs.Tab.active,
+    aria: Aria.Tab.selected,
+    ark: Ark.Tabs.Trigger.selected,
+  },
+  disabled: {
+    base: Base.Tabs.Tab.disabled,
+    aria: Aria.Tab.disabled,
+    ark: Ark.Tabs.Trigger.disabled,
+  },
+} as const satisfies Record<string, StateKeys>
+
 /** A select's trigger with no value chosen. React Aria marks its value element instead. */
 export const placeholder = {
   trigger: {

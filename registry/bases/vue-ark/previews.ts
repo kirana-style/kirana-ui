@@ -8,10 +8,12 @@ import ButtonDemo from "./examples/button-demo.vue"
 import DialogDemo from "./examples/dialog-demo.vue"
 import DropdownMenuDemo from "./examples/dropdown-menu-demo.vue"
 import SelectDemo from "./examples/select-demo.vue"
+import TabsDemo from "./examples/tabs-demo.vue"
 
 export const previews: Record<string, Component> = {
   "button-demo": ButtonDemo,
   "dialog-demo": DialogDemo,
   "dropdown-menu-demo": DropdownMenuDemo,
   "select-demo": SelectDemo,
+  "tabs-demo": TabsDemo,
 }

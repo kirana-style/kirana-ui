@@ -69,6 +69,7 @@ export const alpha = defineTokens(
   {
     foreground5: `color-mix(in oklab, ${theme.foreground} 5%, transparent)`,
     foreground10: `color-mix(in oklab, ${theme.foreground} 10%, transparent)`,
+    foreground60: `color-mix(in oklab, ${theme.foreground} 60%, transparent)`,
     primary5: `color-mix(in oklab, ${theme.primary} 5%, transparent)`,
     primary10: `color-mix(in oklab, ${theme.primary} 10%, transparent)`,
     primary20: `color-mix(in oklab, ${theme.primary} 20%, transparent)`,
@@ -105,6 +106,10 @@ export const surface = defineTokens(
     control: `light-dark(transparent, ${alpha.input30})`,
     /** A card's outline in Luma and Rhea: `ring-foreground/5 dark:ring-foreground/10`. */
     ringSoft: `light-dark(${alpha.foreground5}, ${alpha.foreground10})`,
+    /** A tab's text: `text-foreground/60 dark:text-muted-foreground`. */
+    tabText: `light-dark(${alpha.foreground60}, ${theme.mutedForeground})`,
+    /** The chosen tab's edge: `dark:data-active:border-input`. */
+    tabActiveBorder: `light-dark(transparent, ${theme.input})`,
     /** Mira's control fill: `bg-input/20 dark:bg-input/30`. */
     controlSoft: `light-dark(${alpha.input20}, ${alpha.input30})`,
     /** Its fill on hover: `dark:hover:bg-input/50`. */
