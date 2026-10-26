@@ -157,9 +157,6 @@ export function probesOf(exports: Record<string, unknown>) {
   return probes
 }
 
-/** How many probes one module holds (KF-028). */
-const PROBES_PER_FILE = 8
-
 export type CheckContext = {
   registry: string
   names: Names
@@ -296,30 +293,20 @@ export function checkWinners(
     module,
     relationsFrom: fromSources,
   })
-  // Probes in small modules: Kirana's trace takes time in proportion to the file it reads, for
-  // each question (KF-028), so one module of every probe would make Button's 1,925 questions 26 s.
   const writeProbes = (
     folder: "before" | "after",
     header: string,
     styles: [string, StyleObject][]
   ) => {
-    const where = new Map<string, { file: string; line: number }>()
-    for (let start = 0; start < styles.length; start += PROBES_PER_FILE) {
-      const part = styles.slice(start, start + PROBES_PER_FILE)
-      const generated = generate(
-        Object.fromEntries(part.map(([key, style]) => [key, handle(style)])),
-        context.names,
-        options(header)
-      )
-      const file = write(
-        context,
-        `${folder}/${module.replace(/\.ts$/, `.${start / PROBES_PER_FILE}.ts`)}`,
-        generated
-      )
-      for (const [key] of part)
-        where.set(key, { file, line: generated.sites.get(key)! })
-    }
-    return where
+    const generated = generate(
+      Object.fromEntries(styles.map(([key, style]) => [key, handle(style)])),
+      context.names,
+      options(header)
+    )
+    const file = write(context, `${folder}/${module}`, generated)
+    return new Map(
+      styles.map(([key]) => [key, { file, line: generated.sites.get(key)! }])
+    )
   }
   const live = writeProbes(
     "before",

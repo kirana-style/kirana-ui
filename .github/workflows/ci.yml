@@ -82,6 +82,12 @@ jobs:
       - name: Registry
         run: vp run registry
 
+      # The registry installed with Kirana's own installer, as a project would: Kirana's example
+      # app per framework, `kirana-style ui init --preset` and `add`, built, the lockfile validated,
+      # for React on both bases and Vue.
+      - name: Installs with kirana-style ui
+        run: bun scripts/install-smoke.ts
+
       # The apps ship `light-dark()` as written. A CSS minifier aiming below Kirana's browser floor
       # rewrites it into `--lightningcss-light/dark` switches that nothing sets, and the colours
       # vanish in production only: the dev server does not minify.

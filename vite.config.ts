@@ -51,6 +51,14 @@ export default defineConfig({
         dependsOn: ["build"],
         cache: { input: SOURCES, output: ["apps/web/dist/client/r/**"] },
       },
+      // The registry installed as a project installs it: a project from Kirana's example per
+      // framework, `kirana-style ui init --preset` and `add`, built, its lockfile validated
+      // (`scripts/install-smoke.ts`). Reads Kirana's release from GitHub, so it is not in prepush.
+      install: {
+        command: "bun scripts/install-smoke.ts",
+        dependsOn: ["registry"],
+        cache: false,
+      },
       // The demo :3000, blocks :3001, examples :3002 and the Vue preview :3003, side by side.
       dev: {
         command: 'vp run --filter "./apps/*" --parallel dev',
@@ -238,9 +246,10 @@ export default defineConfig({
     },
     overrides: [
       {
-        // KF-026, until the Kirana release that fixes it: the rule hands the compiler a `.vue` file's
-        // script block alone, so a part's `useSx()` reads as unused when its template applies it.
-        // The compiler still checks these files whole: `vp run styles` and the Vue preview's build.
+        // KF-034, until the Kirana release that fixes it: 0.3.3 compiles a `.vue` file's script
+        // block as the build does (KF-026), but finds the block by its exact text, and oxlint hands
+        // the rule the block without its leading newline, so a part's `useSx()` still reads as
+        // unused. The compiler checks these files whole: `vp run styles` and the Vue preview's build.
         files: ["registry/bases/vue-ark/**/*.vue"],
         rules: { "kirana/diagnostics": "off" },
       },

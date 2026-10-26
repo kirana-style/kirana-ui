@@ -220,11 +220,12 @@ writeFileSync(
   join(values.out!, "index.json"),
   `${JSON.stringify(own.index, null, 2)}\n`
 )
-const checked = await checkKiranaItems([
-  ["index", own.index],
-  ...own.items.map((item) => [item.name, item] as const),
-])
-problems.push(...checked.problems)
+problems.push(
+  ...checkKiranaItems([
+    ["index", own.index],
+    ...own.items.map((item) => [item.name, item] as const),
+  ])
+)
 
 const seconds = ((performance.now() - started) / 1000).toFixed(1)
 if (problems.length) {
@@ -235,5 +236,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${own.items.length} Kirana items (${checked.note}); for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )
