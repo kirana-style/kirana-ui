@@ -10,7 +10,7 @@ import { readFileSync } from "node:fs"
 
 import type { RecipeHandle, StyleHandle, StyleObject } from "./kirana-stub"
 import { declaredKeyframes } from "./kirana-stub"
-import { only, split } from "./markers"
+import { only, plainStates, split } from "./markers"
 import type { Marker } from "./markers"
 import { mergeStyles } from "./styles"
 
@@ -124,7 +124,7 @@ export function generate(
         const relation = relationName(marker.relation)
         return marker.kind === "anchor"
           ? `${relation}.anchor`
-          : `${relation}.${marker.how}(${marker.condition ? quote(marker.condition) : ""})`
+          : `${relation}.${marker.how}(${marker.condition ? quote(plainStates(marker.condition)) : ""})`
       }
       case "target":
         return `${kirana("select")}.${marker.how}(${quote(marker.selector)})`

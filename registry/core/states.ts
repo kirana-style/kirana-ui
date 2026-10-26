@@ -91,6 +91,15 @@ export const tab = {
   },
 } as const satisfies Record<string, StateKeys>
 
+/** A collapsible section that is open: Base UI's Collapsible, React Aria's Disclosure. */
+export const disclosure = {
+  open: {
+    base: Base.Collapsible.Root.open,
+    aria: Aria.Disclosure.expanded,
+    ark: Ark.Collapsible.Root.state.open,
+  },
+} as const satisfies Record<string, StateKeys>
+
 /** A select's trigger with no value chosen. React Aria marks its value element instead. */
 export const placeholder = {
   trigger: {

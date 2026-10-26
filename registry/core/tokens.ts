@@ -75,6 +75,8 @@ export const alpha = defineTokens(
     primary20: `color-mix(in oklab, ${theme.primary} 20%, transparent)`,
     primary30: `color-mix(in oklab, ${theme.primary} 30%, transparent)`,
     primary80: `color-mix(in oklab, ${theme.primary} 80%, transparent)`,
+    muted20: `color-mix(in oklab, ${theme.muted} 20%, transparent)`,
+    muted30: `color-mix(in oklab, ${theme.muted} 30%, transparent)`,
     muted50: `color-mix(in oklab, ${theme.muted} 50%, transparent)`,
     destructive10: `color-mix(in oklab, ${theme.destructive} 10%, transparent)`,
     destructive20: `color-mix(in oklab, ${theme.destructive} 20%, transparent)`,
@@ -90,6 +92,7 @@ export const alpha = defineTokens(
     border50: `color-mix(in oklab, ${theme.border} 50%, transparent)`,
     ring30: `color-mix(in oklab, ${theme.ring} 30%, transparent)`,
     ring50: `color-mix(in oklab, ${theme.ring} 50%, transparent)`,
+    sidebarForeground70: `color-mix(in oklab, ${theme.sidebarForeground} 70%, transparent)`,
   },
   { variable: true }
 )
@@ -110,6 +113,8 @@ export const surface = defineTokens(
     tabText: `light-dark(${alpha.foreground60}, ${theme.mutedForeground})`,
     /** The chosen tab's edge: `dark:data-active:border-input`. */
     tabActiveBorder: `light-dark(transparent, ${theme.input})`,
+    /** Mira's sidebar input: `bg-muted/20 dark:bg-muted/30`. */
+    mutedSoft: `light-dark(${alpha.muted20}, ${alpha.muted30})`,
     /** Mira's control fill: `bg-input/20 dark:bg-input/30`. */
     controlSoft: `light-dark(${alpha.input20}, ${alpha.input30})`,
     /** Its fill on hover: `dark:hover:bg-input/50`. */

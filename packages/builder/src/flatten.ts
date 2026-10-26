@@ -16,7 +16,7 @@
  * Removing a condition can change which entry wins (03, "Flattening, precisely"), so `check.ts` asks
  * Kirana for the winners before and after.
  */
-import { only } from "./markers"
+import { only, split } from "./markers"
 import type { RecipeHandle, StyleHandle, StyleObject } from "./kirana-stub"
 import {
   byConditionSet,
@@ -49,6 +49,11 @@ export function classifier(target: Target): Classify {
     }
     if (marker?.kind === "state")
       return marker.base === target.base ? "keep" : "drop"
+    // A read of a state key (`collapsibleScope.within(disclosure.open.base)`): its base's alone.
+    if (marker?.kind === "read")
+      for (const part of split(marker.condition))
+        if (typeof part !== "string" && part.kind === "state")
+          if (part.base !== target.base) return "drop"
     return "keep"
   }
 }

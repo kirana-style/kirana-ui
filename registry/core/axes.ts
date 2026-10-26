@@ -37,7 +37,19 @@ export const axes = {
     translucent: ui.within('[data-menu-color$="translucent"]'),
   },
   pointer: ui.within("[data-pointer]"),
+  /**
+   * The colour mode the page chose (`data-mode`), for the few values that are not colours and so
+   * cannot be a `light-dark()` pair: written with the system's scheme as `{ base, [DARK_SCHEME]:
+   * { base, [mode.light]: … }, [mode.dark]: … }`.
+   */
+  mode: {
+    light: ui.within('[data-mode="light"]'),
+    dark: ui.within('[data-mode="dark"]'),
+  },
 } as const
+
+/** The system's dark scheme, which `axes.mode.light` overrides. */
+export const DARK_SCHEME = "@media (prefers-color-scheme: dark)"
 
 /**
  * Conditions on `<html>` itself, one per value an axis can take besides its default (the default

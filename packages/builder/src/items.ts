@@ -154,6 +154,14 @@ export const ITEMS: Item[] = [
         : ["icons/IconPlaceholder.vue", "icons/vue.ts"]),
     ],
   },
+  {
+    name: "use-mobile",
+    type: "registry:lib",
+    title: "useIsMobile",
+    description: "Whether the screen is narrower than the md breakpoint.",
+    files: (combination) =>
+      react(combination) ? ["lib/use-mobile.ts"] : undefined,
+  },
   sharedStyles("overlay", "How popups, modals and backdrops come and go."),
   sharedStyles(
     "menu",
@@ -218,6 +226,48 @@ export const ITEMS: Item[] = [
     "Visually or semantically separates content.",
     ["react"]
   ),
+  component(
+    "avatar",
+    "Avatar",
+    "An image element with a fallback for representing the user.",
+    ["react"]
+  ),
+  component(
+    "breadcrumb",
+    "Breadcrumb",
+    "Displays the path to the current resource using a hierarchy of links.",
+    ["react"]
+  ),
+  component(
+    "collapsible",
+    "Collapsible",
+    "An interactive component which expands and collapses a panel.",
+    ["react"]
+  ),
+  component(
+    "sheet",
+    "Sheet",
+    "Extends the Dialog to display content from an edge of the screen.",
+    ["react"]
+  ),
+  component(
+    "sidebar",
+    "Sidebar",
+    "A composable, themeable and customizable sidebar component.",
+    ["react"]
+  ),
+  component(
+    "skeleton",
+    "Skeleton",
+    "Shows a placeholder while content is loading.",
+    ["react"]
+  ),
+  component(
+    "tooltip",
+    "Tooltip",
+    "A popup that displays information related to an element when it receives focus or is hovered.",
+    ["react"]
+  ),
   {
     name: "login-01",
     type: "registry:block",
@@ -228,6 +278,28 @@ export const ITEMS: Item[] = [
         ? [
             `bases/${combination.bases}/blocks/login-01/page.tsx`,
             `bases/${combination.bases}/blocks/login-01/components/login-form.tsx`,
+          ]
+        : undefined,
+  },
+  {
+    name: "sidebar-07",
+    type: "registry:block",
+    title: "Sidebar 07",
+    description: "A sidebar that collapses to icons.",
+    files: (combination) =>
+      react(combination)
+        ? [
+            `bases/${combination.bases}/blocks/sidebar-07/page.tsx`,
+            ...[
+              "app-sidebar",
+              "nav-main",
+              "nav-projects",
+              "nav-user",
+              "team-switcher",
+            ].map(
+              (part) =>
+                `bases/${combination.bases}/blocks/sidebar-07/components/${part}.tsx`
+            ),
           ]
         : undefined,
   },

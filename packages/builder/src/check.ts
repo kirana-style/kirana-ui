@@ -464,7 +464,11 @@ export function exclusiveFrom(
  * that shadows Kirana's, a key it cannot read) is an error there even where no trace looks.
  */
 export function compileGenerated(context: CheckContext): string[] {
-  const problems = context.session.problems([".flat"])
+  // A relation a component anchors for the pages it sits in (Sidebar's wrapper) is read by none of
+  // the style modules: `vp run styles`, over the whole registry, sees its readers.
+  const problems = context.session
+    .problems([".flat"])
+    .filter((problem) => !problem.includes("relation-unused"))
   return problems.length
     ? [`The generated modules do not compile cleanly:\n${problems.join("\n")}`]
     : []
