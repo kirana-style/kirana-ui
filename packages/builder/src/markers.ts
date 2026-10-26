@@ -14,7 +14,7 @@ export type Marker =
   | {
       kind: "read"
       relation: string
-      how: "within" | "after" | "before"
+      how: "within" | "parent" | "after" | "before"
       condition: string
     }
   | { kind: "anchor"; relation: string }

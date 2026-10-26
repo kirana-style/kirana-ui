@@ -58,13 +58,14 @@ export function recipe(config: StyleObject): RecipeHandle {
 
 export function relation(name: string) {
   const read =
-    (how: "within" | "after" | "before") =>
+    (how: "within" | "parent" | "after" | "before") =>
     (condition = "") =>
       marker({ kind: "read", relation: name, how, condition })
   return {
     name,
     anchor: marker({ kind: "anchor", relation: name }),
     within: read("within"),
+    parent: read("parent"),
     after: read("after"),
     before: read("before"),
   }
