@@ -12,12 +12,16 @@ import { select } from "../../../../styles/select.styles"
 
 defineOptions({ inheritAttrs: false })
 
+// Ark's required `item`, an entry of the select's collection, declared here and passed on, so a
+// project's type checker sees it. `unknown`: a caller's items are of its own type.
+const { item } = defineProps<{ item: unknown }>()
 const { sx, attrs } = useSx()
 </script>
 
 <template>
   <SelectItem
     data-slot="select-item"
+    :item="item"
     v-bind="attrs"
     :sx="[menuRowBase, menuCheckableRowPadding, select.item, sx]"
   >

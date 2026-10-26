@@ -11,7 +11,13 @@ import {
 
 defineOptions({ inheritAttrs: false })
 
-const { inset = false, variant = "default" } = defineProps<{
+// Ark's required `value` is declared here and passed on, so a project's type checker sees it.
+const {
+  value,
+  inset = false,
+  variant = "default",
+} = defineProps<{
+  value: string
   inset?: boolean
   variant?: "default" | "destructive"
 }>()
@@ -21,6 +27,7 @@ const { sx, attrs } = useSx()
 <template>
   <MenuItem
     data-slot="dropdown-menu-item"
+    :value="value"
     :data-inset="inset || undefined"
     :data-variant="variant"
     v-bind="attrs"

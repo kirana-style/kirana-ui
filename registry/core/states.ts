@@ -86,17 +86,5 @@ export const placeholder = {
   value: { aria: Aria.SelectValue.placeholder },
 } as const satisfies Record<string, StateKeys>
 
-/**
- * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
- * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); `@kirana-style/states` has no keys for it.
- */
-export const orientation = {
-  horizontal: {
-    base: Base.Separator.orientation.horizontal,
-    aria: '[aria-orientation="horizontal"]',
-  },
-  vertical: {
-    base: Base.Separator.orientation.vertical,
-    aria: '[aria-orientation="vertical"]',
-  },
-} as const satisfies Record<string, StateKeys>
+/** A separator's direction, declared beside the configuration that makes its keys exclusive. */
+export { orientation } from "./kirana"

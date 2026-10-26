@@ -11,13 +11,21 @@ import {
 
 defineOptions({ inheritAttrs: false })
 
-const { inset = false } = defineProps<{ inset?: boolean }>()
+// Ark's required `value` and `checked` are declared here and passed on, so a project's type checker
+// sees them; `v-model:checked`'s listener reaches Ark through the attributes.
+const {
+  value,
+  checked,
+  inset = false,
+} = defineProps<{ value: string; checked: boolean; inset?: boolean }>()
 const { sx, attrs } = useSx()
 </script>
 
 <template>
   <MenuCheckboxItem
     data-slot="dropdown-menu-checkbox-item"
+    :value="value"
+    :checked="checked"
     :data-inset="inset || undefined"
     v-bind="attrs"
     :sx="[menuRowBase, menuCheckableRowPadding, sx]"
