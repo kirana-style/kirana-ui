@@ -254,6 +254,198 @@
       "property": "(element)",
       "route": "chart-example",
       "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+    },
+    {
+      "element": "",
+      "property": "text-align",
+      "route": "sidebar-07",
+      "reason": "a menu button's `start`, upstream's `text-left`: the same in left-to-right text, and what upstream's right-to-left install writes; what is inside the button inherits it"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "(element)",
+      "route": "sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so the avatar shows its fallback"
+    },
+    {
+      "element": "span[data-slot=\"avatar-fallback\"]",
+      "property": "(element)",
+      "route": "sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so the avatar shows its fallback"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "display",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "display",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "height",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "height",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "min-height",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "min-height",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "min-width",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "min-width",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "width",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "width",
+      "route": "/aria/sidebar-07",
+      "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
+    },
+    {
+      "element": "ul[data-slot=\"sidebar-menu-sub\"]",
+      "property": "display",
+      "route": "sidebar-07",
+      "reason": "upstream's bug: collapsed to icons, its sub-list stays drawn, a 12px stub with its border under the first section, because the style file's `group-data-[collapsible=icon]:hidden` loses to the component's own `flex`; ours hides it, as the rule means"
+    },
+    {
+      "element": "ul[data-slot=\"sidebar-menu-sub\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "upstream's bug: collapsed to icons, its sub-list stays drawn, a 12px stub with its border under the first section, because the style file's `group-data-[collapsible=icon]:hidden` loses to the component's own `flex`; ours hides it, as the rule means"
+    },
+    {
+      "element": "ul[data-slot=\"sidebar-menu-sub\"]",
+      "property": "width",
+      "route": "sidebar-07",
+      "reason": "upstream's bug: collapsed to icons, its sub-list stays drawn, a 12px stub with its border under the first section, because the style file's `group-data-[collapsible=icon]:hidden` loses to the component's own `flex`; ours hides it, as the rule means"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "bottom",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "left",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "min-height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "min-width",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "right",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "top",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
+      "property": "width",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "div[data-slot=\"sidebar-group\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "ul[data-slot=\"sidebar-menu\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "div[data-slot=\"sidebar-menu\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "li[data-slot=\"collapsible\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "div[data-slot=\"collapsible\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "div[data-slot=\"collapsible-content\"]",
+      "property": "height",
+      "route": "sidebar-07",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "div[data-slot=\"separator\"]",
+      "property": "height",
+      "route": "/aria/sidebar-07",
+      "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
+    },
+    {
+      "element": "div[data-slot=\"separator\"]",
+      "property": "align-self",
+      "route": "/aria/sidebar-07",
+      "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
     }
   ]
 }

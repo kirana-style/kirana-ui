@@ -33,7 +33,13 @@ export function split(text: string): (string | Marker)[] {
   for (;;) {
     const start = rest.indexOf(OPEN)
     if (start < 0) break
-    const end = rest.indexOf(CLOSE, start)
+    // Markers nest: a relation read of a state key holds the key's marker in its condition.
+    let end = start
+    for (let depth = 0; ;) {
+      end++
+      if (rest[end] === OPEN) depth++
+      else if (rest[end] === CLOSE && depth-- === 0) break
+    }
     if (start > 0) parts.push(rest.slice(0, start))
     parts.push(JSON.parse(rest.slice(start + 1, end)) as Marker)
     rest = rest.slice(end + 1)
@@ -51,3 +57,15 @@ export function only(text: string): Marker | undefined {
 }
 
 export const hasMarker = (text: string) => text.includes(OPEN)
+
+/** `text` with each state key's marker written as the key. */
+export const plainStates = (text: string) =>
+  split(text)
+    .map((part) =>
+      typeof part === "string"
+        ? part
+        : part.kind === "state"
+          ? part.key
+          : marker(part)
+    )
+    .join("")

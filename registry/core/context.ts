@@ -39,3 +39,13 @@ export const cardCtx = defineTokens(
   { spacing: "1rem" },
   { variable: true }
 )
+
+/**
+ * A sidebar's widths (`--sidebar-width`, `--sidebar-width-icon`): expanded, and collapsed to its
+ * icons. The mobile sheet sets its own expanded width.
+ */
+export const sidebarCtx = defineTokens(
+  "sidebarCtx",
+  { width: "16rem", widthIcon: "3rem" },
+  { variable: true }
+)

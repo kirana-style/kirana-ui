@@ -5,6 +5,7 @@
 import type { ComponentType } from "react"
 
 import Login01 from "./blocks/login-01/page"
+import Sidebar07 from "./blocks/sidebar-07/page"
 import ButtonDemo from "./examples/button-demo"
 import ChartDemo from "./examples/chart-demo"
 import ChartExample from "./examples/chart-example"
@@ -32,4 +33,5 @@ export const previews: Record<string, ComponentType> = {
   "tabs-demo": TabsDemo,
   "tabs-example": TabsExample,
   "login-01": Login01,
+  "sidebar-07": Sidebar07,
 }

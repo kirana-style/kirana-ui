@@ -4,7 +4,7 @@ import { exclusiveFrom } from "./check"
 import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
-import { marker } from "./markers"
+import { marker, plainStates, split } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
 import { argumentsAt, choicesOf } from "./compose"
@@ -633,5 +633,42 @@ export const input = css({})`
       },
       unmapped: ["cn-other"],
     })
+  })
+})
+
+describe("a read of a state key", () => {
+  const open = (base: "base" | "aria", key: string) =>
+    marker({
+      kind: "read",
+      relation: "collapsible",
+      how: "within",
+      condition: state(base, key),
+    })
+
+  it("is one marker holding the key's", () => {
+    expect(split(`${open("base", "[data-open]")} x`)).toEqual([
+      {
+        kind: "read",
+        relation: "collapsible",
+        how: "within",
+        condition: state("base", "[data-open]"),
+      },
+      " x",
+    ])
+    expect(plainStates(`a ${state("aria", "[data-expanded]")}`)).toBe(
+      "a [data-expanded]"
+    )
+  })
+
+  it("is kept for its base and dropped for another", () => {
+    const value = {
+      [open("base", "[data-open]")]: "90deg",
+      [open("aria", "[data-expanded]")]: "90deg",
+    }
+    const flat = flattenValue(
+      value,
+      classifier({ style: "nova", base: "aria" })
+    ) as Record<string, string>
+    expect(Object.keys(flat)).toEqual([open("aria", "[data-expanded]")])
   })
 })
