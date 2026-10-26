@@ -39,7 +39,11 @@ const styles = {
     justifyContent: "center",
     gap: space[2],
   }),
-  w28Capitalize: css({ width: spacing(28), textTransform: "capitalize" }),
+  // `capitalize` over the component's own text transform in every style (Sera's capitals).
+  w28Capitalize: css({
+    width: spacing(28),
+    textTransform: { "*": null, base: "capitalize" },
+  }),
   w72: css({ width: spacing(72) }),
   span: css({ gridColumn: "span 2 / span 2" }),
 }

@@ -1,7 +1,7 @@
 /**
  * DropdownMenu, in every style: shadcn/ui's `bases/base/ui/dropdown-menu.tsx` and
  * `bases/aria/ui/dropdown-menu.tsx` with the `cn-dropdown-menu-*` rules of its style files (MIT), at
- * commit `25af02b`. Nova is the base look; Vega, Lyra and Maia override what differs.
+ * commit `25af02b`. Nova is the base look; the other styles override what differs.
  *
  * Most of a dropdown menu is the shared menu (`menu.styles.ts`); this module is what is its own.
  * The component composes:
@@ -23,16 +23,36 @@ import { css } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import { menuCtx } from "../core/context"
-import { shadow, space } from "../core/scales"
+import { lineHeight, shadow, space } from "../core/scales"
 import { item, overlay, when } from "../core/states"
-import { alpha, theme } from "../core/tokens"
+import { alpha, surface, theme } from "../core/tokens"
 import { ringAndShadow } from "./menu.styles"
 import { ANCHOR_WIDTH } from "./overlay.styles"
 
-const { nova, vega, maia } = axes.style
+const { nova, vega, maia, mira, luma, rhea, sera } = axes.style
 
 /** `p-1`, but not Lyra's: its rows meet the popup's edges. */
-const PADDING = { [nova]: space[1], [vega]: space[1], [maia]: space[1] }
+const PADDING = {
+  [nova]: space[1],
+  [vega]: space[1],
+  [maia]: space[1],
+  [mira]: space[1],
+  [luma]: space["1.5"],
+  [rhea]: space[1],
+  [sera]: space["1.5"],
+}
+
+/** Luma's and Rhea's dropdown rules are fainter (`bg-border/50`), their select's are not. */
+const SEPARATOR = {
+  [luma]: {
+    base: alpha.border50,
+    [axes.menuColor.translucent]: alpha.foreground5,
+  },
+  [rhea]: {
+    base: alpha.border50,
+    [axes.menuColor.translucent]: alpha.foreground5,
+  },
+}
 
 export const dropdownMenu = {
   // cn-dropdown-menu-content and the component's own classes, after `menuSurface`. Maia's ring is
@@ -40,9 +60,15 @@ export const dropdownMenu = {
   // (`data-closed:overflow-hidden`).
   content: css({
     width: ANCHOR_WIDTH,
-    minWidth: { base: space[32], [maia]: space[48] },
+    minWidth: {
+      base: space[32],
+      [maia]: space[48],
+      [luma]: space[48],
+      [sera]: space[48],
+    },
     padding: PADDING,
     overflowY: { ...when(overlay.ending, "hidden") },
+    [menuCtx.separator]: SEPARATOR,
     boxShadow: {
       [maia]: ringAndShadow(
         `light-dark(${alpha.foreground5}, ${alpha.foreground10})`,
@@ -55,19 +81,31 @@ export const dropdownMenu = {
   // larger shadow. It restates every entry the content sets, so it can follow it in a list too.
   subContent: css({
     width: "auto",
-    minWidth: { base: "96px", [maia]: space[36] },
+    minWidth: {
+      base: "96px",
+      [maia]: space[36],
+      [mira]: space[32],
+      [luma]: space[36],
+      [sera]: space[36],
+    },
     padding: PADDING,
     overflowY: { ...when(overlay.ending, "hidden") },
+    [menuCtx.separator]: SEPARATOR,
     boxShadow: {
       base: ringAndShadow(alpha.foreground10, shadow.lg),
       [maia]: ringAndShadow(alpha.foreground5, shadow["2xl"]),
+      [mira]: ringAndShadow(alpha.foreground10, shadow.md),
+      [luma]: ringAndShadow(surface.ringSoft, shadow.lg),
+      [rhea]: ringAndShadow(surface.ringSoft, shadow.lg),
+      [sera]: ringAndShadow(alpha.foreground10, shadow.md),
     },
   }),
 
-  // cn-dropdown-menu-sub-trigger: highlighted while its submenu is open. Maia's gap is `gap-2`,
-  // not its rows' `gap-2.5`.
+  // cn-dropdown-menu-sub-trigger: highlighted while its submenu is open. Maia's, Luma's and Sera's
+  // gap is `gap-2`, not their rows' `gap-2.5`; Mira's text is plain `text-xs`.
   subTrigger: css({
-    gap: { [maia]: space[2] },
+    gap: { [maia]: space[2], [luma]: space[2], [sera]: space[2] },
+    lineHeight: { [mira]: lineHeight.xs },
     backgroundColor: { ...when(item.open, menuCtx.highlight) },
     color: { ...when(item.open, theme.accentForeground) },
   }),

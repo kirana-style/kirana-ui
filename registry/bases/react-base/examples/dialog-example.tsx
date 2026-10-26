@@ -23,11 +23,19 @@ import {
 import { Field, FieldGroup, FieldLabel } from "../ui/field"
 import { Input } from "../ui/input"
 
-const { vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia, mira, luma, rhea } = axes.style
 
-// The dialog's own padding, which the scrolling text reaches out to: 4 in Nova and Lyra, 6 in Vega
-// and Maia.
-const BLEED = { base: space[4], [vega]: space[6], [maia]: space[6] }
+// The dialog's own padding, which the scrolling text reaches out to: 4 in Nova, Lyra and Mira, 6 in
+// Vega, Maia, Luma and Rhea. Sera's text stays inside it.
+const BLEED = {
+  [nova]: space[4],
+  [vega]: space[6],
+  [lyra]: space[4],
+  [maia]: space[6],
+  [mira]: space[4],
+  [luma]: space[6],
+  [rhea]: space[6],
+}
 
 const styles = {
   scroll: css({
@@ -36,9 +44,13 @@ const styles = {
     scrollbarWidth: "none",
     "::-webkit-scrollbar": { display: "none" },
     marginInline: {
-      base: `calc(${space[4]} * -1)`,
+      [nova]: `calc(${space[4]} * -1)`,
       [vega]: `calc(${space[6]} * -1)`,
+      [lyra]: `calc(${space[4]} * -1)`,
       [maia]: `calc(${space[6]} * -1)`,
+      [mira]: `calc(${space[4]} * -1)`,
+      [luma]: `calc(${space[6]} * -1)`,
+      [rhea]: `calc(${space[6]} * -1)`,
     },
     paddingInline: BLEED,
   }),

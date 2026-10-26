@@ -27,6 +27,12 @@
       "reason": "Nova's small button: upstream's site keeps text-sm's line height under text-[0.8rem], its installed copy loses it to cn; the registry follows the install"
     },
     {
+      "element": "button[data-slot=\"button\"]",
+      "property": "line-height",
+      "route": "button-example\\?preset=b1D0dv72",
+      "reason": "Mira's extra-small button: upstream's site keeps `text-xs/relaxed`'s line height under `text-[0.625rem]`, its installed copy loses it to cn; the registry follows the install"
+    },
+    {
       "element": "label[data-slot=\"field-label\"]",
       "property": "line-height",
       "reason": "FieldLabel: upstream's site gives `.cn-label`'s leading-none over `.cn-field-label`'s leading-snug, its installed copy keeps leading-snug; the registry follows the install"
@@ -123,25 +129,25 @@
       "reason": "upstream's `line-clamp-1` is written as an ellipsis on one line (select.styles.ts says so): the same drawing, computed as `ellipsis` where line-clamp leaves `clip`"
     },
     {
-      "element": "Subscription Plan \u203a ",
+      "element": "Subscription Plan › ",
       "property": "(element)",
       "route": "select-example",
       "reason": "left out: it needs Item"
     },
     {
-      "element": "Inline with Input & NativeSelect \u203a ",
+      "element": "Inline with Input & NativeSelect › ",
       "property": "(element)",
       "route": "select-example",
       "reason": "left out: it needs NativeSelect"
     },
     {
-      "element": "With Autocomplete \u203a ",
+      "element": "With Autocomplete › ",
       "property": "(element)",
       "route": "/aria/select-example",
       "reason": "left out: React Aria's autocomplete needs InputGroup"
     },
     {
-      "element": "With Avatar \u203a ",
+      "element": "With Avatar › ",
       "property": "(element)",
       "route": "dropdown-menu-example",
       "reason": "left out: it needs Avatar"
@@ -175,7 +181,7 @@
       "element": "div[data-slot=\"select-content\"]",
       "property": "max-height",
       "route": "/base/select-example",
-      "reason": "the closed 0\u00d70 popup Base UI mounts ahead of time: Base UI 1.9 gives it the available height, upstream's 1.6 (at 25af02b) none; an open popup matches"
+      "reason": "the closed 0×0 popup Base UI mounts ahead of time: Base UI 1.9 gives it the available height, upstream's 1.6 (at 25af02b) none; an open popup matches"
     },
     {
       "element": "div[data-slot=\"",
@@ -190,7 +196,7 @@
       "reason": "upstream's bug: its React Aria menus always carry `cn-menu-translucent-aria` (`data-focused:bg-foreground/10`), which its site's menu-colour toggle never removes and its CLI installs as utilities, so a highlighted row is translucent in the default menu colour too; ours highlight with `accent` unless the menu colour is translucent, as Base UI's do upstream"
     },
     {
-      "element": "Chat Settings \u203a ",
+      "element": "Chat Settings › ",
       "property": "(element)",
       "route": "dialog-example",
       "reason": "left out: it needs Tabs, Switch, Checkbox, NativeSelect, InputGroup, Kbd, Tooltip and Textarea"

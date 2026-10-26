@@ -6,7 +6,7 @@
  *
  * Different from upstream on purpose: the card's `*:[div:not([class*='w-'])]:w-full` gives its
  * child rows the full width unless their class names a width. Kirana hashes class names, so a row
- * takes `example.row` (or its own width) instead. Sera's square corners wait for that style.
+ * takes `example.row` (or its own width) instead. Sera's corners are square, as Lyra's.
  */
 import { css } from "@kirana-style/core"
 
@@ -22,7 +22,7 @@ import {
 } from "../core/scales"
 import { radius, theme } from "../core/tokens"
 
-const { lyra } = axes.style
+const { lyra, sera } = axes.style
 
 const COLUMNS = (count: number) => `repeat(${count}, minmax(0, 1fr))`
 
@@ -96,7 +96,7 @@ export const example = {
     flexDirection: "column",
     alignItems: "start",
     gap: space[6],
-    borderRadius: { base: radius.xl, [lyra]: "0" },
+    borderRadius: { base: radius.xl, [lyra]: "0", [sera]: "0" },
     backgroundColor: theme.card,
     padding: space[12],
     color: theme.foreground,

@@ -206,7 +206,8 @@ condition in `axes.ts`, and its entries in `root.ts`.
 ## The registry's styles (`registry/styles`, being built)
 
 Each component's look in every style, as `css()` handles its parts compose. Nova
-is the base value; Vega, Lyra and Maia override per property. The markup in
+is the base value; Vega, Lyra, Maia, Mira, Luma, Rhea and Sera override per
+property. The markup in
 `registry/bases` applies them; the Vue preview renders the `vue-ark` copy.
 
 | Module                      | Exports                                                                                                                                 | For                                                                                                                                                                                                                                                                              |
@@ -237,7 +238,10 @@ Writing one:
   `vp run upstream -- accept` refuses an item with a hook no comment names;
 - write Nova as `base` and each other style as `[axes.style.<name>]` inside the
   property. A state or breakpoint entry whose value differs in a style is
-  restated under that style (`[SMALL]: { base: …, [vega]: … }`);
+  restated under that style (`[SMALL]: { base: …, [vega]: … }`). In a recipe, a
+  style's entry in the base outranks a variant's plain value, so a variant
+  restates the value for every style whose base entry it must beat (Button's
+  `xs` sets `[sera]: "0.75rem"` for its icons, over the base's Sera `0.875rem`);
 - a property only some styles set goes under each of those styles, Nova
   included, with no `base`: `backgroundColor: { [nova]: alpha.muted50 }`, not
   `{ base: alpha.muted50, [vega]: "transparent", … }`. A style that sets nothing
@@ -369,7 +373,7 @@ item and preset on both sites):
     installation rewrites to the project's alias for the type.
 - **shadcn/ui's**, for its CLI: `r/shadcn/<combination>/<item>.json`,
   `<combination>/registry.json` and `r/shadcn/index.json`, for every combination of
-  `react-base`, `react-aria`, `vue-ark` and the four styles, each style module
+  `react-base`, `react-aria`, `vue-ark` and the eight styles, each style module
   flattened.
 
 The `kirana` item is the design system: besides its tokens and axes it carries

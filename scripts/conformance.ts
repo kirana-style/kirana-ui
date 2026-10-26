@@ -35,6 +35,10 @@ const PRESETS: Record<string, string> = {
   vega: "bIkeymG",
   lyra: "buFywKm",
   maia: "bbVJxYW",
+  mira: "b1D0dv72",
+  luma: "b1VlIttI",
+  rhea: "b27GcrRo",
+  sera: "b1oVxsfY",
 }
 
 const { values } = parseArgs({
