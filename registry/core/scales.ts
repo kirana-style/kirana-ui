@@ -8,6 +8,8 @@ export {
   breakpoint,
   containerSize,
   duration,
+  // Tailwind's `font-mono` stack, for figures (a chart tooltip's values).
+  fontFamily,
   fontSize,
   fontWeight,
   leading,

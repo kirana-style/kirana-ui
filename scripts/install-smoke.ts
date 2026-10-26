@@ -45,6 +45,7 @@ const ITEMS = {
     "label",
     "separator",
     "tabs",
+    "chart",
     "login-01",
   ],
   vue: ["button", "dialog", "select", "dropdown-menu", "tabs"],

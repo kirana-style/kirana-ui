@@ -13,6 +13,7 @@
     "@kirana-style/core": "catalog:",
     "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/states": "catalog:",
+    "@tanstack/charts": "catalog:",
     "lucide": "catalog:",
     "react": "catalog:",
     "react-aria-components": "catalog:",

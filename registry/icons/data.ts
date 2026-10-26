@@ -19,6 +19,7 @@ import {
   BankIcon,
   Cancel01Icon,
   Chart03Icon,
+  ChartUpIcon,
   CheckmarkBadgeIcon,
   CircleArrowLeft02Icon,
   ClipboardIcon,
@@ -85,6 +86,7 @@ import {
   Settings,
   Share,
   Trash,
+  TrendingUp,
   User,
   Users,
   Wallet,
@@ -137,6 +139,7 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       HomeIcon: House,
       MoreHorizontalIcon: Ellipsis,
       SearchIcon: Search,
+      TrendingUpIcon: TrendingUp,
       ActivityIcon: Activity,
       ArchiveIcon: Archive,
       ArrowDownIcon: ArrowDown,
@@ -179,6 +182,7 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
     // Drawn at 2, not the data's 1.5: shadcn/ui's icons are drawn at Lucide's stroke.
     shape: { "stroke-width": 2 },
     icons: {
+      ChartUpIcon,
       CodeIcon,
       CursorInWindowIcon,
       HomeIcon,

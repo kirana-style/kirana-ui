@@ -103,19 +103,19 @@
     {
       "element": "div[data-slot=\"example-wrapper\"]",
       "property": "grid-template-rows",
-      "route": "(dialog|select|dropdown-menu)-example",
+      "route": "(dialog|select|dropdown-menu|chart)-example",
       "reason": "one example fewer or more per page (the sections left out), so the grid's rows change"
     },
     {
       "element": "div[data-slot=\"example-wrapper\"]",
       "property": "height",
-      "route": "(dialog|select|dropdown-menu)-example",
+      "route": "(dialog|select|dropdown-menu|chart)-example",
       "reason": "one example fewer or more per page (the sections left out), so the grid's rows change"
     },
     {
       "element": "div[data-slot=\"example",
       "property": "height",
-      "route": "(select|dropdown-menu)-example",
+      "route": "(select|dropdown-menu|chart)-example",
       "reason": "an example stretches to its grid row, whose neighbour changes where a section is left out; the elements inside are compared one by one"
     },
     {
@@ -224,6 +224,36 @@
       "property": "background-color",
       "route": "tabs-example",
       "reason": "the same menu trigger: the harness hovers the first `[data-slot=\"button\"]`, which on upstream's page is that trigger, so its Action button is never hovered there"
+    },
+    {
+      "element": "Area Chart › ",
+      "property": "(element)",
+      "route": "chart-example",
+      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+    },
+    {
+      "element": "Line Chart › ",
+      "property": "(element)",
+      "route": "chart-example",
+      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+    },
+    {
+      "element": "Pie Chart › ",
+      "property": "(element)",
+      "route": "chart-example",
+      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+    },
+    {
+      "element": "Radial Chart › ",
+      "property": "(element)",
+      "route": "chart-example",
+      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+    },
+    {
+      "element": "Radar Chart › ",
+      "property": "(element)",
+      "route": "chart-example",
+      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
     }
   ]
 }

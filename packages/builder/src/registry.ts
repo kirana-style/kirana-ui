@@ -35,9 +35,15 @@ const RESOLVED_AT_INSTALL = "lib/kirana/icons/icon-placeholder"
 const IMPORT =
   /(?:import|export)\s[^'"]*?from\s*["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)|import\s+["']([^"']+)["']/g
 
-/** Every module a file's source imports. */
+/** Block comments, and line comments that are not a URL's `://`. */
+const COMMENTS = /\/\*[\s\S]*?\*\/|(^|[^:])\/\/.*$/gm
+
+/**
+ * Every module a file's source imports. Comments go first: an apostrophe in one, inside an
+ * `export { … } from` list, would otherwise read as a string and hide the statement.
+ */
 export function importsOf(code: string): string[] {
-  return [...code.matchAll(IMPORT)].map(
+  return [...code.replace(COMMENTS, "$1").matchAll(IMPORT)].map(
     (match) => match[1] ?? match[2] ?? match[3]
   )
 }
