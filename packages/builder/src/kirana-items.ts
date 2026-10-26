@@ -9,9 +9,10 @@
  * which installation rewrites to the project's alias for the type; two files installed in one folder
  * keep a relative import.
  */
-import { createHash } from "node:crypto"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
+
+import { hashOf } from "@kirana-style/registry"
 
 import { AXIS_ATTRIBUTES } from "../../../registry/core/attributes"
 import { AXES } from "../../../registry/core/config"
@@ -107,10 +108,6 @@ export type KiranaIndex = {
     "name" | "type" | "title" | "description" | "version"
   > & { frameworks?: Partial<Record<Framework, string[]>> })[]
 }
-
-/** `sha256-` and the base64 SHA-256 of the content's UTF-8 bytes, as Kirana checks it. */
-export const hashOf = (content: string) =>
-  `sha256-${createHash("sha256").update(content, "utf8").digest("base64")}`
 
 /** An import of `components/` or `blocks/`, which Kirana's format names as the type `component`. */
 const COMPONENT_IMPORT = /(["'])@\/registry\/(components|blocks)\//g

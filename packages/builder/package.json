@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@kirana-style/compiler": "catalog:",
+    "@kirana-style/registry": "catalog:",
     "@shadcn/registry": "^0.2.0",
     "@workspace/registry": "workspace:*"
   },

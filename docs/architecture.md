@@ -381,7 +381,11 @@ an entry applies when all its conditions hold, so for each live entry and
 flattened entry with different values, holding just their own conditions is the
 one case to test. It reads the modules by running them with Kirana's functions
 recording their arguments, which keeps what the source writes (its literals,
-constant tokens and nesting, which `when()` a state key came from), and proves
+constant tokens and nesting, which `when()` a state key came from). Kirana's own
+definitions (`kirana-style export --definitions`) give each entry's key path and
+written value too, but not which base a state key belongs to, and two bases can
+write the same attribute (Base UI's and Ark UI's `data-orientation`), so only
+running `when()` with keys tagged by base tells flattening which ones to keep. It proves
 that reading faithful by writing each module back unflattened and comparing
 Kirana's ranking with the source's, a recipe's entries in the part that declares
 them. State
@@ -393,6 +397,23 @@ does once its condition is removed. So a variant is written as what it changes
 in the flattened base, and the check compares the flattened base and variant
 merged, as the installed recipe merges them. The items speak shadcn/ui's schema
 and are validated with its own.
+
+**A project installs with Kirana's own installer, on every framework.** The
+builder also writes the registry in Kirana's format (`/r/<item>.json` and
+`/r/index.json`): one item per component, its style modules as written, its markup
+per framework and base, and each module flattened for every style and base, the
+same modules the check above proves. `kirana-style ui init` sets a project up from
+the `kirana` item: its configuration spread into `kirana.config.ts`, `reset.css`
+beside Kirana's stylesheet, `htmlStyles` on `<html>`, and with `--preset` the
+design's attributes there; `kirana-style ui add` installs the components with
+the build for that design, and `kirana-style ui preset <code>` changes it later.
+Every item is checked with Kirana's own reading of the format
+(`@kirana-style/registry`) as the builder writes it, and CI installs the slice
+this way into Kirana's example apps, React on both bases and Vue, builds them and
+validates their lockfiles (`vp run install`). Installed so, each combination
+renders the site's preview pages, value for value. A style module imports only
+what every framework installs: a control's width inside a Field is in
+`control.ts`, not in Field's own module, since Vue has no Field yet.
 
 **A React project installs with shadcn/ui's CLI, without Tailwind.**
 `shadcn add @kirana/<item>` works in a Vite, React and Kirana project with no

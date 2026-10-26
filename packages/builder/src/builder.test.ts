@@ -7,7 +7,7 @@ import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { checkKiranaItems } from "./kirana-check"
-import { axesOf, hashOf, kiranaFile } from "./kirana-items"
+import { axesOf, kiranaFile } from "./kirana-items"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
 import { conditionText, partText, ranked } from "./session"
 import type { Ranked } from "./session"
@@ -442,10 +442,6 @@ describe("Kirana's items", () => {
       type: "component",
       path: "blocks/login-01/page.tsx",
     })
-    // What Kirana checks: `sha256-` and the base64 SHA-256 of the UTF-8 bytes.
-    expect(hashOf("")).toBe(
-      "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
-    )
   })
 
   it("name the axes their style modules read", () => {
@@ -456,24 +452,19 @@ describe("Kirana's items", () => {
     ).toEqual(["radius", "style"])
   })
 
-  it("are checked with Kirana's registry when it is there, and say so when not", async () => {
+  it("are checked with Kirana's registry", () => {
     const check = () => ({
-      kind: "item",
+      kind: "item" as const,
       problems: [{ pointer: "/version", message: "is required" }],
     })
-    expect(
-      await checkKiranaItems([["button", {}]], async () => ({ check }))
-    ).toEqual({
-      problems: ["kirana/button: /version is required"],
-      note: "checked with @kirana-style/registry",
-    })
-    expect(
-      await checkKiranaItems([["button", {}]], async () => {
-        throw new Error("the placeholder throws")
-      })
-    ).toEqual({
-      problems: [],
-      note: "not checked: this Kirana release has no @kirana-style/registry",
-    })
+    expect(checkKiranaItems([["button", {}]], check)).toEqual([
+      "kirana/button: /version is required",
+    ])
+    // Kirana's own check, by default.
+    expect(checkKiranaItems([["button", {}]])).toEqual([
+      "kirana/button: /name is required",
+      "kirana/button: /type is required",
+      "kirana/button: /version is required",
+    ])
   })
 })

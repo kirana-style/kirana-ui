@@ -55,7 +55,8 @@ packages/ui/src
 ├── primitives/           Layer 5 — Box, Flex, Stack, Grid, Text, Icon, Link
 ├── components/           Layer 6 — the shadcn components
 └── styles/globals.css    the only hand-written CSS: a structural reset
-scripts/                  use-kirana.ts (moves the Kirana version), check-licenses.ts
+scripts/                  use-kirana.ts (moves the Kirana version), check-licenses.ts,
+                          install-smoke.ts (the registry installed with kirana-style ui)
 ```
 
 Every `@kirana-style/*` package and the `kirana-style` CLI are pinned to one
@@ -167,6 +168,8 @@ Every command runs from the repository root.
 | `vp run check`                                     | Oxfmt, Oxlint with the Kirana rules, TypeScript (tsgolint); a lint warning fails it                         |
 | `vp check --fix`                                   | the same, fixing what can be fixed                                                                          |
 | `vp run licenses`                                  | every installed package's licence against `scripts/check-licenses.ts`                                       |
+| `vp run registry`                                  | the registry's JSON into `apps/web/dist/client/r`, every item checked with Kirana                           |
+| `vp run install`                                   | the slice installed with `kirana-style ui` into Kirana's example apps and built (needs network)             |
 | `vp run prepush`                                   | what the pre-push hook and CI run: check, licences, build                                                   |
 | `bun scripts/use-kirana.ts 0.3.1`                  | pins every Kirana package to one release (`latest` for npm's latest), then `vp install`                     |
 | `bunx kirana-style check <paths>`                  | every Kirana diagnostic with its source line, from an app's folder (it reads that app's `kirana.config.ts`) |

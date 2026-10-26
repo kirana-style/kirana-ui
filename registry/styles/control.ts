@@ -1,6 +1,7 @@
 /**
  * What form controls share: the rings they draw on focus and when invalid (as Tailwind composes
- * `ring-*` with `shadow-*`), how their colours move, and how they size their icons.
+ * `ring-*` with `shadow-*`), how their colours move, how they size their icons, and how they fill
+ * the Field they sit in.
  */
 import { select } from "@kirana-style/core"
 
@@ -58,4 +59,30 @@ export const controlIcons = {
     flexShrink: 0,
     pointerEvents: "none",
   },
+}
+
+/** `@md/field-group:`: the field group is at least 28rem wide. */
+export const GROUP_MD = "@container field-group (min-width: 28rem)"
+
+/**
+ * A part that is a field's own child, asked of the part (the field's `*:` rules, which a child's
+ * own `w-fit` would otherwise beat): a label or title fills a vertical field and grows in a
+ * horizontal one, but not when it sits in a wrapper of its own, as login-01's password row does.
+ */
+export const CHILD_OF_VERTICAL =
+  ':where([data-slot="field"][data-orientation="vertical"] > *)'
+export const CHILD_OF_HORIZONTAL =
+  ':where([data-slot="field"][data-orientation="horizontal"] > *)'
+export const CHILD_OF_RESPONSIVE =
+  ':where([data-slot="field"][data-orientation="responsive"] > *)'
+
+/**
+ * A control's width as a Field's child, upstream's `*:w-full` over its own `w-fit`. Here, not in
+ * `field.styles.ts`, so a control that reads it (the select trigger) needs no Field markup in a
+ * framework that has none.
+ */
+export const fillInField = {
+  base: "fit-content",
+  [CHILD_OF_VERTICAL]: "100%",
+  [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
 }

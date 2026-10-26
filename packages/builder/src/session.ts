@@ -3,8 +3,9 @@
  * opened once. Every "which entry wins" is asked in batches and each file compiled once, and the
  * conditions arrive as data instead of being parsed out of `kirana-style trace`'s text (Kirana 0.3.2,
  * KF-022 in its feedback log). The builder still evaluates the style modules itself (`evaluate.ts`):
- * Kirana's definitions carry no source order, literals or constant tokens to write a module back
- * from, nor which `when()` a state key came from (KF-027).
+ * since 0.3.3 Kirana's definitions give each entry's key path and written value (KF-027), but not
+ * which base a state key came from, and Base UI and Ark UI share keys (`[data-orientation]`), so
+ * only running `when()` with tagged keys tells which ones flattening for a base keeps.
  */
 import { Driver, formatDiagnostic } from "@kirana-style/compiler"
 import type {

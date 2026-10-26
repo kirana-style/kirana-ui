@@ -24,7 +24,13 @@ import {
   space,
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import { focusRing } from "./control"
+import {
+  CHILD_OF_HORIZONTAL,
+  CHILD_OF_RESPONSIVE,
+  GROUP_MD,
+  fillInField,
+  focusRing,
+} from "./control"
 
 const { vega, lyra, maia } = axes.style
 
@@ -36,35 +42,19 @@ export const fieldLegend = relation("field-legend")
 const VERTICAL = '[data-orientation="vertical"]'
 const HORIZONTAL = '[data-orientation="horizontal"]'
 const RESPONSIVE = '[data-orientation="responsive"]'
-/** `@md/field-group:`: the group is at least 28rem wide. */
-const GROUP_MD = "@container field-group (min-width: 28rem)"
 /** A field holding a FieldContent block aligns to the top of it. */
 const HAS_CONTENT = ':has(> [data-slot="field-content"])'
 /** A label wrapping a whole Field: a choice card. */
 const CARD = ':has(> [data-slot="field"])'
 /**
  * A FieldGroup directly inside another (`*:data-[slot=field-group]:`), asked of the group itself.
- * Not a relation's `parent()` read: that ranks as a relation, level with the style overrides it
- * must beat, where this condition ranks above them (KF-025 in Kirana's feedback log).
+ * Not a relation's `parent()` read yet: before Kirana 0.3.3 that ranked as a relation, level with
+ * the style overrides it must beat (KF-025 in Kirana's feedback log). 0.3.3 ranks it with the
+ * pseudo-classes, as this condition does; moving to it is a change of its own, compared in the
+ * browser.
  */
 const NESTED = ':where([data-slot="field-group"] > *)'
 
-/**
- * A part that is a field's own child, asked of the part (the field's `*:` rules, which a child's
- * own `w-fit` would otherwise beat): a label or title fills a vertical field and grows in a
- * horizontal one, but not when it sits in a wrapper of its own, as login-01's password row does.
- */
-const CHILD_OF_VERTICAL =
-  ':where([data-slot="field"][data-orientation="vertical"] > *)'
-const CHILD_OF_HORIZONTAL =
-  ':where([data-slot="field"][data-orientation="horizontal"] > *)'
-const CHILD_OF_RESPONSIVE =
-  ':where([data-slot="field"][data-orientation="responsive"] > *)'
-export const fillInField = {
-  base: "fit-content",
-  [CHILD_OF_VERTICAL]: "100%",
-  [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
-}
 const inDisabledField = fieldScope.within('[data-disabled="true"]')
 
 export const field = {

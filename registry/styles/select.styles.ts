@@ -24,9 +24,13 @@ import { axes } from "../core/axes"
 import { fontSize, lineHeight, space, zIndex } from "../core/scales"
 import { placeholder, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import { fillInField } from "./field.styles"
 import { ANCHOR_WIDTH } from "./overlay.styles"
-import { controlIcons, controlShadow, controlTransition } from "./control"
+import {
+  controlIcons,
+  controlShadow,
+  controlTransition,
+  fillInField,
+} from "./control"
 
 const { vega, lyra, maia } = axes.style
 
