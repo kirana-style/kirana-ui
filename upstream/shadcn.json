@@ -234,6 +234,41 @@
         "cn-font-heading": "registry/styles/card.styles.ts#card.title"
       }
     },
+    "chart": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/chart.tsx": "sha256:cdaa7c2e82aaf7b2",
+        "apps/v4/registry/bases/aria/ui/chart.tsx": "sha256:1bbf2ff917b84dde",
+        "apps/v4/registry/styles/style-nova.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-chart-tooltip": "sha256:c4aad45bd2595b42",
+        "apps/v4/registry/styles/style-vega.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-chart-tooltip": "sha256:c4aad45bd2595b42",
+        "apps/v4/registry/styles/style-lyra.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-chart-tooltip": "sha256:80b3c8e834dddbfe",
+        "apps/v4/registry/styles/style-maia.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-chart-tooltip": "sha256:c4aad45bd2595b42",
+        "apps/v4/registry/styles/style-mira.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-chart-tooltip": "sha256:237c8836b6fe7560",
+        "apps/v4/registry/styles/style-luma.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-chart-tooltip": "sha256:bd5a7bd90e9e05a3",
+        "apps/v4/registry/styles/style-rhea.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-chart-tooltip": "sha256:bd5a7bd90e9e05a3",
+        "apps/v4/registry/styles/style-sera.css#cn-chart": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-chart-tooltip": "sha256:5d273924cf29dc24"
+      },
+      "hooks": {
+        "cn-chart": "registry/styles/chart.styles.ts#chart.container",
+        "cn-chart-tooltip": "registry/styles/chart.styles.ts#chart.tooltip"
+      }
+    },
+    "chart-example": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/examples/chart-example.tsx": "sha256:70465e6e68a3a047",
+        "apps/v4/registry/bases/aria/examples/chart-example.tsx": "sha256:8d9827827920c945"
+      },
+      "hooks": {}
+    },
     "dialog": {
       "ported": "481d523",
       "units": {

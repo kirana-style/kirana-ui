@@ -23,7 +23,7 @@ What is here so far, `core/`, the design system:
 And beside it:
 
 - `styles/`, each component's look in every style: `button`, `dialog`, `select`, `dropdown-menu`,
-  `tabs`, `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
+  `tabs`, `chart`, `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
   modules, with the page's own styles, the frame of upstream's examples and `reset.css`;
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
   with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select,

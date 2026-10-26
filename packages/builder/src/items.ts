@@ -191,6 +191,12 @@ export const ITEMS: Item[] = [
     "A set of layered sections of content, displayed one at a time."
   ),
   component(
+    "chart",
+    "Chart",
+    "Charts on TanStack Charts, each series in one of the design's chart colours.",
+    ["react"]
+  ),
+  component(
     "card",
     "Card",
     "Displays a card with a header, content and footer.",

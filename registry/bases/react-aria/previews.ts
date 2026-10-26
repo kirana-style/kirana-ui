@@ -6,6 +6,8 @@ import type { ComponentType } from "react"
 
 import Login01 from "./blocks/login-01/page"
 import ButtonDemo from "./examples/button-demo"
+import ChartDemo from "./examples/chart-demo"
+import ChartExample from "./examples/chart-example"
 import ButtonExample from "./examples/button-example"
 import DialogDemo from "./examples/dialog-demo"
 import DialogExample from "./examples/dialog-example"
@@ -19,6 +21,8 @@ import TabsExample from "./examples/tabs-example"
 export const previews: Record<string, ComponentType> = {
   "button-demo": ButtonDemo,
   "button-example": ButtonExample,
+  "chart-demo": ChartDemo,
+  "chart-example": ChartExample,
   "dialog-demo": DialogDemo,
   "dialog-example": DialogExample,
   "dropdown-menu-demo": DropdownMenuDemo,

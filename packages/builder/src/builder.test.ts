@@ -431,6 +431,15 @@ describe("writing a module", () => {
 })
 
 describe("an item's imports", () => {
+  it("are found past a comment with an apostrophe in an export list", () => {
+    const code = `export {
+  // Tailwind's \`font-mono\` stack.
+  fontFamily,
+} from "@kirana-style/preset-scales"
+/* a block, it's here */ import { x } from "./y"`
+    expect(importsOf(code)).toEqual(["@kirana-style/preset-scales", "./y"])
+  })
+
   it("are every import and export source, static or dynamic", () => {
     expect(
       importsOf(
