@@ -11,13 +11,18 @@ import {
 
 defineOptions({ inheritAttrs: false })
 
-const { inset = false } = defineProps<{ inset?: boolean }>()
+// Ark's required `value` is declared here and passed on, so a project's type checker sees it.
+const { value, inset = false } = defineProps<{
+  value: string
+  inset?: boolean
+}>()
 const { sx, attrs } = useSx()
 </script>
 
 <template>
   <MenuRadioItem
     data-slot="dropdown-menu-radio-item"
+    :value="value"
     :data-inset="inset || undefined"
     v-bind="attrs"
     :sx="[menuRowBase, menuCheckableRowPadding, sx]"

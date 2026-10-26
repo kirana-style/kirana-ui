@@ -13,8 +13,25 @@ import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
-// With its extension: the configuration is loaded by Node, not the bundler.
-import { orientation } from "./states.ts"
+/**
+ * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
+ * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); `@kirana-style/states` has no keys for it.
+ * Here rather than in `states.ts`, which re-exports it, so the configuration imports no module of
+ * its own: Node loads it, where a relative import needs its `.ts` extension, which a project's
+ * type checker refuses without `allowImportingTsExtensions`.
+ */
+export const orientation = {
+  horizontal: {
+    base: Base.Separator.orientation.horizontal,
+    aria: '[aria-orientation="horizontal"]',
+  },
+  vertical: {
+    base: Base.Separator.orientation.vertical,
+    aria: '[aria-orientation="vertical"]',
+  },
+  // `StateKeys`'s shape, written out: importing the type from `states.ts` makes an import cycle
+  // that Kirana 0.3.3's compiler cannot evaluate a style through (KF-038 in its feedback log).
+} as const satisfies Record<string, { base: string; aria: string }>
 
 export const registryConfig = {
   conditions: {
@@ -22,7 +39,7 @@ export const registryConfig = {
       ...Base.exclusive,
       ...Aria.exclusive,
       ...Ark.exclusive,
-      // React Aria's separator writes `aria-orientation`, which no vocabulary names (`states.ts`).
+      // React Aria's separator writes `aria-orientation`, which no vocabulary names (`orientation`).
       [orientation.horizontal.base, orientation.vertical.aria],
       [orientation.vertical.base, orientation.horizontal.aria],
       [orientation.horizontal.aria, orientation.vertical.aria],

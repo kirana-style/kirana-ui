@@ -183,21 +183,21 @@ reason.
 The customizable design system the components move to. Nothing renders from it
 yet; see `registry/README.md`.
 
-| Export                                                                           | File            | For                                                                                                                  |
-| -------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `theme` `radiusBase` `radius` `font`                                             | `tokens.ts`     | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`    |
-| `root`                                                                           | `root.ts`       | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                 |
-| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`                               | `axes.ts`       | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts` |
-| `AXIS_ATTRIBUTES`, `POINTER_ATTRIBUTE`                                           | `attributes.ts` | The attribute each axis is written to (`data-base-color` …), with no Kirana call, so a test or a script can read it  |
-| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem`                           | `config.ts`     | Every axis's values (append-only), the defaults, the rules between axes                                              |
-| `encodePreset`, `decodePreset`, `readDesignSystem`                               | `preset.ts`     | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                           |
-| `baseColors`, `themeColors`, `chartColors`                                       | `palettes.ts`   | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                      |
-| `alpha`, `surface`                                                               | `tokens.ts`     | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                 |
-| `ctx`, `menuCtx`, `cardCtx`                                                      | `context.ts`    | Values a parent hands its children: the icon size, a menu surface's row colours, a card's rhythm                     |
-| `when`, `overlay`, `presence`, `side`, `item`, `placeholder`, `orientation`      | `states.ts`     | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                            |
-| `space`, `fontSize`, `lineHeight`, `duration` …                                  | `scales.ts`     | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels     |
-| `registryConfig`                                                                 | `kirana.ts`     | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together       |
-| `readPreviewDesign`, `documentAttributes`, `listenForDesign`, `forwardModeKey` … | `preview.ts`    | The preview pages' protocol: the design a URL or a framing page's message names, as attributes on `<html>`           |
+| Export                                                                           | File            | For                                                                                                                                                                                                                                            |
+| -------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `theme` `radiusBase` `radius` `font`                                             | `tokens.ts`     | The variable tokens components read. Same names as `theme/semantic.ts`; `radius.*` derive from `radiusBase.value`                                                                                                                              |
+| `root`                                                                           | `root.ts`       | Applied to `<html>`: reassigns the tokens for each base colour, theme, chart colour, font and radius                                                                                                                                           |
+| `axes` (`style.*`, `menuColor.*`, `pointer`), `on`                               | `axes.ts`       | `axes.*` read `<html>` through the `ui` relation, inside a property; `on.*` are conditions on `<html>` for `root.ts`                                                                                                                           |
+| `AXIS_ATTRIBUTES`, `POINTER_ATTRIBUTE`                                           | `attributes.ts` | The attribute each axis is written to (`data-base-color` …), with no Kirana call, so a test or a script can read it                                                                                                                            |
+| `AXES`, `DEFAULT_DESIGN_SYSTEM`, `resolveDesignSystem`                           | `config.ts`     | Every axis's values (append-only), the defaults, the rules between axes                                                                                                                                                                        |
+| `encodePreset`, `decodePreset`, `readDesignSystem`                               | `preset.ts`     | `k` codes, shadcn/ui's `a` and `b` codes, the design system a URL asks for                                                                                                                                                                     |
+| `baseColors`, `themeColors`, `chartColors`                                       | `palettes.ts`   | The colours, as `light-dark()` pairs; each axis owns a disjoint group of tokens                                                                                                                                                                |
+| `alpha`, `surface`                                                               | `tokens.ts`     | Translucent colours (`alpha.foreground10`) and what shadcn/ui wrote with `dark:` (`surface.control`)                                                                                                                                           |
+| `ctx`, `menuCtx`, `cardCtx`                                                      | `context.ts`    | Values a parent hands its children: the icon size, a menu surface's row colours, a card's rhythm                                                                                                                                               |
+| `when`, `overlay`, `presence`, `side`, `item`, `placeholder`, `orientation`      | `states.ts`     | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                                                                                                                                                      |
+| `space`, `fontSize`, `lineHeight`, `duration` …                                  | `scales.ts`     | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels                                                                                                                               |
+| `registryConfig`                                                                 | `kirana.ts`     | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together; it imports no module of its own, since Node loads it (`orientation` is declared there for that, and `states.ts` re-exports it) |
+| `readPreviewDesign`, `documentAttributes`, `listenForDesign`, `forwardModeKey` … | `preview.ts`    | The preview pages' protocol: the design a URL or a framing page's message names, as attributes on `<html>`                                                                                                                                     |
 
 Adding a value to an axis: append it to its list in `config.ts` (never insert or
 reorder: saved codes would change meaning), add its colours or family, an `on`
@@ -302,9 +302,12 @@ Writing a Vue part:
 - declare only the component's own props, with a type written in the file:
   Vue resolves an imported props type through TypeScript's JavaScript API,
   which TypeScript 7 does not have. Ark's own props pass through as attributes,
-  except one Ark requires (Select's `collection`): declare it at runtime,
-  `{ type: Object as PropType<…>, required: true }`, and pass it on, or a
-  project's `vue-tsc` reports it missing;
+  except those Ark requires, which a project's `vue-tsc` reports missing
+  otherwise: declare each and pass it on. A plain one is typed in the file
+  (a menu item's `value`, a checkbox item's `checked`, `SelectItem`'s `item` as
+  `unknown`); one of an imported type is declared at runtime,
+  `{ type: Object as PropType<…>, required: true }` (Select's `collection`). A
+  listener, such as `v-model:checked`'s, still passes through as an attribute;
 - Ark UI builds a select from a collection (`createListCollection`), so its
   `SelectItem` takes `item`, and every menu item a `value`.
 
