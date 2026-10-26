@@ -20,7 +20,16 @@ export type Combination = {
   style: string
 }
 
-export const STYLES = ["nova", "vega", "lyra", "maia"] as const
+export const STYLES = [
+  "nova",
+  "vega",
+  "lyra",
+  "maia",
+  "mira",
+  "luma",
+  "rhea",
+  "sera",
+] as const
 
 export const FRAMEWORK_BASES = [
   { framework: "react", base: "base", bases: "react-base" },

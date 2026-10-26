@@ -1,7 +1,7 @@
 /**
  * Field and its parts, in every style: shadcn/ui's `bases/base/ui/field.tsx` (`bases/aria`'s differs
  * only in the checked state it reads) with the `cn-field-*` rules of its style files (MIT), at
- * commit `25af02b`. Nova is the base look; Vega, Lyra and Maia override what differs.
+ * commit `25af02b`. Nova is the base look; the other styles override what differs.
  *
  * Upstream draws its style rules in a layer below its components' own classes, so where both set a
  * property the component's class wins: a description's `leading-normal` over Lyra's `/relaxed`, its
@@ -20,13 +20,14 @@ import {
   fontSize,
   fontWeight,
   leading,
+  letterSpacing,
   lineHeight,
   space,
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import { GROUP_MD, focusRing } from "./control"
+import { GROUP_MD, focusRing, laterRings } from "./control"
 
-const { nova, vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 /** A Field, read by its label, title and description (`group/field`). */
 export const fieldScope = relation("field")
@@ -68,6 +69,9 @@ export const field = {
       base: space[4],
       [vega]: space[6],
       [maia]: space[6],
+      [luma]: space[6],
+      [rhea]: space[6],
+      [sera]: space[6],
       ':has(> [data-slot="checkbox-group"])': space[3],
       ':has(> [data-slot="radio-group"])': space[3],
     },
@@ -80,18 +84,41 @@ export const field = {
       [vega]: space[3],
       [lyra]: space["2.5"],
       [maia]: space[3],
+      [mira]: space[2],
+      [luma]: space[3],
+      [rhea]: space[3],
+      [sera]: space[3],
     },
-    fontWeight: fontWeight.medium,
+    // Sera's legend is a semibold `text-xs` in capitals, whichever its variant.
+    fontWeight: { base: fontWeight.medium, [sera]: fontWeight.semibold },
+    textTransform: { [sera]: "uppercase" },
     fontSize: {
-      '[data-variant="legend"]': { base: fontSize.base, [lyra]: fontSize.sm },
-      '[data-variant="label"]': { base: fontSize.sm, [lyra]: fontSize.xs },
+      '[data-variant="legend"]': {
+        base: fontSize.base,
+        [lyra]: fontSize.sm,
+        [mira]: fontSize.sm,
+        [sera]: fontSize.xs,
+      },
+      '[data-variant="label"]': {
+        base: fontSize.sm,
+        [lyra]: fontSize.xs,
+        [mira]: fontSize.xs,
+        [sera]: fontSize.xs,
+      },
     },
     lineHeight: {
       '[data-variant="legend"]': {
         base: lineHeight.base,
         [lyra]: lineHeight.sm,
+        [mira]: lineHeight.sm,
+        [sera]: lineHeight.xs,
       },
-      '[data-variant="label"]': { base: lineHeight.sm, [lyra]: lineHeight.xs },
+      '[data-variant="label"]': {
+        base: lineHeight.sm,
+        [lyra]: lineHeight.xs,
+        [mira]: leading.relaxed,
+        [sera]: lineHeight.xs,
+      },
     },
   }),
 
@@ -108,6 +135,10 @@ export const field = {
       [fieldGroup.parent()]: space[4],
       [vega]: space[7],
       [maia]: space[7],
+      [mira]: space[4],
+      [luma]: space[7],
+      [rhea]: space[6],
+      [sera]: space[10],
       '[data-slot="checkbox-group"]': space[3],
     },
   }),
@@ -117,7 +148,14 @@ export const field = {
   root: css(fieldScope.anchor, {
     display: "flex",
     width: "100%",
-    gap: { base: space[2], [vega]: space[3], [maia]: space[3] },
+    gap: {
+      base: space[2],
+      [vega]: space[3],
+      [maia]: space[3],
+      [luma]: space[3],
+      [rhea]: space[3],
+      [sera]: space[3],
+    },
     color: { '[data-invalid="true"]': theme.destructive },
     flexDirection: {
       [VERTICAL]: "column",
@@ -144,7 +182,14 @@ export const field = {
     display: "flex",
     flex: 1,
     flexDirection: "column",
-    gap: { base: space["0.5"], [vega]: space[1], [maia]: space[1] },
+    gap: {
+      base: space["0.5"],
+      [vega]: space[1],
+      [maia]: space[1],
+      [luma]: space[1],
+      [rhea]: space[1],
+      [sera]: space[1],
+    },
     lineHeight: leading.snug,
   }),
 
@@ -152,7 +197,7 @@ export const field = {
   label: css({
     display: "flex",
     gap: space[2],
-    lineHeight: leading.snug,
+    lineHeight: { base: leading.snug, [sera]: leading.relaxed },
     width: { ...FILL, [CARD]: "100%" },
     flex: {
       [CHILD_OF_HORIZONTAL]: "auto",
@@ -166,6 +211,10 @@ export const field = {
         [vega]: radius.md,
         [lyra]: "0",
         [maia]: radius.xl,
+        [mira]: radius.md,
+        [luma]: radius["2xl"],
+        [rhea]: radius["2xl"],
+        [sera]: "0",
       },
     },
     borderWidth: { [CARD]: "1px" },
@@ -181,6 +230,15 @@ export const field = {
         },
         ":has([data-checked])": surface.checkedSoftBorder,
         ":has([data-selected])": surface.checkedSoftBorder,
+        // Mira, Luma and Rhea keep the plain edge when chosen; Sera's does not turn on focus.
+        [mira]: { base: theme.border, ":has(:focus-visible)": theme.ring },
+        [luma]: { base: theme.border, ":has(:focus-visible)": theme.ring },
+        [rhea]: { base: theme.border, ":has(:focus-visible)": theme.ring },
+        [sera]: {
+          base: theme.border,
+          ":has([data-checked])": surface.checkedSoftBorder,
+          ":has([data-selected])": surface.checkedSoftBorder,
+        },
       },
     },
     backgroundColor: {
@@ -189,14 +247,45 @@ export const field = {
         ":not(:has(:disabled, [data-disabled])):hover": {
           base: alpha.muted50,
           [maia]: alpha.input40,
+          [mira]: alpha.input40,
+          [luma]: alpha.input40,
+          [rhea]: alpha.input40,
           ":has([data-checked])": surface.checkedSoft,
           ":has([data-selected])": surface.checkedSoft,
         },
         ":has([data-checked])": surface.checkedSoft,
         ":has([data-selected])": surface.checkedSoft,
+        // Luma and Rhea tint a chosen card with `input/30`.
+        [luma]: {
+          ":has([data-checked])": alpha.input30,
+          ":has([data-selected])": alpha.input30,
+          ":not(:has(:disabled, [data-disabled])):hover": {
+            base: alpha.input40,
+            ":has([data-checked])": alpha.input30,
+            ":has([data-selected])": alpha.input30,
+          },
+        },
+        [rhea]: {
+          ":has([data-checked])": alpha.input30,
+          ":has([data-selected])": alpha.input30,
+          ":not(:has(:disabled, [data-disabled])):hover": {
+            base: alpha.input40,
+            ":has([data-checked])": alpha.input30,
+            ":has([data-selected])": alpha.input30,
+          },
+        },
       },
     },
-    boxShadow: { [CARD]: { ":has(:focus-visible)": focusRing(alpha.ring50) } },
+    // Luma and Rhea keep the first four's `ring-ring/50` here.
+    boxShadow: {
+      [CARD]: {
+        ":has(:focus-visible)": focusRing(alpha.ring50, {
+          ...laterRings(alpha.ring30),
+          luma: laterRings(alpha.ring50).luma,
+          rhea: laterRings(alpha.ring50).rhea,
+        }),
+      },
+    },
     // `*:data-[slot=field]:p-2.5`: a Field child exists only on a card, so no card condition.
     [select.child('[data-slot="field"]')]: {
       padding: {
@@ -204,6 +293,10 @@ export const field = {
         [vega]: space[3],
         [lyra]: space[2],
         [maia]: space[4],
+        [mira]: space[2],
+        [luma]: space[4],
+        [rhea]: space[4],
+        [sera]: space[4],
       },
     },
   }),
@@ -215,14 +308,30 @@ export const field = {
     flex: { [CHILD_OF_HORIZONTAL]: "auto" },
     alignItems: "center",
     gap: space[2],
-    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
-    lineHeight: { base: leading.snug, [lyra]: leading.relaxed },
-    // Lyra's title has no weight of its own.
+    fontSize: {
+      base: fontSize.sm,
+      [lyra]: fontSize.xs,
+      [mira]: fontSize.xs,
+      [sera]: fontSize.xs,
+    },
+    // Sera's `leading-normal` comes before its `text-xs`, which `cn` keeps.
+    lineHeight: {
+      base: leading.snug,
+      [lyra]: leading.relaxed,
+      [mira]: leading.relaxed,
+      [sera]: lineHeight.xs,
+    },
+    // Lyra's title has no weight of its own; Sera's is semibold, in capitals.
     fontWeight: {
       [nova]: fontWeight.medium,
       [vega]: fontWeight.medium,
       [maia]: fontWeight.medium,
+      [mira]: fontWeight.medium,
+      [luma]: fontWeight.medium,
+      [rhea]: fontWeight.medium,
+      [sera]: fontWeight.semibold,
     },
+    textTransform: { [sera]: "uppercase" },
     opacity: { [inDisabledField]: 0.5 },
   }),
 
@@ -230,9 +339,12 @@ export const field = {
   description: css({
     textAlign: "start",
     color: theme.mutedForeground,
-    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
+    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs, [mira]: fontSize.xs },
     lineHeight: leading.normal,
     fontWeight: fontWeight.normal,
+    // Plain text inside Sera's capitalised labels.
+    textTransform: { [sera]: "none" },
+    letterSpacing: { [sera]: letterSpacing.normal },
     textWrap: {
       [fieldScope.within(':has([data-orientation="horizontal"])')]: "balance",
     },
@@ -255,8 +367,12 @@ export const field = {
     position: "relative",
     marginBlock: `calc(${space[2]} * -1)`,
     height: space[5],
-    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
-    lineHeight: { base: lineHeight.sm, [lyra]: lineHeight.xs },
+    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs, [mira]: fontSize.xs },
+    lineHeight: {
+      base: lineHeight.sm,
+      [lyra]: lineHeight.xs,
+      [mira]: leading.relaxed,
+    },
   }),
   separatorLine: css({ position: "absolute", inset: 0, top: "50%" }),
   // cn-field-separator-content
@@ -273,8 +389,12 @@ export const field = {
   // cn-field-error
   error: css({
     color: theme.destructive,
-    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
-    lineHeight: { base: lineHeight.sm, [lyra]: lineHeight.xs },
+    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs, [mira]: fontSize.xs },
+    lineHeight: {
+      base: lineHeight.sm,
+      [lyra]: lineHeight.xs,
+      [mira]: leading.relaxed,
+    },
     fontWeight: fontWeight.normal,
   }),
   errorList: css({

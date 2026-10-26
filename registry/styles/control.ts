@@ -9,21 +9,52 @@ import { axes } from "../core/axes"
 import { ctx } from "../core/context"
 import { duration, easing, shadow } from "../core/scales"
 
-const { vega, lyra } = axes.style
+const { vega, lyra, mira, luma, rhea, sera } = axes.style
 
-/** A ring of `color`: `ring-3` (Maia's `ring-[3px]`), `ring-1` in Lyra. */
-export const focusRing = (color: string) => ({
+/**
+ * The four later styles' rings, as box shadows: `ring-2` in Mira and Sera, `ring-3` in Luma and
+ * Rhea. A style that draws none (Sera's underlined fields) is overridden by spreading:
+ * `{ ...laterRings(color), sera: "none" }`. Every style is given, and the value is finished here: in
+ * Kirana 0.3.3 a style helper cannot test for an absent key, nor compare a token with a string, nor
+ * take a default parameter at build time (KF-039 and KF-040 in Kirana's feedback log).
+ */
+export type LaterRings = {
+  mira: string
+  luma: string
+  rhea: string
+  sera: string
+}
+
+/** Each later style's ring in `color` (most draw focus at `ring-ring/30`, the first four `/50`). */
+export const laterRings = (color: string): LaterRings => ({
+  mira: `0 0 0 2px ${color}`,
+  luma: `0 0 0 3px ${color}`,
+  rhea: `0 0 0 3px ${color}`,
+  sera: `0 0 0 2px ${color}`,
+})
+
+/** A ring of `color`: `ring-3` (Maia's `ring-[3px]`), `ring-1` in Lyra, the later styles' `later`. */
+export const focusRing = (color: string, later: LaterRings) => ({
   base: `0 0 0 3px ${color}`,
   [lyra]: `0 0 0 1px ${color}`,
+  [mira]: later.mira,
+  [luma]: later.luma,
+  [rhea]: later.rhea,
+  [sera]: later.sera,
 })
 
 /**
  * A control's `box-shadow` with its focus and invalid rings, and Vega's `shadow-xs` under them: the
  * ring and the shadow are one property, so Vega restates both states with the shadow composed in.
  */
-export const controlShadow = (focus: string, invalid: string) => ({
-  ":focus-visible": focusRing(focus),
-  '[aria-invalid="true"]': focusRing(invalid),
+export const controlShadow = (
+  focus: string,
+  invalid: string,
+  laterFocus: LaterRings,
+  laterInvalid: LaterRings
+) => ({
+  ":focus-visible": focusRing(focus, laterFocus),
+  '[aria-invalid="true"]': focusRing(invalid, laterInvalid),
   [vega]: {
     base: shadow.xs,
     ":focus-visible": `0 0 0 3px ${focus}, ${shadow.xs}`,

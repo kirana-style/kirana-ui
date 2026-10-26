@@ -80,12 +80,14 @@ export const alpha = defineTokens(
     destructive30: `color-mix(in oklab, ${theme.destructive} 30%, transparent)`,
     destructive40: `color-mix(in oklab, ${theme.destructive} 40%, transparent)`,
     destructive50: `color-mix(in oklab, ${theme.destructive} 50%, transparent)`,
+    input20: `color-mix(in oklab, ${theme.input} 20%, transparent)`,
     input30: `color-mix(in oklab, ${theme.input} 30%, transparent)`,
     input40: `color-mix(in oklab, ${theme.input} 40%, transparent)`,
     input50: `color-mix(in oklab, ${theme.input} 50%, transparent)`,
     input80: `color-mix(in oklab, ${theme.input} 80%, transparent)`,
     popover70: `color-mix(in oklab, ${theme.popover} 70%, transparent)`,
     border50: `color-mix(in oklab, ${theme.border} 50%, transparent)`,
+    ring30: `color-mix(in oklab, ${theme.ring} 30%, transparent)`,
     ring50: `color-mix(in oklab, ${theme.ring} 50%, transparent)`,
   },
   { variable: true }
@@ -101,6 +103,10 @@ export const surface = defineTokens(
   {
     /** A form control's fill: `bg-transparent dark:bg-input/30`. */
     control: `light-dark(transparent, ${alpha.input30})`,
+    /** A card's outline in Luma and Rhea: `ring-foreground/5 dark:ring-foreground/10`. */
+    ringSoft: `light-dark(${alpha.foreground5}, ${alpha.foreground10})`,
+    /** Mira's control fill: `bg-input/20 dark:bg-input/30`. */
+    controlSoft: `light-dark(${alpha.input20}, ${alpha.input30})`,
     /** Its fill on hover: `dark:hover:bg-input/50`. */
     controlHover: `light-dark(transparent, ${alpha.input50})`,
     /** Disabled: `disabled:bg-input/50 dark:disabled:bg-input/80`. */
@@ -120,6 +126,14 @@ export const surface = defineTokens(
      * `dark:bg-input/30` outranks `aria-expanded:bg-muted`, so it keeps its resting fill.
      */
     outlineExpanded: `light-dark(${theme.muted}, ${alpha.input30})`,
+    /** Mira's outline button on hover: `hover:bg-input/50`, which `dark:bg-input/30` outranks in dark. */
+    outlineHoverInput: `light-dark(${alpha.input50}, ${alpha.input30})`,
+    /** Luma's and Rhea's outline button: `bg-background dark:bg-transparent`. */
+    outlineQuiet: `light-dark(${theme.background}, transparent)`,
+    /** Luma's, Rhea's and Sera's on hover: `hover:bg-muted dark:hover:bg-input/30`. */
+    outlineQuietHover: `light-dark(${theme.muted}, ${alpha.input30})`,
+    /** Luma's and Rhea's open: `aria-expanded:bg-muted`, which `dark:bg-transparent` outranks in dark. */
+    outlineQuietExpanded: `light-dark(${theme.muted}, transparent)`,
     /** A destructive control is tinted, not filled: `bg-destructive/10 dark:…/20`, hover /20 and /30. */
     destructiveSoft: `light-dark(${alpha.destructive10}, ${alpha.destructive20})`,
     destructiveSoftHover: `light-dark(${alpha.destructive20}, ${alpha.destructive30})`,

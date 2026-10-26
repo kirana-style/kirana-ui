@@ -38,7 +38,11 @@ import {
 
 const styles = {
   fit: css({ width: "fit-content" }),
-  fitCapitalize: css({ width: "fit-content", textTransform: "capitalize" }),
+  // `capitalize` over the component's own text transform in every style (Sera's capitals).
+  fitCapitalize: css({
+    width: "fit-content",
+    textTransform: { "*": null, base: "capitalize" },
+  }),
   sides: css({
     display: "flex",
     flexWrap: "wrap",

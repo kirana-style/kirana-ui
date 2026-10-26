@@ -1,7 +1,7 @@
 /**
  * Select, in every style: shadcn/ui's `bases/base/ui/select.tsx` and `bases/aria/ui/select.tsx`
  * with the `cn-select-*` rules of its style files (MIT), at commit `25af02b`. Nova is the base look;
- * Vega, Lyra and Maia override what differs.
+ * the other styles override what differs.
  *
  * The popup is a menu (`menu.styles.ts`): the component composes
  * `[popupMotion, menuSurface, select.content]`, and each item `[menuRowBase,
@@ -21,7 +21,17 @@
 import { css, relation, select as target } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
-import { fontSize, lineHeight, space, zIndex } from "../core/scales"
+import { ctx } from "../core/context"
+import {
+  duration,
+  fontSize,
+  fontWeight,
+  leading,
+  letterSpacing,
+  lineHeight,
+  space,
+  zIndex,
+} from "../core/scales"
 import { placeholder, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { ANCHOR_WIDTH } from "./overlay.styles"
@@ -30,9 +40,10 @@ import {
   controlShadow,
   controlTransition,
   fillInField,
+  laterRings,
 } from "./control"
 
-const { nova, vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 /** React Aria's list box, read by the empty state it shows (`group/select-list`). */
 export const selectList = relation("select-list")
@@ -54,16 +65,55 @@ export const select = {
     cursor: { ":disabled": "not-allowed" },
     opacity: { ":disabled": 0.5 },
     ...controlIcons,
+    [ctx.iconSize]: { base: "1rem", [mira]: "0.875rem", [sera]: "0.875rem" },
     ...controlTransition,
+    // Luma's and Rhea's fill changes too; Sera's underline only moves its colour.
+    transitionProperty: {
+      base: "color, background-color, border-color",
+      [vega]: "color, box-shadow",
+      [luma]: "color, box-shadow, background-color",
+      [rhea]: "color, box-shadow",
+      [sera]: "color, border-color",
+    },
+    transitionDuration: { base: duration[150], [rhea]: duration[200] },
 
     borderWidth: "1px",
     borderStyle: "solid",
+    // Luma and Rhea draw no border until focused; Sera only the bottom one.
     borderColor: {
       base: theme.input,
       ":focus-visible": theme.ring,
       '[aria-invalid="true"]': surface.borderInvalid,
+      [luma]: {
+        base: "transparent",
+        ":focus-visible": theme.ring,
+        '[aria-invalid="true"]': surface.borderInvalid,
+      },
+      [rhea]: {
+        base: "transparent",
+        ":focus-visible": theme.ring,
+        '[aria-invalid="true"]': surface.borderInvalid,
+      },
+      // Sera's focus and invalid colours are the bottom border's alone.
+      [sera]: {
+        base: "transparent",
+        ":focus-visible": "transparent",
+        '[aria-invalid="true"]': "transparent",
+      },
     },
-    boxShadow: controlShadow(alpha.ring50, surface.ringInvalid),
+    borderBottomColor: {
+      [sera]: {
+        base: theme.input,
+        ":focus-visible": theme.ring,
+        '[aria-invalid="true"]': surface.borderInvalid,
+      },
+    },
+    boxShadow: controlShadow(
+      alpha.ring50,
+      surface.ringInvalid,
+      { ...laterRings(alpha.ring30), sera: "none" },
+      { ...laterRings(surface.ringInvalid), sera: "none" }
+    ),
     // `dark:bg-input/30 dark:hover:bg-input/50`; Maia fills with `input/30` in both modes.
     backgroundColor: {
       base: surface.control,
@@ -72,20 +122,56 @@ export const select = {
         base: alpha.input30,
         ":hover": `light-dark(${alpha.input30}, ${alpha.input50})`,
       },
+      // Mira fills with `input/20` (`/30` in dark, `/50` on hover there), Luma and Rhea with `/50`.
+      [mira]: {
+        base: surface.controlSoft,
+        ":hover": `light-dark(${alpha.input20}, ${alpha.input50})`,
+      },
+      [luma]: { base: alpha.input50, ":hover": alpha.input50 },
+      [rhea]: { base: alpha.input50, ":hover": alpha.input50 },
+      [sera]: { base: "transparent", ":hover": "transparent" },
     },
     color: { ...when(placeholder.trigger, theme.mutedForeground) },
-    paddingBlock: space[2],
-    paddingInlineStart: { base: space["2.5"], [maia]: space[3] },
-    paddingInlineEnd: { base: space[2], [maia]: space[3] },
-    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
-    lineHeight: { base: lineHeight.sm, [lyra]: lineHeight.xs },
+    paddingBlock: { base: space[2], [mira]: space["1.5"] },
+    paddingInlineStart: {
+      base: space["2.5"],
+      [maia]: space[3],
+      [mira]: space[2],
+      [luma]: space[3],
+      [rhea]: space[3],
+      [sera]: "0",
+    },
+    paddingInlineEnd: {
+      base: space[2],
+      [maia]: space[3],
+      [mira]: space[2],
+      [luma]: space[3],
+      [rhea]: space[3],
+      [sera]: "0",
+    },
+    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs, [mira]: fontSize.xs },
+    lineHeight: {
+      base: lineHeight.sm,
+      [lyra]: lineHeight.xs,
+      [mira]: leading.relaxed,
+    },
 
     // `data-[size=default]:h-*` and `data-[size=sm]:h-*`.
     height: {
       base: space[8],
       [vega]: space[9],
       [maia]: space[9],
-      [SMALL]: { base: space[7], [vega]: space[8], [maia]: space[8] },
+      [mira]: space[7],
+      [luma]: space[9],
+      [sera]: space[10],
+      [SMALL]: {
+        base: space[7],
+        [vega]: space[8],
+        [maia]: space[8],
+        [mira]: space[6],
+        [luma]: space[8],
+        [sera]: space[9],
+      },
     },
     // Nova caps the small trigger's corners (`rounded-[min(var(--radius-md),10px)]`); the other
     // styles keep their own.
@@ -94,11 +180,19 @@ export const select = {
       [vega]: radius.md,
       [lyra]: "0",
       [maia]: radius["4xl"],
+      [mira]: radius.md,
+      [luma]: radius["3xl"],
+      [rhea]: radius["2xl"],
+      [sera]: "0",
       [SMALL]: {
         base: `min(${radius.md}, 10px)`,
         [vega]: radius.md,
         [lyra]: "0",
         [maia]: radius["4xl"],
+        [mira]: radius.md,
+        [luma]: radius["3xl"],
+        [rhea]: radius["2xl"],
+        [sera]: "0",
       },
     },
   }),
@@ -138,7 +232,7 @@ export const select = {
     position: "relative",
     isolation: "isolate",
     width: ANCHOR_WIDTH,
-    minWidth: space[36],
+    minWidth: { base: space[36], [mira]: space[32] },
     transitionProperty: { '[data-align-trigger="true"]': "none" },
   }),
 
@@ -158,14 +252,31 @@ export const select = {
   // cn-select-group: Lyra's rows meet the popup's edges.
   group: css({
     scrollMarginBlock: space[1],
-    // `p-1`, but not Lyra's.
-    padding: { [nova]: space[1], [vega]: space[1], [maia]: space[1] },
+    // `p-1`, but not Lyra's; `p-1.5` in Luma and Sera.
+    padding: {
+      [nova]: space[1],
+      [vega]: space[1],
+      [maia]: space[1],
+      [mira]: space[1],
+      [luma]: space["1.5"],
+      [rhea]: space[1],
+      [sera]: space["1.5"],
+    },
   }),
 
   // cn-select-item and the component's own classes, after `menuRowBase` and its padding. A last
   // `span` given as content lays out its icon and text in a row.
+  // Mira's row is `px-2`, with no room kept for the check, and `text-xs/relaxed`; Sera's is the
+  // plain `text-sm` row the menu rows are not.
   item: css({
     width: "100%",
+    paddingInlineEnd: { [mira]: space[2] },
+    paddingBlock: { [mira]: space[1] },
+    lineHeight: { [mira]: leading.relaxed, [sera]: lineHeight.sm },
+    fontSize: { [sera]: fontSize.sm },
+    fontWeight: { [sera]: fontWeight.normal },
+    textTransform: { [sera]: "none" },
+    letterSpacing: { [sera]: letterSpacing.normal },
     [target.child("span:last-child")]: {
       display: "flex",
       alignItems: "center",
@@ -184,7 +295,27 @@ export const select = {
 
   // cn-select-item-indicator, after `menuIndicator`; its icon (cn-select-item-indicator-icon) is
   // sized as any icon in a control.
-  indicator: css({ width: space[4], height: space[4] }),
+  // Mira's has no size of its own.
+  indicator: css({
+    width: {
+      [nova]: space[4],
+      [vega]: space[4],
+      [lyra]: space[4],
+      [maia]: space[4],
+      [luma]: space[4],
+      [rhea]: space[4],
+      [sera]: space[4],
+    },
+    height: {
+      [nova]: space[4],
+      [vega]: space[4],
+      [lyra]: space[4],
+      [maia]: space[4],
+      [luma]: space[4],
+      [rhea]: space[4],
+      [sera]: space[4],
+    },
+  }),
 
   // cn-select-scroll-up-button and cn-select-scroll-down-button.
   scrollButton: css({
@@ -197,6 +328,7 @@ export const select = {
     backgroundColor: theme.popover,
     paddingBlock: space[1],
     ...controlIcons,
+    [ctx.iconSize]: { base: "1rem", [mira]: "0.875rem", [sera]: "0.875rem" },
   }),
   scrollUp: css({ top: 0 }),
   scrollDown: css({ bottom: 0 }),
@@ -209,7 +341,11 @@ export const select = {
     paddingBlock: space[2],
     textAlign: "center",
     color: theme.mutedForeground,
-    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
-    lineHeight: { base: lineHeight.sm, [lyra]: lineHeight.xs },
+    fontSize: { base: fontSize.sm, [lyra]: fontSize.xs, [mira]: fontSize.xs },
+    lineHeight: {
+      base: lineHeight.sm,
+      [lyra]: lineHeight.xs,
+      [mira]: leading.relaxed,
+    },
   }),
 }

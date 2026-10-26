@@ -302,7 +302,8 @@ static files the same way.
 base.** `registry/styles/<component>.styles.ts` holds the `css()` handles a
 component's parts use, separate from the component, which is written per
 framework and base. Nova, the default style, is the base value of each property;
-Vega, Lyra and Maia add an `axes.style.*` entry only where they differ. Where the
+the seven others (Vega, Lyra, Maia, Mira, Luma, Rhea and Sera) add an
+`axes.style.*` entry only where they differ. Where the
 base value has a state or a breakpoint entry and a style's differs, the style
 restates the entry under its own condition: a pseudo-class or an attribute outranks
 a relation read, so the Nova entry would otherwise win in that state. States are
