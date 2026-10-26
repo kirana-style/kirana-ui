@@ -80,6 +80,26 @@ const ownStyle = (style: StyleObject) =>
     Object.entries(style).filter(([key]) => !isNestedStyleKey(key))
   )
 
+/** A style object and each style nested in it (`select.child(…)`), as probes under `path`. */
+export function addProbe(
+  probes: Map<string, Probe>,
+  path: string,
+  live: StyleObject,
+  flat: (classify: Classify) => StyleObject
+) {
+  probes.set(path, {
+    live: ownStyle(live),
+    flat: (classify) => ownStyle(flat(classify)),
+  })
+  for (const [key, nested] of Object.entries(live)) {
+    if (isNestedStyleKey(key) && isObject(nested))
+      addProbe(probes, `${path} ${key}`, nested, (classify) => {
+        const value = flat(classify)[key]
+        return isObject(value) ? value : {}
+      })
+  }
+}
+
 /** The style objects worth probing: each handle's own, its nested styles, each recipe variant. */
 export function probesOf(exports: Record<string, unknown>) {
   const probes = new Map<string, Probe>()
@@ -87,19 +107,7 @@ export function probesOf(exports: Record<string, unknown>) {
     path: string,
     live: StyleObject,
     flat: (classify: Classify) => StyleObject
-  ) => {
-    probes.set(path, {
-      live: ownStyle(live),
-      flat: (classify) => ownStyle(flat(classify)),
-    })
-    for (const [key, nested] of Object.entries(live)) {
-      if (isNestedStyleKey(key) && isObject(nested))
-        add(`${path} ${key}`, nested, (classify) => {
-          const value = flat(classify)[key]
-          return isObject(value) ? value : {}
-        })
-    }
-  }
+  ) => addProbe(probes, path, live, flat)
   for (const [path, h] of handlesOf(exports)) {
     add(path, h.styles.reduce(mergeStyles, {} as StyleObject), (classify) =>
       flattenHandle(h, classify).styles.reduce(mergeStyles, {} as StyleObject)
@@ -268,12 +276,11 @@ export function roundTrip(
 export function checkWinners(
   context: CheckContext,
   module: string,
-  exports: Record<string, unknown>,
+  probes: Map<string, Probe>,
   combinations: Combination[],
   classifyFor: (combination: Combination) => Classify,
   exclusive: Exclusive
 ): { problems: string[]; compared: number } {
-  const probes = probesOf(exports)
   // Only a property under a style's condition or a base's state key can change.
   const changed = new Map<string, string[]>()
   for (const [path, { live: style }] of probes) {

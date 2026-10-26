@@ -29,10 +29,10 @@ import { alpha, theme } from "../core/tokens"
 import { ringAndShadow } from "./menu.styles"
 import { ANCHOR_WIDTH } from "./overlay.styles"
 
-const { lyra, maia } = axes.style
+const { nova, vega, maia } = axes.style
 
-/** `p-1`: Lyra's rows meet the popup's edges. */
-const PADDING = { base: space[1], [lyra]: "0" }
+/** `p-1`, but not Lyra's: its rows meet the popup's edges. */
+const PADDING = { [nova]: space[1], [vega]: space[1], [maia]: space[1] }
 
 export const dropdownMenu = {
   // cn-dropdown-menu-content and the component's own classes, after `menuSurface`. Maia's ring is

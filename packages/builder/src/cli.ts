@@ -5,7 +5,8 @@
  * - in Kirana's format, which `kirana-style ui` reads: `<out>/<item>.json`, one item for every
  *   framework and base with its style modules as written, and `<out>/index.json`;
  * - for shadcn/ui's CLI, every combination flattened, checked against the live styles with Kirana
- *   (one session, `session.ts`) and validated against shadcn/ui's schema:
+ *   (one session, `session.ts`), each handle and each composition of handles in the markup
+ *   (`compose.ts`), and validated against shadcn/ui's schema:
  *   `<out>/shadcn/<combination>/<item>.json`, `<out>/shadcn/<combination>/registry.json` and
  *   `<out>/shadcn/index.json`.
  */
@@ -19,18 +20,22 @@ import {
   clean,
   compileGenerated,
   exclusiveFrom,
+  handlesOf,
+  probesOf,
   roundTrip,
 } from "./check"
+import { compositionProbes, compositionsOf } from "./compose"
 import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
-import { COMBINATIONS } from "./items"
+import { COMBINATIONS, FRAMEWORK_BASES } from "./items"
 import { buildKiranaRegistry } from "./kirana-items"
-import { checkKiranaItems } from "./kirana-check"
+import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
 import { split } from "./markers"
 import { loadNames } from "./names"
 import { buildCombination, versionsFrom } from "./registry"
 import { Session } from "./session"
+import type { StyleHandle } from "./kirana-stub"
 
 const ROOT = join(import.meta.dir, "..", "..", "..")
 const REGISTRY = join(ROOT, "registry")
@@ -69,6 +74,7 @@ for (const file of readdirSync(join(REGISTRY, "styles")).sort()) {
 const problems: string[] = []
 let roundTrips = 0
 let winnerChecks = 0
+let compositionCount = 0
 if (session) {
   const plainText = (text: string) =>
     split(text)
@@ -91,11 +97,22 @@ if (session) {
     const trip = roundTrip(context, modules)
     problems.push(...trip.problems)
     roundTrips = trip.compared
+    const handles = new Map<string, StyleHandle>()
+    const probes = new Map<string, ReturnType<typeof probesOf>>()
     for (const [module, exports] of modules) {
+      probes.set(module, probesOf(exports))
+      for (const [path, h] of handlesOf(exports)) handles.set(path, h)
+    }
+    const compositions = compositionsOf(join(REGISTRY, "bases"), (path) =>
+      handles.has(path)
+    )
+    compositionCount = compositions.size
+    probes.set("compose.ts", compositionProbes(compositions, handles))
+    for (const [module, moduleProbes] of probes) {
       const result = checkWinners(
         context,
         module,
-        exports,
+        moduleProbes,
         COMBINATIONS,
         (combination) => classifier(combination),
         exclusive
@@ -226,6 +243,12 @@ problems.push(
     ...own.items.map((item) => [item.name, item] as const),
   ])
 )
+problems.push(
+  ...checkDependencyFrameworks(
+    own.items,
+    FRAMEWORK_BASES.map(({ framework, base }) => [framework, base] as const)
+  )
+)
 
 const seconds = ((performance.now() - started) / 1000).toFixed(1)
 if (problems.length) {
@@ -236,5 +259,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )

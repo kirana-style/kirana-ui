@@ -22,7 +22,7 @@ export type Combination = {
 
 export const STYLES = ["nova", "vega", "lyra", "maia"] as const
 
-const FRAMEWORK_BASES = [
+export const FRAMEWORK_BASES = [
   { framework: "react", base: "base", bases: "react-base" },
   { framework: "react", base: "aria", bases: "react-aria" },
   { framework: "vue", base: "ark", bases: "vue-ark" },

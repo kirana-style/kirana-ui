@@ -120,7 +120,12 @@ export const dialog = {
   title: css({
     fontFamily: font.heading,
     fontWeight: fontWeight.medium,
-    fontSize: { base: fontSize.base, [vega]: "inherit", [lyra]: fontSize.sm },
+    // Vega's title has no size of its own: the content's.
+    fontSize: {
+      [nova]: fontSize.base,
+      [lyra]: fontSize.sm,
+      [maia]: fontSize.base,
+    },
     lineHeight: { base: "1", [lyra]: lineHeight.sm },
   }),
 

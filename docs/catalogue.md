@@ -239,7 +239,12 @@ Writing one:
   included, with no `base`: `backgroundColor: { [nova]: alpha.muted50 }`, not
   `{ base: alpha.muted50, [vega]: "transparent", … }`. A style that sets nothing
   then gets what the reset or inheritance gives, as upstream's does, and its
-  installed code carries no dead declaration (Dialog's footer);
+  installed code carries no dead declaration (Dialog's footer). Keep
+  unconditional what a style without the property still reads: Card's footer
+  rule has a width only in Nova and Lyra, but its colour in every style, since
+  the reset gives an element no border colour. Compare the site before and after
+  in the browser; a reset that changes no pixel can still change a computed
+  value;
 - upstream draws its style rules in a layer below its components' own classes:
   where both set a property, write the component's value;
 - write a state with `...when(state, value)`; a value that needs two states is a
@@ -382,9 +387,10 @@ import, which flattening inlines into shadcn/ui's.
 | `generate.ts`                   | Writes a module back as source: tokens, relations, targets and keyframes as code; each `css()` line                            |
 | `session.ts`                    | One Kirana session (`Driver` from `@kirana-style/compiler`): batched `trace()`, conditions as data, `check()` for diagnostics  |
 | `check.ts`, `winners.ts`        | The round trip (recipes by part) and the winners, before and after; every probe in one module per side                         |
+| `compose.ts`                    | Every composition of handles in the markup, as probes for the winners: merged live, and each handle flattened then merged      |
 | `items.ts`, `registry.ts`       | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                       |
 | `kirana-items.ts`               | Kirana's format: an item's files shared by every base, each base's own, dependencies split the same way, the axes it reads     |
-| `kirana-check.ts`               | Kirana's items checked with `@kirana-style/registry`'s `check()`; a problem fails the run                                      |
+| `kirana-check.ts`               | Kirana's items checked with `@kirana-style/registry`'s `check()`, and every dependency installable wherever its item is        |
 
 An item's files install as markup and style modules in `ui/`, the design system
 in `lib/kirana/`, a block's parts in `components/`; an import between items is

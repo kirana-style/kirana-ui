@@ -6,7 +6,8 @@ import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
-import { checkKiranaItems } from "./kirana-check"
+import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
+import { argumentsAt } from "./compose"
 import { axesOf, kiranaFile } from "./kirana-items"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
 import { conditionText, partText, ranked } from "./session"
@@ -497,6 +498,56 @@ describe("Kirana's items", () => {
       "kirana/button: /name is required",
       "kirana/button: /type is required",
       "kirana/button: /version is required",
+    ])
+  })
+})
+
+describe("a composition at a use site", () => {
+  it("is each top-level argument, nested calls and arrays kept whole", () => {
+    const text = "sx={[menuRowBase, inset && menuInset, mix(a, [b]), sx]}"
+    expect(argumentsAt(text, text.indexOf("["))).toEqual([
+      "menuRowBase",
+      "inset && menuInset",
+      "mix(a, [b])",
+      "sx",
+    ])
+  })
+})
+
+describe("an item's dependencies", () => {
+  const targets = [
+    ["react", "base"],
+    ["vue", "ark"],
+  ] as const
+  it("must have markup on every framework the item is installed for", () => {
+    const items = [
+      {
+        name: "select",
+        registryDependencies: ["field", "kirana"],
+        frameworks: { react: { base: {} }, vue: { ark: {} } },
+      },
+      { name: "field", frameworks: { react: { base: {} } } },
+      { name: "kirana" },
+    ]
+    expect(checkDependencyFrameworks(items, targets)).toEqual([
+      "kirana/select: needs field on vue (ark), which has no markup there.",
+    ])
+  })
+
+  it("count a framework's own dependencies, and an item without frameworks everywhere", () => {
+    const items = [
+      {
+        name: "dialog",
+        frameworks: {
+          react: { base: { registryDependencies: ["sx"] } },
+          vue: { ark: {} },
+        },
+      },
+      { name: "sx", frameworks: { react: { base: {} } } },
+      { name: "styles", registryDependencies: ["sx"] },
+    ]
+    expect(checkDependencyFrameworks(items, targets)).toEqual([
+      "kirana/styles: needs sx on vue (ark), which has no markup there.",
     ])
   })
 })

@@ -28,7 +28,7 @@ import { item, when } from "../core/states"
 import { alpha, radius, theme } from "../core/tokens"
 import { controlIcons } from "./control"
 
-const { vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia } = axes.style
 const { inverted, translucent } = axes.menuColor
 
 /** A menu row, read by its shortcut (`group/dropdown-menu-item`). */
@@ -207,7 +207,8 @@ export const menuLabel = css({
 export const menuSeparator = css({
   height: "1px",
   marginInline: `calc(${space[1]} * -1)`,
-  marginBlock: { base: space[1], [lyra]: "0" },
+  // `my-1`, but not Lyra's.
+  marginBlock: { [nova]: space[1], [vega]: space[1], [maia]: space[1] },
   backgroundColor: menuCtx.separator,
 })
 
@@ -225,5 +226,6 @@ export const menuShortcut = css({
 
 /** For a component that wants a label's weight. */
 export const menuLabelWeight = css({
-  fontWeight: { base: fontWeight.medium, [lyra]: "inherit", [maia]: "inherit" },
+  // Nova's and Vega's; Lyra's and Maia's labels have no weight of their own.
+  fontWeight: { [nova]: fontWeight.medium, [vega]: fontWeight.medium },
 })

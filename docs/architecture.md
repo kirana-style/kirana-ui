@@ -395,8 +395,15 @@ merged: a recipe's variant merges over its base entry by entry, and on the site 
 style's entry in the base outranks the variant's plain one, which it no longer
 does once its condition is removed. So a variant is written as what it changes
 in the flattened base, and the check compares the flattened base and variant
-merged, as the installed recipe merges them. The items speak shadcn/ui's schema
-and are validated with its own.
+merged, as the installed recipe merges them. Handles composed at a use site
+(`sx={[a, b]}`, `styleProps(a, b)`, `:sx="[a, b]"`) meet the same way: a style's
+entry in one beside a plain value in a later one flips once each is flattened
+alone, so the check also reads every composition in the markup and compares it
+merged live against each handle flattened, then merged. And an item's
+dependencies must have markup wherever the item has: a style module importing
+another component's makes the item need that component on every framework,
+including one without it. The items speak shadcn/ui's schema and are validated
+with its own.
 
 **A project installs with Kirana's own installer, on every framework.** The
 builder also writes the registry in Kirana's format (`/r/<item>.json` and

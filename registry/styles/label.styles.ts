@@ -13,7 +13,7 @@ import { css } from "@kirana-style/core"
 import { axes } from "../core/axes"
 import { fontSize, fontWeight, space } from "../core/scales"
 
-const { lyra } = axes.style
+const { nova, vega, lyra, maia } = axes.style
 
 export const label = css({
   display: "flex",
@@ -23,5 +23,10 @@ export const label = css({
   fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
   lineHeight: "1",
   // Lyra's labels take the text's weight.
-  fontWeight: { base: fontWeight.medium, [lyra]: "inherit" },
+  // Lyra's label has no weight of its own.
+  fontWeight: {
+    [nova]: fontWeight.medium,
+    [vega]: fontWeight.medium,
+    [maia]: fontWeight.medium,
+  },
 })
