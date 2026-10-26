@@ -394,6 +394,38 @@ describe("writing a module", () => {
     )
     expect(code.split("\n")[sites.get("link")! - 1]).toContain("css(")
   })
+
+  it("writes a parent read back as one, with or without its condition", () => {
+    const read = (condition: string) =>
+      marker({ kind: "read", relation: "field", how: "parent", condition })
+    const handle: StyleHandle = {
+      kind: "style",
+      anchors: [],
+      styles: [{ width: { [read("")]: "1rem", [read("[x]")]: "100%" } }],
+      site: { file: "", line: 0 },
+    }
+    const { code } = generate(
+      { part: handle },
+      {
+        tokens: new Map(),
+        axes: new Map(),
+        relations: new Map([
+          ["field", { module: "field.styles.ts", name: "fieldScope" }],
+        ]),
+      },
+      {
+        flatten: (h) => h,
+        flattenRecipe: (h) => h,
+        imports: (module) => `./${module}`,
+        header: "// test",
+        module: "field.styles.ts",
+        relationsFrom: (module) => ({ specifier: `./${module}`, own: false }),
+      }
+    )
+    expect(code).toContain(
+      'width: { [fieldScope.parent()]: "1rem", [fieldScope.parent("[x]")]: "100%" }'
+    )
+  })
 })
 
 describe("an item's imports", () => {

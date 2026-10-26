@@ -24,13 +24,7 @@ import {
   space,
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import {
-  CHILD_OF_HORIZONTAL,
-  CHILD_OF_RESPONSIVE,
-  GROUP_MD,
-  fillInField,
-  focusRing,
-} from "./control"
+import { GROUP_MD, focusRing } from "./control"
 
 const { vega, lyra, maia } = axes.style
 
@@ -38,6 +32,8 @@ const { vega, lyra, maia } = axes.style
 export const fieldScope = relation("field")
 /** A legend, read by the description that follows it (`[[data-variant=legend]+&]`). */
 export const fieldLegend = relation("field-legend")
+/** A FieldGroup, read by a group directly inside it (`*:data-[slot=field-group]:`). */
+export const fieldGroup = relation("field-group")
 
 const VERTICAL = '[data-orientation="vertical"]'
 const HORIZONTAL = '[data-orientation="horizontal"]'
@@ -47,13 +43,19 @@ const HAS_CONTENT = ':has(> [data-slot="field-content"])'
 /** A label wrapping a whole Field: a choice card. */
 const CARD = ':has(> [data-slot="field"])'
 /**
- * A FieldGroup directly inside another (`*:data-[slot=field-group]:`), asked of the group itself.
- * Not a relation's `parent()` read yet: before Kirana 0.3.3 that ranked as a relation, level with
- * the style overrides it must beat (KF-025 in Kirana's feedback log). 0.3.3 ranks it with the
- * pseudo-classes, as this condition does; moving to it is a change of its own, compared in the
- * browser.
+ * A part that is a field's own child, by the field's orientation (the field's `*:` rules, asked of
+ * the part, which its own `w-fit` would otherwise beat): a label or title fills a vertical field and
+ * grows in a horizontal one, but not inside a wrapper of its own, as login-01's password row has.
  */
-const NESTED = ':where([data-slot="field-group"] > *)'
+const CHILD_OF_VERTICAL = fieldScope.parent(VERTICAL)
+const CHILD_OF_HORIZONTAL = fieldScope.parent(HORIZONTAL)
+const CHILD_OF_RESPONSIVE = fieldScope.parent(RESPONSIVE)
+/** `*:w-full` over a part's own `w-fit`; a control's is `fillInField` (`control.ts`). */
+const FILL = {
+  base: "fit-content",
+  [CHILD_OF_VERTICAL]: "100%",
+  [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
+}
 
 const inDisabledField = fieldScope.within('[data-disabled="true"]')
 
@@ -94,7 +96,7 @@ export const field = {
   }),
 
   // cn-field-group: its width is the container the responsive orientation asks about.
-  group: css({
+  group: css(fieldGroup.anchor, {
     containerType: "inline-size",
     containerName: "field-group",
     display: "flex",
@@ -103,7 +105,7 @@ export const field = {
     // A group inside a group is `gap-4` in every style.
     gap: {
       base: space[5],
-      [NESTED]: space[4],
+      [fieldGroup.parent()]: space[4],
       [vega]: space[7],
       [maia]: space[7],
       '[data-slot="checkbox-group"]': space[3],
@@ -150,7 +152,7 @@ export const field = {
     display: "flex",
     gap: space[2],
     lineHeight: leading.snug,
-    width: { ...fillInField, [CARD]: "100%" },
+    width: { ...FILL, [CARD]: "100%" },
     flex: {
       [CHILD_OF_HORIZONTAL]: "auto",
       [CHILD_OF_RESPONSIVE]: { [GROUP_MD]: "auto" },
@@ -208,7 +210,7 @@ export const field = {
   // cn-field-title: a label's look on a `div`.
   title: css({
     display: "flex",
-    width: fillInField,
+    width: FILL,
     flex: { [CHILD_OF_HORIZONTAL]: "auto" },
     alignItems: "center",
     gap: space[2],

@@ -65,21 +65,20 @@ export const controlIcons = {
 export const GROUP_MD = "@container field-group (min-width: 28rem)"
 
 /**
- * A part that is a field's own child, asked of the part (the field's `*:` rules, which a child's
- * own `w-fit` would otherwise beat): a label or title fills a vertical field and grows in a
- * horizontal one, but not when it sits in a wrapper of its own, as login-01's password row does.
+ * A control that is a vertical or responsive field's own child, asked of the control: a select
+ * trigger fills the field, as upstream's `*:w-full` beats its own `w-fit`, but not inside a wrapper
+ * of its own. A raw key, not Field's relation: a `parent()` read is `relation-without-anchor` in a
+ * project that installs the control without Field (KF-037 in Kirana's feedback log). Field's own
+ * parts read the relation (`field.styles.ts`).
  */
-export const CHILD_OF_VERTICAL =
+const CHILD_OF_VERTICAL =
   ':where([data-slot="field"][data-orientation="vertical"] > *)'
-export const CHILD_OF_HORIZONTAL =
-  ':where([data-slot="field"][data-orientation="horizontal"] > *)'
-export const CHILD_OF_RESPONSIVE =
+const CHILD_OF_RESPONSIVE =
   ':where([data-slot="field"][data-orientation="responsive"] > *)'
 
 /**
- * A control's width as a Field's child, upstream's `*:w-full` over its own `w-fit`. Here, not in
- * `field.styles.ts`, so a control that reads it (the select trigger) needs no Field markup in a
- * framework that has none.
+ * A control's width as a Field's child. Here, not in `field.styles.ts`, so a control that reads it
+ * needs no Field markup in a framework that has none.
  */
 export const fillInField = {
   base: "fit-content",
