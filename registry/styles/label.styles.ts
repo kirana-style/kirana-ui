@@ -15,6 +15,7 @@ import { fontSize, fontWeight, space } from "../core/scales"
 
 const { nova, vega, lyra, maia } = axes.style
 
+// cn-label, and cn-label-aria's React Aria keys
 export const label = css({
   display: "flex",
   alignItems: "center",

@@ -203,7 +203,14 @@ When the original itself is wrong, fix the original.
 The registry's preview pages are compared with the same pages on shadcn/ui's
 site, a local build of its `apps/v4` (`next dev` on port 4000), by the same
 harness in URL-pair mode: each route is loaded from both sites, with the
-expected site's path rewritten.
+expected site's path rewritten. `vp run conformance` runs it for every example
+and block the site ports, on both React bases, in every style, at rest and in
+every state (`scripts/conformance.ts`); `vp run conformance:pr` keeps the pages
+whose sources reach a file changed since `origin/main`. It needs the site's
+Worker on 8787, upstream's site on 4000 and a kirana-lab checkout beside this
+repository (`KIRANA_LAB` otherwise); `--shard 1/3` splits the routes, `--list`
+prints them. A difference not in `conformance/expected-differences.json` fails
+it; each entry there says why it is not a bug. One route by hand:
 
 ```bash
 bun conformance/compare.ts --actual http://localhost:8787 --expected http://localhost:4000 \
@@ -214,8 +221,9 @@ bun conformance/compare.ts --actual http://localhost:8787 --expected http://loca
 
 - **Name the design by preset code.** Upstream's preview reads `?preset=` (`b0`
   by default) over any axis parameter, so `?style=lyra` still shows Nova there.
-  Nova is `b0`, Lyra `buFywKm` (upstream rewrites it as `buFywLo`, with Lyra's
-  radius).
+  Each style's code is upstream's own `encodePreset({ style })`: Nova `b0`, Vega
+  `bIkeymG`, Lyra `buFywKm` (upstream rewrites it as `buFywLo`, with Lyra's
+  radius), Maia `bbVJxYW`. The site reads the same codes.
 - **Upstream's examples are ported with their layout**, in
   `components/example.tsx`'s frame. `--group` pairs elements within each titled
   example rather than across the page, so a section whose components do not exist
@@ -252,6 +260,29 @@ select trigger inside a vertical Field stayed as wide as its text, where
 upstream's `*:w-full` fills the field (the trigger, and React Aria's root, take
 `fillInField` now); and the shared menu separator ignored the pointer, which only
 upstream's select separator does.
+
+### Following upstream
+
+`upstream/shadcn.json` records, for every item ported from shadcn/ui (its
+components, the examples and the blocks), the upstream commit it was ported
+from and the hash of every unit: each upstream file, and each `cn-*` hook's rule
+in every style file the registry carries. It also says where each hook went,
+read from the comment that names it in a style module (`// cn-field-set` above
+`set: css(…)`), and which hooks were dropped and why.
+
+```bash
+vp run upstream -- scan [--ref main]     # upstream/report.md: what changed since
+vp run upstream -- accept [<item>…]      # stamp items at a commit, once ported
+```
+
+The scan lists each changed unit, a changed class list as the utilities it adds
+and removes with a draft of the added ones in Kirana's syntax (Kirana's own
+Tailwind lowering, a suggestion never written into a source), the items not
+stamped, the hooks with no place, and upstream's components and styles not
+ported yet. `accept` refuses an item with a hook that has no place: name the hook
+in a comment where its values live, or give it a reason under `dropped`. Both
+read upstream through git: `--repo <path>` (or `UPSTREAM_REPO`) names a checkout,
+and without one a blobless clone is kept in `node_modules/.cache/upstream`.
 
 ### Porting from StyleX: what the merge changes
 

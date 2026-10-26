@@ -119,6 +119,7 @@ export const card = {
   }),
 
   // The component's own classes: beside the title and description, at the end.
+  // cn-card-action
   action: css({
     gridColumnStart: 2,
     // `row-span-2 row-start-1` as longhands: `gridRow: "span 2"` would leave the end at `auto`.

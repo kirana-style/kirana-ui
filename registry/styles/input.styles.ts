@@ -21,6 +21,7 @@ import { controlShadow, controlTransition } from "./control"
 
 const { vega, lyra, maia } = axes.style
 
+// cn-input
 export const input = css({
   width: "100%",
   minWidth: 0,

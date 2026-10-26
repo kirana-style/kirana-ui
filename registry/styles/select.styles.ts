@@ -182,10 +182,11 @@ export const select = {
     whiteSpace: "nowrap",
   }),
 
-  // cn-select-item-indicator, after `menuIndicator`.
+  // cn-select-item-indicator, after `menuIndicator`; its icon (cn-select-item-indicator-icon) is
+  // sized as any icon in a control.
   indicator: css({ width: space[4], height: space[4] }),
 
-  // cn-select-scroll-up-button and -down-button.
+  // cn-select-scroll-up-button and cn-select-scroll-down-button.
   scrollButton: css({
     zIndex: zIndex.raised,
     display: "flex",

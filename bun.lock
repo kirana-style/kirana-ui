@@ -122,6 +122,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@kirana-style/compiler": "catalog:",
+        "@kirana-style/preset-scales": "catalog:",
         "@kirana-style/registry": "catalog:",
         "@shadcn/registry": "^0.2.0",
         "@workspace/registry": "workspace:*",
