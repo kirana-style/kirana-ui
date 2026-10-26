@@ -20,3 +20,6 @@ coverage
 *.lcov
 
 registry/.flat
+
+# the upstream scan's report (`vp run upstream -- scan`)
+upstream/report.*

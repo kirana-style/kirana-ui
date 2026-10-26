@@ -112,7 +112,8 @@ export const field = {
     },
   }),
 
-  // cn-field and its orientations.
+  // cn-field and its orientations (cn-field-orientation-vertical, cn-field-orientation-horizontal,
+  // cn-field-orientation-responsive).
   root: css(fieldScope.anchor, {
     display: "flex",
     width: "100%",
@@ -258,6 +259,7 @@ export const field = {
     lineHeight: { base: lineHeight.sm, [lyra]: lineHeight.xs },
   }),
   separatorLine: css({ position: "absolute", inset: 0, top: "50%" }),
+  // cn-field-separator-content
   separatorContent: css({
     position: "relative",
     marginInline: "auto",

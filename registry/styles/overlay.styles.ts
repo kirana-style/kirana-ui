@@ -81,7 +81,8 @@ export const popupMotion = css({
       [side.bottom.base]: `0 ${BACK}`,
       [side.left.base]: `${SLIDE} 0`,
       [side.right.base]: `${BACK} 0`,
-      // A logical side slides from the other way when the text runs right to left.
+      // A logical side slides from the other way when the text runs right to left
+      // (cn-dropdown-menu-content-logical, cn-select-content-logical).
       [side.inlineStart.base]: { base: `${SLIDE} 0`, ":dir(rtl)": `${BACK} 0` },
       [side.inlineEnd.base]: { base: `${BACK} 0`, ":dir(rtl)": `${SLIDE} 0` },
     },

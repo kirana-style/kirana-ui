@@ -8,6 +8,7 @@ import { marker } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
 import { argumentsAt } from "./compose"
+import { classDiff, hookPlaces, hooksIn, placeHooks, rulesOf } from "./upstream"
 import { axesOf, kiranaFile } from "./kirana-items"
 import { entriesOf, mergeStyles, valueOf } from "./styles"
 import { conditionText, partText, ranked } from "./session"
@@ -549,5 +550,70 @@ describe("an item's dependencies", () => {
     expect(checkDependencyFrameworks(items, targets)).toEqual([
       "kirana/styles: needs sx on vue (ark), which has no markup there.",
     ])
+  })
+})
+
+describe("upstream's units", () => {
+  it("are each style file's rules by hook, their class lists normalised", () => {
+    const css = `@layer components {
+  .cn-button {
+    @apply inline-flex   gap-1;
+  }
+  .cn-button-size-sm {
+    @apply h-7 px-2.5;
+  }
+}`
+    expect([...rulesOf(css)]).toEqual([
+      ["cn-button", "inline-flex gap-1"],
+      ["cn-button-size-sm", "h-7 px-2.5"],
+    ])
+  })
+
+  it("name the hooks a component's markup uses", () => {
+    expect(hooksIn('cn("cn-card-title", x) cn-card cn-card-title')).toEqual([
+      "cn-card",
+      "cn-card-title",
+    ])
+  })
+
+  it("diff a class list by utility", () => {
+    expect(classDiff("h-7 px-2.5 text-xs", "h-7 px-3 text-xs ring-1")).toEqual({
+      added: ["px-3", "ring-1"],
+      removed: ["px-2.5"],
+    })
+  })
+})
+
+describe("a hook's place", () => {
+  it("is the key or export after the comment naming it", () => {
+    const text = `export const field = {
+  // cn-field-set
+  set: css({}),
+  // cn-field and its orientations (cn-field-orientation-vertical).
+  root: css({}),
+}
+// cn-input
+export const input = css({})`
+    expect(Object.fromEntries(hookPlaces("x.styles.ts", text))).toEqual({
+      "cn-field-set": "registry/styles/x.styles.ts#field.set",
+      "cn-field": "registry/styles/x.styles.ts#field.root",
+      "cn-field-orientation-vertical": "registry/styles/x.styles.ts#field.root",
+      "cn-input": "registry/styles/x.styles.ts#input",
+    })
+  })
+
+  it("covers a React Aria hook with its plain one, and lists the rest", () => {
+    const places = new Map([
+      ["cn-label", "registry/styles/label.styles.ts#label"],
+    ])
+    expect(
+      placeHooks(["cn-label", "cn-label-aria", "cn-other"], places)
+    ).toEqual({
+      placed: {
+        "cn-label": "registry/styles/label.styles.ts#label",
+        "cn-label-aria": "registry/styles/label.styles.ts#label",
+      },
+      unmapped: ["cn-other"],
+    })
   })
 })

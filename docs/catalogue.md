@@ -230,8 +230,11 @@ is the base value; Vega, Lyra and Maia override per property. The markup in
 
 Writing one:
 
-- name the upstream rule each part comes from (`// cn-select-trigger`) and the
-  commit it was read at, and say in the header what differs on purpose;
+- name the upstream rule each part comes from in a `//` comment above it
+  (`// cn-select-trigger`; several hooks in one comment are fine, each written
+  out in full) and the commit it was read at, and say in the header what differs
+  on purpose. The upstream scan reads these comments as each hook's place, and
+  `vp run upstream -- accept` refuses an item with a hook no comment names;
 - write Nova as `base` and each other style as `[axes.style.<name>]` inside the
   property. A state or breakpoint entry whose value differs in a style is
   restated under that style (`[SMALL]: { base: …, [vega]: … }`);
@@ -380,17 +383,18 @@ Two items exist for Kirana's format's sake. `sx` (React only) is the props helpe
 React components import. `control-styles` is the helper several style modules
 import, which flattening inlines into shadcn/ui's.
 
-| Module                          | Does                                                                                                                           |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `kirana-stub.ts`, `evaluate.ts` | Runs a style module with Kirana's functions recording their arguments; tags the state keys of `core/states.ts` with their base |
-| `flatten.ts`                    | One style and one base: other styles' and bases' entries out, the style's merged into the base look                            |
-| `generate.ts`                   | Writes a module back as source: tokens, relations, targets and keyframes as code; each `css()` line                            |
-| `session.ts`                    | One Kirana session (`Driver` from `@kirana-style/compiler`): batched `trace()`, conditions as data, `check()` for diagnostics  |
-| `check.ts`, `winners.ts`        | The round trip (recipes by part) and the winners, before and after; every probe in one module per side                         |
-| `compose.ts`                    | Every composition of handles in the markup, as probes for the winners: merged live, and each handle flattened then merged      |
-| `items.ts`, `registry.ts`       | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                       |
-| `kirana-items.ts`               | Kirana's format: an item's files shared by every base, each base's own, dependencies split the same way, the axes it reads     |
-| `kirana-check.ts`               | Kirana's items checked with `@kirana-style/registry`'s `check()`, and every dependency installable wherever its item is        |
+| Module                           | Does                                                                                                                                |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `kirana-stub.ts`, `evaluate.ts`  | Runs a style module with Kirana's functions recording their arguments; tags the state keys of `core/states.ts` with their base      |
+| `flatten.ts`                     | One style and one base: other styles' and bases' entries out, the style's merged into the base look                                 |
+| `generate.ts`                    | Writes a module back as source: tokens, relations, targets and keyframes as code; each `css()` line                                 |
+| `session.ts`                     | One Kirana session (`Driver` from `@kirana-style/compiler`): batched `trace()`, conditions as data, `check()` for diagnostics       |
+| `check.ts`, `winners.ts`         | The round trip (recipes by part) and the winners, before and after; every probe in one module per side                              |
+| `compose.ts`                     | Every composition of handles in the markup, as probes for the winners: merged live, and each handle flattened then merged           |
+| `items.ts`, `registry.ts`        | The items, their files' places, imports rewritten, dependencies read, shadcn/ui's schema                                            |
+| `kirana-items.ts`                | Kirana's format: an item's files shared by every base, each base's own, dependencies split the same way, the axes it reads          |
+| `upstream.ts`, `upstream-cli.ts` | The provenance manifest (`upstream/shadcn.json`) and the scan against shadcn/ui at a commit; drafts with Kirana's Tailwind lowering |
+| `kirana-check.ts`                | Kirana's items checked with `@kirana-style/registry`'s `check()`, and every dependency installable wherever its item is             |
 
 An item's files install as markup and style modules in `ui/`, the design system
 in `lib/kirana/`, a block's parts in `components/`; an import between items is

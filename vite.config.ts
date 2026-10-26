@@ -59,6 +59,21 @@ export default defineConfig({
         dependsOn: ["registry"],
         cache: false,
       },
+      // The provenance manifest against shadcn/ui (`packages/builder/src/upstream-cli.ts`):
+      // `vp run upstream -- scan [--ref main]` writes `upstream/report.md`, `-- accept [<item>…]`
+      // stamps items. Reads upstream's repository, so it is not in prepush.
+      upstream: {
+        command: "bun packages/builder/src/upstream-cli.ts",
+        cache: false,
+      },
+      // The registry's pages against shadcn/ui's own site, every example and block in every style
+      // (`scripts/conformance.ts`, kirana-lab's harness); `conformance:pr` keeps the pages a change
+      // since `origin/main` reaches. Needs the site's Worker, upstream's site and kirana-lab.
+      conformance: { command: "bun scripts/conformance.ts", cache: false },
+      "conformance:pr": {
+        command: "bun scripts/conformance.ts --changed",
+        cache: false,
+      },
       // The demo :3000, blocks :3001, examples :3002 and the Vue preview :3003, side by side.
       dev: {
         command: 'vp run --filter "./apps/*" --parallel dev',

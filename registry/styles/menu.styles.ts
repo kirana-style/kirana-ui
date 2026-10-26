@@ -112,6 +112,7 @@ export const menuList = css({
 })
 
 /** Every row: an item, a checkbox or radio item, a submenu trigger, a select item. */
+// cn-dropdown-menu-item, cn-dropdown-menu-checkbox-item, cn-dropdown-menu-radio-item
 export const menuRowBase = css(menuRow.anchor, {
   position: "relative",
   display: "flex",
@@ -179,6 +180,7 @@ export const menuRowDestructive = css({
 })
 
 /** The check of a checkbox or radio row, at the row's end. */
+// cn-dropdown-menu-item-indicator
 export const menuIndicator = css({
   pointerEvents: "none",
   position: "absolute",
@@ -189,6 +191,7 @@ export const menuIndicator = css({
 })
 
 /** A group's label, inset like a row. DropdownMenu sets its weight; Select's has none. */
+// cn-dropdown-menu-label, cn-select-label
 export const menuLabel = css({
   color: theme.mutedForeground,
   fontSize: fontSize.xs,
@@ -204,6 +207,7 @@ export const menuLabel = css({
 })
 
 /** A rule between groups: `-mx-1 my-1 h-px`, without the margin in Lyra; its colour is the surface's. */
+// cn-dropdown-menu-separator, cn-select-separator
 export const menuSeparator = css({
   height: "1px",
   marginInline: `calc(${space[1]} * -1)`,
@@ -213,6 +217,7 @@ export const menuSeparator = css({
 })
 
 /** A row's keyboard shortcut, in the highlight's colour while its row has focus. */
+// cn-dropdown-menu-shortcut
 export const menuShortcut = css({
   marginInlineStart: "auto",
   fontSize: fontSize.xs,

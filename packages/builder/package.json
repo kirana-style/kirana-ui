@@ -4,10 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "registry": "bun src/cli.ts"
+    "registry": "bun src/cli.ts",
+    "upstream": "bun src/upstream-cli.ts"
   },
   "dependencies": {
     "@kirana-style/compiler": "catalog:",
+    "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/registry": "catalog:",
     "@shadcn/registry": "^0.2.0",
     "@workspace/registry": "workspace:*"
