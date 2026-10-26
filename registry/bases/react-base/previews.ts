@@ -13,6 +13,8 @@ import DropdownMenuDemo from "./examples/dropdown-menu-demo"
 import DropdownMenuExample from "./examples/dropdown-menu-example"
 import SelectDemo from "./examples/select-demo"
 import SelectExample from "./examples/select-example"
+import TabsDemo from "./examples/tabs-demo"
+import TabsExample from "./examples/tabs-example"
 
 export const previews: Record<string, ComponentType> = {
   "button-demo": ButtonDemo,
@@ -23,5 +25,7 @@ export const previews: Record<string, ComponentType> = {
   "dropdown-menu-example": DropdownMenuExample,
   "select-demo": SelectDemo,
   "select-example": SelectExample,
+  "tabs-demo": TabsDemo,
+  "tabs-example": TabsExample,
   "login-01": Login01,
 }

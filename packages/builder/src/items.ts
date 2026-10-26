@@ -186,6 +186,11 @@ export const ITEMS: Item[] = [
     "Displays a menu of actions or functions, triggered by a button."
   ),
   component(
+    "tabs",
+    "Tabs",
+    "A set of layered sections of content, displayed one at a time."
+  ),
+  component(
     "card",
     "Card",
     "Displays a card with a header, content and footer.",

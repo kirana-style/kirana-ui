@@ -5,9 +5,9 @@
  * style, at rest and in every state. A difference not in `conformance/expected-differences.json`
  * fails it.
  *
- *   bun scripts/conformance.ts [--changed [--since <ref>]] [--styles nova,lyra] [--shard i/n] [--list]
+ *   bun scripts/conformance.ts [--changed [--since <ref>]] [--styles nova,lyra] [--shard i/n] [--pages a,b] [--list]
  *
- * `--list` prints the routes and stops.
+ * `--list` prints the routes and stops; `--pages tabs-example,login-01` keeps those pages.
  *
  * `--changed` (what `vp run conformance:pr` runs) keeps the pages whose sources import, at any
  * depth, a file changed since `--since` (`origin/main` by default); a change outside the registry and
@@ -49,6 +49,7 @@ const { values } = parseArgs({
     styles: { type: "string" },
     shard: { type: "string" },
     list: { type: "boolean", default: false },
+    pages: { type: "string" },
   },
 })
 const changedFrom = values.changed ? (values.since ?? "origin/main") : undefined
@@ -130,7 +131,12 @@ const touches = (entry: string) =>
 const routes = (bases: string[], only?: (name: string) => boolean) =>
   bases.flatMap((base) =>
     pages(base)
-      .filter((page) => (!only || only(page.name)) && touches(page.entry))
+      .filter(
+        (page) =>
+          (!only || only(page.name)) &&
+          (!values.pages || values.pages.split(",").includes(page.name)) &&
+          touches(page.entry)
+      )
       .flatMap((page) =>
         styles.map(
           (style) =>

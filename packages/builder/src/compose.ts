@@ -8,7 +8,8 @@
  *
  * Read from the text, so an argument that is not a handle's path (a recipe call, the caller's `sx`,
  * a value computed in the component) is left out; a condition before `&&` is dropped and the handle
- * kept, since it is composed whenever the condition holds.
+ * kept, since it is composed whenever the condition holds; a choice (`line ? a : b`) is each of its
+ * branches, one composition each.
  */
 import { readFileSync, readdirSync } from "node:fs"
 import { join, relative } from "node:path"
@@ -47,6 +48,21 @@ export function argumentsAt(text: string, open: number): string[] {
 
 export type Composition = { paths: string[]; sites: Set<string> }
 
+/** The values an argument can take: both branches of `test ? a : b`, or the argument itself. */
+export function choicesOf(part: string): string[] {
+  const choice = /^[^?]+\?\s*([\w.]+)\s*:\s*([\w.]+)$/.exec(part)
+  return choice ? [choice[1], choice[2]] : [part]
+}
+
+/** Every way of taking one value from each list. */
+function combinations(lists: string[][]): string[][] {
+  return lists.reduce<string[][]>(
+    (done, list) =>
+      done.flatMap((prefix) => list.map((value) => [...prefix, value])),
+    [[]]
+  )
+}
+
 /** Every distinct composition of two or more handles in the markup under `bases`, by its paths. */
 export function compositionsOf(
   bases: string,
@@ -60,14 +76,18 @@ export function compositionsOf(
       else if (/\.(tsx|vue)$/.test(entry.name)) {
         const text = readFileSync(path, "utf8")
         for (const match of text.matchAll(OPENERS)) {
-          const paths = argumentsAt(text, match.index + match[0].length - 1)
-            .map((part) => part.replace(/^.*&&\s*/, ""))
-            .filter(isHandle)
-          if (paths.length < 2) continue
-          const key = paths.join(" + ")
-          if (!compositions.has(key))
-            compositions.set(key, { paths, sites: new Set() })
-          compositions.get(key)!.sites.add(relative(bases, path))
+          const parts = argumentsAt(
+            text,
+            match.index + match[0].length - 1
+          ).map((part) => choicesOf(part.replace(/^.*&&\s*/, "")))
+          for (const choice of combinations(parts)) {
+            const paths = choice.filter(isHandle)
+            if (paths.length < 2) continue
+            const key = paths.join(" + ")
+            if (!compositions.has(key))
+              compositions.set(key, { paths, sites: new Set() })
+            compositions.get(key)!.sites.add(relative(bases, path))
+          }
         }
       }
     }

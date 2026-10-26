@@ -23,11 +23,11 @@ What is here so far, `core/`, the design system:
 And beside it:
 
 - `styles/`, each component's look in every style: `button`, `dialog`, `select`, `dropdown-menu`,
-  `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
+  `tabs`, `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
   modules, with the page's own styles, the frame of upstream's examples and `reset.css`;
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
-  with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select and
-  DropdownMenu;
+  with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select,
+  DropdownMenu and Tabs;
 - `icons/`, `IconPlaceholder` for React and Vue over one map of icon data. Installed with
   shadcn/ui's CLI, a React placeholder becomes the project's own icon component, and the import of
   `icon-placeholder.tsx` is dropped;

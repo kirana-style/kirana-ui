@@ -200,6 +200,30 @@
       "property": "(element)",
       "route": "dialog-example",
       "reason": "left out: it needs Tabs, Switch, Checkbox, NativeSelect, InputGroup, Kbd, Tooltip and Textarea"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "(element)",
+      "route": "tabs-example",
+      "reason": "upstream's tabs example gives its menu trigger its Button's `data-slot`, where the same `render={<Button />}` keeps the trigger's in its dropdown menu example, as the registry does in both; one button, drawn alike"
+    },
+    {
+      "element": "button[data-slot=\"button\"]",
+      "property": "(element)",
+      "route": "tabs-example",
+      "reason": "upstream's tabs example gives its menu trigger its Button's `data-slot`, where the same `render={<Button />}` keeps the trigger's in its dropdown menu example, as the registry does in both; one button, drawn alike"
+    },
+    {
+      "element": "(page)",
+      "property": "(state)",
+      "route": "tabs-example",
+      "reason": "the same menu trigger: upstream's carries its Button's `data-slot`, so the harness finds no `dropdown-menu-trigger` to open there"
+    },
+    {
+      "element": "With Input and Button › button[data-slot=\"button\"]",
+      "property": "background-color",
+      "route": "tabs-example",
+      "reason": "the same menu trigger: the harness hovers the first `[data-slot=\"button\"]`, which on upstream's page is that trigger, so its Action button is never hovered there"
     }
   ]
 }
