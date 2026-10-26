@@ -32,7 +32,7 @@ import {
   fillInField,
 } from "./control"
 
-const { vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia } = axes.style
 
 /** React Aria's list box, read by the empty state it shows (`group/select-list`). */
 export const selectList = relation("select-list")
@@ -49,7 +49,8 @@ export const select = {
     gap: space["1.5"],
     whiteSpace: "nowrap",
     outlineStyle: "none",
-    userSelect: { base: "none", [vega]: "auto", [maia]: "auto" },
+    // Only Nova and Lyra make the trigger `select-none`.
+    userSelect: { [nova]: "none", [lyra]: "none" },
     cursor: { ":disabled": "not-allowed" },
     opacity: { ":disabled": 0.5 },
     ...controlIcons,
@@ -157,7 +158,8 @@ export const select = {
   // cn-select-group: Lyra's rows meet the popup's edges.
   group: css({
     scrollMarginBlock: space[1],
-    padding: { base: space[1], [lyra]: "0" },
+    // `p-1`, but not Lyra's.
+    padding: { [nova]: space[1], [vega]: space[1], [maia]: space[1] },
   }),
 
   // cn-select-item and the component's own classes, after `menuRowBase` and its padding. A last

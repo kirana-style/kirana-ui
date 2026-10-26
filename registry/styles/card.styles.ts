@@ -24,7 +24,7 @@ import {
 } from "../core/scales"
 import { alpha, font, radius, theme } from "../core/tokens"
 
-const { vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia } = axes.style
 
 /** The card, read by its title for its size (`group/card`). */
 export const cardScope = relation("card")
@@ -136,17 +136,14 @@ export const card = {
     display: "flex",
     alignItems: "center",
     paddingInline: cardCtx.spacing,
-    paddingBlock: { base: cardCtx.spacing, [vega]: 0, [maia]: 0 },
+    // Nova and Lyra draw the footer as a band under a rule; Vega and Maia only pad its sides.
+    paddingBlock: { [nova]: cardCtx.spacing, [lyra]: cardCtx.spacing },
     borderEndStartRadius: CORNER,
     borderEndEndRadius: CORNER,
-    borderTopWidth: { base: "1px", [vega]: 0, [maia]: 0 },
+    borderTopWidth: { [nova]: "1px", [lyra]: "1px" },
+    // The rule's colour in every style: the reset gives an element no border colour of its own.
     borderTopStyle: "solid",
     borderTopColor: theme.border,
-    backgroundColor: {
-      base: alpha.muted50,
-      [vega]: "transparent",
-      [lyra]: "transparent",
-      [maia]: "transparent",
-    },
+    backgroundColor: { [nova]: alpha.muted50 },
   }),
 }

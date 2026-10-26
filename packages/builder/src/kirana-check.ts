@@ -16,3 +16,44 @@ export function checkKiranaItems(
     )
   )
 }
+
+type Placed = {
+  name: string
+  registryDependencies?: string[]
+  frameworks?: Partial<
+    Record<string, Record<string, { registryDependencies?: string[] }>>
+  >
+}
+
+/**
+ * Every item an item needs where that one has no markup: on each framework and base an item is
+ * installed for, each item it depends on must be installable there too, or `kirana-style ui add`
+ * stops (`select` once named `field` for Vue, which has no Field). An item that lists no
+ * frameworks is installed for every one of `targets`.
+ */
+export function checkDependencyFrameworks(
+  items: readonly Placed[],
+  targets: readonly (readonly [string, string])[]
+): string[] {
+  const byName = new Map(items.map((item) => [item.name, item]))
+  const has = (item: Placed, framework: string, base: string) =>
+    !item.frameworks || Boolean(item.frameworks[framework]?.[base])
+  const problems: string[] = []
+  for (const item of items) {
+    for (const [framework, base] of targets) {
+      if (!has(item, framework, base)) continue
+      const needs = [
+        ...(item.registryDependencies ?? []),
+        ...(item.frameworks?.[framework]?.[base]?.registryDependencies ?? []),
+      ]
+      for (const name of needs) {
+        const dependency = byName.get(name)
+        if (dependency && !has(dependency, framework, base))
+          problems.push(
+            `kirana/${item.name}: needs ${name} on ${framework} (${base}), which has no markup there.`
+          )
+      }
+    }
+  }
+  return problems
+}

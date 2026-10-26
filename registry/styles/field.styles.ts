@@ -26,7 +26,7 @@ import {
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { GROUP_MD, focusRing } from "./control"
 
-const { vega, lyra, maia } = axes.style
+const { nova, vega, lyra, maia } = axes.style
 
 /** A Field, read by its label, title and description (`group/field`). */
 export const fieldScope = relation("field")
@@ -216,7 +216,12 @@ export const field = {
     gap: space[2],
     fontSize: { base: fontSize.sm, [lyra]: fontSize.xs },
     lineHeight: { base: leading.snug, [lyra]: leading.relaxed },
-    fontWeight: { base: fontWeight.medium, [lyra]: "inherit" },
+    // Lyra's title has no weight of its own.
+    fontWeight: {
+      [nova]: fontWeight.medium,
+      [vega]: fontWeight.medium,
+      [maia]: fontWeight.medium,
+    },
     opacity: { [inDisabledField]: 0.5 },
   }),
 
