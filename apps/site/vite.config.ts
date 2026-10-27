@@ -1,4 +1,6 @@
-import { readdirSync } from "node:fs"
+import { spawn } from "node:child_process"
+import { createReadStream, existsSync, readdirSync } from "node:fs"
+import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { build } from "vite-plus"
@@ -55,11 +57,49 @@ function designScript(): Plugin {
   }
 }
 
+/**
+ * `/r` in development. The registry's JSON is written into the build's static files
+ * (`dist/client/r`, `vp run registry`), which the dev server does not serve, so the code panels and
+ * the blocks' code read nothing there. This serves the same folder, and writes it first, without
+ * the flattening check, when it is missing. It is what the last `vp run registry` wrote: a change
+ * to the registry's sources shows in the code after `vp run registry` again.
+ */
+function registryInDev(): Plugin {
+  const root = fileURLToPath(new URL("../../", import.meta.url))
+  const folder = fileURLToPath(new URL("dist/client/r/", import.meta.url))
+  let writing: Promise<void> | undefined
+  const written = () =>
+    (writing ??= existsSync(folder)
+      ? Promise.resolve()
+      : new Promise((done) => {
+          spawn("bun", ["packages/builder/src/cli.ts", "--skip-check"], {
+            cwd: root,
+            stdio: "inherit",
+          }).on("exit", () => done())
+        }))
+  return {
+    name: "registry-in-dev",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use((request, response, next) => {
+        const path = request.url?.split("?")[0] ?? ""
+        if (!path.startsWith("/r/")) return next()
+        void written().then(() => {
+          const file = join(folder, decodeURIComponent(path.slice(3)))
+          if (!file.startsWith(folder) || !existsSync(file)) return next()
+          response.setHeader("Content-Type", "application/json")
+          createReadStream(file).pipe(response)
+        })
+      })
+    },
+  }
+}
+
 // The site deploys as the Cloudflare Worker `ui` (wrangler.jsonc), its pages prerendered into the
 // static files the Worker's assets serve: those reached from `/`, and every preview.
 export default defineAppConfig({
   cloudflare: true,
   prerender: true,
   pages: previewPages(),
-  plugins: [designScript()],
+  plugins: [designScript(), registryInDev()],
 })

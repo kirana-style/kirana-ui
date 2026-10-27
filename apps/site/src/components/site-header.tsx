@@ -2,8 +2,8 @@
  * The site's header, built from the registry's own components (Base UI's), so it takes the design
  * the reader chose, like every page of the site. Kirana's brand stays fixed: the name and the link
  * to GitHub. Its sections are the docs' tabs (`TABS`), in their order and with their icons, so the
- * header reads the same on every page, docs or not; New, to `/create`, is a section after the last one, as
- * it is in the docs. On `/create` (`designer`) the bar spans the page, as the editor does, and New
+ * header reads the same on every page, docs or not; Blocks and New (`SITE_LINKS`) are sections after the
+ * last one, as they are in the docs. On `/create` (`designer`) the bar spans the page, as the editor does, and New
  * is left out, since that is where it leads. Below `md` the sections are in a menu, and the GitHub
  * link shows from `sm`, so the bar fits a phone. The docs' search is in it on every page (⌘K), so a
  * reader finds a page from the home page or `/create` as from the docs.
@@ -18,7 +18,7 @@ import {
   Sun03Icon,
 } from "@hugeicons/core-free-icons"
 
-import { SiteDocsProvider, TABS } from "@/components/docs-config"
+import { SITE_LINKS, SiteDocsProvider, TABS } from "@/components/docs-config"
 import {
   breakpoint,
   fontSize,
@@ -42,6 +42,10 @@ import { schemeMarker } from "@workspace/ui/theme/scheme-marker"
 import { useTheme } from "@workspace/ui/theme/theme-provider"
 
 export const REPOSITORY = "https://github.com/kirana-style/kirana-ui"
+
+/** The site's links after the tabs; on `/create`, New is where the reader is. */
+const links = (designer: boolean) =>
+  SITE_LINKS.filter((link) => !designer || link.href !== "/create")
 
 /** A docs tab's link, as the router names it. */
 const tabLink = (href: string) =>
@@ -185,12 +189,15 @@ function Header({ designer }: { designer: boolean }) {
                   {tab.label}
                 </DropdownMenuItem>
               ))}
-              {designer ? null : (
-                <DropdownMenuItem render={<Link to="/create" />}>
-                  <Icon icon={PlusSignIcon} />
-                  New
+              {links(designer).map((link) => (
+                <DropdownMenuItem
+                  key={link.href}
+                  render={<Link to={link.href} />}
+                >
+                  <Icon icon={link.icon} />
+                  {link.label}
                 </DropdownMenuItem>
-              )}
+              ))}
               <DropdownMenuItem render={<a href={REPOSITORY} />}>
                 GitHub
               </DropdownMenuItem>
@@ -210,17 +217,18 @@ function Header({ designer }: { designer: boolean }) {
               {tab.label}
             </Button>
           ))}
-          {designer ? null : (
+          {links(designer).map((link) => (
             <Button
+              key={link.href}
               variant="ghost"
               size="sm"
-              render={<Link to="/create" />}
+              render={<Link to={link.href} />}
               nativeButton={false}
             >
-              <Icon icon={PlusSignIcon} />
-              New
+              <Icon icon={link.icon} />
+              {link.label}
             </Button>
-          )}
+          ))}
         </nav>
         <div sx={styles.end}>
           <div sx={styles.searchField}>

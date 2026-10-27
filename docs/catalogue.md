@@ -378,7 +378,8 @@ manager) and Existing Project (`kirana-style ui preset`). A framed preview is cr
 has hydrated, so it loads once; it follows the colour mode through the theme provider's channel.
 `?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
 colour theme otherwise. The site has one set of sections, the docs' tabs (`TABS` in `components/docs-config.tsx`: Docs,
-Components, Kirana, Registry) and **New**, to `/create`, after them: `SiteHeader`
+Components, Kirana, Registry) and, after them, **Blocks** and **New** (`SITE_LINKS`, to `/blocks`
+and `/create`): `SiteHeader`
 (`apps/site/src/components/site-header.tsx`) draws them on the home page and `/create` (where the
 bar spans the page and New is left out), the docs layout as its tab row (New through its `links`).
 The header carries the docs' search on every page (⌘K; a field from `md`, an icon below), its
@@ -388,6 +389,19 @@ Started, New Project), and the showcase (`components/showcase/`, a file per card
 the reader's design, four columns from 1400 px, the chart card in its own chunk. Site code, not a
 registry item, since a block holding some of upstream's `preview` cards would differ from upstream's
 whole block.
+`/blocks` and `/blocks/<category>` are upstream's blocks pages (`routes/blocks*.tsx`, the parts in
+`components/blocks/`): the page header (`components/page-header.tsx`, which the home page shares),
+the categories that have a block (Featured, then upstream's order), then each block in its viewer:
+Preview or Code, its description, the framework and base (docs-ui's shared choice), the frame's
+width (desktop, tablet, phone, or dragged by its handle), open in a new tab, reload, and
+`kirana-style ui add`. The frame is the block's preview page, `/preview/<framework>/<base>/<name>`,
+the block alone at one combination, so the blocks page needs no `/view` route of its own; the code
+is the block's registry document in the docs' code frame (the muted frame, its caption row with the path and copy, the inset panel holding the tree, folders first, beside the code); `/blocks` loads `docs.css`, which carries the code colours. The code panels read `/r`,
+which `vp run registry` writes into the build; in development the site's dev server serves the same
+folder (`registryInDev` in `apps/site/vite.config.ts`), writing it on the first request when it is
+missing, so a change to the registry's sources shows in the code after `vp run registry` again. `registry/blocks.ts` holds
+each block's title, description and categories, which the builder writes into the registry and the
+pages read: a block ported into `bases/<base>/blocks/<name>/` is added there once.
 The docs sidebar collapses (Ctrl+B) to a rail holding the button that opens it again. `/docs` is the docs framework (`packages/docs-core` and
 `packages/docs-ui`, copied from the Kirana site's, `packages/docs-ui/CHANGES.md`) over
 `apps/site/content/docs`: `generate:content` (the workspace's `content` task, before every check

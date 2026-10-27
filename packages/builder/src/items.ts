@@ -6,6 +6,7 @@
  * Paths are relative to `registry/`. A file's place in an installed project follows from its source
  * path (`installedPath`).
  */
+import { blockInfo } from "../../../registry/blocks"
 import type { Base } from "./flatten"
 
 export type Framework = "react" | "vue"
@@ -276,8 +277,9 @@ export const ITEMS: Item[] = [
   {
     name: "login-01",
     type: "registry:block",
-    title: "Login 01",
-    description: "A simple login form.",
+    // Its title and description, with the blocks page's categories, are `registry/blocks.ts`'s.
+    title: blockInfo("login-01").title,
+    description: blockInfo("login-01").description,
     files: (combination) =>
       react(combination)
         ? [
@@ -289,8 +291,9 @@ export const ITEMS: Item[] = [
   {
     name: "sidebar-07",
     type: "registry:block",
-    title: "Sidebar 07",
-    description: "A sidebar that collapses to icons.",
+    // Its title and description, with the blocks page's categories, are `registry/blocks.ts`'s.
+    title: blockInfo("sidebar-07").title,
+    description: blockInfo("sidebar-07").description,
     files: (combination) =>
       react(combination)
         ? [
