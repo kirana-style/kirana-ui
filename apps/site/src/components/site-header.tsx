@@ -23,7 +23,10 @@ import { useTheme } from "@workspace/ui/theme/theme-provider"
 export const REPOSITORY = "https://github.com/kirana-style/kirana-ui"
 
 /** The sections, in shadcn/ui's order, as their pages land. */
-const SECTIONS = [{ to: "/demo", label: "Demo" }] as const
+const SECTIONS = [
+  { to: "/docs", label: "Docs" },
+  { to: "/demo", label: "Demo" },
+] as const
 
 const styles = {
   header: css({

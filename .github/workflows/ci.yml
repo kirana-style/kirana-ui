@@ -43,6 +43,10 @@ jobs:
       - name: Format
         run: vp fmt --check
 
+      # The site's docs content, which the types read (`apps/site/src/generated`, not committed).
+      - name: Docs content
+        run: vp run content
+
       # Oxlint with the Kirana rules (@kirana-style/eslint-plugin), and the TypeScript type check
       # (tsgolint) in the same pass. A warning fails it, like an error: `vp run check` does the same.
       - name: Lint and types

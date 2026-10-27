@@ -345,11 +345,16 @@ Writing a Vue part:
 
 ## The site's pages
 
-`apps/site` is the `ui` Worker. Its own pages (`/` so far) are drawn with the
+`apps/site` is the `ui` Worker. Its own pages (`/` and `/docs` so far) are drawn with the
 registry's components on Base UI and take the registry's design on `<html>`, as a
 preview does: the default design until the customizer reaches them. Their header is
 `SiteHeader` (`apps/site/src/components/site-header.tsx`): a section joins its
-navigation with its first page. `/demo` is `packages/ui`'s demo, with its own
+navigation with its first page. `/docs` is the docs framework (`packages/docs-core` and
+`packages/docs-ui`, copied from the Kirana site's, `packages/docs-ui/CHANGES.md`) over
+`apps/site/content/docs`: `generate:content` (the workspace's `content` task, before every check
+and build) parses it into `apps/site/src/generated`, not committed, with `llms.txt` and a markdown
+twin per page. A page embeds an item's live preview with `<!-- ::preview item="button-demo" -->`.
+`/demo` is `packages/ui`'s demo, with its own
 document and stylesheet, kept in step with kirana-lab's baselines
 (`docs/workflows.md`) until `packages/ui` retires.
 

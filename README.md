@@ -43,10 +43,12 @@ The compiler, its packages and its specification are in
 ## Layout
 
 ```
-apps/site                 the site (:3000): home, previews, the demo at /demo; the Cloudflare Worker `ui`
+apps/site                 the site (:3000): home, docs, previews, the demo at /demo; the Worker `ui`
 apps/blocks               shadcn blocks: dashboard, sidebars, login, signup, preview cards (:3001)
 apps/examples             one page per component (:3002)
 packages/shell            the app shell blocks and examples share
+packages/docs-core        the docs framework's content engine (a copy of Kirana's)
+packages/docs-ui          the docs framework's frame, on the registry's components
 packages/vite-config      the Vite + Kirana (+ Cloudflare) config every app uses
 packages/ui/src
 ├── tokens/               Layer 1 — Tailwind scales as constants

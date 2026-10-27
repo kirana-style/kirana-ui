@@ -1,0 +1,6 @@
+/*
+ * The docs pages' stylesheet: the registry's reset and fonts, then the code colours the content
+ * generator writes. Vite inlines both imports, so a docs page asks for one file.
+ */
+@import "./registry.css";
+@import "../generated/highlight.css";
