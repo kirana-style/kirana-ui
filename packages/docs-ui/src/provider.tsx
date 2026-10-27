@@ -59,10 +59,23 @@ export type DocsConfig = {
   sidebarFooter?: React.ReactNode
   /**
    * Where an item's live preview is served, for `<!-- ::preview item="…" -->`: a page that shows
-   * the item alone, framed on the docs page. Without it, the embed says it has no preview.
+   * the item alone, framed on the docs page, in a combination when the page names one. Without
+   * it, the embed says it has no preview.
    */
-  previewSrc?: (item: string) => string
+  previewSrc?: (item: string, combination?: string) => string
+  /**
+   * The framework-and-base pairs a component can be shown in (`{ id: "react/base", label: "Base
+   * UI" }`), in order, the first the default. A tab group whose headings are their labels follows
+   * the reader's choice.
+   */
+  combinations?: readonly DocsCombination[]
+  /** Where an item's registry document is served, for the code panel (`::component-code`). */
+  registryItem?: (name: string) => string
+  /** Which of an item's flattened builds the code panel shows (the design's style). */
+  codeStyle?: string
 }
+
+export type DocsCombination = { id: string; label: string }
 
 const Context = createContext<DocsConfig | null>(null)
 

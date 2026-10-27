@@ -233,7 +233,17 @@ export function generate(
       const from = options.module
         ? options.relationsFrom(options.module)
         : undefined
-      if (from?.own) {
+      // A module that re-exports a relation another module declares passes it on: declaring it
+      // again would bind the name twice beside the import its reads need.
+      const declared = names.relations.get(entry.name)
+      if (options.module && declared && declared.module !== options.module) {
+        used.relations.set(entry.name, declared)
+        body.push(
+          declared.name === name
+            ? `export { ${name} }`
+            : `export { ${declared.name} as ${name} }`
+        )
+      } else if (from?.own) {
         used.relations.set(entry.name, { module: options.module!, name })
         body.push(`export { ${name} }`)
       } else {

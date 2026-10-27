@@ -43,6 +43,11 @@ Concretely, for a component that arrives as Tailwind:
    compiled as a runtime value.
 5. **Verify against the source** if one exists, with the computed-style diff
    below.
+6. **Give a registry component its page.** Port upstream's `<item>-demo` on every
+   base it has (`registry/bases/<base>/examples`, listed in that base's
+   `previews.ts`), and write `apps/site/content/docs/components/<item>.md`: its
+   preview, both CLIs' install lines, usage per base and its `component-code`
+   panel, as the other component pages do.
 
 If the component needs a library that is not installed, install it — but check
 first whether it is really needed. Versions shared by more than one workspace

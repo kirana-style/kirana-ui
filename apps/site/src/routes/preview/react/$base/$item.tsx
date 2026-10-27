@@ -13,6 +13,7 @@ import {
 import { usePageDesign } from "@/lib/page-design"
 import { DEFAULT_DESIGN_SYSTEM } from "@workspace/registry/core/config"
 import { IconLibraryProvider } from "@workspace/registry/icons/icon-placeholder"
+import { page } from "@workspace/registry/styles/page.styles"
 
 /**
  * Each base's map of items, `/preview/react/base/<item>` and `/preview/react/aria/<item>`: small,
@@ -105,7 +106,15 @@ function Preview() {
           }
         >
           <Suspense>
-            <PreviewItem base={base} item={item} />
+            {item.endsWith("-demo") ? (
+              // A demo sits in the middle of the page, as upstream's component previews do;
+              // examples and blocks keep the page as upstream's site draws it.
+              <div sx={page.demo}>
+                <PreviewItem base={base} item={item} />
+              </div>
+            ) : (
+              <PreviewItem base={base} item={item} />
+            )}
           </Suspense>
         </IconLibraryProvider>
       </I18nProvider>

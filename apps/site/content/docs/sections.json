@@ -8,6 +8,10 @@
     "label": "Design system"
   },
   {
+    "slug": "components",
+    "label": "Components"
+  },
+  {
     "slug": "kirana",
     "label": "Kirana"
   },

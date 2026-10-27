@@ -419,6 +419,33 @@ describe("writing a module", () => {
     expect(code).toContain('export const other = relation("x")')
   })
 
+  it("re-exports a relation another module declares, once", () => {
+    const { code } = generate(
+      { fieldScope: relation("field", { optional: true }) },
+      {
+        tokens: new Map(),
+        axes: new Map(),
+        relations: new Map([
+          ["field", { module: "field-scope.styles.ts", name: "fieldScope" }],
+        ]),
+      },
+      {
+        flatten: (h) => h,
+        flattenRecipe: (h) => h,
+        imports: (module) => `./${module}`,
+        header: "// test",
+        module: "field.styles.ts",
+        relationsFrom: (module) => ({
+          specifier: `./${module.replace(/\.ts$/, "")}`,
+          own: false,
+        }),
+      }
+    )
+    expect(code).toContain('import { fieldScope } from "./field-scope.styles"')
+    expect(code).toContain("export { fieldScope }")
+    expect(code).not.toContain("relation(")
+  })
+
   it("writes a parent read back as one, with or without its condition", () => {
     const read = (condition: string) =>
       marker({ kind: "read", relation: "field", how: "parent", condition })

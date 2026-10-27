@@ -57,5 +57,13 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   `<!-- ::preview item="…" height="…" -->`, an item's live preview in an iframe, from
   `DocsConfig.previewSrc` (new, optional), with the page's colour mode as `?theme=`.
 
-Still to come here (P3's component pages): framework and base tabs on code blocks, and the code
-panel fed from the registry's JSON.
+- `combination.ts` (new): the framework and base a component page shows, one choice for the whole
+  site, kept in localStorage (`docs-ui:combination`), from `DocsConfig.combinations` (new).
+- `markdown/preview.tsx`: `combinations="react/base,react/aria"` puts a picker over the preview and
+  passes the choice to `previewSrc(item, combination)`.
+- `markdown/component-code.tsx` (new), registered as `component-code`: the files installing an item
+  writes, fetched from its registry document (`DocsConfig.registryItem`, new) for the chosen
+  combination and style (`DocsConfig.codeStyle`, new), at the default aliases, highlighted in the
+  browser with docs-core's highlighter, loaded on demand.
+- `markdown/tabs.tsx`: a tab group whose headings are all combinations' labels follows the shared
+  choice instead of `?tab=` (framework and base tabs on code blocks).
