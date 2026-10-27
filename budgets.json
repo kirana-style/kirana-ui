@@ -1,0 +1,68 @@
+{
+  "home.js": {
+    "budget": 270,
+    "unit": "KB",
+    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7.",
+    "measured": 253.7
+  },
+  "home.css": {
+    "budget": 50,
+    "unit": "KB",
+    "why": "The stylesheets the home page loads, gzip: Kirana's compiled stylesheet and the registry's reset and fonts.",
+    "measured": 44.9
+  },
+  "docs.js": {
+    "budget": 345,
+    "unit": "KB",
+    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame.",
+    "measured": 328.1
+  },
+  "create.js": {
+    "budget": 290,
+    "unit": "KB",
+    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs.",
+    "measured": 274
+  },
+  "preview.dialog-demo.js": {
+    "budget": 170,
+    "unit": "KB",
+    "why": "A React preview page, the dialog demo, gzip: the demo as a bare island, without the site's shell, measured 169 KB.",
+    "measured": 152.3
+  },
+  "site.css": {
+    "budget": 100,
+    "unit": "KB",
+    "why": "Kirana's compiled stylesheet for the site, gzip, every style and axis value in it: estimated at 88 KB with every axis value at 64 components.",
+    "measured": 43.7
+  },
+  "preview-vue.css": {
+    "budget": 40,
+    "unit": "KB",
+    "why": "The Vue preview app's stylesheet, gzip, the same per framework.",
+    "measured": 18.4
+  },
+  "registry.files": {
+    "budget": 15000,
+    "unit": "files",
+    "why": "The registry's JSON files under /r: with the rest of the site they must stay under the Worker's 20,000 static files per version.",
+    "measured": 591
+  },
+  "registry.bytes": {
+    "budget": 30000,
+    "unit": "KB",
+    "why": "The registry's JSON, total: it grows with items \u00d7 combinations, about 19 MB expected at 64 components.",
+    "measured": 8687.2
+  },
+  "registry.largest": {
+    "budget": 25600,
+    "unit": "KB",
+    "why": "The largest registry file: the Worker serves no static file over 25 MiB.",
+    "measured": 374.2
+  },
+  "static.files": {
+    "budget": 20000,
+    "unit": "files",
+    "why": "Every static file the Worker serves: its limit is 20,000 per version.",
+    "measured": 1228
+  }
+}

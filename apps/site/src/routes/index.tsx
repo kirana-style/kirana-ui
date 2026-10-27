@@ -2,6 +2,7 @@ import { css } from "@kirana-style/core"
 import { Link, createFileRoute } from "@tanstack/react-router"
 
 import { Customizer } from "@/components/customizer"
+import { Showcase } from "@/components/showcase"
 import { SiteHeader } from "@/components/site-header"
 import registryCss from "@/styles/registry.css?url"
 import {
@@ -85,6 +86,7 @@ function Home() {
           </Button>
         </div>
       </main>
+      <Showcase />
       <Customizer />
     </>
   )

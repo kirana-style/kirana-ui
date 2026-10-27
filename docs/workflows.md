@@ -462,6 +462,15 @@ own. When the apps were measured in the Kirana repository: Kirana built the demo
 in 1.6 s against StyleX's 3.4 s and Tailwind's 1.7 s; its CSS was 17.2 kB gzip
 against StyleX's 17.6 kB, and its client JavaScript 7 kB gzip smaller.
 
+**Budgets.** `vp run budgets` (`scripts/budgets.ts`, in `prepush` and CI) measures the built
+site against `budgets.json`: each page's JavaScript and stylesheets, gzip at level 9, as its
+prerendered HTML loads and preloads them (home, a docs page, `/create`, a React preview page),
+Kirana's compiled stylesheet, the Vue preview's, and the registry's files against the Worker's
+static file limits. Each entry says why it has its budget; `measured` is the last build's value,
+written with `bun scripts/budgets.ts --write`. A budget changes only in the pull request that
+explains why. What keeps a page under its budget: code that only some readers need loads on
+demand (the search dialog and cmdk on first open, the home page's chart card in its own chunk).
+
 Runtime cost is the 1 kB private runtime merging class strings where something
 is only known at render time — a prop's `sx`, a spread `className`, a bridged
 value. A static `sx` with nothing else to merge compiles to a constant

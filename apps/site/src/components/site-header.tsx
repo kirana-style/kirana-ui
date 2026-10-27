@@ -5,7 +5,8 @@
  * header reads the same on every page, docs or not; New, to `/create`, is a section after the last one, as
  * it is in the docs. On `/create` (`designer`) the bar spans the page, as the editor does, and New
  * is left out, since that is where it leads. Below `md` the sections are in a menu, and the GitHub
- * link shows from `sm`, so the bar fits a phone.
+ * link shows from `sm`, so the bar fits a phone. The docs' search is in it on every page (⌘K), so a
+ * reader finds a page from the home page or `/create` as from the docs.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { Link } from "@tanstack/react-router"
@@ -17,7 +18,7 @@ import {
   Sun03Icon,
 } from "@hugeicons/core-free-icons"
 
-import { TABS } from "@/components/docs-config"
+import { SiteDocsProvider, TABS } from "@/components/docs-config"
 import {
   breakpoint,
   fontSize,
@@ -33,6 +34,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@workspace/registry/bases/react-base/ui/dropdown-menu"
+import { DocsSearch } from "@workspace/docs-ui/search.tsx"
 import { useThemeHotkey } from "@workspace/shell/theme-toggle"
 import { Icon } from "@workspace/ui/primitives/icon"
 import type { IconProps } from "@workspace/ui/primitives/icon"
@@ -85,6 +87,13 @@ const styles = {
   }),
   menu: css({ display: { base: "inline-flex", [breakpoint.md]: "none" } }),
   github: css({ display: { base: "none", [breakpoint.sm]: "inline-flex" } }),
+  // The docs' search, as upstream's header has its command menu: a field from md, an icon below.
+  // Wrappers take the display, which on the controls would replace their own.
+  searchField: css({
+    display: { base: "none", [breakpoint.md]: "block" },
+    width: "15rem",
+  }),
+  searchIcon: css({ display: { base: "block", [breakpoint.md]: "none" } }),
   end: css({
     display: "flex",
     alignItems: "center",
@@ -142,6 +151,14 @@ export function NewButton() {
 }
 
 export function SiteHeader({ designer = false }: { designer?: boolean }) {
+  return (
+    <SiteDocsProvider>
+      <Header designer={designer} />
+    </SiteDocsProvider>
+  )
+}
+
+function Header({ designer }: { designer: boolean }) {
   return (
     <header sx={styles.header}>
       <div sx={[styles.bar, designer && styles.full]}>
@@ -206,6 +223,12 @@ export function SiteHeader({ designer = false }: { designer?: boolean }) {
           )}
         </nav>
         <div sx={styles.end}>
+          <div sx={styles.searchField}>
+            <DocsSearch />
+          </div>
+          <div sx={styles.searchIcon}>
+            <DocsSearch variant="icon" hotkey={false} />
+          </div>
           <Button
             variant="ghost"
             size="sm"

@@ -86,6 +86,10 @@ jobs:
       - name: Registry
         run: vp run registry
 
+      # Each page's JavaScript and stylesheet, and the registry's files, against `budgets.json`.
+      - name: Budgets
+        run: vp run budgets
+
       # The registry installed with Kirana's own installer, as a project would: Kirana's example
       # app per framework, `kirana-style ui init --preset` and `add`, built, the lockfile validated,
       # for React on both bases and Vue.

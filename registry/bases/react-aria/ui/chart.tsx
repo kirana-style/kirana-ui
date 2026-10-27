@@ -131,6 +131,14 @@ function ChartContainer<
       )
     : undefined
   const { className, style } = styleProps(styles.container, sx)
+  const plot = (
+    <Chart
+      {...rest}
+      {...(rest.height === undefined ? { aspectRatio } : {})}
+      {...styleProps(styles.plot)}
+      renderTooltipBody={renderTooltipBody}
+    />
+  )
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -139,13 +147,15 @@ function ChartContainer<
         className={className}
         style={{ ...style, ...seriesColors(config) }}
       >
-        <Chart
-          {...rest}
-          {...(rest.height === undefined ? { aspectRatio } : {})}
-          {...styleProps(styles.plot)}
-          renderTooltipBody={renderTooltipBody}
-        />
-        {legend}
+        {legend ? (
+          // Recharts' wrapper: the plot and its legend in a column, inside the row the container is.
+          <div sx={styles.withLegend}>
+            {plot}
+            {legend}
+          </div>
+        ) : (
+          plot
+        )}
       </div>
     </ChartContext.Provider>
   )

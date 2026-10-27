@@ -44,6 +44,8 @@ export const chart = {
   }),
   // The chart itself fills the container.
   plot: css({ width: "100%" }),
+  // With a legend, Recharts' wrapper: the plot over the legend (or under it, `verticalAlign="top"`).
+  withLegend: css({ display: "flex", flexDirection: "column", width: "100%" }),
 
   // cn-chart-tooltip and the component's own classes (`grid min-w-32 items-start`): a bordered
   // card in the first five styles; Luma, Rhea and Sera ring a popover instead.
@@ -155,7 +157,7 @@ export const chart = {
     justifyContent: "center",
     gap: space[4],
   }),
-  legendTop: css({ paddingBottom: space[3] }),
+  legendTop: css({ order: -1, paddingBottom: space[3] }),
   legendBottom: css({ paddingTop: space[3] }),
   legendItem: css({ display: "flex", alignItems: "center", gap: space["1.5"] }),
   legendSwatch: css({
