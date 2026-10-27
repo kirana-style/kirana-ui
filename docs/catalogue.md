@@ -309,7 +309,7 @@ follow upstream's copy for that base.
 | `react-base/ui`                 | Button, Dialog, Select, DropdownMenu, Tabs, Chart, Card, Field, Input, Label, Separator, Sidebar, Sheet, Tooltip, Avatar, Breadcrumb, Skeleton, Collapsible on Base UI; `sx` on each part                                                                         |
 | `react-base/blocks`, `examples` | `login-01`, `sidebar-07`; a demo per component (`button-demo` …) in the shared `page.example` frame; upstream's `button-example`, `dialog-example`, `select-example`, `dropdown-menu-example`, `tabs-example` and `chart-example` (its Bar Chart), layout and all |
 | `*/components`                  | `example.tsx`: `ExampleWrapper` and `Example`, the frame upstream's examples sit in (`containerSx` for its outer part)                                                                                                                                            |
-| `*/previews.ts`                 | Each base's items by registry name, for its preview pages                                                                                                                                                                                                         |
+| `*/previews.ts`                 | Each base's items by registry name, each loaded on its own, for its preview pages                                                                                                                                                                                 |
 | `react-aria/ui`, `blocks`       | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover                                                                                                                                                |
 | `vue-ark/ui`                    | Button, Dialog, Select, DropdownMenu, Tabs on Ark UI, one single-file component per part, `index.ts` per component                                                                                                                                                |
 
@@ -359,14 +359,22 @@ Each item alone on a page, in the design its URL names, as upstream's
 `/preview/<base>/<item>?preset=…` (so the conformance harness can open the same
 item and preset on both sites):
 
-| Route                                  | Served by                                                                                      |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `/preview/react/base/<item>`, `aria/…` | `apps/site`'s route, rendered by the `ui` Worker with the design already on `<html>`           |
-| `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev |
+| Route                                  | Served by                                                                                       |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `/preview/react/base/<item>`, `aria/…` | `apps/site`'s route, prerendered per item and base; the design by an inline script before paint |
+| `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev  |
 
 - **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
   upstream's axis parameters (`style`, `theme` …), and `rtl` and `pointer`;
-  `registry/core/preview.ts` turns it into the attributes on `<html>`.
+  `registry/core/preview.ts` turns it into the attributes on `<html>`. A React
+  preview is a static page in the default design: `registry/core/design-script.ts`,
+  inline first in `<head>`, writes the URL's design before the first paint, and the
+  page reads it from the router's location (`apps/site/src/lib/page-design.ts`),
+  never the route's context, which a prerendered page took at build time. What
+  `<html>` does not carry, the direction and the icon library, follows the URL once
+  the page has hydrated.
+- **Each item is its own chunk** (`*/previews.ts` maps names to `import()`s), so a
+  preview downloads its item only: the dialog demo is 178 KB of script, gzip.
 - **Live changes** come from the framing page as upstream's message,
   `{ type: "design-system-params", data: { preset, style, … } }`; the page takes
   the new design, and its URL with it, so a reload keeps it. The base and item

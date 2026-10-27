@@ -28,10 +28,19 @@ function Avatar({
 type ImageState = "loading" | "loaded" | "error"
 
 /** React Aria has no avatar: the image says whether it loaded, for the fallback after it. */
-function AvatarImage({ sx, ...props }: El<"img">) {
+function AvatarImage({ sx, ref, ...props }: El<"img">) {
   const [state, setState] = React.useState<ImageState>(
     props.src ? "loading" : "error"
   )
+  const image = React.useRef<HTMLImageElement>(null)
+  React.useImperativeHandle(ref, () => image.current!)
+  // A server-rendered image can load or fail before the page hydrates, when its event has no
+  // listener yet: read how it settled.
+  React.useEffect(() => {
+    const element = image.current
+    if (element?.complete && element.src)
+      setState(element.naturalWidth > 0 ? "loaded" : "error")
+  }, [props.src])
 
   return (
     <img
@@ -41,6 +50,7 @@ function AvatarImage({ sx, ...props }: El<"img">) {
       onLoad={() => setState("loaded")}
       onError={() => setState("error")}
       {...props}
+      ref={image}
       sx={[avatar.image, sx]}
     />
   )

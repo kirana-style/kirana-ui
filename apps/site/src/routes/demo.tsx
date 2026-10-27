@@ -1,5 +1,8 @@
 import { Demo } from "@/components/demo"
 import appCss from "@workspace/ui/globals.css?url"
+import { DirectionProvider } from "@workspace/ui/components/direction"
+import { Toaster } from "@workspace/ui/components/toast"
+import { TooltipProvider } from "@workspace/ui/components/tooltip"
 import { createFileRoute } from "@tanstack/react-router"
 
 /** The demo of `packages/ui`, the components the apps were first built from, until they retire. */
@@ -9,6 +12,14 @@ export const Route = createFileRoute("/demo")({
   component: App,
 })
 
+/** The demo's providers are its own, so no other page downloads them. */
 function App() {
-  return <Demo />
+  return (
+    <DirectionProvider direction="ltr">
+      <TooltipProvider>
+        <Demo />
+      </TooltipProvider>
+      <Toaster />
+    </DirectionProvider>
+  )
 }

@@ -15,11 +15,12 @@ import { defineConfig } from "vite"
 import { lazyPlugins } from "vite-plus"
 
 /**
- * @param {{ cloudflare?: boolean, prerender?: boolean }} [options] `cloudflare`: the app deploys as
- *   a Cloudflare Worker (its `wrangler.jsonc`); `vite dev` and `vite build` then run the server half
+ * @param {{ cloudflare?: boolean, prerender?: boolean, pages?: string[], plugins?: import("vite").PluginOption[] }} [options]
+ *   `cloudflare`: the app deploys as a Cloudflare Worker (its `wrangler.jsonc`); `vite dev` and `vite build` then run the server half
  *   inside workerd, the runtime production uses, so a Node-only API fails locally rather than after
  *   deploying. `prerender`: `vite build` renders every page it can reach from `/` into the static
- *   files, which are served without running the server.
+ *   files, which are served without running the server; `pages` adds paths no link reaches.
+ *   `plugins`: the app's own, ahead of Kirana's.
  * @returns {import("vite").UserConfigFnObject}
  */
 export function defineAppConfig(options = {}) {
@@ -38,11 +39,13 @@ export function defineAppConfig(options = {}) {
       // the two and multiplies until the tab is closed. Everything else the
       // devtools do is kept.
       devtools({ consolePiping: { enabled: false } }),
+      ...(options.plugins ?? []),
       // Ahead of the framework plugins, so modules reach them already compiled.
       // Layers, targets and diagnostics come from each app's kirana.config.ts.
       kirana(),
       tanstackStart({
         router: { quoteStyle: "double", semicolons: false },
+        pages: (options.pages ?? []).map((path) => ({ path })),
         ...(options.prerender
           ? {
               prerender: {

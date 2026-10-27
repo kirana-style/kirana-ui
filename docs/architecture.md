@@ -295,8 +295,13 @@ script (3 ms at 4× slower) and 2 KB gzip per page, and no server work. Rewritin
 each page on the Worker with `HTMLRewriter` paints as early and works without
 JavaScript, but makes every page view a Worker request, where static files are
 free and unlimited; rendering each page on the server costs about 5 ms of CPU for
-a page of 124 buttons. The preview pages, still rendered by the Worker, become
-static files the same way.
+a page of 124 buttons. The React preview pages are static files this way:
+prerendered in the default design, with `registry/core/design-script.ts` bundled
+on its own at build time (the preset decoder and its lists, 5.2 KB, 1.9 KB gzip)
+and written inline after the colour mode's script. Run on them, the same test
+finds no frame in the default design, and the control (the script held back
+300 ms) paints the default first. The cookie, for the site's own pages, comes with
+the customizer.
 
 **A component's look is a style module, written once for every style and every
 base.** `registry/styles/<component>.styles.ts` holds the `css()` handles a
@@ -441,8 +446,8 @@ app's entry: Kirana's plugin and configuration (spreading the design system's
 and the design system's classes on `<html>` and `<body>`.
 
 **A preview is the item alone, in the design its URL names, on every framework.**
-`/preview/react/<base>/<item>` is a route of the site, rendered by the Worker
-with the design's attributes already on `<html>`; `/preview/vue/ark/<item>` is a
+`/preview/react/<base>/<item>` is a route of the site, prerendered for every item
+and base and given the design by the inline script; `/preview/vue/ark/<item>` is a
 page of the Vue preview app, built into the same Worker's static files, since a
 Vue component cannot render inside the React site. Both read the same query and
 take the same message (`registry/core/preview.ts`): upstream's `?preset=` and
