@@ -2,7 +2,9 @@
  * `<!-- ::start:tabs -->` … `<!-- ::end:tabs -->`: the section's headings become tabs, and what
  * follows each heading its panel (TanStack Markdown splits them, as `md-tab-panel` nodes). Every
  * panel stays in the page, hidden until chosen, so search and the page's markdown twin read all of
- * it. The chosen tab is kept in the address (`?tab=`), so a link can open one.
+ * it. The chosen tab is kept in the address (`?tab=`), so a link can open one. A group whose headings
+ * are all the site's combinations (`Base UI`, `React Aria` …, `DocsConfig.combinations`) follows the
+ * reader's framework and base instead, the same choice on every page (`combination.ts`).
  */
 import { useState, useSyncExternalStore } from "react"
 import { css } from "@kirana-style/core"
@@ -13,6 +15,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
+import { chooseCombination, useCombination } from "../combination.ts"
+import { useDocs } from "../provider.tsx"
 import { spacing, theme } from "../tokens.ts"
 
 const styles = {
@@ -50,10 +54,23 @@ export function MarkdownTabs({
     () => new URLSearchParams(window.location.search).get("tab"),
     () => null
   )
+  const { combinations = [] } = useDocs()
+  const named = tabs.map(
+    (tab) =>
+      combinations.find((combination) => combination.label === tab.name)?.id
+  )
+  const follows = tabs.length > 0 && named.every(Boolean)
+  const { current } = useCombination(follows ? (named as string[]) : undefined)
+  const followed = follows ? tabs[named.indexOf(current?.id)]?.slug : undefined
   const value =
+    followed ??
     chosen ??
     (tabs.some((tab) => tab.slug === wanted) ? wanted! : tabs[0]?.slug)
   const choose = (next: string) => {
+    if (follows) {
+      chooseCombination(named[tabs.findIndex((tab) => tab.slug === next)]!)
+      return
+    }
     setChosen(next)
     const url = new URL(window.location.href)
     url.searchParams.set("tab", next)

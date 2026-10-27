@@ -24,8 +24,12 @@ export const REPOSITORY = "https://github.com/kirana-style/kirana-ui"
 
 /** The sections, in shadcn/ui's order, as their pages land. */
 const SECTIONS = [
-  { to: "/docs", label: "Docs" },
-  { to: "/demo", label: "Demo" },
+  { label: "Docs", link: { to: "/docs" } },
+  {
+    label: "Components",
+    link: { to: "/docs/$", params: { _splat: "components" } },
+  },
+  { label: "Demo", link: { to: "/demo" } },
 ] as const
 
 const styles = {
@@ -111,10 +115,10 @@ export function SiteHeader() {
         <nav sx={styles.nav} aria-label="Sections">
           {SECTIONS.map((section) => (
             <Button
-              key={section.to}
+              key={section.label}
               variant="ghost"
               size="sm"
-              render={<Link to={section.to} />}
+              render={<Link {...section.link} />}
               nativeButton={false}
             >
               {section.label}

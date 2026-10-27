@@ -4,6 +4,7 @@
  */
 import {
   BookOpen01Icon,
+  DashboardSquare01Icon,
   PackageIcon,
   PaintBrush01Icon,
 } from "@hugeicons/core-free-icons"
@@ -27,6 +28,14 @@ export const TABS: readonly DocsTab[] = [
     icon: BookOpen01Icon,
   },
   {
+    id: "components",
+    label: "Components",
+    href: "/docs/components",
+    sections: ["components"],
+    accent: "neutral",
+    icon: DashboardSquare01Icon,
+  },
+  {
     id: "kirana",
     label: "Kirana",
     href: "/docs/kirana/how-styles-are-built",
@@ -43,6 +52,13 @@ export const TABS: readonly DocsTab[] = [
     icon: PackageIcon,
   },
 ]
+
+/** The frameworks and bases a component page can show, as the registry names them. */
+const COMBINATIONS = [
+  { id: "react/base", label: "Base UI" },
+  { id: "react/aria", label: "React Aria" },
+  { id: "vue/ark", label: "Ark UI" },
+] as const
 
 export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -63,8 +79,13 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     },
     siteUrl: "https://ui.kirana.style",
     siteName: "kirana/ui",
-    // Base UI's page, in the default design until the customizer reaches the docs.
-    previewSrc: (item) => `/preview/react/base/${item}`,
+    // An item's preview page for a combination, Base UI's by default, in the default design until
+    // the customizer reaches the docs.
+    previewSrc: (item, combination = "react/base") =>
+      `/preview/${combination}/${item}`,
+    combinations: COMBINATIONS,
+    registryItem: (name) => `/r/${name}.json`,
+    codeStyle: "nova",
   }
   return <DocsProvider value={value}>{children}</DocsProvider>
 }

@@ -3,6 +3,7 @@ import { LocaleProvider } from "@ark-ui/vue"
 import { css } from "@kirana-style/core"
 import { previews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { space } from "@workspace/registry/core/scales.ts"
+import { page } from "@workspace/registry/styles/page.styles.ts"
 import { computed } from "vue"
 
 import { design } from "./design"
@@ -22,7 +23,10 @@ const list = css({
 
 <template>
   <LocaleProvider :locale="locale">
-    <component :is="current" v-if="current" />
+    <!-- A demo sits in the middle of the page, as upstream's component previews do. -->
+    <div v-if="current" :sx="item?.endsWith('-demo') ? page.demo : null">
+      <component :is="current" />
+    </div>
     <nav v-else :sx="list">
       <a
         v-for="(_, name) in previews"

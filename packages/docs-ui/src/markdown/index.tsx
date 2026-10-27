@@ -36,6 +36,7 @@ import type { CodeBlockProps } from "./code-block.tsx"
 import { createCommentComponent } from "./comment-component.tsx"
 import type { CommentRegistry } from "./comment-component.tsx"
 import { InstallTabs } from "./install-tabs.tsx"
+import { ComponentCode } from "./component-code.tsx"
 import { MarkdownPreview } from "./preview.tsx"
 import { MarkdownTabPanel, MarkdownTabs } from "./tabs.tsx"
 
@@ -275,6 +276,7 @@ export function createMarkdownComponents(
     "md-comment-component": createCommentComponent({
       install: InstallTabs as CommentRegistry[string],
       preview: MarkdownPreview as CommentRegistry[string],
+      "component-code": ComponentCode as CommentRegistry[string],
       tabs: MarkdownTabs as unknown as CommentRegistry[string],
       ...components,
     }),

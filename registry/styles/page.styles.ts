@@ -24,4 +24,12 @@ export const page = {
   }),
   // A demo's frame on its preview page, in every framework; a block brings its own.
   example: css({ padding: space[6] }),
+  // Around a demo on its preview page, as upstream's component previews centre theirs: the page's
+  // height, the demo in its middle. The preview route adds it; an installed demo does not have it.
+  demo: css({
+    display: "flex",
+    minHeight: "100dvh",
+    alignItems: "center",
+    justifyContent: "center",
+  }),
 }
