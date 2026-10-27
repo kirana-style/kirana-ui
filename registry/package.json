@@ -14,6 +14,7 @@
     "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/states": "catalog:",
     "@tanstack/charts": "catalog:",
+    "d3-shape": "catalog:",
     "lucide": "catalog:",
     "react": "catalog:",
     "react-aria-components": "catalog:",
@@ -21,6 +22,7 @@
     "vue": "catalog:"
   },
   "devDependencies": {
+    "@types/d3-shape": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "typescript": "catalog:",

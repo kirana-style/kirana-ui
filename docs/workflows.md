@@ -91,6 +91,20 @@ parts in `components/`), as `login-01` and `sidebar-07` are. Then, once:
 3. `vp run registry`, `vp run build` (the preview page and the category page are prerendered),
    and `vp run conformance -- --pages <name>` against upstream's site.
 
+### Adding a chart
+
+A chart is ported from upstream's `registry/new-york-v4/charts/<name>.tsx` (the one place upstream
+has its charts) into `registry/bases/<base>/charts/<name>.tsx` for each React base, on TanStack
+Charts: a `defineChart` definition beside the card, as `chart-area-default` and the others are. A
+config colour is a token (`theme.chart1`); Recharts' angles start at 3 o'clock and turn
+counter-clockwise, TanStack Charts' at 12 and clockwise, so a pie or radial chart starts at
+`Math.PI / 2` and ends at `Math.PI / 2 - Math.PI * 2`. Then, once:
+
+1. its title, description (the file's own `description`) and type in `registry/charts.ts`, which
+   the builder writes into the registry's item and `/charts/<type>` reads;
+2. its entry in each base's `previews.ts`, the frame the charts page shows;
+3. `vp run registry`, `vp run build`, and `vp run upstream -- accept` for its stamp.
+
 ## Removing a component
 
 ```mermaid
@@ -477,7 +491,7 @@ against StyleX's 17.6 kB, and its client JavaScript 7 kB gzip smaller.
 
 **Budgets.** `vp run budgets` (`scripts/budgets.ts`, in `prepush` and CI) measures the built
 site against `budgets.json`: each page's JavaScript and stylesheets, gzip at level 9, as its
-prerendered HTML loads and preloads them (home, a docs page, `/create`, `/blocks`, a React preview page),
+prerendered HTML loads and preloads them (home, a docs page, `/create`, `/blocks`, `/charts`, `/colors`, a React preview page),
 Kirana's compiled stylesheet, the Vue preview's, and the registry's files against the Worker's
 static file limits. Each entry says why it has its budget; `measured` is the last build's value,
 written with `bun scripts/budgets.ts --write`. A budget changes only in the pull request that

@@ -7,6 +7,7 @@
  * path (`installedPath`).
  */
 import { blockInfo } from "../../../registry/blocks"
+import { CHARTS } from "../../../registry/charts"
 import type { Base } from "./flatten"
 
 export type Framework = "react" | "vue"
@@ -311,12 +312,24 @@ export const ITEMS: Item[] = [
           ]
         : undefined,
   },
+  // The charts, upstream's `registry/new-york-v4/charts`: one file each, its title and description
+  // `registry/charts.ts`'s, on both React bases (Ark UI has no Chart yet).
+  ...CHARTS.map((chart): Item => ({
+    name: chart.name,
+    type: "registry:block",
+    title: chart.title,
+    description: chart.description,
+    files: (combination) =>
+      react(combination)
+        ? [`bases/${combination.bases}/charts/${chart.name}.tsx`]
+        : undefined,
+  })),
 ]
 
 /**
  * Where a registry file lives in an installed project, relative to the registry's root for the
  * combination: markup and style modules in `ui/`, the design system in `lib/kirana/`, a block's
- * page and parts in `blocks/<name>/` and `components/`.
+ * page and parts in `blocks/<name>/` and `components/`, a chart in `components/`.
  */
 export function installedPath(source: string): string {
   const base = /^bases\/[^/]+\/ui\/(.+)$/.exec(source)
@@ -331,6 +344,9 @@ export function installedPath(source: string): string {
     source
   )
   if (blockPart) return `components/${blockPart[1]}`
+  // A chart is one component, as upstream's install into `components/`.
+  const chart = /^bases\/[^/]+\/charts\/(.+)$/.exec(source)
+  if (chart) return `components/${chart[1]}`
   const block = /^bases\/[^/]+\/blocks\/(.+)$/.exec(source)
   if (block) return `blocks/${block[1]}`
   throw new Error(`No place for ${source} in an installed project.`)

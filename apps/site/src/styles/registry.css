@@ -4,4 +4,11 @@
  */
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/geist";
+/* The wordmark in the header, "kirana ui": Crimson Pro's italic only, as the Kirana site sets its
+ * name. A page that never draws the wordmark (a preview) never downloads it. */
+@import "@fontsource-variable/crimson-pro/wght-italic.css";
+/* The Kirana site's display face for the home page's and the project pages' headlines and chapter
+ * titles: EB Garamond, with its drawn italic. */
+@import "@fontsource-variable/eb-garamond/wght.css";
+@import "@fontsource-variable/eb-garamond/wght-italic.css";
 @import "@workspace/registry/styles/reset.css";

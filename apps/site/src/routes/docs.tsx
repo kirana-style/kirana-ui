@@ -1,39 +1,33 @@
-import {
-  Link,
-  Outlet,
-  createFileRoute,
-  useRouterState,
-} from "@tanstack/react-router"
-import { css, props as styleProps } from "@kirana-style/core"
+import { Outlet, createFileRoute, useRouterState } from "@tanstack/react-router"
 
 import { Customizer } from "@/components/customizer"
-import { NewButton, REPOSITORY } from "@/components/site-header"
-import { SITE_LINKS, SiteDocsProvider } from "@/components/docs-config"
+import { DesktopNav, MobileNav } from "@/components/header/site-nav"
+import { Brand, CREATE, HeaderActions } from "@/components/site-header"
+import { SiteDocsProvider } from "@/components/docs-config"
 import docsCss from "@/styles/docs.css?url"
-import {
-  breakpoint,
-  fontSize,
-  fontWeight,
-} from "@workspace/registry/core/scales"
-import { theme } from "@workspace/registry/core/tokens"
-import { Button } from "@workspace/registry/bases/react-base/ui/button"
 import { DocsLayout } from "@workspace/docs-ui/docs-layout.tsx"
+import { css } from "@kirana-style/core"
+import { breakpoint } from "@workspace/registry/core/scales"
 import { ThemeMenu } from "@workspace/docs-ui/theme-menu.tsx"
 
 const styles = {
-  brand: css({
-    fontSize: fontSize.sm,
-    fontWeight: fontWeight.semibold,
-    color: theme.foreground,
-    textDecorationLine: "none",
+  // The docs' brand column is the sidebar's width, so the links and menus fit beside it from xl;
+  // between lg and xl they are the site's sheet, and below lg the docs' own menu holds the docs.
+  nav: css({ display: { "*": null, base: "none", [breakpoint.xl]: "flex" } }),
+  sheet: css({
+    display: {
+      "*": null,
+      base: "none",
+      [breakpoint.lg]: "inline-flex",
+      [breakpoint.xl]: "none",
+    },
   }),
-  // New is a tab from lg up; below it, where the tabs are in the menu, it is in the bar.
-  narrow: css({ display: { base: "contents", [breakpoint.lg]: "none" } }),
 }
 
 /**
  * The documentation chrome, for `/docs` and everything under it: docs-ui's frame with the site's
- * name, the GitHub link and the colour mode, and Blocks and New as tabs after Registry, as the site's header has it. A layout route rather than a wrapper inside the page,
+ * brand and its links and menus after it, the colour mode, GitHub, the heart and Create, as the site's header
+ * has them; the docs' own sections are the tab row. A layout route rather than a wrapper inside the page,
  * so the sidebar keeps its scroll position and open sections between pages.
  */
 export const Route = createFileRoute("/docs")({
@@ -48,28 +42,15 @@ function Docs() {
     <SiteDocsProvider>
       <DocsLayout
         current={current}
-        logo={
-          <Link to="/" {...styleProps(styles.brand)}>
-            kirana/ui
-          </Link>
-        }
+        logo={<Brand />}
+        nav={<DesktopNav sx={styles.nav} />}
         actions={
           <>
-            <Button
-              variant="ghost"
-              size="sm"
-              render={<a href={REPOSITORY} />}
-              nativeButton={false}
-            >
-              GitHub
-            </Button>
             <ThemeMenu />
-            <span sx={styles.narrow}>
-              <NewButton />
-            </span>
+            <HeaderActions />
+            <MobileNav extra={[CREATE]} sx={styles.sheet} />
           </>
         }
-        links={SITE_LINKS}
       >
         <Outlet />
       </DocsLayout>

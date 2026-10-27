@@ -74,6 +74,8 @@ const home = page("index.html")
 const docs = page("docs.html")
 const create = page("create.html")
 const blocks = page("blocks/index.html")
+const charts = page("charts/area.html")
+const colors = page("colors.html")
 const preview = page("preview/react/base/dialog-demo.html")
 const vueCss = readdirSync(join(CLIENT, "preview/vue/assets"))
   .filter((name) => name.endsWith(".css"))
@@ -96,6 +98,8 @@ const measured: Record<string, number> = {
   "docs.js": docs.js,
   "create.js": create.js,
   "blocks.js": blocks.js,
+  "charts.js": charts.js,
+  "colors.js": colors.js,
   "preview.dialog-demo.js": preview.js,
   "site.css": siteCss,
   "preview-vue.css": vueCss,

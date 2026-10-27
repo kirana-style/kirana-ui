@@ -30,6 +30,13 @@ export const previews: Record<
   "tabs-demo": () => import("./examples/tabs-demo"),
   "tabs-example": () => import("./examples/tabs-example"),
   "tooltip-demo": () => import("./examples/tooltip-demo"),
+  "chart-area-default": () => import("./charts/chart-area-default"),
+  "chart-bar-default": () => import("./charts/chart-bar-default"),
+  "chart-line-default": () => import("./charts/chart-line-default"),
+  "chart-pie-simple": () => import("./charts/chart-pie-simple"),
+  "chart-radar-default": () => import("./charts/chart-radar-default"),
+  "chart-radial-simple": () => import("./charts/chart-radial-simple"),
+  "chart-tooltip-default": () => import("./charts/chart-tooltip-default"),
   "login-01": () => import("./blocks/login-01/page"),
   "sidebar-07": () => import("./blocks/sidebar-07/page"),
 }

@@ -94,10 +94,13 @@
       "version": "0.0.1",
       "dependencies": {
         "@base-ui/react": "catalog:",
+        "@fontsource-variable/crimson-pro": "catalog:",
+        "@fontsource-variable/eb-garamond": "catalog:",
         "@fontsource-variable/geist": "catalog:",
         "@fontsource-variable/inter": "catalog:",
         "@hugeicons/core-free-icons": "catalog:",
         "@kirana-style/core": "catalog:",
+        "@kirana-style/preset-scales": "catalog:",
         "@kirana-style/states": "catalog:",
         "@tanstack/charts": "catalog:",
         "@tanstack/markdown": "^1.0.0",
@@ -247,6 +250,7 @@
         "@kirana-style/preset-scales": "catalog:",
         "@kirana-style/states": "catalog:",
         "@tanstack/charts": "catalog:",
+        "d3-shape": "catalog:",
         "lucide": "catalog:",
         "react": "catalog:",
         "react-aria-components": "catalog:",
@@ -254,6 +258,7 @@
         "vue": "catalog:",
       },
       "devDependencies": {
+        "@types/d3-shape": "catalog:",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
         "typescript": "catalog:",
@@ -271,6 +276,8 @@
   "catalog": {
     "@ark-ui/vue": "^5.39.3",
     "@base-ui/react": "^1.9.0",
+    "@fontsource-variable/crimson-pro": "^5.3.0",
+    "@fontsource-variable/eb-garamond": "^5.3.0",
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@hugeicons/core-free-icons": "^4.3.5",
@@ -284,10 +291,12 @@
     "@tanstack/charts": "^1.1.0",
     "@tanstack/react-router": "^1.170.45",
     "@tanstack/react-start": "^1.169.3",
+    "@types/d3-shape": "^3.1.8",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-vue": "^6.0.10",
+    "d3-shape": "^3.2.0",
     "input-otp": "^1.5.0",
     "kirana-style": "0.3.4",
     "lucide": "^1.61.0",
@@ -469,6 +478,10 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.9", "", { "dependencies": { "@floating-ui/dom": "^1.8.0" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-JDjEFGCpImxDCA7JJKviA0M9+RtmJdj0m/NVU5IMgBK+AmZouAQQ7/+2GLH0GXXY0YMw9oXPB8hKdbPYg5QLYg=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.12", "", {}, "sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww=="],
+
+    "@fontsource-variable/crimson-pro": ["@fontsource-variable/crimson-pro@5.3.0", "", {}, "sha512-CmtGOKsw1H/JcXOcncu8SWOnhWlyLaAMbCVlG9yR5kz95hrxYU3A1+0DxdRbz/MFhCJGxchgqwPxLAlL0cWvdQ=="],
+
+    "@fontsource-variable/eb-garamond": ["@fontsource-variable/eb-garamond@5.3.0", "", {}, "sha512-656OJsA9Vv24yhqRZFEzXnzS2AYgKdEILLgHJYLzzXndgcWFKfSXFqzbRI5/6Yk1Yt7UfWrUeppE5nRQPQMwlQ=="],
 
     "@fontsource-variable/geist": ["@fontsource-variable/geist@5.3.0", "", {}, "sha512-j0m+vLQuG5XAYoHtGCVu0spvlGreR3EzpECUVzkFmI1mTVnAO38l/NEPDCFgZ177JxzYJCLSmTQibIiYPilGrA=="],
 

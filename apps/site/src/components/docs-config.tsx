@@ -5,10 +5,8 @@
 import {
   BookOpen01Icon,
   DashboardSquare01Icon,
-  LayoutTwoColumnIcon,
   PackageIcon,
   PaintBrush01Icon,
-  PlusSignIcon,
 } from "@hugeicons/core-free-icons"
 import { useRouter } from "@tanstack/react-router"
 
@@ -26,7 +24,7 @@ export const TABS: readonly DocsTab[] = [
     id: "docs",
     label: "Docs",
     href: "/docs",
-    sections: ["start", "design"],
+    sections: ["start", "design", "project"],
     accent: "neutral",
     icon: BookOpen01Icon,
   },
@@ -55,15 +53,6 @@ export const TABS: readonly DocsTab[] = [
     icon: PackageIcon,
   },
 ]
-
-/**
- * The site's sections beyond the docs, after the tabs everywhere: the blocks and New, to the editor.
- * The header draws them as sections, the docs layout as tabs (`links`).
- */
-export const SITE_LINKS = [
-  { label: "Blocks", href: "/blocks", icon: LayoutTwoColumnIcon },
-  { label: "New", href: "/create", icon: PlusSignIcon },
-] as const
 
 /** The frameworks and bases a component page can show, as the registry names them. */
 const COMBINATIONS = [

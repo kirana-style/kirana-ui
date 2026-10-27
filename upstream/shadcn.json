@@ -261,11 +261,60 @@
         "cn-chart-tooltip": "registry/styles/chart.styles.ts#chart.tooltip"
       }
     },
+    "chart-area-default": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-default.tsx": "sha256:b477e9e5366c89d6"
+      },
+      "hooks": {}
+    },
+    "chart-bar-default": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-default.tsx": "sha256:e714948c1087af16"
+      },
+      "hooks": {}
+    },
     "chart-example": {
       "ported": "481d523",
       "units": {
         "apps/v4/registry/bases/base/examples/chart-example.tsx": "sha256:70465e6e68a3a047",
         "apps/v4/registry/bases/aria/examples/chart-example.tsx": "sha256:8d9827827920c945"
+      },
+      "hooks": {}
+    },
+    "chart-line-default": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-default.tsx": "sha256:d9632a0e955df05c"
+      },
+      "hooks": {}
+    },
+    "chart-pie-simple": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-pie-simple.tsx": "sha256:9298f436da5adc72"
+      },
+      "hooks": {}
+    },
+    "chart-radar-default": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-radar-default.tsx": "sha256:e503bd2c88e20d5f"
+      },
+      "hooks": {}
+    },
+    "chart-radial-simple": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-radial-simple.tsx": "sha256:c21d5bc4776a2be3"
+      },
+      "hooks": {}
+    },
+    "chart-tooltip-default": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-tooltip-default.tsx": "sha256:f5f2e3e6f5bbdf36"
       },
       "hooks": {}
     },
