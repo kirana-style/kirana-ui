@@ -12,6 +12,10 @@ const SOURCES = [
   "!**/coverage/**",
   "!**/.tanstack/**",
   "!**/.wrangler/**",
+  // Generated from `apps/site/content`, which is in: the `content` task writes them.
+  "!apps/site/src/generated/**",
+  "!apps/site/public/llms*.txt",
+  "!apps/site/public/docs/**",
   // Local agent files: never part of a build or a check.
   "!.agents/**",
   "!.claude/**",
@@ -83,7 +87,22 @@ export default defineConfig({
       // warnings cannot pile up.
       check: {
         command: "vp check --deny-warnings",
+        dependsOn: ["content"],
         cache: { input: SOURCES, output: [] },
+      },
+      // The site's docs content from `apps/site/content` (docs-core's `generate()`): the manifest,
+      // each page parsed, the search records, the code colours, `llms.txt` and the markdown twins.
+      // Not committed; the types and the build read it.
+      content: {
+        command: "bun run --cwd apps/site generate:content",
+        cache: {
+          input: SOURCES,
+          output: [
+            "apps/site/src/generated/**",
+            "apps/site/public/llms*.txt",
+            "apps/site/public/docs/**",
+          ],
+        },
       },
       // The registry's style modules, compiled with its own `kirana.config.ts`: no app builds them
       // yet, so this is where a diagnostic in one shows. A warning fails it too.

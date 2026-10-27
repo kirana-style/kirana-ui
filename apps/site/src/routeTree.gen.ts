@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as IndexRouteImport } from "./routes/index"
 import { Route as DemoRouteImport } from "./routes/demo"
+import { Route as DocsRouteImport } from "./routes/docs"
+import { Route as DocsSplatRouteImport } from "./routes/docs.$"
 import { Route as PreviewReactBaseItemRouteImport } from "./routes/preview/react/$base/$item"
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +25,16 @@ const DemoRoute = DemoRouteImport.update({
   path: "/demo",
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsRoute = DocsRouteImport.update({
+  id: "/docs",
+  path: "/docs",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsSplatRoute = DocsSplatRouteImport.update({
+  id: "/$",
+  path: "/$",
+  getParentRoute: () => DocsRoute,
+} as any)
 const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
   id: "/preview/react/$base/$item",
   path: "/preview/react/$base/$item",
@@ -32,30 +44,43 @@ const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/demo": typeof DemoRoute
+  "/docs": typeof DocsRouteWithChildren
+  "/docs/$": typeof DocsSplatRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/demo": typeof DemoRoute
+  "/docs": typeof DocsRouteWithChildren
+  "/docs/$": typeof DocsSplatRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/demo": typeof DemoRoute
+  "/docs": typeof DocsRouteWithChildren
+  "/docs/$": typeof DocsSplatRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/demo" | "/preview/react/$base/$item"
+  fullPaths: "/" | "/demo" | "/docs" | "/docs/$" | "/preview/react/$base/$item"
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/demo" | "/preview/react/$base/$item"
-  id: "__root__" | "/" | "/demo" | "/preview/react/$base/$item"
+  to: "/" | "/demo" | "/docs" | "/docs/$" | "/preview/react/$base/$item"
+  id:
+    | "__root__"
+    | "/"
+    | "/demo"
+    | "/docs"
+    | "/docs/$"
+    | "/preview/react/$base/$item"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DemoRoute: typeof DemoRoute
+  DocsRoute: typeof DocsRouteWithChildren
   PreviewReactBaseItemRoute: typeof PreviewReactBaseItemRoute
 }
 
@@ -75,6 +100,20 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof DemoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/docs": {
+      id: "/docs"
+      path: "/docs"
+      fullPath: "/docs"
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/docs/$": {
+      id: "/docs/$"
+      path: "/$"
+      fullPath: "/docs/$"
+      preLoaderRoute: typeof DocsSplatRouteImport
+      parentRoute: typeof DocsRoute
+    }
     "/preview/react/$base/$item": {
       id: "/preview/react/$base/$item"
       path: "/preview/react/$base/$item"
@@ -85,9 +124,20 @@ declare module "@tanstack/react-router" {
   }
 }
 
+interface DocsRouteChildren {
+  DocsSplatRoute: typeof DocsSplatRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsSplatRoute: DocsSplatRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DemoRoute: DemoRoute,
+  DocsRoute: DocsRouteWithChildren,
   PreviewReactBaseItemRoute: PreviewReactBaseItemRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,0 +1,50 @@
+/**
+ * The site's docs, as docs-ui needs them: its link, its search, its data, its tabs and where an
+ * item's preview is served.
+ */
+import { BookOpen01Icon } from "@hugeicons/core-free-icons"
+import { useRouter } from "@tanstack/react-router"
+
+import { DocsProvider } from "@workspace/docs-ui/provider.tsx"
+import type { DocsConfig, DocsTab } from "@workspace/docs-ui/provider.tsx"
+
+import { DocsLink } from "@/components/docs-link"
+import { NAV, PAGES } from "@/generated/content.gen"
+import { loadSearch, search } from "@/lib/search"
+
+/** Tabs group sections; a page's URL never depends on its tab. One while the docs are one section. */
+export const TABS: readonly DocsTab[] = [
+  {
+    id: "docs",
+    label: "Docs",
+    href: "/docs",
+    sections: ["start"],
+    accent: "neutral",
+    icon: BookOpen01Icon,
+  },
+]
+
+export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const value: DocsConfig = {
+    Link: DocsLink,
+    nav: NAV,
+    pages: PAGES,
+    tabs: TABS,
+    search: (query) => search(query),
+    loadSearch,
+    navigate: (href) => {
+      const [path = "", hash] = href.split("#")
+      void router.navigate({
+        to: "/docs/$",
+        params: { _splat: path.replace(/^\/docs\/?/, "") },
+        hash,
+      })
+    },
+    siteUrl: "https://ui.kirana.style",
+    siteName: "kirana/ui",
+    // Base UI's page, in the default design until the customizer reaches the docs.
+    previewSrc: (item) => `/preview/react/base/${item}`,
+  }
+  return <DocsProvider value={value}>{children}</DocsProvider>
+}

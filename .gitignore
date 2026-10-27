@@ -23,3 +23,9 @@ registry/.flat
 
 # the upstream scan's report (`vp run upstream -- scan`)
 upstream/report.*
+
+# the site's docs content, generated from apps/site/content (`bun run generate:content`)
+apps/site/src/generated
+apps/site/public/llms.txt
+apps/site/public/llms-full.txt
+apps/site/public/docs
