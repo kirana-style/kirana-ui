@@ -13,10 +13,8 @@ const { vega, lyra, mira, luma, rhea, sera } = axes.style
 
 /**
  * The four later styles' rings, as box shadows: `ring-2` in Mira and Sera, `ring-3` in Luma and
- * Rhea. A style that draws none (Sera's underlined fields) is overridden by spreading:
- * `{ ...laterRings(color), sera: "none" }`. Every style is given, and the value is finished here: in
- * Kirana 0.3.3 a style helper cannot test for an absent key, nor compare a token with a string, nor
- * take a default parameter at build time (KF-039 and KF-040 in Kirana's feedback log).
+ * Rhea. A style that draws another is given in `own`: `laterRings(color, { sera: "none" })` for
+ * Sera's underlined fields.
  */
 export type LaterRings = {
   mira: string
@@ -26,15 +24,24 @@ export type LaterRings = {
 }
 
 /** Each later style's ring in `color` (most draw focus at `ring-ring/30`, the first four `/50`). */
-export const laterRings = (color: string): LaterRings => ({
-  mira: `0 0 0 2px ${color}`,
-  luma: `0 0 0 3px ${color}`,
-  rhea: `0 0 0 3px ${color}`,
-  sera: `0 0 0 2px ${color}`,
+export const laterRings = (
+  color: string,
+  own: Partial<LaterRings> = {}
+): LaterRings => ({
+  mira: own.mira ?? `0 0 0 2px ${color}`,
+  luma: own.luma ?? `0 0 0 3px ${color}`,
+  rhea: own.rhea ?? `0 0 0 3px ${color}`,
+  sera: own.sera ?? `0 0 0 2px ${color}`,
 })
 
-/** A ring of `color`: `ring-3` (Maia's `ring-[3px]`), `ring-1` in Lyra, the later styles' `later`. */
-export const focusRing = (color: string, later: LaterRings) => ({
+/**
+ * A ring of `color`: `ring-3` (Maia's `ring-[3px]`), `ring-1` in Lyra, the later styles' `later`
+ * (theirs in `color` unless given).
+ */
+export const focusRing = (
+  color: string,
+  later: LaterRings = laterRings(color)
+) => ({
   base: `0 0 0 3px ${color}`,
   [lyra]: `0 0 0 1px ${color}`,
   [mira]: later.mira,
@@ -51,7 +58,7 @@ export const controlShadow = (
   focus: string,
   invalid: string,
   laterFocus: LaterRings,
-  laterInvalid: LaterRings
+  laterInvalid: LaterRings = laterRings(invalid)
 ) => ({
   ":focus-visible": focusRing(focus, laterFocus),
   '[aria-invalid="true"]': focusRing(invalid, laterInvalid),
@@ -94,25 +101,3 @@ export const controlIcons = {
 
 /** `@md/field-group:`: the field group is at least 28rem wide. */
 export const GROUP_MD = "@container field-group (min-width: 28rem)"
-
-/**
- * A control that is a vertical or responsive field's own child, asked of the control: a select
- * trigger fills the field, as upstream's `*:w-full` beats its own `w-fit`, but not inside a wrapper
- * of its own. A raw key, not Field's relation: a `parent()` read is `relation-without-anchor` in a
- * project that installs the control without Field (KF-037 in Kirana's feedback log). Field's own
- * parts read the relation (`field.styles.ts`).
- */
-const CHILD_OF_VERTICAL =
-  ':where([data-slot="field"][data-orientation="vertical"] > *)'
-const CHILD_OF_RESPONSIVE =
-  ':where([data-slot="field"][data-orientation="responsive"] > *)'
-
-/**
- * A control's width as a Field's child. Here, not in `field.styles.ts`, so a control that reads it
- * needs no Field markup in a framework that has none.
- */
-export const fillInField = {
-  base: "fit-content",
-  [CHILD_OF_VERTICAL]: "100%",
-  [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
-}

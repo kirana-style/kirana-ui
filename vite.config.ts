@@ -259,16 +259,6 @@ export default defineConfig({
       "typescript/triple-slash-reference": "error",
       "vite-plus/prefer-vite-plus-imports": "error",
     },
-    overrides: [
-      {
-        // KF-034, until the Kirana release that fixes it: 0.3.3 compiles a `.vue` file's script
-        // block as the build does (KF-026), but finds the block by its exact text, and oxlint hands
-        // the rule the block without its leading newline, so a part's `useSx()` still reads as
-        // unused. The compiler checks these files whole: `vp run styles` and the Vue preview's build.
-        files: ["registry/bases/vue-ark/**/*.vue"],
-        rules: { "kirana/diagnostics": "off" },
-      },
-    ],
     options: {
       typeAware: true,
       typeCheck: true,

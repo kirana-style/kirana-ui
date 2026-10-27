@@ -26,11 +26,14 @@ import {
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { GROUP_MD, focusRing, laterRings } from "./control"
+import {
+  CHILD_OF_RESPONSIVE,
+  fieldScope,
+  fillInField,
+} from "./field-scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
-/** A Field, read by its label, title and description (`group/field`). */
-export const fieldScope = relation("field")
 /** A legend, read by the description that follows it (`[[data-variant=legend]+&]`). */
 export const fieldLegend = relation("field-legend")
 /** A FieldGroup, read by a group directly inside it (`*:data-[slot=field-group]:`). */
@@ -45,18 +48,10 @@ const HAS_CONTENT = ':has(> [data-slot="field-content"])'
 const CARD = ':has(> [data-slot="field"])'
 /**
  * A part that is a field's own child, by the field's orientation (the field's `*:` rules, asked of
- * the part, which its own `w-fit` would otherwise beat): a label or title fills a vertical field and
- * grows in a horizontal one, but not inside a wrapper of its own, as login-01's password row has.
+ * the part): it fills a vertical field (`CHILD_OF_VERTICAL`, `fillInField`, in `field-scope.styles.ts`) and
+ * grows in a horizontal one.
  */
-const CHILD_OF_VERTICAL = fieldScope.parent(VERTICAL)
 const CHILD_OF_HORIZONTAL = fieldScope.parent(HORIZONTAL)
-const CHILD_OF_RESPONSIVE = fieldScope.parent(RESPONSIVE)
-/** `*:w-full` over a part's own `w-fit`; a control's is `fillInField` (`control.ts`). */
-const FILL = {
-  base: "fit-content",
-  [CHILD_OF_VERTICAL]: "100%",
-  [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
-}
 
 const inDisabledField = fieldScope.within('[data-disabled="true"]')
 
@@ -198,7 +193,7 @@ export const field = {
     display: "flex",
     gap: space[2],
     lineHeight: { base: leading.snug, [sera]: leading.relaxed },
-    width: { ...FILL, [CARD]: "100%" },
+    width: { ...fillInField, [CARD]: "100%" },
     flex: {
       [CHILD_OF_HORIZONTAL]: "auto",
       [CHILD_OF_RESPONSIVE]: { [GROUP_MD]: "auto" },
@@ -279,11 +274,13 @@ export const field = {
     // Luma and Rhea keep the first four's `ring-ring/50` here.
     boxShadow: {
       [CARD]: {
-        ":has(:focus-visible)": focusRing(alpha.ring50, {
-          ...laterRings(alpha.ring30),
-          luma: laterRings(alpha.ring50).luma,
-          rhea: laterRings(alpha.ring50).rhea,
-        }),
+        ":has(:focus-visible)": focusRing(
+          alpha.ring50,
+          laterRings(alpha.ring30, {
+            luma: `0 0 0 3px ${alpha.ring50}`,
+            rhea: `0 0 0 3px ${alpha.ring50}`,
+          })
+        ),
       },
     },
     // `*:data-[slot=field]:p-2.5`: a Field child exists only on a card, so no card condition.
@@ -304,7 +301,7 @@ export const field = {
   // cn-field-title: a label's look on a `div`.
   title: css({
     display: "flex",
-    width: FILL,
+    width: fillInField,
     flex: { [CHILD_OF_HORIZONTAL]: "auto" },
     alignItems: "center",
     gap: space[2],

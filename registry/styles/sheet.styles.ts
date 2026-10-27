@@ -128,8 +128,8 @@ export const sheet = {
   // The content's own classes for each side (`data-[side=*]:`), chosen by the component from its
   // `side`: pinned to that edge, the full height and three quarters of the width at a side (a
   // small screen's width at most from `sm`), the full width at the top or bottom. The component
-  // also writes `data-side`, as upstream, which no style reads: Kirana 0.3.3 takes it for Base
-  // UI's attribute and drops it beside React Aria's states (KF-042 in its feedback log).
+  // also writes `data-side`, as upstream, which no style reads: Base UI's popups write the same
+  // attribute, and a handle per side needs no selector at all.
   side: {
     top: css({
       top: 0,

@@ -3,7 +3,7 @@
  * modules: which export each variable token group is, which `axes` member each style-axis read is,
  * and each relation's identifier where a module exports it.
  */
-import { readdirSync } from "node:fs"
+import { readFileSync, readdirSync } from "node:fs"
 import { join } from "node:path"
 
 import { evaluate } from "./evaluate"
@@ -45,13 +45,16 @@ export async function loadNames(registry: string): Promise<Names> {
 
   for (const file of readdirSync(join(registry, "styles"))) {
     if (!file.endsWith(".ts")) continue
+    const source = readFileSync(join(registry, "styles", file), "utf8")
     for (const [name, value] of Object.entries(
       await evaluate(join(registry, "styles", file))
     )) {
       if (
         isObject(value) &&
         typeof value.name === "string" &&
-        typeof value.within === "function"
+        typeof value.within === "function" &&
+        // Its home is the module that declares it, not one that re-exports it.
+        source.includes(`relation(${JSON.stringify(value.name)}`)
       ) {
         names.relations.set(value.name, { module: file, name })
       }

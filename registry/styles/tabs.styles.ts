@@ -5,7 +5,7 @@
  *
  * The root anchors `tabsScope` and the list `tabsList`, which a trigger reads for the orientation
  * (`group-data-vertical/tabs:`) and the list's variant (`group-data-[variant=line]/tabs-list:`).
- * Every base writes `data-orientation` on the root, with the same values; the chosen tab is Base UI's
+ * Every base writes `data-orientation` on the root, with the same values (`tabOrientation`); the chosen tab is Base UI's
  * `data-active`, React Aria's and Ark UI's `data-selected` (`tab` in `core/states.ts`). A line list
  * marks its chosen tab with a bar drawn in the trigger's `::after`.
  *
@@ -26,7 +26,7 @@ import {
   shadow,
   space,
 } from "../core/scales"
-import { tab, when } from "../core/states"
+import { tab, tabOrientation, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlIcons } from "./control"
 
@@ -37,12 +37,17 @@ export const tabsScope = relation("tabs")
 /** The list, read by its triggers for its variant (`group/tabs-list`). */
 export const tabsList = relation("tabs-list")
 
-// Written out, not from `@kirana-style/states`: its Ark UI keys name `data-orientation` by presence
-// only (KF-041 in Kirana's feedback log); every base writes these two values.
-const HORIZONTAL = '[data-orientation="horizontal"]'
-const VERTICAL = '[data-orientation="vertical"]'
-const IN_HORIZONTAL = tabsScope.within(HORIZONTAL)
-const IN_VERTICAL = tabsScope.within(VERTICAL)
+/** Inside a horizontal or vertical Tabs, under each base's key. */
+const IN_HORIZONTAL = {
+  base: tabsScope.within(tabOrientation.horizontal.base),
+  aria: tabsScope.within(tabOrientation.horizontal.aria),
+  ark: tabsScope.within(tabOrientation.horizontal.ark),
+}
+const IN_VERTICAL = {
+  base: tabsScope.within(tabOrientation.vertical.base),
+  aria: tabsScope.within(tabOrientation.vertical.aria),
+  ark: tabsScope.within(tabOrientation.vertical.ark),
+}
 const IN_DEFAULT_LIST = tabsList.within('[data-variant="default"]')
 const IN_LINE_LIST = tabsList.within('[data-variant="line"]')
 
@@ -61,7 +66,7 @@ export const tabs = {
   // cn-tabs and the component's own classes: a column when horizontal, the list above the panels.
   root: css(tabsScope.anchor, {
     display: "flex",
-    flexDirection: { [HORIZONTAL]: "column" },
+    flexDirection: { ...when(tabOrientation.horizontal, "column") },
     gap: space[2],
   }),
 
@@ -75,7 +80,7 @@ export const tabs = {
     padding: {
       base: "3px",
       [luma]: space[1],
-      [rhea]: { base: "3px", [IN_VERTICAL]: space[1] },
+      [rhea]: { base: "3px", ...when(IN_VERTICAL, space[1]) },
       [sera]: space[1],
     },
     // `group-data-horizontal/tabs:h-*`, `group-data-vertical/tabs:h-fit`. Every tabs root carries
@@ -83,13 +88,13 @@ export const tabs = {
     // under each style that sets one, so it wins in tabs nested in tabs, where both reads hold.
     height: {
       base: space[8],
-      [vega]: { base: space[9], [IN_VERTICAL]: "fit-content" },
-      [maia]: { base: space[9], [IN_VERTICAL]: "fit-content" },
-      [luma]: { base: space[9], [IN_VERTICAL]: "fit-content" },
-      [sera]: { base: space[10], [IN_VERTICAL]: "fit-content" },
-      [IN_VERTICAL]: "fit-content",
+      [vega]: { base: space[9], ...when(IN_VERTICAL, "fit-content") },
+      [maia]: { base: space[9], ...when(IN_VERTICAL, "fit-content") },
+      [luma]: { base: space[9], ...when(IN_VERTICAL, "fit-content") },
+      [sera]: { base: space[10], ...when(IN_VERTICAL, "fit-content") },
+      ...when(IN_VERTICAL, "fit-content"),
     },
-    flexDirection: { [IN_VERTICAL]: "column" },
+    flexDirection: { ...when(IN_VERTICAL, "column") },
   }),
 
   // cn-tabs-list-variant-default: a filled track with rounded ends. Sera's has no corners.
@@ -99,9 +104,9 @@ export const tabs = {
       [nova]: radius.lg,
       [vega]: radius.lg,
       [lyra]: "0",
-      [maia]: { base: radius["4xl"], [IN_VERTICAL]: radius["2xl"] },
+      [maia]: { base: radius["4xl"], ...when(IN_VERTICAL, radius["2xl"]) },
       [mira]: radius.lg,
-      [luma]: { base: radius.full, [IN_VERTICAL]: radius["2xl"] },
+      [luma]: { base: radius.full, ...when(IN_VERTICAL, radius["2xl"]) },
       [rhea]: radius["2xl"],
     },
   }),
@@ -116,8 +121,8 @@ export const tabs = {
     height: "calc(100% - 1px)",
     flex: 1,
     alignItems: "center",
-    justifyContent: { base: "center", [IN_VERTICAL]: "flex-start" },
-    width: { [IN_VERTICAL]: "100%" },
+    justifyContent: { base: "center", ...when(IN_VERTICAL, "flex-start") },
+    width: { ...when(IN_VERTICAL, "100%") },
     whiteSpace: "nowrap",
     cursor: "default",
     outlineStyle: { base: "none", ":focus-visible": "solid" },
@@ -145,7 +150,7 @@ export const tabs = {
       [lyra]: "0",
       [maia]: radius.xl,
       [mira]: radius.md,
-      [luma]: { base: radius.full, [IN_VERTICAL]: radius["2xl"] },
+      [luma]: { base: radius.full, ...when(IN_VERTICAL, radius["2xl"]) },
       [rhea]: radius["2xl"],
     },
     borderWidth: "1px",
@@ -183,19 +188,19 @@ export const tabs = {
     paddingInline: {
       base: space["1.5"],
       [vega]: space[2],
-      [maia]: { base: space[2], [IN_VERTICAL]: space["2.5"] },
+      [maia]: { base: space[2], ...when(IN_VERTICAL, space["2.5"]) },
       [luma]: space[3],
-      [rhea]: { base: space["1.5"], [IN_VERTICAL]: space[3] },
+      [rhea]: { base: space["1.5"], ...when(IN_VERTICAL, space[3]) },
       [sera]: space[4],
     },
     paddingBlock: {
       base: space["0.5"],
       [vega]: space[1],
-      [lyra]: { base: space["0.5"], [IN_VERTICAL]: "0.3125rem" },
-      [maia]: { base: space[1], [IN_VERTICAL]: space["1.5"] },
-      [mira]: { base: space["0.5"], [IN_VERTICAL]: "0.3125rem" },
-      [luma]: { base: space[1], [IN_VERTICAL]: space["1.5"] },
-      [sera]: { base: space["1.5"], [IN_VERTICAL]: space[2] },
+      [lyra]: { base: space["0.5"], ...when(IN_VERTICAL, "0.3125rem") },
+      [maia]: { base: space[1], ...when(IN_VERTICAL, space["1.5"]) },
+      [mira]: { base: space["0.5"], ...when(IN_VERTICAL, "0.3125rem") },
+      [luma]: { base: space[1], ...when(IN_VERTICAL, space["1.5"]) },
+      [sera]: { base: space["1.5"], ...when(IN_VERTICAL, space[2]) },
     },
     // `has-data-[icon=inline-*]:p*-*`: a side holding an icon draws in. Rhea's does not.
     paddingInlineEnd: {
@@ -244,12 +249,15 @@ export const tabs = {
       transitionProperty: "opacity",
       transitionDuration: duration[150],
       transitionTimingFunction: easing.inOut,
-      left: { [IN_HORIZONTAL]: 0 },
-      right: { [IN_HORIZONTAL]: 0, [IN_VERTICAL]: `calc(${space[1]} * -1)` },
-      bottom: { [IN_HORIZONTAL]: "-5px", [IN_VERTICAL]: 0 },
-      top: { [IN_VERTICAL]: 0 },
-      height: { [IN_HORIZONTAL]: space["0.5"] },
-      width: { [IN_VERTICAL]: space["0.5"] },
+      left: { ...when(IN_HORIZONTAL, 0) },
+      right: {
+        ...when(IN_HORIZONTAL, 0),
+        ...when(IN_VERTICAL, `calc(${space[1]} * -1)`),
+      },
+      bottom: { ...when(IN_HORIZONTAL, "-5px"), ...when(IN_VERTICAL, 0) },
+      top: { ...when(IN_VERTICAL, 0) },
+      height: { ...when(IN_HORIZONTAL, space["0.5"]) },
+      width: { ...when(IN_VERTICAL, space["0.5"]) },
     },
   }),
 

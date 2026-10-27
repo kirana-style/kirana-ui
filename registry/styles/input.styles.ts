@@ -103,8 +103,8 @@ export const input = css({
   boxShadow: controlShadow(
     alpha.ring50,
     surface.ringInvalid,
-    { ...laterRings(alpha.ring30), sera: "none" },
-    { ...laterRings(surface.ringInvalid), sera: "none" }
+    laterRings(alpha.ring30, { sera: "none" }),
+    laterRings(surface.ringInvalid, { sera: "none" })
   ),
   // `bg-transparent dark:bg-input/30`, filled while disabled; Vega keeps its fill then, Maia fills
   // with `input/30` in both modes, Mira with `input/20` (`/30` in dark), Luma and Rhea with `/50`.

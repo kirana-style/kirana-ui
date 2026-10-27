@@ -13,6 +13,9 @@ import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
+// A type, which Node erases: the configuration still loads no module of its own.
+import type { StateKeys } from "./states"
+
 /**
  * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
  * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); `@kirana-style/states` has no keys for it.
@@ -29,9 +32,7 @@ export const orientation = {
     base: Base.Separator.orientation.vertical,
     aria: '[aria-orientation="vertical"]',
   },
-  // `StateKeys`'s shape, written out: importing the type from `states.ts` makes an import cycle
-  // that Kirana 0.3.3's compiler cannot evaluate a style through (KF-038 in its feedback log).
-} as const satisfies Record<string, { base: string; aria: string }>
+} as const satisfies Record<string, StateKeys>
 
 export const registryConfig = {
   conditions: {

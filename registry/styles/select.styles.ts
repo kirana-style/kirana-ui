@@ -39,9 +39,9 @@ import {
   controlIcons,
   controlShadow,
   controlTransition,
-  fillInField,
   laterRings,
 } from "./control"
+import { fillInField } from "./field-scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -111,8 +111,8 @@ export const select = {
     boxShadow: controlShadow(
       alpha.ring50,
       surface.ringInvalid,
-      { ...laterRings(alpha.ring30), sera: "none" },
-      { ...laterRings(surface.ringInvalid), sera: "none" }
+      laterRings(alpha.ring30, { sera: "none" }),
+      laterRings(surface.ringInvalid, { sera: "none" })
     ),
     // `dark:bg-input/30 dark:hover:bg-input/50`; Maia fills with `input/30` in both modes.
     backgroundColor: {

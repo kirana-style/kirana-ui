@@ -91,6 +91,20 @@ export const tab = {
   },
 } as const satisfies Record<string, StateKeys>
 
+/** A Tabs root's direction, which every base writes with the same two values. */
+export const tabOrientation = {
+  horizontal: {
+    base: Base.Tabs.Root.orientation.horizontal,
+    aria: Aria.Tabs.orientation.horizontal,
+    ark: Ark.Tabs.Root.orientation.horizontal,
+  },
+  vertical: {
+    base: Base.Tabs.Root.orientation.vertical,
+    aria: Aria.Tabs.orientation.vertical,
+    ark: Ark.Tabs.Root.orientation.vertical,
+  },
+} as const satisfies Record<string, StateKeys>
+
 /** A collapsible section that is open: Base UI's Collapsible, React Aria's Disclosure. */
 export const disclosure = {
   open: {

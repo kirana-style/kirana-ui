@@ -116,10 +116,7 @@ export const button = recipe({
     },
     boxShadow: {
       ":focus-visible": focusRing(alpha.ring50, laterRings(alpha.ring30)),
-      '[aria-invalid="true"]': focusRing(
-        surface.ringInvalid,
-        laterRings(surface.ringInvalid)
-      ),
+      '[aria-invalid="true"]': focusRing(surface.ringInvalid),
     },
   },
   variants: {
@@ -197,8 +194,7 @@ export const button = recipe({
         boxShadow: controlShadow(
           alpha.ring50,
           surface.ringInvalid,
-          laterRings(alpha.ring30),
-          laterRings(surface.ringInvalid)
+          laterRings(alpha.ring30)
         ),
       },
       // cn-button-variant-secondary
@@ -233,10 +229,7 @@ export const button = recipe({
         color: theme.destructive,
         borderColor: { ":focus-visible": alpha.destructive40 },
         boxShadow: {
-          ":focus-visible": focusRing(
-            surface.ringInvalid,
-            laterRings(surface.ringInvalid)
-          ),
+          ":focus-visible": focusRing(surface.ringInvalid),
         },
       },
       // cn-button-variant-link: underlined at rest in Sera.
