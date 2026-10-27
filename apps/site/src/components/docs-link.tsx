@@ -28,6 +28,14 @@ export function DocsLink({
   // The fragment is the router's `hash`, not part of the path: inside the splat
   // it would be encoded (`editor%23hover`) and the page would not be found.
   const [path = href, hash] = href.split("#", 2)
+  // A file the Worker serves (`/llms.txt`, a page's `.md`, `/r/<item>.json`) is not a route.
+  if (path.startsWith("/") && /\.\w+$/.test(path)) {
+    return (
+      <a {...rest} {...styled} href={href}>
+        {children}
+      </a>
+    )
+  }
   if (path.startsWith("/docs")) {
     const splat = path.slice("/docs".length).replace(/^\//, "")
     return (

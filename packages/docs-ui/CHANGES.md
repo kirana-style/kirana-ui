@@ -12,6 +12,14 @@ it was, names included.
 - `package.json`: no `test` script or coverage dependencies. The workspace's `vp run test` runs
   `test/`; `vitest.config.ts` (the coverage floor) is not copied.
 - `tsconfig.json`: no `vitest.config.ts` in `include`.
+- `generate.ts`, the markdown twins and `llms-full.txt`: `withoutTitle` (the page's own `# Title`
+  is dropped, as the twin's header writes it), `plainBlocks` (a block's `::start:` and `::end:`
+  markers are dropped) and `plainLinks` (links made absolute, a docs page's pointing at its twin,
+  `/docs` at `/docs/index.md`). Candidates for the Kirana copy: its twins had the same three.
+- `generate.ts`, the search text: inline code reads as its source (it was empty, so "With
+  `kirana-style ui`, …" read "With , …"), and inline runs join without the space blocks get.
+- `search.ts`: on a title match, the page's own record (before its first heading) ranks before its
+  sections.
 
 ## docs-ui
 
@@ -58,6 +66,12 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   `DocsConfig.previewSrc` (new, optional). The frame is created once the page has hydrated, so it
   loads once, at its final address; the colour mode is not in the address (the framed page reads
   the site's mode and follows the theme provider's channel).
+
+- `search.tsx` and `search-dialog.tsx` (new): the dialog, with cmdk, is its own module, loaded on
+  the first open and fetched ahead when the pointer or the focus reaches a trigger, so a page no
+  longer loads it up front (about 20 KB gzip of every docs page). The first hit is selected as the
+  results arrive, so Enter opens it; cmdk selected nothing when the items came from our own filter,
+  and Enter did nothing until an arrow key moved. The empty states' copy is this site's.
 
 - `docs-layout.tsx`: `links` (new, optional), links after the last tab drawn as tabs and never
   active (the site's New, to its editor). The collapsed sidebar is a rail holding the button that

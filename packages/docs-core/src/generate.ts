@@ -115,9 +115,25 @@ export async function generate(config: DocsConfig): Promise<void> {
       // Code blocks keep their source out of the prose text.
       return ""
     }
+    // Inline code, highlighted at build time, reads as the code it shows: without it a sentence
+    // like "With `kirana-style ui`, …" lost its subject in a search snippet.
+    const source = (node as { properties?: { source?: unknown } }).properties
+      ?.source
+    if (value.type === "inlineComponent" && typeof source === "string")
+      return source
     if (typeof value.value === "string") return value.value
     const children = [...(value.children ?? []), ...(value.items ?? [])]
-    return children.map(text).join(" ")
+    // Inline runs carry their own spaces; blocks are joined by one.
+    const inline = [
+      "paragraph",
+      "heading",
+      "emphasis",
+      "strong",
+      "delete",
+      "link",
+      "tableCell",
+    ].includes(value.type ?? "")
+    return children.map(text).join(inline ? "" : " ")
   }
 
   /** One search record per heading section, so a hit can link to the right anchor. */
@@ -428,9 +444,18 @@ export const SEARCH: readonly SearchRecord[] = ${JSON.stringify(
   // markdown file per page, all from the same parse as the site itself.
   const SITE = config.site.url
   const body = (page: Built) =>
-    plainComponents(
-      plainInstall(page.source.replace(/^---\n[\s\S]*?\n---\n/, "").trim()),
-      config.plain ?? {}
+    plainLinks(
+      plainBlocks(
+        plainComponents(
+          plainInstall(
+            withoutTitle(
+              page.source.replace(/^---\n[\s\S]*?\n---\n/, "").trim()
+            )
+          ),
+          config.plain ?? {}
+        )
+      ),
+      SITE
     )
   /** The markdown twin of a page, as `public/docs` serves it. */
   const markdownUrl = (page: Built) =>
@@ -557,6 +582,41 @@ export function withFacts(
 
 export function stripNotes(markdown: string): string {
   return markdown.replace(/^[ \t]*<!--(?!\s*::)[^\n]*?-->[ \t]*\n/gm, "")
+}
+
+/**
+ * The page's own `# Title`, which the twin's header already writes, so a model reads it once.
+ */
+export function withoutTitle(markdown: string): string {
+  return markdown.replace(/^# [^\n]*\n+/, "")
+}
+
+/**
+ * A block's markers (`<!-- ::start:tabs -->`, `<!-- ::end:tabs -->`) say how the site lays the
+ * block out; the headings inside it already read in order, so the twin drops the markers.
+ */
+export function plainBlocks(markdown: string): string {
+  return markdown.replace(
+    /^[ \t]*<!--\s*::(?:start|end):[\w-]+\s*-->[ \t]*\n?/gm,
+    ""
+  )
+}
+
+/**
+ * A twin is read away from the site: its links are made absolute, and a link to a docs page
+ * points at that page's twin (`/docs/cli#add` becomes `<site>/docs/cli.md#add`).
+ */
+export function plainLinks(markdown: string, site: string): string {
+  return markdown.replace(/\]\((\/[^)\s]*)\)/g, (_match, target: string) => {
+    const [path = "", hash] = target.split("#", 2)
+    const twin =
+      path === "/docs" || path === "/docs/"
+        ? "/docs/index.md"
+        : path.startsWith("/docs/") && !/\.\w+$/.test(path)
+          ? `${path.replace(/\/$/, "")}.md`
+          : path
+    return `](${site}${twin}${hash === undefined ? "" : `#${hash}`})`
+  })
 }
 
 /**

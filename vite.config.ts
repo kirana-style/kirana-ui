@@ -55,6 +55,14 @@ export default defineConfig({
         dependsOn: ["build"],
         cache: { input: SOURCES, output: ["apps/site/dist/client/r/**"] },
       },
+      // The built site against `budgets.json` (`scripts/budgets.ts`): each page's JavaScript and
+      // stylesheet, the registry's files and the Worker's static file limits, gzip as Kirana
+      // measures.
+      budgets: {
+        command: "bun scripts/budgets.ts",
+        dependsOn: ["build", "registry"],
+        cache: false,
+      },
       // The registry installed as a project installs it: a project from Kirana's example per
       // framework, `kirana-style ui init --preset` and `add`, built, its lockfile validated
       // (`scripts/install-smoke.ts`). Reads Kirana's release from GitHub, so it is not in prepush.
@@ -124,7 +132,15 @@ export default defineConfig({
       // Everything CI requires of a pull request that runs on this machine; the pre-push hook.
       prepush: {
         command: "echo All checks passed.",
-        dependsOn: ["check", "styles", "test", "licenses", "build", "registry"],
+        dependsOn: [
+          "check",
+          "styles",
+          "test",
+          "licenses",
+          "build",
+          "registry",
+          "budgets",
+        ],
         cache: false,
       },
     },

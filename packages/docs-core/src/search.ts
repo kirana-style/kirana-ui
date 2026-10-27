@@ -20,7 +20,8 @@ function terms(query: string): string[] {
  *
  * Deliberately small: a few hundred records and simple, explainable weights beat
  * a fuzzy-matching dependency that surprises people. A title match outranks a
- * heading match, which outranks a mention in the body.
+ * heading match, which outranks a mention in the body; on a title match, the page comes before its
+ * sections.
  */
 export function search(
   records: readonly SearchRecord[],
@@ -41,6 +42,8 @@ export function search(
     for (const word of words) {
       if (page === word) score += 30
       else if (page.includes(word)) score += 12
+      // The page itself, its record before the first heading, leads its own sections.
+      if (!record.heading && page.includes(word)) score += 10
       if (heading.includes(word)) score += 8
       const occurrences = body.split(word).length - 1
       score += Math.min(occurrences, 3) * 2

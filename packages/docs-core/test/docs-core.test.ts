@@ -6,9 +6,12 @@ import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test"
 import { parseFrontmatter } from "../src/frontmatter.ts"
 import {
   generate,
+  plainBlocks,
   plainComponents,
   plainInstall,
+  plainLinks,
   stripNotes,
+  withoutTitle,
 } from "../src/generate.ts"
 import type { DocsConfig } from "../src/generate.ts"
 import { installLines } from "../src/package-managers.ts"
@@ -85,6 +88,23 @@ describe("search", () => {
     const [hit] = search(records, "anchor")
     expect(hit?.record.page).toBe("Relations")
     expect(hit?.snippet).toContain("anchor")
+  })
+
+  it("puts the page before its own sections on a title match", () => {
+    const page = (heading?: string, text = "") =>
+      ({
+        id: heading ?? "page",
+        href: "/docs/dialog",
+        page: "Dialog",
+        section: "components",
+        heading,
+        text,
+      }) as SearchRecord
+    const hits = search(
+      [page("Notes per base", "a dialog on each base"), page()],
+      "dialog"
+    )
+    expect(hits[0]?.record.heading).toBeUndefined()
   })
 
   it("ignores empty and one-letter queries, and respects the limit", () => {
@@ -164,6 +184,34 @@ describe("plainComponents", () => {
         list: (attributes) => `- ${attributes.size}`,
       })
     ).toBe("a - 2 b <!-- ::other -->")
+  })
+})
+
+describe("the twins' plain markdown", () => {
+  it("drops the page's own title, which the twin's header writes", () => {
+    expect(withoutTitle("# Button\n\nText")).toBe("Text")
+    expect(withoutTitle("Text\n# Later")).toBe("Text\n# Later")
+  })
+
+  it("drops a block's markers and keeps what is inside", () => {
+    expect(
+      plainBlocks(
+        "<!-- ::start:tabs -->\n\n### Base UI\n\ncode\n\n<!-- ::end:tabs -->\n"
+      )
+    ).toBe("\n### Base UI\n\ncode\n\n")
+  })
+
+  it("makes links absolute, a docs page's pointing at its twin", () => {
+    const site = "https://ui.example"
+    expect(
+      plainLinks(
+        "[a](/docs/cli#add) [b](/docs) [c](/r/button.json) [d](https://x.y/z)",
+        site
+      )
+    ).toBe(
+      "[a](https://ui.example/docs/cli.md#add) [b](https://ui.example/docs/index.md) " +
+        "[c](https://ui.example/r/button.json) [d](https://x.y/z)"
+    )
   })
 })
 

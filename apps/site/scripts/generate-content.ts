@@ -15,6 +15,13 @@ await generate({
     // A language model reads the preview as a link to the page that draws the item.
     preview: ({ item }) =>
       `[Preview: ${item}](https://ui.kirana.style/preview/react/base/${item})`,
+    // The code panel reads the item's registry document in the browser; the twin links to it, and
+    // to the flattened file shadcn/ui's CLI installs, which a model can read whole.
+    "component-code": ({ name }) =>
+      [
+        `- Every framework and base, every style: [${name}.json](/r/${name}.json)`,
+        `- Flattened for one combination, as shadcn/ui's CLI installs it: [react-base-nova/${name}.json](/r/shadcn/react-base-nova/${name}.json)`,
+      ].join("\n"),
   },
   site: {
     url: "https://ui.kirana.style",
