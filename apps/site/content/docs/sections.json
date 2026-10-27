@@ -2,5 +2,17 @@
   {
     "slug": "start",
     "label": "Get started"
+  },
+  {
+    "slug": "design",
+    "label": "Design system"
+  },
+  {
+    "slug": "kirana",
+    "label": "Kirana"
+  },
+  {
+    "slug": "registry",
+    "label": "Registry"
   }
 ]

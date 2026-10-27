@@ -29,4 +29,7 @@ component's source into your project, and from then on it is yours to change.
 - **Two ways to install.** Kirana's own `kirana-style ui`, which installs into
   every framework, and shadcn/ui's CLI, from an export of the same registry.
 
-The rest of these docs are being written.
+[Installation](/docs/installation) sets a project up;
+[the design system](/docs/design-system/styles) describes each axis you can
+choose; [Kirana](/docs/kirana/how-styles-are-built) explains how the styles are
+written.
