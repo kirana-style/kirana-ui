@@ -9,7 +9,7 @@
  *
  *   bun scripts/install-smoke.ts [<framework>-<base>-<style> …]   # what `vp run install` runs
  *
- * Needs the site and its registry built (`vp run registry`); serves `apps/web/dist/client` itself.
+ * Needs the site and its registry built (`vp run registry`); serves `apps/site/dist/client` itself.
  * The computed-style comparison of installed against live stays a browser run, outside CI.
  */
 import { spawn } from "node:child_process"
@@ -28,7 +28,7 @@ import { join } from "node:path"
 import { encodePreset, readDesignSystem } from "../registry/core/preset"
 
 const ROOT = join(import.meta.dirname, "..")
-const STATIC = join(ROOT, "apps", "web", "dist", "client")
+const STATIC = join(ROOT, "apps", "site", "dist", "client")
 
 /** What CI installs: the default, a flattened style on the second React base, and Vue. */
 const DEFAULT = ["react-base-nova", "react-aria-lyra", "vue-ark-vega"]

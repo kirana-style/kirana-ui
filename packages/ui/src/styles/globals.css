@@ -12,7 +12,7 @@
  * every border in the design system now names its own colour, so a border is
  * never invisible because a global rule failed to load.
  *
- * The two layers are declared in `apps/web/kirana.config.ts` as
+ * The two layers are declared in `apps/site/kirana.config.ts` as
  * `layers: { before: ["reset", "base"] }`, so Kirana's layer statement pins
  * them underneath every Kirana rule, in development and production alike.
  */

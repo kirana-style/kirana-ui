@@ -1,6 +1,6 @@
 name: site
 
-# The `ui` Cloudflare Worker (apps/web/wrangler.jsonc): deployed on every push to main, and uploaded
+# The `ui` Cloudflare Worker (apps/site/wrangler.jsonc): deployed on every push to main, and uploaded
 # as a preview version, with its own URL, for every pull request from a branch of this repository.
 #
 # Why here and not Cloudflare's Git integration (Workers Builds), which would also work now that the
@@ -51,7 +51,7 @@ jobs:
 
       - name: Deploy
         id: deploy
-        working-directory: apps/web
+        working-directory: apps/site
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -91,7 +91,7 @@ jobs:
       # https://pr-<number>-ui.<subdomain>.workers.dev while the alias points at it.
       - name: Upload a preview version
         id: upload
-        working-directory: apps/web
+        working-directory: apps/site
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

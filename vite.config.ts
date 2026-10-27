@@ -19,11 +19,11 @@ const SOURCES = [
 ]
 
 /**
- * The apps, each built by its own `build` script (`vp build`): the demo, blocks and examples, and
+ * The apps, each built by its own `build` script (`vp build`): the site, blocks and examples, and
  * the Vue preview, whose build is where the registry's `vue-ark` components compile. In this order:
- * the Vue preview writes into the demo's `dist/client/preview/vue/`, which the `ui` Worker serves.
+ * the Vue preview writes into the site's `dist/client/preview/vue/`, which the `ui` Worker serves.
  */
-const APPS = ["web", "blocks", "examples", "preview-vue"]
+const APPS = ["site", "blocks", "examples", "preview-vue"]
 
 export default defineConfig({
   // The workspace's tasks: `vp run <name>`. Each is cached (node_modules/.vite/task-cache) unless
@@ -44,12 +44,12 @@ export default defineConfig({
       },
       // The registry for every combination (`packages/builder`): each style module flattened to one
       // style and base, checked against the live module with Kirana (one `Driver` session), every
-      // item validated against shadcn/ui's schema, written into the demo's static files
-      // (`apps/web/dist/client/r`), which the `ui` Worker serves at `/r`.
+      // item validated against shadcn/ui's schema, written into the site's static files
+      // (`apps/site/dist/client/r`), which the `ui` Worker serves at `/r`.
       registry: {
         command: "bun packages/builder/src/cli.ts",
         dependsOn: ["build"],
-        cache: { input: SOURCES, output: ["apps/web/dist/client/r/**"] },
+        cache: { input: SOURCES, output: ["apps/site/dist/client/r/**"] },
       },
       // The registry installed as a project installs it: a project from Kirana's example per
       // framework, `kirana-style ui init --preset` and `add`, built, its lockfile validated
@@ -74,7 +74,7 @@ export default defineConfig({
         command: "bun scripts/conformance.ts --changed",
         cache: false,
       },
-      // The demo :3000, blocks :3001, examples :3002 and the Vue preview :3003, side by side.
+      // The site :3000, blocks :3001, examples :3002 and the Vue preview :3003, side by side.
       dev: {
         command: 'vp run --filter "./apps/*" --parallel dev',
         cache: false,

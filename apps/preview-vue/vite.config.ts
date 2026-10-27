@@ -10,12 +10,12 @@ import { defineConfig, lazyPlugins } from "vite-plus"
  * The Vue preview: the registry's `vue-ark` items on their own page, compiled by Kirana's adapter
  * ahead of Vue's plugin so `:sx` in templates reaches Vue as `class`.
  *
- * It is built into the `ui` Worker's static files (`apps/web/dist/client/preview/vue/`, after the
- * demo's build has written that folder), with a page per item, `ark/<item>.html`, which Cloudflare
+ * It is built into the `ui` Worker's static files (`apps/site/dist/client/preview/vue/`, after the
+ * site's build has written that folder), with a page per item, `ark/<item>.html`, which Cloudflare
  * serves at `/preview/vue/ark/<item>` without running the Worker.
  */
 const OUT_DIR = fileURLToPath(
-  new URL("../web/dist/client/preview/vue/", import.meta.url)
+  new URL("../site/dist/client/preview/vue/", import.meta.url)
 )
 const EXAMPLES = new URL(
   "../../registry/bases/vue-ark/examples/",

@@ -120,7 +120,7 @@ const everywhere =
   changed.some(
     (file) =>
       !file.startsWith("registry/") &&
-      !file.startsWith("apps/web/src/routes/preview/") &&
+      !file.startsWith("apps/site/src/routes/preview/") &&
       !file.startsWith("conformance/") &&
       !file.endsWith(".md")
   )

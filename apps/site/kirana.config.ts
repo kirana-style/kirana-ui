@@ -3,7 +3,7 @@ import { registryConfig } from "@workspace/registry/core/kirana.ts"
 import { uiConfig } from "@workspace/ui/kirana.ts"
 
 export default defineConfig({
-  // The demo's components and the registry's previews: both sets of states that never meet, and the
+  // The demo's components and the registry's, on the site's pages and previews: both sets of states that never meet, and the
   // registry's one vocabulary per base.
   conditions: {
     exclusive: [

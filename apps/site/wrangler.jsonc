@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // The demo page, the first thing the `ui` Worker serves. Built by `vp build` (the Cloudflare
+  // The site, which the `ui` Worker serves. Built by `vp build` (the Cloudflare
   // plugin writes the Worker and its static assets) and deployed with `wrangler deploy` by
   // .github/workflows/site.yml. Until the custom domain is added it is served at
   // https://ui.kirana-style.workers.dev.

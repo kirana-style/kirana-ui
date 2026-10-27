@@ -43,18 +43,26 @@ export const Route = createRootRoute({
     links: [
       // First, so its `@layer reset, base, kirana` statement fixes the layer
       // order before a page's own stylesheet opens the reset and base layers:
-      // the demo's globals.css, a preview's registry reset (each route's head).
+      // the demo's globals.css, the registry's reset on every other page (each route's head).
       { rel: "stylesheet", href: kiranaCss },
       ...headLinks,
     ],
   }),
-  // Before the document renders: the saved colour mode, and on a preview page the design its URL
-  // names, so the server writes `<html>` in both and the first paint is already right.
+  // Before the document renders: the saved colour mode, and the registry's design for every page
+  // but the demo (on a preview page, the one its URL names), so the server writes `<html>` in both
+  // and the first paint is already right.
   beforeLoad: ({ location }) => ({
     mode: readThemeMode(),
-    preview: location.pathname.startsWith("/preview/")
-      ? readPreviewDesign(new URLSearchParams(location.searchStr))
-      : null,
+    design:
+      location.pathname === "/demo"
+        ? null
+        : readPreviewDesign(
+            new URLSearchParams(
+              location.pathname.startsWith("/preview/")
+                ? location.searchStr
+                : ""
+            )
+          ),
   }),
   notFoundComponent: NotFound,
   shellComponent: RootDocument,
@@ -70,11 +78,11 @@ function NotFound() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { mode, preview } = Route.useRouteContext()
-  if (preview) {
+  const { mode, design } = Route.useRouteContext()
+  if (design) {
     return (
       <ThemeProvider defaultMode={mode} cookie={THEME_COOKIE}>
-        <PreviewDocument design={preview}>{children}</PreviewDocument>
+        <RegistryDocument design={design}>{children}</RegistryDocument>
       </ThemeProvider>
     )
   }
@@ -117,16 +125,17 @@ function ThemedDocument({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * A preview page's document: the registry's design on `<html>` (its tokens, the anchor the styles
- * read the visual style through, and every axis's attribute, `dir` among them) in the site's colour
- * mode, and none of the demo's providers. The preview route changes the attributes when a framing
- * page sends a new design; React leaves them, as their props do not change.
+ * The document of the site's pages and of every preview: the registry's design on `<html>` (its
+ * tokens, the anchor the styles read the visual style through, and every axis's attribute, `dir`
+ * among them) in the site's colour mode, and none of the demo's providers. The site's pages take
+ * the default design until the customizer reaches them. The preview route changes the attributes
+ * when a framing page sends a new design; React leaves them, as their props do not change.
  */
-function PreviewDocument({
+function RegistryDocument({
   design,
   children,
 }: {
-  design: NonNullable<ReturnType<typeof Route.useRouteContext>["preview"]>
+  design: NonNullable<ReturnType<typeof Route.useRouteContext>["design"]>
   children: React.ReactNode
 }) {
   const { mode } = useTheme()

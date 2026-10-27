@@ -43,7 +43,7 @@ The compiler, its packages and its specification are in
 ## Layout
 
 ```
-apps/web                  the demo page (:3000), deployed as the Cloudflare Worker `ui`
+apps/site                 the site (:3000): home, previews, the demo at /demo; the Cloudflare Worker `ui`
 apps/blocks               shadcn blocks: dashboard, sidebars, login, signup, preview cards (:3001)
 apps/examples             one page per component (:3002)
 packages/shell            the app shell blocks and examples share
@@ -153,7 +153,7 @@ fails here rather than after deploying.
 
 ```bash
 vp run build                         # every app → apps/*/dist
-cd apps/web && bun run preview       # the built demo as its Worker, on http://localhost:8787
+cd apps/site && bun run preview      # the built site as its Worker, on http://localhost:8787
 ```
 
 The build prints every compiler diagnostic as `file:line:column`; it must report
@@ -171,7 +171,7 @@ Every command runs from the repository root.
 | `vp run check`                                     | Oxfmt, Oxlint with the Kirana rules, TypeScript (tsgolint); a lint warning fails it                         |
 | `vp check --fix`                                   | the same, fixing what can be fixed                                                                          |
 | `vp run licenses`                                  | every installed package's licence against `scripts/check-licenses.ts`                                       |
-| `vp run registry`                                  | the registry's JSON into `apps/web/dist/client/r`, every item checked with Kirana                           |
+| `vp run registry`                                  | the registry's JSON into `apps/site/dist/client/r`, every item checked with Kirana                          |
 | `vp run install`                                   | the slice installed with `kirana-style ui` into Kirana's example apps and built (needs network)             |
 | `vp run upstream -- scan`                          | what changed in shadcn/ui since each item was ported (`upstream/report.md`)                                 |
 | `vp run conformance`                               | the pages against shadcn/ui's own site, computed style for computed style (`conformance:pr`: changed ones)  |
@@ -205,7 +205,7 @@ Oxlint run through the Oxc extension, which reads the root `vite.config.ts`.
 
 ## Deployment
 
-`apps/web` is the Cloudflare Worker `ui`, served at
+`apps/site` is the Cloudflare Worker `ui`, served at
 `ui.kirana-style.workers.dev` until `ui.kirana.style` is attached.
 `.github/workflows/site.yml` deploys every push to `main` and uploads a preview
 version, `pr-<number>-ui.<subdomain>.workers.dev`, for every pull request from a
