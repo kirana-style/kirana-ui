@@ -1,7 +1,0 @@
-/*
- * A preview page's own stylesheet, instead of the demo's globals.css: the registry's reset and the
- * fonts its design system offers (the slice's two, Inter and Geist).
- */
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/geist";
-@import "@workspace/registry/styles/reset.css";

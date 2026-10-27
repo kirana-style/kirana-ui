@@ -343,6 +343,16 @@ Writing a Vue part:
 - Ark UI builds a select from a collection (`createListCollection`), so its
   `SelectItem` takes `item`, and every menu item a `value`.
 
+## The site's pages
+
+`apps/site` is the `ui` Worker. Its own pages (`/` so far) are drawn with the
+registry's components on Base UI and take the registry's design on `<html>`, as a
+preview does: the default design until the customizer reaches them. Their header is
+`SiteHeader` (`apps/site/src/components/site-header.tsx`): a section joins its
+navigation with its first page. `/demo` is `packages/ui`'s demo, with its own
+document and stylesheet, kept in step with kirana-lab's baselines
+(`docs/workflows.md`) until `packages/ui` retires.
+
 ## The preview pages
 
 Each item alone on a page, in the design its URL names, as upstream's
@@ -351,7 +361,7 @@ item and preset on both sites):
 
 | Route                                  | Served by                                                                                      |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `/preview/react/base/<item>`, `aria/…` | `apps/web`'s route, rendered by the `ui` Worker with the design already on `<html>`            |
+| `/preview/react/base/<item>`, `aria/…` | `apps/site`'s route, rendered by the `ui` Worker with the design already on `<html>`           |
 | `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev |
 
 - **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
@@ -373,7 +383,7 @@ item and preset on both sites):
 ## The registry build (`packages/builder`)
 
 `vp run registry` writes the registry into the site's static files,
-`apps/web/dist/client/r`, in two formats:
+`apps/site/dist/client/r`, in two formats:
 
 - **Kirana's**, which `kirana-style ui` reads (`view`, `search`, and `add` to come):
   `r/<item>.json`, one item for every framework and base, and `r/index.json`.

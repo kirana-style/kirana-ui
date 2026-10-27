@@ -95,7 +95,7 @@ The checklist, in grep form:
 
 ```bash
 NAME=drawer
-grep -rn "$NAME" packages/ui/src apps/web/src   # imports, re-exports, demo usage
+grep -rn "$NAME" packages/ui/src apps/site/src  # imports, re-exports, demo usage
 grep -rn "${NAME}Marker" packages/ui/src/theme/
 grep -n "${NAME}Ctx\|${NAME}" packages/ui/src/theme/context.ts
 ```
@@ -306,7 +306,7 @@ below; each is a StyleX habit that Kirana's per-entry merge turns into a bug.
 
 ### Keep the demos in step
 
-`apps/web/src/components/demo.tsx` here and in kirana-lab's `baselines/stylex`
+`apps/site/src/components/demo.tsx` (the site's `/demo`) here and in kirana-lab's `baselines/stylex`
 and `baselines/tailwind` are the same page: same cards, same data arrays, same
 components in the same nesting. That is what makes a slot-by-slot diff meaningful. When you add a
 component to one, add it to the others in the same shape.

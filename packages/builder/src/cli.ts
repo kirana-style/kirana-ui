@@ -1,6 +1,6 @@
 /**
  * `bun packages/builder/src/cli.ts [--out <dir>] [--skip-check]`: the registry, into the site's
- * static files by default (`apps/web/dist/client/r`), exiting non-zero on any problem:
+ * static files by default (`apps/site/dist/client/r`), exiting non-zero on any problem:
  *
  * - in Kirana's format, which `kirana-style ui` reads: `<out>/<item>.json`, one item for every
  *   framework and base with its style modules as written, and `<out>/index.json`;
@@ -44,7 +44,7 @@ const { values } = parseArgs({
   options: {
     out: {
       type: "string",
-      default: join(ROOT, "apps", "web", "dist", "client", "r"),
+      default: join(ROOT, "apps", "site", "dist", "client", "r"),
     },
     "skip-check": { type: "boolean", default: false },
   },

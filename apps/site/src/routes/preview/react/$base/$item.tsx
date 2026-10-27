@@ -4,7 +4,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router"
 import { I18nProvider } from "react-aria-components"
 
-import previewCss from "@/styles/preview.css?url"
+import registryCss from "@/styles/registry.css?url"
 import {
   forwardModeKey,
   listenForDesign,
@@ -52,7 +52,7 @@ function PreviewItem({ base, item }: { base: string; item: string }) {
 export const Route = createFileRoute("/preview/react/$base/$item")({
   head: ({ params }) => ({
     meta: [{ title: `${params.item} · Preview` }],
-    links: [{ rel: "stylesheet", href: previewCss }],
+    links: [{ rel: "stylesheet", href: registryCss }],
   }),
   loader: async ({ params }) => {
     const load = BASES[params.base]
@@ -63,7 +63,7 @@ export const Route = createFileRoute("/preview/react/$base/$item")({
 
 function Preview() {
   const { base, item } = Route.useParams()
-  const { preview } = Route.useRouteContext()
+  const { design: preview } = Route.useRouteContext()
   const navigate = useNavigate()
 
   useEffect(() => {

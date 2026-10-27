@@ -2,8 +2,9 @@ import { Demo } from "@/components/demo"
 import appCss from "@workspace/ui/globals.css?url"
 import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/")({
-  // The demo's reset and element styles; a preview page loads the registry's instead.
+/** The demo of `packages/ui`, the components the apps were first built from, until they retire. */
+export const Route = createFileRoute("/demo")({
+  // The demo's reset and element styles; the site's pages load the registry's instead.
   head: () => ({ links: [{ rel: "stylesheet", href: appCss }] }),
   component: App,
 })
