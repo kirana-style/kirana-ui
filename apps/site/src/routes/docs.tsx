@@ -5,11 +5,10 @@ import {
   useRouterState,
 } from "@tanstack/react-router"
 import { css, props as styleProps } from "@kirana-style/core"
-import { PlusSignIcon } from "@hugeicons/core-free-icons"
 
 import { Customizer } from "@/components/customizer"
 import { NewButton, REPOSITORY } from "@/components/site-header"
-import { SiteDocsProvider } from "@/components/docs-config"
+import { SITE_LINKS, SiteDocsProvider } from "@/components/docs-config"
 import docsCss from "@/styles/docs.css?url"
 import {
   breakpoint,
@@ -34,7 +33,7 @@ const styles = {
 
 /**
  * The documentation chrome, for `/docs` and everything under it: docs-ui's frame with the site's
- * name, the GitHub link and the colour mode, and New as a tab after Registry, as the site's header has it. A layout route rather than a wrapper inside the page,
+ * name, the GitHub link and the colour mode, and Blocks and New as tabs after Registry, as the site's header has it. A layout route rather than a wrapper inside the page,
  * so the sidebar keeps its scroll position and open sections between pages.
  */
 export const Route = createFileRoute("/docs")({
@@ -70,7 +69,7 @@ function Docs() {
             </span>
           </>
         }
-        links={[{ label: "New", href: "/create", icon: PlusSignIcon }]}
+        links={SITE_LINKS}
       >
         <Outlet />
       </DocsLayout>

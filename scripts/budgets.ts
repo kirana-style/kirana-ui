@@ -73,6 +73,7 @@ function walk(dir: string): string[] {
 const home = page("index.html")
 const docs = page("docs.html")
 const create = page("create.html")
+const blocks = page("blocks/index.html")
 const preview = page("preview/react/base/dialog-demo.html")
 const vueCss = readdirSync(join(CLIENT, "preview/vue/assets"))
   .filter((name) => name.endsWith(".css"))
@@ -94,6 +95,7 @@ const measured: Record<string, number> = {
   "home.css": home.css,
   "docs.js": docs.js,
   "create.js": create.js,
+  "blocks.js": blocks.js,
   "preview.dialog-demo.js": preview.js,
   "site.css": siteCss,
   "preview-vue.css": vueCss,

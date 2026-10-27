@@ -78,6 +78,19 @@ component that used a StyleX workaround — closed breakpoint ranges, a `null`
 default beside a custom-property condition, props picked in JavaScript to dodge
 the unlayered group — keeps working; simplify it only with a conformance run.
 
+### Adding a block
+
+A block is ported into `registry/bases/<base>/blocks/<name>/` for each React base (`page.tsx`, its
+parts in `components/`), as `login-01` and `sidebar-07` are. Then, once:
+
+1. its title, description and upstream's categories in `registry/blocks.ts`, which the builder
+   writes into the registry's item and `/blocks` reads, so its category's page lists it and the
+   category joins the blocks navigation with its first block;
+2. its entry in `packages/builder/src/items.ts` (its files per combination), and in each base's
+   `previews.ts`, which gives it its preview page, the frame `/blocks` shows;
+3. `vp run registry`, `vp run build` (the preview page and the category page are prerendered),
+   and `vp run conformance -- --pages <name>` against upstream's site.
+
 ## Removing a component
 
 ```mermaid
@@ -464,7 +477,7 @@ against StyleX's 17.6 kB, and its client JavaScript 7 kB gzip smaller.
 
 **Budgets.** `vp run budgets` (`scripts/budgets.ts`, in `prepush` and CI) measures the built
 site against `budgets.json`: each page's JavaScript and stylesheets, gzip at level 9, as its
-prerendered HTML loads and preloads them (home, a docs page, `/create`, a React preview page),
+prerendered HTML loads and preloads them (home, a docs page, `/create`, `/blocks`, a React preview page),
 Kirana's compiled stylesheet, the Vue preview's, and the registry's files against the Worker's
 static file limits. Each entry says why it has its budget; `measured` is the last build's value,
 written with `bun scripts/budgets.ts --write`. A budget changes only in the pull request that
