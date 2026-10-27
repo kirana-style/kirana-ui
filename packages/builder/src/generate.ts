@@ -38,7 +38,9 @@ const isStyle = (value: unknown): value is StyleHandle =>
   isObject(value) && value.kind === "style"
 const isRecipe = (value: unknown): value is RecipeHandle =>
   isObject(value) && value.kind === "recipe"
-const isRelation = (value: unknown): value is { name: string } =>
+const isRelation = (
+  value: unknown
+): value is { name: string; optional?: boolean } =>
   isObject(value) &&
   typeof value.name === "string" &&
   typeof value.within === "function"
@@ -236,7 +238,7 @@ export function generate(
         body.push(`export { ${name} }`)
       } else {
         body.push(
-          `export const ${name} = ${kirana("relation")}(${quote(entry.name)})`
+          `export const ${name} = ${kirana("relation")}(${quote(entry.name)}${entry.optional ? ", { optional: true }" : ""})`
         )
       }
       continue

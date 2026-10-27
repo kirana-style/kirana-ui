@@ -65,34 +65,31 @@ const fadeAndZoom = {
 }
 
 /**
- * A popup anchored to a trigger: it fades, scales, and slides in from the trigger's side. The slide
- * is written per base, each base's first frame with its own side attribute, so no base's state is
- * read with another's.
+ * A popup anchored to a trigger: it fades, scales, and slides in from the trigger's side, on each
+ * base's first frame with that base's side attribute.
  */
 export const popupMotion = css({
   ...fadeAndZoom,
   transformOrigin: TRANSFORM_ORIGIN,
   transitionProperty: "opacity, scale, translate",
+  // Written once for every base: a base's first frame never meets another base's side attribute,
+  // so Kirana leaves those pairs out of the stylesheet, quietly (`exclusiveAcross`).
   translate: {
     base: "0",
-    [overlay.starting.base]: {
+    ...when(overlay.starting, {
       base: "0",
-      [side.top.base]: `0 ${SLIDE}`,
-      [side.bottom.base]: `0 ${BACK}`,
-      [side.left.base]: `${SLIDE} 0`,
-      [side.right.base]: `${BACK} 0`,
+      ...when(side.top, `0 ${SLIDE}`),
+      ...when(side.bottom, `0 ${BACK}`),
+      ...when(side.left, `${SLIDE} 0`),
+      ...when(side.right, `${BACK} 0`),
       // A logical side slides from the other way when the text runs right to left
       // (cn-dropdown-menu-content-logical, cn-select-content-logical).
-      [side.inlineStart.base]: { base: `${SLIDE} 0`, ":dir(rtl)": `${BACK} 0` },
-      [side.inlineEnd.base]: { base: `${BACK} 0`, ":dir(rtl)": `${SLIDE} 0` },
-    },
-    [overlay.starting.aria]: {
-      base: "0",
-      [side.top.aria]: `0 ${SLIDE}`,
-      [side.bottom.aria]: `0 ${BACK}`,
-      [side.left.aria]: `${SLIDE} 0`,
-      [side.right.aria]: `${BACK} 0`,
-    },
+      ...when(side.inlineStart, {
+        base: `${SLIDE} 0`,
+        ":dir(rtl)": `${BACK} 0`,
+      }),
+      ...when(side.inlineEnd, { base: `${BACK} 0`, ":dir(rtl)": `${SLIDE} 0` }),
+    }),
   },
 })
 

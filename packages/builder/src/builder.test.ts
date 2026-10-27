@@ -4,6 +4,7 @@ import { exclusiveFrom } from "./check"
 import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
+import { relation } from "./kirana-stub"
 import { marker, plainStates, split } from "./markers"
 import { importsOf, packageOf } from "./registry"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
@@ -395,6 +396,27 @@ describe("writing a module", () => {
       '[select.child("a")]: { textDecorationLine: "underline" }'
     )
     expect(code.split("\n")[sites.get("link")! - 1]).toContain("css(")
+  })
+
+  it("declares an optional relation as optional", () => {
+    const { code } = generate(
+      {
+        fieldScope: relation("field", { optional: true }),
+        other: relation("x"),
+      },
+      { tokens: new Map(), axes: new Map(), relations: new Map() },
+      {
+        flatten: (h) => h,
+        flattenRecipe: (h) => h,
+        imports: (module) => `./${module}`,
+        header: "// test",
+        relationsFrom: (module) => ({ specifier: `./${module}`, own: false }),
+      }
+    )
+    expect(code).toContain(
+      'export const fieldScope = relation("field", { optional: true })'
+    )
+    expect(code).toContain('export const other = relation("x")')
   })
 
   it("writes a parent read back as one, with or without its condition", () => {

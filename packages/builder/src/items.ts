@@ -168,6 +168,10 @@ export const ITEMS: Item[] = [
     "What every menu-shaped popup shares: its surface and rows."
   ),
   sharedStyles("visually-hidden", "Text only a screen reader reaches."),
+  sharedStyles(
+    "field-scope",
+    "A Field's relation, and the width a control takes as a Field's child."
+  ),
   {
     name: "control-styles",
     type: "registry:ui",

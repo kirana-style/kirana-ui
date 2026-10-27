@@ -116,8 +116,7 @@ const disabled = {
 
 /**
  * The radii re-based in Maia, Luma and Rhea (on the root's `radius.xl`) and in Sera (on none): each
- * radius token at its factor of the new base. Written out for each token: Kirana 0.3.3 cannot
- * evaluate a style helper's loop over the tokens (KF-039 in its feedback log).
+ * radius token at its factor of the new base.
  */
 const XL = `calc(${radiusBase.value} * 1.4)`
 const rebased = (factor: string) => ({
@@ -159,7 +158,7 @@ const SMALL_PART_RADIUS = {
  * A menu button's inline padding: `p-2`, `px-3` from Maia on, Rhea's `pl-2.5` or `pr-2.5` beside an
  * icon (`iconSide`), `pr-8` at the end of a row with an action (`action`), and `collapsed` when the
  * sidebar is (`p-2!`, the large button's `p-0!`): the end side's. The row's action is read inside
- * each style, so it wins there. Every style is given, as in `laterRings` (KF-039).
+ * each style, so it wins there.
  */
 /** The button before an action or a badge, by its size (`peer-data-[size=*]/menu-button:`). */
 const AFTER_DEFAULT = sidebarMenuButton.after('[data-size="default"]')
@@ -218,7 +217,7 @@ const startPadding = (collapsed: string) => ({
 
 /**
  * A size's height (`h-*`), and `size-8!` collapsed: `base` for the styles that keep Nova's, `tall`
- * for Maia, Luma and Sera. Every style is given, as in `laterRings` (KF-039).
+ * for Maia, Luma and Sera.
  */
 const height = (base: string, tall: string) => ({
   base,

@@ -1,9 +1,11 @@
 /**
  * The registry installed as a project installs it, with Kirana's own installer: for each
- * combination, a new project from Kirana's example for its framework (`kirana-style ui init
- * --template`, which reads the release's source from GitHub), set to that style's preset code, the
- * slice added with `kirana-style ui add` from the registry this checkout built, then built, and its
- * lockfile validated. Exits non-zero on the first failure.
+ * combination, a new project from Kirana's example for its framework, started from an empty folder
+ * (`npx @kirana-style/registry init --template`, which reads the release's source from GitHub), set
+ * to that style's preset code, the
+ * slice added with `kirana-style ui add` from the registry this checkout built, then built (and
+ * type-checked with `vue-tsc` for Vue), and its lockfile validated. Exits non-zero on the first
+ * failure.
  *
  *   bun scripts/install-smoke.ts [<framework>-<base>-<style> …]   # what `vp run install` runs
  *
@@ -17,7 +19,6 @@ import {
   readFileSync,
   rmSync,
   statSync,
-  writeFileSync,
 } from "node:fs"
 import { createServer } from "node:http"
 import type { AddressInfo } from "node:net"
@@ -101,25 +102,12 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
   console.log(`\n== ${combination} (${preset})`)
 
   const folder = mkdtempSync(join(tmpdir(), `kirana-ui-${combination}-`))
-  // `ui` runs from a project that has @kirana-style/registry, and `init --template` does not give
-  // the new project one (KF-035 in Kirana's feedback log): the folder and the app each get it.
-  writeFileSync(
-    join(folder, "package.json"),
-    '{ "name": "bootstrap", "private": true }\n'
-  )
-  await run(
-    folder,
-    "bun",
-    "add",
-    "-d",
-    `@kirana-style/registry@${version}`,
-    `kirana-style@${version}`
-  )
+  // From an empty folder, as a new user starts: the registry package runs on its own, and the
+  // project it writes has the registry at this exact version, so `ui` runs there.
   await run(
     folder,
     "bunx",
-    "kirana-style",
-    "ui",
+    `@kirana-style/registry@${version}`,
     "init",
     "--template",
     `vite-${framework}`,
@@ -134,9 +122,10 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     registry
   )
   const app = join(folder, "app")
-  await run(app, "bun", "add", "-d", `@kirana-style/registry@${version}`)
   await run(app, "bunx", "kirana-style", "ui", "add", ...ITEMS[framework])
   await run(app, "bun", "run", "build")
+  // Vue templates are type-checked in the project only: Ark's required props show there (CLI-06).
+  if (framework === "vue") await run(app, "bun", "run", "typecheck")
   await run(
     app,
     "bunx",

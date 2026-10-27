@@ -56,13 +56,14 @@ export function recipe(config: StyleObject): RecipeHandle {
   return { kind: "recipe", config, site: callSite() }
 }
 
-export function relation(name: string) {
+export function relation(name: string, options?: { optional?: boolean }) {
   const read =
     (how: "within" | "parent" | "after" | "before") =>
     (condition = "") =>
       marker({ kind: "read", relation: name, how, condition })
   return {
     name,
+    optional: options?.optional === true,
     anchor: marker({ kind: "anchor", relation: name }),
     within: read("within"),
     parent: read("parent"),
