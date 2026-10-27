@@ -356,8 +356,16 @@ attributes at once, the cookie, the preset in a URL that names one, and upstream
 `design-system-params` message to every preview framed on the page. A framed preview without a
 preset reads the cookie as it loads; the code panel shows the reader's style. `?theme=` is the
 colour mode when its value is `light`, `dark` or `system`, and the design's colour theme
-otherwise. The font picker offers the families the site loads (Inter, Geist). Their header is
-`SiteHeader` (`apps/site/src/components/site-header.tsx`): a section joins its
+otherwise. The font picker offers the families the site loads (Inter, Geist). `/create`
+(`components/create-page.tsx`, its logic in `lib/create.ts`) is the full editor: every axis
+with a lock, undo and redo, shuffle (the unlocked axes, then the rules between axes), reset, a
+preset opened from a code or a link (this site's or shadcn/ui's), its code copied and a link to
+share; the item explorer over each base's previews (`previews.ts`, and Vue's
+`vue-ark/preview-names.ts`, which the React site can import); the framework, base, template, RTL
+and pointer; Get code, `kirana-style ui init` and `add`, and for React shadcn/ui's
+`components.json` and `add`. The axes both customizers show are `lib/design-choices.ts`. A design
+message to a framed preview carries the frame's own `rtl` and `pointer`, so a preview keeps them.
+Their header is `SiteHeader` (`apps/site/src/components/site-header.tsx`): a section joins its
 navigation with its first page. `/docs` is the docs framework (`packages/docs-core` and
 `packages/docs-ui`, copied from the Kirana site's, `packages/docs-ui/CHANGES.md`) over
 `apps/site/content/docs`: `generate:content` (the workspace's `content` task, before every check

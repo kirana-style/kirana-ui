@@ -1,5 +1,6 @@
 /**
- * The preview's design: read from the URL once, then from the framing page's messages. It lives on
+ * The preview's design: the URL's or the reader's saved one (`readPageDesign`) once, then the
+ * framing page's messages. It lives on
  * `<html>` as attributes; the app reads it only for the icon library and the reading direction.
  */
 import {
@@ -9,13 +10,11 @@ import {
   listenForDesign,
   previewQuery,
   readColourMode,
-  readPreviewDesign,
+  readPageDesign,
 } from "@workspace/registry/core/preview.ts"
 import { ref } from "vue"
 
-export const design = ref(
-  readPreviewDesign(new URLSearchParams(location.search))
-)
+export const design = ref(readPageDesign(location.search, document.cookie))
 
 /** Puts the design on `<html>` and keeps it there as messages arrive. */
 export function followDesign() {

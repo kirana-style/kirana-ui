@@ -10,7 +10,8 @@ import { design } from "./design"
 
 /** One page per item, as `/preview/vue/ark/<item>`; anything else lists them. */
 const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
-const current = item ? previews[item] : undefined
+const current =
+  item && item in previews ? previews[item as keyof typeof previews] : undefined
 const locale = computed(() => (design.value.options.rtl ? "ar" : "en-US"))
 
 const list = css({

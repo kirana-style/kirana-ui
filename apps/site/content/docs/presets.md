@@ -24,7 +24,9 @@ for the framework and base those codes do not hold.
 ## Where a code comes from
 
 **Customize**, in the header of every page, changes the site's design and shows its code at the
-bottom of the sheet. The site keeps your choice for your next visit, and every page, preview and
+bottom of the sheet. [Create](/create) is the full editor: lock axes and shuffle the rest, undo,
+open a code or a link, choose the framework, base and template, and get the commands that start a
+project in that design. The site keeps your choice for your next visit, and every page, preview and
 code panel shows it.
 
 ## Where a code goes
