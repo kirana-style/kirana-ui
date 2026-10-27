@@ -2,16 +2,13 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import { css } from "@kirana-style/core"
 
 import kiranaCss from "@kirana-style/core/stylesheet.css?url"
+
 import { axes } from "@workspace/registry/core/axes"
-import {
-  documentAttributes,
-  readPreviewDesign,
-} from "@workspace/registry/core/preview"
+import { usePageDesign } from "@/lib/page-design"
+import { documentAttributes } from "@workspace/registry/core/preview"
+
 import { root } from "@workspace/registry/core/root"
 import { page } from "@workspace/registry/styles/page.styles"
-import { DirectionProvider } from "@workspace/ui/components/direction"
-import { Toaster } from "@workspace/ui/components/toast"
-import { TooltipProvider } from "@workspace/ui/components/tooltip"
 import { ThemeProvider, useTheme } from "@workspace/ui/theme/theme-provider"
 import { theme } from "@workspace/ui/theme/semantic"
 import { fontFamily } from "@workspace/ui/tokens/typography"
@@ -48,21 +45,17 @@ export const Route = createRootRoute({
       ...headLinks,
     ],
   }),
-  // Before the document renders: the saved colour mode, and the registry's design for every page
-  // but the demo (on a preview page, the one its URL names), so the server writes `<html>` in both
-  // and the first paint is already right.
+  // Before the document renders: the saved colour mode, and which document the page takes. A
+  // prerendered page is written in the system mode and the default design; the inline script puts
+  // the saved mode, and on a preview the URL's design, on `<html>` before the first paint.
   beforeLoad: ({ location }) => ({
     mode: readThemeMode(),
-    design:
+    document:
       location.pathname === "/demo"
-        ? null
-        : readPreviewDesign(
-            new URLSearchParams(
-              location.pathname.startsWith("/preview/")
-                ? location.searchStr
-                : ""
-            )
-          ),
+        ? ("demo" as const)
+        : location.pathname.startsWith("/preview/")
+          ? ("preview" as const)
+          : ("site" as const),
   }),
   notFoundComponent: NotFound,
   shellComponent: RootDocument,
@@ -78,20 +71,26 @@ function NotFound() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { mode, design } = Route.useRouteContext()
-  if (design) {
+  const { mode, document } = Route.useRouteContext()
+  if (document !== "demo") {
     return (
       <ThemeProvider defaultMode={mode} cookie={THEME_COOKIE}>
-        <RegistryDocument design={design}>{children}</RegistryDocument>
+        <RegistryDocument
+          script={
+            document === "preview"
+              ? `${THEME_SCRIPT};${__DESIGN_SCRIPT__}`
+              : THEME_SCRIPT
+          }
+        >
+          {children}
+        </RegistryDocument>
       </ThemeProvider>
     )
   }
   return (
-    <DirectionProvider direction="ltr">
-      <ThemeProvider defaultMode={mode} cookie={THEME_COOKIE}>
-        <ThemedDocument>{children}</ThemedDocument>
-      </ThemeProvider>
-    </DirectionProvider>
+    <ThemeProvider defaultMode={mode} cookie={THEME_COOKIE}>
+      <ThemedDocument>{children}</ThemedDocument>
+    </ThemeProvider>
   )
 }
 
@@ -116,8 +115,7 @@ function ThemedDocument({ children }: { children: React.ReactNode }) {
         <ThemeColorMeta />
       </head>
       <body sx={styles.body}>
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster />
+        {children}
         <Scripts />
       </body>
     </html>
@@ -128,17 +126,19 @@ function ThemedDocument({ children }: { children: React.ReactNode }) {
  * The document of the site's pages and of every preview: the registry's design on `<html>` (its
  * tokens, the anchor the styles read the visual style through, and every axis's attribute, `dir`
  * among them) in the site's colour mode, and none of the demo's providers. The site's pages take
- * the default design until the customizer reaches them. The preview route changes the attributes
- * when a framing page sends a new design; React leaves them, as their props do not change.
+ * the default design until the customizer reaches them. A framing page's new design changes the
+ * preview's URL, and so the attributes.
  */
 function RegistryDocument({
-  design,
+  script,
   children,
 }: {
-  design: NonNullable<ReturnType<typeof Route.useRouteContext>["design"]>
+  /** What runs before the first paint: the colour mode, and on a preview the URL's design. */
+  script: string
   children: React.ReactNode
 }) {
   const { mode } = useTheme()
+  const design = usePageDesign()
   return (
     <html
       lang="en"
@@ -149,7 +149,7 @@ function RegistryDocument({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: script }} />
         <HeadContent />
         <ThemeColorMeta />
       </head>
