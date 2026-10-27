@@ -300,8 +300,9 @@ prerendered in the default design, with `registry/core/design-script.ts` bundled
 on its own at build time (the preset decoder and its lists, 5.2 KB, 1.9 KB gzip)
 and written inline after the colour mode's script. Run on them, the same test
 finds no frame in the default design, and the control (the script held back
-300 ms) paints the default first. The cookie, for the site's own pages, comes with
-the customizer.
+300 ms) paints the default first. The same script runs on every page of the site,
+and reads the reader's saved design (the `kui-preset` cookie) when the URL names
+none: a page opened with no JavaScript run yet is already in the saved design.
 
 **A component's look is a style module, written once for every style and every
 base.** `registry/styles/<component>.styles.ts` holds the `css()` handles a

@@ -1,16 +1,17 @@
 /**
- * The design a preview's URL names, written on `<html>` before the first paint: what a static
- * preview page runs inline, first in `<head>` (X-7). The site bundles this module on its own at
- * build time, so the script carries the preset decoder and the attributes, not the encoder or
- * anything a page renders.
+ * The page's design, written on `<html>` before the first paint: the URL's when it names one, else
+ * the reader's saved design (`kui-preset`), else the default (`readPageDesign`). What every page of
+ * the site runs inline, first in `<head>` (X-7). The site bundles this module on its own at build
+ * time, so the script carries the preset decoder and the attributes, not the encoder or anything a
+ * page renders.
  */
 import {
   applyDocumentAttributes,
   documentAttributes,
-  readPreviewDesign,
+  readPageDesign,
 } from "./preview"
 
 applyDocumentAttributes(
   document.documentElement,
-  documentAttributes(readPreviewDesign(new URLSearchParams(location.search)))
+  documentAttributes(readPageDesign(location.search, document.cookie))
 )

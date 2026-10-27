@@ -197,7 +197,7 @@ yet; see `registry/README.md`.
 | `when`, `overlay`, `presence`, `side`, `item`, `tab`, `tabOrientation`, `disclosure`, `placeholder`, `orientation` | `states.ts`     | Component states with each base's key; `...when(item.highlighted, x)` writes every base's                                                                                                                                                      |
 | `space`, `fontSize`, `lineHeight`, `duration` …                                                                    | `scales.ts`     | The Tailwind vocabulary styles are written in (constants); `lineHeight` is rounded up so text keeps whole pixels                                                                                                                               |
 | `registryConfig`                                                                                                   | `kirana.ts`     | What every app compiling the registry spreads into its `kirana.config.ts`: the states that never hold together; it imports no module of its own, since Node loads it (`orientation` is declared there for that, and `states.ts` re-exports it) |
-| `readPreviewDesign`, `documentAttributes`, `listenForDesign`, `forwardModeKey` …                                   | `preview.ts`    | The preview pages' protocol: the design a URL or a framing page's message names, as attributes on `<html>`                                                                                                                                     |
+| `readPreviewDesign`, `readPageDesign`, `documentAttributes`, `listenForDesign` …                                   | `preview.ts`    | The preview pages' protocol: the design a URL or a framing page's message names, as attributes on `<html>`                                                                                                                                     |
 
 Adding a value to an axis: append it to its list in `config.ts` (never insert or
 reorder: saved codes would change meaning), add its colours or family, an `on`
@@ -347,7 +347,16 @@ Writing a Vue part:
 
 `apps/site` is the `ui` Worker. Its own pages (`/` and `/docs` so far) are drawn with the
 registry's components on Base UI and take the registry's design on `<html>`, as a
-preview does: the default design until the customizer reaches them. Their header is
+preview does: the URL's design when it names one, else the reader's saved one (the
+`kui-preset` cookie, a `k` code), else the default, written before the first paint by
+`registry/core/design-script.ts` (`readPageDesign`). The **Customize** button in the site's
+header and the docs bar (`apps/site/src/components/customizer.tsx`) opens a sheet with a picker
+per axis; a choice goes through `setDesign` (`apps/site/src/lib/page-design.ts`): `<html>`'s
+attributes at once, the cookie, the preset in a URL that names one, and upstream's
+`design-system-params` message to every preview framed on the page. A framed preview without a
+preset reads the cookie as it loads; the code panel shows the reader's style. `?theme=` is the
+colour mode when its value is `light`, `dark` or `system`, and the design's colour theme
+otherwise. The font picker offers the families the site loads (Inter, Geist). Their header is
 `SiteHeader` (`apps/site/src/components/site-header.tsx`): a section joins its
 navigation with its first page. `/docs` is the docs framework (`packages/docs-core` and
 `packages/docs-ui`, copied from the Kirana site's, `packages/docs-ui/CHANGES.md`) over

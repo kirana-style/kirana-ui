@@ -1,4 +1,4 @@
-import { Suspense, use, useEffect, useSyncExternalStore } from "react"
+import { Suspense, use, useEffect } from "react"
 import type { ComponentType } from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router"
@@ -11,7 +11,6 @@ import {
   previewQuery,
 } from "@workspace/registry/core/preview"
 import { usePageDesign } from "@/lib/page-design"
-import { DEFAULT_DESIGN_SYSTEM } from "@workspace/registry/core/config"
 import { IconLibraryProvider } from "@workspace/registry/icons/icon-placeholder"
 import { page } from "@workspace/registry/styles/page.styles"
 
@@ -69,20 +68,16 @@ export const Route = createFileRoute("/preview/react/$base/$item")({
   component: Preview,
 })
 
-const subscribeNever = () => () => {}
-const isClient = () => true
-const isServer = () => false
-
 function Preview() {
   const { base, item } = Route.useParams()
-  const preview = usePageDesign()
+  const design = usePageDesign()
   const navigate = useNavigate()
 
   useEffect(() => {
     const stopKey = forwardModeKey(window)
-    const stopDesign = listenForDesign(window, (design) => {
+    const stopDesign = listenForDesign(window, (next) => {
       void navigate({
-        href: `${location.pathname}?${previewQuery(design)}`,
+        href: `${location.pathname}?${previewQuery(next)}`,
         replace: true,
       })
     })
@@ -92,19 +87,13 @@ function Preview() {
     }
   }, [navigate])
 
-  // What `<html>` does not carry, the direction and the icon library, follows the URL once the page
-  // has hydrated: it hydrates in the design it was prerendered in.
-  const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
-  const design = hydrated ? preview : null
-  const rtl = design?.options.rtl ?? false
+  // What `<html>` does not carry, the direction and the icon library, follows the design too:
+  // `usePageDesign` hydrates in the prerendered default, then gives the URL's or the saved one.
+  const rtl = design.options.rtl
   return (
     <DirectionProvider direction={rtl ? "rtl" : "ltr"}>
       <I18nProvider locale={rtl ? "ar" : "en-US"}>
-        <IconLibraryProvider
-          library={
-            design?.system.iconLibrary ?? DEFAULT_DESIGN_SYSTEM.iconLibrary
-          }
-        >
+        <IconLibraryProvider library={design.system.iconLibrary}>
           <Suspense>
             {item.endsWith("-demo") ? (
               // A demo sits in the middle of the page, as upstream's component previews do;

@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vite-plus/test"
 
 import { DEFAULT_DESIGN_SYSTEM } from "./config"
+import { encodePreset } from "./preset"
 import {
   DESIGN_MESSAGE,
   documentAttributes,
   listenForDesign,
   previewQuery,
+  readPageDesign,
   readPreviewDesign,
 } from "./preview"
 
@@ -92,5 +94,33 @@ describe("the framing page's messages", () => {
     expect(seen).toEqual(["lyra"])
     stop()
     expect(listeners.size).toBe(0)
+  })
+})
+
+describe("a page's design", () => {
+  it("is the URL's when it names one, over the saved one", () => {
+    const design = readPageDesign("?style=lyra", "kui-preset=k0")
+    expect(design.system.style).toBe("lyra")
+  })
+
+  it("is the saved one when the URL names none, with the URL's options", () => {
+    const saved = readPreviewDesign(params("style=maia&theme=blue")).system
+    const design = readPageDesign(
+      "?rtl=true",
+      `kirana-theme=dark; kui-preset=${encodePreset(saved)}`
+    )
+    expect(design.system).toEqual(saved)
+    expect(design.options.rtl).toBe(true)
+  })
+
+  it("is the default with neither", () => {
+    expect(readPageDesign("", "").system).toEqual(DEFAULT_DESIGN_SYSTEM)
+  })
+
+  it("reads a colour mode in `theme` as the mode, not the design", () => {
+    const saved = encodePreset(readPreviewDesign(params("theme=blue")).system)
+    const design = readPageDesign("?theme=dark", `kui-preset=${saved}`)
+    expect(design.system.theme).toBe("blue")
+    expect(readPageDesign("?theme=rose", "").system.theme).toBe("rose")
   })
 })

@@ -21,6 +21,12 @@ kirana/ui writes `k` codes. It also reads shadcn/ui's own `a` and `b` codes, so 
 preset made on shadcn/ui's site opens here as it looks there, with React on Base UI
 for the framework and base those codes do not hold.
 
+## Where a code comes from
+
+**Customize**, in the header of every page, changes the site's design and shows its code at the
+bottom of the sheet. The site keeps your choice for your next visit, and every page, preview and
+code panel shows it.
+
 ## Where a code goes
 
 - **A new project:** `npx @kirana-style/registry init --template vite-react my-app --preset klmNKQS`.
