@@ -1,11 +1,17 @@
 /**
  * The site's header, built from the registry's own components (Base UI's), so it takes the design
  * the reader chose, like every page of the site. Kirana's brand stays fixed: the name and the link
- * to GitHub. Each section joins the navigation with its first page.
+ * to GitHub. Each section joins the navigation with its first page. Below `md` the sections are in
+ * a menu, and the GitHub link shows from `sm`, so the bar fits a phone.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { Link } from "@tanstack/react-router"
-import { ComputerIcon, Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons"
+import {
+  ComputerIcon,
+  Menu01Icon,
+  Moon02Icon,
+  Sun03Icon,
+} from "@hugeicons/core-free-icons"
 
 import {
   breakpoint,
@@ -15,6 +21,13 @@ import {
 } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@workspace/registry/bases/react-base/ui/dropdown-menu"
 import { Customizer } from "@/components/customizer"
 import { useThemeHotkey } from "@workspace/shell/theme-toggle"
 import { Icon } from "@workspace/ui/primitives/icon"
@@ -30,6 +43,7 @@ const SECTIONS = [
     label: "Components",
     link: { to: "/docs/$", params: { _splat: "components" } },
   },
+  { label: "Create", link: { to: "/create" } },
   { label: "Demo", link: { to: "/demo" } },
 ] as const
 
@@ -59,7 +73,13 @@ const styles = {
     color: theme.foreground,
     textDecorationLine: "none",
   }),
-  nav: css({ display: "flex", alignItems: "center", gap: space[1] }),
+  nav: css({
+    display: { base: "none", [breakpoint.md]: "flex" },
+    alignItems: "center",
+    gap: space[1],
+  }),
+  menu: css({ display: { base: "inline-flex", [breakpoint.md]: "none" } }),
+  github: css({ display: { base: "none", [breakpoint.sm]: "inline-flex" } }),
   end: css({
     display: "flex",
     alignItems: "center",
@@ -113,6 +133,29 @@ export function SiteHeader() {
         <Link to="/" {...styleProps(styles.brand)}>
           kirana/ui
         </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={<Button variant="ghost" size="icon" sx={styles.menu} />}
+            aria-label="Sections"
+          >
+            <Icon icon={Menu01Icon} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuGroup>
+              {SECTIONS.map((section) => (
+                <DropdownMenuItem
+                  key={section.label}
+                  render={<Link {...section.link} />}
+                >
+                  {section.label}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuItem render={<a href={REPOSITORY} />}>
+                GitHub
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <nav sx={styles.nav} aria-label="Sections">
           {SECTIONS.map((section) => (
             <Button
@@ -133,6 +176,7 @@ export function SiteHeader() {
             size="sm"
             render={<a href={REPOSITORY} />}
             nativeButton={false}
+            sx={styles.github}
           >
             GitHub
           </Button>

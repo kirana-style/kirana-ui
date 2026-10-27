@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as IndexRouteImport } from "./routes/index"
+import { Route as CreateRouteImport } from "./routes/create"
 import { Route as DemoRouteImport } from "./routes/demo"
 import { Route as DocsRouteImport } from "./routes/docs"
 import { Route as DocsSplatRouteImport } from "./routes/docs.$"
@@ -18,6 +19,11 @@ import { Route as PreviewReactBaseItemRouteImport } from "./routes/preview/react
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateRoute = CreateRouteImport.update({
+  id: "/create",
+  path: "/create",
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoRoute = DemoRouteImport.update({
@@ -43,6 +49,7 @@ const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
+  "/create": typeof CreateRoute
   "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
   "/docs/$": typeof DocsSplatRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/create": typeof CreateRoute
   "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
   "/docs/$": typeof DocsSplatRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
+  "/create": typeof CreateRoute
   "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
   "/docs/$": typeof DocsSplatRoute
@@ -65,12 +74,25 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/demo" | "/docs" | "/docs/$" | "/preview/react/$base/$item"
+  fullPaths:
+    | "/"
+    | "/create"
+    | "/demo"
+    | "/docs"
+    | "/docs/$"
+    | "/preview/react/$base/$item"
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/demo" | "/docs" | "/docs/$" | "/preview/react/$base/$item"
+  to:
+    | "/"
+    | "/create"
+    | "/demo"
+    | "/docs"
+    | "/docs/$"
+    | "/preview/react/$base/$item"
   id:
     | "__root__"
     | "/"
+    | "/create"
     | "/demo"
     | "/docs"
     | "/docs/$"
@@ -79,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CreateRoute: typeof CreateRoute
   DemoRoute: typeof DemoRoute
   DocsRoute: typeof DocsRouteWithChildren
   PreviewReactBaseItemRoute: typeof PreviewReactBaseItemRoute
@@ -91,6 +114,13 @@ declare module "@tanstack/react-router" {
       path: "/"
       fullPath: "/"
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/create": {
+      id: "/create"
+      path: "/create"
+      fullPath: "/create"
+      preLoaderRoute: typeof CreateRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/demo": {
@@ -136,6 +166,7 @@ const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CreateRoute: CreateRoute,
   DemoRoute: DemoRoute,
   DocsRoute: DocsRouteWithChildren,
   PreviewReactBaseItemRoute: PreviewReactBaseItemRoute,

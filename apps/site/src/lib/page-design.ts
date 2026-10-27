@@ -33,6 +33,19 @@ const subscribe = (onChange: () => void) => {
 
 const YEAR = 60 * 60 * 24 * 365
 
+/** A framed preview's reading direction and pointer, from its address (same origin). */
+function frameOptions(frame: HTMLIFrameElement) {
+  try {
+    const params = new URLSearchParams(frame.contentWindow?.location.search)
+    return {
+      ...(params.get("rtl") ? { rtl: params.get("rtl") } : {}),
+      ...(params.get("pointer") ? { pointer: params.get("pointer") } : {}),
+    }
+  } catch {
+    return {}
+  }
+}
+
 export function setDesign(asked: DesignSystem) {
   const current = readPageDesign(location.search, document.cookie)
   const system = resolveDesignSystem(asked).system
@@ -58,8 +71,10 @@ export function setDesign(asked: DesignSystem) {
     history.replaceState(history.state, "", url)
   }
   for (const frame of document.querySelectorAll("iframe")) {
+    // Each frame keeps its own options: the preview writes its URL from the message.
+    const own = frameOptions(frame)
     frame.contentWindow?.postMessage(
-      { type: DESIGN_MESSAGE, data: { preset: code } },
+      { type: DESIGN_MESSAGE, data: { preset: code, ...own } },
       location.origin
     )
   }
