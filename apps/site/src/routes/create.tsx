@@ -16,7 +16,7 @@ export const Route = createFileRoute("/create")({
 function Create() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader designer />
       <CreatePage />
     </>
   )

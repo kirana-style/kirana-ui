@@ -1,43 +1,45 @@
 /**
- * `/create`, the full editor: every axis with a lock, the history (undo, redo), shuffle and reset;
- * a preset opened from a code or a link, its code copied, a link to share; the item explorer and
- * the preview it frames; the project's framework, base, template and options; Get code. Drawn with
- * the registry's own components, so the editor takes the design it makes.
+ * `/create`, the full editor, laid out as shadcn/ui's (`app/(app)/(create)`): a dark glass panel of
+ * pickers beside the preview. The panel's Menu holds the actions and their keys (Navigate `Ctrl+P`,
+ * which picks what the preview shows; Open Preset `O`, Shuffle `R`, Light/Dark `D`, Undo, Redo,
+ * Reset `⇧R`); the base is the project's, chosen in Get Code; its pickers lock on hover for shuffling;
+ * its footer, as upstream's, copies the preset, then opens one, shuffles or resets, then gets the
+ * code. The preview frames any item in any base, created once the page has hydrated so it loads
+ * once; the item's name on it opens Navigate. The design is the site's
+ * (`setDesign`), so every page follows what `/create` makes.
  */
-import { useState } from "react"
+import * as React from "react"
 import { css } from "@kirana-style/core"
 import {
-  ArrowTurnBackwardIcon,
-  ArrowTurnForwardIcon,
+  ArrowUpDownIcon,
   Copy01Icon,
-  Link01Icon,
+  FolderOpenIcon,
+  Menu09Icon,
   RefreshIcon,
   ShuffleIcon,
-  SquareLock02Icon,
-  SquareUnlock02Icon,
+  Tick02Icon,
 } from "@hugeicons/core-free-icons"
 
 import {
-  TEMPLATES,
-  componentsJson,
-  initCommand,
-  itemOf,
-  openPreset,
-  shuffle,
-  useDesignHistory,
-} from "@/lib/create"
-import { designChoices } from "@/lib/design-choices"
+  GetCodeDialog,
+  NavigateDialog,
+  OpenPresetDialog,
+} from "@/components/create-dialogs"
+import { GLASS_EDGE, glass } from "@/components/glass"
+import { DesignPickers } from "@/components/design-pickers"
+import {
+  Picker,
+  PickerContent,
+  PickerGroup,
+  PickerItem,
+  PickerSeparator,
+  PickerShortcut,
+  PickerTrigger,
+} from "@/components/picker"
+import { shuffle, useDesignHistory } from "@/lib/create"
 import type { DesignAxis } from "@/lib/design-choices"
 import { usePageDesign } from "@/lib/page-design"
-import {
-  DEFAULT_DESIGN_SYSTEM,
-  FRAMEWORK_BASES,
-} from "@workspace/registry/core/config"
-import type {
-  Base,
-  DesignSystem,
-  Framework,
-} from "@workspace/registry/core/config"
+import { DEFAULT_DESIGN_SYSTEM } from "@workspace/registry/core/config"
 import { encodePreset } from "@workspace/registry/core/preset"
 import {
   breakpoint,
@@ -47,35 +49,13 @@ import {
   lineHeight,
   space,
 } from "@workspace/registry/core/scales"
-import { radius, theme } from "@workspace/registry/core/tokens"
+import { alpha, radius, theme } from "@workspace/registry/core/tokens"
 import { previews as basePreviews } from "@workspace/registry/bases/react-base/previews"
 import { previews as ariaPreviews } from "@workspace/registry/bases/react-aria/previews"
 import { PREVIEW_NAMES as VUE_PREVIEWS } from "@workspace/registry/bases/vue-ark/preview-names"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@workspace/registry/bases/react-base/ui/dialog"
-import { Input } from "@workspace/registry/bases/react-base/ui/input"
-import { Label } from "@workspace/registry/bases/react-base/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/registry/bases/react-base/ui/select"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/registry/bases/react-base/ui/tabs"
 import { Icon } from "@workspace/ui/primitives/icon"
+import { useTheme } from "@workspace/ui/theme/theme-provider"
 
 /** The items a preview can show, per framework and base. */
 const PREVIEWS: Record<string, readonly string[]> = {
@@ -84,215 +64,151 @@ const PREVIEWS: Record<string, readonly string[]> = {
   "vue/ark": VUE_PREVIEWS,
 }
 
-const BASE_LABELS: Record<Base, string> = {
-  base: "Base UI",
-  aria: "React Aria",
-  ark: "Ark UI",
-}
+const subscribeNever = () => () => {}
+const isClient = () => true
+const isServer = () => false
 
 const styles = {
+  // `flex-col gap-(--gap) p-(--gap) md:flex-row-reverse`, the page's height under the header.
   page: css({
-    display: "grid",
-    gap: space[6],
-    padding: { base: space[4], [breakpoint.md]: space[6] },
-    gridTemplateColumns: {
-      base: "minmax(0, 1fr)",
-      [breakpoint.lg]: "20rem minmax(0, 1fr)",
-    },
-  }),
-  panel: css({ display: "grid", gap: space[4], alignContent: "start" }),
-  heading: css({
-    fontSize: fontSize.sm,
-    lineHeight: lineHeight.sm,
-    fontWeight: fontWeight.semibold,
-  }),
-  field: css({ display: "grid", gap: space[2] }),
-  row: css({ display: "flex", gap: space[2], alignItems: "center" }),
-  grow: css({ flex: "1 1 0%", minWidth: 0 }),
-  toolbar: css({
     display: "flex",
-    flexWrap: "wrap",
-    gap: space[2],
-    alignItems: "center",
+    flexDirection: { base: "column", [breakpoint.md]: "row-reverse" },
+    gap: { base: space[4], [breakpoint.md]: space[6] },
+    padding: { base: space[4], [breakpoint.md]: space[6] },
+    // Under the header and its rule.
+    height: { [breakpoint.md]: `calc(100dvh - ${space[14]} - 1px)` },
   }),
-  code: css({
-    marginInlineStart: "auto",
-    fontFamily: fontFamily.mono,
-    fontSize: fontSize.sm,
-    lineHeight: lineHeight.sm,
-    color: theme.mutedForeground,
-  }),
-  stage: css({ display: "grid", gap: space[4], alignContent: "start" }),
-  frame: css({
-    display: "block",
-    width: "100%",
-    height: { base: "32rem", [breakpoint.lg]: "calc(100dvh - 12rem)" },
-    borderRadius: radius.xl,
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: theme.border,
+  preview: css({
+    position: "relative",
+    flex: "1 1 0%",
+    minWidth: 0,
+    minHeight: "32rem",
+    overflow: "hidden",
+    borderRadius: radius["2xl"],
+    boxShadow: `0 0 0 1px ${alpha.foreground10}`,
     backgroundColor: theme.background,
   }),
-  message: css({ fontSize: fontSize.sm, color: theme.mutedForeground }),
-  checkbox: css({ display: "flex", gap: space[2], alignItems: "center" }),
-  pre: css({
-    margin: 0,
-    overflowX: "auto",
-    borderRadius: radius.lg,
-    backgroundColor: theme.muted,
-    padding: space[4],
-    fontFamily: fontFamily.mono,
-    fontSize: fontSize.xs,
-    lineHeight: lineHeight.xs,
+  frame: css({ display: "block", width: "100%", height: "100%", border: 0 }),
+  // `dark … rounded-2xl bg-card/90 backdrop-blur-xl md:w-(--customizer-width)`.
+  panel: css({
+    colorScheme: "dark",
+    display: "flex",
+    flexDirection: "column",
+    width: { base: "100%", [breakpoint.md]: "14rem" },
+    maxHeight: "100%",
+    minHeight: 0,
+    flexShrink: 0,
+    alignSelf: "flex-start",
+    borderRadius: radius["2xl"],
+    backgroundColor: `color-mix(in oklab, ${theme.card} 90%, transparent)`,
+    color: theme.foreground,
+    boxShadow: `${GLASS_EDGE}, 0 24px 60px -24px rgb(10 20 30 / 0.35)`,
+    backdropFilter: "blur(24px)",
   }),
-  block: css({ display: "grid", gap: space[2], paddingBlockStart: space[4] }),
+  section: css({
+    display: "flex",
+    flexDirection: { base: "row", [breakpoint.md]: "column" },
+    gap: { base: space["2.5"], [breakpoint.md]: "0.8125rem" },
+    padding: space[3],
+    overflowX: { base: "auto", [breakpoint.md]: "visible" },
+    scrollbarWidth: "none",
+  }),
+  scroll: css({
+    flex: "1 1 auto",
+    minHeight: 0,
+    overflowY: { [breakpoint.md]: "auto" },
+    scrollbarWidth: "none",
+  }),
+  rule: css({
+    display: { base: "none", [breakpoint.md]: "block" },
+    height: "1px",
+    marginInline: `calc(${space[3]} * -1)`,
+    backgroundColor: theme.border,
+  }),
+  edge: css({
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: theme.border,
+  }),
+  footer: css({
+    display: "flex",
+    flexDirection: { base: "row", [breakpoint.md]: "column" },
+    flexWrap: { base: "wrap", [breakpoint.md]: "nowrap" },
+    gap: space[2],
+    padding: space[3],
+    borderTopWidth: "1px",
+    borderTopStyle: "solid",
+    borderTopColor: theme.border,
+  }),
+  wide: css({ width: { [breakpoint.md]: "100%" } }),
+  // Open, Shuffle and Reset share a row, as upstream's footer has them.
+  row: css({
+    display: "flex",
+    gap: space[2],
+    flex: { base: "1 1 auto", [breakpoint.md]: "none" },
+  }),
+  half: css({ flex: "1 1 0%", minWidth: 0 }),
+  // What the preview shows, on the preview: pressed, it opens Navigate.
+  current: css({
+    position: "absolute",
+    insetInlineEnd: space[3],
+    insetBlockEnd: space[3],
+    zIndex: 1,
+  }),
+  currentButton: css({ fontFamily: fontFamily.mono }),
+  code: css({ fontFamily: fontFamily.mono }),
+  // The Menu, from md up, as upstream's header; on a phone its actions are the footer's and the
+  // preview's item button, and its keys need a keyboard.
+  wideOnly: css({ display: { base: "none", [breakpoint.md]: "flex" } }),
+  menu: css({
+    justifyContent: "space-between",
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    fontWeight: fontWeight.medium,
+  }),
 }
 
-/** A labelled Select over a list of choices. */
-function Picker({
-  id,
-  label,
-  value,
-  items,
-  onChange,
-  locked,
-  onLock,
-}: {
-  id: string
-  label: string
-  value: string
-  items: readonly { value: string; label: string }[]
-  onChange: (value: string) => void
-  locked?: boolean
-  onLock?: () => void
-}) {
-  return (
-    <div sx={styles.field}>
-      <Label htmlFor={id}>{label}</Label>
-      <div sx={styles.row}>
-        <Select
-          items={items}
-          value={value}
-          onValueChange={(next) => {
-            if (typeof next === "string") onChange(next)
-          }}
-        >
-          <SelectTrigger id={id} sx={styles.grow}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {items.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {onLock ? (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onLock}
-            aria-pressed={locked}
-            aria-label={`${locked ? "Unlock" : "Lock"} ${label.toLowerCase()} when shuffling`}
-          >
-            <Icon icon={locked ? SquareLock02Icon : SquareUnlock02Icon} />
-          </Button>
-        ) : null}
-      </div>
-    </div>
-  )
-}
+/** Whether a key press belongs to something the reader is typing in. */
+const typing = (target: EventTarget | null) =>
+  target instanceof HTMLElement &&
+  (target.isContentEditable ||
+    ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
 
-function CopyButton({ text, label }: { text: string; label: string }) {
-  const [copied, setCopied] = useState(false)
+function CopyPreset({ code }: { code: string }) {
+  const [copied, setCopied] = React.useState(false)
   return (
     <Button
       variant="outline"
       size="sm"
-      onClick={() => {
-        void navigator.clipboard.writeText(text).then(() => {
+      sx={[styles.wide, styles.code]}
+      onClick={() =>
+        void navigator.clipboard.writeText(`--preset ${code}`).then(() => {
           setCopied(true)
           setTimeout(() => setCopied(false), 1500)
         })
-      }}
+      }
     >
-      <Icon icon={Copy01Icon} />
-      {copied ? "Copied" : label}
+      <Icon icon={copied ? Tick02Icon : Copy01Icon} />
+      --preset {code}
     </Button>
-  )
-}
-
-/** Get code: the project's commands, in a dialog. */
-function GetCode({
-  system,
-  template,
-  item,
-  rtl,
-}: {
-  system: DesignSystem
-  template: string
-  item: string
-  rtl: boolean
-}) {
-  const init = initCommand(system, template)
-  const add = `npx kirana-style ui add ${item}`
-  const json = componentsJson(system)
-  const shadcnAdd = `npx shadcn@latest add @kirana/${item}`
-  return (
-    <Dialog>
-      <DialogTrigger render={<Button />}>Get code</DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Start a project in this design</DialogTitle>
-          <DialogDescription>
-            Preset {encodePreset(system)}, {BASE_LABELS[system.base]} on{" "}
-            {system.framework === "react" ? "React" : "Vue"}.
-          </DialogDescription>
-        </DialogHeader>
-        <Tabs defaultValue="kirana">
-          <TabsList variant="line">
-            <TabsTrigger value="kirana">kirana-style ui</TabsTrigger>
-            {system.framework === "react" ? (
-              <TabsTrigger value="shadcn">shadcn/ui&apos;s CLI</TabsTrigger>
-            ) : null}
-          </TabsList>
-          <TabsContent value="kirana" sx={styles.block}>
-            <pre sx={styles.pre}>{`${init}\n\ncd my-app\n${add}`}</pre>
-            <CopyButton text={`${init}\n\ncd my-app\n${add}`} label="Copy" />
-          </TabsContent>
-          <TabsContent value="shadcn" sx={styles.block}>
-            <p sx={styles.message}>
-              In a project already set up for Kirana, as the docs&apos;
-              shadcn/ui page describes: this as `components.json`, then add.
-            </p>
-            <pre sx={styles.pre}>{json}</pre>
-            <pre sx={styles.pre}>{shadcnAdd}</pre>
-            <CopyButton text={`${json}\n`} label="Copy components.json" />
-          </TabsContent>
-        </Tabs>
-        {rtl ? (
-          <p sx={styles.message}>
-            Right to left: set `dir=&quot;rtl&quot;` on `&lt;html&gt;` and give
-            your base its direction (Base UI&apos;s `DirectionProvider`, React
-            Aria&apos;s `I18nProvider`).
-          </p>
-        ) : null}
-      </DialogContent>
-    </Dialog>
   )
 }
 
 export function CreatePage() {
   const { system } = usePageDesign()
   const history = useDesignHistory(system)
-  const [locked, setLocked] = useState<ReadonlySet<DesignAxis>>(new Set())
-  const [opened, setOpened] = useState("")
-  const [openFailed, setOpenFailed] = useState(false)
-  const [preview, setPreview] = useState("button-example")
-  const [template, setTemplate] = useState<string>(TEMPLATES.react[0])
-  const [rtl, setRtl] = useState(false)
-  const [pointer, setPointer] = useState(false)
+  const { cycleMode } = useTheme()
+  const hydrated = React.useSyncExternalStore(
+    subscribeNever,
+    isClient,
+    isServer
+  )
+  const [locked, setLocked] = React.useState<ReadonlySet<DesignAxis>>(new Set())
+  const [preview, setPreview] = React.useState("button-example")
+  const [opening, setOpening] = React.useState(false)
+  const [navigating, setNavigating] = React.useState(false)
+  const [rtl, setRtl] = React.useState(false)
+  const [pointer, setPointer] = React.useState(false)
 
   const combination = `${system.framework}/${system.base}`
   const items = PREVIEWS[combination] ?? []
@@ -303,184 +219,182 @@ export function CreatePage() {
   }).toString()
   const src = `/preview/${combination}/${shown}${query ? `?${query}` : ""}`
 
+  const actions = {
+    shuffle: () => history.apply(shuffle(system, locked)),
+    reset: () =>
+      history.apply({
+        ...DEFAULT_DESIGN_SYSTEM,
+        framework: system.framework,
+        base: system.base,
+      }),
+  }
+
+  // upstream's keys: O opens a preset, R shuffles, ⇧R resets, Ctrl/⌘ Z undoes and ⇧ redoes. D is
+  // the site's own colour mode key, already on every page.
+  React.useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (typing(event.target) || event.altKey) return
+      const key = event.key.toLowerCase()
+      if ((event.metaKey || event.ctrlKey) && key === "z") {
+        event.preventDefault()
+        if (event.shiftKey) history.redo()
+        else history.undo()
+        return
+      }
+      if ((event.metaKey || event.ctrlKey) && key === "p") {
+        event.preventDefault()
+        setNavigating(true)
+        return
+      }
+      if (event.metaKey || event.ctrlKey) return
+      if (key === "o") setOpening(true)
+      else if (key === "r" && event.shiftKey) actions.reset()
+      else if (key === "r") actions.shuffle()
+      else return
+      event.preventDefault()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  })
+
   const toggleLock = (axis: DesignAxis) => {
     const next = new Set(locked)
     if (next.has(axis)) next.delete(axis)
     else next.add(axis)
     setLocked(next)
   }
-  const chooseFramework = (framework: Framework) => {
-    history.apply({
-      ...system,
-      framework,
-      base: FRAMEWORK_BASES[framework][0]!,
-    })
-    setTemplate(TEMPLATES[framework as keyof typeof TEMPLATES]?.[0] ?? "")
-  }
-  const open = () => {
-    const design = openPreset(opened)
-    setOpenFailed(!design)
-    if (design) {
-      history.apply(design)
-      setOpened("")
-    }
-  }
-  const shareLink = `${typeof window === "undefined" ? "" : window.location.origin}/create?preset=${encodePreset(system)}`
+  const rule = <div sx={styles.rule} />
 
   return (
     <main sx={styles.page}>
-      <aside sx={styles.panel} aria-label="The design">
-        <h1 sx={styles.heading}>Design</h1>
-        {designChoices(system).map(([axis, label, choices]) => (
-          <Picker
-            key={axis}
-            id={`create-${axis}`}
-            label={label}
-            value={system[axis]}
-            items={choices}
-            onChange={(value) => history.apply({ ...system, [axis]: value })}
-            locked={locked.has(axis)}
-            onLock={() => toggleLock(axis)}
-          />
-        ))}
-        <h2 sx={styles.heading}>Project</h2>
-        <Picker
-          id="create-framework"
-          label="Framework"
-          value={system.framework}
-          items={[
-            { value: "react", label: "React" },
-            { value: "vue", label: "Vue" },
-          ]}
-          onChange={(value) => chooseFramework(value as Framework)}
-        />
-        <Picker
-          id="create-base"
-          label="Base"
-          value={system.base}
-          items={FRAMEWORK_BASES[system.framework].map((base) => ({
-            value: base,
-            label: BASE_LABELS[base],
-          }))}
-          onChange={(value) =>
-            history.apply({ ...system, base: value as Base })
-          }
-        />
-        <Picker
-          id="create-template"
-          label="Template"
-          value={template}
-          items={(
-            TEMPLATES[system.framework as keyof typeof TEMPLATES] ?? []
-          ).map((name) => ({ value: name, label: name }))}
-          onChange={setTemplate}
-        />
-        <label sx={styles.checkbox}>
-          <input
-            type="checkbox"
-            checked={rtl}
-            onChange={(event) => setRtl(event.target.checked)}
-          />
-          Right to left
-        </label>
-        <label sx={styles.checkbox}>
-          <input
-            type="checkbox"
-            checked={pointer}
-            onChange={(event) => setPointer(event.target.checked)}
-          />
-          Pointer cursor on buttons
-        </label>
-      </aside>
-
-      <section sx={styles.stage} aria-label="The preview">
-        <div sx={styles.toolbar}>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={history.undo}
-            disabled={!history.canUndo}
-            aria-label="Undo"
-          >
-            <Icon icon={ArrowTurnBackwardIcon} />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={history.redo}
-            disabled={!history.canRedo}
-            aria-label="Redo"
-          >
-            <Icon icon={ArrowTurnForwardIcon} />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => history.apply(shuffle(system, locked))}
-          >
-            <Icon icon={ShuffleIcon} />
-            Shuffle
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() =>
-              history.apply({
-                ...DEFAULT_DESIGN_SYSTEM,
-                framework: system.framework,
-                base: system.base,
-              })
-            }
-          >
-            <Icon icon={RefreshIcon} />
-            Reset
-          </Button>
-          <CopyButton text={encodePreset(system)} label="Copy code" />
-          <CopyButton text={shareLink} label="Share link" />
-          <GetCode
-            system={system}
-            template={template}
-            item={itemOf(shown)}
-            rtl={rtl}
-          />
-          <span sx={styles.code}>{encodePreset(system)}</span>
+      <section sx={styles.preview} aria-label="The preview">
+        {hydrated ? (
+          <iframe title={`${shown} preview`} src={src} sx={styles.frame} />
+        ) : null}
+        <div sx={[glass.frame, styles.current]}>
+          <div sx={glass.card}>
+            <Button
+              variant="ghost"
+              size="sm"
+              sx={styles.currentButton}
+              onClick={() => setNavigating(true)}
+              title="Navigate (Ctrl+P)"
+            >
+              {shown}
+              <Icon icon={ArrowUpDownIcon} />
+            </Button>
+          </div>
         </div>
-        <div sx={styles.toolbar}>
-          <div sx={styles.grow}>
-            <Picker
-              id="create-preview"
-              label="Preview"
-              value={shown}
-              items={items.map((name) => ({ value: name, label: name }))}
-              onChange={setPreview}
+      </section>
+
+      <aside sx={styles.panel} aria-label="The design">
+        <div sx={[styles.section, styles.edge, styles.wideOnly]}>
+          <Picker>
+            <PickerTrigger sx={styles.menu}>
+              <span>Menu</span>
+              <Icon icon={Menu09Icon} />
+            </PickerTrigger>
+            <PickerContent side="right" align="start">
+              <PickerGroup>
+                <PickerItem onClick={() => setNavigating(true)}>
+                  Navigate… <PickerShortcut>Ctrl+P</PickerShortcut>
+                </PickerItem>
+                <PickerItem onClick={() => setOpening(true)}>
+                  Open Preset… <PickerShortcut>O</PickerShortcut>
+                </PickerItem>
+                <PickerItem onClick={actions.shuffle}>
+                  Shuffle <PickerShortcut>R</PickerShortcut>
+                </PickerItem>
+                <PickerItem onClick={cycleMode}>
+                  Light/Dark <PickerShortcut>D</PickerShortcut>
+                </PickerItem>
+              </PickerGroup>
+              <PickerSeparator />
+              <PickerGroup>
+                <PickerItem onClick={history.undo} disabled={!history.canUndo}>
+                  Undo <PickerShortcut>Ctrl+Z</PickerShortcut>
+                </PickerItem>
+                <PickerItem onClick={history.redo} disabled={!history.canRedo}>
+                  Redo <PickerShortcut>Ctrl+Shift+Z</PickerShortcut>
+                </PickerItem>
+              </PickerGroup>
+              <PickerSeparator />
+              <PickerGroup>
+                <PickerItem onClick={actions.reset}>
+                  Reset <PickerShortcut>⇧R</PickerShortcut>
+                </PickerItem>
+              </PickerGroup>
+            </PickerContent>
+          </Picker>
+        </div>
+        <div sx={styles.scroll}>
+          <div sx={styles.section}>
+            <DesignPickers
+              system={system}
+              onChange={history.apply}
+              side="right"
+              locked={locked}
+              onLock={toggleLock}
+              separator={rule}
             />
           </div>
-          <div sx={[styles.field, styles.grow]}>
-            <Label htmlFor="create-open">Open a preset</Label>
-            <div sx={styles.row}>
-              <Input
-                id="create-open"
-                value={opened}
-                placeholder="A code (k…, b…, a…) or a link"
-                onChange={(event) => setOpened(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") open()
-                }}
-              />
-              <Button variant="outline" onClick={open}>
-                <Icon icon={Link01Icon} />
-                Open
-              </Button>
-            </div>
-            {openFailed ? (
-              <p sx={styles.message} role="alert">
-                That is not a preset code or a link with one.
-              </p>
-            ) : null}
-          </div>
         </div>
-        <iframe title={`${shown} preview`} src={src} sx={styles.frame} />
-      </section>
+        <div sx={styles.footer}>
+          <CopyPreset code={encodePreset(system)} />
+          <div sx={styles.row}>
+            <Button
+              variant="outline"
+              size="sm"
+              sx={styles.half}
+              onClick={() => setOpening(true)}
+              title="Open Preset (O)"
+            >
+              <Icon icon={FolderOpenIcon} />
+              Open
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              sx={styles.half}
+              onClick={actions.shuffle}
+              title="Shuffle (R)"
+            >
+              <Icon icon={ShuffleIcon} />
+              Shuffle
+            </Button>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              onClick={actions.reset}
+              aria-label="Reset"
+              title="Reset (⇧R)"
+            >
+              <Icon icon={RefreshIcon} />
+            </Button>
+          </div>
+          <GetCodeDialog
+            system={system}
+            onChange={history.apply}
+            rtl={rtl}
+            pointer={pointer}
+            onRtl={setRtl}
+            onPointer={setPointer}
+            trigger={<Button size="sm" sx={styles.wide} />}
+          />
+        </div>
+      </aside>
+      <NavigateDialog
+        open={navigating}
+        onOpenChange={setNavigating}
+        items={items}
+        current={shown}
+        onPick={setPreview}
+      />
+      <OpenPresetDialog
+        open={opening}
+        onOpenChange={setOpening}
+        onOpen={history.apply}
+      />
     </main>
   )
 }

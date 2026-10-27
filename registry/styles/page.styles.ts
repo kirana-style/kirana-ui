@@ -22,14 +22,15 @@ export const page = {
     color: theme.foreground,
     fontFamily: font.sans,
   }),
-  // A demo's frame on its preview page, in every framework; a block brings its own.
-  example: css({ padding: space[6] }),
-  // Around a demo on its preview page, as upstream's component previews centre theirs: the page's
-  // height, the demo in its middle. The preview route adds it; an installed demo does not have it.
-  demo: css({
+  // A demo's frame on its preview page, in every framework, as upstream's component preview
+  // frames one (`flex w-full justify-center items-center p-10`): the demo in the middle of the
+  // page, its own width (`w-full max-w-sm`) filling the frame. A block brings its own.
+  example: css({
     display: "flex",
+    width: "100%",
     minHeight: "100dvh",
     alignItems: "center",
     justifyContent: "center",
+    padding: space[10],
   }),
 }

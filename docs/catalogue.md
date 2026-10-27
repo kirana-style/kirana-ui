@@ -235,7 +235,7 @@ property. The markup in
 | `control.ts`                | `focusRing`, `laterRings`, `controlShadow`, `controlTransition`, `controlIcons`, `GROUP_MD`                                                                                                                                                                                                                                                   | What controls share: rings, Vega's `shadow-xs` under them, how colours move, icon size; `fillInField` is the width a part with its own `w-fit` takes to fill a vertical field (label, title, select trigger), here so a control needs no Field markup where a framework has none |
 | `field-scope.styles.ts`     | `fieldScope`, `fillInField`, `CHILD_OF_VERTICAL`, `CHILD_OF_RESPONSIVE`                                                                                                                                                                                                                                                                       | Field's relation, optional, and the width a part with its own `w-fit` takes as a field's child: a select trigger reads it without depending on Field                                                                                                                             |
 | `visually-hidden.styles.ts` | `visuallyHidden`                                                                                                                                                                                                                                                                                                                              | Text only a screen reader reaches (`sr-only`)                                                                                                                                                                                                                                    |
-| `page.styles.ts`            | `page.document`, `page.body`, `page.example`, `page.demo`                                                                                                                                                                                                                                                                                     | The colour scheme on `<html>`; the page's background, text colour and font; a demo's frame, and the centring around it on a preview page                                                                                                                                         |
+| `page.styles.ts`            | `page.document`, `page.body`, `page.example`                                                                                                                                                                                                                                                                                                  | The colour scheme on `<html>`; the page's background, text colour and font; a demo's frame, centring it as upstream's component preview does                                                                                                                                     |
 | `example.styles.ts`         | `example.page` `.wrapper` `.oneColumn` `.root` `.title` `.content` `.centred` `.row`                                                                                                                                                                                                                                                          | The frame upstream's examples sit in on a preview page; the site's, not installable                                                                                                                                                                                              |
 | `reset.css`                 | the `reset` layer                                                                                                                                                                                                                                                                                                                             | Tailwind's preflight as far as the components rely on it; no pointer cursor                                                                                                                                                                                                      |
 
@@ -349,24 +349,39 @@ Writing a Vue part:
 registry's components on Base UI and take the registry's design on `<html>`, as a
 preview does: the URL's design when it names one, else the reader's saved one (the
 `kui-preset` cookie, a `k` code), else the default, written before the first paint by
-`registry/core/design-script.ts` (`readPageDesign`). The **Customize** button in the site's
-header and the docs bar (`apps/site/src/components/customizer.tsx`) opens a sheet with a picker
-per axis; a choice goes through `setDesign` (`apps/site/src/lib/page-design.ts`): `<html>`'s
-attributes at once, the cookie, the preset in a URL that names one, and upstream's
-`design-system-params` message to every preview framed on the page. A framed preview without a
-preset reads the cookie as it loads; the code panel shows the reader's style. `?theme=` is the
-colour mode when its value is `light`, `dark` or `system`, and the design's colour theme
-otherwise. The font picker offers the families the site loads (Inter, Geist). `/create`
-(`components/create-page.tsx`, its logic in `lib/create.ts`) is the full editor: every axis
-with a lock, undo and redo, shuffle (the unlocked axes, then the rules between axes), reset, a
-preset opened from a code or a link (this site's or shadcn/ui's), its code copied and a link to
-share; the item explorer over each base's previews (`previews.ts`, and Vue's
-`vue-ark/preview-names.ts`, which the React site can import); the framework, base, template, RTL
-and pointer; Get code, `kirana-style ui init` and `add`, and for React shadcn/ui's
-`components.json` and `add`. The axes both customizers show are `lib/design-choices.ts`. A design
-message to a framed preview carries the frame's own `rtl` and `pointer`, so a preview keeps them.
-Their header is `SiteHeader` (`apps/site/src/components/site-header.tsx`): a section joins its
-navigation with its first page. `/docs` is the docs framework (`packages/docs-core` and
+`registry/core/design-script.ts` (`readPageDesign`). The customizer follows shadcn/ui's
+own `(create)` route. Its picker (`apps/site/src/components/picker.tsx`, upstream's on Base
+UI's Menu) is a trigger showing an axis's name, its value and an icon, opening a dark glass menu
+of radio items; pointing at a value previews it (`previewDesign`, unsaved), a click commits it
+(`setDesign`: `<html>`'s attributes at once, the cookie, the preset in a URL that names one,
+upstream's `design-system-params` message to every framed preview with that frame's own `rtl`
+and `pointer`). `components/design-pickers.tsx` is one picker per axis in upstream's order and
+groups (the theme's own colour apart from the hues, fonts by Sans/Serif/Mono, the menu as Colour
+and Appearance), each with its icon (a swatch from `palettes.ts`, the font's own letters, the
+radius corner) and, where shuffling is offered, a lock that shows on hover. The pickers offer only
+what draws (`lib/design-choices.ts`: every base colour and theme with a palette, the fonts the site
+loads, Inter and Geist); Lyra and Sera show the radius as None and wait; what a style or menu cannot take is offered greyed, as upstream's (Rhea's Large, Bold on a translucent menu). On
+every page but `/create`, the customizer is a pill at the bottom (`components/customizer.tsx`)
+opening into a bar of the quick axes (More shows every axis that draws on the page, wrapping onto
+a second row from `md`; the icon library is left out, since the site draws Hugeicons whatever it
+is) over the preset's code, Shuffle and Reset, with no overlay. Its glass (`components/glass.ts`,
+the kirana.style mega menu's: a frosted frame round a dark card) is rounded by the preset's
+radius, square under Lyra and Sera. `/create` (`components/create-page.tsx`, the dialogs in
+`create-dialogs.tsx`, the logic in `lib/create.ts`) is the full editor laid out as upstream's: a
+dark glass panel beside the preview, its Menu (from `md`) holding the actions and their keys
+(Navigate Ctrl+P, `O`, `R`, `D`, Ctrl+Z, Ctrl+Shift+Z, `⇧R`), then every axis, then the footer:
+the preset's code; Open, Shuffle, Reset; Get Code. The base is the project's, chosen in Get Code.
+The previewed item's name sits on the preview and opens Navigate, every example, block and demo
+the base has. Get Code has New Project (framework, template and
+base cards, the pointer and right-to-left switches, `kirana-style ui init` for each package
+manager) and Existing Project (`kirana-style ui preset`). A framed preview is created once the page
+has hydrated, so it loads once; it follows the colour mode through the theme provider's channel.
+`?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
+colour theme otherwise. The site has one set of sections, the docs' tabs (`TABS` in `components/docs-config.tsx`: Docs,
+Components, Kirana, Registry) and **New**, to `/create`, after them: `SiteHeader`
+(`apps/site/src/components/site-header.tsx`) draws them on the home page and `/create` (where the
+bar spans the page and New is left out), the docs layout as its tab row (New through its `links`).
+The docs sidebar collapses (Ctrl+B) to a rail holding the button that opens it again. `/docs` is the docs framework (`packages/docs-core` and
 `packages/docs-ui`, copied from the Kirana site's, `packages/docs-ui/CHANGES.md`) over
 `apps/site/content/docs`: `generate:content` (the workspace's `content` task, before every check
 and build) parses it into `apps/site/src/generated`, not committed, with `llms.txt` and a markdown
@@ -376,9 +391,9 @@ framework-and-base picker (`combinations="react/base,react/aria,vue/ark"`), the 
 for both CLIs, usage per base (a `tabs` block headed Base UI, React Aria, Ark UI, which follows the
 picker), and `<!-- ::component-code name="…" -->`, the files installing it writes, read from
 `/r/<item>.json` in the browser. A component without an upstream demo the registry can draw shows
-another item's (Label the Card's, Field the Input's, Sidebar `sidebar-07`). A `*-demo` preview is
-centred on its page (`page.demo`, added by the preview route and the Vue app).
-`/demo` is `packages/ui`'s demo, with its own
+another item's (Label the Card's, Field the Input's, Sidebar `sidebar-07`). A demo's frame
+(`page.example`) is upstream's preview frame: the demo centred, filling its own width.
+`/demo` is `packages/ui`'s demo, the maintainer's check, linked from no page or menu, with its own
 document and stylesheet, kept in step with kirana-lab's baselines
 (`docs/workflows.md`) until `packages/ui` retires.
 

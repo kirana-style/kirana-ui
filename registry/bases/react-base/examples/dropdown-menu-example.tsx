@@ -49,10 +49,12 @@ const styles = {
     justifyContent: "center",
     gap: space[2],
   }),
-  minW40: css({ minWidth: spacing(40) }),
-  minW56: css({ minWidth: spacing(56) }),
-  w44: css({ width: spacing(44) }),
-  w56: css({ width: spacing(56) }),
+  // Each replaces the menu's own value in every style, as `cn` drops the class it overrides: a plain
+  // value would lose to the styles' conditional entries (Maia's, Luma's and Sera's `min-w-48`).
+  minW40: css({ minWidth: { "*": null, base: spacing(40) } }),
+  minW56: css({ minWidth: { "*": null, base: spacing(56) } }),
+  w44: css({ width: { "*": null, base: spacing(44) } }),
+  w56: css({ width: { "*": null, base: spacing(56) } }),
   span: css({ gridColumn: "span 2 / span 2" }),
 }
 

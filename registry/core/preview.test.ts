@@ -33,8 +33,8 @@ describe("the preview's design", () => {
   it("lets an axis parameter override the preset, as upstream's query does", () => {
     const design = readPreviewDesign(params("preset=b0&style=lyra"))
     expect(design.system.style).toBe("lyra")
-    // Lyra's corners are square, whatever the preset said.
-    expect(design.system.radius).toBe("none")
+    // The preset's radius stays; Lyra draws its corners square in the stylesheet.
+    expect(design.system.radius).toBe("default")
   })
 
   it("writes every axis's attribute, the direction and the pointer", () => {

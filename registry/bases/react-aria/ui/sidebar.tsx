@@ -171,6 +171,8 @@ function Sidebar({
         data-mobile="true"
         sx={sidebar.mobile}
         side={side}
+        // upstream's `[&>button]:hidden`: the sheet's close button would sit on the header's menu.
+        showCloseButton={false}
         {...props}
       >
         <SheetHeader sx={visuallyHidden}>

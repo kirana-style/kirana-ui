@@ -226,8 +226,8 @@ describe("readDesignSystem", () => {
       framework: "vue",
       // Vue has only Ark UI.
       base: "ark",
-      // Lyra keeps its square corners whatever the URL asks.
-      radius: "none",
+      // The radius as the URL asks: Lyra draws it square in the stylesheet.
+      radius: "large",
     })
   })
 
