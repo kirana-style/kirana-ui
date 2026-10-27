@@ -90,7 +90,10 @@ function portedItems(upstream: Upstream, ref: string): Ported[] {
     .map((item): Ported => ({ name: item.name, kind: "component" }))
     .filter((item) => filesOf(upstream, ref, item).length > 0)
   const blocks = ITEMS.filter((item) => item.type === "registry:block").map(
-    (item): Ported => ({ name: item.name, kind: "block" })
+    (item): Ported => ({
+      name: item.name,
+      kind: item.name.startsWith("chart-") ? "chart" : "block",
+    })
   )
   const examples = readdirSync(
     join(REGISTRY, "bases", "react-base", "examples")

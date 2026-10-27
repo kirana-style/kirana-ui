@@ -10,7 +10,7 @@ keywords: [chart, component, base, aria]
 
 <!-- ::preview item="chart-demo" height="440" combinations="react/base,react/aria" -->
 
-Charts are drawn with [TanStack Charts](https://tanstack.com/charts), where shadcn/ui's use Recharts. A chart's config names each series' colour by its token, `theme.chart1`, where shadcn/ui writes `var(--chart-1)`; the chart colour axis sets them. The preview's code is in the code panel below, with the container, its tooltip and legend.
+Charts are drawn with [TanStack Charts](https://tanstack.com/charts), where shadcn/ui's use Recharts. A chart's config names each series' colour by its token, `theme.chart1`, where shadcn/ui writes `var(--chart-1)`; the chart colour axis sets them. The preview's code is in the code panel below, with the container, its tooltip and legend. Ready-made charts, each a registry item of its own (`kirana-style ui add chart-area-default`), are on [the charts pages](/charts): an area, bar, line, pie, radar and radial chart and a tooltip so far, ported from shadcn/ui's.
 
 ## Installation
 

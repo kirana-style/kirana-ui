@@ -18,5 +18,9 @@
   {
     "slug": "registry",
     "label": "Registry"
+  },
+  {
+    "slug": "project",
+    "label": "Project"
   }
 ]

@@ -11,11 +11,19 @@
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as IndexRouteImport } from "./routes/index"
 import { Route as BlocksRouteImport } from "./routes/blocks"
+import { Route as ChartsRouteImport } from "./routes/charts"
+import { Route as ColorsRouteImport } from "./routes/colors"
 import { Route as CreateRouteImport } from "./routes/create"
 import { Route as DemoRouteImport } from "./routes/demo"
 import { Route as DocsRouteImport } from "./routes/docs"
+import { Route as LicenseRouteImport } from "./routes/license"
+import { Route as OpenSourceRouteImport } from "./routes/open-source"
+import { Route as PartnersRouteImport } from "./routes/partners"
+import { Route as SponsorRouteImport } from "./routes/sponsor"
 import { Route as BlocksIndexRouteImport } from "./routes/blocks.index"
 import { Route as BlocksCategoryRouteImport } from "./routes/blocks.$category"
+import { Route as ChartsIndexRouteImport } from "./routes/charts.index"
+import { Route as ChartsTypeRouteImport } from "./routes/charts.$type"
 import { Route as DocsSplatRouteImport } from "./routes/docs.$"
 import { Route as PreviewReactBaseItemRouteImport } from "./routes/preview/react/$base/$item"
 
@@ -27,6 +35,16 @@ const IndexRoute = IndexRouteImport.update({
 const BlocksRoute = BlocksRouteImport.update({
   id: "/blocks",
   path: "/blocks",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChartsRoute = ChartsRouteImport.update({
+  id: "/charts",
+  path: "/charts",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ColorsRoute = ColorsRouteImport.update({
+  id: "/colors",
+  path: "/colors",
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreateRoute = CreateRouteImport.update({
@@ -44,6 +62,26 @@ const DocsRoute = DocsRouteImport.update({
   path: "/docs",
   getParentRoute: () => rootRouteImport,
 } as any)
+const LicenseRoute = LicenseRouteImport.update({
+  id: "/license",
+  path: "/license",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpenSourceRoute = OpenSourceRouteImport.update({
+  id: "/open-source",
+  path: "/open-source",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: "/partners",
+  path: "/partners",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SponsorRoute = SponsorRouteImport.update({
+  id: "/sponsor",
+  path: "/sponsor",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlocksIndexRoute = BlocksIndexRouteImport.update({
   id: "/",
   path: "/",
@@ -53,6 +91,16 @@ const BlocksCategoryRoute = BlocksCategoryRouteImport.update({
   id: "/$category",
   path: "/$category",
   getParentRoute: () => BlocksRoute,
+} as any)
+const ChartsIndexRoute = ChartsIndexRouteImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => ChartsRoute,
+} as any)
+const ChartsTypeRoute = ChartsTypeRouteImport.update({
+  id: "/$type",
+  path: "/$type",
+  getParentRoute: () => ChartsRoute,
 } as any)
 const DocsSplatRoute = DocsSplatRouteImport.update({
   id: "/$",
@@ -68,34 +116,57 @@ const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/blocks": typeof BlocksRouteWithChildren
+  "/charts": typeof ChartsRouteWithChildren
+  "/colors": typeof ColorsRoute
   "/create": typeof CreateRoute
   "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
+  "/license": typeof LicenseRoute
+  "/open-source": typeof OpenSourceRoute
+  "/partners": typeof PartnersRoute
+  "/sponsor": typeof SponsorRoute
   "/blocks/$category": typeof BlocksCategoryRoute
+  "/charts/$type": typeof ChartsTypeRoute
   "/docs/$": typeof DocsSplatRoute
   "/blocks/": typeof BlocksIndexRoute
+  "/charts/": typeof ChartsIndexRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/colors": typeof ColorsRoute
   "/create": typeof CreateRoute
   "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
+  "/license": typeof LicenseRoute
+  "/open-source": typeof OpenSourceRoute
+  "/partners": typeof PartnersRoute
+  "/sponsor": typeof SponsorRoute
   "/blocks/$category": typeof BlocksCategoryRoute
+  "/charts/$type": typeof ChartsTypeRoute
   "/docs/$": typeof DocsSplatRoute
   "/blocks": typeof BlocksIndexRoute
+  "/charts": typeof ChartsIndexRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/blocks": typeof BlocksRouteWithChildren
+  "/charts": typeof ChartsRouteWithChildren
+  "/colors": typeof ColorsRoute
   "/create": typeof CreateRoute
   "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
+  "/license": typeof LicenseRoute
+  "/open-source": typeof OpenSourceRoute
+  "/partners": typeof PartnersRoute
+  "/sponsor": typeof SponsorRoute
   "/blocks/$category": typeof BlocksCategoryRoute
+  "/charts/$type": typeof ChartsTypeRoute
   "/docs/$": typeof DocsSplatRoute
   "/blocks/": typeof BlocksIndexRoute
+  "/charts/": typeof ChartsIndexRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRouteTypes {
@@ -103,42 +174,71 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/blocks"
+    | "/charts"
+    | "/colors"
     | "/create"
     | "/demo"
     | "/docs"
+    | "/license"
+    | "/open-source"
+    | "/partners"
+    | "/sponsor"
     | "/blocks/$category"
+    | "/charts/$type"
     | "/docs/$"
     | "/blocks/"
+    | "/charts/"
     | "/preview/react/$base/$item"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
+    | "/colors"
     | "/create"
     | "/demo"
     | "/docs"
+    | "/license"
+    | "/open-source"
+    | "/partners"
+    | "/sponsor"
     | "/blocks/$category"
+    | "/charts/$type"
     | "/docs/$"
     | "/blocks"
+    | "/charts"
     | "/preview/react/$base/$item"
   id:
     | "__root__"
     | "/"
     | "/blocks"
+    | "/charts"
+    | "/colors"
     | "/create"
     | "/demo"
     | "/docs"
+    | "/license"
+    | "/open-source"
+    | "/partners"
+    | "/sponsor"
     | "/blocks/$category"
+    | "/charts/$type"
     | "/docs/$"
     | "/blocks/"
+    | "/charts/"
     | "/preview/react/$base/$item"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlocksRoute: typeof BlocksRouteWithChildren
+  ChartsRoute: typeof ChartsRouteWithChildren
+  ColorsRoute: typeof ColorsRoute
   CreateRoute: typeof CreateRoute
   DemoRoute: typeof DemoRoute
   DocsRoute: typeof DocsRouteWithChildren
+  LicenseRoute: typeof LicenseRoute
+  OpenSourceRoute: typeof OpenSourceRoute
+  PartnersRoute: typeof PartnersRoute
+  SponsorRoute: typeof SponsorRoute
   PreviewReactBaseItemRoute: typeof PreviewReactBaseItemRoute
 }
 
@@ -156,6 +256,20 @@ declare module "@tanstack/react-router" {
       path: "/blocks"
       fullPath: "/blocks"
       preLoaderRoute: typeof BlocksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/charts": {
+      id: "/charts"
+      path: "/charts"
+      fullPath: "/charts"
+      preLoaderRoute: typeof ChartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/colors": {
+      id: "/colors"
+      path: "/colors"
+      fullPath: "/colors"
+      preLoaderRoute: typeof ColorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/create": {
@@ -179,6 +293,34 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/license": {
+      id: "/license"
+      path: "/license"
+      fullPath: "/license"
+      preLoaderRoute: typeof LicenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/open-source": {
+      id: "/open-source"
+      path: "/open-source"
+      fullPath: "/open-source"
+      preLoaderRoute: typeof OpenSourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/partners": {
+      id: "/partners"
+      path: "/partners"
+      fullPath: "/partners"
+      preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/sponsor": {
+      id: "/sponsor"
+      path: "/sponsor"
+      fullPath: "/sponsor"
+      preLoaderRoute: typeof SponsorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/blocks/": {
       id: "/blocks/"
       path: "/"
@@ -192,6 +334,20 @@ declare module "@tanstack/react-router" {
       fullPath: "/blocks/$category"
       preLoaderRoute: typeof BlocksCategoryRouteImport
       parentRoute: typeof BlocksRoute
+    }
+    "/charts/": {
+      id: "/charts/"
+      path: "/"
+      fullPath: "/charts/"
+      preLoaderRoute: typeof ChartsIndexRouteImport
+      parentRoute: typeof ChartsRoute
+    }
+    "/charts/$type": {
+      id: "/charts/$type"
+      path: "/$type"
+      fullPath: "/charts/$type"
+      preLoaderRoute: typeof ChartsTypeRouteImport
+      parentRoute: typeof ChartsRoute
     }
     "/docs/$": {
       id: "/docs/$"
@@ -223,6 +379,19 @@ const BlocksRouteChildren: BlocksRouteChildren = {
 const BlocksRouteWithChildren =
   BlocksRoute._addFileChildren(BlocksRouteChildren)
 
+interface ChartsRouteChildren {
+  ChartsTypeRoute: typeof ChartsTypeRoute
+  ChartsIndexRoute: typeof ChartsIndexRoute
+}
+
+const ChartsRouteChildren: ChartsRouteChildren = {
+  ChartsTypeRoute: ChartsTypeRoute,
+  ChartsIndexRoute: ChartsIndexRoute,
+}
+
+const ChartsRouteWithChildren =
+  ChartsRoute._addFileChildren(ChartsRouteChildren)
+
 interface DocsRouteChildren {
   DocsSplatRoute: typeof DocsSplatRoute
 }
@@ -236,9 +405,15 @@ const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlocksRoute: BlocksRouteWithChildren,
+  ChartsRoute: ChartsRouteWithChildren,
+  ColorsRoute: ColorsRoute,
   CreateRoute: CreateRoute,
   DemoRoute: DemoRoute,
   DocsRoute: DocsRouteWithChildren,
+  LicenseRoute: LicenseRoute,
+  OpenSourceRoute: OpenSourceRoute,
+  PartnersRoute: PartnersRoute,
+  SponsorRoute: SponsorRoute,
   PreviewReactBaseItemRoute: PreviewReactBaseItemRoute,
 }
 export const routeTree = rootRouteImport

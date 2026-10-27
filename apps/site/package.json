@@ -15,10 +15,13 @@
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
+    "@fontsource-variable/crimson-pro": "catalog:",
+    "@fontsource-variable/eb-garamond": "catalog:",
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@hugeicons/core-free-icons": "catalog:",
     "@kirana-style/core": "catalog:",
+    "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/states": "catalog:",
     "@tanstack/charts": "catalog:",
     "@tanstack/markdown": "^1.0.0",

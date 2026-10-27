@@ -5,6 +5,7 @@ import { LISTED_CATEGORIES, BlocksNav } from "@/components/blocks/blocks-nav"
 import { Customizer } from "@/components/customizer"
 import { SiteDocsProvider } from "@/components/docs-config"
 import { PageHeader } from "@/components/page-header"
+import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 // The reset and fonts, with the code colours the viewers need for their code.
 import docsCss from "@/styles/docs.css?url"
@@ -114,6 +115,7 @@ function Blocks() {
           </div>
         </section>
       </main>
+      <SiteFooter />
       <Customizer />
     </SiteDocsProvider>
   )

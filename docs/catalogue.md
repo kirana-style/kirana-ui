@@ -377,12 +377,25 @@ base cards, the pointer and right-to-left switches, `kirana-style ui init` for e
 manager) and Existing Project (`kirana-style ui preset`). A framed preview is created once the page
 has hydrated, so it loads once; it follows the colour mode through the theme provider's channel.
 `?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
-colour theme otherwise. The site has one set of sections, the docs' tabs (`TABS` in `components/docs-config.tsx`: Docs,
-Components, Kirana, Registry) and, after them, **Blocks** and **New** (`SITE_LINKS`, to `/blocks`
-and `/create`): `SiteHeader`
-(`apps/site/src/components/site-header.tsx`) draws them on the home page and `/create` (where the
-bar spans the page and New is left out), the docs layout as its tab row (New through its `links`).
-The header carries the docs' search on every page (⌘K; a field from `md`, an icon below), its
+colour theme otherwise. The site's chrome is the Kirana site's, at the maintainer's call. The header: the petal K and
+the wordmark ("kirana ui", Crimson Pro's italic, where Kirana writes "kirana style"); Components,
+Blocks, Charts and Colors as links of their own (kirana/ui is its components); Docs and Community
+as mega menus (`components/header/`, featured destinations on the Kirana site's landscapes,
+`public/scenes/`, titled columns of links, the panels loaded on demand); then search, the GitHub
+mark, the sponsor heart and **Create**, the pill in the place of Kirana's Quick start
+(`components/cta.tsx`, the one label for starting a project); below `lg` a sheet. The docs bar
+takes the same brand, links and menus (docs-ui's `nav`, inline from `xl`, the sheet between `lg`
+and `xl`), its tab row the docs' own sections. The home page opens with Kirana's hero
+(`components/home/hero.tsx`: the claim in Kirana's display face, EB Garamond with its italic,
+`components/kirana-type.ts`; Create and Get started; the highlands in pixels with Kirana's mark
+between the frameworks the registry has, marks only). The project pages, `/open-source`,
+`/license`, `/sponsor` and `/partners`, are Kirana's page layout (`components/page/`: a hero with
+its scene, numbered chapters, cards), not the docs layout; Contributing is a docs page, and the home, blocks, charts and
+colours pages end with Kirana's footer (`components/site-footer.tsx`: the brand, the licence, the
+colour mode, three link groups, the landscape dissolving up). The landscapes are drawn with
+`components/scenery/scene-pixels.tsx`, from the Kirana site's, in WebGL with the plain picture
+until it draws. The chrome carries the Kirana brand; the components and their pages still follow
+shadcn/ui. The header carries the docs' search on every page (⌘K; a field from `xl`, an icon below), its
 dialog loaded on first open. The home page is upstream's: the hero, its two calls to action (Get
 Started, New Project), and the showcase (`components/showcase/`, a file per card, as upstream's
 `(root)/cards`): the cards of upstream's home and `preview` block the registry can draw, live in
@@ -402,6 +415,20 @@ folder (`registryInDev` in `apps/site/vite.config.ts`), writing it on the first 
 missing, so a change to the registry's sources shows in the code after `vp run registry` again. `registry/blocks.ts` holds
 each block's title, description and categories, which the builder writes into the registry and the
 pages read: a block ported into `bases/<base>/blocks/<name>/` is added there once.
+`/charts` and `/charts/<type>` are upstream's charts pages (`routes/charts*.tsx`, the parts in
+`components/charts/`): the page header, the types that have a chart (upstream's order) with the
+framework and base at the row's end, then the type's charts in a grid of up to three columns. Each
+chart is upstream's toolbar (its type and icon, copy, View Code, which opens its installed file in
+a sheet) over its preview page in a 460px frame. `registry/charts.ts` holds each chart's title,
+description and type; a chart is a registry item (`bases/<base>/charts/<name>.tsx`, installed into
+`components/`, as upstream's), ported from upstream's `new-york-v4/charts` on TanStack Charts: the
+cartesian ones as `chart-example` is, the pie, radar and radial ones on TanStack Charts' polar
+entry, with d3-shape's curves where Recharts draws `type="natural"`. `/colors` is upstream's
+colours page (`routes/colors.tsx`, `components/colors/`, the data in `lib/scale-colors.ts`): every
+palette of `@kirana-style/preset-scales`, each shade copied as a Kirana token (`color.red[500]`),
+its `oklch()` value or hex, the format one choice for the page. The code views share
+`lib/installed-files.ts`: an item's registry document, its files for a combination and style, and
+the highlighter loaded on demand.
 The docs sidebar collapses (Ctrl+B) to a rail holding the button that opens it again. `/docs` is the docs framework (`packages/docs-core` and
 `packages/docs-ui`, copied from the Kirana site's, `packages/docs-ui/CHANGES.md`) over
 `apps/site/content/docs`: `generate:content` (the workspace's `content` task, before every check

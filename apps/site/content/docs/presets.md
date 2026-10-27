@@ -24,7 +24,7 @@ for the framework and base those codes do not hold.
 ## Where a code comes from
 
 **Customize**, at the bottom of every page, changes the site's design as you point at each value.
-[Create](/create), the **New** button in the header, is the full editor, with the code at the
+[Create](/create), the **Create** button in the header, is the full editor, with the code at the
 bottom of its panel: lock axes and shuffle the rest, undo,
 open a code or a link, choose the framework, base and template, and get the commands that start a
 project in that design. The site keeps your choice for your next visit, and every page, preview and

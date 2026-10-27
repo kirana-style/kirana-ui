@@ -73,10 +73,14 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   results arrive, so Enter opens it; cmdk selected nothing when the items came from our own filter,
   and Enter did nothing until an arrow key moved. The empty states' copy is this site's.
 
+- `docs-layout.tsx`: `nav` (new, optional), the app's own menus after the logo (the site's mega
+  menu, as on its other pages).
 - `docs-layout.tsx`: `links` (new, optional), links after the last tab drawn as tabs and never
   active (the site's New, to its editor). The collapsed sidebar is a rail holding the button that
   opens it again, no longer a column of the tabs' icons, which repeated the tab row beside it.
 
+- `markdown/preview.tsx`: `CombinationPicker` takes `sx`, for a page that sets it in a row of its
+  own (the charts pages' types).
 - `combination.ts` (new): the framework and base a component page shows, one choice for the whole
   site, kept in localStorage (`docs-ui:combination`), from `DocsConfig.combinations` (new).
 - `markdown/preview.tsx`: `combinations="react/base,react/aria"` puts a picker over the preview and

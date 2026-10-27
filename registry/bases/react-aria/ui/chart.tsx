@@ -163,6 +163,15 @@ function ChartContainer<
 
 /** A point's number, and its category: on y and x for a vertical bar or a line, the other way for a horizontal bar. */
 function valueOf(point: ChartPoint): ChartValue {
+  // A pie's slice (`pie()` from the polar entry) holds its share as `value`, beside `fraction`;
+  // its point's own values are the arc's angle and radius, as Recharts' payload is the slice's.
+  const slice = point.datum as { value?: unknown; fraction?: unknown } | null
+  if (
+    slice &&
+    typeof slice.value === "number" &&
+    typeof slice.fraction === "number"
+  )
+    return slice.value
   return typeof point.yValue === "number" ? point.yValue : point.xValue
 }
 function categoryOf(point: ChartPoint): ChartValue {

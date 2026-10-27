@@ -1,15 +1,15 @@
-import { Link, createFileRoute } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 
 import { Customizer } from "@/components/customizer"
-import { PageHeader } from "@/components/page-header"
+import { Hero } from "@/components/home/hero"
+import { SiteFooter } from "@/components/site-footer"
 import { Showcase } from "@/components/showcase"
 import { SiteHeader } from "@/components/site-header"
 import registryCss from "@/styles/registry.css?url"
-import { Button } from "@workspace/registry/bases/react-base/ui/button"
 
 /**
- * The home page: what the registry is and the two ways in, the docs and `/create`, as shadcn/ui's
- * home has them. The demo is the maintainer's check, served at `/demo` and linked from nowhere.
+ * The home page: the hero as the Kirana site's (the claim, Create and Get started, the scene with
+ * what kirana/ui is made of), the showcase of cards in the reader's design, and the footer. The demo is the maintainer's check, served at `/demo` and linked from nowhere.
  */
 export const Route = createFileRoute("/")({
   head: () => ({ links: [{ rel: "stylesheet", href: registryCss }] }),
@@ -21,26 +21,10 @@ function Home() {
     <>
       <SiteHeader />
       <main>
-        <PageHeader
-          heading="shadcn/ui's components, styled with Kirana"
-          description="Every component, block and style of shadcn/ui, rebuilt on Kirana's compiled styles for React, Vue and more. Choose a design and install it into your own project."
-          actions={
-            <>
-              <Button render={<Link to="/docs" />} nativeButton={false}>
-                Get Started
-              </Button>
-              <Button
-                variant="outline"
-                render={<Link to="/create" />}
-                nativeButton={false}
-              >
-                New Project
-              </Button>
-            </>
-          }
-        />
+        <Hero />
         <Showcase />
       </main>
+      <SiteFooter />
       <Customizer />
     </>
   )

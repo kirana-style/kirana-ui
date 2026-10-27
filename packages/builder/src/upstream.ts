@@ -37,7 +37,7 @@ export type Manifest = {
 /** An item ported from upstream: a component, an example page or a block. */
 export type Ported = {
   name: string
-  kind: "component" | "example" | "block"
+  kind: "component" | "example" | "block" | "chart"
 }
 
 /** Upstream's repository read at a commit, through git. */
@@ -164,6 +164,11 @@ export function filesOf(
   item: Ported
 ): string[] {
   const bases = ["base", "aria"]
+  // Upstream's charts are only in its `new-york-v4` registry, the one place they are ported from.
+  if (item.kind === "chart") {
+    const path = `${V4}/new-york-v4/charts/${item.name}.tsx`
+    return upstream.read(ref, path) === undefined ? [] : [path]
+  }
   if (item.kind === "block")
     return bases.flatMap((base) =>
       upstream.list(ref, `${V4}/bases/${base}/blocks/${item.name}`)

@@ -11,6 +11,7 @@
  * mode as it loads and follows a change through the theme provider's channel.
  */
 import { useSyncExternalStore } from "react"
+import type { Sx } from "@workspace/registry/lib/sx"
 import { css } from "@kirana-style/core"
 
 import {
@@ -54,16 +55,19 @@ const styles = {
 export function CombinationPicker({
   available,
   current,
+  sx,
 }: {
   available: readonly DocsCombination[]
   current: DocsCombination | undefined
+  /** Where a page sets the picker in a row of its own (the charts' types). */
+  sx?: Sx
 }) {
   if (available.length < 2 || !current) return null
   return (
     <Tabs
       value={current.id}
       onValueChange={(value) => chooseCombination(String(value))}
-      sx={styles.picker}
+      sx={[styles.picker, sx]}
       data-slot="combination-picker"
     >
       <TabsList variant="line">

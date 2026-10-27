@@ -10,7 +10,7 @@ import { defineAppConfig } from "@workspace/vite-config"
 const REGISTRY = fileURLToPath(new URL("../../registry/", import.meta.url))
 
 /**
- * Every React preview page, `/preview/react/<base>/<item>`: each base's examples and blocks, the
+ * Every React preview page, `/preview/react/<base>/<item>`: each base's examples, blocks and charts, the
  * items its `previews.ts` maps.
  */
 function previewPages() {
@@ -20,7 +20,10 @@ function previewPages() {
       .filter((file) => file.endsWith(".tsx"))
       .map((file) => file.slice(0, -4))
     const blocks = readdirSync(`${folder}blocks`)
-    return [...examples, ...blocks].map(
+    const charts = readdirSync(`${folder}charts`)
+      .filter((file) => file.endsWith(".tsx"))
+      .map((file) => file.slice(0, -4))
+    return [...examples, ...blocks, ...charts].map(
       (item) => `/preview/react/${base}/${item}`
     )
   })

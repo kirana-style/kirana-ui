@@ -1,45 +1,57 @@
 {
   "home.js": {
-    "budget": 270,
+    "budget": 295,
     "unit": "KB",
-    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7.",
-    "measured": 256
+    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds.",
+    "measured": 289
   },
   "home.css": {
     "budget": 50,
     "unit": "KB",
     "why": "The stylesheets the home page loads, gzip: Kirana's compiled stylesheet and the registry's reset and fonts.",
-    "measured": 45.2
+    "measured": 48.1
   },
   "docs.js": {
-    "budget": 345,
+    "budget": 360,
     "unit": "KB",
-    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame.",
-    "measured": 331.3
+    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand).",
+    "measured": 356
   },
   "create.js": {
-    "budget": 290,
+    "budget": 305,
     "unit": "KB",
-    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs.",
-    "measured": 276
+    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand).",
+    "measured": 297.6
   },
   "blocks.js": {
-    "budget": 270,
+    "budget": 295,
     "unit": "KB",
-    "why": "/blocks' JavaScript, gzip: the header, the viewers' toolbars and frames; a block's own code is in its frame, and the code view loads its highlighter on demand.",
-    "measured": 258.8
+    "why": "/blocks' JavaScript, gzip: the header, the viewers' toolbars and frames; a block's own code is in its frame, and the code view loads its highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds.",
+    "measured": 290
+  },
+  "charts.js": {
+    "budget": 295,
+    "unit": "KB",
+    "why": "A charts page's JavaScript, gzip: the header, the type navigation and each chart's toolbar; the charts are in their frames, the code sheet's highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds.",
+    "measured": 288.8
+  },
+  "colors.js": {
+    "budget": 300,
+    "unit": "KB",
+    "why": "/colors' JavaScript, gzip: the header, the format picker and the palettes, whose values are in the page. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand).",
+    "measured": 292.7
   },
   "preview.dialog-demo.js": {
     "budget": 170,
     "unit": "KB",
     "why": "A React preview page, the dialog demo, gzip: the demo as a bare island, without the site's shell, measured 169 KB.",
-    "measured": 153.6
+    "measured": 155.8
   },
   "site.css": {
     "budget": 100,
     "unit": "KB",
     "why": "Kirana's compiled stylesheet for the site, gzip, every style and axis value in it: estimated at 88 KB with every axis value at 64 components.",
-    "measured": 43.9
+    "measured": 46.5
   },
   "preview-vue.css": {
     "budget": 40,
@@ -51,13 +63,13 @@
     "budget": 15000,
     "unit": "files",
     "why": "The registry's JSON files under /r: with the rest of the site they must stay under the Worker's 20,000 static files per version.",
-    "measured": 591
+    "measured": 710
   },
   "registry.bytes": {
     "budget": 30000,
     "unit": "KB",
     "why": "The registry's JSON, total: it grows with items × combinations, about 19 MB expected at 64 components.",
-    "measured": 8687.2
+    "measured": 9370.4
   },
   "registry.largest": {
     "budget": 25600,
@@ -69,6 +81,6 @@
     "budget": 20000,
     "unit": "files",
     "why": "Every static file the Worker serves: its limit is 20,000 per version.",
-    "measured": 1258
+    "measured": 1544
   }
 }

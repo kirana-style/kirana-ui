@@ -3,16 +3,14 @@
  * installing it writes, in a tree of their folders, beside the chosen file, in the docs' code frame
  * (a muted frame, a caption row with the path and copy, the code inset in a panel), here holding the
  * tree and the code side by side. Read from the block's registry document in the browser,
- * for the framework and base shown and the reader's style, as docs-ui's code panel reads a
- * component's (`installedFiles`), and highlighted with the build's highlighter, loaded on demand.
+ * for the framework and base shown and the reader's style (`useInstalledFiles`).
  */
 import * as React from "react"
 import { css } from "@kirana-style/core"
 import { File01Icon, Folder01Icon } from "@hugeicons/core-free-icons"
 
-import { useDocs } from "@workspace/docs-ui/provider.tsx"
+import { useInstalledFiles } from "@/lib/installed-files"
 import { CopyButton } from "@workspace/docs-ui/markdown/code-block.tsx"
-import { installedFiles } from "@workspace/docs-ui/markdown/component-code.tsx"
 import {
   fontFamily,
   fontSize,
@@ -22,9 +20,6 @@ import {
 } from "@workspace/registry/core/scales"
 import { alpha, theme } from "@workspace/registry/core/tokens"
 import { Icon } from "@workspace/ui/primitives/icon"
-
-type Item = Parameters<typeof installedFiles>[0]
-type Highlight = (source: string, lang: string) => string
 
 const styles = {
   // The docs' code frame (`code-block.tsx`): a muted frame, 3px of it round the inset panel.
@@ -174,9 +169,6 @@ function rows(files: readonly string[]) {
   return out
 }
 
-const escape = (source: string) =>
-  source.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-
 export function BlockCode({
   name,
   combination,
@@ -184,33 +176,8 @@ export function BlockCode({
   name: string
   combination: string
 }) {
-  const { registryItem, codeStyle } = useDocs()
-  const [item, setItem] = React.useState<Item | null>(null)
-  const [failed, setFailed] = React.useState(false)
-  const [highlight, setHighlight] = React.useState<Highlight>()
+  const { failed, files, html } = useInstalledFiles(name, combination)
   const [chosen, setChosen] = React.useState<string>()
-
-  React.useEffect(() => {
-    if (!registryItem) return
-    let live = true
-    fetch(registryItem(name))
-      .then((response) => {
-        if (!response.ok) throw new Error(String(response.status))
-        return response.json() as Promise<Item>
-      })
-      .then((value) => live && setItem(value))
-      .catch(() => live && setFailed(true))
-    void import("@workspace/docs-core/highlight.ts").then(
-      ({ highlightSource }) =>
-        live &&
-        setHighlight(
-          () => (source: string, lang: string) => highlightSource(source, lang)
-        )
-    )
-    return () => {
-      live = false
-    }
-  }, [name, registryItem])
 
   if (failed)
     return (
@@ -220,7 +187,7 @@ export function BlockCode({
         </div>
       </div>
     )
-  if (!item)
+  if (!files)
     return (
       <div sx={styles.root}>
         <div sx={styles.panel}>
@@ -229,7 +196,6 @@ export function BlockCode({
       </div>
     )
 
-  const files = installedFiles(item, combination, codeStyle)
   // The block's page first, as upstream's viewer opens on it.
   const first =
     files.find((file) => file.file.includes(`/blocks/${name}/`)) ?? files[0]
@@ -275,9 +241,7 @@ export function BlockCode({
             >
               <code
                 dangerouslySetInnerHTML={{
-                  __html: highlight
-                    ? highlight(shown.source, shown.lang)
-                    : escape(shown.source),
+                  __html: html(shown.source, shown.lang),
                 }}
               />
             </pre>
