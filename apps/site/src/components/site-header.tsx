@@ -15,6 +15,7 @@ import {
 } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
+import { Customizer } from "@/components/customizer"
 import { useThemeHotkey } from "@workspace/shell/theme-toggle"
 import { Icon } from "@workspace/ui/primitives/icon"
 import { schemeMarker } from "@workspace/ui/theme/scheme-marker"
@@ -126,6 +127,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <div sx={styles.end}>
+          <Customizer />
           <Button
             variant="ghost"
             size="sm"

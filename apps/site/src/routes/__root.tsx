@@ -75,13 +75,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   if (document !== "demo") {
     return (
       <ThemeProvider defaultMode={mode} cookie={THEME_COOKIE}>
-        <RegistryDocument
-          script={
-            document === "preview"
-              ? `${THEME_SCRIPT};${__DESIGN_SCRIPT__}`
-              : THEME_SCRIPT
-          }
-        >
+        <RegistryDocument script={`${THEME_SCRIPT};${__DESIGN_SCRIPT__}`}>
           {children}
         </RegistryDocument>
       </ThemeProvider>
@@ -125,15 +119,15 @@ function ThemedDocument({ children }: { children: React.ReactNode }) {
 /**
  * The document of the site's pages and of every preview: the registry's design on `<html>` (its
  * tokens, the anchor the styles read the visual style through, and every axis's attribute, `dir`
- * among them) in the site's colour mode, and none of the demo's providers. The site's pages take
- * the default design until the customizer reaches them. A framing page's new design changes the
- * preview's URL, and so the attributes.
+ * among them) in the site's colour mode, and none of the demo's providers. The design is the URL's
+ * or the reader's saved one (`usePageDesign`); a choice in the customizer, or a framing page's new
+ * design on a preview, changes it, and so the attributes.
  */
 function RegistryDocument({
   script,
   children,
 }: {
-  /** What runs before the first paint: the colour mode, and on a preview the URL's design. */
+  /** What runs before the first paint: the colour mode and the page's design. */
   script: string
   children: React.ReactNode
 }) {

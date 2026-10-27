@@ -9,7 +9,7 @@
  */
 import { AXIS_ATTRIBUTES, POINTER_ATTRIBUTE } from "./attributes"
 import type { DesignSystem } from "./config"
-import { encodePreset, readDesignSystem } from "./preset"
+import { PRESET_FIELDS, encodePreset, readDesignSystem } from "./preset"
 
 /** The message a framing page sends with the design's parameters (upstream's `use-iframe-sync`). */
 export const DESIGN_MESSAGE = "design-system-params"
@@ -26,10 +26,28 @@ type Params = { get: (name: string) => string | null }
 
 const flag = (value: string | null) => value === "true" || value === "1"
 
+/** The colour modes a framing page names as `?theme=` (the site's preview embed, the block viewer). */
+const MODES = new Set(["light", "dark", "system"])
+
+/**
+ * The query without a colour mode in `theme`: `?theme=dark` is the mode a frame is shown in (the
+ * colour-mode script reads it), never the design's colour theme, which is a colour (`theme=blue`).
+ */
+function withoutMode(params: Params): Params {
+  return {
+    get: (name) => {
+      const value = params.get(name)
+      return name === "theme" && value !== null && MODES.has(value)
+        ? null
+        : value
+    },
+  }
+}
+
 /** The design a URL's query (or a message's parameters) asks for; unknown values fall back. */
 export function readPreviewDesign(params: Params): PreviewDesign {
   return {
-    system: readDesignSystem(params).system,
+    system: readDesignSystem(withoutMode(params)).system,
     options: {
       rtl: flag(params.get("rtl")),
       pointer: flag(params.get("pointer")),
@@ -69,6 +87,45 @@ export function applyDocumentAttributes(
 /** The site's colour-mode cookie (`THEME_COOKIE` in `packages/shell`), one name on every page. */
 export const MODE_COOKIE = "kirana-theme"
 
+/** The reader's design on the site, as a `k` preset code: what the customizer saves. */
+export const DESIGN_COOKIE = "kui-preset"
+
+/** A cookie's value in a `document.cookie` string, or `undefined`. */
+export function cookieValue(cookie: string, name: string): string | undefined {
+  const value = cookie
+    .split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${name}=`))
+    ?.slice(name.length + 1)
+  return value === undefined ? undefined : decodeURIComponent(value)
+}
+
+/** Whether a query names a design: a preset code, or any axis on its own. */
+export function namesDesign(params: Params): boolean {
+  const design = withoutMode(params)
+  return (
+    design.get("preset") !== null ||
+    PRESET_FIELDS.some((field) => design.get(field.key) !== null)
+  )
+}
+
+/**
+ * The design a page of the site is in: the one its URL names, when it names one (a shared link, a
+ * framing page's preview); else the reader's saved design (`kui-preset`); else the default. The
+ * reading direction and the pointer are always the URL's.
+ */
+export function readPageDesign(search: string, cookie: string): PreviewDesign {
+  const params = new URLSearchParams(search)
+  if (namesDesign(params)) return readPreviewDesign(params)
+  const saved = cookieValue(cookie, DESIGN_COOKIE)
+  return {
+    system: readPreviewDesign(
+      new URLSearchParams(saved ? { preset: saved } : {})
+    ).system,
+    options: readPreviewDesign(params).options,
+  }
+}
+
 export type ColourMode = "light" | "dark" | "system"
 
 /**
@@ -81,11 +138,7 @@ export function readColourMode(search: string, cookie: string): ColourMode {
     value === "light" || value === "dark" || value === "system"
   const asked = new URLSearchParams(search).get("theme")
   if (isMode(asked)) return asked
-  const saved = cookie
-    .split(";")
-    .map((part) => part.trim())
-    .find((part) => part.startsWith(`${MODE_COOKIE}=`))
-    ?.slice(MODE_COOKIE.length + 1)
+  const saved = cookieValue(cookie, MODE_COOKIE)
   return isMode(saved) ? saved : "system"
 }
 

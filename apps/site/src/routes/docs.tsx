@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router"
 import { css, props as styleProps } from "@kirana-style/core"
 
+import { Customizer } from "@/components/customizer"
 import { SiteDocsProvider } from "@/components/docs-config"
 import { REPOSITORY } from "@/components/site-header"
 import docsCss from "@/styles/docs.css?url"
@@ -48,6 +49,7 @@ function Docs() {
         }
         actions={
           <>
+            <Customizer />
             <Button
               variant="ghost"
               size="sm"
