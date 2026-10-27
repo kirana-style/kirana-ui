@@ -22,4 +22,5 @@ do: `radius.sm` is 0.6 of it, `radius.md` 0.8, `radius.lg` the length itself,
 
 Each corner stays a `calc()` over the one length, so a change of radius on
 `<html>` reaches every corner of every component. Lyra and Sera draw square corners
-whatever the radius, and Rhea has no large radius (it takes the default).
+whatever the radius, and Rhea has no large radius (it takes the default). The radius you chose is
+kept: switch back to another style and its corners come back.

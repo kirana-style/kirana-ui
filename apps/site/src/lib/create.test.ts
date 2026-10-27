@@ -26,8 +26,7 @@ describe("/create", () => {
       )
       expect(next.style).toBe("lyra")
       expect(next.font).toBe(DEFAULT_DESIGN_SYSTEM.font)
-      // Lyra draws square corners, and a theme is one the base colour allows.
-      expect(next.radius).toBe("none")
+      // A theme is one the base colour allows.
       expect(themesFor(next.baseColor)).toContain(next.theme)
     }
   })

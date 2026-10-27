@@ -1,7 +1,8 @@
 import { css } from "@kirana-style/core"
 import { Link, createFileRoute } from "@tanstack/react-router"
 
-import { REPOSITORY, SiteHeader } from "@/components/site-header"
+import { Customizer } from "@/components/customizer"
+import { SiteHeader } from "@/components/site-header"
 import registryCss from "@/styles/registry.css?url"
 import {
   breakpoint,
@@ -15,8 +16,8 @@ import { theme } from "@workspace/registry/core/tokens"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
 
 /**
- * The home page: what the registry is and the two ways in. The showcase of live cards in the
- * reader's design joins it with the customizer.
+ * The home page: what the registry is and the two ways in, the docs and `/create`, as shadcn/ui's
+ * home has them. The demo is the maintainer's check, served at `/demo` and linked from nowhere.
  */
 export const Route = createFileRoute("/")({
   head: () => ({ links: [{ rel: "stylesheet", href: registryCss }] }),
@@ -72,18 +73,19 @@ function Home() {
           and install it into your own project.
         </p>
         <div sx={styles.actions}>
-          <Button render={<Link to="/demo" />} nativeButton={false}>
-            See the demo
+          <Button render={<Link to="/docs" />} nativeButton={false}>
+            Get Started
           </Button>
           <Button
             variant="outline"
-            render={<a href={REPOSITORY} />}
+            render={<Link to="/create" />}
             nativeButton={false}
           >
-            GitHub
+            New Project
           </Button>
         </div>
       </main>
+      <Customizer />
     </>
   )
 }

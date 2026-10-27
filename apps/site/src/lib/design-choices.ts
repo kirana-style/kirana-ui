@@ -1,11 +1,12 @@
 /**
  * The design axes the site offers, in the order the customizers show them, each with its values
- * as a picker lists them: the Customize sheet and `/create` read the same list. A value only some
- * other choice allows (a theme of the base colour's) is left out here, as shadcn/ui's customizer
- * leaves it out.
+ * as a picker lists them: the bottom bar and `/create` read the same list. Only values the site
+ * draws are offered: the base colours, themes and chart colours with a palette (`palettes.ts`, all
+ * of shadcn/ui's; the codec's `gray` has none, as upstream's site has none), and the fonts the site
+ * loads. A value only some other choice allows (a theme of the base colour's) is left out, as
+ * shadcn/ui's customizer leaves it out.
  */
 import {
-  BASE_COLORS,
   FONT_INFO,
   ICON_LIBRARIES,
   MENU_ACCENTS,
@@ -15,13 +16,28 @@ import {
   STYLE_INFO,
   themesFor,
 } from "@workspace/registry/core/config"
-import type { Axis, DesignSystem, Font } from "@workspace/registry/core/config"
+import type {
+  Axis,
+  BaseColor,
+  DesignSystem,
+  Font,
+  Theme,
+} from "@workspace/registry/core/config"
+import { baseColors, themeColors } from "@workspace/registry/core/palettes"
 
 /**
  * The families the site ships (`styles/registry.css`): a font the page has not loaded would show
  * its fallback, so the pickers offer these until the site loads the others.
  */
-const SITE_FONTS: readonly Font[] = ["inter", "geist"]
+export const SITE_FONTS: readonly Font[] = ["inter", "geist"]
+
+/** The base colours with a palette, in shadcn/ui's order. */
+export const BASE_COLOR_CHOICES = Object.keys(baseColors) as BaseColor[]
+
+/** The themes (and chart colours) a base colour allows that have a palette. */
+export function themeChoices(baseColor: BaseColor): Theme[] {
+  return themesFor(baseColor).filter((theme) => theme in themeColors)
+}
 
 /** `default-translucent` as "Default translucent". */
 const title = (value: string) =>
@@ -47,9 +63,9 @@ export function designChoices(
       "Style",
       STYLES.map((style) => ({ value: style, label: STYLE_INFO[style].title })),
     ],
-    ["baseColor", "Base colour", plain(BASE_COLORS)],
-    ["theme", "Theme", plain(themesFor(system.baseColor))],
-    ["chartColor", "Chart colours", plain(themesFor(system.baseColor))],
+    ["baseColor", "Base colour", plain(BASE_COLOR_CHOICES)],
+    ["theme", "Theme", plain(themeChoices(system.baseColor))],
+    ["chartColor", "Chart colours", plain(themeChoices(system.baseColor))],
     ["font", "Font", fonts],
     [
       "fontHeading",

@@ -5,12 +5,17 @@ import {
   useRouterState,
 } from "@tanstack/react-router"
 import { css, props as styleProps } from "@kirana-style/core"
+import { PlusSignIcon } from "@hugeicons/core-free-icons"
 
 import { Customizer } from "@/components/customizer"
+import { NewButton, REPOSITORY } from "@/components/site-header"
 import { SiteDocsProvider } from "@/components/docs-config"
-import { REPOSITORY } from "@/components/site-header"
 import docsCss from "@/styles/docs.css?url"
-import { fontSize, fontWeight } from "@workspace/registry/core/scales"
+import {
+  breakpoint,
+  fontSize,
+  fontWeight,
+} from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
 import { DocsLayout } from "@workspace/docs-ui/docs-layout.tsx"
@@ -23,11 +28,13 @@ const styles = {
     color: theme.foreground,
     textDecorationLine: "none",
   }),
+  // New is a tab from lg up; below it, where the tabs are in the menu, it is in the bar.
+  narrow: css({ display: { base: "contents", [breakpoint.lg]: "none" } }),
 }
 
 /**
  * The documentation chrome, for `/docs` and everything under it: docs-ui's frame with the site's
- * name, the GitHub link and the colour mode. A layout route rather than a wrapper inside the page,
+ * name, the GitHub link and the colour mode, and New as a tab after Registry, as the site's header has it. A layout route rather than a wrapper inside the page,
  * so the sidebar keeps its scroll position and open sections between pages.
  */
 export const Route = createFileRoute("/docs")({
@@ -49,7 +56,6 @@ function Docs() {
         }
         actions={
           <>
-            <Customizer />
             <Button
               variant="ghost"
               size="sm"
@@ -59,11 +65,16 @@ function Docs() {
               GitHub
             </Button>
             <ThemeMenu />
+            <span sx={styles.narrow}>
+              <NewButton />
+            </span>
           </>
         }
+        links={[{ label: "New", href: "/create", icon: PlusSignIcon }]}
       >
         <Outlet />
       </DocsLayout>
+      <Customizer />
     </SiteDocsProvider>
   )
 }

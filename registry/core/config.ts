@@ -401,10 +401,13 @@ function isValue<Name extends Axis>(
  * rules between axes apply, as shadcn/ui's customizer applies them:
  *
  * - the base must be one the framework offers, else the framework's first;
- * - the theme and the chart colour must be the base colour or a hue, else the base colour and the
- *   theme;
- * - Lyra and Sera draw square corners (radius `none`); Rhea has no `large` (it falls back to
- *   `default`).
+ * - the theme and the chart colour must be the base colour or a hue, else the base colour;
+ * - a heading font that is the body font is `inherit`, so it follows a later change of font;
+ * - the bold menu accent is subtle on a translucent menu.
+ *
+ * The radius is kept as chosen: Lyra and Sera draw square corners and Rhea has no large radius in
+ * the stylesheet (`root.ts`), not by rewriting the choice, so it comes back when the style changes,
+ * as on shadcn/ui's site.
  */
 export function resolveDesignSystem(
   asked: Partial<Record<Axis, string | undefined>>
@@ -437,10 +440,10 @@ export function resolveDesignSystem(
   if (!bases.includes(system.base)) system.base = bases[0]!
   const themes = themesFor(system.baseColor)
   if (!themes.includes(system.theme)) system.theme = system.baseColor
-  if (!themes.includes(system.chartColor)) system.chartColor = system.theme
-  if (system.style === "lyra" || system.style === "sera") system.radius = "none"
-  if (system.style === "rhea" && system.radius === "large")
-    system.radius = "default"
+  if (!themes.includes(system.chartColor)) system.chartColor = system.baseColor
+  if (system.fontHeading === system.font) system.fontHeading = "inherit"
+  if (system.menuAccent === "bold" && system.menuColor.endsWith("-translucent"))
+    system.menuAccent = "subtle"
 
   return { system, unknown }
 }

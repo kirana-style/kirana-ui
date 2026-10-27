@@ -10,8 +10,7 @@ keywords: [theme, colours, base colour, chart colours, tokens, css variables]
 
 Three axes choose the colours, as on shadcn/ui's site:
 
-- **Base colour**, the greys: Neutral, Stone, Zinc, Gray, Mauve, Olive, Mist or
-  Taupe. It sets the background, the text, the borders and every muted surface.
+- **Base colour**, the greys: Neutral, Stone, Zinc, Mauve, Olive, Mist or Taupe. It sets the background, the text, the borders and every muted surface.
 - **Theme**, the accent: the base colour's own, or a hue (Amber, Blue, Cyan,
   Emerald, Fuchsia, Green, Indigo, Lime, Orange, Pink, Purple, Red, Rose, Sky,
   Teal, Violet or Yellow). It sets the primary colour and the ring.

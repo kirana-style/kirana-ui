@@ -19,6 +19,7 @@
     "@fontsource-variable/inter": "catalog:",
     "@hugeicons/core-free-icons": "catalog:",
     "@kirana-style/core": "catalog:",
+    "@kirana-style/states": "catalog:",
     "@tanstack/markdown": "^1.0.0",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",

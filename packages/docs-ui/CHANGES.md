@@ -55,7 +55,13 @@ Candidates for the Kirana copy, which would serve any registry's docs:
 
 - `markdown/preview.tsx` (new), registered as `preview` in `createMarkdownComponents`:
   `<!-- ::preview item="…" height="…" -->`, an item's live preview in an iframe, from
-  `DocsConfig.previewSrc` (new, optional), with the page's colour mode as `?theme=`.
+  `DocsConfig.previewSrc` (new, optional). The frame is created once the page has hydrated, so it
+  loads once, at its final address; the colour mode is not in the address (the framed page reads
+  the site's mode and follows the theme provider's channel).
+
+- `docs-layout.tsx`: `links` (new, optional), links after the last tab drawn as tabs and never
+  active (the site's New, to its editor). The collapsed sidebar is a rail holding the button that
+  opens it again, no longer a column of the tabs' icons, which repeated the tab row beside it.
 
 - `combination.ts` (new): the framework and base a component page shows, one choice for the whole
   site, kept in localStorage (`docs-ui:combination`), from `DocsConfig.combinations` (new).

@@ -93,19 +93,39 @@ describe("resolveDesignSystem", () => {
       theme: "blue",
       chartColor: "zinc",
     }).system
-    expect(hue.chartColor).toBe("blue")
+    expect(hue.chartColor).toBe("stone")
   })
 
-  it("gives Lyra and Sera square corners, and Rhea no large ones", () => {
-    for (const style of ["lyra", "sera"])
+  it("keeps the radius as chosen whatever the style, as shadcn/ui's site does", () => {
+    // Lyra and Sera are square and Rhea has no large radius in the stylesheet, so the choice
+    // survives a change of style.
+    for (const style of ["lyra", "sera", "rhea"])
       expect(
         resolveDesignSystem({ style, radius: "large" }).system.radius
-      ).toBe("none")
+      ).toBe("large")
+  })
+
+  it("stores a heading font that is the body font as inherit", () => {
     expect(
-      resolveDesignSystem({ style: "rhea", radius: "large" }).system.radius
-    ).toBe("default")
+      resolveDesignSystem({ font: "geist", fontHeading: "geist" }).system
+        .fontHeading
+    ).toBe("inherit")
     expect(
-      resolveDesignSystem({ style: "rhea", radius: "small" }).system.radius
-    ).toBe("small")
+      resolveDesignSystem({ font: "geist", fontHeading: "inter" }).system
+        .fontHeading
+    ).toBe("inter")
+  })
+
+  it("makes the bold accent subtle on a translucent menu", () => {
+    expect(
+      resolveDesignSystem({
+        menuColor: "inverted-translucent",
+        menuAccent: "bold",
+      }).system.menuAccent
+    ).toBe("subtle")
+    expect(
+      resolveDesignSystem({ menuColor: "inverted", menuAccent: "bold" }).system
+        .menuAccent
+    ).toBe("bold")
   })
 })

@@ -9,7 +9,11 @@
  */
 import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { css, props as styleProps } from "@kirana-style/core"
-import { ArrowDown01Icon, Menu01Icon } from "@hugeicons/core-free-icons"
+import {
+  ArrowDown01Icon,
+  Menu01Icon,
+  SidebarLeftIcon,
+} from "@hugeicons/core-free-icons"
 import { motion, useReducedMotion } from "motion/react"
 
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
@@ -43,7 +47,10 @@ import { DocsSearch } from "./search.tsx"
 import { DocsSidebar } from "./sidebar.tsx"
 
 const SIDEBAR = "17rem"
-/** The collapsed sidebar: a column of the tabs' icons. */
+/**
+ * The collapsed sidebar: a rail holding the button that opens it again. Not the tabs' icons: the
+ * tabs are in the header already, and a second column of them read as a second navigation.
+ */
 const RAIL = "3.25rem"
 
 const styles = {
@@ -226,32 +233,14 @@ const styles = {
       transitionDuration: duration[150],
     },
   }),
-  railNav: css({
+  rail: css({
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: spacing[1],
+    justifyContent: "center",
+    // The open sidebar's first label sits here; the button takes its line.
+    marginBlockStart: `calc(${spacing[6]} * -1)`,
     paddingBlock: spacing[3],
   }),
-  railLink: css({
-    display: "grid",
-    placeItems: "center",
-    width: spacing[9],
-    height: spacing[9],
-    borderRadius: radius.md,
-    color: {
-      base: theme.mutedForeground,
-      ":hover": theme.foreground,
-      "[data-active]": accent.base,
-    },
-    backgroundColor: {
-      base: "transparent",
-      ":hover": alpha.muted50,
-      "[data-active]": tint(12),
-    },
-    transitionProperty: "color, background-color",
-    transitionDuration: duration[150],
-  }),
+
   // The sheet is a column: title, tabs, then the sidebar taking what is left,
   // so the sidebar's own scroller is bounded and scrolls.
   sheet: css({
@@ -425,6 +414,7 @@ export function DocsLayout({
   current,
   logo,
   actions,
+  links = [],
   banner,
   children,
 }: {
@@ -432,6 +422,11 @@ export function DocsLayout({
   current: string
   logo: React.ReactNode
   actions?: React.ReactNode
+  /**
+   * Links after the last tab, drawn as tabs (the site's New, to its editor): they lead out of the
+   * docs, so none is ever the active one.
+   */
+  links?: readonly { label: string; href: string; icon?: unknown }[]
   /** A strip above the bar, e.g. a pre-release notice; it scrolls away. */
   banner?: React.ReactNode
   children: React.ReactNode
@@ -589,6 +584,24 @@ export function DocsLayout({
                 </Link>
               )
             })}
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                sx={[accents.neutral, styles.tab]}
+              >
+                <span sx={styles.tabContent}>
+                  {link.icon ? (
+                    <Icon
+                      icon={link.icon as IconProps["icon"]}
+                      size="0.875rem"
+                      sx={styles.tabIcon}
+                    />
+                  ) : null}
+                  {link.label}
+                </span>
+              </Link>
+            ))}
           </nav>
           {/* A wrapper takes the display: on the field itself it would replace the field's own flex. */}
           <div sx={styles.search}>
@@ -599,27 +612,17 @@ export function DocsLayout({
       <div sx={styles.body} data-collapsed={collapsed ? "" : undefined}>
         <aside sx={styles.sidebar}>
           {collapsed ? (
-            <nav sx={styles.railNav} aria-label="Documentation sections">
-              {tabs.map((tab) => (
-                <Link
-                  key={tab.id}
-                  href={tab.href}
-                  aria-label={tab.label}
-                  title={tab.label}
-                  data-active={tab.id === active?.id ? "" : undefined}
-                  sx={[accents[tab.accent], styles.railLink]}
-                >
-                  {tab.icon ? (
-                    <Icon
-                      icon={tab.icon as IconProps["icon"]}
-                      size="1.125rem"
-                    />
-                  ) : (
-                    tab.label.slice(0, 1)
-                  )}
-                </Link>
-              ))}
-            </nav>
+            <div sx={styles.rail}>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Expand the sidebar"
+                title="Expand the sidebar (Ctrl+B)"
+                onClick={toggleCollapsed}
+              >
+                <Icon icon={SidebarLeftIcon} />
+              </Button>
+            </div>
           ) : (
             // The search is in the bar from lg up, so the sidebar leads with its pages.
             <DocsSidebar current={current} section={section} search={false} />

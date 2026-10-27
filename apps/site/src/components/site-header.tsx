@@ -1,18 +1,23 @@
 /**
  * The site's header, built from the registry's own components (Base UI's), so it takes the design
  * the reader chose, like every page of the site. Kirana's brand stays fixed: the name and the link
- * to GitHub. Each section joins the navigation with its first page. Below `md` the sections are in
- * a menu, and the GitHub link shows from `sm`, so the bar fits a phone.
+ * to GitHub. Its sections are the docs' tabs (`TABS`), in their order and with their icons, so the
+ * header reads the same on every page, docs or not; New, to `/create`, is a section after the last one, as
+ * it is in the docs. On `/create` (`designer`) the bar spans the page, as the editor does, and New
+ * is left out, since that is where it leads. Below `md` the sections are in a menu, and the GitHub
+ * link shows from `sm`, so the bar fits a phone.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { Link } from "@tanstack/react-router"
 import {
   ComputerIcon,
   Menu01Icon,
+  PlusSignIcon,
   Moon02Icon,
   Sun03Icon,
 } from "@hugeicons/core-free-icons"
 
+import { TABS } from "@/components/docs-config"
 import {
   breakpoint,
   fontSize,
@@ -28,24 +33,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@workspace/registry/bases/react-base/ui/dropdown-menu"
-import { Customizer } from "@/components/customizer"
 import { useThemeHotkey } from "@workspace/shell/theme-toggle"
 import { Icon } from "@workspace/ui/primitives/icon"
+import type { IconProps } from "@workspace/ui/primitives/icon"
 import { schemeMarker } from "@workspace/ui/theme/scheme-marker"
 import { useTheme } from "@workspace/ui/theme/theme-provider"
 
 export const REPOSITORY = "https://github.com/kirana-style/kirana-ui"
 
-/** The sections, in shadcn/ui's order, as their pages land. */
-const SECTIONS = [
-  { label: "Docs", link: { to: "/docs" } },
-  {
-    label: "Components",
-    link: { to: "/docs/$", params: { _splat: "components" } },
-  },
-  { label: "Create", link: { to: "/create" } },
-  { label: "Demo", link: { to: "/demo" } },
-] as const
+/** A docs tab's link, as the router names it. */
+const tabLink = (href: string) =>
+  href === "/docs"
+    ? ({ to: "/docs" } as const)
+    : ({
+        to: "/docs/$",
+        params: { _splat: href.replace(/^\/docs\//, "") },
+      } as const)
 
 const styles = {
   header: css({
@@ -66,6 +69,8 @@ const styles = {
     maxWidth: "80rem",
     paddingInline: { base: space[4], [breakpoint.md]: space[6] },
   }),
+  // `/create`'s bar spans the page, its edges on the editor's.
+  full: css({ maxWidth: "none" }),
   brand: css({
     marginInlineEnd: space[4],
     fontSize: fontSize.sm,
@@ -126,10 +131,20 @@ function ModeButton() {
   )
 }
 
-export function SiteHeader() {
+/** shadcn/ui's "New" in the header: the editor, where a project starts. */
+export function NewButton() {
+  return (
+    <Button size="sm" render={<Link to="/create" />} nativeButton={false}>
+      <Icon icon={PlusSignIcon} />
+      New
+    </Button>
+  )
+}
+
+export function SiteHeader({ designer = false }: { designer?: boolean }) {
   return (
     <header sx={styles.header}>
-      <div sx={styles.bar}>
+      <div sx={[styles.bar, designer && styles.full]}>
         <Link to="/" {...styleProps(styles.brand)}>
           kirana/ui
         </Link>
@@ -142,14 +157,23 @@ export function SiteHeader() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             <DropdownMenuGroup>
-              {SECTIONS.map((section) => (
+              {TABS.map((tab) => (
                 <DropdownMenuItem
-                  key={section.label}
-                  render={<Link {...section.link} />}
+                  key={tab.id}
+                  render={<Link {...tabLink(tab.href)} />}
                 >
-                  {section.label}
+                  {tab.icon ? (
+                    <Icon icon={tab.icon as IconProps["icon"]} />
+                  ) : null}
+                  {tab.label}
                 </DropdownMenuItem>
               ))}
+              {designer ? null : (
+                <DropdownMenuItem render={<Link to="/create" />}>
+                  <Icon icon={PlusSignIcon} />
+                  New
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem render={<a href={REPOSITORY} />}>
                 GitHub
               </DropdownMenuItem>
@@ -157,20 +181,31 @@ export function SiteHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
         <nav sx={styles.nav} aria-label="Sections">
-          {SECTIONS.map((section) => (
+          {TABS.map((tab) => (
             <Button
-              key={section.label}
+              key={tab.id}
               variant="ghost"
               size="sm"
-              render={<Link {...section.link} />}
+              render={<Link {...tabLink(tab.href)} />}
               nativeButton={false}
             >
-              {section.label}
+              {tab.icon ? <Icon icon={tab.icon as IconProps["icon"]} /> : null}
+              {tab.label}
             </Button>
           ))}
+          {designer ? null : (
+            <Button
+              variant="ghost"
+              size="sm"
+              render={<Link to="/create" />}
+              nativeButton={false}
+            >
+              <Icon icon={PlusSignIcon} />
+              New
+            </Button>
+          )}
         </nav>
         <div sx={styles.end}>
-          <Customizer />
           <Button
             variant="ghost"
             size="sm"

@@ -46,6 +46,30 @@ function frameOptions(frame: HTMLIFrameElement) {
   }
 }
 
+/** Sends a design to every preview framed on the page, each with its own options. */
+function frameDesign(code: string) {
+  for (const frame of document.querySelectorAll("iframe")) {
+    frame.contentWindow?.postMessage(
+      { type: DESIGN_MESSAGE, data: { preset: code, ...frameOptions(frame) } },
+      location.origin
+    )
+  }
+}
+
+/**
+ * Shows a design on the page and its previews without saving it, as a picker does while the pointer
+ * rests on a value; `null` shows the saved one again.
+ */
+export function previewDesign(asked: DesignSystem | null) {
+  const saved = readPageDesign(location.search, document.cookie)
+  const system = asked ? resolveDesignSystem(asked).system : saved.system
+  applyDocumentAttributes(
+    document.documentElement,
+    documentAttributes({ system, options: saved.options })
+  )
+  frameDesign(encodePreset(system))
+}
+
 export function setDesign(asked: DesignSystem) {
   const current = readPageDesign(location.search, document.cookie)
   const system = resolveDesignSystem(asked).system
@@ -70,14 +94,7 @@ export function setDesign(asked: DesignSystem) {
     url.search = kept.toString()
     history.replaceState(history.state, "", url)
   }
-  for (const frame of document.querySelectorAll("iframe")) {
-    // Each frame keeps its own options: the preview writes its URL from the message.
-    const own = frameOptions(frame)
-    frame.contentWindow?.postMessage(
-      { type: DESIGN_MESSAGE, data: { preset: code, ...own } },
-      location.origin
-    )
-  }
+  frameDesign(code)
   version++
   for (const listener of listeners) listener()
 }

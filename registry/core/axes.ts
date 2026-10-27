@@ -53,19 +53,15 @@ export const DARK_SCHEME = "@media (prefers-color-scheme: dark)"
 
 /**
  * Conditions on `<html>` itself, one per value an axis can take besides its default (the default
- * is the token's own value, `tokens.ts`). P1 carries the slice's values.
+ * is the token's own value, `tokens.ts`): the radius, the fonts the site loads, the menu accent, and
+ * the styles that change the radius.
  */
 export const on = {
-  baseColor: { stone: '[data-base-color="stone"]' },
-  theme: {
-    stone: '[data-theme="stone"]',
-    blue: '[data-theme="blue"]',
-    rose: '[data-theme="rose"]',
-  },
-  chartColor: {
-    stone: '[data-chart-color="stone"]',
-    blue: '[data-chart-color="blue"]',
-    rose: '[data-chart-color="rose"]',
+  // The colour axes' conditions are written by `scripts/import-palettes.ts` into `colors.ts`.
+  style: {
+    lyra: '[data-style="lyra"]',
+    sera: '[data-style="sera"]',
+    rhea: '[data-style="rhea"]',
   },
   font: { geist: '[data-font="geist"]' },
   fontHeading: {

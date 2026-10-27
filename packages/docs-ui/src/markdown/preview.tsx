@@ -3,9 +3,14 @@
  * item's live preview, framed on the page as shadcn/ui's component preview is (a bordered box, the
  * item centred in it). The page that draws the item is the site's (`DocsConfig.previewSrc`), shown
  * in an iframe, so it renders in its own framework and design. With `combinations`, a picker above
- * it chooses the framework and base, the reader's choice for the whole site (`combination.ts`). The
- * frame names the page's colour mode (`?theme=`), so it follows the site's switch.
+ * it chooses the framework and base, the reader's choice for the whole site (`combination.ts`).
+ *
+ * The frame is created once the page has hydrated, so its first address is the final one: the
+ * prerendered page knows neither the reader's combination nor anything saved, and a frame created
+ * before would load twice. The colour mode is not in the address: the framed page reads the site's
+ * mode as it loads and follows a change through the theme provider's channel.
  */
+import { useSyncExternalStore } from "react"
 import { css } from "@kirana-style/core"
 
 import {
@@ -13,7 +18,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
-import { useTheme } from "@workspace/ui/theme/theme-provider"
 
 import {
   chooseCombination,
@@ -73,6 +77,10 @@ export function CombinationPicker({
   )
 }
 
+const subscribeNever = () => () => {}
+const isClient = () => true
+const isServer = () => false
+
 export function MarkdownPreview({
   item,
   height = "360",
@@ -83,7 +91,7 @@ export function MarkdownPreview({
   combinations?: string
 }) {
   const { previewSrc } = useDocs()
-  const { mode } = useTheme()
+  const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
   const only = combinationList(combinations)
   const { available, current } = useCombination(only)
   if (!item || !previewSrc)
@@ -94,13 +102,17 @@ export function MarkdownPreview({
       {only ? (
         <CombinationPicker available={available} current={current} />
       ) : null}
-      <iframe
-        title={`${item} preview`}
-        src={`${src}${src.includes("?") ? "&" : "?"}theme=${mode}`}
-        loading="lazy"
-        height={height}
-        sx={styles.frame}
-      />
+      {hydrated ? (
+        <iframe
+          title={`${item} preview`}
+          src={src}
+          loading="lazy"
+          height={height}
+          sx={styles.frame}
+        />
+      ) : (
+        <div style={{ height: `${height}px` }} sx={styles.frame} />
+      )}
     </div>
   )
 }

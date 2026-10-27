@@ -108,6 +108,7 @@ export const ITEMS: Item[] = [
     files: () => [
       "core/attributes.ts",
       "core/axes.ts",
+      "core/colors.ts",
       "core/config.ts",
       "core/context.ts",
       "core/kirana.ts",

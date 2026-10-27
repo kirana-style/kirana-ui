@@ -101,14 +101,28 @@ export const TEMPLATES = {
 /** Where the registry is served until `ui.kirana.style` is attached (CLI-10). */
 const REGISTRY = "https://ui.kirana-style.workers.dev/r"
 
-/** The command that starts a project in this design, with `kirana-style ui`. */
-export function initCommand(system: DesignSystem, template: string) {
+/**
+ * What starts a project in this design, after the package manager's runner (`npx`, `pnpm dlx` …):
+ * `@kirana-style/registry init` with the template, the framework and base, the preset, and the
+ * registry where it is served until `ui.kirana.style` is attached.
+ */
+export function initRun(system: DesignSystem, template: string) {
   return [
-    `npx @kirana-style/registry init --template ${template} my-app`,
-    `  --framework ${system.framework} --base ${system.base}`,
-    `  --preset ${encodePreset(system)}`,
-    `  --registry @kirana=${REGISTRY}/{name}.json`,
-  ].join(" \\\n")
+    `@kirana-style/registry init --template ${template} my-app`,
+    `--framework ${system.framework} --base ${system.base}`,
+    `--preset ${encodePreset(system)}`,
+    `--registry @kirana=${REGISTRY}/{name}.json`,
+  ].join(" ")
+}
+
+/** The same with npm's runner. */
+export function initCommand(system: DesignSystem, template: string) {
+  return `npx ${initRun(system, template)}`
+}
+
+/** What changes an existing project's design to this one: `kirana-style ui preset`. */
+export function presetRun(system: DesignSystem) {
+  return `kirana-style ui preset ${encodePreset(system)}`
 }
 
 /**

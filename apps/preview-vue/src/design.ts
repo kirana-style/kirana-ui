@@ -6,6 +6,7 @@
 import {
   applyDocumentAttributes,
   documentAttributes,
+  MODE_COOKIE,
   forwardModeKey,
   listenForDesign,
   previewQuery,
@@ -20,6 +21,16 @@ export const design = ref(readPageDesign(location.search, document.cookie))
 export function followDesign() {
   const root = document.documentElement
   root.dataset.mode = readColourMode(location.search, document.cookie)
+  // The site's theme provider tells every page of the site a change of mode on this channel.
+  if (typeof BroadcastChannel !== "undefined")
+    new BroadcastChannel(MODE_COOKIE).onmessage = (event: MessageEvent) => {
+      if (
+        event.data === "light" ||
+        event.data === "dark" ||
+        event.data === "system"
+      )
+        root.dataset.mode = event.data
+    }
   applyDocumentAttributes(root, documentAttributes(design.value))
   forwardModeKey(window)
   listenForDesign(window, (next) => {
