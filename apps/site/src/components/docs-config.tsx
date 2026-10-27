@@ -2,7 +2,11 @@
  * The site's docs, as docs-ui needs them: its link, its search, its data, its tabs and where an
  * item's preview is served.
  */
-import { BookOpen01Icon } from "@hugeicons/core-free-icons"
+import {
+  BookOpen01Icon,
+  PackageIcon,
+  PaintBrush01Icon,
+} from "@hugeicons/core-free-icons"
 import { useRouter } from "@tanstack/react-router"
 
 import { DocsProvider } from "@workspace/docs-ui/provider.tsx"
@@ -12,15 +16,31 @@ import { DocsLink } from "@/components/docs-link"
 import { NAV, PAGES } from "@/generated/content.gen"
 import { loadSearch, search } from "@/lib/search"
 
-/** Tabs group sections; a page's URL never depends on its tab. One while the docs are one section. */
+/** Tabs group sections; a page's URL never depends on its tab. */
 export const TABS: readonly DocsTab[] = [
   {
     id: "docs",
     label: "Docs",
     href: "/docs",
-    sections: ["start"],
+    sections: ["start", "design"],
     accent: "neutral",
     icon: BookOpen01Icon,
+  },
+  {
+    id: "kirana",
+    label: "Kirana",
+    href: "/docs/kirana/how-styles-are-built",
+    sections: ["kirana"],
+    accent: "neutral",
+    icon: PaintBrush01Icon,
+  },
+  {
+    id: "registry",
+    label: "Registry",
+    href: "/docs/registry",
+    sections: ["registry"],
+    accent: "neutral",
+    icon: PackageIcon,
   },
 ]
 
