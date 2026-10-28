@@ -67,9 +67,12 @@ export const font = defineTokens(
 export const alpha = defineTokens(
   "alpha",
   {
+    background10: `color-mix(in oklab, ${theme.background} 10%, transparent)`,
+    background20: `color-mix(in oklab, ${theme.background} 20%, transparent)`,
     foreground5: `color-mix(in oklab, ${theme.foreground} 5%, transparent)`,
     foreground10: `color-mix(in oklab, ${theme.foreground} 10%, transparent)`,
     foreground60: `color-mix(in oklab, ${theme.foreground} 60%, transparent)`,
+    mutedForeground10: `color-mix(in oklab, ${theme.mutedForeground} 10%, transparent)`,
     primary5: `color-mix(in oklab, ${theme.primary} 5%, transparent)`,
     primary10: `color-mix(in oklab, ${theme.primary} 10%, transparent)`,
     primary20: `color-mix(in oklab, ${theme.primary} 20%, transparent)`,

@@ -195,6 +195,10 @@ export const ITEMS: Item[] = [
     "What a checkbox, a radio and a switch share: their edge, fill and rings over their states."
   ),
   sharedStyles(
+    "scope",
+    "Relations a component reads of another it may be installed without: a tooltip, an input group."
+  ),
+  sharedStyles(
     "field-scope",
     "A Field's relation, and the width a control takes as a Field's child."
   ),
@@ -261,6 +265,51 @@ export const ITEMS: Item[] = [
     "switch",
     "Switch",
     "A control that allows the user to toggle between checked and not checked.",
+    ["react"]
+  ),
+  component("kbd", "Kbd", "Used to display textual user input from keyboard.", [
+    "react",
+  ]),
+  component(
+    "spinner",
+    "Spinner",
+    "An indicator that can be used to show a loading state.",
+    ["react"]
+  ),
+  component(
+    "toggle",
+    "Toggle",
+    "A two-state button that can be either on or off.",
+    ["react"]
+  ),
+  component(
+    "toggle-group",
+    "Toggle Group",
+    "A set of two-state buttons that can be toggled on or off.",
+    ["react"]
+  ),
+  component(
+    "native-select",
+    "Native Select",
+    "A styled native HTML select element with consistent design system integration.",
+    ["react"]
+  ),
+  component(
+    "slider",
+    "Slider",
+    "An input where the user selects a value from within a given range.",
+    ["react"]
+  ),
+  component(
+    "input-group",
+    "Input Group",
+    "Add addons, buttons, and helper content to inputs.",
+    ["react"]
+  ),
+  component(
+    "input-otp",
+    "Input OTP",
+    "Accessible one-time password component with copy-paste functionality.",
     ["react"]
   ),
   component("table", "Table", "A responsive table component.", ["react"]),

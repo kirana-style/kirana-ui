@@ -16,6 +16,7 @@
     "@kirana-style/states": "catalog:",
     "@tanstack/charts": "catalog:",
     "d3-shape": "catalog:",
+    "input-otp": "catalog:",
     "lucide": "catalog:",
     "react": "catalog:",
     "react-aria-components": "catalog:",

@@ -133,6 +133,10 @@ The `Field` family is designed for composing accessible forms. A typical field i
 
 <!-- ::preview item="field-select" height="360" combinations="react/base,react/aria" -->
 
+## Slider
+
+<!-- ::preview item="field-slider" height="360" combinations="react/base,react/aria" -->
+
 ## Fieldset
 
 <!-- ::preview item="field-fieldset" height="360" combinations="react/base,react/aria" -->
