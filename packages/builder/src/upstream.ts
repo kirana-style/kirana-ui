@@ -37,7 +37,15 @@ export type Manifest = {
 /** An item ported from upstream: a component, an example page or a block. */
 export type Ported = {
   name: string
-  kind: "component" | "example" | "block" | "chart"
+  kind: "component" | "example" | "block" | "chart" | "app"
+}
+
+/**
+ * Items ported from upstream's site rather than its registry: the site's own files they came from
+ * (typeset's stylesheet is the `(typeset)` route's, served at `/typeset.css`).
+ */
+export const APP_FILES: Record<string, readonly string[]> = {
+  typeset: ["apps/v4/app/(app)/(typeset)/typeset.css"],
 }
 
 /** Upstream's repository read at a commit, through git. */
@@ -164,6 +172,10 @@ export function filesOf(
   item: Ported
 ): string[] {
   const bases = ["base", "aria"]
+  if (item.kind === "app")
+    return (APP_FILES[item.name] ?? []).filter(
+      (path) => upstream.read(ref, path) !== undefined
+    )
   // Upstream's charts are only in its `new-york-v4` registry, the one place they are ported from.
   if (item.kind === "chart") {
     const path = `${V4}/new-york-v4/charts/${item.name}.tsx`

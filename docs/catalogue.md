@@ -238,6 +238,7 @@ property. The markup in
 | `page.styles.ts`            | `page.document`, `page.body`, `page.example`                                                                                                                                                                                                                                                                                                  | The colour scheme on `<html>`; the page's background, text colour and font; a demo's frame, centring it as upstream's component preview does                                                                                                                                     |
 | `example.styles.ts`         | `example.page` `.wrapper` `.oneColumn` `.root` `.title` `.content` `.centred` `.row`                                                                                                                                                                                                                                                          | The frame upstream's examples sit in on a preview page; the site's, not installable                                                                                                                                                                                              |
 | `reset.css`                 | the `reset` layer                                                                                                                                                                                                                                                                                                                             | Tailwind's preflight as far as the components rely on it; no pointer cursor                                                                                                                                                                                                      |
+| `typeset.css`               | the `typeset` layer: rendered markdown in a `typeset` container (shadcn/ui's, on `--typeset-*` variables)                                                                                                                                                                                                                                     | plain CSS: its rules reach descendants by combinators; `typeset.styles.ts`'s `typeset` handle sets the variables from the tokens                                                                                                                                                 |
 
 A chart is a TanStack Charts definition handed to `ChartContainer` with a
 `ChartConfig`. The config names each series' colour by its token,
@@ -456,7 +457,15 @@ cartesian ones as `chart-example` is, the pie, radar and radial ones on TanStack
 entry, with d3-shape's curves where Recharts draws `type="natural"`. `/colors` is upstream's
 colours page (`routes/colors.tsx`, `components/colors/`, the data in `lib/scale-colors.ts`): every
 palette of `@kirana-style/preset-scales`, each shade copied as a Kirana token (`color.red[500]`),
-its `oklch()` value or hex, the format one choice for the page. The code views share
+its `oklch()` value or hex, the format one choice for the page. `/typeset` is upstream's typeset builder
+(`routes/typeset.tsx`, `components/typeset/`, the model in `lib/typeset.ts`): the body, heading
+and mono fonts, size, leading, flow and measure, each previewed when pointed at, the choices in the
+URL's search; the preview a frame, `/preview/typeset/<item>` (docs, chat, article, changelog,
+notes), which takes each change by message and loads the fonts a typeset names (`fonts.ts`, the
+site's other pages carrying none of them); the docs panel (from `xl`, Get Code below it) writes the
+steps and an agent's prompt with the picks (`code.ts`, loaded with the page only). R shuffles, ⇧R
+resets, Ctrl/⌘ Z undoes, in the page and the frame. The `typeset` item installs `typeset.css`, in
+the `typeset` layer that `installConfig` lists after `reset`, and its `typeset` handle. The code views share
 `lib/installed-files.ts`: an item's registry document, its files for a combination and style, and
 the highlighter loaded on demand.
 The docs sidebar collapses (Ctrl+B) to a rail holding the button that opens it again. `/docs` is the docs framework (`packages/docs-core` and

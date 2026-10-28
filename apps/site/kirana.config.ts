@@ -13,6 +13,7 @@ export default defineConfig({
     exclusiveAcross: registryConfig.conditions.exclusiveAcross,
   },
   // The hand-written reset and element styles in @workspace/ui/globals.css, and the registry's
-  // reset on preview pages, sit below every Kirana rule, in development and production alike.
-  layers: { before: ["reset", "base"] },
+  // reset on preview pages, and `typeset.css` (the typeset builder and its previews), sit below
+  // every Kirana rule, in development and production alike.
+  layers: { before: ["reset", "base", "typeset"] },
 })

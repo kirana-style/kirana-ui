@@ -1,12 +1,12 @@
 /**
  * The site's header, as the Kirana site's: the petal K and the wordmark ("kirana ui", where Kirana
- * writes "kirana style"), the links and menus (`header/`: Components, Blocks and Charts of their
+ * writes "kirana style"), the links and menus (`header/`: Components, Blocks, Charts and Typeset of their
  * own, Docs (the colours with it) and Community as mega menus), then the docs' search, the GitHub mark, the sponsor
  * heart and Create, the pill in the place of Kirana's Quick start. Frosted, so the page shows
  * through. The colour mode is in the footer, as on the Kirana site, and `D` steps it on every page.
  * The bar stands in the page's rail (`page/rail.tsx`), its rules running on down the page; on
- * `/create` (`designer`) it spans the page, as the editor does, and Create is left out,
- * since that is where it leads. Below `lg` the links and menus are a sheet.
+ * `/create` and `/typeset` (`designer`) it spans the page, as the editors do, and on `/create`
+ * Create is left out, since that is where it leads. Below `lg` the links and menus are a sheet.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { Link } from "@tanstack/react-router"
@@ -146,7 +146,14 @@ export function HeaderActions({ create = true }: { create?: boolean }) {
   )
 }
 
-export function SiteHeader({ designer = false }: { designer?: boolean }) {
+export function SiteHeader({
+  designer = false,
+  create = !designer,
+}: {
+  designer?: boolean
+  /** Create at the bar's end: left out on `/create`, kept on the typeset builder. */
+  create?: boolean
+}) {
   useThemeHotkey()
   const bar = (
     <>
@@ -154,8 +161,8 @@ export function SiteHeader({ designer = false }: { designer?: boolean }) {
       <DesktopNav />
       <div sx={styles.actions}>
         <DocsSearch variant="icon" />
-        <HeaderActions create={!designer} />
-        <MobileNav extra={designer ? [] : [CREATE]} />
+        <HeaderActions create={create} />
+        <MobileNav extra={create ? [CREATE] : []} />
       </div>
     </>
   )

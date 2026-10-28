@@ -20,11 +20,13 @@ import { Route as LicenseRouteImport } from "./routes/license"
 import { Route as OpenSourceRouteImport } from "./routes/open-source"
 import { Route as PartnersRouteImport } from "./routes/partners"
 import { Route as SponsorRouteImport } from "./routes/sponsor"
+import { Route as TypesetRouteImport } from "./routes/typeset"
 import { Route as BlocksIndexRouteImport } from "./routes/blocks.index"
 import { Route as BlocksCategoryRouteImport } from "./routes/blocks.$category"
 import { Route as ChartsIndexRouteImport } from "./routes/charts.index"
 import { Route as ChartsTypeRouteImport } from "./routes/charts.$type"
 import { Route as DocsSplatRouteImport } from "./routes/docs.$"
+import { Route as PreviewTypesetItemRouteImport } from "./routes/preview/typeset.$item"
 import { Route as PreviewReactBaseItemRouteImport } from "./routes/preview/react/$base/$item"
 
 const IndexRoute = IndexRouteImport.update({
@@ -82,6 +84,11 @@ const SponsorRoute = SponsorRouteImport.update({
   path: "/sponsor",
   getParentRoute: () => rootRouteImport,
 } as any)
+const TypesetRoute = TypesetRouteImport.update({
+  id: "/typeset",
+  path: "/typeset",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlocksIndexRoute = BlocksIndexRouteImport.update({
   id: "/",
   path: "/",
@@ -107,6 +114,11 @@ const DocsSplatRoute = DocsSplatRouteImport.update({
   path: "/$",
   getParentRoute: () => DocsRoute,
 } as any)
+const PreviewTypesetItemRoute = PreviewTypesetItemRouteImport.update({
+  id: "/preview/typeset/$item",
+  path: "/preview/typeset/$item",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
   id: "/preview/react/$base/$item",
   path: "/preview/react/$base/$item",
@@ -125,11 +137,13 @@ export interface FileRoutesByFullPath {
   "/open-source": typeof OpenSourceRoute
   "/partners": typeof PartnersRoute
   "/sponsor": typeof SponsorRoute
+  "/typeset": typeof TypesetRoute
   "/blocks/$category": typeof BlocksCategoryRoute
   "/charts/$type": typeof ChartsTypeRoute
   "/docs/$": typeof DocsSplatRoute
   "/blocks/": typeof BlocksIndexRoute
   "/charts/": typeof ChartsIndexRoute
+  "/preview/typeset/$item": typeof PreviewTypesetItemRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesByTo {
@@ -142,11 +156,13 @@ export interface FileRoutesByTo {
   "/open-source": typeof OpenSourceRoute
   "/partners": typeof PartnersRoute
   "/sponsor": typeof SponsorRoute
+  "/typeset": typeof TypesetRoute
   "/blocks/$category": typeof BlocksCategoryRoute
   "/charts/$type": typeof ChartsTypeRoute
   "/docs/$": typeof DocsSplatRoute
   "/blocks": typeof BlocksIndexRoute
   "/charts": typeof ChartsIndexRoute
+  "/preview/typeset/$item": typeof PreviewTypesetItemRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesById {
@@ -162,11 +178,13 @@ export interface FileRoutesById {
   "/open-source": typeof OpenSourceRoute
   "/partners": typeof PartnersRoute
   "/sponsor": typeof SponsorRoute
+  "/typeset": typeof TypesetRoute
   "/blocks/$category": typeof BlocksCategoryRoute
   "/charts/$type": typeof ChartsTypeRoute
   "/docs/$": typeof DocsSplatRoute
   "/blocks/": typeof BlocksIndexRoute
   "/charts/": typeof ChartsIndexRoute
+  "/preview/typeset/$item": typeof PreviewTypesetItemRoute
   "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRouteTypes {
@@ -183,11 +201,13 @@ export interface FileRouteTypes {
     | "/open-source"
     | "/partners"
     | "/sponsor"
+    | "/typeset"
     | "/blocks/$category"
     | "/charts/$type"
     | "/docs/$"
     | "/blocks/"
     | "/charts/"
+    | "/preview/typeset/$item"
     | "/preview/react/$base/$item"
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -200,11 +220,13 @@ export interface FileRouteTypes {
     | "/open-source"
     | "/partners"
     | "/sponsor"
+    | "/typeset"
     | "/blocks/$category"
     | "/charts/$type"
     | "/docs/$"
     | "/blocks"
     | "/charts"
+    | "/preview/typeset/$item"
     | "/preview/react/$base/$item"
   id:
     | "__root__"
@@ -219,11 +241,13 @@ export interface FileRouteTypes {
     | "/open-source"
     | "/partners"
     | "/sponsor"
+    | "/typeset"
     | "/blocks/$category"
     | "/charts/$type"
     | "/docs/$"
     | "/blocks/"
     | "/charts/"
+    | "/preview/typeset/$item"
     | "/preview/react/$base/$item"
   fileRoutesById: FileRoutesById
 }
@@ -239,6 +263,8 @@ export interface RootRouteChildren {
   OpenSourceRoute: typeof OpenSourceRoute
   PartnersRoute: typeof PartnersRoute
   SponsorRoute: typeof SponsorRoute
+  TypesetRoute: typeof TypesetRoute
+  PreviewTypesetItemRoute: typeof PreviewTypesetItemRoute
   PreviewReactBaseItemRoute: typeof PreviewReactBaseItemRoute
 }
 
@@ -321,6 +347,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof SponsorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/typeset": {
+      id: "/typeset"
+      path: "/typeset"
+      fullPath: "/typeset"
+      preLoaderRoute: typeof TypesetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/blocks/": {
       id: "/blocks/"
       path: "/"
@@ -355,6 +388,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/docs/$"
       preLoaderRoute: typeof DocsSplatRouteImport
       parentRoute: typeof DocsRoute
+    }
+    "/preview/typeset/$item": {
+      id: "/preview/typeset/$item"
+      path: "/preview/typeset/$item"
+      fullPath: "/preview/typeset/$item"
+      preLoaderRoute: typeof PreviewTypesetItemRouteImport
+      parentRoute: typeof rootRouteImport
     }
     "/preview/react/$base/$item": {
       id: "/preview/react/$base/$item"
@@ -414,6 +454,8 @@ const rootRouteChildren: RootRouteChildren = {
   OpenSourceRoute: OpenSourceRoute,
   PartnersRoute: PartnersRoute,
   SponsorRoute: SponsorRoute,
+  TypesetRoute: TypesetRoute,
+  PreviewTypesetItemRoute: PreviewTypesetItemRoute,
   PreviewReactBaseItemRoute: PreviewReactBaseItemRoute,
 }
 export const routeTree = rootRouteImport

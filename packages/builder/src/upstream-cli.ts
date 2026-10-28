@@ -32,6 +32,7 @@ import scales from "@kirana-style/preset-scales/preset"
 import { ITEMS, STYLES } from "./items"
 import type { Manifest, Ported } from "./upstream"
 import {
+  APP_FILES,
   REPOSITORY,
   Upstream,
   V4,
@@ -79,7 +80,10 @@ const read = (): Manifest =>
     ? (JSON.parse(readFileSync(MANIFEST, "utf8")) as Manifest)
     : { repository: REPOSITORY, items: {} }
 
-/** Every item the registry ported: its components and blocks, and the site's example pages. */
+/**
+ * Every item the registry ported: its components and blocks, the site's example pages, and what
+ * came from upstream's site (`APP_FILES`).
+ */
 function portedItems(upstream: Upstream, ref: string): Ported[] {
   const components = ITEMS.filter(
     (item) =>
@@ -103,7 +107,11 @@ function portedItems(upstream: Upstream, ref: string): Ported[] {
       name: file.replace(/\.tsx$/, ""),
       kind: "example",
     }))
-  return [...components, ...examples, ...blocks].sort((a, b) =>
+  const app = Object.keys(APP_FILES).map((name): Ported => ({
+    name,
+    kind: "app",
+  }))
+  return [...components, ...examples, ...blocks, ...app].sort((a, b) =>
     a.name.localeCompare(b.name)
   )
 }

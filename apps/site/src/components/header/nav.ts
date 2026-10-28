@@ -1,7 +1,7 @@
 /**
  * What the site header links to, as the Kirana site's `nav.ts` lays its menus out: one list, so
  * the header, the phone's sheet and the footer never disagree. kirana/ui is its components, so
- * they lead, with the blocks and the charts, as links of their own (the colours are under Docs); Docs and Community
+ * they lead, with the blocks, the charts and the typeset builder, as links of their own (the colours are under Docs); Docs and Community
  * are the two menus, each page in one of them. Create, to `/create`, is the button at the end, as
  * the Kirana site's Quick start is.
  */
@@ -22,6 +22,7 @@ import {
   QrCodeIcon,
   RoboticIcon,
   SwatchIcon,
+  TextFontIcon,
   UserGroupIcon,
 } from "@hugeicons/core-free-icons"
 
@@ -111,6 +112,13 @@ export const LINKS: readonly NavLinkItem[] = [
     href: "/charts",
     icon: ChartAreaIcon,
     scene: "still-water",
+  },
+  {
+    title: "Typeset",
+    description: "Typography for rendered markdown, built and previewed",
+    href: "/typeset",
+    icon: TextFontIcon,
+    scene: "heritage-street",
   },
 ]
 
@@ -295,6 +303,7 @@ export const FOOTER: readonly {
       { label: "Blocks", href: "/blocks" },
       { label: "Charts", href: "/charts" },
       { label: "Colors", href: "/colors" },
+      { label: "Typeset", href: "/typeset" },
       { label: "Create", href: "/create" },
       { label: "Registry", href: "/docs/registry" },
     ],

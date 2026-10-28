@@ -24,7 +24,9 @@ And beside it:
 
 - `styles/`, each component's look in every style: `button`, `dialog`, `select`, `dropdown-menu`,
   `tabs`, `chart`, `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
-  modules, with the page's own styles, the frame of upstream's examples and `reset.css`;
+  modules, with the page's own styles, the frame of upstream's examples, `reset.css`, and
+  `typeset.css` with its `typeset` handle (shadcn/ui's typeset, plain CSS in the `typeset` layer,
+  reading `--typeset-*` variables the handle sets from the tokens);
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
   with the `login-01` block; `vue-ark` (Ark UI on Vue) for Button, Card, Dialog, Select,
   DropdownMenu, Skeleton and Tabs; `svelte-ark`, `solid-ark` (Ark UI on Svelte and Solid) and
