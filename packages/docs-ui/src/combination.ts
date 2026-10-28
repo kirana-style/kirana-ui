@@ -4,7 +4,9 @@
  * combinations follow it. Kept in localStorage and read as an external store, as `preferences.ts`
  * keeps the layout's choices: the server renders the first combination, the client the saved one.
  */
-import { useSyncExternalStore } from "react"
+import { use, useSyncExternalStore } from "react"
+
+import { PageContext } from "./page-context.ts"
 
 import { useDocs } from "./provider.tsx"
 
@@ -50,8 +52,12 @@ export function useCombination(only?: readonly string[]) {
     (combination) => !only || only.includes(combination.id)
   )
   const saved = useSyncExternalStore(subscribe, read, () => null)
+  // A page published for one variant shows that one, whatever was saved.
+  const page = use(PageContext)?.variant?.id
   const current =
-    available.find((combination) => combination.id === saved) ?? available[0]
+    available.find((combination) => combination.id === page) ??
+    available.find((combination) => combination.id === saved) ??
+    available[0]
   return { available, current }
 }
 

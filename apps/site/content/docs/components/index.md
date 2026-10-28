@@ -8,9 +8,11 @@ keywords: [components, list, all components]
 
 # Components
 
-Each page shows the component live, how to install it with either CLI, how to use it on
-each base, and the code installing it writes. Choose the framework and base above a
-preview: every page follows the choice. React has every component, on Base UI and React
+Each component has a page per framework and base it is on, at
+`/docs/components/<framework>/<base>/<name>` (`/docs/components/vue/ark/button`): the component
+live, how to install it, how to use it there, and the code installing it writes. The tabs under a
+page's title lead to its other frameworks, and every link to a component follows the one you are
+on. React has every component, on Base UI and React
 Aria; Vue has seven on Ark UI (Button, Card, Dialog, Dropdown Menu, Select, Skeleton and
 Tabs); Svelte and Solid (on Ark UI) and Angular (on ng-primitives) have Button, Card and
 Skeleton so far.

@@ -64,10 +64,10 @@ Each component comes with the ones it needs, and its files land under
 
 ## Frameworks and templates
 
-| Framework | Base                  | Templates checked                        |
-| --------- | --------------------- | ---------------------------------------- |
-| React     | Base UI or React Aria | `vite-react`, `tanstack-start`           |
-| Vue       | Ark UI                | `vite-vue` (the slice's five components) |
+| Framework | Base                  | Templates checked                 |
+| --------- | --------------------- | --------------------------------- |
+| React     | Base UI or React Aria | `vite-react`, `tanstack-start`    |
+| Vue       | Ark UI                | `vite-vue` (its seven components) |
 
 Each combination is installed from an empty folder, built and checked on every
 change to this repository; `tanstack-start` was checked by hand. Next.js's

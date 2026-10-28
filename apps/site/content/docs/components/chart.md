@@ -2,6 +2,7 @@
 title: Chart
 description: Charts on TanStack Charts, each series in one of the design's chart colours.
 section: components
+variants: [react/base, react/aria]
 order: 5
 keywords: [chart, component, base, aria]
 ---
@@ -14,7 +15,7 @@ Charts are drawn with [TanStack Charts](https://tanstack.com/charts), where shad
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add chart" -->
 
@@ -36,6 +37,6 @@ const chartConfig = {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="chart" combinations="react/base,react/aria" -->

@@ -2,6 +2,7 @@
 title: Dialog
 description: A window overlaid on the page.
 section: components
+variants: [react/base, react/aria, vue/ark]
 order: 7
 keywords: [dialog, component, base, aria, ark]
 ---
@@ -12,13 +13,17 @@ keywords: [dialog, component, base, aria, ark]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add dialog" -->
 
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
+<!-- ::start:only react/base,react/aria -->
+
+With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
 
 <!-- ::install run="shadcn@latest add @kirana/dialog" -->
+
+<!-- ::end:only -->
 
 ## Usage
 
@@ -113,10 +118,14 @@ import {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="dialog" combinations="react/base,react/aria,vue/ark" -->
 
 ## Notes per base
 
+<!-- ::start:only react/aria -->
+
 On React Aria, `DialogTrigger` holds both the button and the dialog, which has no separate content part.
+
+<!-- ::end:only -->

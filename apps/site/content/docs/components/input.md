@@ -2,6 +2,7 @@
 title: Input
 description: Displays a form input field.
 section: components
+variants: [react/base, react/aria]
 order: 10
 keywords: [input, component, base, aria]
 ---
@@ -12,7 +13,7 @@ keywords: [input, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add input" -->
 
@@ -32,6 +33,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="input" combinations="react/base,react/aria" -->

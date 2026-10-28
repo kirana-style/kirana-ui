@@ -1,9 +1,41 @@
-import { Link } from "@tanstack/react-router"
+import { Link, useRouterState } from "@tanstack/react-router"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@workspace/registry/lib/sx"
+import { useSavedCombination } from "@workspace/docs-ui/combination.ts"
+
+import { PAGES } from "@/generated/content.gen"
+import { variantOfPath } from "@/lib/variants"
+
+/** Each component's variants by the URL they share: `/docs/components/button` → `vue/ark` → its page. */
+const VARIANT_PAGES = new Map<string, Map<string, string>>()
+for (const page of PAGES) {
+  const variant = page.variant
+  if (!variant) continue
+  const pages = VARIANT_PAGES.get(variant.of) ?? new Map<string, string>()
+  pages.set(variant.id, page.href)
+  if (variant.default) pages.set("default", page.href)
+  VARIANT_PAGES.set(variant.of, pages)
+}
 
 /**
- * A link to a documentation page.
+ * Where a link to a component's shared URL (the nav's, search's, the pager's, a page's own) leads:
+ * the variant the reader is on (the page's, else the one they chose), or the component's default
+ * where it has no page for that one.
+ */
+function useVariantHref(path: string): string {
+  const pages = VARIANT_PAGES.get(path)
+  const here = useRouterState({
+    select: (state) => variantOfPath(state.location.pathname),
+  })
+  const saved = useSavedCombination()
+  if (!pages) return path
+  const chosen = here ?? saved
+  return (chosen && pages.get(chosen)) ?? pages.get("default") ?? path
+}
+
+/**
+ * A link to a documentation page. A link to a component's shared URL leads to the reader's
+ * framework and base (`useVariantHref`).
  *
  * Every page is served by the `/docs/$` splat route, so a plain `to="/docs/x"`
  * does not typecheck. This turns an href from the generated manifest into the
@@ -27,7 +59,8 @@ export function DocsLink({
 
   // The fragment is the router's `hash`, not part of the path: inside the splat
   // it would be encoded (`editor%23hover`) and the page would not be found.
-  const [path = href, hash] = href.split("#", 2)
+  const [shared = href, hash] = href.split("#", 2)
+  const path = useVariantHref(shared)
   // A file the Worker serves (`/llms.txt`, a page's `.md`, `/r/<item>.json`) is not a route.
   if (path.startsWith("/") && /\.\w+$/.test(path)) {
     return (

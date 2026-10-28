@@ -22,6 +22,10 @@ export function createPages(options: {
   const { pages, documents, prefix } = options
   const base = options.basePath ?? "/docs"
   const byHref = new Map(pages.map((page) => [page.href, page]))
+  /** A variant source once, at the URL its variants share, as the nav lists it. */
+  const reading = pages
+    .filter((page) => !page.variant || page.variant.default)
+    .map((page) => (page.variant ? { ...page, href: page.variant.of } : page))
 
   /** The file a page's document lives in, as the glob keys it. */
   const moduleKey = (href: string) => {
@@ -46,13 +50,28 @@ export function createPages(options: {
       return (await load()).default
     },
 
-    /** The pages either side of this one, in reading order. */
+    /**
+     * The default variant of a source published per variant, by the URL they share: where that URL
+     * leads.
+     */
+    defaultVariant(href: string): PageMeta | undefined {
+      return pages.find(
+        (page) => page.variant?.default && page.variant.of === href
+      )
+    },
+
+    /**
+     * The pages either side of this one, in reading order. A variant's neighbours are its source's,
+     * at their shared URLs, which the app's link sends to the reader's variant.
+     */
     neighbours(href: string): { previous?: PageMeta; next?: PageMeta } {
-      const index = pages.findIndex((page) => page.href === href)
+      const own = byHref.get(href)
+      const at = own?.variant?.of ?? href
+      const index = reading.findIndex((page) => page.href === at)
       if (index < 0) return {}
       return {
-        ...(index > 0 ? { previous: pages[index - 1] } : {}),
-        ...(index < pages.length - 1 ? { next: pages[index + 1] } : {}),
+        ...(index > 0 ? { previous: reading[index - 1] } : {}),
+        ...(index < reading.length - 1 ? { next: reading[index + 1] } : {}),
       }
     },
   }

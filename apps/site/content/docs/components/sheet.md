@@ -2,6 +2,7 @@
 title: Sheet
 description: Extends the Dialog to display content from an edge of the screen.
 section: components
+variants: [react/base, react/aria]
 order: 14
 keywords: [sheet, component, base, aria]
 ---
@@ -14,7 +15,7 @@ A sheet slides in from the side its `side` names: `top`, `right`, `bottom` or `l
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add sheet" -->
 
@@ -89,6 +90,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="sheet" combinations="react/base,react/aria" -->

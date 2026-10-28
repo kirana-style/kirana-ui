@@ -2,6 +2,7 @@
 title: Tooltip
 description: A popup that displays information related to an element when it receives focus or is hovered.
 section: components
+variants: [react/base, react/aria]
 order: 18
 keywords: [tooltip, component, base, aria]
 ---
@@ -12,7 +13,7 @@ keywords: [tooltip, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add tooltip" -->
 
@@ -66,6 +67,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="tooltip" combinations="react/base,react/aria" -->
