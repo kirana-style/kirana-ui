@@ -14,17 +14,7 @@ keywords: [tabs, component, base, aria, ark]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add tabs" -->
-
-<!-- ::start:only react/base,react/aria -->
-
-With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/tabs" -->
-
-<!-- ::end:only -->
+<!-- ::installation name="tabs" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -92,9 +82,3 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 ```
 
 <!-- ::end:tabs -->
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="tabs" combinations="react/base,react/aria,vue/ark" -->

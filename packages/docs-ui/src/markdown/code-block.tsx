@@ -8,6 +8,10 @@
  * output coloured the way a terminal colours it. Copying one copies only its
  * commands.
  *
+ * A long file shown in full (`collapsible`, the files an install writes) starts folded to sixteen
+ * lines' height, as shadcn/ui's component source does: Expand in its header, and a fade at its foot
+ * that opens it.
+ *
  * A rule's two sides (```tsx do` and ```tsx dont`) render with a tick or a cross in
  * their header; a pair of them (`variant: "pair"`) side by side, the right way first.
  */
@@ -156,6 +160,45 @@ const styles = {
     color: "light-dark(oklch(0.527 0.154 150.069), oklch(0.792 0.209 151.711))",
   }),
   dont: css({ color: theme.destructive }),
+  // `collapsible`: the header's toggle, with a rule between it and the copy button.
+  toggle: css({
+    marginInlineStart: "auto",
+    height: spacing[7],
+    paddingInline: spacing[2],
+    borderRadius: radius.md,
+    fontFamily: fontFamily.sans,
+    fontSize: fontSize.xs,
+    lineHeight: lineHeight.xs,
+    color: { base: theme.mutedForeground, ":hover": theme.foreground },
+    backgroundColor: { base: "transparent", ":hover": alpha.muted50 },
+    cursor: "pointer",
+  }),
+  rule: css({
+    width: "1px",
+    height: spacing[4],
+    backgroundColor: theme.border,
+  }),
+  copyAfterToggle: css({ marginInlineStart: 0 }),
+  fold: css({ position: "relative" }),
+  folded: css({ maxHeight: "16rem", overflow: "hidden" }),
+  // The fade over a folded file's foot, which opens it.
+  fade: css({
+    position: "absolute",
+    insetInline: 0,
+    insetBlockEnd: 0,
+    display: "flex",
+    height: spacing[20],
+    alignItems: "center",
+    justifyContent: "center",
+    borderEndStartRadius: "0.875rem",
+    borderEndEndRadius: "0.875rem",
+    backgroundImage: `linear-gradient(to bottom, color-mix(in oklab, ${theme.background} 70%, transparent), ${theme.background})`,
+    fontFamily: fontFamily.sans,
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    color: { base: theme.mutedForeground, ":hover": theme.foreground },
+    cursor: "pointer",
+  }),
   pre: css({
     margin: 0,
     paddingInline: spacing[4],
@@ -201,7 +244,12 @@ export type CodeBlockProps = {
   lang: string
   file?: string
   title?: string
+  /** Folded to sixteen lines' height until the reader expands it, when it is longer. */
+  collapsible?: boolean
 }
+
+/** The lines a folded file shows before it needs expanding. */
+const FOLD_LINES = 16
 
 export function CodeBlock({
   html,
@@ -212,7 +260,9 @@ export function CodeBlock({
   variant,
   pairHtml,
   pairSource,
+  collapsible,
 }: CodeBlockProps) {
+  const [open, setOpen] = useState(false)
   if (variant === "pair")
     return (
       <div
@@ -249,16 +299,47 @@ export function CodeBlock({
     : SHELL.has(lang)
       ? CommandLineIcon
       : SourceCodeIcon
-  const numbered = source.trimEnd().split("\n").length > 3
+  const lines = source.trimEnd().split("\n").length
+  const numbered = lines > 3
+  const folds = Boolean(collapsible) && lines > FOLD_LINES
+  const toggle = () => setOpen((value) => !value)
 
   return (
     <figure sx={styles.root} data-slot="code-block">
       <figcaption sx={styles.header}>
         <Icon icon={icon} size="0.875rem" />
         <span sx={styles.label}>{label}</span>
-        <CopyButton source={source} />
+        {folds ? (
+          <>
+            <button
+              type="button"
+              sx={styles.toggle}
+              aria-expanded={open}
+              onClick={toggle}
+            >
+              {open ? "Collapse" : "Expand"}
+            </button>
+            <span sx={styles.rule} aria-hidden="true" />
+          </>
+        ) : null}
+        <CopyButton
+          source={source}
+          sx={folds ? styles.copyAfterToggle : undefined}
+        />
       </figcaption>
-      <div sx={styles.panel}>
+      <div
+        sx={[styles.panel, styles.fold, folds && !open ? styles.folded : null]}
+      >
+        {folds && !open ? (
+          <button
+            type="button"
+            sx={styles.fade}
+            aria-expanded={false}
+            onClick={toggle}
+          >
+            Expand
+          </button>
+        ) : null}
         <pre
           sx={styles.pre}
           data-slot="code-block-source"

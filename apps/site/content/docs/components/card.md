@@ -12,23 +12,7 @@ keywords: [card, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add card" -->
-
-<!-- ::start:only svelte/ark,solid/ark,angular/ng -->
-
-Installing it into this framework is not checked yet.
-
-<!-- ::end:only -->
-
-<!-- ::start:only react/base,react/aria -->
-
-With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/card" -->
-
-<!-- ::end:only -->
+<!-- ::installation name="card" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -174,9 +158,3 @@ export class Example {}
 ```
 
 <!-- ::end:tabs -->
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="card" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->

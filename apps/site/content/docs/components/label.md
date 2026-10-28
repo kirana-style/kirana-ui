@@ -1,39 +1,53 @@
 ---
 title: Label
-description: Renders an accessible label associated with a control.
+description: Renders an accessible label associated with controls.
 section: components
 variants: [react/base, react/aria]
-keywords: [label, component, base, aria]
+keywords: [label, form, field, component, base, aria]
 ---
 
 # Label
 
-<!-- ::preview item="card-demo" height="560" combinations="react/base,react/aria" -->
+<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria" -->
 
-The preview shows the Card's demo, whose fields are labelled with it.
+> [!NOTE]
+> For form fields, use the [Field](/docs/components/field) component, which
+> includes a built-in label, description and error handling.
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add label" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/label" -->
+<!-- ::installation name="label" combinations="react/base,react/aria" -->
 
 ## Usage
 
 ```tsx
 import { Label } from "@/components/ui/label"
-
-export function Example() {
-  return <Label htmlFor="email">Email</Label>
-}
 ```
 
-## Code
+```tsx
+<Label htmlFor="email">Your email address</Label>
+```
 
-What installing it writes, in the default style:
+## Label in Field
 
-<!-- ::component-code name="label" combinations="react/base,react/aria" -->
+For form fields, use the [Field](/docs/components/field) component which
+includes built-in `FieldLabel`, `FieldDescription`, and `FieldError` components.
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="email">Your email address</FieldLabel>
+  <Input id="email" />
+</Field>
+```
+
+<!-- ::preview item="field-demo" height="704" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI Label](https://base-ui.com/react/components/label#api-reference) documentation for more information.
+
+<!-- ::end:only -->
+
+Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.

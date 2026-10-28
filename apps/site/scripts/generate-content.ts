@@ -45,6 +45,27 @@ await generate({
     // A language model reads the preview as a link to the page that draws the item.
     preview: ({ item, combinations }) =>
       `[Preview: ${item}](https://ui.kirana.style/preview/${combinations?.split(",")[0] ?? "react/base"}/${item})`,
+    // The Installation section: the command, then where the manual steps' files are.
+    installation: ({ name, combinations }) => {
+      const variant = combinations?.split(",")[0] ?? "react/base"
+      return [
+        "```bash",
+        `npx kirana-style ui add ${name}`,
+        "```",
+        ...(variant.startsWith("react/")
+          ? [
+              "",
+              "Or with shadcn/ui's CLI, from the registry's export:",
+              "",
+              "```bash",
+              `npx shadcn@latest add @kirana/${name}`,
+              "```",
+            ]
+          : []),
+        "",
+        `To install it by hand, copy its files from [${name}.json](/r/${name}.json), every framework and base in every style, into a project set up with \`kirana-style ui init\`.`,
+      ].join("\n")
+    },
     // The code panel reads the item's registry document in the browser; the twin links to it, and
     // to the flattened file shadcn/ui's CLI installs, which a model can read whole.
     "component-code": ({ name, combinations }) => {

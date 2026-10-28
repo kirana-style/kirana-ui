@@ -12,13 +12,7 @@ keywords: [separator, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add separator" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/separator" -->
+<!-- ::installation name="separator" combinations="react/base,react/aria" -->
 
 ## Usage
 
@@ -34,9 +28,3 @@ export function Example() {
   )
 }
 ```
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="separator" combinations="react/base,react/aria" -->

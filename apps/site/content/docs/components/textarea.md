@@ -8,60 +8,42 @@ keywords: [textarea, input, form, component, base, aria]
 
 # Textarea
 
-<!-- ::preview item="textarea-demo" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="textarea-demo" height="360" combinations="react/base,react/aria" -->
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add textarea" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/textarea" -->
+<!-- ::installation name="textarea" combinations="react/base,react/aria" -->
 
 ## Usage
 
 ```tsx
 import { Textarea } from "@/components/ui/textarea"
-
-export function Example() {
-  return <Textarea placeholder="Type your message here." />
-}
 ```
 
-The textarea grows with what is typed in it (`field-sizing: content`), from
-four lines' height.
+```tsx
+<Textarea />
+```
 
 ## Field
 
-Use `Field`, `FieldLabel` and `FieldDescription` to give the textarea a label and
-a description.
+Use `Field`, `FieldLabel`, and `FieldDescription` to create a textarea with a label and description.
 
-<!-- ::preview item="textarea-field" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="textarea-field" height="360" combinations="react/base,react/aria" -->
 
 ## Disabled
 
-Use the `disabled` prop to disable the textarea. To style the field it sits in as
-disabled too, add `data-disabled` to the `Field`.
+Use the `disabled` prop to disable the textarea. To style the disabled state, add the `data-disabled` attribute to the `Field` component.
 
-<!-- ::preview item="textarea-disabled" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="textarea-disabled" height="360" combinations="react/base,react/aria" -->
 
 ## Invalid
 
-Use the `aria-invalid` prop to mark the textarea as invalid. To style the field
-it sits in as invalid too, add `data-invalid` to the `Field`.
+Use the `aria-invalid` prop to mark the textarea as invalid. To style the invalid state, add the `data-invalid` attribute to the `Field` component.
 
-<!-- ::preview item="textarea-invalid" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="textarea-invalid" height="360" combinations="react/base,react/aria" -->
 
 ## Button
 
-Pair it with `Button` for a textarea with a submit button.
+Pair with `Button` to create a textarea with a submit button.
 
-<!-- ::preview item="textarea-button" height="300" combinations="react/base,react/aria" -->
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="textarea" combinations="react/base,react/aria" -->
+<!-- ::preview item="textarea-button" height="360" combinations="react/base,react/aria" -->

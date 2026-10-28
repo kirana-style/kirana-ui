@@ -12,13 +12,7 @@ keywords: [breadcrumb, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add breadcrumb" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/breadcrumb" -->
+<!-- ::installation name="breadcrumb" combinations="react/base,react/aria" -->
 
 ## Usage
 
@@ -82,15 +76,9 @@ export function Example() {
 
 <!-- ::end:tabs -->
 
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="breadcrumb" combinations="react/base,react/aria" -->
+<!-- ::start:only react/aria -->
 
 ## Notes per base
-
-<!-- ::start:only react/aria -->
 
 On React Aria, the separators are drawn between the items by the list itself: there is no `BreadcrumbSeparator` to place.
 

@@ -12,13 +12,7 @@ keywords: [avatar, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add avatar" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/avatar" -->
+<!-- ::installation name="avatar" combinations="react/base,react/aria" -->
 
 ## Usage
 
@@ -34,12 +28,6 @@ export function Example() {
   )
 }
 ```
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="avatar" combinations="react/base,react/aria" -->
 
 ## Notes per base
 

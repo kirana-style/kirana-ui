@@ -70,6 +70,14 @@ kirana-ui's look follows shadcn/ui, not kirana.style's brand:
 
 Candidates for the Kirana copy, which would serve any registry's docs:
 
+- `markdown/installation.tsx` (new), registered as `installation`: `<!-- ::installation
+  name="…" combinations="…" -->`, a component's Installation section as shadcn/ui's pages have
+  it, Command and Manual. Manual's steps read the registry's documents: the project set up with
+  `init`, the components the item uses, the packages its framework and base need, and every file
+  it installs, its shared modules' included. `markdown/component-code.tsx` exports
+  `RegistryItem` for it.
+- `markdown/code-block.tsx`: `collapsible` (new, optional): a file longer than sixteen lines is
+  folded until expanded, from its header or the fade at its foot, as shadcn/ui's component source.
 - `markdown/preview.tsx` (new), registered as `preview` in `createMarkdownComponents`:
   `<!-- ::preview item="…" height="…" -->`, an item's live preview in an iframe, from
   `DocsConfig.previewSrc` (new, optional). The frame is created once the page has hydrated, so it

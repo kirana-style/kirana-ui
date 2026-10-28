@@ -1,6 +1,6 @@
 ---
 title: Select
-description: Displays a list of options to pick from, triggered by a button.
+description: Displays a list of options for the user to pick from—triggered by a button.
 section: components
 variants: [react/base, react/aria, vue/ark]
 keywords: [select, component, base, aria, ark]
@@ -8,133 +8,173 @@ keywords: [select, component, base, aria, ark]
 
 # Select
 
-<!-- ::preview item="select-demo" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="select-demo" height="360" combinations="react/base,react/aria" -->
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add select" -->
-
-<!-- ::start:only react/base,react/aria -->
-
-With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/select" -->
-
-<!-- ::end:only -->
+<!-- ::installation name="select" combinations="react/base,react/aria" -->
 
 ## Usage
 
-<!-- ::start:tabs -->
-
-### Base UI
-
 ```tsx
+import { css } from "@kirana-style/core"
+
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
 
-const fruits = [
-  { label: "Apple", value: "apple" },
-  { label: "Banana", value: "banana" },
+const styles = { trigger: css({ width: "180px" }) }
+```
+
+<!-- ::start:only react/base -->
+
+```tsx
+const items = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
 ]
 
-export function Example() {
-  return (
-    <Select items={fruits}>
-      <SelectTrigger>
-        <SelectValue placeholder="Select a fruit" />
-      </SelectTrigger>
-      <SelectContent>
-        {fruits.map((fruit) => (
-          <SelectItem key={fruit.value} value={fruit.value}>
-            {fruit.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  )
-}
+<Select items={items}>
+  <SelectTrigger sx={styles.trigger}>
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      {items.map((item) => (
+        <SelectItem key={item.value} value={item.value}>
+          {item.label}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  </SelectContent>
+</Select>
 ```
 
-### React Aria
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
 
 ```tsx
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+const items = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+]
 
-export function Example() {
-  return (
-    <Select placeholder="Select a fruit" aria-label="Fruit">
-      <SelectTrigger>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem id="apple">Apple</SelectItem>
-        <SelectItem id="banana">Banana</SelectItem>
-      </SelectContent>
-    </Select>
-  )
-}
+<Select placeholder="Theme">
+  <SelectTrigger sx={styles.trigger}>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      {items.map((item) => (
+        <SelectItem key={item.value} id={item.value}>
+          {item.label}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  </SelectContent>
+</Select>
 ```
 
-### Vue
+<!-- ::end:only -->
 
-```vue
-<script setup lang="ts">
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  createListCollection,
-} from "@/components/ui/select"
+## Composition
 
-const fruits = createListCollection({
-  items: [
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ],
-})
-</script>
+Use the following composition to build a `Select`:
 
-<template>
-  <Select :collection="fruits">
-    <SelectTrigger>
-      <SelectValue placeholder="Select a fruit" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem
-        v-for="fruit in fruits.items"
-        :key="fruit.value"
-        :item="fruit"
-      >
-        {{ fruit.label }}
-      </SelectItem>
-    </SelectContent>
-  </Select>
-</template>
+```text
+Select
+├── SelectTrigger
+│   └── SelectValue
+└── SelectContent
+    ├── SelectGroup
+    │   ├── SelectLabel
+    │   ├── SelectItem
+    │   └── SelectItem
+    ├── SelectSeparator
+    └── SelectGroup
+        ├── SelectLabel
+        ├── SelectItem
+        └── SelectItem
 ```
 
-<!-- ::end:tabs -->
+<!-- ::start:only react/base -->
 
-## Code
+## Align Item With Trigger
 
-What installing it writes, in the default style:
+Use `alignItemWithTrigger` on `SelectContent` to control whether the selected item aligns with the trigger. When `true` (default), the popup positions so the selected item appears over the trigger. When `false`, the popup aligns to the trigger edge.
 
-<!-- ::component-code name="select" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="select-align-item" height="360" combinations="react/base" -->
 
-## Notes per base
+<!-- ::end:only -->
 
-Ark UI builds a select from a collection (`createListCollection`), so each `SelectItem` takes its `item`. React Aria names an item by `id`, Base UI by `value`.
+## Groups
+
+Use `SelectGroup`, `SelectLabel`, and `SelectSeparator` to organize items.
+
+<!-- ::preview item="select-groups" height="360" combinations="react/base,react/aria" -->
+
+## Scrollable
+
+A select with many items that scrolls.
+
+<!-- ::preview item="select-scrollable" height="360" combinations="react/base,react/aria" -->
+
+## Disabled
+
+<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria" -->
+
+## Invalid
+
+<!-- ::start:only react/base -->
+
+Add the `data-invalid` attribute to the `Field` component and the `aria-invalid` attribute to the `SelectTrigger` component to show an error state.
+
+```tsx
+<Field data-invalid>
+  <FieldLabel>Fruit</FieldLabel>
+  <SelectTrigger aria-invalid>
+    <SelectValue />
+  </SelectTrigger>
+</Field>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+Add the `data-invalid` attribute to the `Field` component and the `isInvalid` prop to the `SelectTrigger` component to show an error state.
+
+```tsx
+<Field data-invalid>
+  <FieldLabel>Fruit</FieldLabel>
+  <Select isInvalid>{/* ... */}</Select>
+</Field>
+```
+
+<!-- ::end:only -->
+
+<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI Select](https://base-ui.com/react/components/select#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See the [React Aria Select](https://react-aria.adobe.com/Select#api) documentation.
+
+<!-- ::end:only -->
+
+Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
