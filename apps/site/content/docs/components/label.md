@@ -2,6 +2,7 @@
 title: Label
 description: Renders an accessible label associated with a control.
 section: components
+variants: [react/base, react/aria]
 order: 11
 keywords: [label, component, base, aria]
 ---
@@ -14,7 +15,7 @@ The preview shows the Card's demo, whose fields are labelled with it.
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add label" -->
 
@@ -34,6 +35,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="label" combinations="react/base,react/aria" -->

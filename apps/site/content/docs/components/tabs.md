@@ -2,6 +2,7 @@
 title: Tabs
 description: A set of layered sections of content, displayed one at a time.
 section: components
+variants: [react/base, react/aria, vue/ark]
 order: 17
 keywords: [tabs, component, base, aria, ark]
 ---
@@ -14,13 +15,17 @@ keywords: [tabs, component, base, aria, ark]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add tabs" -->
 
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
+<!-- ::start:only react/base,react/aria -->
+
+With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
 
 <!-- ::install run="shadcn@latest add @kirana/tabs" -->
+
+<!-- ::end:only -->
 
 ## Usage
 
@@ -91,6 +96,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="tabs" combinations="react/base,react/aria,vue/ark" -->

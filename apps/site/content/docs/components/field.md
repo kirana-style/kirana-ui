@@ -2,6 +2,7 @@
 title: Field
 description: Combines a label, a control and help text.
 section: components
+variants: [react/base, react/aria]
 order: 9
 keywords: [field, component, base, aria]
 ---
@@ -14,7 +15,7 @@ A Field lays its parts out vertically, horizontally or by width (`orientation`),
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add field" -->
 
@@ -41,6 +42,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="field" combinations="react/base,react/aria" -->

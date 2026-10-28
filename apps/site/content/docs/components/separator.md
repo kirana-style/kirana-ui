@@ -2,6 +2,7 @@
 title: Separator
 description: Visually or semantically separates content.
 section: components
+variants: [react/base, react/aria]
 order: 13
 keywords: [separator, component, base, aria]
 ---
@@ -12,7 +13,7 @@ keywords: [separator, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add separator" -->
 
@@ -37,6 +38,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="separator" combinations="react/base,react/aria" -->

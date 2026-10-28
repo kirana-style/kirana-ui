@@ -2,6 +2,7 @@
 title: Collapsible
 description: An interactive component which expands and collapses a panel.
 section: components
+variants: [react/base, react/aria]
 order: 6
 keywords: [collapsible, component, base, aria]
 ---
@@ -12,7 +13,7 @@ keywords: [collapsible, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add collapsible" -->
 
@@ -69,7 +70,7 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="collapsible" combinations="react/base,react/aria" -->
 

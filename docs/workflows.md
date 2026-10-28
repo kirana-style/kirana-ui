@@ -46,8 +46,28 @@ Concretely, for a component that arrives as Tailwind:
 6. **Give a registry component its page.** Port upstream's `<item>-demo` on every
    base it has (`registry/bases/<base>/examples`, listed in that base's
    `previews.ts`), and write `apps/site/content/docs/components/<item>.md`: its
-   preview, both CLIs' install lines, usage per base and its `component-code`
-   panel, as the other component pages do.
+   preview, both CLIs' install lines, usage per framework and its
+   `component-code` panel, as the other component pages do. That one file is the
+   component's page for every framework and base it has: list them in its
+   frontmatter, `variants: [react/base, react/aria, vue/ark]`, in the order
+   `apps/site/src/lib/variants.ts` gives (the content generator fails when they
+   differ from the frameworks the registry has markup for), and the generator
+   writes a page for each, at `/docs/components/<framework>/<base>/<item>`. Say
+   where they differ:
+   - `<!-- ::start:only react/base,react/aria -->` … `<!-- ::end:only -->` for
+     a passage only some variants have (shadcn/ui's CLI is React's, a note is
+     one base's);
+   - a `tabs` block whose headings are variant labels (`### Base UI`, `### Vue`,
+     or several sharing code, `### Base UI, React Aria, Solid`) for the usage:
+     each page keeps its own section;
+   - an embed's `combinations="…"` for the variants it can show: a preview whose
+     demo a framework lacks is left off that framework's page;
+   - and for a variant that differs throughout, an override beside the source,
+     `components/<item>/<framework>-<base>.md`, which is that page whole.
+
+   Link a component by the URL its variants share, `/docs/components/<item>`:
+   every link to it leads to the reader's framework, and the URL itself
+   redirects to the default.
 
 If the component needs a library that is not installed, install it — but check
 first whether it is really needed. Versions shared by more than one workspace

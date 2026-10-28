@@ -406,10 +406,11 @@ design's primary once the customizer picks a hued colour theme (blue, rose …);
 stays the page's. A scene's canvas is hidden when WebGL will not draw it (none, or in software),
 so the plain picture shows. The home page opens with Kirana's hero
 (`components/home/hero.tsx`: the claim in Kirana's display face, EB Garamond with its italic,
-`components/kirana-type.ts`; Create and Get started; the highlands in pixels with Kirana's "one
-engine" drawing, `components/scenery/kit.tsx`: the frameworks the plan covers, React, Vue,
-Svelte and Solid, above the engine and the hosts, Vite, TanStack Start, Next.js and Nuxt, below
-it, each tile's title saying whether it installs today). The chrome's corners are the design's:
+`components/kirana-type.ts`; Create and Get started; the heritage street in pixels with Kirana's
+"one engine" drawing, `components/scenery/kit.tsx`: the engine on top and the frameworks only in
+a row under it, React, Vue, Svelte, Solid and Angular, each named and its tile's title naming its
+base, a wire fanning down to each, as the Kirana site's agent-skills drawing; a meta-framework is
+its framework's and a build tool belongs to none, so neither has a mark). The chrome's corners are the design's:
 the pills keep the registry Button's corner, the menus, cards, tiles and pictures derive theirs
 from the radius tokens, concentric where one sits in another, square under Lyra and Sera. The project pages, `/open-source`,
 `/license`, `/sponsor` and `/partners`, are Kirana's page layout (`components/page/`: a hero with
@@ -466,11 +467,22 @@ markdown twin per page (`/docs/<slug>.md`, `/docs/index.md` for `/docs`): each p
 its own title, which the twin's header writes, its blocks' markers dropped, its links absolute (a
 docs page's to its twin), a preview as a link to its page and the code panel as links to the item's
 registry document and its flattened shadcn/ui file. A page embeds an item's live preview with `<!-- ::preview item="button-demo" -->`.
-Each ported component has a page, `apps/site/content/docs/components/<item>.md`: its preview with a
-framework-and-base picker (`combinations="react/base,react/aria,vue/ark"`), the install commands
-for both CLIs, usage per base (a `tabs` block headed Base UI, React Aria, Ark UI, which follows the
-picker), and `<!-- ::component-code name="…" -->`, the files installing it writes, read from
-`/r/<item>.json` in the browser. A component without an upstream demo the registry can draw shows
+Each ported component has one source, `apps/site/content/docs/components/<item>.md`, and a page
+per framework and base it has markup for, at `/docs/components/<framework>/<base>/<item>` (the
+scheme `/preview` and the registry use), so each framework's page is its own for search engines:
+`variants` in its frontmatter (checked against the registry's items), and the generator
+(docs-core's `variants.ts`) narrows the source for each: `::only` passages, usage `tabs` headed by
+variant labels, embeds pinned to the page's combination, and an override
+(`<item>/<framework>-<base>.md`) where a variant differs throughout. Each page has its preview,
+the install commands (shadcn/ui's CLI on React's pages), its usage, and
+`<!-- ::component-code name="…" -->`, the files installing it writes, read from `/r/<item>.json` in
+the browser. Under the title, `::frameworks`: the page's other variants as tabs, each a link
+(prerendered from them). Its `<title>` names the framework (`Button for Vue · kirana/ui`) and it
+has a canonical link to itself. The sidebar, search, the pager and `llms.txt` list a component once,
+by the URL its variants share, `/docs/components/<item>`, which `DocsLink` sends to the reader's
+framework (the page's, else their choice, else React with Base UI) and which answers with a 301 to
+React with Base UI, as shadcn/ui's does to its Base UI page. Each variant has its markdown twin,
+whose header names the framework and links the others. A component without an upstream demo the registry can draw shows
 another item's (Label the Card's, Field the Input's, Sidebar `sidebar-07`). A demo's frame
 (`page.example`) is upstream's preview frame: the demo centred, filling its own width.
 `/demo` is `packages/ui`'s demo, the maintainer's check, linked from no page or menu, with its own

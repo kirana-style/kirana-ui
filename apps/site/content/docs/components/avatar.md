@@ -2,6 +2,7 @@
 title: Avatar
 description: An image element with a fallback for representing the user.
 section: components
+variants: [react/base, react/aria]
 order: 1
 keywords: [avatar, component, base, aria]
 ---
@@ -12,7 +13,7 @@ keywords: [avatar, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add avatar" -->
 
@@ -37,7 +38,7 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="avatar" combinations="react/base,react/aria" -->
 

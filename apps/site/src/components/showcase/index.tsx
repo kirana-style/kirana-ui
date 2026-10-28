@@ -107,7 +107,8 @@ const styles = {
     gap: space[2],
     marginBlockEnd: { base: space[4], [breakpoint.lg]: space[6] },
   }),
-  tabs: css({ maxWidth: "100%", overflowX: "auto" }),
+  // No scroll container: the line tab's indicator reaches below the list and would scroll.
+  tabs: css({ maxWidth: "100%" }),
   mark: css({ display: "inline-flex" }),
   note: css({
     fontSize: fontSize.sm,

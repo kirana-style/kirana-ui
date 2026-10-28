@@ -20,22 +20,19 @@ import {
   space,
 } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
-import nextLogo from "@workspace/docs-ui/brands/nextjs_icon_dark.svg?url"
-import nuxtLogo from "@workspace/docs-ui/brands/nuxt.svg?url"
+import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"
 import reactDark from "@workspace/docs-ui/brands/react_dark.svg?url"
 import reactLight from "@workspace/docs-ui/brands/react_light.svg?url"
 import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
 import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
-import tanstackDark from "@workspace/docs-ui/brands/tanstack_dark.svg?url"
-import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
-import viteLogo from "@workspace/docs-ui/brands/vite.svg?url"
 import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import { hue } from "@/components/page/hue"
 
 /**
- * The frameworks the plan covers, above the engine: React, on Base UI and React Aria; Vue, on Ark
- * UI; Svelte and Solid, on Ark UI, with their first components (Button, Card, Skeleton). Below it, the hosts: Vite
- * and TanStack Start install today; Next.js and Nuxt are the plan's.
+ * The frameworks, wired from the engine: React, on Base UI and React Aria, and Vue, on Ark UI;
+ * Svelte and Solid (Ark UI) and Angular (ng-primitives), with their first components (Button, Card,
+ * Skeleton). Frameworks only: a meta-framework is its framework's (Next.js and TanStack Start are
+ * React, Nuxt is Vue), and a build tool (Vite) belongs to none.
  */
 const FRAMEWORKS = [
   {
@@ -54,17 +51,18 @@ const FRAMEWORKS = [
     url: "https://www.solidjs.com",
     route: solidLogo,
   },
-] as const
-const HOSTS = [
-  { title: "Vite", url: "https://vite.dev", route: viteLogo },
   {
-    title: "TanStack Start",
-    url: "https://tanstack.com/start",
-    route: { light: tanstackLight, dark: tanstackDark },
+    title: "Angular: ng-primitives, its first components",
+    url: "https://angular.dev",
+    route: angularLogo,
   },
-  { title: "Next.js, planned", url: "https://nextjs.org", route: nextLogo },
-  { title: "Nuxt, planned", url: "https://nuxt.com", route: nuxtLogo },
 ] as const
+
+/** The frameworks' row under the engine, in percent of the scene's width, as the Kirana site's fan of agents. */
+const XS = [10, 30, 50, 70, 90] as const
+
+/** Each framework's name under its mark. */
+const NAMES = ["React", "Vue", "Svelte", "Solid", "Angular"] as const
 
 const styles = {
   hero: css({
@@ -149,14 +147,14 @@ const styles = {
   }),
 }
 
-/** One engine, as the Kirana site's ecosystem drawing: every framework and host wired into Kirana. */
+/**
+ * One engine, as the Kirana site's drawings: kirana/ui's engine on top, the frameworks in a row
+ * under it, a wire fanning down to each.
+ */
 function Art() {
-  const xs = [10, 30, 70, 90]
-  const marks = [...FRAMEWORKS, ...HOSTS]
-  const wires = marks.map((_, index) => {
-    const x = (xs[index % 4]! / 100) * 360
-    const y = index < 4 ? 26 : 114
-    return `M ${x} ${y} C ${x} 70, 180 ${y < 70 ? 40 : 100}, 180 70`
+  const wires = XS.map((x) => {
+    const to = (x / 100) * 360
+    return `M 180 48 C 180 76, ${to} 70, ${to} 100`
   })
   return (
     <Stage sx={styles.art}>
@@ -167,14 +165,19 @@ function Art() {
         live={[wires[0]!]}
         sx={styles.artScene}
       >
-        {marks.map((brand, index) => (
-          <At key={brand.title} x={xs[index % 4]!} y={index < 4 ? 18 : 82}>
-            <Tile brand={brand} size={36} title={brand.title} />
-          </At>
-        ))}
-        <At x={50} y={50}>
+        <At x={50} y={24}>
           <Tile mark primary size={50} caption="kirana ui" title="kirana/ui" />
         </At>
+        {FRAMEWORKS.map((brand, index) => (
+          <At key={brand.title} x={XS[index]!} y={82}>
+            <Tile
+              brand={brand}
+              size={36}
+              caption={NAMES[index]}
+              title={brand.title}
+            />
+          </At>
+        ))}
       </Scene>
     </Stage>
   )

@@ -3,6 +3,7 @@ import { Outlet, createFileRoute, useRouterState } from "@tanstack/react-router"
 import { Customizer } from "@/components/customizer"
 import { Brand, HeaderActions } from "@/components/site-header"
 import { SiteDocsProvider } from "@/components/docs-config"
+import { sharedPath } from "@/lib/variants"
 import docsCss from "@/styles/docs.css?url"
 import { DocsLayout } from "@workspace/docs-ui/docs-layout.tsx"
 import { ThemeMenu } from "@workspace/docs-ui/theme-menu.tsx"
@@ -21,7 +22,8 @@ export const Route = createFileRoute("/docs")({
 
 function Docs() {
   const path = useRouterState({ select: (state) => state.location.pathname })
-  const current = path.replace(/\/+$/, "") || "/docs"
+  // A variant's page is its component's in the sidebar, which lists each component once.
+  const current = sharedPath(path.replace(/\/+$/, "") || "/docs")
   return (
     <SiteDocsProvider>
       <DocsLayout

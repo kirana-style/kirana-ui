@@ -23,6 +23,27 @@ export type PageMeta = {
    */
   readonly kind?: string
   readonly headings: readonly PageHeading[]
+  /**
+   * The variant this page documents, when its source is published once per variant (a component
+   * per framework and base, `variants.ts`): which one, the neutral URL every variant shares (the
+   * one the nav, search and pager use), and the page's siblings, for the links between them.
+   */
+  readonly variant?: PageVariant
+}
+
+export type PageVariant = {
+  readonly id: string
+  readonly label: string
+  readonly name: string
+  /** The URL the variants share, `/docs/components/button`; it redirects to the default. */
+  readonly of: string
+  /** The first variant the source lists: the one the nav, search and `llms.txt` stand for. */
+  readonly default: boolean
+  readonly siblings: readonly {
+    readonly id: string
+    readonly label: string
+    readonly href: string
+  }[]
 }
 
 export type PageHeading = {

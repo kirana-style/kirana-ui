@@ -484,7 +484,11 @@ export function DocsLayout({
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [])
-  const section = pages.find((page) => page.href === current)?.section
+  // `current` may be a URL a page's variants share (the app passes it so the sidebar, which lists
+  // the page once, marks it): its section is theirs.
+  const section = pages.find(
+    (page) => page.href === current || page.variant?.of === current
+  )?.section
   const active = tabFor(tabs, section)
 
   return (

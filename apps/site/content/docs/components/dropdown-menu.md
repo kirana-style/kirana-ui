@@ -2,6 +2,7 @@
 title: Dropdown Menu
 description: Displays a menu of actions or functions, triggered by a button.
 section: components
+variants: [react/base, react/aria, vue/ark]
 order: 8
 keywords: [dropdown menu, component, base, aria, ark]
 ---
@@ -12,13 +13,17 @@ keywords: [dropdown menu, component, base, aria, ark]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add dropdown-menu" -->
 
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
+<!-- ::start:only react/base,react/aria -->
+
+With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
 
 <!-- ::install run="shadcn@latest add @kirana/dropdown-menu" -->
+
+<!-- ::end:only -->
 
 ## Usage
 
@@ -87,10 +92,14 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="dropdown-menu" combinations="react/base,react/aria,vue/ark" -->
 
 ## Notes per base
 
+<!-- ::start:only react/base -->
+
 On Base UI, a menu's label must sit inside a `DropdownMenuGroup` (or a radio group): Base UI's group label throws when the menu opens without one.
+
+<!-- ::end:only -->

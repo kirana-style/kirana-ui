@@ -2,6 +2,7 @@
 title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 section: components
+variants: [react/base, react/aria]
 order: 15
 keywords: [sidebar, component, base, aria]
 ---
@@ -14,7 +15,7 @@ The preview is the `sidebar-07` block: a sidebar that collapses to icons. Its op
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add sidebar" -->
 
@@ -49,6 +50,6 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="sidebar" combinations="react/base,react/aria" -->

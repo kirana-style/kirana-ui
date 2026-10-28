@@ -41,8 +41,8 @@ The documentation is also plain markdown, for an assistant or an agent to read:
 - [`/llms.txt`](/llms.txt), every page with its description;
 - [`/llms-full.txt`](/llms-full.txt), every page in full, in reading order;
 - each page's markdown at its address with `.md` added, as
-  [`/docs/components/button.md`](/docs/components/button.md); **Copy page**
-  above each page copies it.
+  [`/docs/components/vue/ark/button.md`](/docs/components/vue/ark/button.md), a
+  component's for one framework and base; **Copy page** above each page copies it.
 
 A component's markdown links to its registry document (`/r/<item>.json`), which
 holds every file installing it writes.

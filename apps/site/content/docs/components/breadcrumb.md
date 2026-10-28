@@ -2,6 +2,7 @@
 title: Breadcrumb
 description: Displays the path to the current resource using a hierarchy of links.
 section: components
+variants: [react/base, react/aria]
 order: 2
 keywords: [breadcrumb, component, base, aria]
 ---
@@ -12,7 +13,7 @@ keywords: [breadcrumb, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add breadcrumb" -->
 
@@ -84,10 +85,14 @@ export function Example() {
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="breadcrumb" combinations="react/base,react/aria" -->
 
 ## Notes per base
 
+<!-- ::start:only react/aria -->
+
 On React Aria, the separators are drawn between the items by the list itself: there is no `BreadcrumbSeparator` to place.
+
+<!-- ::end:only -->

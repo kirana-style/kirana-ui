@@ -2,6 +2,7 @@
 title: Select
 description: Displays a list of options to pick from, triggered by a button.
 section: components
+variants: [react/base, react/aria, vue/ark]
 order: 12
 keywords: [select, component, base, aria, ark]
 ---
@@ -12,13 +13,17 @@ keywords: [select, component, base, aria, ark]
 
 ## Installation
 
-With `kirana-style ui`, for every framework:
+With `kirana-style ui`:
 
 <!-- ::install exec="kirana-style ui add select" -->
 
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
+<!-- ::start:only react/base,react/aria -->
+
+With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
 
 <!-- ::install run="shadcn@latest add @kirana/select" -->
+
+<!-- ::end:only -->
 
 ## Usage
 
@@ -127,7 +132,7 @@ const fruits = createListCollection({
 
 ## Code
 
-What installing it writes, in the default style, for the framework and base you choose:
+What installing it writes, in the default style:
 
 <!-- ::component-code name="select" combinations="react/base,react/aria,vue/ark" -->
 

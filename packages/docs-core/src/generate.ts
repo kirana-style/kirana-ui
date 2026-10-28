@@ -24,12 +24,15 @@ import { parseFrontmatter } from "./frontmatter.ts"
 import { highlightCss } from "./highlight-css.ts"
 import { extensions } from "./markdown.ts"
 import { PACKAGE_MANAGERS, installLines } from "./package-managers.ts"
+import { narrow, variantHref } from "./variants.ts"
+import type { Variant } from "./variants.ts"
 import type {
   BlogMeta,
   NavItem,
   NavNode,
   PageHeading,
   PageMeta,
+  PageVariant,
   SearchRecord,
 } from "./types.ts"
 
@@ -69,6 +72,19 @@ export type DocsConfig = {
    * truth says instead of a copy of it. An unknown name fails the build.
    */
   facts?: Readonly<Record<string, string>>
+  /**
+   * The variants a page may be published in (`variants.ts`), the first the default. A page whose
+   * frontmatter lists `variants` becomes one page per variant at `<folder>/<variant>/<name>`.
+   */
+  variants?: readonly Variant[]
+  /**
+   * Checks a page's variants against the source of truth (the registry's markup): a message when
+   * they disagree, which fails the build.
+   */
+  checkVariants?: (
+    href: string,
+    variants: readonly string[]
+  ) => string | undefined
 }
 
 export async function generate(config: DocsConfig): Promise<void> {
@@ -135,6 +151,10 @@ export async function generate(config: DocsConfig): Promise<void> {
     ].includes(value.type ?? "")
     return children.map(text).join(inline ? "" : " ")
   }
+
+  /** The pages the nav, the pager and `llms.txt` list: a variant source once, by its default. */
+  const listed = (pages: readonly Built[]) =>
+    pages.filter((page) => !page.meta.variant || page.meta.variant.default)
 
   /** One search record per heading section, so a hit can link to the right anchor. */
   function records(meta: PageMeta, document: MarkdownDocument): SearchRecord[] {
@@ -231,13 +251,85 @@ export async function generate(config: DocsConfig): Promise<void> {
     ) as Section[]
 
     const pages: Built[] = []
-    for (const file of await markdownFiles(join(contentDir, "docs"))) {
-      const where = relative(root, file)
-      const source = withFacts(
+    const variants = config.variants ?? []
+    const read = async (file: string) =>
+      withFacts(
         stripNotes(await readFile(file, "utf8")),
         config.facts ?? {},
-        where
+        relative(root, file)
       )
+    /** A source's frontmatter, read before its body is narrowed. */
+    const frontOf = (source: string, where: string) =>
+      parseFrontmatter(/^---\n([\s\S]*?)\n---/.exec(source)?.[1] ?? "", where)
+    /** Where a variant's override would be: `<name>/<framework>-<base>.md` beside the source. */
+    const overrideOf = (file: string, variant: string) =>
+      join(file.replace(/\.md$/, ""), `${variant.replace("/", "-")}.md`)
+
+    const sources = await markdownFiles(join(contentDir, "docs"))
+    const overrides = new Set<string>()
+    for (const file of sources) {
+      const declared = frontOf(await read(file), relative(root, file)).variants
+      if (Array.isArray(declared))
+        for (const variant of declared) {
+          const override = overrideOf(file, String(variant))
+          if (sources.includes(override)) overrides.add(override)
+        }
+    }
+
+    for (const file of sources) {
+      if (overrides.has(file)) continue
+      const where = relative(root, file)
+      const source = await read(file)
+      const declared = frontOf(source, where).variants
+      if (!Array.isArray(declared)) {
+        addPage(file, where, source)
+        continue
+      }
+      const ids = declared.map(String)
+      for (const id of ids)
+        if (!variants.some((variant) => variant.id === id))
+          throw new Error(`${where}: unknown variant ${JSON.stringify(id)}`)
+      const problem = config.checkVariants?.(href(file), ids)
+      if (problem) throw new Error(`${where}: ${problem}`)
+      const of = href(file)
+      const siblings = ids.map((id) => ({
+        id,
+        label: variants.find((variant) => variant.id === id)!.label,
+        href: variantHref(of, id),
+      }))
+      for (const [index, id] of ids.entries()) {
+        const known = variants.find((variant) => variant.id === id)!
+        const override = overrideOf(file, id)
+        // An override without frontmatter takes the source's.
+        const own = overrides.has(override) ? await read(override) : undefined
+        const page =
+          own === undefined
+            ? source
+            : own.startsWith("---\n")
+              ? own
+              : `${/^---\n[\s\S]*?\n---\n/.exec(source)?.[0] ?? ""}${own}`
+        addPage(
+          own === undefined ? file : override,
+          own === undefined ? where : relative(root, override),
+          narrow(page, id, variants),
+          {
+            id,
+            label: known.label,
+            name: known.name,
+            of,
+            default: index === 0,
+            siblings,
+          }
+        )
+      }
+    }
+
+    function addPage(
+      file: string,
+      where: string,
+      source: string,
+      variant?: PageVariant
+    ) {
       // Samples may show `sx=`; prose may not, because nothing would compile it.
       const prose = source
         .replace(/```[\s\S]*?```/g, "")
@@ -270,7 +362,7 @@ export async function generate(config: DocsConfig): Promise<void> {
         )
       }
       const meta: PageMeta = {
-        href: href(file),
+        href: variant ? variantHref(variant.of, variant.id) : href(file),
         file: relative(root, file),
         title: String(front.title),
         description: String(front.description),
@@ -287,8 +379,15 @@ export async function generate(config: DocsConfig): Promise<void> {
             text: heading.text,
             level: heading.level,
           })),
+        ...(variant ? { variant } : {}),
       }
-      pages.push({ meta, document, records: records(meta, document), source })
+      // Search finds a variant source once, at the URL its variants share.
+      const found = !variant
+        ? records(meta, document)
+        : variant.default
+          ? records({ ...meta, href: variant.of }, document)
+          : []
+      pages.push({ meta, document, records: found, source })
     }
 
     // A sub-group sits where its first page sits, and its pages stay together, so
@@ -313,7 +412,9 @@ export async function generate(config: DocsConfig): Promise<void> {
         bySection ||
         rank(a.meta) - rank(b.meta) ||
         a.meta.order - b.meta.order ||
-        a.meta.href.localeCompare(b.meta.href)
+        (a.meta.variant?.of ?? a.meta.href).localeCompare(
+          b.meta.variant?.of ?? b.meta.href
+        )
       )
     })
     return { sections, pages }
@@ -326,7 +427,7 @@ export async function generate(config: DocsConfig): Promise<void> {
   ): string {
     const item = (page: Built) => ({
       title: page.meta.title,
-      href: page.meta.href,
+      href: page.meta.variant?.of ?? page.meta.href,
       description: page.meta.description,
       ...(page.meta.keywords ? { keywords: page.meta.keywords } : {}),
       ...(page.meta.kind ? { kind: page.meta.kind } : {}),
@@ -338,7 +439,7 @@ export async function generate(config: DocsConfig): Promise<void> {
       .map((section) => {
         const nodes: NavNode[] = []
         const branches = new Map<string, { label: string; items: NavItem[] }>()
-        for (const page of pages.filter(
+        for (const page of listed(pages).filter(
           (p) => p.meta.section === section.slug
         )) {
           const parent = page.meta.parent
@@ -367,8 +468,8 @@ export const PAGES: readonly PageMeta[] = ${json(pages.map((page) => page.meta))
 
 export const NAV: readonly NavGroup[] = ${json(nav)}
 
-/** Reading order, for the previous/next pager. */
-export const ORDER: readonly string[] = ${json(pages.map((page) => page.meta.href))}
+/** Reading order, for the previous/next pager: a variant source once, at its shared URL. */
+export const ORDER: readonly string[] = ${json(listed(pages).map((page) => page.meta.variant?.of ?? page.meta.href))}
 
 export const POSTS: readonly BlogMeta[] = ${json(posts.map((post) => post.meta))}
 `
@@ -467,7 +568,9 @@ export const SEARCH: readonly SearchRecord[] = ${JSON.stringify(
   const index = [
     ...config.site.llms,
     ...sections.flatMap((section) => {
-      const items = pages.filter((page) => page.meta.section === section.slug)
+      const items = listed(pages).filter(
+        (page) => page.meta.section === section.slug
+      )
       if (items.length === 0) return []
       return [
         `## ${section.label}`,
@@ -486,7 +589,7 @@ export const SEARCH: readonly SearchRecord[] = ${JSON.stringify(
     "",
     `Every page, in reading order. Generated from the same source as ${SITE}/docs.`,
     "",
-    ...pages.map((page) =>
+    ...listed(pages).map((page) =>
       [
         "---",
         "",
@@ -512,9 +615,19 @@ export const SEARCH: readonly SearchRecord[] = ${JSON.stringify(
       page.meta.href === "/docs"
         ? "index"
         : page.meta.href.replace(/^\/docs\//, "")
+    const variant = page.meta.variant
     const header = [
       `# ${page.meta.title}`,
       `Source: ${SITE}${page.meta.href}`,
+      ...(variant
+        ? [
+            `For: ${variant.name}`,
+            `Also for: ${variant.siblings
+              .filter((sibling) => sibling.id !== variant.id)
+              .map((sibling) => `[${sibling.label}](${SITE}${sibling.href}.md)`)
+              .join(", ")}`,
+          ]
+        : []),
       "",
     ].join("\n")
     twins.add(join(publicDir, "docs", `${slug}.md`))

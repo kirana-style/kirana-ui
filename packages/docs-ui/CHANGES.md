@@ -9,6 +9,15 @@ it was, names included.
 
 ## docs-core
 
+- `variants.ts` (new), `generate.ts`, `pages.ts`, `types.ts`: a page published once per variant
+  (a component per framework and base). A source listing `variants` in its frontmatter becomes a
+  page per variant at `<folder>/<variant>/<name>`, narrowed by `::only` blocks, tabs headed by
+  variant labels and embeds' `combinations`, with an optional override per variant
+  (`<name>/<variant>.md`); `PageMeta.variant` carries the variant, the URL the variants share and
+  the siblings. The nav, search, the pager (`ORDER`, `neighbours`) and `llms.txt` list a variant
+  source once, at its shared URL; `defaultVariant()` finds where that URL leads; each variant has
+  its twin, whose header names it and links the others. `DocsConfig.variants` and
+  `checkVariants` (the app's check against its source of truth). A candidate for the Kirana copy.
 - `package.json`: no `test` script or coverage dependencies. The workspace's `vp run test` runs
   `test/`; `vitest.config.ts` (the coverage floor) is not copied.
 - `tsconfig.json`: no `vitest.config.ts` in `include`.
@@ -77,6 +86,10 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   active (the site's New, to its editor). The collapsed sidebar is a rail holding the button that
   opens it again, no longer a column of the tabs' icons, which repeated the tab row beside it.
 
+- `markdown/frameworks.tsx` (new), registered as `frameworks`: a variant page's siblings as tabs,
+  each a link, the page's own chosen. `combination.ts`: a variant page's combination wins over the
+  saved choice. `docs-layout.tsx`: the section of a `current` that is a variant source's shared
+  URL is its variants'.
 - `theme-toggle.tsx`: `keycap` (new, optional, `hotkey` by default) shows the `D` chip on a toggle
   that does not listen for the key itself, as the site's footer, whose header listens for it.
 - `markdown/preview.tsx`: `CombinationPicker` takes `sx`, for a page that sets it in a row of its
