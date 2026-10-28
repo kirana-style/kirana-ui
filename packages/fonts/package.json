@@ -1,0 +1,41 @@
+{
+  "name": "@workspace/fonts",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "catalog:",
+    "@fontsource-variable/eb-garamond": "catalog:",
+    "@fontsource-variable/figtree": "catalog:",
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/geist-mono": "catalog:",
+    "@fontsource-variable/ibm-plex-sans": "catalog:",
+    "@fontsource-variable/instrument-sans": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
+    "@fontsource-variable/jetbrains-mono": "catalog:",
+    "@fontsource-variable/lora": "catalog:",
+    "@fontsource-variable/manrope": "catalog:",
+    "@fontsource-variable/merriweather": "catalog:",
+    "@fontsource-variable/montserrat": "catalog:",
+    "@fontsource-variable/noto-sans": "catalog:",
+    "@fontsource-variable/noto-serif": "catalog:",
+    "@fontsource-variable/nunito-sans": "catalog:",
+    "@fontsource-variable/outfit": "catalog:",
+    "@fontsource-variable/oxanium": "catalog:",
+    "@fontsource-variable/playfair-display": "catalog:",
+    "@fontsource-variable/public-sans": "catalog:",
+    "@fontsource-variable/raleway": "catalog:",
+    "@fontsource-variable/roboto": "catalog:",
+    "@fontsource-variable/roboto-slab": "catalog:",
+    "@fontsource-variable/source-sans-3": "catalog:",
+    "@fontsource-variable/space-grotesk": "catalog:",
+    "@fontsource/instrument-serif": "catalog:",
+    "@workspace/registry": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "catalog:"
+  }
+}

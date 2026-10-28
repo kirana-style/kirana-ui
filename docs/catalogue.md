@@ -363,8 +363,10 @@ and `pointer`). `components/design-pickers.tsx` is one picker per axis in upstre
 groups (the theme's own colour apart from the hues, fonts by Sans/Serif/Mono, the menu as Colour
 and Appearance), each with its icon (a swatch from `palettes.ts`, the font's own letters, the
 radius corner) and, where shuffling is offered, a lock that shows on hover. The pickers offer only
-what draws (`lib/design-choices.ts`: every base colour and theme with a palette, the fonts the site
-loads, Inter and Geist); Lyra and Sera show the radius as None and wait; what a style or menu cannot take is offered greyed, as upstream's (Rhea's Large, Bold on a translucent menu). On
+what draws (`lib/design-choices.ts`: every base colour and theme with a palette, all 26 fonts:
+the site links Inter and Geist, and `packages/fonts` loads any other family when a design names it
+or a picker points at it, in the page (the root, `previewDesign`) and in every framework's preview
+(`followPageDesign`'s callback); the registry's `font-<name>` items install the same packages); Lyra and Sera show the radius as None and wait; what a style or menu cannot take is offered greyed, as upstream's (Rhea's Large, Bold on a translucent menu). On
 every page but `/create`, the customizer is a pill at the bottom (`components/customizer.tsx`)
 opening into a bar of the quick axes (More shows every axis that draws on the page, wrapping onto
 a second row from `md`; the icon library is left out, since the site draws Hugeicons whatever it
@@ -461,8 +463,8 @@ its `oklch()` value or hex, the format one choice for the page. `/typeset` is up
 (`routes/typeset.tsx`, `components/typeset/`, the model in `lib/typeset.ts`): the body, heading
 and mono fonts, size, leading, flow and measure, each previewed when pointed at, the choices in the
 URL's search; the preview a frame, `/preview/typeset/<item>` (docs, chat, article, changelog,
-notes), which takes each change by message and loads the fonts a typeset names (`fonts.ts`, the
-site's other pages carrying none of them); the docs panel (from `xl`, Get Code below it) writes the
+notes), which takes each change by message and loads the fonts a typeset names (through
+`packages/fonts`); the docs panel (from `xl`, Get Code below it) writes the
 steps and an agent's prompt with the picks (`code.ts`, loaded with the page only). R shuffles, ⇧R
 resets, Ctrl/⌘ Z undoes, in the page and the frame. The `typeset` item installs `typeset.css`, in
 the `typeset` layer that `installConfig` lists after `reset`, and its `typeset` handle. The code views share

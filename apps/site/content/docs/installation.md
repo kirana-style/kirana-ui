@@ -81,9 +81,11 @@ it draws on React. Installing into those frameworks is not checked yet.
 ## The fonts
 
 The design's font is a variable token, so every component follows it, but the
-font's files are yours to install. For the default, Inter:
+font's files are yours to install. Each family is an item, `font-<name>`, which
+installs its package. For the default, Inter:
 
-<!-- ::install packages="@fontsource-variable/inter" -->
+<!-- ::install exec="kirana-style ui add font-inter" -->
 
-Import it once, in your app's entry: `import "@fontsource-variable/inter"`. Each
-font of the [font axis](/docs/design-system/fonts) names its package.
+Then import it once, in your app's entry: `import "@fontsource-variable/inter"`.
+`kirana-style ui` installs the package but does not write the import yet. The
+[fonts](/docs/design-system/fonts) page names every family's item.

@@ -15,7 +15,7 @@ import { join } from "node:path"
 import { hashOf } from "@kirana-style/registry"
 
 import { AXIS_ATTRIBUTES } from "../../../registry/core/attributes"
-import { AXES } from "../../../registry/core/config"
+import { AXES, FONTS, FONT_INFO } from "../../../registry/core/config"
 import { LAYOUTS } from "../../../registry/core/preset"
 import type { Combination, Framework, Item } from "./items"
 import { COMBINATIONS, ITEMS, installedPath } from "./items"
@@ -80,7 +80,7 @@ export function designOf(): KiranaDesign {
 export type KiranaItem = {
   $schema: string
   name: string
-  type: "component" | "block" | "lib" | "design-system"
+  type: "component" | "block" | "lib" | "design-system" | "font"
   version: string
   title: string
   description: string
@@ -97,6 +97,19 @@ export type KiranaItem = {
     builds: Record<string, Record<string, KiranaFile[]>>
   }
   setup?: Item["setup"]
+  /** A font item's family: what the format has no field for yet (`fontItems`). */
+  meta?: { font: FontMeta }
+}
+
+/**
+ * A font: its family stack, as the design system's font tokens name it, and the stylesheet that
+ * loads its files, which is the package's own (Fontsource's). Kirana's format has an item type
+ * `font` and no field for these yet, so they are in `meta` until it has (KF-050).
+ */
+export type FontMeta = {
+  family: string
+  type: "sans" | "serif" | "mono"
+  import: string
 }
 
 export type KiranaIndex = {
@@ -345,6 +358,34 @@ export function buildKiranaRegistry(
         : {}),
       ...(kindOf(item) === "design-system" ? { design: designOf() } : {}),
       ...(item.setup ? { setup: item.setup } : {}),
+    })
+  }
+
+  // A font item per family of the font axes, `font-<name>`, as shadcn/ui names its font items: the
+  // package its files come from, and in `meta` the family and the stylesheet to import.
+  for (const name of FONTS) {
+    const font = FONT_INFO[name]
+    const range = versions(font.dependency)
+    if (!range) {
+      problems.push(`font-${name}: no version for ${font.dependency}`)
+      continue
+    }
+    items.push({
+      $schema: KIRANA_ITEM,
+      name: `font-${name}`,
+      type: "font",
+      version,
+      title: font.title,
+      description: `The ${font.title} family, from Fontsource, for the font and heading font axes.`,
+      kirana,
+      dependencies: { [font.dependency]: range },
+      meta: {
+        font: {
+          family: font.family,
+          type: font.type,
+          import: font.dependency,
+        },
+      },
     })
   }
 

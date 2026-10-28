@@ -7,13 +7,16 @@ import {
   followPageDesign,
   readPageDesign,
 } from "@workspace/registry/core/preview.ts"
+import { loadDesignFonts } from "@workspace/fonts"
 import { ref } from "vue"
 
 export const design = ref(readPageDesign(location.search, document.cookie))
 
 /** Puts the design on `<html>` and keeps it there as messages arrive. */
 export function followDesign() {
-  followPageDesign((next) => {
+  const first = followPageDesign((next) => {
     design.value = next
+    void loadDesignFonts(next.system)
   })
+  void loadDesignFonts(first.system)
 }

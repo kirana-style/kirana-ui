@@ -78,12 +78,8 @@ const charts = page("charts/area.html")
 const colors = page("colors.html")
 const typesetPage = page("typeset.html")
 const preview = page("preview/react/base/dialog-demo.html")
-const vueCss = readdirSync(join(CLIENT, "preview/vue/assets"))
-  .filter((name) => name.endsWith(".css"))
-  .reduce(
-    (total, name) => total + gzip(join(CLIENT, "preview/vue/assets", name)),
-    0
-  )
+// The Vue preview's stylesheet, as its page links it: a font's loads only when a design names it.
+const vueCss = page("preview/vue/index.html").css
 // Kirana's compiled stylesheet, every component in every style and every axis value.
 const siteCss = readdirSync(join(CLIENT, "assets"))
   .filter((name) => /^stylesheet-.*\.css$/.test(name))

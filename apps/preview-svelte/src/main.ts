@@ -8,6 +8,7 @@ import { followPageDesign } from "@workspace/registry/core/preview.ts"
 import { root } from "@workspace/registry/core/root.ts"
 import { page } from "@workspace/registry/styles/page.styles.ts"
 import { mount } from "svelte"
+import { loadDesignFonts } from "@workspace/fonts"
 
 import App from "./App.svelte"
 
@@ -16,6 +17,9 @@ import App from "./App.svelte"
 document.documentElement.className = props(root, axes.anchor, page.document)
   .className as string
 document.body.className = props(page.body).className as string
-followPageDesign()
+// The design's families, loaded when it names them: the page links Inter and Geist only.
+void loadDesignFonts(
+  followPageDesign((next) => void loadDesignFonts(next.system)).system
+)
 
 mount(App, { target: document.getElementById("app")! })

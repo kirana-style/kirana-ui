@@ -15,6 +15,7 @@
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",
+    "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "rxjs": "catalog:"
   },
