@@ -11,8 +11,9 @@
  * - `transition-all` became the properties that actually move (`docs/workflows.md`);
  * - `[&_svg:not([class*='size-'])]:size-*` became `controlIcons` (`./control.ts`): a size variant sets
  *   `ctx.iconSize`, and the icons read the nearest control's;
- * - the button-group corners (`in-data-[slot=button-group]:rounded-*`) wait for ButtonGroup, so a
- *   relation with no anchor in the build is not read.
+ *
+ * In a ButtonGroup, a button joins its neighbours (`joinedInButtonGroup`), and the small sizes take
+ * the base's corners in Nova and Vega (`in-data-[slot=button-group]:rounded-*`).
  */
 import { css, recipe } from "@kirana-style/core"
 
@@ -30,16 +31,26 @@ import {
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlIcons, controlShadow, focusRing, laterRings } from "./control"
+import {
+  IN_BUTTON_GROUP,
+  FOCUSED_IN_BUTTON_GROUP,
+  joinedInButtonGroup,
+} from "./scope.styles"
 
-const { vega, lyra, maia, mira, luma, rhea, sera } = axes.style
+const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 /**
  * `rounded-[min(var(--radius-md),Npx)]`: the small sizes cap their corners in Nova and Vega. Mira
  * gives the extra-small ones `rounded-sm` (`miraValue`); the others keep the base's corners.
  */
-const cappedRadius = (nova: string, vegaCap: string, miraValue: string) => ({
-  base: `min(${radius.md}, ${nova})`,
-  [vega]: `min(${radius.md}, ${vegaCap})`,
+const cappedRadius = (novaCap: string, vegaCap: string, miraValue: string) => ({
+  base: `min(${radius.md}, ${novaCap})`,
+  // In a ButtonGroup, Nova's and Vega's take the base's corners.
+  [nova]: { [IN_BUTTON_GROUP]: radius.lg },
+  [vega]: {
+    base: `min(${radius.md}, ${vegaCap})`,
+    [IN_BUTTON_GROUP]: radius.md,
+  },
   [lyra]: "0",
   [maia]: radius["4xl"],
   [mira]: miraValue,
@@ -91,6 +102,8 @@ export const button = recipe({
       [rhea]: radius["2xl"],
       [sera]: "0",
     },
+    ...joinedInButtonGroup,
+    ...FOCUSED_IN_BUTTON_GROUP,
     fontSize: {
       base: fontSize.sm,
       [lyra]: fontSize.xs,

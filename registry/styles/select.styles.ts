@@ -42,6 +42,11 @@ import {
   laterRings,
 } from "./control"
 import { fillInField } from "./field-scope.styles"
+import {
+  IN_OUTLINE_BUTTON_GROUP,
+  FOCUSED_IN_BUTTON_GROUP,
+  joinedInButtonGroup,
+} from "./scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -86,17 +91,30 @@ export const select = {
       '[aria-invalid="true"]': surface.borderInvalid,
       [luma]: {
         base: "transparent",
+        // Beside an outline part, upstream's `has-[>[data-variant=outline]]:` border.
+        [IN_OUTLINE_BUTTON_GROUP]: {
+          base: theme.border,
+          ":focus-visible": theme.ring,
+        },
         ":focus-visible": theme.ring,
         '[aria-invalid="true"]': surface.borderInvalid,
       },
       [rhea]: {
         base: "transparent",
+        [IN_OUTLINE_BUTTON_GROUP]: {
+          base: theme.border,
+          ":focus-visible": theme.ring,
+        },
         ":focus-visible": theme.ring,
         '[aria-invalid="true"]': surface.borderInvalid,
       },
       // Sera's focus and invalid colours are the bottom border's alone.
       [sera]: {
         base: "transparent",
+        [IN_OUTLINE_BUTTON_GROUP]: {
+          base: theme.border,
+          ":focus-visible": theme.ring,
+        },
         ":focus-visible": "transparent",
         '[aria-invalid="true"]': "transparent",
       },
@@ -139,7 +157,8 @@ export const select = {
       [mira]: space[2],
       [luma]: space[3],
       [rhea]: space[3],
-      [sera]: "0",
+      // Beside an outline part in a ButtonGroup, Sera's has room (`*:[[role=combobox]]:px-2.5`).
+      [sera]: { base: "0", [IN_OUTLINE_BUTTON_GROUP]: space["2.5"] },
     },
     paddingInlineEnd: {
       base: space[2],
@@ -147,7 +166,7 @@ export const select = {
       [mira]: space[2],
       [luma]: space[3],
       [rhea]: space[3],
-      [sera]: "0",
+      [sera]: { base: "0", [IN_OUTLINE_BUTTON_GROUP]: space["2.5"] },
     },
     fontSize: { base: fontSize.sm, [lyra]: fontSize.xs, [mira]: fontSize.xs },
     lineHeight: {
@@ -195,6 +214,8 @@ export const select = {
         [sera]: "0",
       },
     },
+    ...joinedInButtonGroup,
+    ...FOCUSED_IN_BUTTON_GROUP,
   }),
 
   // React Aria's Select, which wraps the trigger and the hidden form control.

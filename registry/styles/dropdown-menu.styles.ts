@@ -28,6 +28,7 @@ import { item, overlay, when } from "../core/states"
 import { alpha, surface, theme } from "../core/tokens"
 import { ringAndShadow } from "./menu.styles"
 import { ANCHOR_WIDTH } from "./overlay.styles"
+import { dropdownMenuScope } from "./scope.styles"
 
 const { nova, vega, maia, mira, luma, rhea, sera } = axes.style
 
@@ -58,7 +59,7 @@ export const dropdownMenu = {
   // cn-dropdown-menu-content and the component's own classes, after `menuSurface`. Maia's ring is
   // stronger in the dark (`dark:ring-foreground/10`); while it leaves, it does not scroll
   // (`data-closed:overflow-hidden`).
-  content: css({
+  content: css(dropdownMenuScope.anchor, {
     width: ANCHOR_WIDTH,
     minWidth: {
       base: space[32],

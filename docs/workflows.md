@@ -257,16 +257,20 @@ When the original itself is wrong, fix the original.
 ### Against shadcn/ui's own site
 
 The registry's preview pages are compared with the same pages on shadcn/ui's
-site, a local build of its `apps/v4` (`next dev` on port 4000), by the same
-harness in URL-pair mode: each route is loaded from both sites, with the
+site, a production build of its `apps/v4` at the manifest's commit (`next
+build` once, then `next start` on port 4000, from a clone of shadcn/ui kept for
+it), by the same harness in URL-pair mode: each route is loaded from both sites, with the
 expected site's path rewritten. `vp run conformance` runs it for every example
 and block the site ports, on both React bases, in every style, at rest and in
 every state (`scripts/conformance.ts`); `vp run conformance:pr` keeps the pages
 whose sources reach a file changed since `origin/main`. It needs the site's
 Worker on 8787, upstream's site on 4000 and a kirana-lab checkout beside this
-repository (`KIRANA_LAB` otherwise); `--shard 1/3` splits the routes, `--list`
-prints them. A difference not in `conformance/expected-differences.json` fails
-it; each entry there says why it is not a bug. One route by hand:
+repository (`KIRANA_LAB` otherwise); `--rest` skips the states, `--shard 1/3` splits the routes, `--list`
+prints them. Upstream's captures are kept between runs
+(`node_modules/.cache/kirana-ui-conformance/upstream-<pin>`), so its server is
+needed only for a page not captured yet. A difference not in
+`conformance/expected-differences.json` fails it; each entry there says why it
+is not a bug. One route by hand:
 
 ```bash
 bun conformance/compare.ts --actual http://localhost:8787 --expected http://localhost:4000 \

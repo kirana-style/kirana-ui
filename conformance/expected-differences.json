@@ -23,7 +23,7 @@
     {
       "element": "button[data-slot=\"button\"]",
       "property": "line-height",
-      "route": "(button|select)-example\\?preset=b0",
+      "route": "(button|select|button-group)-example\\?preset=b0",
       "reason": "Nova's small button: upstream's site keeps text-sm's line height under text-[0.8rem], its installed copy loses it to cn; the registry follows the install"
     },
     {
@@ -198,7 +198,7 @@
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
-      "route": "/aria/(table|toggle-group)-example",
+      "route": "/aria/(table|toggle-group|button-group)-example",
       "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
     },
     {
@@ -552,25 +552,25 @@
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "max-height",
-      "route": "/aria/(table|toggle-group)-example",
+      "route": "/aria/(table|toggle-group|button-group)-example",
       "reason": "React Aria 1.22 flips a select opened at the viewport's bottom edge above its trigger, where upstream's 1.20 opens it below, off the screen; its place and height follow"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "top",
-      "route": "/aria/(table|toggle-group)-example",
+      "route": "/aria/(table|toggle-group|button-group)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "bottom",
-      "route": "/aria/(table|toggle-group)-example",
+      "route": "/aria/(table|toggle-group|button-group)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
       "element": "div[data-slot=\"select-list\"]",
       "property": "max-height",
-      "route": "/aria/(table|toggle-group)-example",
+      "route": "/aria/(table|toggle-group|button-group)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
@@ -716,6 +716,148 @@
       "property": "width",
       "route": "toggle-example\\?preset=b1oVxsfY",
       "reason": "Sera at 390px: upstream's column takes a width 19.75px under its row's content, so the row's last toggle shrinks to fit; ours keeps its content width. Not traced further: every toggle measures the same unconstrained"
+    },
+    {
+      "element": "span[data-slot=\"marker-content\"]",
+      "property": "background-image",
+      "route": "marker-example",
+      "reason": "upstream's preview pages do not build shadcn/ui's `shimmer` utility (`shadcn/tailwind.css`), so its shimmering text is plain there; the registry draws it as a Kirana style"
+    },
+    {
+      "element": "span[data-slot=\"marker-content\"]",
+      "property": "animation-duration",
+      "route": "marker-example",
+      "reason": "the shimmer upstream's preview pages do not build (as background-image)"
+    },
+    {
+      "element": "span[data-slot=\"marker-content\"]",
+      "property": "animation-timing-function",
+      "route": "marker-example",
+      "reason": "the shimmer upstream's preview pages do not build (as background-image)"
+    },
+    {
+      "element": "span[data-slot=\"marker-content\"]",
+      "property": "animation-iteration-count",
+      "route": "marker-example",
+      "reason": "the shimmer upstream's preview pages do not build (as background-image)"
+    },
+    {
+      "element": "Accordion › ",
+      "property": "(element)",
+      "route": "marker-example",
+      "reason": "waits for Accordion"
+    },
+    {
+      "element": "Drawer › ",
+      "property": "(element)",
+      "route": "marker-example",
+      "reason": "waits for Drawer"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "marker-example",
+      "reason": "two examples fewer (the sections that wait), so the grid's rows change"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "marker-example",
+      "reason": "two examples fewer (the sections that wait), so the grid's rows change"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "line-height",
+      "route": "button-group-example\\?preset=b1oVxsfY",
+      "reason": "Sera's label in a Field: upstream's site keeps a line height its installed copy loses to cn, as FieldLabel's; the registry follows the install"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "height",
+      "route": "button-group-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height"
+    },
+    {
+      "element": "div[data-slot=\"example",
+      "property": "height",
+      "route": "button-group-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height, or a neighbour in its grid row that does"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "button-group-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "button-group-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height"
+    },
+    {
+      "element": "div[data-slot=\"field-group\"]",
+      "property": "grid-template-rows",
+      "route": "button-group-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height"
+    },
+    {
+      "element": "label[data-slot=\"button-group-text\"]",
+      "property": "line-height",
+      "route": "button-group-example",
+      "reason": "the group's text rendered as a Label: upstream's two class lists meet in cn, whose order decides which line height stays; the registry takes the text's"
+    },
+    {
+      "element": "Vertical Nested › button[data-slot=\"button\"]",
+      "property": "border-bottom-left-radius",
+      "route": "/aria/button-group-example",
+      "reason": "upstream's React Aria group squares every descendant's far corners (`**:data-slot:`), a nested group's buttons too; the registry joins a group's own children, as Base UI's"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "translate",
+      "reason": "the open popup rests at `translate: 0px` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "scale",
+      "reason": "the open popup rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "Separator › ",
+      "property": "width",
+      "route": "marker-example\\?preset=b1oVxsfY",
+      "reason": "an icon in a Button inside a Marker: upstream's marker sizes every descendant `svg` (`[&_svg]:size-4`) over Sera's button icon (`size-3.5`), two pixels wider; the registry keeps the button's own icon size"
+    },
+    {
+      "element": "div[data-slot=\"marker\"]",
+      "property": "::before width",
+      "route": "marker-example\\?preset=b1oVxsfY",
+      "reason": "the rules share what that Sera button leaves (as width)"
+    },
+    {
+      "element": "div[data-slot=\"marker\"]",
+      "property": "::after width",
+      "route": "marker-example\\?preset=b1oVxsfY",
+      "reason": "the rules share what that Sera button leaves (as width)"
+    },
+    {
+      "element": "(page)",
+      "property": "(state)",
+      "route": "marker-example",
+      "reason": "a state whose trigger is in a section that waits (Accordion, Drawer)"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "max-height",
+      "route": "/base/button-group-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height above the trigger"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-thumb\"]",
+      "property": "width",
+      "route": "/base/scroll-area-example\\?preset=b0",
+      "reason": "only on a page's first capture (1400px, light): Base UI sizes the thumb from the content's width before the example's photos, loaded from the network, have laid out; every later width and scheme agrees"
     }
   ]
 }
