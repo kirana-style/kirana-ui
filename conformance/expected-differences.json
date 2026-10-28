@@ -196,6 +196,12 @@
       "reason": "upstream's bug: its React Aria menus always carry `cn-menu-translucent-aria` (`data-focused:bg-foreground/10`), which its site's menu-colour toggle never removes and its CLI installs as utilities, so a highlighted row is translucent in the default menu colour too; ours highlight with `accent` unless the menu colour is translucent, as Base UI's do upstream"
     },
     {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "background-color",
+      "route": "/aria/table-example",
+      "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
+    },
+    {
       "element": "Chat Settings › ",
       "property": "(element)",
       "route": "dialog-example",
@@ -446,6 +452,126 @@
       "property": "align-self",
       "route": "/aria/sidebar-07",
       "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
+    },
+    {
+      "element": "div[data-slot=\"field\"]",
+      "property": "line-height",
+      "route": "(checkbox|radio-group|switch)-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "span[data-slot=\"checkbox",
+      "property": "line-height",
+      "route": "checkbox-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "label[data-slot=\"checkbox",
+      "property": "line-height",
+      "route": "checkbox-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "span[data-slot=\"radio-group",
+      "property": "line-height",
+      "route": "radio-group-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "label[data-slot=\"radio-group",
+      "property": "line-height",
+      "route": "radio-group-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "span[data-slot=\"switch",
+      "property": "line-height",
+      "route": "switch-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "label[data-slot=\"switch",
+      "property": "line-height",
+      "route": "switch-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "height",
+      "route": "radio-group-example",
+      "reason": "follows FieldLabel's line height, which sets the row's height beside a checkbox, radio or switch"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "grid-template-rows",
+      "route": "radio-group-example",
+      "reason": "follows FieldLabel's line height, which sets the row's height beside a checkbox, radio or switch"
+    },
+    {
+      "element": "fieldset[data-slot=\"field-set\"]",
+      "property": "height",
+      "route": "radio-group-example",
+      "reason": "follows FieldLabel's line height, which sets the row's height beside a checkbox, radio or switch"
+    },
+    {
+      "element": "div[data-slot=\"example",
+      "property": "height",
+      "route": "(checkbox|radio-group|switch|textarea)-example",
+      "reason": "follows FieldLabel's line height"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "(checkbox|radio-group|switch|textarea)-example",
+      "reason": "follows FieldLabel's line height"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "line-height",
+      "route": "switch-example\\?preset=b1oVxsfY",
+      "reason": "Sera's label beside a control: upstream's site keeps `leading-relaxed` under `peer-data-[slot=switch]:text-sm`, its installed copy loses it to cn under `text-xs`; the registry follows the install"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "height",
+      "route": "switch-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's label's line height"
+    },
+    {
+      "element": "div[data-slot=\"field-label\"]",
+      "property": "line-height",
+      "route": "\\?preset=b1oVxsfY",
+      "reason": "Sera's FieldTitle: upstream's site keeps `leading-normal` under `text-xs`, its installed copy loses it to cn; the registry follows the install"
+    },
+    {
+      "element": "div[data-slot=\"",
+      "property": "max-height",
+      "route": "/base/table-example",
+      "reason": "an open popup's available height (the dropdown menu's and the select's): Base UI 1.9 measures it a pixel taller than upstream's 1.6 for a trigger at the viewport's bottom edge; the popup sits in the same place"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "max-height",
+      "route": "/aria/table-example",
+      "reason": "React Aria 1.22 flips a select opened at the viewport's bottom edge above its trigger, where upstream's 1.20 opens it below, off the screen; its place and height follow"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "top",
+      "route": "/aria/table-example",
+      "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "bottom",
+      "route": "/aria/table-example",
+      "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
+    },
+    {
+      "element": "div[data-slot=\"select-list\"]",
+      "property": "max-height",
+      "route": "/aria/table-example",
+      "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     }
   ]
 }

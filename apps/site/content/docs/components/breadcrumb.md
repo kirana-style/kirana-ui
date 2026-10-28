@@ -3,7 +3,6 @@ title: Breadcrumb
 description: Displays the path to the current resource using a hierarchy of links.
 section: components
 variants: [react/base, react/aria]
-order: 2
 keywords: [breadcrumb, component, base, aria]
 ---
 

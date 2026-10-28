@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test"
 
-import { exclusiveFrom } from "./check"
+import { exclusiveFrom, foreignTexts } from "./check"
 import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
@@ -176,6 +176,24 @@ describe("exclusive conditions", () => {
     expect(exclusive("[data-starting-style]", "[data-entering]")).toBe(true)
     expect(exclusive("[data-side]", "[data-entering]")).toBe(false)
     expect(exclusive("[data-starting-style]", ":hover")).toBe(false)
+  })
+})
+
+describe("another base's keys", () => {
+  it("never hold on the target, a compound key's attributes each on their own", () => {
+    const foreign = foreignTexts(
+      {
+        opacity: {
+          [state("base", ":disabled")]: 0.5,
+          [state("aria", "[data-rac][data-disabled]")]: 0.5,
+          "[data-open]": 1,
+        },
+      },
+      { base: "base" }
+    )
+    expect(foreign).toEqual(
+      new Set(["[data-rac][data-disabled]", "[data-rac]", "[data-disabled]"])
+    )
   })
 })
 

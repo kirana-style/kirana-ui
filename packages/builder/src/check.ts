@@ -414,9 +414,13 @@ function flattens(condition: string) {
 /**
  * The conditions, as Kirana prints them, that never hold on the target: keys only another base
  * writes in this style object. A text the target's base also writes, or that the object uses as a
- * plain condition, is left free (both sides then keep it).
+ * plain condition, is left free (both sides then keep it). Kirana prints a compound key
+ * (`[data-rac][data-disabled]`) as its attributes, so each counts on its own.
  */
-function foreignTexts(style: StyleObject, combination: Combination) {
+export function foreignTexts(
+  style: StyleObject,
+  combination: Pick<Combination, "base">
+) {
   const others = new Set<string>()
   const own = new Set<string>()
   const conditions = Object.values(style).flatMap((value) =>
@@ -424,9 +428,14 @@ function foreignTexts(style: StyleObject, combination: Combination) {
   )
   for (const condition of conditions) {
     const marker = only(condition)
-    if (marker?.kind === "state")
-      (marker.base === combination.base ? own : others).add(marker.key)
-    else own.add(condition)
+    if (marker?.kind === "state") {
+      const side = marker.base === combination.base ? own : others
+      for (const text of [
+        marker.key,
+        ...(marker.key.match(/\[[^\]]+\]/g) ?? []),
+      ])
+        side.add(text)
+    } else own.add(condition)
   }
   return new Set([...others].filter((text) => !own.has(text)))
 }

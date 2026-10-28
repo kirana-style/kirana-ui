@@ -3,7 +3,6 @@ title: Dropdown Menu
 description: Displays a menu of actions or functions, triggered by a button.
 section: components
 variants: [react/base, react/aria, vue/ark]
-order: 8
 keywords: [dropdown menu, component, base, aria, ark]
 ---
 

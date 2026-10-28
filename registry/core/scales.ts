@@ -6,6 +6,9 @@
 export {
   blur,
   breakpoint,
+  // Tailwind's palette, for the examples that name a colour of it (`bg-green-500/10`); a component
+  // reads the design's tokens instead.
+  color,
   containerSize,
   duration,
   // Tailwind's `font-mono` stack, for figures (a chart tooltip's values).

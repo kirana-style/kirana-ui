@@ -3,7 +3,6 @@ title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 section: components
 variants: [react/base, react/aria]
-order: 15
 keywords: [sidebar, component, base, aria]
 ---
 

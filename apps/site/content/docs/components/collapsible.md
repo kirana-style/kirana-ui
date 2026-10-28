@@ -3,7 +3,6 @@ title: Collapsible
 description: An interactive component which expands and collapses a panel.
 section: components
 variants: [react/base, react/aria]
-order: 6
 keywords: [collapsible, component, base, aria]
 ---
 

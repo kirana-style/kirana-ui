@@ -88,6 +88,7 @@ export const alpha = defineTokens(
     input40: `color-mix(in oklab, ${theme.input} 40%, transparent)`,
     input50: `color-mix(in oklab, ${theme.input} 50%, transparent)`,
     input80: `color-mix(in oklab, ${theme.input} 80%, transparent)`,
+    input90: `color-mix(in oklab, ${theme.input} 90%, transparent)`,
     popover70: `color-mix(in oklab, ${theme.popover} 70%, transparent)`,
     border50: `color-mix(in oklab, ${theme.border} 50%, transparent)`,
     ring30: `color-mix(in oklab, ${theme.ring} 30%, transparent)`,

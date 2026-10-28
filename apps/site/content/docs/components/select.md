@@ -3,7 +3,6 @@ title: Select
 description: Displays a list of options to pick from, triggered by a button.
 section: components
 variants: [react/base, react/aria, vue/ark]
-order: 12
 keywords: [select, component, base, aria, ark]
 ---
 

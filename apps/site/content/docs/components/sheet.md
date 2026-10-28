@@ -3,7 +3,6 @@ title: Sheet
 description: Extends the Dialog to display content from an edge of the screen.
 section: components
 variants: [react/base, react/aria]
-order: 14
 keywords: [sheet, component, base, aria]
 ---
 

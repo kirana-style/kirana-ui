@@ -3,7 +3,6 @@ title: Field
 description: Combines a label, a control and help text.
 section: components
 variants: [react/base, react/aria]
-order: 9
 keywords: [field, component, base, aria]
 ---
 

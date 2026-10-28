@@ -44,6 +44,9 @@ export const registryConfig = {
       [orientation.horizontal.base, orientation.vertical.aria],
       [orientation.vertical.base, orientation.horizontal.aria],
       [orientation.horizontal.aria, orientation.vertical.aria],
+      // Upstream marks Base UI's invalid checkbox with `aria-invalid`, which no vocabulary names,
+      // and React Aria's checkbox is a label that never carries it (`check`, in `states.ts`).
+      ['[aria-invalid="true"]', Aria.Checkbox.focusVisible],
     ],
     exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
   },

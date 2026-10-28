@@ -3,7 +3,6 @@ title: Separator
 description: Visually or semantically separates content.
 section: components
 variants: [react/base, react/aria]
-order: 13
 keywords: [separator, component, base, aria]
 ---
 

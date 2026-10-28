@@ -5,7 +5,7 @@
  */
 import { css } from "@kirana-style/core"
 
-import { space } from "../core/scales"
+import { containerSize, space } from "../core/scales"
 import { font, theme } from "../core/tokens"
 
 export const page = {
@@ -33,4 +33,6 @@ export const page = {
     justifyContent: "center",
     padding: space[10],
   }),
+  // A docs demo's width in that frame where upstream's preview narrows it (`*:max-w-xs`).
+  narrow: css({ width: "100%", maxWidth: containerSize.xs }),
 }
