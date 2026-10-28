@@ -289,6 +289,15 @@ export const ITEMS: Item[] = [
     "Shows a placeholder while content is loading.",
     ALL
   ),
+  {
+    name: "typeset",
+    type: "registry:ui",
+    title: "Typeset",
+    description:
+      "Styles for rendered markdown and other HTML you do not control, inside a typeset container.",
+    // A stylesheet and the handle that gives it the design: the same for every framework.
+    files: () => ["styles/typeset.css", "styles/typeset.styles.ts"],
+  },
   component(
     "tooltip",
     "Tooltip",

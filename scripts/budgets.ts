@@ -76,6 +76,7 @@ const create = page("create.html")
 const blocks = page("blocks/index.html")
 const charts = page("charts/area.html")
 const colors = page("colors.html")
+const typesetPage = page("typeset.html")
 const preview = page("preview/react/base/dialog-demo.html")
 const vueCss = readdirSync(join(CLIENT, "preview/vue/assets"))
   .filter((name) => name.endsWith(".css"))
@@ -92,6 +93,27 @@ const registryFiles = existsSync(join(CLIENT, "r"))
   : []
 const allFiles = walk(CLIENT)
 
+/**
+ * What a style costs a project: every item's style modules flattened for it on Base UI, the
+ * default base, as `kirana-style ui add` writes them for a project in that style, together, gzip.
+ * And the design system itself, the `kirana` item: the tokens, the axes, the palettes and the
+ * root that puts them on `<html>`.
+ */
+type Flattened = {
+  flattened?: {
+    builds: Record<string, Record<string, { content: string }[]>>
+  }
+}
+const kiranaItems = registryFiles
+  .filter((path) => /\/r\/[^/]+\.json$/.test(path))
+  .map((path) => JSON.parse(readFileSync(path, "utf8")) as Flattened)
+const styleCost: Record<string, string> = {}
+for (const item of kiranaItems)
+  for (const [style, bases] of Object.entries(item.flattened?.builds ?? {}))
+    for (const file of bases.base ?? [])
+      styleCost[style] = `${styleCost[style] ?? ""}${file.content}\n`
+const designSystem = join(CLIENT, "r", "kirana.json")
+
 const measured: Record<string, number> = {
   "home.js": home.js,
   "home.css": home.css,
@@ -100,6 +122,7 @@ const measured: Record<string, number> = {
   "blocks.js": blocks.js,
   "charts.js": charts.js,
   "colors.js": colors.js,
+  "typeset.js": typesetPage.js,
   "preview.dialog-demo.js": preview.js,
   "site.css": siteCss,
   "preview-vue.css": vueCss,
@@ -110,6 +133,13 @@ const measured: Record<string, number> = {
   "registry.largest":
     Math.max(...registryFiles.map((path) => statSync(path).size)) / 1024,
   "static.files": allFiles.length,
+  ...Object.fromEntries(
+    Object.entries(styleCost).map(([style, text]) => [
+      `style.${style}`,
+      gzipSync(text, { level: 9 }).length / 1024,
+    ])
+  ),
+  ...(existsSync(designSystem) ? { "design-system": gzip(designSystem) } : {}),
 }
 
 const budgets = JSON.parse(readFileSync(FILE, "utf8")) as Budgets

@@ -1,75 +1,81 @@
 {
   "home.js": {
-    "budget": 302,
+    "budget": 306,
     "unit": "KB",
-    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then to 302 KB with the showcase's framework switch (Base UI's Tabs, about 6 KB; the other frameworks' showcases load in their frame, not in this page).",
-    "measured": 300.5
+    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then to 302 KB with the showcase's framework switch (Base UI's Tabs, about 6 KB; the other frameworks' showcases load in their frame, not in this page). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 302.5 before it, already over by the per-framework docs' page manifest (#46).",
+    "measured": 304.9
   },
   "home.css": {
     "budget": 50,
     "unit": "KB",
     "why": "The stylesheets the home page loads, gzip: Kirana's compiled stylesheet and the registry's reset and fonts.",
-    "measured": 48.1
+    "measured": 49.4
   },
   "docs.js": {
-    "budget": 360,
+    "budget": 364,
     "unit": "KB",
-    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand).",
-    "measured": 356
+    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 360.1 before it, already over by the per-framework docs' page manifest (#46).",
+    "measured": 362.8
   },
   "create.js": {
-    "budget": 305,
+    "budget": 308,
     "unit": "KB",
-    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand).",
-    "measured": 297.6
+    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 301.8 before it, already over by the per-framework docs' page manifest (#46).",
+    "measured": 304.8
   },
   "blocks.js": {
-    "budget": 295,
+    "budget": 299,
     "unit": "KB",
-    "why": "/blocks' JavaScript, gzip: the header, the viewers' toolbars and frames; a block's own code is in its frame, and the code view loads its highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds.",
-    "measured": 290
+    "why": "/blocks' JavaScript, gzip: the header, the viewers' toolbars and frames; a block's own code is in its frame, and the code view loads its highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 294.6 before it, already over by the per-framework docs' page manifest (#46).",
+    "measured": 297.4
   },
   "charts.js": {
-    "budget": 295,
+    "budget": 298,
     "unit": "KB",
-    "why": "A charts page's JavaScript, gzip: the header, the type navigation and each chart's toolbar; the charts are in their frames, the code sheet's highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds.",
-    "measured": 288.8
+    "why": "A charts page's JavaScript, gzip: the header, the type navigation and each chart's toolbar; the charts are in their frames, the code sheet's highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 293.4 before it, already over by the per-framework docs' page manifest (#46).",
+    "measured": 296
   },
   "colors.js": {
-    "budget": 300,
+    "budget": 302,
     "unit": "KB",
-    "why": "/colors' JavaScript, gzip: the header, the format picker and the palettes, whose values are in the page. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand).",
-    "measured": 292.7
+    "why": "/colors' JavaScript, gzip: the header, the format picker and the palettes, whose values are in the page. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 297.4 before it, already over by the per-framework docs' page manifest (#46).",
+    "measured": 300
+  },
+  "typeset.js": {
+    "budget": 295,
+    "unit": "KB",
+    "why": "/typeset's JavaScript, gzip: the builder, its pickers and docs panel, Base UI's Dialog and Tabs; its preview's fonts load in the frame, not here.",
+    "measured": 286.3
   },
   "preview.dialog-demo.js": {
     "budget": 170,
     "unit": "KB",
     "why": "A React preview page, the dialog demo, gzip: the demo as a bare island, without the site's shell, measured 169 KB.",
-    "measured": 155.8
+    "measured": 160.8
   },
   "site.css": {
     "budget": 100,
     "unit": "KB",
     "why": "Kirana's compiled stylesheet for the site, gzip, every style and axis value in it: estimated at 88 KB with every axis value at 64 components.",
-    "measured": 46.5
+    "measured": 47.8
   },
   "preview-vue.css": {
     "budget": 40,
     "unit": "KB",
     "why": "The Vue preview app's stylesheet, gzip, the same per framework.",
-    "measured": 18.4
+    "measured": 20
   },
   "registry.files": {
     "budget": 15000,
     "unit": "files",
     "why": "The registry's JSON files under /r: with the rest of the site they must stay under the Worker's 20,000 static files per version.",
-    "measured": 710
+    "measured": 991
   },
   "registry.bytes": {
     "budget": 30000,
     "unit": "KB",
-    "why": "The registry's JSON, total: it grows with items \u00d7 combinations, about 19 MB expected at 64 components.",
-    "measured": 9370.4
+    "why": "The registry's JSON, total: it grows with items × combinations, about 19 MB expected at 64 components.",
+    "measured": 13697.3
   },
   "registry.largest": {
     "budget": 25600,
@@ -81,6 +87,60 @@
     "budget": 20000,
     "unit": "files",
     "why": "Every static file the Worker serves: its limit is 20,000 per version.",
-    "measured": 1544
+    "measured": 2091
+  },
+  "style.nova": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Nova style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 9.9
+  },
+  "style.vega": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Vega style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 9.9
+  },
+  "style.lyra": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Lyra style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 9.7
+  },
+  "style.maia": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Maia style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 10
+  },
+  "style.mira": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Mira style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 9.9
+  },
+  "style.luma": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Luma style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 10
+  },
+  "style.rhea": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Rhea style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 10
+  },
+  "style.sera": {
+    "budget": 12,
+    "unit": "KB",
+    "why": "What the Sera style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "measured": 10
+  },
+  "design-system": {
+    "budget": 25,
+    "unit": "KB",
+    "why": "The design system's item, `kirana`, gzip (P2-13's root token module): the tokens, axes, palettes and the root that puts them on `<html>`, with every style's and base's builds. 21.2 KB on 2026-10-28.",
+    "measured": 21.2
   }
 }

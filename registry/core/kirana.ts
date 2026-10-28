@@ -50,10 +50,12 @@ export const registryConfig = {
 } satisfies KiranaConfig
 
 /**
- * `registryConfig` with the reset underneath every Kirana rule: what `kirana-style ui init` spreads
- * into a project's `kirana.config.ts`, beside the reset it imports.
+ * `registryConfig` with the reset and typeset underneath every Kirana rule: what `kirana-style ui
+ * init` spreads into a project's `kirana.config.ts`, beside the reset it imports. `typeset` is the
+ * layer of `typeset.css` (the `typeset` item), so an element's own `sx` beats it; a project without
+ * it declares an empty layer.
  */
 export const installConfig = {
   ...registryConfig,
-  layers: { before: ["reset"] },
+  layers: { before: ["reset", "typeset"] },
 } satisfies KiranaConfig

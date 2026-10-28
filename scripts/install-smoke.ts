@@ -49,6 +49,7 @@ const ITEMS = {
     "chart",
     "login-01",
     "sidebar-07",
+    "typeset",
   ],
   vue: [
     "button",
@@ -58,6 +59,7 @@ const ITEMS = {
     "dropdown-menu",
     "skeleton",
     "tabs",
+    "typeset",
   ],
 } as const
 

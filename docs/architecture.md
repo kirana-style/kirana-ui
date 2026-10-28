@@ -265,7 +265,11 @@ children a Field lays out, the links a caller writes in an alert. Kirana hashes
 its variable names, so there is nothing stable for plain CSS to reference;
 anything theme-dependent is applied with `sx` starting at `<html>`, and where a
 global rule needs a colour, the component hands it down as a plain custom
-property. Tailwind's reset gave every element `border-color: var(--border)`; that
+property. The registry's `typeset.css` is the same shape: plain CSS for rendered
+markdown, whose rules reach every descendant of a `typeset` container by
+combinators no Kirana handle writes, in a `typeset` layer under every Kirana
+rule, reading `--typeset-*` variables that the `typeset` handle sets from the
+tokens on the container. Tailwind's reset gave every element `border-color: var(--border)`; that
 implicit default is deliberately gone.
 
 **One package, internal layers.** Token and relation identities hash from the

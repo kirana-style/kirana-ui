@@ -11,22 +11,29 @@ const REGISTRY = fileURLToPath(new URL("../../registry/", import.meta.url))
 
 /**
  * Every React preview page, `/preview/react/<base>/<item>`: each base's examples, blocks and charts, the
- * items its `previews.ts` maps.
+ * items its `previews.ts` maps; and the typeset builder's, `/preview/typeset/<item>`.
  */
 function previewPages() {
-  return ["base", "aria"].flatMap((base) => {
-    const folder = `${REGISTRY}bases/react-${base}/`
-    const examples = readdirSync(`${folder}examples`)
-      .filter((file) => file.endsWith(".tsx"))
-      .map((file) => file.slice(0, -4))
-    const blocks = readdirSync(`${folder}blocks`)
-    const charts = readdirSync(`${folder}charts`)
-      .filter((file) => file.endsWith(".tsx"))
-      .map((file) => file.slice(0, -4))
-    return [...examples, ...blocks, ...charts].map(
-      (item) => `/preview/react/${base}/${item}`
+  return ["base", "aria"]
+    .flatMap((base) => {
+      const folder = `${REGISTRY}bases/react-${base}/`
+      const examples = readdirSync(`${folder}examples`)
+        .filter((file) => file.endsWith(".tsx"))
+        .map((file) => file.slice(0, -4))
+      const blocks = readdirSync(`${folder}blocks`)
+      const charts = readdirSync(`${folder}charts`)
+        .filter((file) => file.endsWith(".tsx"))
+        .map((file) => file.slice(0, -4))
+      return [...examples, ...blocks, ...charts].map(
+        (item) => `/preview/react/${base}/${item}`
+      )
+    })
+    .concat(
+      // The typeset builder's content (`src/lib/typeset.ts`'s `TYPESET_ITEMS`).
+      ["docs", "chat", "article", "changelog", "notes"].map(
+        (item) => `/preview/typeset/${item}`
+      )
     )
-  })
 }
 
 /**

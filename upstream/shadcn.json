@@ -1098,6 +1098,17 @@
         "apps/v4/registry/bases/aria/examples/tabs-example.tsx": "sha256:85991f8b7cabc38c"
       },
       "hooks": {}
+    },
+    "typeset": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/app/(app)/(typeset)/typeset.css": "sha256:47e2af83b960d10c"
+      },
+      "hooks": {},
+      "deviations": [
+        "reads --typeset-* variables only (the theme's colours, the heading and mono fonts, the radius), which the typeset handle sets from the tokens: Kirana hashes its token variables",
+        "in the typeset layer under every Kirana rule, where upstream's is in Tailwind's components layer"
+      ]
     }
   }
 }
