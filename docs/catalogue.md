@@ -311,7 +311,10 @@ follow upstream's copy for that base.
 | `*/components`                  | `example.tsx`: `ExampleWrapper` and `Example`, the frame upstream's examples sit in (`containerSx` for its outer part)                                                                                                                                                                                                      |
 | `*/previews.ts`                 | Each base's items by registry name, each loaded on its own, for its preview pages                                                                                                                                                                                                                                           |
 | `react-aria/ui`, `blocks`       | The same on React Aria. Its Dialog is the modal (inside `DialogTrigger`), its DropdownMenu the menu in its popover                                                                                                                                                                                                          |
-| `vue-ark/ui`                    | Button, Dialog, Select, DropdownMenu, Tabs on Ark UI, one single-file component per part, `index.ts` per component                                                                                                                                                                                                          |
+| `vue-ark/ui`                    | Button, Card, Dialog, Select, DropdownMenu, Skeleton, Tabs on Ark UI, one single-file component per part, `index.ts` per component                                                                                                                                                                                          |
+| `svelte-ark/ui`                 | Button, Card, Skeleton on Svelte, one component per part (the caller's `sx` arrives as `class`), `index.ts` per component                                                                                                                                                                                                   |
+| `solid-ark/ui`                  | Button, Card, Skeleton on Solid, one `.tsx` per component, as React's                                                                                                                                                                                                                                                       |
+| `angular-ng/ui`                 | Button, Card, Skeleton on Angular, a directive per part (`kuiButton`, `kuiCard` …) that merges its `sx` input onto the host's `class`; ng-primitives is the base, though no part reads one of its states yet                                                                                                                |
 
 And what they share:
 
@@ -422,6 +425,12 @@ Started, New Project), and the showcase (`components/showcase/`, a file per card
 the reader's design, four columns from 1400 px, the chart card in its own chunk. Site code, not a
 registry item, since a block holding some of upstream's `preview` cards would differ from upstream's
 whole block.
+Above it, the framework switch (`components/showcase/frameworks.ts`): React, Vue, Svelte, Solid
+and Angular. React is the grid itself, drawn on Base UI; another framework swaps it for its preview
+app's showcase page in a frame (`/preview/<framework>/<base>/showcase`, the cards it can draw with
+the components it has, laid out by `registry/styles/showcase.styles.ts`), which takes the design as
+every framed preview does. The choice is the docs' combination (docs-ui's `combination.ts`), so a
+component page opens on the framework chosen here.
 `/blocks` and `/blocks/<category>` are upstream's blocks pages (`routes/blocks*.tsx`, the parts in
 `components/blocks/`): Kirana's page hero (`components/page/`, as the project pages; the charts and
 colours pages open with it too), the categories that have a block (Featured, then upstream's order), then each block in its viewer:
@@ -478,6 +487,10 @@ item and preset on both sites):
 | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | `/preview/react/base/<item>`, `aria/…` | `apps/site`'s route, prerendered per item and base; the design by an inline script before paint |
 | `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev  |
+| `/preview/svelte/ark/<item>`           | `apps/preview-svelte`, the same way; port 3004 in dev                                           |
+| `/preview/solid/ark/<item>`            | `apps/preview-solid`, the same way; port 3005 in dev                                            |
+| `/preview/angular/ng/<item>`           | `apps/preview-angular` (Analog's Vite plugin, Angular's compiler run first); port 3006 in dev   |
+| `/preview/<framework>/<base>/showcase` | each preview app's showcase: the home showcase's cards the framework can draw so far            |
 
 - **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
   upstream's axis parameters (`style`, `theme` …), and `rtl` and `pointer`;
@@ -526,8 +539,10 @@ item and preset on both sites):
     installation rewrites to the project's alias for the type.
 - **shadcn/ui's**, for its CLI: `r/shadcn/<combination>/<item>.json`,
   `<combination>/registry.json` and `r/shadcn/index.json`, for every combination of
-  `react-base`, `react-aria`, `vue-ark` and the eight styles, each style module
-  flattened.
+  `react-base`, `react-aria`, `vue-ark`, `svelte-ark`, `solid-ark`, `angular-ng`
+  and the eight styles, each style module flattened. A combination is checked on
+  the style modules its items install, and a composition on the bases whose
+  markup writes it.
 
 The `kirana` item is the design system: besides its tokens and axes it carries
 the reset and its wiring, which `kirana-style ui init` follows: `installConfig`

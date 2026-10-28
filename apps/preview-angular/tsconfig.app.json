@@ -1,0 +1,26 @@
+{
+  // What Angular builds with (Analog reads it): it emits, so no `.ts` imports.
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+    // The registry exports its files by their exact path, and Angular's compiler reads
+    // extensionless imports: it resolves them here.
+    "paths": { "@workspace/registry/*": ["../../registry/*"] }
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.ts", "../../registry/bases/angular-ng/**/*.ts"]
+}

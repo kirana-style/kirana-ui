@@ -7,6 +7,10 @@
     ".": {
       "types": "./index.d.ts",
       "default": "./index.js"
+    },
+    "./preview": {
+      "types": "./preview.d.ts",
+      "default": "./preview.js"
     }
   },
   "dependencies": {

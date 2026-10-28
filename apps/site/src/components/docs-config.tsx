@@ -54,11 +54,17 @@ export const TABS: readonly DocsTab[] = [
   },
 ]
 
-/** The frameworks and bases a component page can show, as the registry names them. */
+/**
+ * The frameworks and bases a component page can show, as the registry names them. React's two are
+ * named by their base; every other framework has one, so it is named by the framework.
+ */
 const COMBINATIONS = [
   { id: "react/base", label: "Base UI" },
   { id: "react/aria", label: "React Aria" },
-  { id: "vue/ark", label: "Ark UI" },
+  { id: "vue/ark", label: "Vue" },
+  { id: "svelte/ark", label: "Svelte" },
+  { id: "solid/ark", label: "Solid" },
+  { id: "angular/ng", label: "Angular" },
 ] as const
 
 export function SiteDocsProvider({ children }: { children: React.ReactNode }) {

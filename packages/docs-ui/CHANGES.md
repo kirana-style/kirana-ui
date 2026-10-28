@@ -83,6 +83,8 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   own (the charts pages' types).
 - `combination.ts` (new): the framework and base a component page shows, one choice for the whole
   site, kept in localStorage (`docs-ui:combination`), from `DocsConfig.combinations` (new).
+- `combination.ts`: `useSavedCombination()`, the saved choice without the provider, for the site's
+  home showcase, whose framework switch shares it.
 - `markdown/preview.tsx`: `combinations="react/base,react/aria"` puts a picker over the preview and
   passes the choice to `previewSrc(item, combination)`.
 - `markdown/component-code.tsx` (new), registered as `component-code`: the files installing an item

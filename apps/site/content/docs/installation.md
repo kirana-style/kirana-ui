@@ -72,8 +72,11 @@ Each component comes with the ones it needs, and its files land under
 Each combination is installed from an empty folder, built and checked on every
 change to this repository; `tanstack-start` was checked by hand. Next.js's
 template (`next-turbopack`) does not install yet: it has no `tsconfig.json` until
-Next.js first runs, and `init` stops where it would add the alias. Svelte and
-Solid come with Ark UI's components for them.
+Next.js first runs, and `init` stops where it would add the alias.
+
+Svelte and Solid (on Ark UI) and Angular (on ng-primitives) have their first
+components in the registry: Button, Card and Skeleton, each drawn on the site as
+it draws on React. Installing into those frameworks is not checked yet.
 
 ## The fonts
 

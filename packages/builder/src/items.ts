@@ -10,7 +10,7 @@ import { blockInfo } from "../../../registry/blocks"
 import { CHARTS } from "../../../registry/charts"
 import type { Base } from "./flatten"
 
-export type Framework = "react" | "vue"
+export type Framework = "react" | "vue" | "svelte" | "solid" | "angular"
 
 export type Combination = {
   /** `<framework>-<base>-<style>`: `react-base-nova`. */
@@ -37,6 +37,9 @@ export const FRAMEWORK_BASES = [
   { framework: "react", base: "base", bases: "react-base" },
   { framework: "react", base: "aria", bases: "react-aria" },
   { framework: "vue", base: "ark", bases: "vue-ark" },
+  { framework: "svelte", base: "ark", bases: "svelte-ark" },
+  { framework: "solid", base: "ark", bases: "solid-ark" },
+  { framework: "angular", base: "ng", bases: "angular-ng" },
 ] as const
 
 export const COMBINATIONS: Combination[] = FRAMEWORK_BASES.flatMap((entry) =>
@@ -65,6 +68,26 @@ export type Item = {
 
 const react = (combination: Combination) => combination.framework === "react"
 
+/**
+ * A component's markup: one file for React and Solid (`.tsx`) and Angular (`.ts`, its directives),
+ * a folder of single-file components with an `index.ts` for Vue and Svelte.
+ */
+function markupOf(name: string, combination: Combination): string {
+  const folder = `bases/${combination.bases}/ui`
+  switch (combination.framework) {
+    case "react":
+    case "solid":
+      return `${folder}/${name}.tsx`
+    case "angular":
+      return `${folder}/${name}.ts`
+    default:
+      return `${folder}/${name}/*`
+  }
+}
+
+/** Every framework: the components each one has (Button, Card, Skeleton so far). */
+const ALL: Framework[] = ["react", "vue", "svelte", "solid", "angular"]
+
 /** A component: its markup in each base, and its style module. */
 function component(
   name: string,
@@ -79,12 +102,7 @@ function component(
     description,
     files: (combination) => {
       if (!frameworks.includes(combination.framework)) return undefined
-      return [
-        ...(react(combination)
-          ? [`bases/${combination.bases}/ui/${name}.tsx`]
-          : [`bases/${combination.bases}/ui/${name}/*`]),
-        `styles/${name}.styles.ts`,
-      ]
+      return [markupOf(name, combination), `styles/${name}.styles.ts`]
     },
   }
 }
@@ -150,12 +168,13 @@ export const ITEMS: Item[] = [
     title: "Icon placeholder",
     description:
       "An icon named for every icon library, drawn in the one the project uses.",
-    files: (combination) => [
-      "icons/data.ts",
-      ...(react(combination)
-        ? ["icons/icon-placeholder.tsx"]
-        : ["icons/IconPlaceholder.vue", "icons/vue.ts"]),
-    ],
+    // React's and Vue's for now; Svelte, Solid and Angular get theirs with their first icon.
+    files: (combination) =>
+      react(combination)
+        ? ["icons/data.ts", "icons/icon-placeholder.tsx"]
+        : combination.framework === "vue"
+          ? ["icons/data.ts", "icons/IconPlaceholder.vue", "icons/vue.ts"]
+          : undefined,
   },
   {
     name: "use-mobile",
@@ -187,7 +206,8 @@ export const ITEMS: Item[] = [
   component(
     "button",
     "Button",
-    "Displays a button or a component that looks like a button."
+    "Displays a button or a component that looks like a button.",
+    ALL
   ),
   component("dialog", "Dialog", "A window overlaid on the page."),
   component(
@@ -215,7 +235,7 @@ export const ITEMS: Item[] = [
     "card",
     "Card",
     "Displays a card with a header, content and footer.",
-    ["react"]
+    ALL
   ),
   component("field", "Field", "Combines a label, a control and help text.", [
     "react",
@@ -267,7 +287,7 @@ export const ITEMS: Item[] = [
     "skeleton",
     "Skeleton",
     "Shows a placeholder while content is loading.",
-    ["react"]
+    ALL
   ),
   component(
     "tooltip",

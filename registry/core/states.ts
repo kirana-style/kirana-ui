@@ -12,7 +12,17 @@ import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 
-export type StateKeys = { base?: string; aria?: string; ark?: string }
+/**
+ * Each base's key for a state. `ng` is ng-primitives, Angular's base: no style reads one of its
+ * states yet, since the components Angular has so far (Button, Card, Skeleton) write none a style
+ * keys on; its keys come from `@kirana-style/states/ng-primitives` with the first that does.
+ */
+export type StateKeys = {
+  base?: string
+  aria?: string
+  ark?: string
+  ng?: string
+}
 
 /** `value` under every base's key for `state`. */
 export function when<Value>(state: StateKeys, value: Value) {
@@ -20,6 +30,7 @@ export function when<Value>(state: StateKeys, value: Value) {
     ...(state.base ? { [state.base]: value } : {}),
     ...(state.aria ? { [state.aria]: value } : {}),
     ...(state.ark ? { [state.ark]: value } : {}),
+    ...(state.ng ? { [state.ng]: value } : {}),
   }
 }
 

@@ -1,0 +1,25 @@
+{
+  "name": "preview-svelte",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vp dev --port 3004",
+    "build": "vp build"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
+    "@kirana-style/core": "catalog:",
+    "@workspace/registry": "workspace:*",
+    "svelte": "catalog:"
+  },
+  "devDependencies": {
+    "@kirana-style/vite": "catalog:",
+    "@sveltejs/vite-plugin-svelte": "catalog:",
+    "@workspace/vite-config": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

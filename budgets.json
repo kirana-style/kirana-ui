@@ -1,9 +1,9 @@
 {
   "home.js": {
-    "budget": 295,
+    "budget": 302,
     "unit": "KB",
-    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds.",
-    "measured": 289
+    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then to 302 KB with the showcase's framework switch (Base UI's Tabs, about 6 KB; the other frameworks' showcases load in their frame, not in this page).",
+    "measured": 300.5
   },
   "home.css": {
     "budget": 50,
@@ -68,7 +68,7 @@
   "registry.bytes": {
     "budget": 30000,
     "unit": "KB",
-    "why": "The registry's JSON, total: it grows with items × combinations, about 19 MB expected at 64 components.",
+    "why": "The registry's JSON, total: it grows with items \u00d7 combinations, about 19 MB expected at 64 components.",
     "measured": 9370.4
   },
   "registry.largest": {

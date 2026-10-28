@@ -8,5 +8,6 @@ export const PREVIEW_NAMES = [
   "dialog-demo",
   "dropdown-menu-demo",
   "select-demo",
+  "skeleton-demo",
   "tabs-demo",
 ] as const

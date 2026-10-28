@@ -28,12 +28,17 @@ import { compositionProbes, compositionsOf } from "./compose"
 import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
-import { COMBINATIONS, FRAMEWORK_BASES } from "./items"
+import { COMBINATIONS, FRAMEWORK_BASES, ITEMS } from "./items"
 import { buildKiranaRegistry } from "./kirana-items"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
 import { split } from "./markers"
 import { loadNames } from "./names"
-import { buildCombination, versionsFrom } from "./registry"
+import {
+  buildCombination,
+  importsOf,
+  sourcesOf,
+  versionsFrom,
+} from "./registry"
 import { Session } from "./session"
 import type { StyleHandle } from "./kirana-stub"
 
@@ -50,10 +55,37 @@ const { values } = parseArgs({
   },
 })
 
+/**
+ * The style modules each combination installs: those its items' files name, and the style modules
+ * they import in turn. A module no item installs on a combination (Tabs on Angular, so far) is not
+ * checked there.
+ */
+const shipped = new Map(
+  COMBINATIONS.map((combination) => {
+    const modules = new Set<string>()
+    const add = (module: string) => {
+      if (modules.has(module)) return
+      modules.add(module)
+      const code = readFileSync(join(REGISTRY, "styles", module), "utf8")
+      for (const specifier of importsOf(code)) {
+        const sibling = /^\.\/(.+\.styles)$/.exec(specifier)?.[1]
+        if (sibling) add(`${sibling}.ts`)
+      }
+    }
+    for (const item of ITEMS)
+      for (const file of sourcesOf(REGISTRY, item, combination) ?? []) {
+        const module = /^styles\/(.+\.styles\.ts)$/.exec(file)?.[1]
+        if (module) add(module)
+      }
+    return [combination.id, modules] as const
+  })
+)
+
 const BASE_NAMES = {
   base: "Base UI",
   aria: "React Aria",
   ark: "Ark UI",
+  ng: "ng-primitives",
 } as const
 
 const started = performance.now()
@@ -107,18 +139,44 @@ if (session) {
       handles.has(path)
     )
     compositionCount = compositions.size
-    probes.set("compose.ts", compositionProbes(compositions, handles))
-    for (const [module, moduleProbes] of probes) {
+    const check = (
+      module: string,
+      moduleProbes: ReturnType<typeof probesOf>,
+      combinations: typeof COMBINATIONS
+    ) => {
+      if (!combinations.length || !moduleProbes.size) return
       const result = checkWinners(
         context,
         module,
         moduleProbes,
-        COMBINATIONS,
+        combinations,
         (combination) => classifier(combination),
         exclusive
       )
       problems.push(...result.problems)
       winnerChecks += result.compared
+    }
+    // A module on the combinations that install it; a composition on the bases whose markup
+    // writes it.
+    for (const [module, moduleProbes] of probes)
+      check(
+        module,
+        moduleProbes,
+        COMBINATIONS.filter((combination) =>
+          shipped.get(combination.id)!.has(module)
+        )
+      )
+    for (const { bases } of FRAMEWORK_BASES) {
+      const here = new Map(
+        [...compositions].filter(([, { sites }]) =>
+          [...sites].some((site) => site.startsWith(`${bases}/`))
+        )
+      )
+      check(
+        "compose.ts",
+        compositionProbes(here, handles),
+        COMBINATIONS.filter((combination) => combination.bases === bases)
+      )
     }
     problems.push(...compileGenerated(context))
   } finally {

@@ -77,6 +77,7 @@ const BASE_TITLES: Record<Base, string> = {
   base: "Base UI",
   aria: "React Aria",
   ark: "Ark UI",
+  ng: "ng-primitives",
 }
 
 const styles = {
@@ -346,6 +347,7 @@ const BASE_ICONS: Record<Base, typeof Layers01Icon> = {
   base: Layers01Icon,
   aria: AccessIcon,
   ark: PackageIcon,
+  ng: PackageIcon,
 }
 
 export function GetCodeDialog({

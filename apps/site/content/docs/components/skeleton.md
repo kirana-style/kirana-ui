@@ -3,12 +3,12 @@ title: Skeleton
 description: Shows a placeholder while content is loading.
 section: components
 order: 16
-keywords: [skeleton, component, base, aria]
+keywords: [skeleton, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Skeleton
 
-<!-- ::preview item="skeleton-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="skeleton-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
@@ -38,4 +38,4 @@ export function Example() {
 
 What installing it writes, in the default style, for the framework and base you choose:
 
-<!-- ::component-code name="skeleton" combinations="react/base,react/aria" -->
+<!-- ::component-code name="skeleton" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->

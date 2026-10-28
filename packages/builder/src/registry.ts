@@ -21,7 +21,14 @@ export const SCHEMA_ITEM = "https://ui.shadcn.com/schema/registry-item.json"
 export const SCHEMA_REGISTRY = "https://ui.shadcn.com/schema/registry.json"
 
 /** Packages a project has by being of its framework. */
-const FRAMEWORK_PACKAGES = new Set(["react", "react-dom", "vue"])
+const FRAMEWORK_PACKAGES = new Set([
+  "react",
+  "react-dom",
+  "vue",
+  "svelte",
+  "solid-js",
+  "@angular/core",
+])
 
 /**
  * React's icon placeholder, which shadcn/ui's CLI resolves at install: each `<IconPlaceholder … />`
@@ -53,7 +60,7 @@ export const packageOf = (specifier: string) =>
     ? specifier.split("/").slice(0, 2).join("/")
     : specifier.split("/")[0]
 
-const EXTENSIONS = ["", ".ts", ".tsx", ".vue", "/index.ts"]
+const EXTENSIONS = ["", ".ts", ".tsx", ".vue", ".svelte", "/index.ts"]
 
 /** The registry file a relative import names, from the importing file. */
 function resolveSource(
@@ -65,7 +72,8 @@ function resolveSource(
   for (const extension of EXTENSIONS) {
     const candidate = `${base}${extension}`
     if (existsSync(join(registry, candidate)) && !candidate.endsWith("/")) {
-      if (extension === "" && !/\.(tsx?|vue|css)$/.test(candidate)) continue
+      if (extension === "" && !/\.(tsx?|vue|svelte|css)$/.test(candidate))
+        continue
       return candidate
     }
   }
@@ -90,9 +98,9 @@ export function rewriteImports(
     /(\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)(["'])(\.{1,2}\/[^"']+)\2/g,
     (_, lead: string, quote: string, specifier: string) => {
       const target = installedPath(resolveSource(registry, source, specifier))
-      const keepExtension = /\.(ts|tsx|vue)$/.test(specifier)
+      const keepExtension = /\.(ts|tsx|vue|svelte)$/.test(specifier)
       const named =
-        keepExtension || target.endsWith(".vue")
+        keepExtension || /\.(vue|svelte)$/.test(target)
           ? target
           : withoutExtension(target)
       // A folder's `index.ts`, imported by the folder, keeps being imported by the folder.
@@ -119,7 +127,7 @@ export function sourcesOf(
   return files.flatMap((file) =>
     file.endsWith("/*")
       ? readdirSync(join(registry, file.slice(0, -2)))
-          .filter((name) => /\.(vue|ts)$/.test(name))
+          .filter((name) => /\.(vue|svelte|ts)$/.test(name))
           .sort()
           .map((name) => `${file.slice(0, -2)}/${name}`)
       : [file]

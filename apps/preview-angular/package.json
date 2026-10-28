@@ -1,0 +1,33 @@
+{
+  "name": "preview-angular",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vp dev --port 3006",
+    "build": "ngc -p tsconfig.app.json --noEmit && vp build"
+  },
+  "dependencies": {
+    "@angular/common": "catalog:",
+    "@angular/compiler": "catalog:",
+    "@angular/core": "catalog:",
+    "@angular/platform-browser": "catalog:",
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
+    "@kirana-style/core": "catalog:",
+    "@workspace/registry": "workspace:*",
+    "rxjs": "catalog:"
+  },
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "catalog:",
+    "@angular/build": "catalog:",
+    "@angular/compiler-cli": "catalog:",
+    "@kirana-style/angular": "catalog:",
+    "@kirana-style/vite": "catalog:",
+    "@types/node": "catalog:",
+    "@workspace/vite-config": "workspace:*",
+    "typescript": "~6.0.3",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

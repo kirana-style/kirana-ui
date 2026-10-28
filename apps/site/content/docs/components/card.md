@@ -56,4 +56,4 @@ export function Example() {
 
 What installing it writes, in the default style, for the framework and base you choose:
 
-<!-- ::component-code name="card" combinations="react/base,react/aria" -->
+<!-- ::component-code name="card" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
