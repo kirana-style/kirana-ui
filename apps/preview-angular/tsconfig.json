@@ -1,0 +1,32 @@
+{
+  // The checks' view of the app (`vp check`); Angular builds with tsconfig.app.json.
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "node"],
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    // The registry exports its files by their exact path, and Angular's compiler reads
+    // extensionless imports: it resolves them here.
+    "paths": { "@workspace/registry/*": ["../../registry/*"] }
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../registry/bases/angular-ng/**/*.ts",
+    "vite.config.ts",
+    "kirana.config.ts"
+  ]
+}

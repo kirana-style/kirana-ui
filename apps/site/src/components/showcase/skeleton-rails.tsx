@@ -25,7 +25,8 @@ const GAP = space[6]
 const styles = {
   rail: css({
     position: "absolute",
-    top: space[12],
+    // Level with the grid, under the switch.
+    top: `calc(${space[12]} + 2.25rem + ${space[6]})`,
     zIndex: 0,
     display: { base: "none", "@media (width >= 1700px)": "grid" },
     gridTemplateColumns: "repeat(2, 20rem)",

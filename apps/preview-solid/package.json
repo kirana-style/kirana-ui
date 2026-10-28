@@ -1,0 +1,25 @@
+{
+  "name": "preview-solid",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vp dev --port 3005",
+    "build": "vp build"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
+    "@kirana-style/core": "catalog:",
+    "@workspace/registry": "workspace:*",
+    "solid-js": "catalog:"
+  },
+  "devDependencies": {
+    "@kirana-style/vite": "catalog:",
+    "@workspace/vite-config": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-solid": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

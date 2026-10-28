@@ -35,6 +35,11 @@ export function chooseCombination(id: string) {
   window.dispatchEvent(new Event(EVENT))
 }
 
+/** The saved choice alone, for a page outside the docs that has no provider (the home showcase). */
+export function useSavedCombination(): string | null {
+  return useSyncExternalStore(subscribe, read, () => null)
+}
+
 /**
  * The combinations an item has (`only`, ids; every one the site knows without it), and the one
  * shown: the saved choice when the item has it, else its first.

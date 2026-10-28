@@ -1,0 +1,21 @@
+import "@fontsource-variable/inter"
+import "@fontsource-variable/geist"
+import "@kirana-style/core/stylesheet.css"
+import "@workspace/registry/styles/reset.css"
+import { bootstrapApplication } from "@angular/platform-browser"
+import { props } from "@kirana-style/core"
+import { axes } from "@workspace/registry/core/axes"
+import { followPageDesign } from "@workspace/registry/core/preview"
+import { root } from "@workspace/registry/core/root"
+import { page } from "@workspace/registry/styles/page.styles"
+
+import { App } from "./app"
+
+// The design system lives on `<html>`: its tokens (`root`), the anchor the styles read the visual
+// style through, the colour scheme, and the attributes the design names.
+document.documentElement.className = props(root, axes.anchor, page.document)
+  .className as string
+document.body.className = props(page.body).className as string
+followPageDesign()
+
+void bootstrapApplication(App)

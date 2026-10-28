@@ -26,9 +26,11 @@ And beside it:
   `tabs`, `chart`, `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
   modules, with the page's own styles, the frame of upstream's examples and `reset.css`;
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`
-  with the `login-01` block, and `vue-ark` (Ark UI on Vue) for Button, Dialog, Select,
-  DropdownMenu and Tabs;
-- `icons/`, `IconPlaceholder` for React and Vue over one map of icon data. Installed with
+  with the `login-01` block; `vue-ark` (Ark UI on Vue) for Button, Card, Dialog, Select,
+  DropdownMenu, Skeleton and Tabs; `svelte-ark`, `solid-ark` (Ark UI on Svelte and Solid) and
+  `angular-ng` (ng-primitives on Angular) for Button, Card and Skeleton;
+- `icons/`, `IconPlaceholder` for React and Vue over one map of icon data (the other frameworks
+  get theirs with their first icon). Installed with
   shadcn/ui's CLI, a React placeholder becomes the project's own icon component, and the import of
   `icon-placeholder.tsx` is dropped;
 - `lib/`, the `Sx` type for React (a Vue part takes its caller's `:sx` with Kirana's `useSx()`).
@@ -71,7 +73,10 @@ diagnostic, warnings included; no app compiles them yet.
 A component's copy for a framework and base applies the style modules and holds no style values:
 `sx` on an element, `props()` spread on a library's part, and in Vue Kirana's `useSx()`, whose
 caller's classes go last in the root's own `:sx`. Its part and prop names follow upstream's copy for
-that base. `apps/preview-vue` renders the Vue copies, and its build is where they compile.
+that base. Svelte takes its caller's `sx` as the `class` prop, Solid as a prop, and Angular's
+parts are directives that merge their `sx` input onto the host's `class`. Each framework's preview
+app (`apps/preview-vue`, `-svelte`, `-solid`, `-angular`) renders its copies, and its build is
+where they compile and where their templates are checked.
 
 ## Previews
 

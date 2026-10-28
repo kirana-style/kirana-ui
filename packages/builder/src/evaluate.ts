@@ -53,7 +53,7 @@ export async function evaluate(path: string): Promise<Record<string, unknown>> {
   )
 }
 
-const BASES = ["base", "aria", "ark"] as const
+const BASES = ["base", "aria", "ark", "ng"] as const
 
 /**
  * Tags every state key in the registry's `core/states.ts` with its base, in place, before any style

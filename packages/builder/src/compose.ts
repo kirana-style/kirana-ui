@@ -73,7 +73,7 @@ export function compositionsOf(
     for (const entry of readdirSync(folder, { withFileTypes: true })) {
       const path = join(folder, entry.name)
       if (entry.isDirectory()) walk(path)
-      else if (/\.(tsx|vue)$/.test(entry.name)) {
+      else if (/\.(tsx|vue|svelte)$/.test(entry.name)) {
         const text = readFileSync(path, "utf8")
         for (const match of text.matchAll(OPENERS)) {
           const parts = argumentsAt(

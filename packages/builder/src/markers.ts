@@ -20,7 +20,7 @@ export type Marker =
   | { kind: "anchor"; relation: string }
   | { kind: "target"; how: "child" | "descendant"; selector: string }
   | { kind: "keyframes"; id: string }
-  | { kind: "state"; base: "base" | "aria" | "ark"; key: string }
+  | { kind: "state"; base: "base" | "aria" | "ark" | "ng"; key: string }
 
 export function marker(value: Marker): string {
   return `${OPEN}${JSON.stringify(value)}${CLOSE}`

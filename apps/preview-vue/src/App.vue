@@ -6,8 +6,9 @@ import { space } from "@workspace/registry/core/scales.ts"
 import { computed } from "vue"
 
 import { design } from "./design"
+import Showcase from "./Showcase.vue"
 
-/** One page per item, as `/preview/vue/ark/<item>`; anything else lists them. */
+/** One page per item, as `/preview/vue/ark/<item>`, and the showcase; anything else lists them. */
 const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 const current =
   item && item in previews ? previews[item as keyof typeof previews] : undefined
@@ -23,7 +24,8 @@ const list = css({
 
 <template>
   <LocaleProvider :locale="locale">
-    <component :is="current" v-if="current" />
+    <Showcase v-if="item === 'showcase'" />
+    <component :is="current" v-else-if="current" />
     <nav v-else :sx="list">
       <a
         v-for="(_, name) in previews"
@@ -32,6 +34,7 @@ const list = css({
       >
         {{ name }}
       </a>
+      <a href="/preview/vue/ark/showcase">showcase</a>
     </nav>
   </LocaleProvider>
 </template>

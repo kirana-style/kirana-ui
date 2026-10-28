@@ -14,5 +14,13 @@
     "noUnusedParameters": true
   },
   "include": ["."],
-  "exclude": ["node_modules", "dist", ".flat"]
+  // Solid's and Angular's markup type-checks in its preview app (`apps/preview-solid`,
+  // `apps/preview-angular`), with that framework's JSX and decorators.
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".flat",
+    "bases/solid-ark",
+    "bases/angular-ng"
+  ]
 }

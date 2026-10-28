@@ -53,6 +53,9 @@ import { alpha, radius, theme } from "@workspace/registry/core/tokens"
 import { previews as basePreviews } from "@workspace/registry/bases/react-base/previews"
 import { previews as ariaPreviews } from "@workspace/registry/bases/react-aria/previews"
 import { PREVIEW_NAMES as VUE_PREVIEWS } from "@workspace/registry/bases/vue-ark/preview-names"
+import { PREVIEW_NAMES as SVELTE_PREVIEWS } from "@workspace/registry/bases/svelte-ark/preview-names"
+import { PREVIEW_NAMES as SOLID_PREVIEWS } from "@workspace/registry/bases/solid-ark/preview-names"
+import { PREVIEW_NAMES as ANGULAR_PREVIEWS } from "@workspace/registry/bases/angular-ng/preview-names"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
 import { Icon } from "@workspace/ui/primitives/icon"
 import { useTheme } from "@workspace/ui/theme/theme-provider"
@@ -62,6 +65,9 @@ const PREVIEWS: Record<string, readonly string[]> = {
   "react/base": Object.keys(basePreviews),
   "react/aria": Object.keys(ariaPreviews),
   "vue/ark": VUE_PREVIEWS,
+  "svelte/ark": SVELTE_PREVIEWS,
+  "solid/ark": SOLID_PREVIEWS,
+  "angular/ng": ANGULAR_PREVIEWS,
 }
 
 const subscribeNever = () => () => {}

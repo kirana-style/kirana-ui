@@ -195,3 +195,31 @@ export function forwardModeKey(target: Window) {
   target.document.addEventListener("keydown", onKey)
   return () => target.document.removeEventListener("keydown", onKey)
 }
+
+/**
+ * A preview app's whole wiring, for every framework: the design from the URL or the saved one,
+ * put on `<html>`, then kept there as the framing page's messages and the site's colour mode
+ * arrive; `D` forwarded to the parent; the URL rewritten with each design, so a reload keeps it.
+ * `onDesign` hears each change, for what a framework's own state reads (the icon library, the
+ * reading direction). Returns the first design.
+ */
+export function followPageDesign(
+  onDesign: (design: PreviewDesign) => void = () => {}
+): PreviewDesign {
+  const root = document.documentElement
+  const first = readPageDesign(location.search, document.cookie)
+  root.dataset.mode = readColourMode(location.search, document.cookie)
+  // The site's theme provider tells every page of the site a change of mode on this channel.
+  if (typeof BroadcastChannel !== "undefined")
+    new BroadcastChannel(MODE_COOKIE).onmessage = (event: MessageEvent) => {
+      if (MODES.has(event.data)) root.dataset.mode = event.data
+    }
+  applyDocumentAttributes(root, documentAttributes(first))
+  forwardModeKey(window)
+  listenForDesign(window, (next) => {
+    applyDocumentAttributes(root, documentAttributes(next))
+    history.replaceState(null, "", `${location.pathname}?${previewQuery(next)}`)
+    onDesign(next)
+  })
+  return first
+}

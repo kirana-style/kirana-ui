@@ -9,11 +9,20 @@
  * MIT); a value shadcn/ui adds later is appended here too, after any of this project's own.
  */
 
-export const FRAMEWORKS = ["react", "vue", "svelte", "solid"] as const
+export const FRAMEWORKS = [
+  "react",
+  "vue",
+  "svelte",
+  "solid",
+  "angular",
+] as const
 export type Framework = (typeof FRAMEWORKS)[number]
 
-/** The headless library under the components: Base UI, React Aria, Ark UI. */
-export const BASES = ["base", "aria", "ark"] as const
+/**
+ * The headless library under the components: Base UI, React Aria, Ark UI, ng-primitives (Ark UI
+ * has no Angular port; ng-primitives is the library `@kirana-style/states` has Angular's keys for).
+ */
+export const BASES = ["base", "aria", "ark", "ng"] as const
 export type Base = (typeof BASES)[number]
 
 /** Which bases each framework offers; the first is its default. */
@@ -22,6 +31,7 @@ export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
   vue: ["ark"],
   svelte: ["ark"],
   solid: ["ark"],
+  angular: ["ng"],
 }
 
 export const STYLES = [

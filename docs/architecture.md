@@ -339,8 +339,8 @@ explicit defaults for the others, so an installed style carries no dead
 declaration.
 
 **Markup is written per framework and base, and holds no style values.**
-`registry/bases/react-base`, `react-aria` and `vue-ark` each hold their copy of a
-component, applying the same style modules: `sx` on elements, `props()` spread
+`registry/bases/react-base`, `react-aria`, `vue-ark`, `svelte-ark`, `solid-ark`
+and `angular-ng` each hold their copy of a component, applying the same style modules: `sx` on elements, `props()` spread
 on a library's part. Part and prop names follow upstream's copy for that base,
 so a shadcn/ui user on React Aria finds the API they know (its `Dialog` is the
 modal, inside `DialogTrigger`), and every copy writes the same `data-slot`s. A
@@ -348,7 +348,18 @@ Vue component cannot receive `sx` as a prop: a caller's `:sx` reaches it as a
 `class`, which Vue adds to the root's own classes instead of merging them, so
 each Vue part turns attribute fallthrough off, takes the caller's classes with
 Kirana's `useSx()` (`@kirana-style/core/vue`) and puts them last in its root's
-own `:sx`, the same per-property merge `sx` gets. Icons are named once for every library (`IconPlaceholder`) and
+own `:sx`, the same per-property merge `sx` gets. A Svelte component receives a
+caller's `sx` as its `class` prop, which it puts last in its root's `sx` the same
+way, with no helper. Solid's JSX takes `sx` as React's does, and a component
+passes its `sx` prop on last (`splitProps` keeps the props reactive). An Angular
+template reaches only its component's members, so Kirana merges `sx` in the
+browser there: each Angular part is a directive on the element the caller writes
+(`<button kuiButton>`, `<div kuiCard>`), which merges its own styles with its `sx`
+input and binds the result to the host's `class`. Kirana's own `SxDirective`
+would match the same `[sx]`, so a template holding a part leaves it out and gives
+its plain elements their classes as strings (`props(…).className`). Each
+framework's markup compiles in its preview app (`apps/preview-<framework>`),
+which is where its templates are checked. Icons are named once for every library (`IconPlaceholder`) and
 drawn from framework-neutral data, so one map serves React and Vue. In an installed
 React project the placeholder is gone: shadcn/ui's CLI replaces each one with the
 project's icon library's component, keeping its other attributes, and drops the

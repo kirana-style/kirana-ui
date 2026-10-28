@@ -1,47 +1,24 @@
-import { copyFileSync, mkdirSync, readdirSync } from "node:fs"
-import { fileURLToPath } from "node:url"
-
 import kirana from "@kirana-style/vite"
 import vue from "@vitejs/plugin-vue"
-import type { Plugin } from "vite-plus"
+import { previewOutDir, previewPages } from "@workspace/vite-config/preview"
 import { defineConfig, lazyPlugins } from "vite-plus"
 
 /**
  * The Vue preview: the registry's `vue-ark` items on their own page, compiled by Kirana's adapter
- * ahead of Vue's plugin so `:sx` in templates reaches Vue as `class`.
- *
- * It is built into the `ui` Worker's static files (`apps/site/dist/client/preview/vue/`, after the
- * site's build has written that folder), with a page per item, `ark/<item>.html`, which Cloudflare
- * serves at `/preview/vue/ark/<item>` without running the Worker.
+ * ahead of Vue's plugin so `:sx` in templates reaches Vue as `class`. Built into the `ui` Worker's
+ * static files with a page per item and the showcase (`@workspace/vite-config/preview`).
  */
-const OUT_DIR = fileURLToPath(
-  new URL("../site/dist/client/preview/vue/", import.meta.url)
-)
-const EXAMPLES = new URL(
-  "../../registry/bases/vue-ark/examples/",
-  import.meta.url
-)
-
-/** A copy of the app's page for every item, named as its route. */
-function itemPages(): Plugin {
-  return {
-    name: "preview-item-pages",
-    apply: "build",
-    closeBundle() {
-      mkdirSync(`${OUT_DIR}ark`, { recursive: true })
-      for (const file of readdirSync(EXAMPLES)) {
-        if (!file.endsWith(".vue")) continue
-        copyFileSync(
-          `${OUT_DIR}index.html`,
-          `${OUT_DIR}ark/${file.slice(0, -4)}.html`
-        )
-      }
-    },
-  }
-}
-
 export default defineConfig({
   base: "/preview/vue/",
-  build: { outDir: OUT_DIR, emptyOutDir: true },
-  plugins: lazyPlugins(() => [kirana(), vue(), itemPages()]),
+  build: { outDir: previewOutDir("vue"), emptyOutDir: true },
+  plugins: lazyPlugins(() => [
+    kirana(),
+    vue(),
+    previewPages({
+      framework: "vue",
+      base: "ark",
+      extension: ".vue",
+      extra: ["showcase"],
+    }),
+  ]),
 })

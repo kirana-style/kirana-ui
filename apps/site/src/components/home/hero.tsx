@@ -33,8 +33,8 @@ import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import { hue } from "@/components/page/hue"
 
 /**
- * The frameworks the plan covers, above the engine: React today, on Base UI and React Aria; Vue
- * today, on Ark UI; Svelte and Solid with Ark UI's components for them. Below it, the hosts: Vite
+ * The frameworks the plan covers, above the engine: React, on Base UI and React Aria; Vue, on Ark
+ * UI; Svelte and Solid, on Ark UI, with their first components (Button, Card, Skeleton). Below it, the hosts: Vite
  * and TanStack Start install today; Next.js and Nuxt are the plan's.
  */
 const FRAMEWORKS = [
@@ -45,12 +45,12 @@ const FRAMEWORKS = [
   },
   { title: "Vue: Ark UI", url: "https://vuejs.org", route: vueLogo },
   {
-    title: "Svelte: Ark UI, planned",
+    title: "Svelte: Ark UI, its first components",
     url: "https://svelte.dev",
     route: svelteLogo,
   },
   {
-    title: "Solid: Ark UI, planned",
+    title: "Solid: Ark UI, its first components",
     url: "https://www.solidjs.com",
     route: solidLogo,
   },

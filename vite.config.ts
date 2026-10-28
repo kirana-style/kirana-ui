@@ -23,11 +23,20 @@ const SOURCES = [
 ]
 
 /**
- * The apps, each built by its own `build` script (`vp build`): the site, blocks and examples, and
- * the Vue preview, whose build is where the registry's `vue-ark` components compile. In this order:
- * the Vue preview writes into the site's `dist/client/preview/vue/`, which the `ui` Worker serves.
+ * The apps, each built by its own `build` script (`vp build`): the site, blocks and examples, and a
+ * preview per framework, whose build is where the registry's components for it compile (`vue-ark`,
+ * `svelte-ark`, `solid-ark`, `angular-ng`). In this order: each preview writes into the site's
+ * `dist/client/preview/<framework>/`, which the `ui` Worker serves.
  */
-const APPS = ["site", "blocks", "examples", "preview-vue"]
+const APPS = [
+  "site",
+  "blocks",
+  "examples",
+  "preview-vue",
+  "preview-svelte",
+  "preview-solid",
+  "preview-angular",
+]
 
 export default defineConfig({
   // The workspace's tasks: `vp run <name>`. Each is cached (node_modules/.vite/task-cache) unless
