@@ -23,7 +23,7 @@
     {
       "element": "button[data-slot=\"button\"]",
       "property": "line-height",
-      "route": "(button|select|button-group)-example\\?preset=b0",
+      "route": "(button|select|button-group|popover)-example\\?preset=b0",
       "reason": "Nova's small button: upstream's site keeps text-sm's line height under text-[0.8rem], its installed copy loses it to cn; the registry follows the install"
     },
     {
@@ -718,30 +718,6 @@
       "reason": "Sera at 390px: upstream's column takes a width 19.75px under its row's content, so the row's last toggle shrinks to fit; ours keeps its content width. Not traced further: every toggle measures the same unconstrained"
     },
     {
-      "element": "span[data-slot=\"marker-content\"]",
-      "property": "background-image",
-      "route": "marker-example",
-      "reason": "upstream's preview pages do not build shadcn/ui's `shimmer` utility (`shadcn/tailwind.css`), so its shimmering text is plain there; the registry draws it as a Kirana style"
-    },
-    {
-      "element": "span[data-slot=\"marker-content\"]",
-      "property": "animation-duration",
-      "route": "marker-example",
-      "reason": "the shimmer upstream's preview pages do not build (as background-image)"
-    },
-    {
-      "element": "span[data-slot=\"marker-content\"]",
-      "property": "animation-timing-function",
-      "route": "marker-example",
-      "reason": "the shimmer upstream's preview pages do not build (as background-image)"
-    },
-    {
-      "element": "span[data-slot=\"marker-content\"]",
-      "property": "animation-iteration-count",
-      "route": "marker-example",
-      "reason": "the shimmer upstream's preview pages do not build (as background-image)"
-    },
-    {
       "element": "Accordion › ",
       "property": "(element)",
       "route": "marker-example",
@@ -858,6 +834,98 @@
       "property": "width",
       "route": "/base/scroll-area-example\\?preset=b0",
       "reason": "only on a page's first capture (1400px, light): Base UI sizes the thumb from the content's width before the example's photos, loaded from the network, have laid out; every later width and scheme agrees"
+    },
+    {
+      "element": "button[data-slot=\"popover-trigger\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
+    },
+    {
+      "element": "button[data-slot=\"hover-card-trigger\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
+    },
+    {
+      "element": "button[data-slot=\"dialog-trigger\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
+    },
+    {
+      "element": "button[data-slot=\"alert-dialog-trigger\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
+    },
+    {
+      "element": "button[data-slot=\"button\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "reason": "the same element as the trigger, named by the trigger's `data-slot` (Base UI 1.9)"
+    },
+    {
+      "element": "(page)",
+      "property": "(state)",
+      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "reason": "the dialog's trigger is named by its own `data-slot` (Base UI 1.9), where upstream's is the rendered Button's, so only one site finds it by name"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "translate",
+      "reason": "the open popup rests at `translate: 0px` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "scale",
+      "reason": "the open popup rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "Drawer › div[data-slot=\"example",
+      "property": "height",
+      "route": "marker-example",
+      "reason": "an example stretches to its grid row, whose other section (Accordion) waits, so the row is another's; the elements inside are compared one by one"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "font-size",
+      "route": "switch-example\\?preset=b1oVxsfY",
+      "reason": "Sera's label after a switch: `text-xs` and `peer-data-[slot=switch]:text-sm` have equal specificity, and upstream's production build puts `text-xs` last where its development server puts the variant last; the registry keeps the variant's size, as upstream's development server and G1b's comparison did"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "font-size",
+      "route": "switch-example\\?preset=b1oVxsfY",
+      "reason": "as Sera's label after a switch: the variant's size, which upstream's production build orders below `text-xs`"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "width",
+      "route": "switch-example\\?preset=b1oVxsfY",
+      "reason": "follows the label's size"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "translate",
+      "reason": "the open popup rests at `translate: 0px` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "scale",
+      "reason": "the open popup rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "Drawer › button[data-slot=\"drawer-trigger\"]",
+      "property": "width",
+      "route": "marker-example\\?preset=b1oVxsfY",
+      "reason": "an icon in a Button inside a Marker: upstream's marker sizes every descendant `svg` (`[&_svg]:size-4`) over Sera's button icon (`size-3.5`), two pixels wider; the registry keeps the button's own icon size"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "max-height",
+      "route": "/base/input-group-example",
+      "reason": "the open menu's `--available-height` from Base UI 1.9, 32px more than upstream's 1.6 gives it in every style: its trigger, placement and size otherwise agree"
     }
   ]
 }

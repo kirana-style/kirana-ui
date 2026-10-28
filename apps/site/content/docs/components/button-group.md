@@ -116,6 +116,12 @@ Pair with a `Select` component.
 
 <!-- ::preview item="button-group-select" height="360" combinations="react/base,react/aria" -->
 
+## Popover
+
+Use with a `Popover` component.
+
+<!-- ::preview item="button-group-popover" height="360" combinations="react/base,react/aria" -->
+
 ## API Reference
 
 ### ButtonGroup

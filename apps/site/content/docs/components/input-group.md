@@ -91,6 +91,10 @@ Use `align="block-end"` to position the addon below the input.
 
 <!-- ::preview item="input-group-text" height="360" combinations="react/base,react/aria" -->
 
+## Button
+
+<!-- ::preview item="input-group-button" height="360" combinations="react/base,react/aria" -->
+
 ## Kbd
 
 <!-- ::preview item="input-group-kbd" height="360" combinations="react/base,react/aria" -->

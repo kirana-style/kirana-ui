@@ -177,6 +177,25 @@ describe("exclusive conditions", () => {
     expect(exclusive("[data-side]", "[data-entering]")).toBe(false)
     expect(exclusive("[data-starting-style]", ":hover")).toBe(false)
   })
+
+  it("are two exclusive states of one parent, read through one relation", () => {
+    const parent = (held: string) => `relation parent drawer-popup ${held}`
+    const within = (held: string) => `relation within drawer-popup ${held}`
+    expect(
+      exclusive(parent('[data-axis="x"]'), parent('[data-axis="y"]'))
+    ).toBe(true)
+    expect(exclusive(parent("[data-open]"), parent("[data-closed]"))).toBe(true)
+    // Two anchors up the tree may each hold one.
+    expect(
+      exclusive(within('[data-axis="x"]'), within('[data-axis="y"]'))
+    ).toBe(false)
+    expect(
+      exclusive(
+        parent('[data-axis="x"]'),
+        'relation parent sheet [data-axis="y"]'
+      )
+    ).toBe(false)
+  })
 })
 
 describe("another base's keys", () => {

@@ -118,6 +118,8 @@ import {
   RotateLeft01Icon,
   ShieldIcon,
   Tag01Icon,
+  AddCircleHalfDotIcon,
+  BluetoothIcon,
 } from "@hugeicons/core-free-icons"
 import {
   Activity,
@@ -222,6 +224,8 @@ import {
   SquareCenterlineDashedVertical,
   Tag,
   TriangleAlert,
+  Bluetooth,
+  CircleFadingPlus,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -262,6 +266,8 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       "stroke-linejoin": "round",
     },
     icons: {
+      BluetoothIcon: Bluetooth,
+      CircleFadingPlusIcon: CircleFadingPlus,
       AlertCircleIcon: CircleAlert,
       AlertTriangleIcon: TriangleAlert,
       BookOpenCheckIcon: BookOpenCheck,
@@ -376,6 +382,8 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
     // Drawn at 2, not the data's 1.5: shadcn/ui's icons are drawn at Lucide's stroke.
     shape: { "stroke-width": 2 },
     icons: {
+      AddCircleHalfDotIcon,
+      BluetoothIcon,
       BookOpen01Icon,
       CalendarAdd01Icon,
       FilterHorizontalIcon,

@@ -12,6 +12,9 @@ const sweep = keyframes({
   from: { backgroundPosition: "100% 0" },
   to: { backgroundPosition: "0 0" },
 })
+const REDUCED = "@media (prefers-reduced-motion: reduce)"
+const GRADIENT =
+  "linear-gradient(90deg, currentColor calc(50% - var(--spread)), color-mix(in oklch, var(--highlight), currentColor 50%) calc(50% - var(--spread) * 0.5), var(--highlight) 50%, color-mix(in oklch, var(--highlight), currentColor 50%) calc(50% + var(--spread) * 0.5), currentColor calc(50% + var(--spread)))"
 const shimmer = {
   "--spread": "calc(3ch + 40px)",
   "--highlight": {
@@ -23,14 +26,14 @@ const shimmer = {
     [axes.mode.dark]:
       "oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4))",
   },
-  backgroundImage:
-    "linear-gradient(90deg, currentColor calc(50% - var(--spread)), color-mix(in oklch, var(--highlight), currentColor 50%) calc(50% - var(--spread) * 0.5), var(--highlight) 50%, color-mix(in oklch, var(--highlight), currentColor 50%) calc(50% + var(--spread) * 0.5), currentColor calc(50% + var(--spread)))",
   backgroundRepeat: "no-repeat",
   backgroundSize: "calc(200% + var(--spread) * 2) 100%",
   backgroundPosition: "0 0",
   backgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  animation: `${sweep} 2s linear infinite`,
+  animation: { base: `${sweep} 2s linear infinite`, [REDUCED]: "none" },
+  // Without motion, plain text (`prefers-reduced-motion: reduce`).
+  backgroundImage: { base: GRADIENT, [REDUCED]: "none" },
+  WebkitTextFillColor: { base: "transparent", [REDUCED]: "currentColor" },
 } as const
 
 const styles = {

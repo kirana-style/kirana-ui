@@ -35,6 +35,23 @@ import {
 } from "../../../core/scales"
 import { radius, theme } from "../../../core/tokens"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
+import { useState } from "react"
+import { ButtonGroup, ButtonGroupText } from "../ui/button-group"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../ui/popover"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
 // Tailwind's `pulse`.
 const pulse = keyframes({ "50%": { opacity: 0.5 } })
@@ -42,6 +59,16 @@ const pulse = keyframes({ "50%": { opacity: 0.5 } })
 const { maia, luma, sera } = axes.style
 
 const styles = {
+  textMutedForegroundTabul: css({
+    color: theme.mutedForeground,
+    fontVariantNumeric: "tabular-nums",
+  }),
+  roundedFull: css({ borderRadius: { "*": null, base: radius.full } }),
+  pl1TextMutedForeground: css({
+    paddingInlineStart: { "*": null, base: space[1] },
+    color: theme.mutedForeground,
+  }),
+  minW16: css({ minWidth: { "*": null, base: space[16] } }),
   minW0: css({ minWidth: space[0] }),
   textMutedForeground: css({ color: theme.mutedForeground }),
   animatePulseTextRed500: css({
@@ -123,11 +150,14 @@ const styles = {
 }
 
 export default function InputGroupExample() {
+  const [country, setCountry] = useState("+1")
+
   return (
     <ExampleWrapper sx={styles.minW0}>
       <InputGroupBasic />
       <InputGroupWithAddons />
       <InputGroupWithButtons />
+      <InputGroupWithTooltip country={country} setCountry={setCountry} />
       <InputGroupWithKbd />
       <InputGroupInCard />
       <InputGroupTextareaExamples />
@@ -407,6 +437,157 @@ function InputGroupWithButtons() {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
+        </Field>
+      </FieldGroup>
+    </Example>
+  )
+}
+
+function InputGroupWithTooltip({
+  country,
+  setCountry,
+}: {
+  country: string
+  setCountry: (value: string) => void
+}) {
+  return (
+    <Example title="With Tooltip, Dropdown, Popover">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="input-tooltip-20">Tooltip</FieldLabel>
+          <InputGroup>
+            <InputGroupInput id="input-tooltip-20" />
+            <InputGroupAddon align="inline-end">
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <InputGroupButton sx={styles.roundedFull} size="icon-xs" />
+                  }
+                >
+                  <IconPlaceholder
+                    lucide="InfoIcon"
+                    tabler="IconInfoCircle"
+                    hugeicons="AlertCircleIcon"
+                    phosphor="InfoIcon"
+                    remixicon="RiInformationLine"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>This is content in a tooltip.</TooltipContent>
+              </Tooltip>
+            </InputGroupAddon>
+          </InputGroup>
+          <FieldDescription>
+            This is a description of the input group.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="input-dropdown-21">Dropdown</FieldLabel>
+          <InputGroup>
+            <InputGroupInput id="input-dropdown-21" />
+            <InputGroupAddon>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <InputGroupButton sx={styles.textMutedForegroundTabul} />
+                  }
+                >
+                  {country}{" "}
+                  <IconPlaceholder
+                    lucide="ChevronDownIcon"
+                    tabler="IconChevronDown"
+                    hugeicons="ArrowDownIcon"
+                    phosphor="CaretDownIcon"
+                    remixicon="RiArrowDownSLine"
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  sx={styles.minW16}
+                  sideOffset={10}
+                  alignOffset={-8}
+                >
+                  <DropdownMenuItem onClick={() => setCountry("+1")}>
+                    +1
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setCountry("+44")}>
+                    +44
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setCountry("+46")}>
+                    +46
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </InputGroupAddon>
+          </InputGroup>
+          <FieldDescription>
+            This is a description of the input group.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="input-secure-19">Popover</FieldLabel>
+          <InputGroup>
+            <Popover>
+              <PopoverTrigger render={<InputGroupAddon />} nativeButton={false}>
+                <InputGroupButton variant="secondary" size="icon-xs">
+                  <IconPlaceholder
+                    lucide="InfoIcon"
+                    tabler="IconInfoCircle"
+                    hugeicons="AlertCircleIcon"
+                    phosphor="InfoIcon"
+                    remixicon="RiInformationLine"
+                  />
+                </InputGroupButton>
+              </PopoverTrigger>
+              <PopoverContent align="start">
+                <PopoverHeader>
+                  <PopoverTitle>Your connection is not secure.</PopoverTitle>
+                  <PopoverDescription>
+                    You should not enter any sensitive information on this site.
+                  </PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+            <InputGroupAddon sx={styles.pl1TextMutedForeground}>
+              https://
+            </InputGroupAddon>
+            <InputGroupInput id="input-secure-19" />
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton size="icon-xs">
+                <IconPlaceholder
+                  lucide="StarIcon"
+                  tabler="IconStar"
+                  hugeicons="StarIcon"
+                  phosphor="StarIcon"
+                  remixicon="RiStarLine"
+                />
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+          <FieldDescription>
+            This is a description of the input group.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="url">Button Group</FieldLabel>
+          <ButtonGroup>
+            <ButtonGroupText>https://</ButtonGroupText>
+            <InputGroup>
+              <InputGroupInput id="url" />
+              <InputGroupAddon align="inline-end">
+                <IconPlaceholder
+                  lucide="InfoIcon"
+                  tabler="IconInfoCircle"
+                  hugeicons="AlertCircleIcon"
+                  phosphor="InfoIcon"
+                  remixicon="RiInformationLine"
+                />
+              </InputGroupAddon>
+            </InputGroup>
+            <ButtonGroupText>.com</ButtonGroupText>
+          </ButtonGroup>
+          <FieldDescription>
+            This is a description of the input group.
+          </FieldDescription>
         </Field>
       </FieldGroup>
     </Example>
