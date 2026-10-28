@@ -3,10 +3,11 @@
  * `cn-label` rules of its style files (MIT), at commit `25af02b`. Nova is the base look; the other
  * styles override what differs.
  *
- * Its `peer-disabled:` rules (a label after a disabled checkbox, switch or radio), and Sera's
- * `peer-data-[slot=checkbox|radio-group-item|switch]:` ones (such a label in plain text) arrive with
- * those controls, which anchor the peer; nothing in the registry draws one yet. Its
- * `group-data-[disabled=true]:` rules read an unnamed `group`, which a Field is not (`group/field`):
+ * A checkbox, radio or switch anchors `controlPeer`, which a label after it reads: React Aria's
+ * label dims after a disabled one (`cn-label-aria`'s `peer-data-disabled:`; Base UI's controls are
+ * `span`s, never `:disabled`, so `peer-disabled:` never matches, and is left out), and Sera's reads
+ * as plain text beside any of them (`peer-data-[slot=checkbox|radio-group-item|switch]:`, the only
+ * controls that anchor the peer). Its `group-data-[disabled=true]:` rules read an unnamed `group`, which a Field is not (`group/field`):
  * a FieldLabel dims itself in a disabled Field (`field.styles.ts`).
  */
 import { css } from "@kirana-style/core"
@@ -19,8 +20,12 @@ import {
   lineHeight,
   space,
 } from "../core/scales"
+import { controlPeer } from "./field-scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
+
+/** After a checkbox, radio or switch. */
+const AFTER_CONTROL = controlPeer.after()
 
 // cn-label, and cn-label-aria's React Aria keys
 export const label = css({
@@ -32,11 +37,14 @@ export const label = css({
     base: fontSize.sm,
     [lyra]: fontSize.xs,
     [mira]: fontSize.xs,
-    [sera]: fontSize.xs,
+    [sera]: { base: fontSize.xs, [AFTER_CONTROL]: fontSize.sm },
   },
   // `leading-none`; Sera's `leading-relaxed` comes before its `text-xs`, which `cn` keeps, so the
   // installed label has `text-xs`'s line height.
-  lineHeight: { base: "1", [sera]: lineHeight.xs },
+  lineHeight: {
+    base: "1",
+    [sera]: { base: lineHeight.xs, [AFTER_CONTROL]: lineHeight.sm },
+  },
   // Lyra's label has no weight of its own; Sera's is semibold, in spaced capitals.
   fontWeight: {
     [nova]: fontWeight.medium,
@@ -45,8 +53,11 @@ export const label = css({
     [mira]: fontWeight.medium,
     [luma]: fontWeight.medium,
     [rhea]: fontWeight.medium,
-    [sera]: fontWeight.semibold,
+    [sera]: { base: fontWeight.semibold, [AFTER_CONTROL]: fontWeight.normal },
   },
-  textTransform: { [sera]: "uppercase" },
-  letterSpacing: { [sera]: letterSpacing.wide },
+  textTransform: { [sera]: { base: "uppercase", [AFTER_CONTROL]: "none" } },
+  letterSpacing: {
+    [sera]: { base: letterSpacing.wide, [AFTER_CONTROL]: letterSpacing.normal },
+  },
+  opacity: { [controlPeer.after("[data-rac][data-disabled]")]: 0.5 },
 })

@@ -22,9 +22,9 @@ What is here so far, `core/`, the design system:
 
 And beside it:
 
-- `styles/`, each component's look in every style: `button`, `dialog`, `select`, `dropdown-menu`,
-  `tabs`, `chart`, `card`, `field`, `input`, `label` and `separator`, over the shared `menu`, `overlay` and `control`
-  modules, with the page's own styles, the frame of upstream's examples, `reset.css`, and
+- `styles/`, each component's look in every style (`button`, `dialog`, `select`, `checkbox`,
+  `table` … one module per component, `docs/catalogue.md` lists them), over the shared `menu`,
+  `overlay`, `control` and `check` modules, with the page's own styles, the frame of upstream's examples, `reset.css`, and
   `typeset.css` with its `typeset` handle (shadcn/ui's typeset, plain CSS in the `typeset` layer,
   reading `--typeset-*` variables the handle sets from the tokens);
 - `bases/`, the components once per framework and base: `react-base` (Base UI) and `react-aria`

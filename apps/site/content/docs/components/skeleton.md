@@ -3,7 +3,6 @@ title: Skeleton
 description: Shows a placeholder while content is loading.
 section: components
 variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
-order: 16
 keywords: [skeleton, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 

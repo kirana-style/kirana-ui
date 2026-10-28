@@ -3,7 +3,6 @@ title: Dialog
 description: A window overlaid on the page.
 section: components
 variants: [react/base, react/aria, vue/ark]
-order: 7
 keywords: [dialog, component, base, aria, ark]
 ---
 

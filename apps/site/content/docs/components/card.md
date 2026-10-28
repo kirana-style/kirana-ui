@@ -3,7 +3,6 @@ title: Card
 description: Displays a card with a header, content and footer.
 section: components
 variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
-order: 4
 keywords: [card, component, base, aria]
 ---
 

@@ -3,7 +3,6 @@ title: Avatar
 description: An image element with a fallback for representing the user.
 section: components
 variants: [react/base, react/aria]
-order: 1
 keywords: [avatar, component, base, aria]
 ---
 

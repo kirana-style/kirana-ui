@@ -125,6 +125,23 @@ export const disclosure = {
   },
 } as const satisfies Record<string, StateKeys>
 
+/**
+ * A checkbox's states, as upstream reads them on each base: Base UI's root is a `span`, so its
+ * `disabled:` never matches (a disabled one dims through its Field, `group-has-disabled/field:`).
+ * React Aria's root is the `label` around a hidden input, and Base UI's root writes
+ * `data-disabled` too, so React Aria's key also asks for the `data-rac` every React Aria element
+ * carries: the site serves every base's keys at once, and Base UI's checkbox must not read it.
+ */
+export const check = {
+  checked: { base: Base.Checkbox.Root.checked, aria: Aria.Checkbox.selected },
+  focusVisible: { base: ":focus-visible", aria: Aria.Checkbox.focusVisible },
+  invalid: { base: '[aria-invalid="true"]', aria: Aria.Checkbox.invalid },
+  disabled: {
+    base: ":disabled",
+    aria: `[data-rac]${Aria.Checkbox.disabled}`,
+  },
+} as const satisfies Record<string, StateKeys>
+
 /** A select's trigger with no value chosen. React Aria marks its value element instead. */
 export const placeholder = {
   trigger: {

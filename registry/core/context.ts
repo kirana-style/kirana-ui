@@ -33,6 +33,28 @@ export const menuCtx = defineTokens(
   { variable: true }
 )
 
+/**
+ * A checkbox's, a radio's or a switch's look, set on the control itself for its style (`check.styles.ts` reads
+ * it), so its states read one value instead of restating every style: its edge and fill at rest
+ * and checked, its ring's width and focus colour, and the shadow under the ring (Vega's
+ * `shadow-xs`). `stateEdge` is the edge its state gives before checking, which a control whose
+ * edge does not change when checked takes as its checked edge.
+ */
+export const checkCtx = defineTokens(
+  "checkCtx",
+  {
+    edge: theme.input,
+    checkedEdge: theme.primary,
+    stateEdge: theme.input,
+    fill: "transparent",
+    checkedFill: theme.primary,
+    ringWidth: "3px",
+    ringFocus: theme.ring,
+    shadow: "0 0 #0000",
+  },
+  { variable: true }
+)
+
 /** A card's inner rhythm (`--card-spacing`): its padding and gaps, set by the card's size. */
 export const cardCtx = defineTokens(
   "cardCtx",

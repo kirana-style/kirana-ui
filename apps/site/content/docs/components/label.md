@@ -3,7 +3,6 @@ title: Label
 description: Renders an accessible label associated with a control.
 section: components
 variants: [react/base, react/aria]
-order: 11
 keywords: [label, component, base, aria]
 ---
 

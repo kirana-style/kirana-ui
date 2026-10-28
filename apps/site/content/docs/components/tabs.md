@@ -3,7 +3,6 @@ title: Tabs
 description: A set of layered sections of content, displayed one at a time.
 section: components
 variants: [react/base, react/aria, vue/ark]
-order: 17
 keywords: [tabs, component, base, aria, ark]
 ---
 

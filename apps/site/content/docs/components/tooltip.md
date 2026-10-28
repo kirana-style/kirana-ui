@@ -3,7 +3,6 @@ title: Tooltip
 description: A popup that displays information related to an element when it receives focus or is hovered.
 section: components
 variants: [react/base, react/aria]
-order: 18
 keywords: [tooltip, component, base, aria]
 ---
 

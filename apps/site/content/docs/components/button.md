@@ -3,7 +3,6 @@ title: Button
 description: Displays a button or a component that looks like a button.
 section: components
 variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
-order: 3
 keywords: [button, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 

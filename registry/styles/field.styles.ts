@@ -28,6 +28,7 @@ import { alpha, radius, surface, theme } from "../core/tokens"
 import { GROUP_MD, focusRing, laterRings } from "./control"
 import {
   CHILD_OF_RESPONSIVE,
+  fieldLabelScope,
   fieldScope,
   fillInField,
 } from "./field-scope.styles"
@@ -54,6 +55,24 @@ const CARD = ':has(> [data-slot="field"])'
 const CHILD_OF_HORIZONTAL = fieldScope.parent(HORIZONTAL)
 
 const inDisabledField = fieldScope.within('[data-disabled="true"]')
+
+/** `mt-px` in a horizontal field (a responsive one from `md`) holding a FieldContent. */
+const BESIDE_CONTENT = {
+  [HORIZONTAL]: { [HAS_CONTENT]: "1px" },
+  [RESPONSIVE]: { [GROUP_MD]: { [HAS_CONTENT]: "1px" } },
+}
+
+/** A choice card's edge in the styles whose chosen card keeps it: the ring while focused. */
+const plainCardEdge = {
+  base: theme.border,
+  ":has([data-checked])": theme.border,
+  ":has([data-selected])": theme.border,
+  ":has(:focus-visible)": {
+    base: theme.ring,
+    ":has([data-checked])": theme.ring,
+    ":has([data-selected])": theme.ring,
+  },
+}
 
 export const field = {
   // cn-field-set
@@ -163,6 +182,11 @@ export const field = {
         [GROUP_MD]: { base: "center", [HAS_CONTENT]: "flex-start" },
       },
     },
+    // `has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px`: beside a
+    // FieldContent, a checkbox or radio sits level with the first line. React Aria's are labels,
+    // which upstream's `role` does not reach.
+    [select.child('[role="checkbox"]')]: { marginTop: BESIDE_CONTENT },
+    [select.child('[role="radio"]')]: { marginTop: BESIDE_CONTENT },
     // `*:w-full`. The conditions are the field's: a target's own state goes in its selector.
     [select.child(":not([hidden])")]: {
       width: {
@@ -189,7 +213,7 @@ export const field = {
   }),
 
   // cn-field-label, over Label's own style. A label holding a whole Field is a choice card.
-  label: css({
+  label: css(fieldLabelScope.anchor, {
     display: "flex",
     gap: space[2],
     lineHeight: { base: leading.snug, [sera]: leading.relaxed },
@@ -225,10 +249,11 @@ export const field = {
         },
         ":has([data-checked])": surface.checkedSoftBorder,
         ":has([data-selected])": surface.checkedSoftBorder,
-        // Mira, Luma and Rhea keep the plain edge when chosen; Sera's does not turn on focus.
-        [mira]: { base: theme.border, ":has(:focus-visible)": theme.ring },
-        [luma]: { base: theme.border, ":has(:focus-visible)": theme.ring },
-        [rhea]: { base: theme.border, ":has(:focus-visible)": theme.ring },
+        // Mira, Luma and Rhea keep the plain edge when chosen, restated over the chosen one;
+        // Sera's does not turn on focus.
+        [mira]: plainCardEdge,
+        [luma]: plainCardEdge,
+        [rhea]: plainCardEdge,
         [sera]: {
           base: theme.border,
           ":has([data-checked])": surface.checkedSoftBorder,

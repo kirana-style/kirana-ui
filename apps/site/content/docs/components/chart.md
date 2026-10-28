@@ -3,7 +3,6 @@ title: Chart
 description: Charts on TanStack Charts, each series in one of the design's chart colours.
 section: components
 variants: [react/base, react/aria]
-order: 5
 keywords: [chart, component, base, aria]
 ---
 

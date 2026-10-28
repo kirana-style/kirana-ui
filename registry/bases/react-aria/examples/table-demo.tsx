@@ -1,0 +1,102 @@
+import { css } from "@kirana-style/core"
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table"
+import { fontWeight } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+
+const styles = {
+  full: css({ width: "100%" }),
+  invoice: css({ width: "100px" }),
+  end: css({ textAlign: "right" }),
+  medium: css({ fontWeight: fontWeight.medium }),
+}
+
+const invoices = [
+  {
+    invoice: "INV001",
+    paymentStatus: "Paid",
+    totalAmount: "$250.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV002",
+    paymentStatus: "Pending",
+    totalAmount: "$150.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV003",
+    paymentStatus: "Unpaid",
+    totalAmount: "$350.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV004",
+    paymentStatus: "Paid",
+    totalAmount: "$450.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV005",
+    paymentStatus: "Paid",
+    totalAmount: "$550.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV006",
+    paymentStatus: "Pending",
+    totalAmount: "$200.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV007",
+    paymentStatus: "Unpaid",
+    totalAmount: "$300.00",
+    paymentMethod: "Credit Card",
+  },
+]
+
+export default function TableDemo() {
+  return (
+    <div sx={page.example}>
+      <figure sx={styles.full}>
+        <Table aria-label="Invoices">
+          <TableHeader>
+            <TableHead isRowHeader sx={styles.invoice}>
+              Invoice
+            </TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead sx={styles.end}>Amount</TableHead>
+          </TableHeader>
+          <TableBody>
+            {invoices.map((invoice) => (
+              <TableRow key={invoice.invoice}>
+                <TableCell sx={styles.medium}>{invoice.invoice}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentMethod}</TableCell>
+                <TableCell sx={styles.end}>{invoice.totalAmount}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell sx={styles.end}>$2,500.00</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+      </figure>
+    </div>
+  )
+}

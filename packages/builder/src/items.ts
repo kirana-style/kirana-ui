@@ -191,6 +191,10 @@ export const ITEMS: Item[] = [
   ),
   sharedStyles("visually-hidden", "Text only a screen reader reaches."),
   sharedStyles(
+    "check",
+    "What a checkbox, a radio and a switch share: their edge, fill and rings over their states."
+  ),
+  sharedStyles(
     "field-scope",
     "A Field's relation, and the width a control takes as a Field's child."
   ),
@@ -241,6 +245,31 @@ export const ITEMS: Item[] = [
     "react",
   ]),
   component("input", "Input", "Displays a form input field.", ["react"]),
+  component(
+    "checkbox",
+    "Checkbox",
+    "A control that allows the user to toggle between checked and not checked.",
+    ["react"]
+  ),
+  component(
+    "radio-group",
+    "Radio Group",
+    "A set of checkable buttons, known as radio buttons, where no more than one can be checked at a time.",
+    ["react"]
+  ),
+  component(
+    "switch",
+    "Switch",
+    "A control that allows the user to toggle between checked and not checked.",
+    ["react"]
+  ),
+  component("table", "Table", "A responsive table component.", ["react"]),
+  component(
+    "textarea",
+    "Textarea",
+    "Displays a form textarea or a component that looks like a textarea.",
+    ["react"]
+  ),
   component(
     "label",
     "Label",

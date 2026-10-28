@@ -3,7 +3,6 @@ title: Input
 description: Displays a form input field.
 section: components
 variants: [react/base, react/aria]
-order: 10
 keywords: [input, component, base, aria]
 ---
 
