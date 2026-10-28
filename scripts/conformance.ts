@@ -5,13 +5,18 @@
  * style, at rest and in every state. A difference not in `conformance/expected-differences.json`
  * fails it.
  *
- *   bun scripts/conformance.ts [--changed [--since <ref>]] [--styles nova,lyra] [--shard i/n] [--pages a,b] [--list]
+ *   bun scripts/conformance.ts [--changed [--since <ref>]] [--styles nova,lyra] [--shard i/n] [--pages a,b] [--rest] [--list]
  *
- * `--list` prints the routes and stops; `--pages tabs-example,login-01` keeps those pages.
+ * `--rest` skips the states, for a fix that changes no state. `--list` prints the routes and stops; `--pages tabs-example,login-01` keeps those pages.
  *
  * `--changed` (what `vp run conformance:pr` runs) keeps the pages whose sources import, at any
  * depth, a file changed since `--since` (`origin/main` by default); a change outside the registry and
  * the preview route compares every page. `--shard` is the harness's.
+ *
+ * Upstream's captures are cached between runs (`node_modules/.cache/kirana-ui-conformance`, by the
+ * manifest's pin; `CONFORMANCE_CACHE` to move it): upstream needs serving only for a page not
+ * captured yet. Run in tiers: one page and style while fixing (`--pages x --styles nova`), every
+ * page the branch reaches before the pull request (`--changed`).
  *
  * Needs the site's Worker (`SITE_URL`, default `http://localhost:8787`), upstream's `apps/v4`
  * served at the manifest's commit (`UPSTREAM_URL`, default `http://localhost:4000`), and a
@@ -45,6 +50,7 @@ const { values } = parseArgs({
   allowPositionals: true,
   options: {
     changed: { type: "boolean", default: false },
+    rest: { type: "boolean", default: false },
     since: { type: "string" },
     styles: { type: "string" },
     shard: { type: "string" },
@@ -157,6 +163,41 @@ if (!existsSync(join(lab, "conformance", "compare.ts"))) {
 const out =
   process.env.OUT ?? join(process.env.TMPDIR ?? "/tmp", "kirana-ui-conformance")
 
+/**
+ * Upstream's captures, kept between runs: upstream is pinned (`upstream/shadcn.json`), so a page
+ * captured once at a width, a scheme and a state never needs its server again. The directory is
+ * named for the pin (`UPSTREAM_PIN` when the served checkout is another); the harness keys each
+ * capture by its own source and Chrome's version too. Passed only to a harness that has the flag.
+ */
+const pin =
+  process.env.UPSTREAM_PIN ??
+  [
+    ...new Set(
+      Object.values(
+        (
+          JSON.parse(
+            readFileSync(join(ROOT, "upstream", "shadcn.json"), "utf8")
+          ) as { items: Record<string, { ported: string }> }
+        ).items
+      ).map((item) => item.ported)
+    ),
+  ]
+    .sort()
+    .join("-")
+const cache =
+  process.env.CONFORMANCE_CACHE ??
+  join(
+    ROOT,
+    "node_modules",
+    ".cache",
+    "kirana-ui-conformance",
+    `upstream-${pin}`
+  )
+const caching = readFileSync(
+  join(lab, "conformance", "compare.ts"),
+  "utf8"
+).includes("--expected-cache")
+
 function compare(name: string, paths: string[], ...options: string[]) {
   if (paths.length === 0) return true
   console.log(`\n== ${name}: ${paths.length} route(s)`)
@@ -181,6 +222,7 @@ function compare(name: string, paths: string[], ...options: string[]) {
       "--out",
       join(out, `${name}.json`),
       ...(values.shard ? ["--shard", values.shard] : []),
+      ...(caching ? ["--expected-cache", cache] : []),
       ...options,
     ],
     {
@@ -206,26 +248,28 @@ if (all.length === 0) {
 }
 // React Aria's DialogTrigger and MenuTrigger render no element: its overlays open from the first
 // button in an example.
-const passes = [
-  compare("rest", all),
-  compare("states", all, "--states"),
-  compare(
-    "aria-dialogs",
-    routes(["aria"], (name) => name === "dialog-example"),
-    "--states",
-    "dialog-open",
-    "--trigger",
-    'dialog-open=[data-slot="example-content"] button'
-  ),
-  compare(
-    "aria-dropdowns",
-    routes(["aria"], (name) => name === "dropdown-menu-example"),
-    "--states",
-    "dropdown-open,dropdown-row-highlighted",
-    "--trigger",
-    'dropdown-open=[data-slot="example-content"] button',
-    "--trigger",
-    'dropdown-row-highlighted=[data-slot="example-content"] button'
-  ),
-]
+const passes = values.rest
+  ? [compare("rest", all)]
+  : [
+      compare("rest", all),
+      compare("states", all, "--states"),
+      compare(
+        "aria-dialogs",
+        routes(["aria"], (name) => name === "dialog-example"),
+        "--states",
+        "dialog-open",
+        "--trigger",
+        'dialog-open=[data-slot="example-content"] button'
+      ),
+      compare(
+        "aria-dropdowns",
+        routes(["aria"], (name) => name === "dropdown-menu-example"),
+        "--states",
+        "dropdown-open,dropdown-row-highlighted",
+        "--trigger",
+        'dropdown-open=[data-slot="example-content"] button',
+        "--trigger",
+        'dropdown-row-highlighted=[data-slot="example-content"] button'
+      ),
+    ]
 process.exit(passes.every(Boolean) ? 0 : 1)

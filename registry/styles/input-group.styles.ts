@@ -27,7 +27,12 @@ import {
   spacing,
 } from "../core/scales"
 import { alpha, radius, radiusBase, surface, theme } from "../core/tokens"
-import { inputGroupAddonScope, inputGroupScope } from "./scope.styles"
+import {
+  IN_OUTLINE_BUTTON_GROUP,
+  inputGroupAddonScope,
+  inputGroupScope,
+  joinedInButtonGroup,
+} from "./scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -104,6 +109,9 @@ export const inputGroup = {
       [rhea]: radius["2xl"],
       [sera]: "0",
     },
+    ...joinedInButtonGroup,
+    // Beside an outline part in a ButtonGroup, Sera's has room (`*:data-[slot=input-group]:px-2.5`).
+    paddingInline: { [sera]: { [IN_OUTLINE_BUTTON_GROUP]: space["2.5"] } },
     // Invalid outranks focused; Luma and Rhea draw no border until then, Sera only its bottom one.
     borderColor: {
       base: theme.input,
@@ -111,16 +119,32 @@ export const inputGroup = {
       [INVALID]: theme.destructive,
       [luma]: {
         base: "transparent",
+        // Beside an outline part, upstream's `has-[>[data-variant=outline]]:` border.
+        [IN_OUTLINE_BUTTON_GROUP]: {
+          base: theme.border,
+          [FOCUSED]: { base: theme.ring, [INVALID]: theme.destructive },
+          [INVALID]: theme.destructive,
+        },
         [FOCUSED]: { base: theme.ring, [INVALID]: theme.destructive },
         [INVALID]: theme.destructive,
       },
       [rhea]: {
         base: "transparent",
+        [IN_OUTLINE_BUTTON_GROUP]: {
+          base: theme.border,
+          [FOCUSED]: { base: theme.ring, [INVALID]: theme.destructive },
+          [INVALID]: theme.destructive,
+        },
         [FOCUSED]: { base: theme.ring, [INVALID]: theme.destructive },
         [INVALID]: theme.destructive,
       },
       [sera]: {
         base: "transparent",
+        [IN_OUTLINE_BUTTON_GROUP]: {
+          base: theme.border,
+          [FOCUSED]: { base: theme.ring, [INVALID]: "transparent" },
+          [INVALID]: "transparent",
+        },
         [FOCUSED]: { base: "transparent", [INVALID]: "transparent" },
         [INVALID]: "transparent",
       },

@@ -21,6 +21,12 @@ import {
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlShadow, controlTransition, laterRings } from "./control"
+import {
+  BUTTON_GROUP_CHILD,
+  IN_OUTLINE_BUTTON_GROUP,
+  FOCUSED_IN_BUTTON_GROUP,
+  joinedInButtonGroup,
+} from "./scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -56,9 +62,12 @@ export const input = css({
     [maia]: space[3],
     [mira]: space[2],
     [luma]: space[3],
-    [sera]: "0",
+    // In a ButtonGroup, Sera's field takes room on both sides (`*:data-[slot=input]:px-4`).
+    [sera]: { base: "0", [BUTTON_GROUP_CHILD]: space[4] },
   },
   paddingBlock: { base: space[1], [mira]: space["0.5"] },
+  // A ButtonGroup's input takes the room left (`[&>input]:flex-1`).
+  flex: { [BUTTON_GROUP_CHILD]: "1 1 0%" },
   // Sera's field is a line under the text, with no corners of its own.
   borderRadius: {
     [nova]: radius.lg,
@@ -69,6 +78,8 @@ export const input = css({
     [luma]: radius["3xl"],
     [rhea]: radius["2xl"],
   },
+  ...joinedInButtonGroup,
+  ...FOCUSED_IN_BUTTON_GROUP,
   borderWidth: "1px",
   borderStyle: "solid",
   // Luma and Rhea draw no border until focused; Sera only the bottom one.
@@ -78,17 +89,30 @@ export const input = css({
     '[aria-invalid="true"]': surface.borderInvalid,
     [luma]: {
       base: "transparent",
+      // Beside an outline part, upstream's `has-[>[data-variant=outline]]:` border.
+      [IN_OUTLINE_BUTTON_GROUP]: {
+        base: theme.border,
+        ":focus-visible": theme.ring,
+      },
       ":focus-visible": theme.ring,
       '[aria-invalid="true"]': surface.borderInvalid,
     },
     [rhea]: {
       base: "transparent",
+      [IN_OUTLINE_BUTTON_GROUP]: {
+        base: theme.border,
+        ":focus-visible": theme.ring,
+      },
       ":focus-visible": theme.ring,
       '[aria-invalid="true"]': surface.borderInvalid,
     },
     // Sera's focus and invalid colours are the bottom border's alone.
     [sera]: {
       base: "transparent",
+      [IN_OUTLINE_BUTTON_GROUP]: {
+        base: theme.border,
+        ":focus-visible": theme.ring,
+      },
       ":focus-visible": "transparent",
       '[aria-invalid="true"]': "transparent",
     },

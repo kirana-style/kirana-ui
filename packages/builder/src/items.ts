@@ -196,7 +196,7 @@ export const ITEMS: Item[] = [
   ),
   sharedStyles(
     "scope",
-    "Relations a component reads of another it may be installed without: a tooltip, an input group."
+    "Relations a component reads of another it may be installed without: a tooltip, an input group, a dropdown menu, and where a part sits in a button group."
   ),
   sharedStyles(
     "field-scope",
@@ -317,6 +317,57 @@ export const ITEMS: Item[] = [
     "textarea",
     "Textarea",
     "Displays a form textarea or a component that looks like a textarea.",
+    ["react"]
+  ),
+  component(
+    "badge",
+    "Badge",
+    "Displays a badge or a component that looks like a badge.",
+    ["react"]
+  ),
+  component("alert", "Alert", "Displays a callout for user attention.", [
+    "react",
+  ]),
+  component(
+    "aspect-ratio",
+    "Aspect Ratio",
+    "Displays content within a desired ratio.",
+    ["react"]
+  ),
+  component(
+    "empty",
+    "Empty",
+    "Use the Empty component to display an empty state.",
+    ["react"]
+  ),
+  component(
+    "item",
+    "Item",
+    "A versatile component for displaying content with media, title, description, and actions.",
+    ["react"]
+  ),
+  component(
+    "progress",
+    "Progress",
+    "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    ["react"]
+  ),
+  component(
+    "marker",
+    "Marker",
+    "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+    ["react"]
+  ),
+  component(
+    "button-group",
+    "Button Group",
+    "A container that groups related buttons together with consistent styling.",
+    ["react"]
+  ),
+  component(
+    "scroll-area",
+    "Scroll Area",
+    "Augments native scroll functionality for custom, cross-browser styling.",
     ["react"]
   ),
   component(

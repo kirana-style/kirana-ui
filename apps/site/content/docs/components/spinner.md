@@ -8,7 +8,7 @@ keywords: [spinner, loading, loader, component, base, aria]
 
 # Spinner
 
-<!-- ::preview item="spinner-button" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="spinner-demo" height="360" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -69,6 +69,16 @@ Add a spinner to a button to indicate a loading state. Place the `<Spinner />` b
 
 <!-- ::preview item="spinner-button" height="360" combinations="react/base,react/aria" -->
 
+## Badge
+
+Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` before the label with `data-icon="inline-start"` for a start position, or after the label with `data-icon="inline-end"` for an end position.
+
+<!-- ::preview item="spinner-badge" height="360" combinations="react/base,react/aria" -->
+
 ## Input Group
 
 <!-- ::preview item="spinner-input-group" height="360" combinations="react/base,react/aria" -->
+
+## Empty
+
+<!-- ::preview item="spinner-empty" height="360" combinations="react/base,react/aria" -->
