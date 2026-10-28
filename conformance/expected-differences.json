@@ -198,7 +198,7 @@
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
-      "route": "/aria/table-example",
+      "route": "/aria/(table|toggle-group)-example",
       "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
     },
     {
@@ -528,13 +528,13 @@
     {
       "element": "label[data-slot=\"label\"]",
       "property": "line-height",
-      "route": "switch-example\\?preset=b1oVxsfY",
+      "route": "(switch|slider)-example\\?preset=b1oVxsfY",
       "reason": "Sera's label beside a control: upstream's site keeps `leading-relaxed` under `peer-data-[slot=switch]:text-sm`, its installed copy loses it to cn under `text-xs`; the registry follows the install"
     },
     {
       "element": "label[data-slot=\"label\"]",
       "property": "height",
-      "route": "switch-example\\?preset=b1oVxsfY",
+      "route": "(switch|slider)-example\\?preset=b1oVxsfY",
       "reason": "follows Sera's label's line height"
     },
     {
@@ -546,32 +546,176 @@
     {
       "element": "div[data-slot=\"",
       "property": "max-height",
-      "route": "/base/table-example",
-      "reason": "an open popup's available height (the dropdown menu's and the select's): Base UI 1.9 measures it a pixel taller than upstream's 1.6 for a trigger at the viewport's bottom edge; the popup sits in the same place"
+      "route": "/base/(table|toggle-group)-example",
+      "reason": "an open popup's available height: Base UI 1.9 measures it differently from upstream's 1.6 (a pixel for a trigger at the viewport's edge, more where the popup aligns its item with the trigger); the popup sits in the same place"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "max-height",
-      "route": "/aria/table-example",
+      "route": "/aria/(table|toggle-group)-example",
       "reason": "React Aria 1.22 flips a select opened at the viewport's bottom edge above its trigger, where upstream's 1.20 opens it below, off the screen; its place and height follow"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "top",
-      "route": "/aria/table-example",
+      "route": "/aria/(table|toggle-group)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "bottom",
-      "route": "/aria/table-example",
+      "route": "/aria/(table|toggle-group)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
       "element": "div[data-slot=\"select-list\"]",
       "property": "max-height",
-      "route": "/aria/table-example",
+      "route": "/aria/(table|toggle-group)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
+    },
+    {
+      "element": "In Badges › ",
+      "property": "(element)",
+      "route": "spinner-example",
+      "reason": "waits for Badge"
+    },
+    {
+      "element": "In Empty State › ",
+      "property": "(element)",
+      "route": "spinner-example",
+      "reason": "waits for Empty"
+    },
+    {
+      "element": "With Tooltip, Dropdown, Popover › ",
+      "property": "(element)",
+      "route": "input-group-example",
+      "reason": "waits for ButtonGroup and Popover"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "(spinner|input-group)-example",
+      "reason": "one example fewer per page (the sections that wait), so the grid's rows change"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "(spinner|input-group)-example",
+      "reason": "one example fewer per page (the sections that wait), so the grid's rows change"
+    },
+    {
+      "element": "div[data-slot=\"example",
+      "property": "height",
+      "route": "(input-otp|input-group|slider|switch|native-select|spinner|toggle-group)-example",
+      "reason": "follows FieldLabel's line height, or a neighbour in its grid row that does"
+    },
+    {
+      "element": "button[data-slot=\"toggle",
+      "property": "line-height",
+      "route": "toggle(-group)?-example\\?preset=(b0|b1D0dv72)",
+      "reason": "Nova's and Mira's small toggle: upstream's site keeps text-sm's line height under text-[0.8rem] (Mira's text-xs/relaxed under text-[0.625rem]), its installed copy loses it to cn; the registry follows the install, as Button's"
+    },
+    {
+      "element": "button[data-slot=\"toggle",
+      "property": "background-color",
+      "route": "/aria/toggle(-group)?-example",
+      "reason": "upstream's bug: its React Aria toggle's `data-selected:bg-muted` loses to every variant's `bg-transparent`, so a selected toggle never shows it; ours is muted when selected, as Base UI's pressed toggle is upstream"
+    },
+    {
+      "element": "div[data-slot=\"slider-",
+      "property": "left",
+      "route": "/base/slider-example",
+      "reason": "Base UI 1.9 places an edge-aligned thumb a fraction of a pixel from upstream's 1.6"
+    },
+    {
+      "element": "div[data-slot=\"slider-",
+      "property": "right",
+      "route": "slider-example",
+      "reason": "Base UI 1.9 places an edge-aligned thumb a fraction of a pixel from upstream's 1.6 (and React Aria 1.22 from 1.20)"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "width",
+      "route": "/base/slider-example",
+      "reason": "follows the thumbs' places"
+    },
+    {
+      "element": "button[data-slot=\"tooltip-trigger\"]",
+      "property": "(element)",
+      "route": "/base/kbd-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
+    },
+    {
+      "element": "button[data-slot=\"button\"]",
+      "property": "(element)",
+      "route": "/base/kbd-example",
+      "reason": "the same element as the tooltip trigger, named by the trigger's `data-slot` (Base UI 1.9)"
+    },
+    {
+      "element": "button[data-slot=\"button\"]",
+      "property": "line-height",
+      "route": "toggle-example\\?preset=b0",
+      "reason": "Nova's small button: upstream's site keeps text-sm's line height under text-[0.8rem], its installed copy loses it to cn; the registry follows the install"
+    },
+    {
+      "element": "div[data-slot=\"input-group-addon\"]",
+      "property": "height",
+      "route": "input-group-example",
+      "reason": "follows FieldLabel's line height (an addon holding a FieldLabel)"
+    },
+    {
+      "element": "div[data-slot=\"field-group\"]",
+      "property": "grid-template-rows",
+      "route": "input-group-example",
+      "reason": "follows FieldLabel's line height"
+    },
+    {
+      "element": "div[data-slot=\"card",
+      "property": "height",
+      "route": "input-(group|otp)-example",
+      "reason": "follows FieldLabel's line height"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "(input-otp|toggle-group|kbd|slider)-example",
+      "reason": "follows FieldLabel's line height in a row's example"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "(input-otp|toggle-group|kbd|slider)-example",
+      "reason": "follows FieldLabel's line height in a row's example"
+    },
+    {
+      "element": "p[data-slot=\"field-description\"]",
+      "property": "height",
+      "route": "toggle-group-example",
+      "reason": "inline code in `font-mono`: upstream's site names Geist Mono, the registry's design has no mono face yet and draws Tailwind's stack"
+    },
+    {
+      "element": "button[data-slot=\"select-trigger\"]",
+      "property": "width",
+      "route": "/base/toggle-group-example",
+      "reason": "a fraction of a pixel of the value's text, which follows the same face"
+    },
+    {
+      "element": "span[data-slot=\"select-value\"]",
+      "property": "width",
+      "route": "/base/toggle-group-example",
+      "reason": "a fraction of a pixel of the value's text, which follows the same face"
+    },
+    {
+      "element": "(page)",
+      "property": "(state)",
+      "route": "/base/(input-group|kbd)-example",
+      "reason": "a state whose trigger is in a section that waits (input-group: the dropdown and popover) or named by Base UI 1.9's trigger slot (kbd: the tooltip)"
+    },
+    {
+      "element": "button[data-slot=\"toggle\"]",
+      "property": "width",
+      "route": "toggle-example\\?preset=b1oVxsfY",
+      "reason": "Sera at 390px: upstream's column takes a width 19.75px under its row's content, so the row's last toggle shrinks to fit; ours keeps its content width. Not traced further: every toggle measures the same unconstrained"
     }
   ]
 }

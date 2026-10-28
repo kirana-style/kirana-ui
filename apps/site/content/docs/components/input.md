@@ -78,6 +78,12 @@ Use the `required` attribute to indicate required inputs.
 
 <!-- ::preview item="input-required" height="360" combinations="react/base,react/aria" -->
 
+## Input Group
+
+To add icons, text, or buttons inside an input, use the `InputGroup` component. See the [Input Group](/docs/components/input-group) component for more examples.
+
+<!-- ::preview item="input-input-group" height="360" combinations="react/base,react/aria" -->
+
 ## Form
 
 A full form example with multiple inputs, a select, and a button.

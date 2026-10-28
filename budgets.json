@@ -1,56 +1,56 @@
 {
   "home.js": {
-    "budget": 310,
+    "budget": 319,
     "unit": "KB",
-    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then to 302 KB with the showcase's framework switch (Base UI's Tabs, about 6 KB; the other frameworks' showcases load in their frame, not in this page). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 302.5 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 305.5 before it.",
+    "why": "The home page's JavaScript, gzip: the showcase must stay fast. main before the showcase measured 238.7. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then to 302 KB with the showcase's framework switch (Base UI's Tabs, about 6 KB; the other frameworks' showcases load in their frame, not in this page). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 302.5 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 305.5 before it. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 309.1 before it.",
     "measured": 305.5
   },
   "home.css": {
-    "budget": 55,
+    "budget": 63,
     "unit": "KB",
-    "why": "The stylesheets the home page loads, gzip: Kirana's compiled stylesheet and the registry's reset and fonts. Then to 52 KB for the fonts (CLI-11): every family of the font axes now has its token entries on `<html>` (the body's and the heading's, about 1 KB), where only Inter and Geist had. Then to 55 KB for P2-06's first group: Kirana compiles the site, its preview pages included, into one stylesheet every page links, so each ported component's CSS reaches the home page too (3.0 KB for five components; KF-052 asks for a stylesheet per route).",
+    "why": "The stylesheets the home page loads, gzip: Kirana's compiled stylesheet and the registry's reset and fonts. Then to 52 KB for the fonts (CLI-11): every family of the font axes now has its token entries on `<html>` (the body's and the heading's, about 1 KB), where only Inter and Geist had. Then to 55 KB for P2-06's first group: Kirana compiles the site, its preview pages included, into one stylesheet every page links, so each ported component's CSS reaches the home page too (3.0 KB for five components; KF-052 asks for a stylesheet per route). Then to 63 KB for P2-06's second group: 7 KB of its eight components' CSS in the one stylesheet every page links (KF-052); main measured 53.6 before it.",
     "measured": 50.4
   },
   "docs.js": {
-    "budget": 370,
+    "budget": 378,
     "unit": "KB",
-    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 360.1 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 363.4 before it. Then to 370 KB with the component pages as shadcn/ui's: the Installation section's manual steps and the docs manifest's new sections.",
+    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 360.1 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 363.4 before it. Then to 370 KB with the component pages as shadcn/ui's: the Installation section's manual steps and the docs manifest's new sections. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 368.0 before it.",
     "measured": 363.4
   },
   "create.js": {
-    "budget": 314,
+    "budget": 327,
     "unit": "KB",
-    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 301.8 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 305.4 before it. Then to 314 KB with the component pages as shadcn/ui's (every section and docs demo of the form controls): the docs manifest every page loads grows with each page's sections.",
+    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 301.8 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 305.4 before it. Then to 314 KB with the component pages as shadcn/ui's (every section and docs demo of the form controls): the docs manifest every page loads grows with each page's sections. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 312.4 before it.",
     "measured": 305.4
   },
   "blocks.js": {
-    "budget": 302,
+    "budget": 310,
     "unit": "KB",
-    "why": "/blocks' JavaScript, gzip: the header, the viewers' toolbars and frames; a block's own code is in its frame, and the code view loads its highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 294.6 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 298.0 before it.",
+    "why": "/blocks' JavaScript, gzip: the header, the viewers' toolbars and frames; a block's own code is in its frame, and the code view loads its highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 294.6 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 298.0 before it. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 301.0 before it.",
     "measured": 298
   },
   "charts.js": {
-    "budget": 301,
+    "budget": 309,
     "unit": "KB",
-    "why": "A charts page's JavaScript, gzip: the header, the type navigation and each chart's toolbar; the charts are in their frames, the code sheet's highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 293.4 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 296.6 before it.",
+    "why": "A charts page's JavaScript, gzip: the header, the type navigation and each chart's toolbar; the charts are in their frames, the code sheet's highlighter on demand. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then to 295 KB with the four project pages: the router's route tree, which every page loads, grows with each page the site adds. Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 293.4 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 296.6 before it. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 299.6 before it.",
     "measured": 296.6
   },
   "colors.js": {
-    "budget": 306,
+    "budget": 314,
     "unit": "KB",
-    "why": "/colors' JavaScript, gzip: the header, the format picker and the palettes, whose values are in the page. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 297.4 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 300.6 before it.",
+    "why": "/colors' JavaScript, gzip: the header, the format picker and the palettes, whose values are in the page. Raised with the Kirana site's header and footer (the footer's landscape loads its drawing on demand) (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 297.4 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 300.6 before it. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 303.8 before it.",
     "measured": 300.6
   },
   "typeset.js": {
-    "budget": 295,
+    "budget": 300,
     "unit": "KB",
-    "why": "/typeset's JavaScript, gzip: the builder, its pickers and docs panel, Base UI's Dialog and Tabs; its preview's fonts load in the frame, not here.",
+    "why": "/typeset's JavaScript, gzip: the builder, its pickers and docs panel, Base UI's Dialog and Tabs; its preview's fonts load in the frame, not here. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 289.6 before it.",
     "measured": 286.9
   },
   "preview.dialog-demo.js": {
-    "budget": 170,
+    "budget": 173,
     "unit": "KB",
-    "why": "A React preview page, the dialog demo, gzip: the demo as a bare island, without the site's shell, measured 169 KB.",
+    "why": "A React preview page, the dialog demo, gzip: the demo as a bare island, without the site's shell, measured 169 KB. Then for P2-06's second group (Kbd, Spinner, Toggle, Toggle Group, Native Select, Slider, Input Group, Input OTP): the icon map every placeholder reads, which holds every icon the registry names (about 6 KB), the docs manifest's new pages, and Base UI's parts the new components share with the site's chrome; main measured 163.3 before it.",
     "measured": 161.4
   },
   "site.css": {
@@ -90,51 +90,51 @@
     "measured": 2779
   },
   "style.nova": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Nova style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Nova style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 9.9
   },
   "style.vega": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Vega style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Vega style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 9.9
   },
   "style.lyra": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Lyra style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Lyra style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 9.7
   },
   "style.maia": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Maia style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Maia style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 10
   },
   "style.mira": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Mira style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Mira style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 9.9
   },
   "style.luma": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Luma style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Luma style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 10
   },
   "style.rhea": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Rhea style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Rhea style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 10
   },
   "style.sera": {
-    "budget": 12,
+    "budget": 16,
     "unit": "KB",
-    "why": "What the Sera style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count.",
+    "why": "What the Sera style costs a project (P2-13): every item's style modules flattened for it on Base UI, as installing writes them, together, gzip. 9.7 to 10.0 KB per style for the 21 items of 2026-10-28; set again at P2-06's full count. Raised to 16 KB at G1's end, 31 items: 13.6 to 14.2 KB per style.",
     "measured": 10
   },
   "design-system": {

@@ -17,6 +17,7 @@ import { fontSize, lineHeight, space, zIndex } from "../core/scales"
 import { side } from "../core/states"
 import { radius, theme } from "../core/tokens"
 import { TRANSFORM_ORIGIN } from "./overlay.styles"
+import { tooltipScope } from "./scope.styles"
 
 const { lyra, maia, luma, rhea, sera } = axes.style
 
@@ -43,7 +44,7 @@ export const tooltip = {
   positioner: css({ isolation: "isolate", zIndex: zIndex.popover }),
 
   // cn-tooltip-content (cn-tooltip-content-aria) and the component's own classes.
-  content: css({
+  content: css(tooltipScope.anchor, {
     zIndex: zIndex.popover,
     display: "inline-flex",
     width: "fit-content",
