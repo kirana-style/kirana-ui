@@ -7,6 +7,7 @@
  * shadcn/ui's customizer leaves it out.
  */
 import {
+  FONTS,
   FONT_INFO,
   ICON_LIBRARIES,
   MENU_ACCENTS,
@@ -26,10 +27,10 @@ import type {
 import { baseColors, themeColors } from "@workspace/registry/core/palettes"
 
 /**
- * The families the site ships (`styles/registry.css`): a font the page has not loaded would show
- * its fallback, so the pickers offer these until the site loads the others.
+ * The families the pickers offer: every one of the design system's. The site links Inter and
+ * Geist, and loads another when a design names it or a picker points at it (`@workspace/fonts`).
  */
-export const SITE_FONTS: readonly Font[] = ["inter", "geist"]
+export const SITE_FONTS: readonly Font[] = FONTS
 
 /** The base colours with a palette, in shadcn/ui's order. */
 export const BASE_COLOR_CHOICES = Object.keys(baseColors) as BaseColor[]

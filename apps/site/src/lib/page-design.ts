@@ -1,6 +1,7 @@
 import { useMemo, useSyncExternalStore } from "react"
 import { useRouterState } from "@tanstack/react-router"
 
+import { loadDesignFonts } from "./design-fonts"
 import { resolveDesignSystem } from "@workspace/registry/core/config"
 import type { DesignSystem } from "@workspace/registry/core/config"
 import { encodePreset } from "@workspace/registry/core/preset"
@@ -63,6 +64,7 @@ function frameDesign(code: string) {
 export function previewDesign(asked: DesignSystem | null) {
   const saved = readPageDesign(location.search, document.cookie)
   const system = asked ? resolveDesignSystem(asked).system : saved.system
+  void loadDesignFonts(system)
   applyDocumentAttributes(
     document.documentElement,
     documentAttributes({ system, options: saved.options })

@@ -3,6 +3,7 @@ import "@fontsource-variable/geist"
 import "@kirana-style/core/stylesheet.css"
 import "@workspace/registry/styles/reset.css"
 import { bootstrapApplication } from "@angular/platform-browser"
+import { loadDesignFonts } from "@workspace/fonts"
 import { props } from "@kirana-style/core"
 import { axes } from "@workspace/registry/core/axes"
 import { followPageDesign } from "@workspace/registry/core/preview"
@@ -16,6 +17,9 @@ import { App } from "./app"
 document.documentElement.className = props(root, axes.anchor, page.document)
   .className as string
 document.body.className = props(page.body).className as string
-followPageDesign()
+// The design's families, loaded when it names them: the page links Inter and Geist only.
+void loadDesignFonts(
+  followPageDesign((next) => void loadDesignFonts(next.system)).system
+)
 
 void bootstrapApplication(App)

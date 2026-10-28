@@ -50,6 +50,7 @@ const ITEMS = {
     "login-01",
     "sidebar-07",
     "typeset",
+    "font-inter",
   ],
   vue: [
     "button",
@@ -60,6 +61,7 @@ const ITEMS = {
     "skeleton",
     "tabs",
     "typeset",
+    "font-inter",
   ],
 } as const
 

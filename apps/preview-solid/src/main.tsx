@@ -10,6 +10,7 @@ import { root } from "@workspace/registry/core/root.ts"
 import { space } from "@workspace/registry/core/scales.ts"
 import { page } from "@workspace/registry/styles/page.styles.ts"
 import { For } from "solid-js"
+import { loadDesignFonts } from "@workspace/fonts"
 import { render } from "solid-js/web"
 
 import { Showcase } from "./showcase"
@@ -27,7 +28,10 @@ document.documentElement.className = classOf(
   props(root, axes.anchor, page.document)
 )
 document.body.className = classOf(props(page.body))
-followPageDesign()
+// The design's families, loaded when it names them: the page links Inter and Geist only.
+void loadDesignFonts(
+  followPageDesign((next) => void loadDesignFonts(next.system)).system
+)
 
 const list = css({
   display: "flex",

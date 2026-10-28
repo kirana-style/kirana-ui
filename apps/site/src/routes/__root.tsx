@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import { css } from "@kirana-style/core"
 
@@ -5,6 +6,7 @@ import kiranaCss from "@kirana-style/core/stylesheet.css?url"
 
 import { axes } from "@workspace/registry/core/axes"
 import { usePageDesign } from "@/lib/page-design"
+import { loadDesignFonts } from "@/lib/design-fonts"
 import { documentAttributes } from "@workspace/registry/core/preview"
 
 import { root } from "@workspace/registry/core/root"
@@ -133,6 +135,11 @@ function RegistryDocument({
 }) {
   const { mode } = useTheme()
   const design = usePageDesign()
+  // The design's families, loaded once it names them: the page links Inter and Geist only.
+  const { font, fontHeading } = design.system
+  useEffect(() => {
+    void loadDesignFonts({ font, fontHeading })
+  }, [font, fontHeading])
   return (
     <html
       lang="en"
