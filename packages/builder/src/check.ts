@@ -464,8 +464,22 @@ export function exclusiveFrom(
     named(a) &&
     named(b) &&
     !vocabularies.some((vocabulary) => vocabulary.has(a) && vocabulary.has(b))
-  return (a, b) =>
+  const plain = (a: string, b: string) =>
     sameAttribute(a, b) || set.has(`${a}\u0000${b}`) || apart(a, b)
+  // Two reads of one element's parent through one relation: that parent cannot hold both states.
+  // A `within` read is not, as two anchors up the tree may each hold one.
+  const parentRead = (condition: string) =>
+    /^relation parent (\S+) (.+)$/.exec(condition)
+  return (a, b) => {
+    if (plain(a, b)) return true
+    const [left, right] = [parentRead(a), parentRead(b)]
+    return (
+      left !== null &&
+      right !== null &&
+      left[1] === right[1] &&
+      plain(left[2]!, right[2]!)
+    )
+  }
 }
 
 /**

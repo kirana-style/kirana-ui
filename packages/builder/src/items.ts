@@ -371,6 +371,31 @@ export const ITEMS: Item[] = [
     ["react"]
   ),
   component(
+    "popover",
+    "Popover",
+    "Displays rich content in a portal, triggered by a button.",
+    ["react"]
+  ),
+  component(
+    "hover-card",
+    "Hover Card",
+    "For sighted users to preview content available behind a link.",
+    ["react"]
+  ),
+  component(
+    "alert-dialog",
+    "Alert Dialog",
+    "A modal dialog that interrupts the user with important content and expects a response.",
+    ["react"]
+  ),
+  component(
+    "context-menu",
+    "Context Menu",
+    "Displays a menu of actions triggered by a right click.",
+    ["react"]
+  ),
+  component("drawer", "Drawer", "A drawer component for React.", ["react"]),
+  component(
     "label",
     "Label",
     "Renders an accessible label associated with a control.",

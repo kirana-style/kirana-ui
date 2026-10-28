@@ -47,6 +47,8 @@ export const registryConfig = {
       // Upstream marks Base UI's invalid checkbox with `aria-invalid`, which no vocabulary names,
       // and React Aria's checkbox is a label that never carries it (`check`, in `states.ts`).
       ['[aria-invalid="true"]', Aria.Checkbox.focusVisible],
+      // A drawer's swipe axis, which the Drawer writes on its popup from its direction.
+      ['[data-swipe-axis="x"]', '[data-swipe-axis="y"]'],
     ],
     exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
   },
