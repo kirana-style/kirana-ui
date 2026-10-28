@@ -30,7 +30,15 @@ const TrafficChannels = React.lazy(() =>
   }))
 )
 
+// Drawn only from 1700 px, so in a chunk of its own.
+const SkeletonRails = React.lazy(() =>
+  import("./skeleton-rails").then((module) => ({
+    default: module.SkeletonRails,
+  }))
+)
+
 const styles = {
+  // Across the page's rail, the one band that does: the cards, then the skeleton rails to the edges.
   demo: css({
     position: "relative",
     overflow: "hidden",
@@ -53,6 +61,7 @@ const styles = {
       [breakpoint.lg]: "repeat(3, minmax(0, 1fr))",
       "@media (width >= 1400px)": "repeat(4, minmax(0, 1fr))",
     },
+    // Upstream's 1600 px at most: beyond it the skeleton rails go on, not wider cards.
     marginInline: "auto",
     maxWidth: { base: "48rem", [breakpoint.lg]: "100rem" },
   }),
@@ -80,6 +89,9 @@ const styles = {
 export function Showcase() {
   return (
     <section sx={styles.demo} aria-label="Components in your design">
+      <React.Suspense fallback={null}>
+        <SkeletonRails />
+      </React.Suspense>
       <div sx={styles.grid}>
         <div sx={styles.column}>
           <StyleOverview />

@@ -1,12 +1,13 @@
 /**
- * The frame the site's project pages share, as the Kirana site's `page.tsx`: the header and the
- * footer, a hero with the page's scene dissolving into the page beside the words, and numbered
+ * The frame the site's pages outside the docs share, as the Kirana site's `page.tsx`: the page
+ * names its scene once (its picture, its hue, its footer's landscape), the header and the footer, a hero with the page's scene dissolving into the page beside the words, and numbered
  * chapters below (`chapter.tsx`), the headlines in Kirana's display face. Not the docs layout: these
  * pages are the project's, read once, not looked up.
  */
 import { css } from "@kirana-style/core"
 
 import { DISPLAY, SERIF } from "@/components/kirana-type"
+import { SCENES } from "@/components/header/nav"
 import type { SceneId } from "@/components/header/nav"
 import { ScenePixels } from "@/components/scenery/scene-pixels"
 import { SiteFooter } from "@/components/site-footer"
@@ -15,8 +16,13 @@ import { breakpoint, fontFamily, space } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
 
 import { Chapter } from "./chapter"
+import { hue, hues } from "./hue"
+import { Rail } from "./rail"
+import { SceneProvider, useScene } from "./scene-context"
 
 const styles = {
+  // Only carries the hue: the header stays sticky against the page.
+  page: css({ display: "contents" }),
   hero: css({
     position: "relative",
     overflow: "hidden",
@@ -67,7 +73,7 @@ const styles = {
   pixel: css({
     width: "0.5rem",
     height: "0.5rem",
-    backgroundColor: theme.primary,
+    backgroundColor: hue.base,
   }),
   title: css({
     fontFamily: SERIF,
@@ -77,7 +83,7 @@ const styles = {
     fontWeight: 400,
     textWrap: "balance",
   }),
-  accent: css({ fontStyle: "italic", color: theme.primary }),
+  accent: css({ fontStyle: "italic", color: hue.base }),
   lede: css({
     fontSize: DISPLAY.lede.fontSize,
     lineHeight: DISPLAY.lede.lineHeight,
@@ -100,34 +106,41 @@ const styles = {
   }),
 }
 
-/** The header, the page, the footer. */
-export function Page({ children }: { children: React.ReactNode }) {
+/** The header, the page, the footer, all in the scene's hue. */
+export function Page({
+  scene,
+  children,
+}: {
+  scene: SceneId
+  children: React.ReactNode
+}) {
   return (
-    <>
-      <SiteHeader />
-      <main>{children}</main>
-      <SiteFooter />
-    </>
+    <SceneProvider value={scene}>
+      <div sx={[styles.page, hues[SCENES[scene].hue]]}>
+        <SiteHeader />
+        <main>{children}</main>
+        <SiteFooter />
+      </div>
+    </SceneProvider>
   )
 }
 
 export function PageHero({
-  scene,
   label,
   title,
   lede,
   actions,
 }: {
-  scene: SceneId
   /** The page's name, above its headline. */
   label: string
   title: React.ReactNode
   lede?: React.ReactNode
   actions?: React.ReactNode
 }) {
+  const scene = useScene()
   return (
     <header sx={styles.hero}>
-      <div sx={styles.heroRail}>
+      <Rail sx={styles.heroRail}>
         <ScenePixels
           scene={scene}
           dissolve="hero"
@@ -143,7 +156,7 @@ export function PageHero({
           {lede ? <p sx={styles.lede}>{lede}</p> : null}
           {actions ? <div sx={styles.actions}>{actions}</div> : null}
         </div>
-      </div>
+      </Rail>
     </header>
   )
 }
@@ -172,12 +185,12 @@ export function PageSection({
 }) {
   return (
     <section id={id} sx={styles.section}>
-      <div sx={styles.sectionInner}>
+      <Rail sx={styles.sectionInner}>
         {title ? (
           <Chapter number={number} label={label} title={title} lede={lede} />
         ) : null}
         {children}
-      </div>
+      </Rail>
     </section>
   )
 }

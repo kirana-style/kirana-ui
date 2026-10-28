@@ -114,11 +114,18 @@ export function paint({
     powerPreference: "low-power",
     failIfMajorPerformanceCaveat: true,
   })
-  if (!gl) return undefined
+  // A canvas that will not draw is hidden: one whose context was lost stays a layer over the plain
+  // picture, and once the page holds a frame of its own origin (a block's preview) Chrome paints
+  // the picture under it as broken.
+  if (!gl) {
+    canvas.hidden = true
+    return undefined
+  }
   // Drawing every frame on the CPU would keep the page busy: where WebGL runs in software, the
   // plain picture shows instead.
   if (software(gl)) {
     gl.getExtension("WEBGL_lose_context")?.loseContext()
+    canvas.hidden = true
     return undefined
   }
 

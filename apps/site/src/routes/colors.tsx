@@ -4,20 +4,18 @@ import { css } from "@kirana-style/core"
 
 import { ColorPalette } from "@/components/colors/color-palette"
 import { Customizer } from "@/components/customizer"
-import { PageHeader } from "@/components/page-header"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
+import { PrimaryCta, SecondaryCta } from "@/components/cta"
+import { Accent, Page, PageHero } from "@/components/page/page"
+import { Rail } from "@/components/page/rail"
 import { PALETTES } from "@/lib/scale-colors"
 import registryCss from "@/styles/registry.css?url"
 import { breakpoint, space } from "@workspace/registry/core/scales"
-import { Button } from "@workspace/registry/bases/react-base/ui/button"
 
-const TITLE = "Tailwind Colors in Every Format"
 const DESCRIPTION =
   "The complete Tailwind color palette as Kirana tokens, oklch() values and hex, from @kirana-style/preset-scales. Ready to copy into your styles."
 
 /**
- * `/colors`, as upstream's: the page's header, then every palette of `@kirana-style/preset-scales`
+ * `/colors`: Kirana's page hero at city dusk, then every palette of `@kirana-style/preset-scales`
  * (`components/colors/`), each shade copied in the format the reader chose (`color.red[500]`,
  * `oklch()`, hex). These are the fixed scales; the design's own colours are the theme's tokens
  * (`/docs/design-system/theming`).
@@ -42,8 +40,6 @@ const styles = {
       [breakpoint.lg]: space[16],
       [breakpoint.xl]: space[20],
     },
-    marginInline: "auto",
-    maxWidth: "80rem",
     paddingInline: { base: space[2], [breakpoint.md]: space[4] },
     paddingBlock: space[6],
     scrollMarginTop: space[20],
@@ -54,43 +50,46 @@ function Colors() {
   const [lastCopied, setLastCopied] = React.useState<string | null>(null)
   return (
     <>
-      <SiteHeader />
-      <main>
-        <PageHeader
-          heading={TITLE}
-          description={DESCRIPTION}
+      <Page scene="city-dusk">
+        <PageHero
+          label="Colors"
+          title={
+            <>
+              Tailwind colors <Accent>in every format.</Accent>
+            </>
+          }
+          lede={DESCRIPTION}
           actions={
             <>
-              <Button render={<a href="#colors" />} nativeButton={false}>
-                Browse Colors
-              </Button>
-              <Button
-                variant="secondary"
+              <PrimaryCta render={<a href="#colors" />}>
+                Browse colors
+              </PrimaryCta>
+              <SecondaryCta
                 render={
                   <Link
                     to="/docs/$"
                     params={{ _splat: "design-system/theming" }}
                   />
                 }
-                nativeButton={false}
               >
                 Documentation
-              </Button>
+              </SecondaryCta>
             </>
           }
         />
-        <section id="colors" sx={styles.section}>
-          {PALETTES.map((palette) => (
-            <ColorPalette
-              key={palette.name}
-              palette={palette}
-              lastCopied={lastCopied}
-              onCopied={setLastCopied}
-            />
-          ))}
+        <section id="colors">
+          <Rail sx={styles.section}>
+            {PALETTES.map((palette) => (
+              <ColorPalette
+                key={palette.name}
+                palette={palette}
+                lastCopied={lastCopied}
+                onCopied={setLastCopied}
+              />
+            ))}
+          </Rail>
         </section>
-      </main>
-      <SiteFooter />
+      </Page>
       <Customizer />
     </>
   )

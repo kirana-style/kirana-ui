@@ -16,6 +16,7 @@ import {
 } from "@workspace/registry/core/scales"
 import { radius, theme } from "@workspace/registry/core/tokens"
 import type { IconProps } from "@workspace/ui/primitives/icon"
+import { hue } from "./hue"
 
 const LIFT =
   "0 1px 2px light-dark(rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.4)), 0 12px 32px -12px light-dark(rgb(0 0 0 / 0.18), rgb(0 0 0 / 0.75))"
@@ -55,7 +56,7 @@ const styles = {
   meta: css({
     fontFamily: fontFamily.mono,
     fontSize: fontSize.xs,
-    color: theme.primary,
+    color: hue.base,
   }),
   text: css({
     fontSize: fontSize.sm,

@@ -413,7 +413,6 @@ function SectionSwitcher({
 export function DocsLayout({
   current,
   logo,
-  nav,
   actions,
   links = [],
   banner,
@@ -422,8 +421,6 @@ export function DocsLayout({
   /** The current page's href. */
   current: string
   logo: React.ReactNode
-  /** After the logo, from lg up: the app's own menus (the site's mega menu), as on its other pages. */
-  nav?: React.ReactNode
   actions?: React.ReactNode
   /**
    * Links after the last tab, drawn as tabs (the site's New, to its editor): they lead out of the
@@ -503,7 +500,6 @@ export function DocsLayout({
             {logo}
             <span sx={styles.badge}>Docs</span>
           </div>
-          {nav}
           <div sx={styles.actions}>
             {actions}
             <DocsSearch

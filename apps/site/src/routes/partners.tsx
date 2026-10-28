@@ -27,9 +27,8 @@ export const Route = createFileRoute("/partners")({
 
 function Partners() {
   return (
-    <Page>
+    <Page scene="old-hall">
       <PageHero
-        scene="old-hall"
         label="Partners"
         title={
           <>

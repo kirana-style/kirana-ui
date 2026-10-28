@@ -30,9 +30,8 @@ export const Route = createFileRoute("/open-source")({
 
 function OpenSource() {
   return (
-    <Page>
+    <Page scene="old-hall">
       <PageHero
-        scene="old-hall"
         label="Open source"
         title={
           <>

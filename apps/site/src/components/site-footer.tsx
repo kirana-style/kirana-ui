@@ -1,7 +1,7 @@
 /**
  * The site's footer, as the Kirana site's: the mark and the wordmark, a line on what kirana/ui is,
  * the licence and the colour mode (`D` steps it), the link groups (`header/nav.ts`'s `FOOTER`), and
- * the highlands in pixels dissolving up into them.
+ * the page's scene in pixels dissolving up into them, all in the page's rail.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { Link } from "@tanstack/react-router"
@@ -9,6 +9,9 @@ import { Link } from "@tanstack/react-router"
 import { DocsLink } from "@/components/docs-link"
 import { KiranaMark, Wordmark } from "@/components/header/brand"
 import { FOOTER } from "@/components/header/nav"
+import { SERIF } from "@/components/kirana-type"
+import { Rail } from "@/components/page/rail"
+import { useScene } from "@/components/page/scene-context"
 import { ScenePixels } from "@/components/scenery/scene-pixels"
 import {
   breakpoint,
@@ -19,10 +22,11 @@ import {
   lineHeight,
   space,
 } from "@workspace/registry/core/scales"
-import { font, theme } from "@workspace/registry/core/tokens"
+import { theme } from "@workspace/registry/core/tokens"
 import { ThemeToggle } from "@workspace/docs-ui/theme-toggle.tsx"
 
 const styles = {
+  // Ruled across the page, as every section is: the grid's last line.
   footer: css({
     borderTopWidth: "1px",
     borderTopStyle: "solid",
@@ -49,7 +53,8 @@ const styles = {
   }),
   line: css({
     maxWidth: "24rem",
-    fontFamily: font.heading,
+    // Kirana's display face, as its footer sets its line.
+    fontFamily: SERIF,
     fontSize: fontSize["2xl"],
     fontWeight: fontWeight.medium,
     lineHeight: lineHeight["2xl"],
@@ -90,7 +95,7 @@ const styles = {
     textDecorationLine: "none",
     color: { base: theme.mutedForeground, ":hover": theme.foreground },
   }),
-  // The scene: the page's width, dissolving up into the links.
+  // The scene: the rail's width, dissolving up into the links.
   scene: css({
     position: "relative",
     height: { base: "9rem", [breakpoint.md]: "13rem" },
@@ -98,9 +103,10 @@ const styles = {
 }
 
 export function SiteFooter() {
+  const scene = useScene()
   return (
     <footer sx={styles.footer}>
-      <div sx={styles.inner}>
+      <Rail sx={styles.inner}>
         <div sx={styles.identity}>
           <Link
             to="/"
@@ -114,8 +120,8 @@ export function SiteFooter() {
             shadcn/ui&apos;s components, compiled into one stylesheet.
           </p>
           <p sx={styles.note}>Built in the open, MIT licensed.</p>
-          {/* The header's `D` already steps the mode. */}
-          <ThemeToggle hotkey={false} sx={styles.theme} />
+          {/* The header listens for `D`; the chip only says so. */}
+          <ThemeToggle hotkey={false} keycap sx={styles.theme} />
         </div>
         <nav sx={styles.groups} aria-label="Footer">
           {FOOTER.map((group) => (
@@ -129,10 +135,10 @@ export function SiteFooter() {
             </div>
           ))}
         </nav>
-      </div>
-      <div sx={styles.scene}>
-        <ScenePixels scene="highlands" dissolve="up" fade={0.85} />
-      </div>
+      </Rail>
+      <Rail sx={styles.scene}>
+        <ScenePixels scene={scene} dissolve="up" fade={0.85} />
+      </Rail>
     </footer>
   )
 }

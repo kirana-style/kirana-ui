@@ -30,9 +30,8 @@ export const Route = createFileRoute("/sponsor")({
 
 function Sponsor() {
   return (
-    <Page>
+    <Page scene="golden-fields">
       <PageHero
-        scene="golden-fields"
         label="Sponsor"
         title={
           <>
