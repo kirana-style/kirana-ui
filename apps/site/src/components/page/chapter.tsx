@@ -8,6 +8,7 @@ import { css } from "@kirana-style/core"
 import { DISPLAY, SERIF } from "@/components/kirana-type"
 import { fontFamily, fontWeight, space } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
+import { hue } from "./hue"
 
 const styles = {
   head: css({ display: "grid", gap: space[4] }),
@@ -22,7 +23,7 @@ const styles = {
     letterSpacing: "0.04em",
     textTransform: "uppercase",
   }),
-  number: css({ color: theme.primary, fontWeight: fontWeight.medium }),
+  number: css({ color: hue.base, fontWeight: fontWeight.medium }),
   name: css({ color: theme.foreground, whiteSpace: "nowrap" }),
   rule: css({
     flex: "1 1 auto",

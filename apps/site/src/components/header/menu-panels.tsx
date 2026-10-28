@@ -7,6 +7,7 @@
 import { css } from "@kirana-style/core"
 
 import { DocsLink } from "@/components/docs-link"
+import { hues } from "@/components/page/hue"
 import {
   duration,
   easing,
@@ -34,7 +35,7 @@ const styles = {
     width: "56rem",
     padding: space[2],
     gap: space[2],
-    borderRadius: "0.875rem",
+    borderRadius: radius["2xl"],
     backgroundColor: theme.popover,
     boxShadow: `0 0 0 1px ${alpha.foreground10}`,
   }),
@@ -43,7 +44,7 @@ const styles = {
     display: "grid",
     gridTemplateRows: "auto 1fr",
     overflow: "hidden",
-    borderRadius: radius["2xl"],
+    borderRadius: radius.xl,
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
@@ -72,7 +73,8 @@ const styles = {
     placeItems: "center",
     height: "9rem",
     overflow: "hidden",
-    borderRadius: `calc(${radius["2xl"]} - ${space[2]})`,
+    // Inset in the card and concentric with it, never below square.
+    borderRadius: `max(0px, calc(${radius.xl} - ${space[2]}))`,
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
@@ -172,7 +174,7 @@ const styles = {
 function Row({ link }: { link: NavLinkItem }) {
   return (
     <NavigationMenuLink render={<DocsLink href={link.href} />} sx={styles.row}>
-      <IconTile icon={link.icon} />
+      <IconTile icon={link.icon} sx={hues[SCENES[link.scene].hue]} />
       <span sx={styles.rowText}>
         <span sx={styles.rowTitle}>{link.title}</span>
         <span sx={styles.rowDescription}>{link.description}</span>
@@ -185,7 +187,7 @@ function FeaturedCard({ item }: { item: Featured }) {
   return (
     <NavigationMenuLink
       render={<DocsLink href={item.href} />}
-      sx={styles.featured}
+      sx={[hues[SCENES[item.scene].hue], styles.featured]}
       data-featured=""
     >
       <span sx={styles.art} aria-hidden="true">
@@ -271,7 +273,7 @@ export function MobileGroups({
 function MobileRow({ link }: { link: NavLinkItem }) {
   return (
     <DocsLink href={link.href} sx={styles.row}>
-      <IconTile icon={link.icon} />
+      <IconTile icon={link.icon} sx={hues[SCENES[link.scene].hue]} />
       <span sx={styles.rowText}>
         <span sx={styles.rowTitle}>{link.title}</span>
         <span sx={[styles.rowDescription, styles.rowDescriptionWrap]}>

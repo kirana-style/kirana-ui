@@ -1,10 +1,11 @@
 /**
  * The site's header, as the Kirana site's: the petal K and the wordmark ("kirana ui", where Kirana
- * writes "kirana style"), the links and menus (`header/`: Components, Blocks, Charts and Colors of
- * their own, Docs and Community as mega menus), then the docs' search, the GitHub mark, the sponsor
+ * writes "kirana style"), the links and menus (`header/`: Components, Blocks and Charts of their
+ * own, Docs (the colours with it) and Community as mega menus), then the docs' search, the GitHub mark, the sponsor
  * heart and Create, the pill in the place of Kirana's Quick start. Frosted, so the page shows
  * through. The colour mode is in the footer, as on the Kirana site, and `D` steps it on every page.
- * On `/create` (`designer`) the bar spans the page, as the editor does, and Create is left out,
+ * The bar stands in the page's rail (`page/rail.tsx`), its rules running on down the page; on
+ * `/create` (`designer`) it spans the page, as the editor does, and Create is left out,
  * since that is where it leads. Below `lg` the links and menus are a sheet.
  */
 import { css, props as styleProps } from "@kirana-style/core"
@@ -15,6 +16,7 @@ import { CreateCta } from "@/components/cta"
 import { DocsLink } from "@/components/docs-link"
 import { SiteDocsProvider } from "@/components/docs-config"
 import { KiranaMark, Wordmark } from "@/components/header/brand"
+import { Rail } from "@/components/page/rail"
 import { REPOSITORY, SPONSOR } from "@/components/header/nav"
 import { DesktopNav, MobileNav } from "@/components/header/site-nav"
 import { breakpoint, space } from "@workspace/registry/core/scales"
@@ -44,6 +46,7 @@ export const CREATE = {
   description: "Start a project in your design",
   href: "/create",
   icon: PlusSignIcon,
+  scene: "heritage-street" as const,
 }
 
 const styles = {
@@ -145,18 +148,25 @@ export function HeaderActions({ create = true }: { create?: boolean }) {
 
 export function SiteHeader({ designer = false }: { designer?: boolean }) {
   useThemeHotkey()
+  const bar = (
+    <>
+      <Brand />
+      <DesktopNav />
+      <div sx={styles.actions}>
+        <DocsSearch variant="icon" />
+        <HeaderActions create={!designer} />
+        <MobileNav extra={designer ? [] : [CREATE]} />
+      </div>
+    </>
+  )
   return (
     <SiteDocsProvider>
       <header sx={styles.header}>
-        <div sx={styles.bar}>
-          <Brand />
-          <DesktopNav />
-          <div sx={styles.actions}>
-            <DocsSearch variant="icon" />
-            <HeaderActions create={!designer} />
-            <MobileNav extra={designer ? [] : [CREATE]} />
-          </div>
-        </div>
+        {designer ? (
+          <div sx={styles.bar}>{bar}</div>
+        ) : (
+          <Rail sx={styles.bar}>{bar}</Rail>
+        )}
       </header>
     </SiteDocsProvider>
   )

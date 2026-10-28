@@ -7,6 +7,7 @@
 import { Fragment } from "react"
 import { css, keyframes } from "@kirana-style/core"
 
+import { hue } from "@/components/page/hue"
 import { fontFamily } from "@workspace/registry/core/scales"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
 
@@ -35,7 +36,7 @@ const styles = {
   card: css({
     width: "224px",
     overflow: "hidden",
-    borderRadius: "0.75rem",
+    borderRadius: radius.lg,
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
@@ -109,7 +110,7 @@ const styles = {
     alignItems: "center",
     gap: "6px",
     height: "1.75rem",
-    borderRadius: radius.full,
+    borderRadius: radius["4xl"],
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
@@ -136,9 +137,10 @@ const styles = {
     color: theme.mutedForeground,
     backgroundColor: theme.muted,
   }),
+  // In the card's hue (its destination's).
   tagStrong: css({
-    color: theme.primaryForeground,
-    backgroundColor: theme.primary,
+    color: hue.on,
+    backgroundColor: hue.base,
   }),
 }
 

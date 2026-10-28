@@ -81,9 +81,8 @@ export const Route = createFileRoute("/license")({
 
 function License() {
   return (
-    <Page>
+    <Page scene="old-hall">
       <PageHero
-        scene="old-hall"
         label="License"
         title={
           <>

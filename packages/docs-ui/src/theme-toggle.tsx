@@ -95,10 +95,13 @@ export function useThemeHotkey(enabled = true) {
 
 export function ThemeToggle({
   hotkey = true,
+  keycap = hotkey,
   sx,
 }: {
   /** Whether `D` steps the theme; give it to one toggle per page. */
   hotkey?: boolean
+  /** Whether the `D` chip shows: for a toggle whose key another part of the page listens to. */
+  keycap?: boolean
   sx?: Sx
 }) {
   const { cycleMode } = useTheme()
@@ -119,7 +122,7 @@ export function ThemeToggle({
           {mode.label}
         </span>
       ))}
-      {hotkey ? <Kbd sx={styles.key}>D</Kbd> : null}
+      {keycap ? <Kbd sx={styles.key}>D</Kbd> : null}
     </Button>
   )
 }

@@ -379,20 +379,40 @@ has hydrated, so it loads once; it follows the colour mode through the theme pro
 `?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
 colour theme otherwise. The site's chrome is the Kirana site's, at the maintainer's call. The header: the petal K and
 the wordmark ("kirana ui", Crimson Pro's italic, where Kirana writes "kirana style"); Components,
-Blocks, Charts and Colors as links of their own (kirana/ui is its components); Docs and Community
+Blocks and Charts as links of their own (kirana/ui is its components); Docs (Colors with it) and Community
 as mega menus (`components/header/`, featured destinations on the Kirana site's landscapes,
 `public/scenes/`, titled columns of links, the panels loaded on demand); then search, the GitHub
 mark, the sponsor heart and **Create**, the pill in the place of Kirana's Quick start
 (`components/cta.tsx`, the one label for starting a project); below `lg` a sheet. The docs bar
-takes the same brand, links and menus (docs-ui's `nav`, inline from `xl`, the sheet between `lg`
-and `xl`), its tab row the docs' own sections. The home page opens with Kirana's hero
+keeps to the brand and its actions, as the Kirana site's docs do (no menus; its tab row is the
+docs' own sections). Outside the docs and `/create`, the header, every section and the footer
+stand in the page's rail (`components/page/rail.tsx`, Kirana's `Rail`: a centred column, 80rem at
+most, ruled on both sides from `md` up, each section's bottom border crossing the rules); the
+home page's showcase is the one band that runs across it: its grid keeps upstream's 1600 px, and
+beyond it, from 1700 px, upstream's skeleton rails go on to the page's edges at half strength
+(`components/showcase/skeleton-rails.tsx`, four of upstream's skeleton cards); the
+footer's top rule closes the grid. Each page stands in a scene (`components/header/nav.ts`'s
+`SCENES`, `Page`'s `scene`): its picture (the hero's and the footer's), and its hue
+(`components/page/hue.ts`, the Kirana site's scene hues), which tints the hero's pixel and italic
+word, the chapters' numbers, Create's chip and the engine's tile. The home page stands in the
+heritage street (terracotta), the blocks in the rock garden (tea), the charts by still water
+(lake), the colours at city dusk, the project pages in the old hall and the golden fields (ochre).
+Each menu glyph and featured card takes the hue of the page it leads to; the Docs menu's featured
+cards stand in misty hills and by the turquoise lake, scenes the Kirana site's menus do not show. The hue gives way to the
+design's primary once the customizer picks a hued colour theme (blue, rose …); under the greys it
+stays the page's. A scene's canvas is hidden when WebGL will not draw it (none, or in software),
+so the plain picture shows. The home page opens with Kirana's hero
 (`components/home/hero.tsx`: the claim in Kirana's display face, EB Garamond with its italic,
-`components/kirana-type.ts`; Create and Get started; the highlands in pixels with Kirana's mark
-between the frameworks the registry has, marks only). The project pages, `/open-source`,
+`components/kirana-type.ts`; Create and Get started; the highlands in pixels with Kirana's "one
+engine" drawing, `components/scenery/kit.tsx`: the frameworks the plan covers, React, Vue,
+Svelte and Solid, above the engine and the hosts, Vite, TanStack Start, Next.js and Nuxt, below
+it, each tile's title saying whether it installs today). The chrome's corners are the design's:
+the pills keep the registry Button's corner, the menus, cards, tiles and pictures derive theirs
+from the radius tokens, concentric where one sits in another, square under Lyra and Sera. The project pages, `/open-source`,
 `/license`, `/sponsor` and `/partners`, are Kirana's page layout (`components/page/`: a hero with
 its scene, numbered chapters, cards), not the docs layout; Contributing is a docs page, and the home, blocks, charts and
 colours pages end with Kirana's footer (`components/site-footer.tsx`: the brand, the licence, the
-colour mode, three link groups, the landscape dissolving up). The landscapes are drawn with
+colour mode as Kirana's pill with its `D` chip, three link groups, the landscape dissolving up). The landscapes are drawn with
 `components/scenery/scene-pixels.tsx`, from the Kirana site's, in WebGL with the plain picture
 until it draws. The chrome carries the Kirana brand; the components and their pages still follow
 shadcn/ui. The header carries the docs' search on every page (⌘K; a field from `xl`, an icon below), its
@@ -403,8 +423,8 @@ the reader's design, four columns from 1400 px, the chart card in its own chunk.
 registry item, since a block holding some of upstream's `preview` cards would differ from upstream's
 whole block.
 `/blocks` and `/blocks/<category>` are upstream's blocks pages (`routes/blocks*.tsx`, the parts in
-`components/blocks/`): the page header (`components/page-header.tsx`, which the home page shares),
-the categories that have a block (Featured, then upstream's order), then each block in its viewer:
+`components/blocks/`): Kirana's page hero (`components/page/`, as the project pages; the charts and
+colours pages open with it too), the categories that have a block (Featured, then upstream's order), then each block in its viewer:
 Preview or Code, its description, the framework and base (docs-ui's shared choice), the frame's
 width (desktop, tablet, phone, or dragged by its handle), open in a new tab, reload, and
 `kirana-style ui add`. The frame is the block's preview page, `/preview/<framework>/<base>/<name>`,

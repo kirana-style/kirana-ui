@@ -64,7 +64,7 @@ const styles = {
   pill: css({
     position: "absolute",
     insetBlock: "4px",
-    borderRadius: radius.full,
+    borderRadius: radius["4xl"],
     backgroundColor: alpha.muted50,
     pointerEvents: "none",
     transitionProperty: "left, width, opacity",
@@ -73,7 +73,7 @@ const styles = {
   }),
   trigger: css({
     position: "relative",
-    borderRadius: radius.full,
+    borderRadius: radius["4xl"],
     paddingInline: space["3.5"],
     backgroundColor: { "*": null, base: "transparent" },
     color: {
@@ -93,7 +93,8 @@ const styles = {
   }),
   // The popup is the glass, the content's padding its width, and the panel the card inside it.
   glass: css({
-    borderRadius: "1.25rem",
+    // The panel's corner and the glass around it, as the customizer's frame (`glass.ts`).
+    borderRadius: `calc(${radius["2xl"]} + min(${radius["2xl"]}, ${space["1.5"]}))`,
     backgroundColor:
       "light-dark(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.06))",
     backdropFilter: "blur(16px) saturate(1.4)",

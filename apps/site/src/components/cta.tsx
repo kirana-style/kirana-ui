@@ -1,6 +1,7 @@
 /**
- * The site's calls to action, as the Kirana site's `cta.tsx`: one shape everywhere. "Create" is a
- * raised pill with a round chip at its end, in the design's primary colour where Kirana puts its
+ * The site's calls to action, as the Kirana site's `cta.tsx`: one shape everywhere, its corners the
+ * design's (the registry's Button's, which follow the style and the radius). "Create" is a
+ * raised pill with a round chip at its end, in the page's hue (`page/hue.ts`), as Kirana puts its
  * scene's, the arrow in it growing a little on hover; the secondary one beside it is the same pill
  * outlined, with no chip. Both come in the header's size (`sm`, 32 px) and a hero's (`lg`, 40 px),
  * and grow to a finger's size (44 px) on a touch screen. Every "start a project" on the site is
@@ -19,8 +20,9 @@ import {
   fontWeight,
   space,
 } from "@workspace/registry/core/scales"
-import { alpha, radius, theme } from "@workspace/registry/core/tokens"
+import { alpha, theme } from "@workspace/registry/core/tokens"
 import type { Sx } from "@workspace/registry/lib/sx"
+import { hue } from "@/components/page/hue"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
 import { Icon } from "@workspace/ui/primitives/icon"
 
@@ -35,7 +37,6 @@ const styles = {
     alignItems: "center",
     minHeight: "auto",
     gap: space["2.5"],
-    borderRadius: { "*": null, base: radius.full },
     lineHeight: 1,
     fontWeight: fontWeight.medium,
   }),
@@ -84,13 +85,14 @@ const styles = {
     },
     boxShadow: { "*": null, base: "none" },
   }),
+  // The chip takes the pill's corner, so it is round in a round style and square in a square one.
   chip: css({
     display: "inline-grid",
     placeItems: "center",
     flexShrink: 0,
-    borderRadius: radius.full,
-    backgroundColor: theme.primary,
-    color: theme.primaryForeground,
+    borderRadius: "inherit",
+    backgroundColor: hue.base,
+    color: hue.on,
   }),
   chipSm: css({
     width: { base: "1.375rem", [COARSE]: space[8] },
@@ -125,6 +127,29 @@ export function CreateCta({
   sx?: Sx
 }) {
   return (
+    <PrimaryCta
+      size={size}
+      sx={[hideOnPhone && styles.fromSm, sx]}
+      render={<Link to="/create" />}
+    >
+      {children}
+    </PrimaryCta>
+  )
+}
+
+/** The raised pill with its chip, to any destination: a page hero's first action. */
+export function PrimaryCta({
+  size = "lg",
+  render,
+  children,
+  sx,
+}: {
+  size?: Size
+  render: ReactElement
+  children: ReactNode
+  sx?: Sx
+}) {
+  return (
     <Button
       nativeButton={false}
       sx={[
@@ -132,10 +157,9 @@ export function CreateCta({
         styles[size],
         size === "sm" ? styles.primarySmEnd : styles.primaryLgEnd,
         styles.primary,
-        hideOnPhone && styles.fromSm,
         sx,
       ]}
-      render={<Link to="/create" />}
+      render={render}
     >
       {children}
       <span sx={[styles.chip, size === "sm" ? styles.chipSm : styles.chipLg]}>
