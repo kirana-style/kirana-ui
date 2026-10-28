@@ -12,13 +12,7 @@ keywords: [tooltip, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add tooltip" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/tooltip" -->
+<!-- ::installation name="tooltip" combinations="react/base,react/aria" -->
 
 ## Usage
 
@@ -63,9 +57,3 @@ export function Example() {
 ```
 
 <!-- ::end:tabs -->
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="tooltip" combinations="react/base,react/aria" -->

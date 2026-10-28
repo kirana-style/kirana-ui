@@ -12,37 +12,27 @@ keywords: [checkbox, form, field, component, base, aria]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add checkbox" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/checkbox" -->
+<!-- ::installation name="checkbox" combinations="react/base,react/aria" -->
 
 ## Usage
 
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox"
-
-export function Example() {
-  return <Checkbox />
-}
 ```
 
-## Checked state
+```tsx
+<Checkbox />
+```
 
-<!-- ::start:tabs -->
+## Checked State
 
-### Base UI
+<!-- ::start:only react/base -->
 
-Use `defaultChecked` for an uncontrolled checkbox, or `checked` and
-`onCheckedChange` to control it.
+Use `defaultChecked` for uncontrolled checkboxes, or `checked` and
+`onCheckedChange` to control the state.
 
 ```tsx
 import * as React from "react"
-
-import { Checkbox } from "@/components/ui/checkbox"
 
 export function Example() {
   const [checked, setChecked] = React.useState(false)
@@ -51,92 +41,93 @@ export function Example() {
 }
 ```
 
-### React Aria
+<!-- ::end:only -->
 
-Use `defaultSelected` for an uncontrolled checkbox, or `isSelected` and
-`onChange` to control it.
+<!-- ::start:only react/aria -->
+
+Use `defaultSelected` for uncontrolled checkboxes, or `isSelected` and
+`onChange` to control the state.
 
 ```tsx
 import * as React from "react"
 
-import { Checkbox } from "@/components/ui/checkbox"
-
 export function Example() {
-  const [selected, setSelected] = React.useState(false)
+  const [checked, setChecked] = React.useState(false)
 
-  return <Checkbox isSelected={selected} onChange={setSelected} />
+  return <Checkbox isSelected={checked} onChange={setChecked} />
 }
 ```
 
-<!-- ::end:tabs -->
+<!-- ::end:only -->
 
-## Invalid state
+## Invalid State
 
 <!-- ::start:only react/base -->
 
-Set `aria-invalid` on the checkbox and `data-invalid` on the `Field` around it
-to show the invalid styles.
+Set `aria-invalid` on the checkbox and `data-invalid` on the field wrapper to
+show the invalid styles.
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-Set `isInvalid` on the checkbox and `data-invalid` on the `Field` around it to
+Set `isInvalid` on the checkbox and `data-invalid` on the field wrapper to
 show the invalid styles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-invalid" height="240" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria" -->
 
 ## Basic
 
-Pair the checkbox with `Field` and `FieldLabel` for its layout and its label.
+Pair the checkbox with `Field` and `FieldLabel` for proper layout and labeling.
 
-<!-- ::preview item="checkbox-basic" height="240" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria" -->
 
 ## Description
 
-Use `FieldContent` and `FieldDescription` for help text.
+Use `FieldContent` and `FieldDescription` for helper text.
 
-<!-- ::preview item="checkbox-description" height="240" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria" -->
 
 ## Disabled
 
 <!-- ::start:only react/base -->
 
-Use the `disabled` prop to prevent interaction, and add `data-disabled` to the
-`Field` for its disabled styles.
+Use the `disabled` prop to prevent interaction and add the `data-disabled` attribute to the `<Field>` component for disabled styles.
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-Use the `isDisabled` prop to prevent interaction, and add `data-disabled` to the
-`Field` for its disabled styles.
+Use the `isDisabled` prop to prevent interaction and add the `data-disabled` attribute to the `<Field>` component for disabled styles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-disabled" height="240" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria" -->
 
 ## Group
 
-Use several fields for a list of checkboxes.
+Use multiple fields to create a checkbox list.
 
 <!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria" -->
 
 ## Table
 
-<!-- ::start:only react/aria -->
+<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria" -->
 
-In React Aria's `Table`, a checkbox with `slot="selection"` selects its row, or
-every row from the header, when the table has a `selectionMode`.
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI](https://base-ui.com/react/components/checkbox#api-reference) documentation for more information.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria" -->
+<!-- ::start:only react/aria -->
 
-## Code
+See the [React Aria](https://react-aria.adobe.com/Checkbox#api) documentation for more information.
 
-What installing it writes, in the default style:
+<!-- ::end:only -->
 
-<!-- ::component-code name="checkbox" combinations="react/base,react/aria" -->
+Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.

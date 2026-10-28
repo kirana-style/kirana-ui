@@ -45,9 +45,13 @@ Concretely, for a component that arrives as Tailwind:
    below.
 6. **Give a registry component its page.** Port upstream's `<item>-demo` on every
    base it has (`registry/bases/<base>/examples`, listed in that base's
-   `previews.ts`), and write `apps/site/content/docs/components/<item>.md`: its
-   preview, both CLIs' install lines, usage per framework and its
-   `component-code` panel, as the other component pages do. That one file is the
+   `previews.ts`), and write `apps/site/content/docs/components/<item>.md`:
+   upstream's page for that component, section for section (its preview, an
+   `installation` embed, usage, composition, every example with its docs demo,
+   the API reference), from its `base` and `aria` copies, with Kirana's own words
+   only where Kirana differs (`sx` for `className`). The `installation` embed is
+   both CLIs and the manual steps, with every file the item installs. That one
+   file is the
    component's page for every framework and base it has: list them in its
    frontmatter, `variants: [react/base, react/aria, vue/ark]`, in the order
    `apps/site/src/lib/variants.ts` gives (the content generator fails when they

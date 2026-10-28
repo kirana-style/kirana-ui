@@ -14,13 +14,7 @@ A sheet slides in from the side its `side` names: `top`, `right`, `bottom` or `l
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add sheet" -->
-
-With shadcn/ui's CLI, for React, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/sheet" -->
+<!-- ::installation name="sheet" combinations="react/base,react/aria" -->
 
 ## Usage
 
@@ -86,9 +80,3 @@ export function Example() {
 ```
 
 <!-- ::end:tabs -->
-
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="sheet" combinations="react/base,react/aria" -->

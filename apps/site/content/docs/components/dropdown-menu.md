@@ -12,17 +12,7 @@ keywords: [dropdown menu, component, base, aria, ark]
 
 ## Installation
 
-With `kirana-style ui`:
-
-<!-- ::install exec="kirana-style ui add dropdown-menu" -->
-
-<!-- ::start:only react/base,react/aria -->
-
-With shadcn/ui's CLI, from the registry's [export](/docs/shadcn):
-
-<!-- ::install run="shadcn@latest add @kirana/dropdown-menu" -->
-
-<!-- ::end:only -->
+<!-- ::installation name="dropdown-menu" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -89,15 +79,9 @@ export function Example() {
 
 <!-- ::end:tabs -->
 
-## Code
-
-What installing it writes, in the default style:
-
-<!-- ::component-code name="dropdown-menu" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::start:only react/base -->
 
 ## Notes per base
-
-<!-- ::start:only react/base -->
 
 On Base UI, a menu's label must sit inside a `DropdownMenuGroup` (or a radio group): Base UI's group label throws when the menu opens without one.
 

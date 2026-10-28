@@ -23,10 +23,19 @@ import { CombinationPicker } from "./preview.tsx"
 import { CodeBlock } from "./code-block.tsx"
 
 type RegistryFile = { path: string; type: string; content?: string }
-type RegistryItem = {
+export type RegistryItem = {
+  type?: string
+  registryDependencies?: string[]
+  dependencies?: Record<string, string>
   styles?: RegistryFile[]
   files?: RegistryFile[]
-  frameworks?: Record<string, Record<string, { files?: RegistryFile[] }>>
+  frameworks?: Record<
+    string,
+    Record<
+      string,
+      { files?: RegistryFile[]; dependencies?: Record<string, string> }
+    >
+  >
   flattened?: { builds?: Record<string, Record<string, RegistryFile[]>> }
 }
 

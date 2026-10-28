@@ -28,7 +28,7 @@ for the framework and base those codes do not hold.
 bottom of its panel: lock axes and shuffle the rest, undo,
 open a code or a link, choose the framework, base and template, and get the commands that start a
 project in that design. The site keeps your choice for your next visit, and every page, preview and
-code panel shows it.
+component's installed code shows it.
 
 ## Where a code goes
 

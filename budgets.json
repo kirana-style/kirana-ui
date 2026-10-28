@@ -12,15 +12,15 @@
     "measured": 50.4
   },
   "docs.js": {
-    "budget": 368,
+    "budget": 370,
     "unit": "KB",
-    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 360.1 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 363.4 before it.",
+    "why": "A docs page's JavaScript, gzip: the docs framework, its markdown components and the page's preview frame. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 360.1 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 363.4 before it. Then to 370 KB with the component pages as shadcn/ui's: the Installation section's manual steps and the docs manifest's new sections.",
     "measured": 363.4
   },
   "create.js": {
-    "budget": 312,
+    "budget": 314,
     "unit": "KB",
-    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 301.8 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 305.4 before it.",
+    "why": "/create's JavaScript, gzip: the editor, its pickers and dialogs. Raised with the Kirana site's header (Base UI's NavigationMenu and the mega menu, about 13 KB on every page; its panels load on demand). Then for the typeset builder (P3-13): its two routes in the route tree every page loads, and the header's Typeset link, about 2.4 KB; main measured 301.8 before it, already over by the per-framework docs' page manifest (#46). Then for P2-06's first group (Textarea, Checkbox, Radio Group, Switch, Table): about 2.8 KB, most of it the docs manifest every page loads (each variant page with its siblings, and a lazy import per page) and Base UI's shared chunks; main measured 305.4 before it. Then to 314 KB with the component pages as shadcn/ui's (every section and docs demo of the form controls): the docs manifest every page loads grows with each page's sections.",
     "measured": 305.4
   },
   "blocks.js": {
