@@ -36,6 +36,7 @@ import {
 import { radius, theme } from "../../../core/tokens"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { useState } from "react"
+import { toast } from "sonner"
 import { ButtonGroup, ButtonGroupText } from "../ui/button-group"
 import {
   DropdownMenu,
@@ -319,7 +320,10 @@ function InputGroupWithAddons() {
                 phosphor="StarIcon"
                 remixicon="RiStarLine"
               />
-              <InputGroupButton size="icon-xs">
+              <InputGroupButton
+                size="icon-xs"
+                onClick={() => toast("Copied to clipboard")}
+              >
                 <IconPlaceholder
                   lucide="CopyIcon"
                   tabler="IconCopy"
@@ -552,7 +556,10 @@ function InputGroupWithTooltip({
             </InputGroupAddon>
             <InputGroupInput id="input-secure-19" />
             <InputGroupAddon align="inline-end">
-              <InputGroupButton size="icon-xs">
+              <InputGroupButton
+                size="icon-xs"
+                onClick={() => toast("Added to favorites")}
+              >
                 <IconPlaceholder
                   lucide="StarIcon"
                   tabler="IconStar"

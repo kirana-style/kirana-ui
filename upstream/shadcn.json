@@ -1,6 +1,69 @@
 {
   "repository": "shadcn-ui/ui",
   "items": {
+    "accordion": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/accordion.tsx": "sha256:2322a35cef124ca3",
+        "apps/v4/registry/bases/aria/ui/accordion.tsx": "sha256:1fe5c781263e046e",
+        "apps/v4/registry/styles/style-nova.css#cn-accordion": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-accordion-content": "sha256:db66d235f4aae2c2",
+        "apps/v4/registry/styles/style-nova.css#cn-accordion-content-inner": "sha256:9015d623d0dfd082",
+        "apps/v4/registry/styles/style-nova.css#cn-accordion-item": "sha256:49462c2f23f688ed",
+        "apps/v4/registry/styles/style-nova.css#cn-accordion-trigger": "sha256:cfb423ac7f065747",
+        "apps/v4/registry/styles/style-nova.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-accordion": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-accordion-content": "sha256:db66d235f4aae2c2",
+        "apps/v4/registry/styles/style-vega.css#cn-accordion-content-inner": "sha256:9e2e02842ceafc63",
+        "apps/v4/registry/styles/style-vega.css#cn-accordion-item": "sha256:49462c2f23f688ed",
+        "apps/v4/registry/styles/style-vega.css#cn-accordion-trigger": "sha256:ff48185150cc6668",
+        "apps/v4/registry/styles/style-vega.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-accordion": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-accordion-content": "sha256:1df738be4d87f5aa",
+        "apps/v4/registry/styles/style-lyra.css#cn-accordion-content-inner": "sha256:9015d623d0dfd082",
+        "apps/v4/registry/styles/style-lyra.css#cn-accordion-item": "sha256:49462c2f23f688ed",
+        "apps/v4/registry/styles/style-lyra.css#cn-accordion-trigger": "sha256:3e9874afea14b1c3",
+        "apps/v4/registry/styles/style-lyra.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-accordion": "sha256:e22712ff177dc776",
+        "apps/v4/registry/styles/style-maia.css#cn-accordion-content": "sha256:f150df5b6dcc3557",
+        "apps/v4/registry/styles/style-maia.css#cn-accordion-content-inner": "sha256:9e2e02842ceafc63",
+        "apps/v4/registry/styles/style-maia.css#cn-accordion-item": "sha256:51624e2637fd19de",
+        "apps/v4/registry/styles/style-maia.css#cn-accordion-trigger": "sha256:63461edbefb89640",
+        "apps/v4/registry/styles/style-maia.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-accordion": "sha256:fd97fa211f63157e",
+        "apps/v4/registry/styles/style-mira.css#cn-accordion-content": "sha256:aac2f4af7e86dfda",
+        "apps/v4/registry/styles/style-mira.css#cn-accordion-content-inner": "sha256:9e2e02842ceafc63",
+        "apps/v4/registry/styles/style-mira.css#cn-accordion-item": "sha256:51624e2637fd19de",
+        "apps/v4/registry/styles/style-mira.css#cn-accordion-trigger": "sha256:e9506f977104b2ab",
+        "apps/v4/registry/styles/style-mira.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-accordion": "sha256:e22712ff177dc776",
+        "apps/v4/registry/styles/style-luma.css#cn-accordion-content": "sha256:f150df5b6dcc3557",
+        "apps/v4/registry/styles/style-luma.css#cn-accordion-content-inner": "sha256:9e2e02842ceafc63",
+        "apps/v4/registry/styles/style-luma.css#cn-accordion-item": "sha256:51624e2637fd19de",
+        "apps/v4/registry/styles/style-luma.css#cn-accordion-trigger": "sha256:63461edbefb89640",
+        "apps/v4/registry/styles/style-luma.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-accordion": "sha256:e22712ff177dc776",
+        "apps/v4/registry/styles/style-rhea.css#cn-accordion-content": "sha256:f150df5b6dcc3557",
+        "apps/v4/registry/styles/style-rhea.css#cn-accordion-content-inner": "sha256:9e2e02842ceafc63",
+        "apps/v4/registry/styles/style-rhea.css#cn-accordion-item": "sha256:51624e2637fd19de",
+        "apps/v4/registry/styles/style-rhea.css#cn-accordion-trigger": "sha256:63461edbefb89640",
+        "apps/v4/registry/styles/style-rhea.css#cn-accordion-trigger-icon": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-accordion": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-accordion-content": "sha256:db66d235f4aae2c2",
+        "apps/v4/registry/styles/style-sera.css#cn-accordion-content-inner": "sha256:9e2e02842ceafc63",
+        "apps/v4/registry/styles/style-sera.css#cn-accordion-item": "sha256:49462c2f23f688ed",
+        "apps/v4/registry/styles/style-sera.css#cn-accordion-trigger": "sha256:2a76752cdd27d2f4",
+        "apps/v4/registry/styles/style-sera.css#cn-accordion-trigger-icon": "absent"
+      },
+      "hooks": {
+        "cn-accordion": "registry/styles/accordion.styles.ts#accordion.root",
+        "cn-accordion-content": "registry/styles/accordion.styles.ts#accordion.content",
+        "cn-accordion-content-inner": "registry/styles/accordion.styles.ts#accordion.contentInner",
+        "cn-accordion-item": "registry/styles/accordion.styles.ts#accordion.item",
+        "cn-accordion-trigger": "registry/styles/accordion.styles.ts#accordion.trigger",
+        "cn-accordion-trigger-icon": "registry/styles/accordion.styles.ts#accordion.iconClosed"
+      }
+    },
     "alert": {
       "ported": "481d523",
       "units": {
@@ -1321,6 +1384,14 @@
       "units": {
         "apps/v4/registry/bases/base/examples/dialog-example.tsx": "sha256:8c0951ad73042f69",
         "apps/v4/registry/bases/aria/examples/dialog-example.tsx": "sha256:87be6fd6d4bd0b7e"
+      },
+      "hooks": {}
+    },
+    "direction": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/direction.tsx": "sha256:661ff5b9c0dc26ed",
+        "apps/v4/registry/bases/aria/ui/direction.tsx": "sha256:47b9219078865931"
       },
       "hooks": {}
     },
@@ -2681,6 +2752,96 @@
         "cn-navigation-menu-trigger-icon": "registry/styles/navigation-menu.styles.ts#navigationMenu.triggerIcon"
       }
     },
+    "pagination": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/pagination.tsx": "sha256:71bc2c0a87e62898",
+        "apps/v4/registry/bases/aria/ui/pagination.tsx": "sha256:87df2725f9dfdd90",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-content": "sha256:11773e883e741445",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-ellipsis": "sha256:8aa36f69e56eea03",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-next": "sha256:43d933fb6380c1aa",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-previous": "sha256:8e68ad4c8b6c622d",
+        "apps/v4/registry/styles/style-nova.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-content": "sha256:19e97f3f40e6955e",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-ellipsis": "sha256:c7ac511f33443b32",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-next": "sha256:f8e61c57e891790e",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-previous": "sha256:b50c85e05d1cc706",
+        "apps/v4/registry/styles/style-vega.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-content": "sha256:11773e883e741445",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-ellipsis": "sha256:8aa36f69e56eea03",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-next": "sha256:43d933fb6380c1aa",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-previous": "sha256:8e68ad4c8b6c622d",
+        "apps/v4/registry/styles/style-lyra.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-content": "sha256:19e97f3f40e6955e",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-ellipsis": "sha256:c7ac511f33443b32",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-next": "sha256:f8e61c57e891790e",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-previous": "sha256:b50c85e05d1cc706",
+        "apps/v4/registry/styles/style-maia.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-content": "sha256:11773e883e741445",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-ellipsis": "sha256:fd3155cf798f9f03",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-next": "sha256:f8e61c57e891790e",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-previous": "sha256:b50c85e05d1cc706",
+        "apps/v4/registry/styles/style-mira.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-content": "sha256:19e97f3f40e6955e",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-ellipsis": "sha256:c7ac511f33443b32",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-next": "sha256:f8e61c57e891790e",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-previous": "sha256:b50c85e05d1cc706",
+        "apps/v4/registry/styles/style-luma.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-content": "sha256:19e97f3f40e6955e",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-ellipsis": "sha256:8aa36f69e56eea03",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-next": "sha256:43d933fb6380c1aa",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-previous": "sha256:8e68ad4c8b6c622d",
+        "apps/v4/registry/styles/style-rhea.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-content": "sha256:19e97f3f40e6955e",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-ellipsis": "sha256:c7ac511f33443b32",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-link": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-next": "sha256:f8e61c57e891790e",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-next-text": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-previous": "sha256:b50c85e05d1cc706",
+        "apps/v4/registry/styles/style-sera.css#cn-pagination-previous-text": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-rtl-flip": "absent"
+      },
+      "hooks": {
+        "cn-pagination": "registry/styles/pagination.styles.ts#pagination.root",
+        "cn-pagination-content": "registry/styles/pagination.styles.ts#pagination.content",
+        "cn-pagination-ellipsis": "registry/styles/pagination.styles.ts#pagination.ellipsis",
+        "cn-pagination-link": "registry/styles/pagination.styles.ts#pagination.previous",
+        "cn-pagination-next": "registry/styles/pagination.styles.ts#pagination.next",
+        "cn-pagination-next-text": "registry/styles/pagination.styles.ts#pagination.text",
+        "cn-pagination-previous": "registry/styles/pagination.styles.ts#pagination.previous",
+        "cn-pagination-previous-text": "registry/styles/pagination.styles.ts#pagination.text",
+        "cn-rtl-flip": "registry/styles/context-menu.styles.ts#contextMenu.subTriggerIcon"
+      }
+    },
     "popover": {
       "ported": "481d523",
       "units": {
@@ -3167,6 +3328,24 @@
         "cn-slider-track": "registry/styles/slider.styles.ts#slider.track"
       }
     },
+    "sonner": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/sonner.tsx": "sha256:d5178ce4c7834d3f",
+        "apps/v4/registry/bases/aria/ui/sonner.tsx": "sha256:d5178ce4c7834d3f",
+        "apps/v4/registry/styles/style-nova.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-vega.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-lyra.css#cn-toast": "sha256:52417259a4f50fc5",
+        "apps/v4/registry/styles/style-maia.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-mira.css#cn-toast": "sha256:3fa8c572949b7f98",
+        "apps/v4/registry/styles/style-luma.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-rhea.css#cn-toast": "sha256:b087804e5bf757c7",
+        "apps/v4/registry/styles/style-sera.css#cn-toast": "sha256:6608007ec4a47837"
+      },
+      "hooks": {
+        "cn-toast": "registry/styles/sonner.styles.ts#sonner.toaster"
+      }
+    },
     "spinner": {
       "ported": "481d523",
       "units": {
@@ -3433,6 +3612,23 @@
       },
       "hooks": {
         "cn-textarea": "registry/styles/textarea.styles.ts#textarea"
+      }
+    },
+    "toast": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/toast.tsx": "sha256:7109c9718288d39c",
+        "apps/v4/registry/styles/style-nova.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-vega.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-lyra.css#cn-toast": "sha256:52417259a4f50fc5",
+        "apps/v4/registry/styles/style-maia.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-mira.css#cn-toast": "sha256:3fa8c572949b7f98",
+        "apps/v4/registry/styles/style-luma.css#cn-toast": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-rhea.css#cn-toast": "sha256:b087804e5bf757c7",
+        "apps/v4/registry/styles/style-sera.css#cn-toast": "sha256:6608007ec4a47837"
+      },
+      "hooks": {
+        "cn-toast": "registry/styles/sonner.styles.ts#sonner.toaster"
       }
     },
     "toggle": {

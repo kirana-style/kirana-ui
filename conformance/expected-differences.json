@@ -54,6 +54,18 @@
       "reason": "follows FieldLabel's line height"
     },
     {
+      "element": "div[data-slot=\"example",
+      "property": "height",
+      "route": "pagination-example",
+      "reason": "follows FieldLabel's line height (\"Rows per page\" wraps to two lines)"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "pagination-example",
+      "reason": "follows FieldLabel's line height (\"Rows per page\" wraps to two lines)"
+    },
+    {
       "element": "div[data-slot=\"dialog-content\"]",
       "property": "height",
       "reason": "follows FieldLabel's line height"
@@ -210,7 +222,7 @@
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
-      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox|pagination)-example",
       "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
     },
     {
@@ -740,30 +752,6 @@
       "property": "width",
       "route": "toggle-example\\?preset=b1oVxsfY",
       "reason": "Sera at 390px: upstream's column takes a width 19.75px under its row's content, so the row's last toggle shrinks to fit; ours keeps its content width. Not traced further: every toggle measures the same unconstrained"
-    },
-    {
-      "element": "Accordion › ",
-      "property": "(element)",
-      "route": "marker-example",
-      "reason": "waits for Accordion"
-    },
-    {
-      "element": "Drawer › ",
-      "property": "(element)",
-      "route": "marker-example",
-      "reason": "waits for Drawer"
-    },
-    {
-      "element": "div[data-slot=\"example-wrapper\"]",
-      "property": "grid-template-rows",
-      "route": "marker-example",
-      "reason": "two examples fewer (the sections that wait), so the grid's rows change"
-    },
-    {
-      "element": "div[data-slot=\"example-wrapper\"]",
-      "property": "height",
-      "route": "marker-example",
-      "reason": "two examples fewer (the sections that wait), so the grid's rows change"
     },
     {
       "element": "label[data-slot=\"label\"]",

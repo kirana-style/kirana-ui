@@ -10,6 +10,7 @@
  */
 import {
   ActivityIcon,
+  Alert02Icon,
   AddCircleIcon,
   Archive02Icon,
   ArrowDown01Icon,
@@ -135,6 +136,8 @@ import {
   TableIcon,
   ZoomInAreaIcon,
   ZoomOutAreaIcon,
+  InformationCircleIcon,
+  MultiplicationSignCircleIcon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -253,6 +256,8 @@ import {
   X,
   ZoomIn,
   ZoomOut,
+  ChevronLeft,
+  OctagonX,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -415,6 +420,9 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       TerminalIcon: Terminal,
       TerminalSquareIcon: SquareTerminal,
       Trash2Icon: Trash2,
+      ChevronLeftIcon: ChevronLeft,
+      OctagonXIcon: OctagonX,
+      TriangleAlertIcon: TriangleAlert,
     },
   },
   hugeicons: {
@@ -549,6 +557,9 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       Settings05Icon,
       SidebarLeftIcon,
       SparklesIcon,
+      Alert02Icon,
+      InformationCircleIcon,
+      MultiplicationSignCircleIcon,
     },
   },
 }

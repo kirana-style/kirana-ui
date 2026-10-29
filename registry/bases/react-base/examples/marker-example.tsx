@@ -1,6 +1,13 @@
 import { css, keyframes } from "@kirana-style/core"
+import { toast } from "sonner"
 
 import { Example, ExampleWrapper } from "../components/example"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion"
 import { Button } from "../ui/button"
 import { Marker, MarkerContent, MarkerIcon } from "../ui/marker"
 import { Spinner } from "../ui/spinner"
@@ -56,6 +63,14 @@ const shimmer = {
 } as const
 
 const styles = {
+  // `min-h-72`, on the Accordion section's container.
+  minH72: css({ minHeight: space[72] }),
+  // `text-sm text-muted-foreground`
+  muted: css({
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
   gridGap3Px4TextSm: css({
     display: "grid",
     gap: { "*": null, base: space[3] },
@@ -101,6 +116,7 @@ export default function MarkerExamples() {
       <MarkerExample />
       <MarkerBorder />
       <MarkerSeparator />
+      <MarkerAccordion />
       <MarkerDrawer />
     </ExampleWrapper>
   )
@@ -153,7 +169,14 @@ function MarkerExample() {
         </MarkerIcon>
         <MarkerContent>Marker as a link</MarkerContent>
       </Marker>
-      <Marker render={<button sx={styles.transitionColorsHoverTex} />}>
+      <Marker
+        render={
+          <button
+            onClick={() => toast("You clicked the button")}
+            sx={styles.transitionColorsHoverTex}
+          />
+        }
+      >
         <MarkerIcon>
           <IconPlaceholder
             lucide="ClockIcon"
@@ -298,6 +321,38 @@ function MarkerSeparator() {
           </Button>
         </MarkerContent>
       </Marker>
+    </Example>
+  )
+}
+
+function MarkerAccordion() {
+  return (
+    <Example title="Accordion" containerSx={styles.minH72}>
+      <Accordion>
+        <AccordionItem value="1">
+          <AccordionTrigger>
+            <Marker>
+              <MarkerIcon>
+                <IconPlaceholder
+                  lucide="ClockIcon"
+                  tabler="IconClock"
+                  hugeicons="Clock01Icon"
+                  phosphor="ClockIcon"
+                  remixicon="RiTimeLine"
+                />
+              </MarkerIcon>
+              <MarkerContent>Worked for 42s</MarkerContent>
+            </Marker>
+          </AccordionTrigger>
+          <AccordionContent>
+            <p sx={styles.muted}>
+              The user asked for a list of all the files in the current
+              directory. The assistant responded with a list of all the files in
+              the current directory.
+            </p>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </Example>
   )
 }

@@ -71,3 +71,26 @@ export const sidebarCtx = defineTokens(
   { width: "16rem", widthIcon: "3rem" },
   { variable: true }
 )
+
+/**
+ * A toast's stack (`toast.styles.ts`): the gap between toasts and how much of each one behind the
+ * front peeks out, upstream's `[--gap:0.75rem] [--peek:0.75rem]`. The rest are inert placeholders:
+ * each is composed from a variable Base UI writes on the toast (`--toast-index`, `--toast-height`,
+ * `--toast-offset-y`), so the toast assigns the real formula on itself.
+ */
+export const toastCtx = defineTokens(
+  "toastCtx",
+  {
+    gap: "0.75rem",
+    peek: "0.75rem",
+    /** The height the stack draws against: the front toast's (`--height`). */
+    height: "auto",
+    /** The scale of a toast further back (`--scale`). */
+    scale: "1",
+    /** How much that scale shrank it (`--shrink`). */
+    shrink: "0",
+    /** Its offset once the stack is expanded (`--offset-y`). */
+    offsetY: "0px",
+  },
+  { variable: true }
+)

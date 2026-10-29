@@ -103,6 +103,7 @@
       "recharts": "^3.10.1",
       "rxjs": "^7.8.2",
       "solid-js": "^1.9.17",
+      "sonner": "^2.0.8",
       "svelte": "^5.57.3",
       "typescript": "^7.0.2",
       "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0",

@@ -1,4 +1,4 @@
-import { Suspense, use, useEffect } from "react"
+import { Suspense, lazy, use, useEffect } from "react"
 import type { ComponentType } from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router"
@@ -28,6 +28,23 @@ const BASES: Record<
 }
 
 /** An item's component, loaded once per page: the same promise every render, as `use` needs. */
+/**
+ * Sonner's toaster, as upstream's site mounts it on every page (`top-center`): loaded after the
+ * page, since only the items that call `toast()` need it.
+ */
+const SonnerToaster = lazy(() =>
+  import("@workspace/registry/bases/react-base/ui/sonner").then((module) => ({
+    default: module.Toaster,
+  }))
+)
+
+/** Base UI's toaster, which upstream's preview page mounts beside every Base UI item. */
+const BaseToaster = lazy(() =>
+  import("@workspace/registry/bases/react-base/ui/toast").then((module) => ({
+    default: module.Toaster,
+  }))
+)
+
 const loading = new Map<string, Promise<ComponentType>>()
 function loadItem(base: string, item: string) {
   const key = `${base}/${item}`
@@ -95,6 +112,10 @@ function Preview() {
         <IconLibraryProvider library={design.system.iconLibrary}>
           <Suspense>
             <PreviewItem base={base} item={item} />
+          </Suspense>
+          <Suspense>
+            <SonnerToaster position="top-center" />
+            {base === "base" && <BaseToaster />}
           </Suspense>
         </IconLibraryProvider>
       </I18nProvider>
