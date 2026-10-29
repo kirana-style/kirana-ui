@@ -10,6 +10,7 @@ import {
   ListBox as ListBoxPrimitive,
   ListBoxSection as ListBoxSectionPrimitive,
   Popover as PopoverPrimitive,
+  SearchField,
   Select as SelectPrimitive,
   SelectValue as SelectValuePrimitive,
   Separator as SeparatorPrimitive,
@@ -17,6 +18,7 @@ import {
 import type {
   ListBoxProps,
   ListBoxSectionProps as SelectGroupProps,
+  SearchFieldProps,
   SelectProps,
   SelectValueProps,
 } from "react-aria-components"
@@ -33,6 +35,7 @@ import {
 } from "../../../styles/menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { select } from "../../../styles/select.styles"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group"
 
 type WithSx<P> = Omit<P, "className" | "style"> & { sx?: Sx }
 
@@ -240,6 +243,32 @@ function SelectSeparator({
   )
 }
 
+/** A search field at the top of the popup, for a select inside React Aria's Autocomplete. */
+function SelectInput({ sx, ...props }: WithSx<SearchFieldProps>) {
+  return (
+    <SearchField
+      {...props}
+      autoFocus
+      data-slot="select-input-wrapper"
+      {...styleProps(select.inputWrapper, sx)}
+    >
+      <InputGroup>
+        <InputGroupInput data-slot="select-input" sx={select.input} />
+        <InputGroupAddon>
+          <IconPlaceholder
+            lucide="SearchIcon"
+            tabler="IconSearch"
+            hugeicons="SearchIcon"
+            phosphor="MagnifyingGlassIcon"
+            remixicon="RiSearchLine"
+            {...styleProps(select.inputIcon)}
+          />
+        </InputGroupAddon>
+      </InputGroup>
+    </SearchField>
+  )
+}
+
 function SelectEmpty({
   sx,
   ...props
@@ -252,6 +281,7 @@ export {
   SelectContent,
   SelectEmpty,
   SelectGroup,
+  SelectInput,
   SelectItem,
   SelectLabel,
   SelectList,

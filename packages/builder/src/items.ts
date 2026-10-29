@@ -88,12 +88,16 @@ function markupOf(name: string, combination: Combination): string {
 /** Every framework: the components each one has (Button, Card, Skeleton so far). */
 const ALL: Framework[] = ["react", "vue", "svelte", "solid", "angular"]
 
-/** A component: its markup in each base, and its style module. */
+/**
+ * A component: its markup in each base, and its style module. `bases` narrows it to the bases that
+ * have it, where a framework's other base has no such part (React Aria has no menubar).
+ */
 function component(
   name: string,
   title: string,
   description: string,
-  frameworks: Framework[] = ["react", "vue"]
+  frameworks: Framework[] = ["react", "vue"],
+  bases?: Base[]
 ): Item {
   return {
     name,
@@ -102,6 +106,7 @@ function component(
     description,
     files: (combination) => {
       if (!frameworks.includes(combination.framework)) return undefined
+      if (bases && !bases.includes(combination.base)) return undefined
       return [markupOf(name, combination), `styles/${name}.styles.ts`]
     },
   }
@@ -394,7 +399,33 @@ export const ITEMS: Item[] = [
     "Displays a menu of actions triggered by a right click.",
     ["react"]
   ),
+  component(
+    "combobox",
+    "Combobox",
+    "Autocomplete input with a list of suggestions.",
+    ["react"]
+  ),
+  component(
+    "command",
+    "Command",
+    "Command menu for search and quick actions.",
+    ["react"]
+  ),
   component("drawer", "Drawer", "A drawer component for React.", ["react"]),
+  component(
+    "navigation-menu",
+    "Navigation Menu",
+    "A collection of links for navigating websites.",
+    ["react"],
+    ["base"]
+  ),
+  component(
+    "menubar",
+    "Menubar",
+    "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
+    ["react"],
+    ["base"]
+  ),
   component(
     "label",
     "Label",

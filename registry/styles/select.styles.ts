@@ -354,6 +354,17 @@ export const select = {
   scrollUp: css({ top: 0 }),
   scrollDown: css({ bottom: 0 }),
 
+  // React Aria's search field at the popup's top (the component's own `p-1 pb-0`), its input drawing
+  // no clear button of its own (`[&::-webkit-search-cancel-button]:hidden`), and its icon, which
+  // takes Command's look (`cn-command-input-icon`: `shrink-0 opacity-50`, sized by the addon).
+  inputWrapper: css({
+    paddingInline: space[1],
+    paddingTop: space[1],
+    paddingBottom: "0",
+  }),
+  input: css({ "::-webkit-search-cancel-button": { display: "none" } }),
+  inputIcon: css({ flexShrink: 0, opacity: 0.5 }),
+
   // cn-select-empty-aria: shown only while the list box has nothing to list.
   empty: css({
     display: { base: "none", [selectList.within("[data-empty]")]: "flex" },
