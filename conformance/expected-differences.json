@@ -84,6 +84,18 @@
       "reason": "follows FieldLabel's line height"
     },
     {
+      "element": "div[data-slot=\"dialog-header\"]",
+      "property": "max-width",
+      "route": "command-example",
+      "reason": "the command palette's visually hidden header: `visuallyHidden` caps its box at 1px (for a vertical Field's children), where `sr-only` leaves it `none`; 1px wide either way"
+    },
+    {
+      "element": "div[data-slot=\"dialog-header\"]",
+      "property": "bottom",
+      "route": "/base/command-example",
+      "reason": "the command palette's visually hidden header, placed alike (the same top): upstream's preview page wraps its examples in a positioned `div`, so its `bottom` is measured from that box, ours from the page's"
+    },
+    {
       "element": "div[data-slot=\"dialog-content\"]",
       "property": "scale",
       "reason": "the open dialog rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
@@ -198,7 +210,7 @@
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
-      "route": "/aria/(table|toggle-group|button-group)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
       "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
     },
     {
@@ -516,13 +528,13 @@
     {
       "element": "div[data-slot=\"example",
       "property": "height",
-      "route": "(checkbox|radio-group|switch|textarea)-example",
+      "route": "(checkbox|radio-group|switch|textarea|combobox)-example",
       "reason": "follows FieldLabel's line height"
     },
     {
       "element": "div[data-slot=\"example-wrapper\"]",
       "property": "grid-template-rows",
-      "route": "(checkbox|radio-group|switch|textarea)-example",
+      "route": "(checkbox|radio-group|switch|textarea|combobox)-example",
       "reason": "follows FieldLabel's line height"
     },
     {
@@ -552,26 +564,38 @@
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "max-height",
-      "route": "/aria/(table|toggle-group|button-group)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
       "reason": "React Aria 1.22 flips a select opened at the viewport's bottom edge above its trigger, where upstream's 1.20 opens it below, off the screen; its place and height follow"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "top",
-      "route": "/aria/(table|toggle-group|button-group)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "bottom",
-      "route": "/aria/(table|toggle-group|button-group)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
     },
     {
       "element": "div[data-slot=\"select-list\"]",
       "property": "max-height",
-      "route": "/aria/(table|toggle-group|button-group)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
       "reason": "React Aria 1.22 flips the popup above its trigger (as max-height)"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "height",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
+      "reason": "React Aria 1.22 flips the popup above its trigger, where it has room for every item; upstream's 1.20 opens it below and caps it (as max-height)"
+    },
+    {
+      "element": "div[data-slot=\"select-list\"]",
+      "property": "height",
+      "route": "/aria/(table|toggle-group|button-group|combobox)-example",
+      "reason": "React Aria 1.22 flips the popup above its trigger (as the popup's height)"
     },
     {
       "element": "In Badges › ",
@@ -672,7 +696,7 @@
     {
       "element": "div[data-slot=\"card",
       "property": "height",
-      "route": "input-(group|otp)-example",
+      "route": "(input-(group|otp)|combobox)-example",
       "reason": "follows FieldLabel's line height"
     },
     {
@@ -684,7 +708,7 @@
     {
       "element": "div[data-slot=\"example-wrapper\"]",
       "property": "height",
-      "route": "(input-otp|toggle-group|kbd|slider)-example",
+      "route": "(input-otp|toggle-group|kbd|slider|combobox)-example",
       "reason": "follows FieldLabel's line height in a row's example"
     },
     {
@@ -914,6 +938,67 @@
       "element": "div[data-slot=\"popover-content\"]",
       "property": "scale",
       "reason": "the open popup rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "translate",
+      "reason": "the open popup rests at `translate: 0px` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "scale",
+      "reason": "the open popup rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "translate",
+      "reason": "the open popup rests at `translate: 0px` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "scale",
+      "reason": "the open popup rests at `scale: 1` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"navigation-menu-content\"]",
+      "property": "translate",
+      "reason": "the open panel rests at `translate: 0px` after its transition, where upstream's leaves `none`: the same drawing"
+    },
+    {
+      "element": "div[data-slot=\"",
+      "property": "max-height",
+      "route": "combobox-example",
+      "reason": "follows FieldLabel's line height above the trigger: the page, 16px taller, scrolls the trigger to another place, and an open popup's available height with it"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "top",
+      "route": "/aria/combobox-example",
+      "reason": "follows FieldLabel's line height above the trigger"
+    },
+    {
+      "element": "div[data-slot=\"",
+      "property": "bottom",
+      "route": "/aria/combobox-example",
+      "reason": "React Aria places a popup in the page: upstream's preview page wraps its examples in a positioned `div`, so the popup's `bottom` is measured from that box, ours from the page's"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "width",
+      "route": "/base/combobox-example",
+      "reason": "a visually hidden FieldLabel in a dialog: `visuallyHidden` keeps it 1px wide, where upstream's vertical Field gives it its text's width under `sr-only`; clipped to nothing either way"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "max-width",
+      "route": "/base/combobox-example",
+      "reason": "a visually hidden FieldLabel in a dialog (as its width)"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "right",
+      "route": "/base/combobox-example",
+      "reason": "a visually hidden FieldLabel in a dialog (as its width)"
     },
     {
       "element": "Drawer › button[data-slot=\"drawer-trigger\"]",

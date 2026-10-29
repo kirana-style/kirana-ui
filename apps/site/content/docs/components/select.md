@@ -163,6 +163,16 @@ Add the `data-invalid` attribute to the `Field` component and the `isInvalid` pr
 
 <!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria" -->
 
+<!-- ::start:only react/aria -->
+
+## Searchable
+
+Use the [Autocomplete](https://react-aria.adobe.com/Autocomplete) component from React Aria to add search support.
+
+<!-- ::preview item="select-autocomplete" height="360" combinations="react/aria" -->
+
+<!-- ::end:only -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

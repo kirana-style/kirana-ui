@@ -8,8 +8,9 @@
  * (`has-[>[data-align=inline-end]]:[&>input]:pr-1.5`), which Kirana would write below the input's
  * own padding, so the input reads the group instead (`inputGroupScope.parent(…)`); a Kbd in an
  * addon reads the addon the same way (`kbd.styles.ts`). Upstream's `[.border-b]` and `[.border-t]`
- * rules read a class a caller adds, which a Kirana style has no name for, and are left out, as is
- * the group's look inside a combobox, which waits for Combobox.
+ * rules read a class a caller adds, which a Kirana style has no name for, and are left out. The
+ * group's look inside a combobox's popup is Combobox's (`combobox.input`), and inside a command,
+ * Command's (`command.inputGroup`).
  */
 import { css, recipe, select } from "@kirana-style/core"
 
