@@ -1,6 +1,6 @@
 import { Directive, computed, input } from "@angular/core"
-import { props } from "@kirana-style/core"
-import type { Sx } from "@kirana-style/core"
+import { partSx, provideSxPart } from "@kirana-style/angular"
+import type { SxInput } from "@kirana-style/angular"
 
 import { card } from "../../../styles/card.styles"
 
@@ -11,82 +11,100 @@ import { card } from "../../../styles/card.styles"
  */
 @Directive({
   selector: "[kuiCard]",
+  providers: [provideSxPart()],
   host: {
     "data-slot": "card",
     "[attr.data-size]": "size()",
-    "[class]": "classes()",
+    "[class]": "part().class",
+    "[style]": "part().style",
   },
 })
 export class Card {
   readonly size = input<"default" | "sm">("default")
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.root, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.root, this.sx()))
 }
 
 @Directive({
   selector: "[kuiCardHeader]",
-  host: { "data-slot": "card-header", "[class]": "classes()" },
+  providers: [provideSxPart()],
+  host: {
+    "data-slot": "card-header",
+    "[class]": "part().class",
+    "[style]": "part().style",
+  },
 })
 export class CardHeader {
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.header, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.header, this.sx()))
 }
 
 @Directive({
   selector: "[kuiCardTitle]",
-  host: { "data-slot": "card-title", "[class]": "classes()" },
+  providers: [provideSxPart()],
+  host: {
+    "data-slot": "card-title",
+    "[class]": "part().class",
+    "[style]": "part().style",
+  },
 })
 export class CardTitle {
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.title, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.title, this.sx()))
 }
 
 @Directive({
   selector: "[kuiCardDescription]",
-  host: { "data-slot": "card-description", "[class]": "classes()" },
+  providers: [provideSxPart()],
+  host: {
+    "data-slot": "card-description",
+    "[class]": "part().class",
+    "[style]": "part().style",
+  },
 })
 export class CardDescription {
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.description, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.description, this.sx()))
 }
 
 @Directive({
   selector: "[kuiCardAction]",
-  host: { "data-slot": "card-action", "[class]": "classes()" },
+  providers: [provideSxPart()],
+  host: {
+    "data-slot": "card-action",
+    "[class]": "part().class",
+    "[style]": "part().style",
+  },
 })
 export class CardAction {
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.action, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.action, this.sx()))
 }
 
 @Directive({
   selector: "[kuiCardContent]",
-  host: { "data-slot": "card-content", "[class]": "classes()" },
+  providers: [provideSxPart()],
+  host: {
+    "data-slot": "card-content",
+    "[class]": "part().class",
+    "[style]": "part().style",
+  },
 })
 export class CardContent {
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.content, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.content, this.sx()))
 }
 
 @Directive({
   selector: "[kuiCardFooter]",
-  host: { "data-slot": "card-footer", "[class]": "classes()" },
+  providers: [provideSxPart()],
+  host: {
+    "data-slot": "card-footer",
+    "[class]": "part().class",
+    "[style]": "part().style",
+  },
 })
 export class CardFooter {
-  readonly sx = input<Sx>()
-  protected readonly classes = computed(
-    () => props(card.footer, this.sx()).className
-  )
+  readonly sx = input<SxInput>()
+  protected readonly part = computed(() => partSx(card.footer, this.sx()))
 }

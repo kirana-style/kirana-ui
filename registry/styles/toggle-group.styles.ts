@@ -26,8 +26,7 @@ const JOINED = '[data-spacing="0"]'
 const OUTLINE = '[data-variant="outline"]'
 
 /**
- * Each style's corner where the joined items meet the group's ends: one literal object, which every
- * corner reads (an object built with `Object.fromEntries` would be set at runtime, KF-053).
+ * Each style's corner where the joined items meet the group's ends, which every corner reads.
  */
 const END = {
   base: radius.lg,

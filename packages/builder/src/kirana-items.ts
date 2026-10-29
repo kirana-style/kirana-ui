@@ -45,14 +45,24 @@ type Bases = Record<
 
 /** A design system's axes and preset layouts, as `kirana-style ui preset` reads them (D-110). */
 export type KiranaDesign = {
-  axes: Record<string, { attribute: string; values: string[] }>
+  axes: Record<
+    string,
+    { attribute: string; values: string[]; items?: Record<string, string> }
+  >
   flatten: string
   presets: Record<string, { axis: string; values: string[]; bits: number }[]>
 }
 
+/** The axes whose values are families: each value installs its font item (`inherit` none). */
+const FONT_AXES = new Set(["font", "fontHeading"])
+const FONT_ITEMS = Object.fromEntries(
+  FONTS.map((name) => [name, `font-${name}`])
+)
+
 /**
  * The design system's description: every axis written to `<html>` with its values (the first the
- * default), `style` the axis the builder flattens for, and the preset layouts the site's codes use.
+ * default) and, on the font axes, the item each family installs; `style` the axis the builder
+ * flattens for, and the preset layouts the site's codes use.
  * shadcn/ui's `a` codes also carried a theme's charts, which the installer does not decode.
  */
 export function designOf(): KiranaDesign {
@@ -60,7 +70,11 @@ export function designOf(): KiranaDesign {
     axes: Object.fromEntries(
       Object.entries(AXIS_ATTRIBUTES).map(([axis, attribute]) => [
         axis,
-        { attribute, values: [...AXES[axis as keyof typeof AXES]] },
+        {
+          attribute,
+          values: [...AXES[axis as keyof typeof AXES]],
+          ...(FONT_AXES.has(axis) ? { items: FONT_ITEMS } : {}),
+        },
       ])
     ),
     flatten: "style",
@@ -97,19 +111,11 @@ export type KiranaItem = {
     builds: Record<string, Record<string, KiranaFile[]>>
   }
   setup?: Item["setup"]
-  /** A font item's family: what the format has no field for yet (`fontItems`). */
-  meta?: { font: FontMeta }
-}
-
-/**
- * A font: its family stack, as the design system's font tokens name it, and the stylesheet that
- * loads its files, which is the package's own (Fontsource's). Kirana's format has an item type
- * `font` and no field for these yet, so they are in `meta` until it has (KF-050).
- */
-export type FontMeta = {
-  family: string
-  type: "sans" | "serif" | "mono"
-  import: string
+  /**
+   * A font item's family stack, as the design system's font tokens name it, and the stylesheet that
+   * loads its files, which is the package's own (Fontsource's).
+   */
+  font?: { family: string; import: string }
 }
 
 export type KiranaIndex = {
@@ -362,7 +368,7 @@ export function buildKiranaRegistry(
   }
 
   // A font item per family of the font axes, `font-<name>`, as shadcn/ui names its font items: the
-  // package its files come from, and in `meta` the family and the stylesheet to import.
+  // package its files come from, its family and the stylesheet to import.
   for (const name of FONTS) {
     const font = FONT_INFO[name]
     const range = versions(font.dependency)
@@ -379,13 +385,7 @@ export function buildKiranaRegistry(
       description: `The ${font.title} family, from Fontsource, for the font and heading font axes.`,
       kirana,
       dependencies: { [font.dependency]: range },
-      meta: {
-        font: {
-          family: font.family,
-          type: font.type,
-          import: font.dependency,
-        },
-      },
+      font: { family: font.family, import: font.dependency },
     })
   }
 

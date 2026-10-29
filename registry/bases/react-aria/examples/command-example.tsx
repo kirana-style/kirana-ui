@@ -20,14 +20,11 @@ import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import { space } from "../../../core/scales"
 
 const styles = {
-  // `w-full p-0` over the Card, whose padding is its top and bottom (KF-064).
   wFullP0: css({
     width: { "*": null, base: "100%" },
-    paddingTop: { "*": null, base: "0" },
-    paddingBottom: { "*": null, base: "0" },
+    padding: { "*": null, base: "0" },
   }),
-  // `p-0` over CardContent, whose padding is its sides (KF-064).
-  p0: css({ paddingInline: { "*": null, base: "0" } }),
+  p0: css({ padding: { "*": null, base: "0" } }),
   flexCol4: css({ display: "flex", flexDirection: "column", gap: space[4] }),
   wFit: css({ width: { "*": null, base: "fit-content" } }),
 }

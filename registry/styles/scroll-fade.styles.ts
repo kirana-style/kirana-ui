@@ -11,16 +11,13 @@ import { space } from "../core/scales"
 /** `min(12%, calc(var(--spacing) * 10))`, unless the region sets its own. */
 const SIZE = `var(--scroll-fade-size, min(12%, ${space[10]}))`
 
-/** A frame that moves a custom property, which `keyframes()`'s type does not take (KF-055). */
-type Frame = Parameters<typeof keyframes>[0][string]
-
 const revealTop = keyframes({
-  from: { "--scroll-fade-t": "0px" } as Frame,
-  to: { "--scroll-fade-t": SIZE } as Frame,
+  from: { "--scroll-fade-t": "0px" },
+  to: { "--scroll-fade-t": SIZE },
 })
 const revealBottom = keyframes({
-  from: { "--scroll-fade-b": SIZE } as Frame,
-  to: { "--scroll-fade-b": "0px" } as Frame,
+  from: { "--scroll-fade-b": SIZE },
+  to: { "--scroll-fade-b": "0px" },
 })
 
 const SCROLLING = "@supports (animation-timeline: scroll())"

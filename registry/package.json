@@ -11,6 +11,7 @@
     "@ark-ui/vue": "catalog:",
     "@base-ui/react": "catalog:",
     "@hugeicons/core-free-icons": "catalog:",
+    "@kirana-style/angular": "catalog:",
     "@kirana-style/core": "catalog:",
     "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/states": "catalog:",

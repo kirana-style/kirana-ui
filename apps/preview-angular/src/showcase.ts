@@ -1,5 +1,5 @@
 import { Component } from "@angular/core"
-import { props } from "@kirana-style/core"
+import { SxDirective } from "@kirana-style/angular"
 import { Button } from "@workspace/registry/bases/angular-ng/ui/button"
 import {
   Card,
@@ -13,9 +13,8 @@ import { Skeleton } from "@workspace/registry/bases/angular-ng/ui/skeleton"
 import { showcase } from "@workspace/registry/styles/showcase.styles"
 
 /**
- * The cards Angular draws with what it has today: Button, Card and Skeleton. The parts take `[sx]`;
- * plain elements take their classes as strings, since Kirana's `SxDirective` would also match the
- * parts.
+ * The cards Angular draws with what it has today: Button, Card and Skeleton. Parts and plain
+ * elements alike take `[sx]`: the parts keep Kirana's `SxDirective` off themselves.
  */
 @Component({
   selector: "preview-showcase",
@@ -28,16 +27,17 @@ import { showcase } from "@workspace/registry/styles/showcase.styles"
     CardHeader,
     CardTitle,
     Skeleton,
+    SxDirective,
   ],
   template: `
-    <main [class]="grid">
+    <main [sx]="s.grid">
       <div kuiCard>
         <div kuiCardHeader>
           <div kuiCardTitle>Buttons</div>
           <div kuiCardDescription>Every variant, in the design you chose.</div>
         </div>
         <div kuiCardContent>
-          <div [class]="wrap">
+          <div [sx]="s.wrap">
             <button kuiButton>Default</button>
             <button kuiButton variant="secondary">Secondary</button>
             <button kuiButton variant="outline">Outline</button>
@@ -49,19 +49,19 @@ import { showcase } from "@workspace/registry/styles/showcase.styles"
       </div>
       <div kuiCard>
         <div kuiCardContent [sx]="s.stack">
-          <div [class]="row">
+          <div [sx]="s.row">
             <div kuiSkeleton [sx]="s.avatar"></div>
-            <div [class]="lines">
+            <div [sx]="s.lines">
               <div kuiSkeleton [sx]="s.lineLg"></div>
               <div kuiSkeleton [sx]="s.lineMd"></div>
             </div>
           </div>
-          <div [class]="lines">
+          <div [sx]="s.lines">
             <div kuiSkeleton [sx]="s.line"></div>
             <div kuiSkeleton [sx]="s.line"></div>
             <div kuiSkeleton [sx]="s.lineShort"></div>
           </div>
-          <div [class]="row">
+          <div [sx]="s.row">
             <div kuiSkeleton [sx]="s.block"></div>
             <div kuiSkeleton [sx]="s.block"></div>
           </div>
@@ -73,12 +73,12 @@ import { showcase } from "@workspace/registry/styles/showcase.styles"
           <div kuiSkeleton [sx]="s.subtitle"></div>
         </div>
         <div kuiCardContent [sx]="s.stack">
-          <div [class]="lines">
+          <div [sx]="s.lines">
             <div kuiSkeleton [sx]="s.label"></div>
             <div kuiSkeleton [sx]="s.control"></div>
           </div>
-          <div [class]="lines">
-            <div [class]="between">
+          <div [sx]="s.lines">
+            <div [sx]="s.between">
               <div kuiSkeleton [sx]="s.labelWide"></div>
               <div kuiSkeleton [sx]="s.labelShort"></div>
             </div>
@@ -95,9 +95,4 @@ import { showcase } from "@workspace/registry/styles/showcase.styles"
 })
 export class Showcase {
   protected readonly s = showcase
-  protected readonly grid = props(showcase.grid).className
-  protected readonly wrap = props(showcase.wrap).className
-  protected readonly row = props(showcase.row).className
-  protected readonly lines = props(showcase.lines).className
-  protected readonly between = props(showcase.between).className
 }

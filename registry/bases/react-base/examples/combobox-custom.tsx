@@ -11,11 +11,7 @@ import { Item, ItemContent, ItemDescription, ItemTitle } from "../ui/item"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
-  // `p-0` over an Item, whose padding is its sides and its top and bottom (KF-064).
-  p0: css({
-    paddingInline: { "*": null, base: "0" },
-    paddingBlock: { "*": null, base: "0" },
-  }),
+  p0: css({ padding: { "*": null, base: "0" } }),
   nowrap: css({ whiteSpace: "nowrap" }),
 }
 

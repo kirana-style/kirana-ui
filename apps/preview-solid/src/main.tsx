@@ -15,19 +15,11 @@ import { render } from "solid-js/web"
 
 import { Showcase } from "./showcase"
 
-/**
- * The class a `props()` call gives: in a Solid module Kirana compiles it to `{ class }`, while its
- * type names `className` (KF-047, Kirana 0.3.4). Remove with the release that fixes it.
- */
-const classOf = (styleProps: ReturnType<typeof props>) =>
-  (styleProps as { class?: string }).class ?? styleProps.className ?? ""
-
 // The design system lives on `<html>`: its tokens (`root`), the anchor the styles read the visual
 // style through, the colour scheme, and the attributes the design names.
-document.documentElement.className = classOf(
-  props(root, axes.anchor, page.document)
-)
-document.body.className = classOf(props(page.body))
+document.documentElement.className =
+  props(root, axes.anchor, page.document).class ?? ""
+document.body.className = props(page.body).class ?? ""
 // The design's families, loaded when it names them: the page links Inter and Geist only.
 void loadDesignFonts(
   followPageDesign((next) => void loadDesignFonts(next.system)).system

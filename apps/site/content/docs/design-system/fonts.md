@@ -23,12 +23,15 @@ colours, so a component's type follows the design.
 
 The design names the family; its files come from Fontsource, one package per
 family. Each family is an item of the registry, `font-<name>`, which installs its
-package. For Inter, the default:
+package and imports its stylesheet once, where your project imports Kirana's, after
+it. For Inter, the default:
 
 <!-- ::install exec="kirana-style ui add font-inter" -->
 
-Then import the package once, in your app's entry. `kirana-style ui` installs it
-but does not write the import yet:
+`kirana-style ui init` with a preset installs the families its font and heading
+font name, and `kirana-style ui preset` the ones a new code names. A project that
+loads Kirana's stylesheet through PostCSS (Next.js's `@kirana;`) is told to add the
+import by hand:
 
 ```ts
 // src/main.tsx, or your root layout
@@ -38,7 +41,8 @@ import "@fontsource-variable/inter"
 A heading font of its own is a second item, `font-lora` and the like. Each
 family's package is Fontsource's: `@fontsource-variable/<name>` where the family
 is variable, `@fontsource/<name>` otherwise (Instrument Serif). The item
-`/r/font-<name>.json` names it, with the family's stack as the tokens write it.
+`/r/font-<name>.json` names it in its `font` field, with the family's stack as the
+tokens write it.
 
 ## On this site
 
