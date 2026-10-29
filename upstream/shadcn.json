@@ -530,6 +530,69 @@
         "cn-button-group-text": "registry/styles/button-group.styles.ts#buttonGroup.text"
       }
     },
+    "calendar": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/calendar.tsx": "sha256:0a492edf3888b88a",
+        "apps/v4/registry/bases/aria/ui/calendar.tsx": "sha256:1ab779eb83ff098f",
+        "apps/v4/registry/styles/style-nova.css#cn-calendar": "sha256:3cc9822521758e5e",
+        "apps/v4/registry/styles/style-nova.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-calendar-caption-label": "sha256:39b89b20aae41037",
+        "apps/v4/registry/styles/style-nova.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-calendar-dropdown-root": "sha256:51dc34b360af920d",
+        "apps/v4/registry/styles/style-nova.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-calendar": "sha256:4c1fdda4cb329f55",
+        "apps/v4/registry/styles/style-vega.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-calendar-caption-label": "sha256:f3e9e582a2498a5b",
+        "apps/v4/registry/styles/style-vega.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-calendar-dropdown-root": "sha256:17c6f42f0ca16ba4",
+        "apps/v4/registry/styles/style-vega.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-calendar": "sha256:b43767aae63d6050",
+        "apps/v4/registry/styles/style-lyra.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-calendar-caption-label": "sha256:5b674c5254b6f8f3",
+        "apps/v4/registry/styles/style-lyra.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-calendar-dropdown-root": "sha256:0137ee7c9d3edf9d",
+        "apps/v4/registry/styles/style-lyra.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-calendar": "sha256:b054b1fae02cdb55",
+        "apps/v4/registry/styles/style-maia.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-calendar-caption-label": "sha256:22188331ed0a2d69",
+        "apps/v4/registry/styles/style-maia.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-calendar-dropdown-root": "sha256:eefc640ba61066dc",
+        "apps/v4/registry/styles/style-maia.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-calendar": "sha256:b997af1c745364e4",
+        "apps/v4/registry/styles/style-mira.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-calendar-caption-label": "sha256:3882c167bc9214fd",
+        "apps/v4/registry/styles/style-mira.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-calendar-dropdown-root": "sha256:952370a5fe63e73a",
+        "apps/v4/registry/styles/style-mira.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-calendar": "sha256:b054b1fae02cdb55",
+        "apps/v4/registry/styles/style-luma.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-calendar-caption-label": "sha256:22188331ed0a2d69",
+        "apps/v4/registry/styles/style-luma.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-calendar-dropdown-root": "sha256:0c9ee563caded0bd",
+        "apps/v4/registry/styles/style-luma.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-calendar": "sha256:123772287cf93abc",
+        "apps/v4/registry/styles/style-rhea.css#cn-calendar-caption": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-calendar-caption-label": "sha256:22188331ed0a2d69",
+        "apps/v4/registry/styles/style-rhea.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-calendar-dropdown-root": "sha256:b9df6925e4111ea4",
+        "apps/v4/registry/styles/style-rhea.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-calendar": "sha256:d35f91e9de8b9563",
+        "apps/v4/registry/styles/style-sera.css#cn-calendar-caption": "sha256:0d14d36b1786c2e5",
+        "apps/v4/registry/styles/style-sera.css#cn-calendar-caption-label": "sha256:fc425b68c28500b3",
+        "apps/v4/registry/styles/style-sera.css#cn-calendar-day-button": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-calendar-dropdown-root": "sha256:117e53f4b52387c2",
+        "apps/v4/registry/styles/style-sera.css#cn-rtl-flip": "absent"
+      },
+      "hooks": {
+        "cn-calendar": "registry/styles/calendar.styles.ts#calendar.root",
+        "cn-calendar-caption": "registry/styles/calendar.styles.ts#calendar.caption",
+        "cn-calendar-caption-label": "registry/styles/calendar.styles.ts#calendar.captionLabel",
+        "cn-calendar-day-button": "registry/styles/calendar.styles.ts#calendar.dayButton",
+        "cn-calendar-dropdown-root": "registry/styles/calendar.styles.ts#calendar.dropdownRoot",
+        "cn-rtl-flip": "registry/styles/calendar.styles.ts#calendar.chevron"
+      }
+    },
     "card": {
       "ported": "481d523",
       "units": {
@@ -609,6 +672,42 @@
         "cn-card-header": "registry/styles/card.styles.ts#card.header",
         "cn-card-title": "registry/styles/card.styles.ts#card.title",
         "cn-font-heading": "registry/styles/card.styles.ts#card.title"
+      }
+    },
+    "carousel": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/carousel.tsx": "sha256:d2c33f0ae6b64f5d",
+        "apps/v4/registry/bases/aria/ui/carousel.tsx": "sha256:23d1233c9e559322",
+        "apps/v4/registry/styles/style-nova.css#cn-carousel-next": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-nova.css#cn-carousel-previous": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-nova.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-carousel-next": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-vega.css#cn-carousel-previous": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-vega.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-carousel-next": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-carousel-previous": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-carousel-next": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-maia.css#cn-carousel-previous": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-maia.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-carousel-next": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-mira.css#cn-carousel-previous": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-mira.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-carousel-next": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-luma.css#cn-carousel-previous": "sha256:b005d61d09538902",
+        "apps/v4/registry/styles/style-luma.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-carousel-next": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-rhea.css#cn-carousel-previous": "sha256:b741b095195e5ff5",
+        "apps/v4/registry/styles/style-rhea.css#cn-rtl-flip": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-carousel-next": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-carousel-previous": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-rtl-flip": "absent"
+      },
+      "hooks": {
+        "cn-carousel-next": "registry/styles/carousel.styles.ts#carousel.next",
+        "cn-carousel-previous": "registry/styles/carousel.styles.ts#carousel.previous",
+        "cn-rtl-flip": "registry/styles/calendar.styles.ts#calendar.chevron"
       }
     },
     "chart": {
@@ -3011,6 +3110,42 @@
         "cn-radio-group-indicator-icon": "registry/styles/radio-group.styles.ts#radioGroup.dot",
         "cn-radio-group-item": "registry/styles/radio-group.styles.ts#radioGroup.item",
         "cn-radio-group-item-aria": "registry/styles/radio-group.styles.ts#radioGroup.item"
+      }
+    },
+    "resizable": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/bases/base/ui/resizable.tsx": "sha256:7971b48619d5e322",
+        "apps/v4/registry/bases/aria/ui/resizable.tsx": "sha256:7971b48619d5e322",
+        "apps/v4/registry/styles/style-nova.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-nova.css#cn-resizable-handle-icon": "sha256:d793284fb1285455",
+        "apps/v4/registry/styles/style-nova.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-vega.css#cn-resizable-handle-icon": "sha256:d793284fb1285455",
+        "apps/v4/registry/styles/style-vega.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-lyra.css#cn-resizable-handle-icon": "sha256:e52d3a7281dc633c",
+        "apps/v4/registry/styles/style-lyra.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-maia.css#cn-resizable-handle-icon": "sha256:d793284fb1285455",
+        "apps/v4/registry/styles/style-maia.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-mira.css#cn-resizable-handle-icon": "sha256:d793284fb1285455",
+        "apps/v4/registry/styles/style-mira.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-luma.css#cn-resizable-handle-icon": "sha256:d793284fb1285455",
+        "apps/v4/registry/styles/style-luma.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-rhea.css#cn-resizable-handle-icon": "sha256:d793284fb1285455",
+        "apps/v4/registry/styles/style-rhea.css#cn-resizable-panel-group": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-resizable-handle": "absent",
+        "apps/v4/registry/styles/style-sera.css#cn-resizable-handle-icon": "sha256:e52d3a7281dc633c",
+        "apps/v4/registry/styles/style-sera.css#cn-resizable-panel-group": "absent"
+      },
+      "hooks": {
+        "cn-resizable-handle": "registry/styles/resizable.styles.ts#resizable.handle",
+        "cn-resizable-handle-icon": "registry/styles/resizable.styles.ts#resizable.grip",
+        "cn-resizable-panel-group": "registry/styles/resizable.styles.ts#resizable.group"
       }
     },
     "scroll-area": {

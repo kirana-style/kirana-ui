@@ -136,6 +136,7 @@ import {
   TableIcon,
   ZoomInAreaIcon,
   ZoomOutAreaIcon,
+  Clock03Icon,
   InformationCircleIcon,
   MultiplicationSignCircleIcon,
 } from "@hugeicons/core-free-icons"
@@ -257,6 +258,7 @@ import {
   ZoomIn,
   ZoomOut,
   ChevronLeft,
+  Clock2,
   OctagonX,
 } from "lucide"
 
@@ -421,6 +423,7 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       TerminalSquareIcon: SquareTerminal,
       Trash2Icon: Trash2,
       ChevronLeftIcon: ChevronLeft,
+      Clock2Icon: Clock2,
       OctagonXIcon: OctagonX,
       TriangleAlertIcon: TriangleAlert,
     },
@@ -558,6 +561,7 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       SidebarLeftIcon,
       SparklesIcon,
       Alert02Icon,
+      Clock03Icon,
       InformationCircleIcon,
       MultiplicationSignCircleIcon,
     },
