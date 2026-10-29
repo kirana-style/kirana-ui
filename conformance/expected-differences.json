@@ -56,6 +56,24 @@
     {
       "element": "div[data-slot=\"example",
       "property": "height",
+      "route": "calendar-example",
+      "reason": "follows FieldLabel's line height (the date pickers' and the time fields' labels)"
+    },
+    {
+      "element": "div[data-slot=\"card",
+      "property": "height",
+      "route": "calendar-example",
+      "reason": "follows FieldLabel's line height (the date pickers' and the time fields' labels)"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "calendar-example",
+      "reason": "follows FieldLabel's line height (the date pickers' and the time fields' labels)"
+    },
+    {
+      "element": "div[data-slot=\"example",
+      "property": "height",
       "route": "pagination-example",
       "reason": "follows FieldLabel's line height (\"Rows per page\" wraps to two lines)"
     },
@@ -222,7 +240,7 @@
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
-      "route": "/aria/(table|toggle-group|button-group|combobox|pagination)-example",
+      "route": "/aria/(table|toggle-group|button-group|combobox|pagination|calendar)-example",
       "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
     },
     {
@@ -999,6 +1017,30 @@
       "property": "max-height",
       "route": "/base/input-group-example",
       "reason": "the open menu's `--available-height` from Base UI 1.9, 32px more than upstream's 1.6 gives it in every style: its trigger, placement and size otherwise agree"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "overflow-x",
+      "route": "resizable-example",
+      "reason": "react-resizable-panels 4.14 leaves the panel `overflow: visible` and scrolls an element inside it; upstream's site runs 4.5, which hides the overflow on the panel itself"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "overflow-y",
+      "route": "resizable-example",
+      "reason": "react-resizable-panels 4.14 leaves the panel `overflow: visible` and scrolls an element inside it; upstream's site runs 4.5, which hides the overflow on the panel itself"
+    },
+    {
+      "element": "button[data-slot=\"popover-trigger\"]",
+      "property": "background-color",
+      "route": "/base/calendar-example",
+      "reason": "the Date Picker's trigger does not open its popover on upstream's site when the harness clicks it (`aria-expanded` stays false), so upstream is measured closed and hovered; ours opens"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "bottom",
+      "route": "/aria/calendar-example",
+      "reason": "React Aria places a popup from the page's end, and the page's height follows FieldLabel's line height; its top matches"
     }
   ]
 }

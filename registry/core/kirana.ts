@@ -49,6 +49,13 @@ export const registryConfig = {
       ['[aria-invalid="true"]', Aria.Checkbox.focusVisible],
       // A drawer's swipe axis, which the Drawer writes on its popup from its direction.
       ['[data-swipe-axis="x"]', '[data-swipe-axis="y"]'],
+      // A calendar's day, as its markup marks it: one chosen day, or a range's start, middle or end
+      // (a one-day range is both start and end, never a middle).
+      ['[data-selected-single="true"]', '[data-range-start="true"]'],
+      ['[data-selected-single="true"]', '[data-range-middle="true"]'],
+      ['[data-selected-single="true"]', '[data-range-end="true"]'],
+      ['[data-range-start="true"]', '[data-range-middle="true"]'],
+      ['[data-range-end="true"]', '[data-range-middle="true"]'],
     ],
     exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
   },

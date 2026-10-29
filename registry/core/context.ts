@@ -94,3 +94,10 @@ export const toastCtx = defineTokens(
   },
   { variable: true }
 )
+
+/** A calendar's cell (`--cell-size`, `--cell-radius`): every part of its grid agrees on them. */
+export const calendarCtx = defineTokens(
+  "calendarCtx",
+  { cellSize: "1.75rem", cellRadius: "0" },
+  { variable: true }
+)

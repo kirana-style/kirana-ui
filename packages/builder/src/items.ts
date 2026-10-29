@@ -461,6 +461,24 @@ export const ITEMS: Item[] = [
     ["base"]
   ),
   component(
+    "resizable",
+    "Resizable",
+    "Accessible resizable panel groups and layouts with keyboard support.",
+    ["react"]
+  ),
+  component(
+    "carousel",
+    "Carousel",
+    "A carousel with motion and swipe built using Embla.",
+    ["react"]
+  ),
+  component(
+    "calendar",
+    "Calendar",
+    "A calendar component that allows users to select a date or a range of dates.",
+    ["react"]
+  ),
+  component(
     "label",
     "Label",
     "Renders an accessible label associated with a control.",
