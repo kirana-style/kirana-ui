@@ -126,6 +126,36 @@ export const disclosure = {
 } as const satisfies Record<string, StateKeys>
 
 /**
+ * An accordion's item and panel. Upstream dims a disabled trigger with `aria-disabled:` on Base UI
+ * (whose native button is `disabled`, so it never matches) and `disabled:` on React Aria.
+ */
+export const accordion = {
+  /** shadcn/ui's `data-open:`, which only Base UI's item writes. */
+  open: { base: Base.Accordion.Item.open },
+  /** An open item on either base: `data-open:`, React Aria's `data-expanded:`. */
+  expanded: { base: Base.Accordion.Item.open, aria: Aria.Disclosure.expanded },
+  panelOpen: { base: Base.Accordion.Panel.open },
+  // Kirana's vocabulary has no `closed` on `Accordion.Panel` (KF-072, for 0.3.6); Base UI's
+  // accordion panel is its collapsible panel and writes the same `data-closed`.
+  panelClosed: { base: Base.Collapsible.Panel.closed },
+  triggerDisabled: { base: '[aria-disabled="true"]', aria: ":disabled" },
+} as const satisfies Record<string, StateKeys>
+
+/** A Base UI toast and its content. React Aria has no toast. */
+export const toast = {
+  expanded: { base: Base.Toast.Root.expanded },
+  limited: { base: Base.Toast.Root.limited },
+  starting: { base: Base.Toast.Root.startingStyle },
+  ending: { base: Base.Toast.Root.endingStyle },
+  swipeUp: { base: Base.Toast.Root.swipeDirection.up },
+  swipeDown: { base: Base.Toast.Root.swipeDirection.down },
+  swipeLeft: { base: Base.Toast.Root.swipeDirection.left },
+  swipeRight: { base: Base.Toast.Root.swipeDirection.right },
+  contentExpanded: { base: Base.Toast.Content.expanded },
+  behind: { base: Base.Toast.Content.behind },
+} as const satisfies Record<string, StateKeys>
+
+/**
  * A checkbox's states, as upstream reads them on each base: Base UI's root is a `span`, so its
  * `disabled:` never matches (a disabled one dims through its Field, `group-has-disabled/field:`).
  * React Aria's root is the `label` around a hidden input, and Base UI's root writes

@@ -427,6 +427,40 @@ export const ITEMS: Item[] = [
     ["base"]
   ),
   component(
+    "accordion",
+    "Accordion",
+    "A vertically stacked set of interactive headings that each reveal a section of content.",
+    ["react"]
+  ),
+  component(
+    "pagination",
+    "Pagination",
+    "Pagination with page navigation, next and previous links.",
+    ["react"]
+  ),
+  {
+    // A provider, drawing nothing: its markup only, no style module.
+    name: "direction",
+    type: "registry:ui",
+    title: "Direction",
+    description:
+      "A provider component that sets the text direction for your application.",
+    files: (combination) =>
+      combination.framework === "react"
+        ? [markupOf("direction", combination)]
+        : undefined,
+  },
+  component("sonner", "Sonner", "An opinionated toast component for React.", [
+    "react",
+  ]),
+  component(
+    "toast",
+    "Toast",
+    "A succinct message that is displayed temporarily.",
+    ["react"],
+    ["base"]
+  ),
+  component(
     "label",
     "Label",
     "Renders an accessible label associated with a control.",

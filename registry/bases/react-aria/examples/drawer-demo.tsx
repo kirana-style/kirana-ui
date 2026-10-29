@@ -1,6 +1,7 @@
 import { css } from "@kirana-style/core"
 
 import * as React from "react"
+import { toast } from "sonner"
 
 import { useIsMobile } from "../../../lib/use-mobile"
 import { Badge } from "../ui/badge"
@@ -85,6 +86,9 @@ export default function DrawerDemo() {
     }
 
     setOpen(false)
+    toast("Delivery time confirmed", {
+      description: selected.label,
+    })
   }
 
   return (

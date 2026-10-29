@@ -1,5 +1,6 @@
 import { css, props as styleProps, select } from "@kirana-style/core"
 import * as React from "react"
+import { toast } from "sonner"
 
 import { Example, ExampleWrapper } from "../components/example"
 import { example } from "../../../styles/example.styles"
@@ -823,6 +824,9 @@ function ComboboxWithGroupsAndSeparator() {
 function ComboboxWithForm() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const formData = new FormData(event.target as HTMLFormElement)
+    const framework = formData.get("framework") as string
+    toast(`You selected ${framework} as your framework.`)
   }
 
   return (
@@ -1223,6 +1227,7 @@ function ComboboxInDialog() {
             <Button
               type="button"
               onPress={() => {
+                toast("Framework selected.")
                 setOpen(false)
               }}
             >

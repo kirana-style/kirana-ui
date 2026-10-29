@@ -1,4 +1,5 @@
 import { css } from "@kirana-style/core"
+import { toast } from "sonner"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 
@@ -41,7 +42,13 @@ export default function MarkerLinkButtonDemo() {
           <MarkerContent>View the pull request</MarkerContent>
         </Marker>
         <Marker
-          render={<button type="button" sx={styles.transitionColorsHoverTex} />}
+          render={
+            <button
+              type="button"
+              sx={styles.transitionColorsHoverTex}
+              onClick={() => toast("You clicked the revert button")}
+            />
+          }
         >
           <MarkerIcon>
             <IconPlaceholder
