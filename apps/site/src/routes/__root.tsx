@@ -3,6 +3,7 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import { css } from "@kirana-style/core"
 
 import kiranaCss from "@kirana-style/core/stylesheet.css?url"
+import designScript from "virtual:design-script"
 
 import { axes } from "@workspace/registry/core/axes"
 import { usePageDesign } from "@/lib/page-design"
@@ -77,7 +78,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   if (document !== "demo") {
     return (
       <ThemeProvider defaultMode={mode} cookie={THEME_COOKIE}>
-        <RegistryDocument script={`${THEME_SCRIPT};${__DESIGN_SCRIPT__}`}>
+        <RegistryDocument script={`${THEME_SCRIPT};${designScript}`}>
           {children}
         </RegistryDocument>
       </ThemeProvider>

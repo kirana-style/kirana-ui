@@ -36,33 +36,42 @@ function previewPages() {
     )
 }
 
+/** The design script's module: `import designScript from "virtual:design-script"`. */
+const DESIGN_SCRIPT = "virtual:design-script"
+
 /**
- * `__DESIGN_SCRIPT__`: `registry/core/design-script.ts` bundled on its own and minified, as a string
- * the root writes inline before the first paint (X-7). Bundled apart from the app so it carries the
- * decoder and nothing else. A constant rather than a virtual module, which Kirana's resolver cannot
- * follow from the root's styled module (KF-045, a workaround until a Kirana release fixes it); a
- * change to the script needs the dev server restarted.
+ * `virtual:design-script`: `registry/core/design-script.ts` bundled on its own and minified, as a
+ * string the root writes inline before the first paint (X-7). Bundled apart from the app so it
+ * carries the decoder and nothing else; bundled again when the script changes.
  */
 function designScript(): Plugin {
+  const entry = `${REGISTRY}core/design-script.ts`
+  let bundled: Promise<string> | undefined
+  const bundle = async () => {
+    const output = await build({
+      configFile: false,
+      logLevel: "silent",
+      build: {
+        write: false,
+        minify: true,
+        lib: { entry, formats: ["iife"], name: "designScript" },
+      },
+    })
+    const [result] = Array.isArray(output) ? output : [output]
+    return "output" in result ? result.output[0].code.trim() : ""
+  }
   return {
     name: "design-script",
-    async config() {
-      const output = await build({
-        configFile: false,
-        logLevel: "silent",
-        build: {
-          write: false,
-          minify: true,
-          lib: {
-            entry: `${REGISTRY}core/design-script.ts`,
-            formats: ["iife"],
-            name: "designScript",
-          },
-        },
-      })
-      const [bundle] = Array.isArray(output) ? output : [output]
-      const code = "output" in bundle ? bundle.output[0].code.trim() : ""
-      return { define: { __DESIGN_SCRIPT__: JSON.stringify(code) } }
+    resolveId(id) {
+      if (id === DESIGN_SCRIPT) return `\0${DESIGN_SCRIPT}`
+    },
+    async load(id) {
+      if (id !== `\0${DESIGN_SCRIPT}`) return
+      this.addWatchFile(entry)
+      return `export default ${JSON.stringify(await (bundled ??= bundle()))}`
+    },
+    watchChange(id) {
+      if (id === entry) bundled = undefined
     },
   }
 }

@@ -22,9 +22,6 @@ export const fieldScope = relation("field", { optional: true })
  */
 export const fieldLabelScope = relation("field-label", { optional: true })
 
-/** Inside a choice card that holds the focus (`group-has-[:focus-visible]/field-label:`). */
-export const IN_FOCUSED_CARD = fieldLabelScope.within(":has(:focus-visible)")
-
 /**
  * A checkbox, radio or switch, read by the label after it (Tailwind's `peer`): the label dims beside
  * a disabled control, and Sera's label reads as plain text beside one. Optional: a label is

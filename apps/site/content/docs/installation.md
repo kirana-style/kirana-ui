@@ -81,11 +81,12 @@ it draws on React. Installing into those frameworks is not checked yet.
 ## The fonts
 
 The design's font is a variable token, so every component follows it, but the
-font's files are yours to install. Each family is an item, `font-<name>`, which
-installs its package. For the default, Inter:
+font's files come from an item per family, `font-<name>`, which installs its
+package and imports its stylesheet once, after Kirana's. `init` with a preset
+installs the families the preset names; for the default, Inter:
 
 <!-- ::install exec="kirana-style ui add font-inter" -->
 
-Then import it once, in your app's entry: `import "@fontsource-variable/inter"`.
-`kirana-style ui` installs the package but does not write the import yet. The
-[fonts](/docs/design-system/fonts) page names every family's item.
+A project that loads Kirana's stylesheet through PostCSS (Next.js's `@kirana;`)
+is told to add the import by hand. The [fonts](/docs/design-system/fonts) page
+names every family's item.

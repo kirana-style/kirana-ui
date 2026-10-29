@@ -224,6 +224,10 @@ style replaces only the entries it names:
 | `borderColor: null`                   | removes every entry of the property                      |
 | `borderColor: { "*": null, base: x }` | removes the rest, keeps only what is listed              |
 
+Removing a whole box removes its logical sides too: `padding: { "*": null, base: "0" }`
+over a Card that set `paddingBlock`, or an Item that set `paddingInline`, leaves `0` on
+every side, as upstream's `p-0` does.
+
 When two entries can match one element, one global ladder decides: more
 conditions win; then attribute > pseudo-class > relation > at-rule; then order
 within a class (a larger `min-width` wins, `:disabled` beats `:hover`); then the

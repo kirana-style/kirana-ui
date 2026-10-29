@@ -77,11 +77,7 @@ const styles = {
   }),
   wFull: css({ width: { "*": null, base: "100%" } }),
   w60: css({ width: { "*": null, base: space[60] } }),
-  // `p-0` over an Item, whose padding is its sides and its top and bottom (KF-064).
-  p0: css({
-    paddingInline: { "*": null, base: "0" },
-    paddingBlock: { "*": null, base: "0" },
-  }),
+  p0: css({ padding: { "*": null, base: "0" } }),
   nowrap: css({ whiteSpace: "nowrap" }),
   narrow: css({
     maxWidth: {

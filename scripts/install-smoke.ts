@@ -2,10 +2,9 @@
  * The registry installed as a project installs it, with Kirana's own installer: for each
  * combination, a new project from Kirana's example for its framework, started from an empty folder
  * (`npx @kirana-style/registry init --template`, which reads the release's source from GitHub), set
- * to that style's preset code, the
- * slice added with `kirana-style ui add` from the registry this checkout built, then built (and
- * type-checked with `vue-tsc` for Vue), and its lockfile validated. Exits non-zero on the first
- * failure.
+ * to that style's preset code (which installs its font), the slice added with `kirana-style ui add`
+ * from the registry this checkout built, then built (and type-checked with `vue-tsc` for Vue), and
+ * its lockfile validated. Exits non-zero on the first failure.
  *
  *   bun scripts/install-smoke.ts [<framework>-<base>-<style> …]   # what `vp run install` runs
  *
@@ -17,6 +16,7 @@ import {
   existsSync,
   mkdtempSync,
   readFileSync,
+  readdirSync,
   rmSync,
   statSync,
 } from "node:fs"
@@ -50,7 +50,6 @@ const ITEMS = {
     "login-01",
     "sidebar-07",
     "typeset",
-    "font-inter",
   ],
   vue: [
     "button",
@@ -61,7 +60,6 @@ const ITEMS = {
     "skeleton",
     "tabs",
     "typeset",
-    "font-inter",
   ],
 } as const
 
@@ -134,6 +132,23 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     registry
   )
   const app = join(folder, "app")
+  // The preset's font is Inter: `init` installs its item, which imports the family's stylesheet.
+  const sources = readdirSync(join(app, "src"), {
+    recursive: true,
+    encoding: "utf8",
+  })
+  if (
+    !sources.some(
+      (file) =>
+        /\.(ts|tsx|js|vue)$/.test(file) &&
+        readFileSync(join(app, "src", file), "utf8").includes(
+          '"@fontsource-variable/inter"'
+        )
+    )
+  ) {
+    console.error(`install: init did not import the preset's font in ${app}`)
+    process.exit(1)
+  }
   await run(app, "bunx", "kirana-style", "ui", "add", ...ITEMS[framework])
   await run(app, "bun", "run", "build")
   // Vue templates are type-checked in the project only: Ark's required props show there (CLI-06).

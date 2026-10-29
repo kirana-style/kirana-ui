@@ -1,5 +1,6 @@
 import { Component } from "@angular/core"
-import { css, props } from "@kirana-style/core"
+import { SxDirective } from "@kirana-style/angular"
+import { css } from "@kirana-style/core"
 
 import { space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
@@ -14,10 +15,10 @@ const row = css({
 
 @Component({
   selector: "button-demo",
-  imports: [Button],
+  imports: [Button, SxDirective],
   template: `
-    <div [class]="example">
-      <div [class]="row">
+    <div [sx]="page.example">
+      <div [sx]="row">
         <button kuiButton>Default</button>
         <button kuiButton variant="secondary">Secondary</button>
         <button kuiButton variant="outline">Outline</button>
@@ -32,8 +33,6 @@ const row = css({
   `,
 })
 export default class ButtonDemo {
-  // Plain elements take their classes as strings: Kirana's `SxDirective` would also match the
-  // parts' `[sx]`.
-  protected readonly example = props(page.example).className
-  protected readonly row = props(row).className
+  protected readonly page = page
+  protected readonly row = row
 }

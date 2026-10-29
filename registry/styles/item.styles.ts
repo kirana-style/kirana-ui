@@ -28,11 +28,8 @@ const { vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 /** The item, read by its parts. */
 export const itemScope = relation("item")
 
-/**
- * A content part right after another (`[&+[data-slot=item-content]]:`): the element's own condition,
- * since a relation read `after()` its own kind fails where the part is defined (KF-054).
- */
-const AFTER_CONTENT = ':is([data-slot="item-content"] + *)'
+/** A content part, read by the one after it (`[&+[data-slot=item-content]]:`). */
+export const itemContentScope = relation("item-content")
 
 const XS = itemScope.within('[data-size="xs"]')
 const SM = itemScope.within('[data-size="sm"]')
@@ -230,9 +227,9 @@ export const item = {
   }),
 
   // cn-item-content
-  content: css({
+  content: css(itemContentScope.anchor, {
     display: "flex",
-    flex: { base: "1 1 0%", [AFTER_CONTENT]: "none" },
+    flex: { base: "1 1 0%", [itemContentScope.after()]: "none" },
     flexDirection: "column",
     gap: {
       base: space[1],

@@ -1,5 +1,6 @@
 import { Component } from "@angular/core"
-import { css, props } from "@kirana-style/core"
+import { SxDirective } from "@kirana-style/angular"
+import { css } from "@kirana-style/core"
 
 import { space } from "../../../core/scales"
 import { radius } from "../../../core/tokens"
@@ -20,12 +21,12 @@ const styles = {
 
 @Component({
   selector: "skeleton-demo",
-  imports: [Skeleton],
+  imports: [Skeleton, SxDirective],
   template: `
-    <div [class]="example">
-      <div [class]="row">
+    <div [sx]="page.example">
+      <div [sx]="styles.row">
         <div kuiSkeleton [sx]="styles.avatar"></div>
-        <div [class]="lines">
+        <div [sx]="styles.lines">
           <div kuiSkeleton [sx]="styles.wide"></div>
           <div kuiSkeleton [sx]="styles.narrow"></div>
         </div>
@@ -35,7 +36,5 @@ const styles = {
 })
 export default class SkeletonDemo {
   protected readonly styles = styles
-  protected readonly example = props(page.example).className
-  protected readonly row = props(styles.row).className
-  protected readonly lines = props(styles.lines).className
+  protected readonly page = page
 }

@@ -11,9 +11,10 @@
 import { checkCtx } from "../core/context"
 import { check, when } from "../core/states"
 import { alpha, surface, theme } from "../core/tokens"
-// The condition is built in `field-scope.styles.ts`: Kirana compiles a relation's reads in a module
-// that holds a style, and this one only holds the entries the controls spread (KF-051).
-import { IN_FOCUSED_CARD } from "./field-scope.styles"
+import { fieldLabelScope } from "./field-scope.styles"
+
+/** Inside a choice card that holds the focus (`group-has-[:focus-visible]/field-label:`). */
+const IN_FOCUSED_CARD = fieldLabelScope.within(":has(:focus-visible)")
 
 const ring = (color: string) => `0 0 0 ${checkCtx.ringWidth} ${color}`
 
