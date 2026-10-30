@@ -9,8 +9,8 @@ import { css } from "@kirana-style/core"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
 import { hue } from "@/components/page/hue"
 import type { Sx } from "@workspace/registry/lib/sx"
-import { Icon } from "@workspace/ui/primitives/icon"
-import type { IconProps } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
+import type { IconProps } from "@workspace/shell/icon"
 
 const styles = {
   root: css({

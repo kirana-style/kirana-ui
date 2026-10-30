@@ -5,38 +5,38 @@
 ```mermaid
 flowchart TD
     A["Where is it from?"] --> B{"Tailwind-based?<br/>(shadcn, a registry, a snippet)"}
-    B -->|yes| C["Port it: porting-from-tailwind.md"]
-    B -->|"StyleX code"| S["Port it: the StyleX section below"]
+    B -->|yes| C["Port it: porting-from-tailwind.md<br/>kirana-style migrate tailwind"]
     B -->|no, headless/unstyled| D["Style it directly against the tokens"]
-    C & S & D --> E{"Does a recipe already cover<br/>this chrome?"}
-    E -->|yes| F["Reuse control / overlay / menu / button"]
-    E -->|no, and 2+ components need it| G["Add a recipe, document it in catalogue.md"]
-    E -->|no, one component only| H["Keep it local to the component"]
-    F & G & H --> I{"New tokens needed?"}
-    I -->|"a raw scale value"| J["tokens/ as a constant"]
-    I -->|"changes per mode"| K["theme/semantic.ts<br/>as a light-dark() pair"]
-    I -->|"parent hands to child"| L["theme/context.ts"]
+    C & D --> E{"Does a shared module already cover<br/>this chrome?"}
+    E -->|yes| F["Reuse control / overlay / menu / check"]
+    E -->|no| H["Its own styles/&lt;name&gt;.styles.ts"]
+    F & H --> I{"New tokens needed?"}
+    I -->|"a raw scale value"| J["core/scales.ts as a constant"]
+    I -->|"changes per mode or design"| K["core/tokens.ts<br/>as a light-dark() pair"]
+    I -->|"parent hands to child"| L["core/context.ts"]
     I -->|no| M["skip"]
     J & K & L & M --> N{"Reads an ancestor or sibling?"}
     N -->|yes| O["Add a relation, apply its anchor on the element whose state is read"]
     N -->|no| P["skip"]
-    O & P --> Q["vp run check && vp run build"]
-    Q --> R["Update catalogue.md"]
+    O & P --> Q["markup per base in bases/, its previews and docs page"]
+    Q --> R["vp run check, styles, build, registry"]
+    R --> S["Update catalogue.md"]
 ```
 
 Concretely, for a component that arrives as Tailwind:
 
 1. **Read the classes before writing anything.** Sort them into self-state,
    ancestor, descendant and sibling. That sort decides the whole shape.
-2. **Check the catalogue.** Most chrome already exists. A new popup is
-   `overlayStyles` + `menuStyles`; a new field is `controlStyles.field`.
+2. **Check the catalogue.** Most chrome already exists. A new popup reads
+   `overlay.styles.ts` and `menu.styles.ts`; a new field `control.ts`.
 3. **Swap the dependencies.** `cn` → `sx={[…]}` on elements and
-   `{...styleProps(…)}` on Base UI parts, `cva` → `recipe()`, `lucide-react` →
-   `@hugeicons/core-free-icons` via the `Icon` primitive, `@/components/ui/x` → a
-   relative import, `className` → `sx`.
-4. **Read the compiler's diagnostics.** `vp run build` prints them, and
-   `bunx kirana-style check ../../packages/ui/src src` from an app's folder (so it
-   reads that app's `kirana.config.ts`) lists every one with its source line. Errors fail the build; warnings name
+   `{...styleProps(…)}` on Base UI and React Aria parts, `cva` → a variant's
+   handles in the style module, an icon → `IconPlaceholder` naming it in every
+   library (`lucide="…" tabler="…" hugeicons="…" phosphor="…" remixicon="…"`),
+   `@/components/ui/x` → a relative import, `className` → `sx`.
+4. **Read the compiler's diagnostics.** `vp run styles` checks the registry with
+   `registry/kirana.config.ts`, `vp run build` prints every app's, and
+   `bunx kirana-style check registry` lists every one with its source line. Errors fail the build; warnings name
    real risks (`ambiguous-precedence`, `mixed-logical-physical`,
    `sx-on-external-component`). `unresolved-import` means an import did not
    resolve — usually dependencies are not installed — so every token behind it
@@ -113,28 +113,6 @@ live once, in the Bun catalog in the root `package.json`
 (`"workspaces": { "catalog": { … } }`), and each workspace lists them as
 `"catalog:"`. A library only one workspace uses stays a plain version in that
 workspace's own `package.json`.
-
-### Porting a component written for StyleX
-
-Blocks, examples, the shell and all of `packages/ui` were ported from a StyleX
-port of the same apps, with the passes that are now Kirana's own codemod. Run it
-over directories or single files; it prints a diff and a report, and `--write`
-applies it:
-
-```bash
-bunx kirana-style migrate stylex <dir>            # create → css, defineVars → defineTokens, markers → relation, …
-bunx kirana-style migrate stylex <dir> --write
-```
-
-`bunx kirana-style migrate tailwind` does the same for Tailwind class strings.
-Then build, read the diagnostics, and run the conformance comparison for every
-app the code appears in; the table in
-[Porting from StyleX: what the merge changes](#porting-from-stylex-what-the-merge-changes)
-lists what the codemod cannot see. The script drops StyleX's `default: null` entries
-rather than mapping them to `base: null` (which removes an earlier value). A
-component that used a StyleX workaround — closed breakpoint ranges, a `null`
-default beside a custom-property condition, props picked in JavaScript to dodge
-the unlayered group — keeps working; simplify it only with a conformance run.
 
 ### Adding a block
 
@@ -239,17 +217,17 @@ Then, once:
 
 ```mermaid
 flowchart TD
-    A["Delete components/&lt;name&gt;.tsx"] --> B["Delete recipes/&lt;name&gt;.ts if it had one"]
-    B --> C["Remove its relations from theme/markers.ts<br/><i>or its theme/&lt;name&gt;-marker.ts</i>"]
-    C --> D["Remove its context tokens from theme/context.ts"]
-    D --> E{"Any surface/alpha token now unused?"}
-    E -->|yes| F["Remove from theme/semantic.ts"]
+    A["Delete its markup in every base<br/>bases/&lt;framework-base&gt;/ui"] --> B["Delete styles/&lt;name&gt;.styles.ts"]
+    B --> C["Delete its examples and their previews.ts entries"]
+    C --> D["Delete its item in packages/builder/src/items.ts<br/>and its docs page"]
+    D --> E{"Any context token or surface/alpha token now unused?"}
+    E -->|yes| F["Remove it from core/context.ts or core/tokens.ts"]
     E -->|no| G["leave"]
     F & G --> H{"Was it the only user of a dependency?"}
     H -->|yes| I["bun remove it<br/><i>and its catalog entry, if now unused</i>"]
     H -->|no| J["leave"]
     I & J --> K["grep the name across the repo"]
-    K --> L["vp run check && vp run build"]
+    K --> L["vp run check, styles, build, registry"]
     L --> M["Update catalogue.md"]
 ```
 
@@ -257,9 +235,8 @@ The checklist, in grep form:
 
 ```bash
 NAME=drawer
-grep -rn "$NAME" packages/ui/src apps/site/src  # imports, re-exports, demo usage
-grep -rn "${NAME}Marker" packages/ui/src/theme/
-grep -n "${NAME}Ctx\|${NAME}" packages/ui/src/theme/context.ts
+grep -rln "$NAME" registry apps/site packages  # markup, styles, examples, pages, items
+grep -n "${NAME}Ctx" registry/core/context.ts
 ```
 
 Unused constants and tokens cost nothing in the stylesheet — Kirana emits only
@@ -269,17 +246,17 @@ left with no anchor is the `relation-without-anchor` error.
 
 **What is exclusive and what is shared.** Safe to delete with the component:
 
-- its own `recipes/<name>.ts`
-- relations named after it (`drawerPopupMarker`)
+- its markup in every base, its style module and its examples
+- relations declared in its style module (`drawerPopup`)
 - context tokens named after it (`drawerCtx`)
 
 Not safe without checking — these are shared:
 
-- anything in `tokens/` (the vocabulary, not per-component)
+- anything in `core/scales.ts` (the vocabulary, not per-component)
 - `theme` and `alpha` tokens
 - `surface` tokens — named by intent, not by component. Grep before removing
-- `recipes/control`, `overlay`, `menu`, `button-group`, `recipe`
-- everything in `primitives/`
+- `styles/control.ts`, `overlay.styles.ts`, `menu.styles.ts`, `check.styles.ts`
+- a relation another component's module reads (`collapsibleScope`, `fieldScope`)
 
 ## Verifying a port
 
@@ -289,28 +266,15 @@ quietly dropped a state. Compare computed styles instead.
 ### The conformance harness
 
 The harness lives in [kirana-lab](https://github.com/kirana-style/kirana-lab)
-(`packages/harness/conformance`), beside the baselines it compares with: the
-StyleX port (`baselines/stylex`) and the Tailwind original
-(`baselines/tailwind`) of the apps in this repository. It compares every route
-of the demo, blocks and examples, element by element, in Chrome through
-Playwright. The full method, what to prepare and how to read a report are in its
-README; from a kirana-lab checkout:
+(`packages/harness/conformance`); here it compares the site's preview pages with
+the same pages on shadcn/ui's own site, element by element, in Chrome through
+Playwright (`vp run conformance`, [below](#against-shadcnuis-own-site)). The full
+method, what to prepare and how to read a report are in its README. kirana-lab
+also keeps its own copies of the apps this repository started from, with their
+StyleX port and Tailwind original, as its baselines.
 
-```bash
-bun run conformance --app examples --serve           # web | blocks | examples
-bun run conformance --app web --serve --states       # overlays, menus, hover, focus
-```
-
-kirana-lab's Kirana corpus started as a copy of this repository's apps. To check a
-change made here, copy the changed files into the corpus first.
-
-It walks every `[data-slot]` element, portals included, at 1400, 900 and 390px in
-light and dark, and reads the property list below plus `::before` and `::after`.
-The run passes when Kirana renders like the StyleX port, except where it renders
-like the Tailwind original instead (the port was wrong there); against the
-original, only differences the port does not share count. When the apps moved
-out of the Kirana repository: 0 unexpected differences on 189 routes, with 82
-corrections where Kirana matches the original and the StyleX port did not.
+It walks every `[data-slot]` element, portals included, at three widths in light
+and dark, and reads the property list below plus `::before` and `::after`.
 
 Colours are normalised by letting the browser convert them to one space: set
 `background-color: color-mix(in srgb, <colour> 100%, transparent)` on a probe
@@ -324,7 +288,7 @@ components only showed up in a state.
 
 ```mermaid
 flowchart TD
-    A["Both demos render the same components<br/>in the same structure"] --> B["Every [data-slot] at rest<br/>light and dark, three widths"]
+    A["Both pages render the same item<br/>in the same structure"] --> B["Every [data-slot] at rest<br/>light and dark, three widths"]
     A --> C["Each overlay while open<br/>click, hover, right-click"]
     A --> D["Rows while highlighted<br/>keyboard into the menu"]
     A --> E["Motion<br/>sample one property per animation frame"]
@@ -459,12 +423,13 @@ in a comment where its values live, or give it a reason under `dropped`. Both
 read upstream through git: `--repo <path>` (or `UPSTREAM_REPO`) names a checkout,
 and without one a blobless clone is kept in `node_modules/.cache/upstream`.
 
-### Porting from StyleX: what the merge changes
+### What the merge changes
 
-The conformance run over blocks and examples found every class of difference
-below; each is a StyleX habit that Kirana's per-entry merge turns into a bug.
+The first port of these components came from a StyleX port, and its conformance
+run found every class of difference below; each is a habit of a whole-property
+merge (StyleX's, and `twMerge`'s) that Kirana's per-entry merge turns into a bug.
 
-| StyleX habit                                                                                         | Why it breaks                                                                                                              | Kirana form                                                                                                  |
+| Habit                                                                                                | Why it breaks                                                                                                              | Kirana form                                                                                                  |
 | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | A caller writes a plain value to override a component (`alignSelf: "auto"`, `width: "auto"`)         | StyleX replaced the whole property; Kirana replaces only the base entry, and the component's conditional entries still win | write it under the component's condition, as the original did: `{ '[data-orientation="vertical"]': "auto" }` |
 | A control drops its own chrome with plain values (`boxShadow: "none"`)                               | the Input's `aria-invalid` and grouped-item entries survive                                                                | `{ "*": null, base: "none" }` drops every entry                                                              |
@@ -473,53 +438,6 @@ below; each is a StyleX habit that Kirana's per-entry merge turns into a bug.
 | States restated beside an override ("an sx value replaces the whole property")                       | redundant, and the restated entries tie with the override                                                                  | write only the override                                                                                      |
 | A wrapper spreads its props onto a Base UI part or an element (`<form {...props}>`)                  | `sx` rides inside the spread and never compiles                                                                            | take `sx` out and pass it on; the compiler reports it (`sx-on-external-component`)                           |
 | `stylex.types.*` for an animatable custom property                                                   | —                                                                                                                          | a registered token: `{ value: "0px", syntax: "<length-percentage>" }`                                        |
-
-### Keep the demos in step
-
-`apps/site/src/components/demo.tsx` (the site's `/demo`) here and in kirana-lab's `baselines/stylex`
-and `baselines/tailwind` are the same page: same cards, same data arrays, same
-components in the same nesting. That is what makes a slot-by-slot diff meaningful. When you add a
-component to one, add it to the others in the same shape.
-
-Expect these to differ harmlessly:
-
-| Difference                                                            | Why                                                                             |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `border-*-color` where border width is `0`                            | Tailwind's reset set a global border colour; this project deliberately does not |
-| `box-shadow` with extra `rgba(0,0,0,0) 0 0 0 0` layers                | Tailwind's empty `--tw-*` shadow slots                                          |
-| `flex-start` vs `start`, `gap: normal` vs `0px`                       | Equivalent keywords                                                             |
-| Sub-pixel `height` / `gridTemplateRows`                               | Line-height rounding                                                            |
-| A `0 0 0 0` shadow layer in a real colour on inputs and switch thumbs | Tailwind's unused ring slot, still a colour but zero size                       |
-| An extra `data-slot` on `InputGroupText`                              | The port names the slot; the original did not                                   |
-| `filter: brightness(1) grayscale(1)` against `grayscale(1)`           | The port always writes the theme's brightness factor                            |
-| Bounding boxes of a `Spinner`, opacity of a `Skeleton`                | They are animating; the frame decides                                           |
-| Width of a visually hidden label inside a vertical Field              | Clipped either way; the port caps it at 1px                                     |
-| `transition-property: all` against an enumerated list                 | See below: the port named the properties the original left to `all`             |
-
-Anything else is a real difference.
-
-### `transition-all`, and what the port did with it
-
-Comparing transitions (added 2026-09-22) took the inherited count on the demo from 96 to 504, and
-they are all one thing: shadcn writes `transition-all` on its interactive components, and the port
-replaced it with the properties those components actually animate.
-
-```
-button   original  transition-property: all
-         port      color, background-color, border-color, box-shadow, translate
-badge    original  all
-         port      color, background-color, border-color, box-shadow
-switch   original  all
-         port      background-color, border-color, box-shadow
-```
-
-Both ports agree, so nothing here is Kirana's doing, and the harness counts them as inherited rather
-than as differences of ours. It is still a behaviour difference and worth knowing which side you
-want: `all` animates every animatable property, including the layout ones, so a component whose
-padding or size changes with a state animates that change in the original and snaps in the port.
-The enumerated list is the safer default and the less faithful one. Restoring `all` is a one-line
-change per component if fidelity is the goal; leaving it is a deliberate improvement, and this
-paragraph is here so it stays deliberate.
 
 For a quick look rather than a diff, open the page with `vp run dev`.
 
@@ -555,8 +473,8 @@ written rather than what it compiles to:
 | every compiler diagnostic, so lint alone fails on what the build would   | `kirana/diagnostics`               |
 
 The rules read the compiler, which comes with its native engine from npm. A tool
-run inside `packages/ui` reads `packages/ui/kirana.config.ts`, which exports the
-same `uiConfig` the apps spread, so it sees the exclusive pairs too. For the same
+run inside `registry/` reads `registry/kirana.config.ts`, which spreads the same
+`registryConfig` the apps spread, so it sees the exclusive pairs too. For the same
 answers while editing, install the Kirana extension (VS Code Marketplace or Open
 VSX, `kirana-style.kirana`), which runs this project's own `kirana-style lsp`.
 
@@ -577,9 +495,9 @@ Pairs the compiler can prove never match together (`[data-size="sm"]` /
 `[data-size="lg"]`, `X` / `:not(X)`, `:last-child` / `:nth-last-child(2)`),
 pairs that set the same value, and pairs resolved by nesting do not warn.
 Attributes a library never sets together are declared once in
-`packages/ui/src/kirana.ts` (`conditions.exclusive`), which every app spreads
-into its `kirana.config.ts`; add a group there when a component reads a new
-pair. Check the Tailwind original before picking a winner: its compound variants
+`registry/core/kirana.ts` (`conditions.exclusive`, and `exclusiveAcross` for one
+vocabulary per base), which every app spreads into its `kirana.config.ts`; add a
+group there when a component reads a new pair. Check the Tailwind original before picking a winner: its compound variants
 (`data-ending-style:data-swiping:`) say which state was meant to win, and twice
 the tie-break had silently picked the other one. Any change made to silence a
 warning still goes through the conformance run.
@@ -589,8 +507,8 @@ To hide or promote a warning project-wide, re-level it in the app's
 
 ```ts
 export default defineConfig({
-  ...uiConfig, // import { uiConfig } from "@workspace/ui/kirana.ts"
-  layers: { before: ["reset", "base"] },
+  conditions: registryConfig.conditions, // from "@workspace/registry/core/kirana.ts"
+  layers: { before: ["reset", "base", "typeset"] },
   diagnostics: { "ambiguous-precedence": "off" }, // "off" | "info" | "warning" | "error"
 })
 ```
@@ -613,17 +531,18 @@ same name for the rest of the function. Name the inner binding for what it holds
 Kirana's output is atomic and deduplicated, so CSS size plateaus as the codebase
 grows. The things that actually cost bytes here:
 
-| Lever                                   | Effect                                                                                                                                                                                                          |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Constants over variable tokens          | Constants are inlined and emit nothing. A variable token emits one custom property when a compiled style references it                                                                                          |
-| Lookup tables in `primitives/styles.ts` | Every entry is compiled into the stylesheet once its module is — a fixed, shared cost. Keep the vocabulary narrow                                                                                               |
-| Shorthands                              | A single-component box shorthand is one rule (`padding: spacing[4]`); a multi-component one expands (`border: "1px solid …"` is 12 atoms). Prefer `borderWidth`/`borderStyle`/`borderColor` with one value each |
-| Dynamic values                          | `css({ width: \`${n}%\` })` bridges through one custom property; a fixed set of values belongs in a lookup table                                                                                                |
+| Lever                          | Effect                                                                                                                                                                                                           |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Constants over variable tokens | Constants are inlined and emit nothing. A variable token emits one custom property when a compiled style references it                                                                                           |
+| Every style compiled in        | Each style's overrides are in the stylesheet for every component a page draws, so choosing one writes no CSS; a style adds about 0.6 KB gzip to the first slice's components. Keep each override to what differs |
+| Shorthands                     | A single-component box shorthand is one rule (`padding: spacing[4]`); a multi-component one expands (`border: "1px solid …"` is 12 atoms). Prefer `borderWidth`/`borderStyle`/`borderColor` with one value each  |
+| Dynamic values                 | `css({ width: \`${n}%\` })` bridges through one custom property; a fixed set of values belongs in a lookup table                                                                                                 |
 
 [kirana-lab](https://github.com/kirana-style/kirana-lab) measures build time and
-the client CSS and JavaScript sizes of these apps against the StyleX and Tailwind
-baselines for every Kirana release, and publishes the results as releases of its
-own. When the apps were measured in the Kirana repository: Kirana built the demo
+the client CSS and JavaScript sizes of its copies of the apps this repository
+started from against their StyleX and Tailwind baselines for every Kirana release,
+and publishes the results as releases of its own. When the apps were measured in
+the Kirana repository: Kirana built the demo
 in 1.6 s against StyleX's 3.4 s and Tailwind's 1.7 s; its CSS was 17.2 kB gzip
 against StyleX's 17.6 kB, and its client JavaScript 7 kB gzip smaller.
 
@@ -646,7 +565,7 @@ value. A static `sx` with nothing else to merge compiles to a constant
 ```mermaid
 flowchart TD
     A["You changed something"] --> B{"What kind?"}
-    B -->|"new token, recipe, relation, primitive"| C["catalogue.md"]
+    B -->|"new token, state, relation, style module"| C["catalogue.md"]
     B -->|"a silent bug class"| H["an issue on kirana:<br/>a compiler diagnostic"]
     B -->|"new porting rule or pitfall"| D["porting-from-tailwind.md"]
     B -->|"a structural decision"| E["architecture.md — say what it replaces"]

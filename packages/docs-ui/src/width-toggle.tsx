@@ -7,7 +7,7 @@ import { useSyncExternalStore } from "react"
 import { css } from "@kirana-style/core"
 import { MoveHorizontalIcon } from "@hugeicons/core-free-icons"
 
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 import {
   alpha,
   breakpoint,

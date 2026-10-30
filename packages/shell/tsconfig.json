@@ -6,7 +6,7 @@
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
-      "@workspace/ui/*": ["../ui/src/*"],
+      "@workspace/registry/*": ["../../registry/*"],
       "@workspace/shell/*": ["./src/*"]
     },
     "moduleResolution": "bundler",

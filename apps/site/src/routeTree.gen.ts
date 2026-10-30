@@ -14,7 +14,6 @@ import { Route as BlocksRouteImport } from "./routes/blocks"
 import { Route as ChartsRouteImport } from "./routes/charts"
 import { Route as ColorsRouteImport } from "./routes/colors"
 import { Route as CreateRouteImport } from "./routes/create"
-import { Route as DemoRouteImport } from "./routes/demo"
 import { Route as DocsRouteImport } from "./routes/docs"
 import { Route as LicenseRouteImport } from "./routes/license"
 import { Route as OpenSourceRouteImport } from "./routes/open-source"
@@ -51,11 +50,6 @@ const ColorsRoute = ColorsRouteImport.update({
 const CreateRoute = CreateRouteImport.update({
   id: "/create",
   path: "/create",
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoRoute = DemoRouteImport.update({
-  id: "/demo",
-  path: "/demo",
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsRoute = DocsRouteImport.update({
@@ -125,7 +119,6 @@ export interface FileRoutesByFullPath {
   "/charts": typeof ChartsRouteWithChildren
   "/colors": typeof ColorsRoute
   "/create": typeof CreateRoute
-  "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
   "/license": typeof LicenseRoute
   "/open-source": typeof OpenSourceRoute
@@ -143,7 +136,6 @@ export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/colors": typeof ColorsRoute
   "/create": typeof CreateRoute
-  "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
   "/license": typeof LicenseRoute
   "/open-source": typeof OpenSourceRoute
@@ -164,7 +156,6 @@ export interface FileRoutesById {
   "/charts": typeof ChartsRouteWithChildren
   "/colors": typeof ColorsRoute
   "/create": typeof CreateRoute
-  "/demo": typeof DemoRoute
   "/docs": typeof DocsRouteWithChildren
   "/license": typeof LicenseRoute
   "/open-source": typeof OpenSourceRoute
@@ -186,7 +177,6 @@ export interface FileRouteTypes {
     | "/charts"
     | "/colors"
     | "/create"
-    | "/demo"
     | "/docs"
     | "/license"
     | "/open-source"
@@ -204,7 +194,6 @@ export interface FileRouteTypes {
     | "/"
     | "/colors"
     | "/create"
-    | "/demo"
     | "/docs"
     | "/license"
     | "/open-source"
@@ -224,7 +213,6 @@ export interface FileRouteTypes {
     | "/charts"
     | "/colors"
     | "/create"
-    | "/demo"
     | "/docs"
     | "/license"
     | "/open-source"
@@ -245,7 +233,6 @@ export interface RootRouteChildren {
   ChartsRoute: typeof ChartsRouteWithChildren
   ColorsRoute: typeof ColorsRoute
   CreateRoute: typeof CreateRoute
-  DemoRoute: typeof DemoRoute
   DocsRoute: typeof DocsRouteWithChildren
   LicenseRoute: typeof LicenseRoute
   OpenSourceRoute: typeof OpenSourceRoute
@@ -290,13 +277,6 @@ declare module "@tanstack/react-router" {
       path: "/create"
       fullPath: "/create"
       preLoaderRoute: typeof CreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    "/demo": {
-      id: "/demo"
-      path: "/demo"
-      fullPath: "/demo"
-      preLoaderRoute: typeof DemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/docs": {
@@ -428,7 +408,6 @@ const rootRouteChildren: RootRouteChildren = {
   ChartsRoute: ChartsRouteWithChildren,
   ColorsRoute: ColorsRoute,
   CreateRoute: CreateRoute,
-  DemoRoute: DemoRoute,
   DocsRoute: DocsRouteWithChildren,
   LicenseRoute: LicenseRoute,
   OpenSourceRoute: OpenSourceRoute,

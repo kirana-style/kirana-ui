@@ -35,7 +35,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@workspace/registry/bases/react-base/ui/sheet"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 /** Each type's icon, as upstream's toolbar has lucide's. */
 const ICONS = {

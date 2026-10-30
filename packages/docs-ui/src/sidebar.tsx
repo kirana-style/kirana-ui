@@ -30,7 +30,7 @@ import {
   CollapsibleTrigger,
 } from "@workspace/registry/bases/react-base/ui/collapsible"
 import type { Sx } from "@workspace/registry/lib/sx"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 import {
   alpha,
   duration,

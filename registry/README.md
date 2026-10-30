@@ -2,8 +2,8 @@
 
 The source of the component registry as it is being rebuilt: one design system with every style,
 colour, font and radius compiled ahead of time and chosen by attributes on `<html>`, and
-components written once per framework and base. It grows beside `packages/ui`, which keeps serving
-the demo, blocks and examples until the components move here.
+components written once per framework and base: every component, block, chart and example the
+site shows and the registry serves.
 
 What is here so far, `core/`, the design system:
 

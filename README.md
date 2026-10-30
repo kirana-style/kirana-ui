@@ -4,7 +4,7 @@ The shadcn/ui component set, its blocks and its examples, rebuilt on
 [Kirana](https://github.com/kirana-style/kirana), a compile-time styling system,
 with a design system layered on top that keeps Tailwind's vocabulary and Panda's
 ideas about tokens and recipes. It is becoming the site and registry at
-`ui.kirana.style`; today it is three apps and the components they share.
+`ui.kirana.style`: the site, its previews per framework, and the registry they draw.
 
 > **Kirana is the compiler, Panda is the inspiration for the API, and Tailwind is
 > the vocabulary.**
@@ -15,14 +15,13 @@ atomic CSS at build time by Kirana's Rust engine, installed from npm.
 
 ```mermaid
 flowchart TD
-  A["<b>Tailwind vocabulary</b><br/>constants and @kirana-style/preset-scales · inlined, emit no CSS<br/><code>color.red500 · spacing[4] · breakpoint.md</code>"]
-  B["<b>Semantic tokens</b><br/>defineTokens · every colour one light-dark() value<br/><code>theme.primary · alpha.muted50 · surface.control</code>"]
-  C["<b>Conditions</b><br/>relation() · @kirana-style/states · replaces group-* peer-* in-*"]
-  D["<b>Recipes</b><br/>recipe() · replaces class-variance-authority"]
-  E["<b>Primitives</b><br/>Box · Flex · Stack · Grid · Text · Icon · Link"]
-  F["<b>Components</b><br/>shadcn components"]
-  G["<b>Kirana compiler</b><br/>one layered atomic stylesheet"]
-  A --> B --> C --> D --> E --> F --> G
+  A["<b>Tailwind vocabulary</b><br/>registry/core/scales.ts · inlined, emit no CSS<br/><code>space[4] · fontSize.sm · breakpoint.md</code>"]
+  B["<b>Design tokens</b><br/>defineTokens · every colour one light-dark() value, reassigned per axis on &lt;html&gt;<br/><code>theme.primary · radius.lg · font.heading</code>"]
+  C["<b>Axes and states</b><br/>the ui relation on &lt;html&gt; · when() for every base · relation()<br/><code>axes.style.lyra · OPEN · State.Switch.Root.checked</code>"]
+  D["<b>Style modules</b><br/>registry/styles · one per component, every style in it"]
+  E["<b>Markup</b><br/>registry/bases · per framework and base, no style values"]
+  F["<b>Kirana compiler</b><br/>one layered atomic stylesheet"]
+  A --> B --> C --> D --> E --> F
 ```
 
 ## Documentation
@@ -43,20 +42,20 @@ The compiler, its packages and its specification are in
 ## Layout
 
 ```
-apps/site                 the site (:3000): home, docs, previews, the demo at /demo; the Worker `ui`
-apps/blocks               shadcn blocks: dashboard, sidebars, login, signup, preview cards (:3001)
-apps/examples             one page per component (:3002)
-packages/shell            the app shell blocks and examples share
+apps/site                 the site (:3000): home, docs, blocks, charts, /create; the Worker `ui`
+apps/preview-react        the React previews (:3007), prerendered into the site's /preview/react
+apps/preview-vue …        the Vue, Svelte, Solid and Angular previews (:3003 to :3006)
+registry/
+├── core/                 the design system: axes, tokens, scales, preset codes
+├── styles/               each component's look in every style
+├── bases/                the components, blocks and examples per framework and base
+└── icons/                IconPlaceholder and the icon data per library
+packages/builder          the registry's JSON (`vp run registry`)
+packages/shell            the site's head, colour mode and chrome icon
 packages/docs-core        the docs framework's content engine (a copy of Kirana's)
 packages/docs-ui          the docs framework's frame, on the registry's components
+packages/fonts            the families a design can name, loaded on demand
 packages/vite-config      the Vite + Kirana (+ Cloudflare) config every app uses
-packages/ui/src
-├── tokens/               Layer 1 — Tailwind scales as constants
-├── theme/                Layer 2–3 — semantic tokens, relations, context tokens, keyframes
-├── recipes/              Layer 4 — variant tables, shared component chrome
-├── primitives/           Layer 5 — Box, Flex, Stack, Grid, Text, Icon, Link
-├── components/           Layer 6 — the shadcn components
-└── styles/globals.css    the only hand-written CSS: a structural reset
 scripts/                  use-kirana.ts (moves the Kirana version), check-licenses.ts,
                           install-smoke.ts (the registry installed with kirana-style ui),
                           conformance.ts (the pages against shadcn/ui's own site)
@@ -74,9 +73,11 @@ alone.
 ## Using components
 
 ```tsx
-import { Button } from "@workspace/ui/components/button"
-import { Stack, Text } from "@workspace/ui/primitives"
+import { Button } from "@workspace/registry/bases/react-base/ui/button"
 ```
+
+A project installs them with `kirana-style ui add button` (or shadcn/ui's CLI), each flattened to
+the project's style, base and icon library.
 
 Components take an `sx` prop instead of `className`, applied last so a caller can
 always override:
@@ -105,16 +106,17 @@ first paint is already correct, and `light` or `dark` to pin one. It needs
 Chrome 123, Safari 17.5 or Firefox 120.
 
 ```tsx
-import { ThemeProvider, useTheme } from "@workspace/ui/theme/theme-provider"
+import { ThemeProvider, useTheme } from "@workspace/shell/theme-provider"
 ```
 
-The apps keep the reader's choice the way the Kirana site does: in the
+The site keeps the reader's choice the way the Kirana site does: in the
 `kirana-theme` cookie, read by the root route on the server, applied before the
 first paint by a small inline script (so a prerendered page never flashes the
-wrong mode), and shared between open tabs. The header's theme menu and the demo's
-theme pill both answer the `D` key. The pieces are in `packages/shell`
-(`theme-mode.ts`, `theme-document.ts`, `theme-menu.tsx`, `theme-toggle.tsx`);
-[docs/catalogue.md](docs/catalogue.md) shows how a root route wires them.
+wrong mode), and shared between open tabs. The docs bar's theme menu and the
+footer's toggle both answer the `D` key. The pieces are in `packages/shell`
+(`theme-provider.tsx`, `theme-mode.ts`, `theme-document.ts`) and `packages/docs-ui`
+(`theme-menu.tsx`, `theme-toggle.tsx`); [docs/catalogue.md](docs/catalogue.md)
+shows how the root route wires them.
 
 ## Getting started
 
@@ -145,11 +147,12 @@ push.
 ### 3. Run the apps
 
 ```bash
-vp run dev       # demo :3000, blocks :3001, examples :3002
+vp run dev       # the site :3000, the previews :3003 to :3007
 ```
 
-The demo runs inside workerd, the runtime Cloudflare uses, so a Node-only API
-fails here rather than after deploying.
+The site runs inside workerd, the runtime Cloudflare uses, so a Node-only API
+fails here rather than after deploying. It forwards `/preview/<framework>/` to
+each preview's server, starting it on the first request.
 
 ### 4. Build for production
 
@@ -168,7 +171,7 @@ Every command runs from the repository root.
 | Command                                            | What it does                                                                                                |
 | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `vp install`                                       | installs every workspace and the git hooks                                                                  |
-| `vp run dev`                                       | the three apps with hot reload                                                                              |
+| `vp run dev`                                       | the site and the previews with hot reload                                                                   |
 | `vp run build`                                     | every app into `dist/`; prints Kirana's diagnostics                                                         |
 | `vp run check`                                     | Oxfmt, Oxlint with the Kirana rules, TypeScript (tsgolint); a lint warning fails it                         |
 | `vp check --fix`                                   | the same, fixing what can be fixed                                                                          |
@@ -192,9 +195,9 @@ everything).
 | --------------------------------------------------------------- | ----------------------------------------------------------------- |
 | `vp: command not found`                                         | install Vite+ (above) and open a new terminal, or use `bunx vp`   |
 | `lockfile had changes, but lockfile is frozen` / missing module | `vp install`                                                      |
-| `vp run dev` starts the demo on :3001 or later                  | another server holds :3000; stop it (`lsof -i :3000` shows which) |
+| `vp run dev` starts the site on :3001 or later                  | another server holds :3000; stop it (`lsof -i :3000` shows which) |
 | A task replays a stale result                                   | `vp cache clean`, and add the missing path to the task's `input`  |
-| `defineTokens() ran without being compiled` in the demo         | a Kirana library was pre-bundled; see `packages/vite-config`      |
+| `defineTokens() ran without being compiled` on a page           | a Kirana library was pre-bundled; see `packages/vite-config`      |
 
 ## Editor
 

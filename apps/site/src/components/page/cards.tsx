@@ -15,7 +15,7 @@ import {
   space,
 } from "@workspace/registry/core/scales"
 import { radius, theme } from "@workspace/registry/core/tokens"
-import type { IconProps } from "@workspace/ui/primitives/icon"
+import type { IconProps } from "@workspace/shell/icon"
 import { hue } from "./hue"
 
 const LIFT =

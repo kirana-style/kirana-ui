@@ -72,7 +72,7 @@ function resolveSource(
   for (const extension of EXTENSIONS) {
     const candidate = `${base}${extension}`
     if (existsSync(join(registry, candidate)) && !candidate.endsWith("/")) {
-      if (extension === "" && !/\.(tsx?|vue|svelte|css)$/.test(candidate))
+      if (extension === "" && !/\.(tsx?|vue|svelte|css|json)$/.test(candidate))
         continue
       return candidate
     }
@@ -162,7 +162,11 @@ export function dependenciesOf(
   const dependencies = new Map<string, string>()
   const registryDependencies = new Set<string>()
   const problems: string[] = []
+  // The item's own files first: blocks install their parts at shared places, as upstream's do
+  // (every sidebar block has a `components/app-sidebar.tsx`), where another item may own the path.
+  const own = new Set(files.map((file) => withoutExtension(file.installed)))
   const provide = (file: BuiltFile, specifier: string, path: string) => {
+    if (own.has(path) || own.has(`${path}/index`)) return
     const provider = owner.get(path) ?? owner.get(`${path}/index`)
     if (!provider)
       problems.push(
@@ -204,12 +208,15 @@ export function dependenciesOf(
   }
 }
 
+// A block's data (`dashboard-01`'s `data.json`) is a plain file, as upstream's.
 const fileType = (installed: string) =>
-  installed.startsWith("ui/")
-    ? "registry:ui"
-    : installed.startsWith("lib/")
-      ? "registry:lib"
-      : "registry:component"
+  installed.endsWith(".json")
+    ? "registry:file"
+    : installed.startsWith("ui/")
+      ? "registry:ui"
+      : installed.startsWith("lib/")
+        ? "registry:lib"
+        : "registry:component"
 
 const targetOf = (installed: string) =>
   installed.startsWith("ui/")

@@ -15,9 +15,9 @@ import {
 import {
   Alert,
   AlertDescription,
-  AlertIcon,
   AlertTitle,
-} from "@workspace/ui/components/alert"
+} from "@workspace/registry/bases/react-base/ui/alert"
+import { Icon } from "@workspace/shell/icon"
 import { fontSize, fontWeight, lineHeight, spacing, theme } from "../tokens.ts"
 
 import { accent, accents, tint } from "../accent.ts"
@@ -74,7 +74,7 @@ export function Callout({
   return (
     // A note on the page, not an announcement: `role="note"`, where the alert's own is "alert".
     <Alert role="note" sx={[tone, styles.callout]}>
-      <AlertIcon icon={icon} sx={styles.icon} />
+      <Icon icon={icon} sx={styles.icon} />
       {title ? <AlertTitle sx={styles.title}>{title}</AlertTitle> : null}
       <AlertDescription sx={styles.body}>{children}</AlertDescription>
     </Alert>

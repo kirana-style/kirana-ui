@@ -24,7 +24,7 @@ import { alpha, theme } from "@workspace/registry/core/tokens"
 import type { Sx } from "@workspace/registry/lib/sx"
 import { hue } from "@/components/page/hue"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 type Size = "sm" | "lg"
 

@@ -21,7 +21,7 @@ import {
 } from "@workspace/registry/core/scales"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
 import type { Sx } from "@workspace/registry/lib/sx"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 /** Tailwind's neutral scale, which upstream's glass is drawn in whatever the design. */
 const NEUTRAL = {

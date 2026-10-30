@@ -23,16 +23,14 @@ const SOURCES = [
 ]
 
 /**
- * The apps, each built by its own `build` script (`vp build`): the site, blocks and examples, and a
- * preview per framework, whose build is where the registry's components for it compile
+ * The apps, each built by its own `build` script (`vp build`): the site, and a preview per
+ * framework, whose build is where the registry's components for it compile
  * (`react-base` and `react-aria`, `vue-ark`, `svelte-ark`, `solid-ark`, `angular-ng`). In this
  * order: each preview writes into the site's `dist/client/preview/<framework>/`, which the `ui`
  * Worker serves.
  */
 const APPS = [
   "site",
-  "blocks",
-  "examples",
   "preview-react",
   "preview-vue",
   "preview-svelte",
@@ -98,9 +96,8 @@ export default defineConfig({
         command: "bun scripts/conformance.ts --changed",
         cache: false,
       },
-      // The site :3000, blocks :3001, examples :3002 and the previews, Vue :3003, Svelte :3004,
-      // Solid :3005, Angular :3006 and React :3007, side by side; the site forwards
-      // `/preview/<framework>/` to each.
+      // The site :3000 and the previews, Vue :3003, Svelte :3004, Solid :3005, Angular :3006 and
+      // React :3007, side by side; the site forwards `/preview/<framework>/` to each.
       dev: {
         command: 'vp run --filter "./apps/*" --parallel dev',
         cache: false,

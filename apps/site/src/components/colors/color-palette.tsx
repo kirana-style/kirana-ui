@@ -25,7 +25,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@workspace/registry/bases/react-base/ui/select"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 const KEY = "kirana-ui:color-format"
 const EVENT = "kirana-ui:color-format"

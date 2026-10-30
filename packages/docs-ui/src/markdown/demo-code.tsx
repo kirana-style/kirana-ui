@@ -13,7 +13,7 @@ import { css } from "@kirana-style/core"
 import { ArrowUp01Icon, LinkSquare02Icon } from "@hugeicons/core-free-icons"
 
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 import { useDocs } from "../provider.tsx"
 import {

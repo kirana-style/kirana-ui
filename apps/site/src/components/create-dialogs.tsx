@@ -59,7 +59,7 @@ import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
 import viteLogo from "@workspace/docs-ui/brands/vite.svg?url"
 import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import { visuallyHidden } from "@workspace/registry/styles/visually-hidden.styles"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 const VITE: SvglIcon = {
   title: "Vite",

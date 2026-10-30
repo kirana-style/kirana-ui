@@ -4,11 +4,10 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@hugeicons/core-free-icons": "catalog:",
+    "@hugeicons/react": "^1.1.10",
     "@kirana-style/core": "catalog:",
-    "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
-    "@workspace/ui": "workspace:*",
+    "@workspace/registry": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

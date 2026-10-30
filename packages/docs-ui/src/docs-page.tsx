@@ -12,7 +12,7 @@ import {
 } from "@hugeicons/core-free-icons"
 
 import type { PageHeading, PageMeta } from "@workspace/docs-core/types.ts"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 import {
   alpha,
   breakpoint,

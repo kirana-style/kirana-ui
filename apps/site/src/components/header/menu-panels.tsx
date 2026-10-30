@@ -17,7 +17,7 @@ import {
   space,
 } from "@workspace/registry/core/scales"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
-import { NavigationMenuLink } from "@workspace/ui/components/navigation-menu"
+import { NavigationMenuLink } from "@workspace/registry/bases/react-base/ui/navigation-menu"
 
 import { IconTile } from "./icon-tile"
 import { MenuArt } from "./menu-art"

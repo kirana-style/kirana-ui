@@ -12,7 +12,8 @@ import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
 import { relation } from "./kirana-stub"
 import { marker, plainStates, split } from "./markers"
-import { importsOf, packageOf } from "./registry"
+import type { Item } from "./items"
+import { dependenciesOf, importsOf, ownersOf, packageOf } from "./registry"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
 import { argumentsAt, choicesOf } from "./compose"
 import { classDiff, hookPlaces, hooksIn, placeHooks, rulesOf } from "./upstream"
@@ -543,6 +544,38 @@ describe("an item's imports", () => {
   it("name their package", () => {
     expect(packageOf("@base-ui/react/button")).toBe("@base-ui/react")
     expect(packageOf("lucide")).toBe("lucide")
+  })
+
+  it("of a block's own part are its own, where another item installs the same place", () => {
+    const file = (installed: string, content = "") => ({
+      source: installed,
+      installed,
+      content,
+    })
+    const chart = [file("components/chart-area-interactive.tsx")]
+    const block = [
+      file(
+        "blocks/dashboard-01/page.tsx",
+        'import { ChartAreaInteractive } from "@/registry/x/components/chart-area-interactive"\nimport { Card } from "@/registry/x/ui/card"'
+      ),
+      file("components/chart-area-interactive.tsx"),
+    ]
+    const card = [file("ui/card.tsx")]
+    const item = (name: string) => ({ name }) as Item
+    const owner = ownersOf([
+      [item("dashboard-01"), block],
+      [item("chart-area-interactive"), chart],
+      [item("card"), card],
+    ])
+    const found = dependenciesOf(
+      block,
+      "dashboard-01",
+      owner,
+      "@/registry/x",
+      () => undefined
+    )
+    expect([...found.registryDependencies]).toEqual(["card"])
+    expect(found.problems).toEqual([])
   })
 })
 

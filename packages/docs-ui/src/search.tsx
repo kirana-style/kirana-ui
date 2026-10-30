@@ -10,9 +10,9 @@ import { Suspense, lazy, useEffect, useState } from "react"
 import { css } from "@kirana-style/core"
 import { Search01Icon } from "@hugeicons/core-free-icons"
 
-import { Kbd, KbdGroup } from "@workspace/ui/components/kbd"
+import { Kbd, KbdGroup } from "@workspace/registry/bases/react-base/ui/kbd"
 import type { Sx } from "@workspace/registry/lib/sx"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 import {
   alpha,
   duration,
