@@ -82,3 +82,9 @@ Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` be
 ## Empty
 
 <!-- ::preview item="spinner-empty" height="360" combinations="react/base,react/aria" -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="spinner-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->

@@ -12,7 +12,8 @@
  * before would load twice. The colour mode is not in the address: the framed page reads the site's
  * mode as it loads and follows a change through the theme provider's channel.
  */
-import { useSyncExternalStore } from "react"
+import { useRef, useState, useSyncExternalStore } from "react"
+import { InformationCircleIcon } from "@hugeicons/core-free-icons"
 import type { Sx } from "@workspace/registry/lib/sx"
 import { css } from "@kirana-style/core"
 
@@ -29,7 +30,18 @@ import {
 } from "../combination.ts"
 import type { DocsCombination } from "../provider.tsx"
 import { useDocs } from "../provider.tsx"
-import { radius, spacing, theme } from "../tokens.ts"
+import { Button } from "@workspace/registry/bases/react-base/ui/button"
+import { LanguageSelector } from "@workspace/registry/bases/react-base/components/language-selector"
+import type { Language } from "@workspace/registry/bases/react-base/components/language-selector"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@workspace/registry/bases/react-base/ui/popover"
+import { LANGUAGE_MESSAGE } from "@workspace/registry/core/preview"
+import { Icon } from "@workspace/ui/primitives/icon"
+
+import { fontSize, lineHeight, radius, spacing, theme } from "../tokens.ts"
 import { DemoCode } from "./demo-code.tsx"
 
 const styles = {
@@ -44,6 +56,22 @@ const styles = {
     backgroundColor: theme.background,
   }),
   frame: css({ display: "block", width: "100%", borderWidth: 0 }),
+  // A right-to-left demo's bar, as upstream's: the language it is read in, and a note.
+  bar: css({
+    display: "flex",
+    height: spacing[16],
+    alignItems: "center",
+    paddingInline: spacing[4],
+    borderBlockEndWidth: "1px",
+    borderBlockEndStyle: "solid",
+    borderBlockEndColor: theme.border,
+  }),
+  note: css({ marginInlineStart: "auto" }),
+  noteText: css({
+    width: spacing[56],
+    fontSize: fontSize.xs,
+    lineHeight: lineHeight.xs,
+  }),
   picker: css({
     marginBlockEnd: spacing[2],
     overflowX: "auto",
@@ -93,26 +121,68 @@ export function MarkdownPreview({
   item,
   height = "360",
   combinations,
+  direction,
 }: {
   item?: string
   height?: string
   combinations?: string
+  /** `rtl`: a right-to-left demo, read in the language its bar chooses (Arabic first). */
+  direction?: string
 }) {
   const { previewSrc } = useDocs()
   const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
   const only = combinationList(combinations)
   const { available, current } = useCombination(only)
+  const rtl = direction === "rtl"
+  const [language, setLanguage] = useState<Language>("ar")
+  // The frame opens in the first language and takes the next by message, so it is not reloaded.
+  const [opened] = useState<Language>("ar")
+  const frame = useRef<HTMLIFrameElement>(null)
   if (!item || !previewSrc)
     return <p sx={styles.missing}>No preview for {item ?? "this item"}.</p>
-  const src = previewSrc(item, only ? current?.id : undefined)
+  const base = previewSrc(item, only ? current?.id : undefined)
+  const src = rtl
+    ? `${base}${base.includes("?") ? "&" : "?"}lang=${opened}`
+    : base
+  const choose = (next: Language) => {
+    setLanguage(next)
+    frame.current?.contentWindow?.postMessage(
+      { type: LANGUAGE_MESSAGE, language: next },
+      "*"
+    )
+  }
   return (
     <div sx={styles.root} data-slot="markdown-preview">
       {only ? (
         <CombinationPicker available={available} current={current} />
       ) : null}
       <div sx={styles.box}>
+        {rtl ? (
+          <div sx={styles.bar}>
+            <LanguageSelector value={language} onValueChange={choose} />
+            <Popover>
+              <PopoverTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    sx={styles.note}
+                    aria-label="About the translations"
+                  />
+                }
+              >
+                <Icon icon={InformationCircleIcon} />
+              </PopoverTrigger>
+              <PopoverContent side="bottom" align="end" sx={styles.noteText}>
+                The translations are shadcn/ui's, made with AI for
+                demonstration: not perfect, and they may contain errors.
+              </PopoverContent>
+            </Popover>
+          </div>
+        ) : null}
         {hydrated ? (
           <iframe
+            ref={frame}
             title={`${item} preview`}
             src={src}
             loading="lazy"
@@ -123,7 +193,11 @@ export function MarkdownPreview({
           <div style={{ height: `${height}px` }} sx={styles.frame} />
         )}
         {/* Prerendered folded, so its height is there before the code comes. */}
-        <DemoCode item={item} combination={current?.id ?? "react/base"} />
+        <DemoCode
+          item={item}
+          combination={current?.id ?? "react/base"}
+          rtl={rtl}
+        />
       </div>
     </div>
   )

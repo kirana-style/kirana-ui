@@ -53,7 +53,10 @@ Concretely, for a component that arrives as Tailwind:
    (`apps/v4/examples/<base>/`) port as a block's cards do (`kirana-style migrate
    tailwind`, "Adding a block"), wrapped in the preview's frame (`page.example`);
    each preview's code panel then comes from the builder (`/r/demos/<item>.json`),
-   with no step of its own. The `installation` embed is
+   with no step of its own. Its `<item>-rtl` demo goes under **RTL**, before the
+   API reference, with `direction="rtl"` on the preview; it imports
+   `useTranslation` from `../components/language-selector` and sets its own
+   `dir`, as upstream's. The `installation` embed is
    both CLIs and the manual steps, with every file the item installs. That one
    file is the
    component's page for every framework and base it has: list them in its

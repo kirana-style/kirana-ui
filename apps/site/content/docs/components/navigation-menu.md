@@ -83,6 +83,12 @@ export function NavigationMenuDemo() {
 }
 ```
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="navigation-menu-rtl" height="384" combinations="react/base" direction="rtl" -->
+
 ## API Reference
 
 See the [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu#api-reference) documentation for more information.

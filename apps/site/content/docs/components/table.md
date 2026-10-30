@@ -129,6 +129,12 @@ A table showing actions for each row using a `<DropdownMenu />` component.
 
 You can use the `<Table />` component to build more complex data tables. Combine it with [@tanstack/react-table](https://tanstack.com/table/latest) to create tables with sorting, filtering and pagination.
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="table-rtl" height="480" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/aria -->

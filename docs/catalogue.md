@@ -645,6 +645,16 @@ item and preset on both sites):
   `{ type: "design-system-params", data: { preset, style, … } }`; the page takes
   the new design, and its URL with it, so a reload keeps it. The base and item
   stay the page's own.
+- **A right-to-left demo** (`<item>-rtl`, upstream's, on both React bases) is
+  read in a language: `?lang=ar`, `he` or `en`, or the framing page's
+  `{ type: "kirana-language", language }` (`LANGUAGE_MESSAGE`), which changes it
+  without a reload. The preview app gives the item that language through
+  `LanguageProvider` and sets its direction and locale; the demo reads its
+  strings with `useTranslation` (`registry/lib/language.tsx`, upstream's
+  `language-selector`, re-exported by each base's
+  `components/language-selector.tsx` beside its `LanguageSelector`, drawn with
+  that base's Select). A docs page shows one with `direction="rtl"` on its
+  `::preview`: a bar over it to choose the language, as upstream's.
 - **The colour mode** is the site's: its cookie, or `?theme=`. In a frame, `D`
   is sent to the parent (`{ type: "dark-mode-forward" }`) as upstream's previews
   do.

@@ -152,8 +152,13 @@ export function demoCode(
     ICON_LIBRARIES.map((library) => [
       library,
       atDefaultAliases(
-        resolveIcons(source, code, combination.framework as Framework, library)
-          .content
+        // A demo whose first line imported the placeholder keeps its line break.
+        resolveIcons(
+          source,
+          code,
+          combination.framework as Framework,
+          library
+        ).content.trimStart()
       ),
     ])
   )

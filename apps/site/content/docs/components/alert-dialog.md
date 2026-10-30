@@ -159,6 +159,12 @@ Use the `AlertDialogAction` component to add a destructive action button to the 
 
 <!-- ::preview item="alert-dialog-destructive" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="alert-dialog-rtl" height="224" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### size

@@ -54,6 +54,12 @@ You can customize the colors of a badge by adding custom classes such as `bg-gre
 
 <!-- ::preview item="badge-colors" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="badge-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Badge

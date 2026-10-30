@@ -61,6 +61,12 @@ Use the `withHandle` prop on `ResizableHandle` to show a visible handle.
 
 <!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="resizable-rtl" height="320" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 See the [react-resizable-panels](https://github.com/bvaughn/react-resizable-panels/tree/main/packages/react-resizable-panels) documentation.

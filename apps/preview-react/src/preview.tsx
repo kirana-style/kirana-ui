@@ -10,10 +10,13 @@ import { css } from "@kirana-style/core"
 import { I18nProvider } from "react-aria-components"
 
 import type { DesignSystem } from "@workspace/registry/core/config"
+import { LANGUAGES } from "@workspace/registry/core/language"
 import {
   followPageDesign,
+  previewDirection,
   readPageDesign,
 } from "@workspace/registry/core/preview"
+import { LanguageProvider } from "@workspace/registry/lib/language"
 import type { PreviewDesign } from "@workspace/registry/core/preview"
 import { IconLibraryProvider } from "@workspace/registry/icons/icon-placeholder"
 
@@ -108,12 +111,21 @@ function usePreviewDesign(): [PreviewDesign, boolean] {
 
 export function Preview({ base, Item }: { base: string; Item: ComponentType }) {
   const [design, hydrated] = usePreviewDesign()
-  const rtl = design.options.rtl
+  const { language } = design.options
+  const dir = previewDirection(design.options)
+  const locale = language
+    ? LANGUAGES[language].locale
+    : dir === "rtl"
+      ? "ar"
+      : "en-US"
   return (
-    <DirectionProvider direction={rtl ? "rtl" : "ltr"}>
-      <I18nProvider locale={rtl ? "ar" : "en-US"}>
+    <DirectionProvider direction={dir}>
+      <I18nProvider locale={locale}>
         <IconLibraryProvider library={design.system.iconLibrary}>
-          <Item />
+          {/* A right-to-left demo's language; one that the URL does not name is the demo's own. */}
+          <LanguageProvider language={language}>
+            <Item />
+          </LanguageProvider>
           {hydrated && (
             <Suspense>
               <SonnerToaster position="top-center" />

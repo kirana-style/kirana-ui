@@ -44,6 +44,12 @@ A portrait aspect ratio component using the `ratio={9 / 16}` prop. This is usefu
 
 <!-- ::preview item="aspect-ratio-portrait" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="aspect-ratio-rtl" height="384" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### AspectRatio

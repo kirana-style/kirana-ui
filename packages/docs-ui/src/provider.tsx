@@ -81,6 +81,8 @@ export type DocsConfig = {
   demoCode?: (item: string) => string
   /** Which icon library's code a demo that draws icons shows (the design's). */
   iconLibrary?: string
+  /** The page on right to left, which a right-to-left demo's code links. */
+  rtlGuide?: string
 }
 
 export type DocsCombination = { id: string; label: string }

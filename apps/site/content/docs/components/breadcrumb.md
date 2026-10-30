@@ -150,6 +150,12 @@ To use a custom link component from your routing library, you can use the `rende
 
 <!-- ::preview item="breadcrumb-link" height="400" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="breadcrumb-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Breadcrumb

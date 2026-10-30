@@ -120,6 +120,12 @@ Wrap the `Accordion` in a `Card` component.
 
 <!-- ::preview item="accordion-card" height="435" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="accordion-rtl" height="300" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

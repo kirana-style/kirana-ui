@@ -148,6 +148,12 @@ Use the `placement` prop on `HoverCard` to control placement.
 
 <!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="hover-card-rtl" height="320" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

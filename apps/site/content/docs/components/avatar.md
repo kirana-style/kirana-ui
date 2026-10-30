@@ -120,6 +120,12 @@ You can use the `Avatar` component as a trigger for a dropdown menu.
 
 <!-- ::preview item="avatar-dropdown" height="400" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="avatar-rtl" height="288" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Avatar

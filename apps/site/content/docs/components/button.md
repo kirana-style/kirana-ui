@@ -176,6 +176,16 @@ You can use the `buttonVariants` helper to make a link look like a button.
 
 <!-- ::preview item="button-render" height="400" combinations="react/base,react/aria" -->
 
+<!-- ::start:only react/base,react/aria -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="button-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
+<!-- ::end:only -->
+
 ## API Reference
 
 ### Button

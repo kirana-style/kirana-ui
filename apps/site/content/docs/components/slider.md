@@ -52,6 +52,12 @@ Use the `disabled` prop to disable the slider.
 
 <!-- ::preview item="slider-disabled" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

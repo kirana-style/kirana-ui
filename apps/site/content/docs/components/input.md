@@ -101,3 +101,9 @@ To add buttons to an input, use the `ButtonGroup` component. See the [Button Gro
 A full form example with multiple inputs, a select, and a button.
 
 <!-- ::preview item="input-form" height="512" combinations="react/base,react/aria" -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="input-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->

@@ -69,6 +69,12 @@ Use `ScrollBar` with `orientation="horizontal"` for horizontal scrolling.
 
 <!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

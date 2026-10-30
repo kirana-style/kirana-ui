@@ -101,3 +101,13 @@ export class Example {
 ## Table
 
 <!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria" -->
+
+<!-- ::start:only react/base,react/aria -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
+<!-- ::end:only -->

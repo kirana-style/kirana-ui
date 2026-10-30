@@ -47,6 +47,12 @@ Horizontal separators between list items.
 
 <!-- ::preview item="separator-list" height="400" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="separator-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

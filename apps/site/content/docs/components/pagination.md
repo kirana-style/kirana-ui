@@ -84,6 +84,12 @@ Use just the previous and next buttons without page numbers. This is useful for 
 
 <!-- ::preview item="pagination-icons-only" height="300" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 `PaginationLink` is a `Button` drawn on a link: it takes the link's props, `isActive` for the
