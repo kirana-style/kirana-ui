@@ -8,7 +8,7 @@ keywords: [button group, toolbar, split button, component, base, aria]
 
 # Button Group
 
-<!-- ::preview item="button-group-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-demo" height="564" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -108,7 +108,7 @@ Wrap an `InputGroup` component to create complex input layouts.
 
 Create a split button group with a `DropdownMenu` component.
 
-<!-- ::preview item="button-group-dropdown" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-dropdown" height="588" combinations="react/base,react/aria" -->
 
 ## Select
 
@@ -120,13 +120,13 @@ Pair with a `Select` component.
 
 Use with a `Popover` component.
 
-<!-- ::preview item="button-group-popover" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-popover" height="492" combinations="react/base,react/aria" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="button-group-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="button-group-rtl" height="564" combinations="react/base,react/aria" direction="rtl" -->
 
 ## API Reference
 

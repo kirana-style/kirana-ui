@@ -2,7 +2,7 @@
  * Upstream's `chart-radial-grid`, a radial chart with a grid, on TanStack Charts' polar entry:
  * the bars between 30px and 100px with no track, over Recharts' `PolarGrid`: a
  * circle through each browser's band, and a spoke from 30px to 100px at every 20 visitors,
- * Recharts' ticks on the angle. TanStack Charts' `angleGrid` runs its spokes from the centre, so
+ * Recharts' ticks on the angle. TanStack Charts' `angleGrid` runs its spokes from the centre (LF-003), so
  * they are rules.
  */
 import { css, props as styleProps } from "@kirana-style/core"

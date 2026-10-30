@@ -2,7 +2,7 @@
  * Upstream's `chart-radial-label`, a radial chart with a label, on TanStack Charts' polar entry:
  * the simple radial chart swept from 6 o'clock through 470° (`startAngle={-90}`,
  * `endAngle={380}`), each bar's browser written in white along its middle, 5° past its start
- * (`position="insideStart"`). TanStack Charts writes no text along a path, so the labels are
+ * (`position="insideStart"`). TanStack Charts writes no text along a path (LF-001), so the labels are
  * Recharts' own, a `textPath` on an arc, in an SVG over the chart's centre.
  */
 import * as React from "react"

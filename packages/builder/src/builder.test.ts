@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vite-plus/test"
 
 import { exclusiveFrom, foreignTexts } from "./check"
-import { atDefaultAliases, previewedItems, withoutFrame } from "./demos"
+import {
+  atDefaultAliases,
+  previewedItems,
+  withoutFrame,
+  withoutPortNote,
+} from "./demos"
 import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
@@ -794,6 +799,18 @@ describe("a docs demo's code", () => {
     expect(
       withoutFrame("      <Textarea sx={page.narrow} disabled />", "react")
     ).toBe("      <Textarea disabled />")
+  })
+
+  it("leaves the port's opening note out of a demo's code", () => {
+    expect(
+      withoutPortNote(
+        '/**\n * Upstream\'s `chart-demo`, on TanStack Charts.\n */\nimport * as React from "react"\n'
+      )
+    ).toBe('import * as React from "react"\n')
+    // A comment further down is the demo's own.
+    expect(withoutPortNote('import "x"\n/** kept */\n')).toBe(
+      'import "x"\n/** kept */\n'
+    )
   })
 
   it("wraps more than one root in a fragment, in JSX only", () => {

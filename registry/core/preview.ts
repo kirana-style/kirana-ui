@@ -7,7 +7,11 @@
  * The design is attributes on `<html>` (`documentAttributes`); nothing else changes when it does,
  * except the icon library, which the page hands to its icon provider.
  */
-import { AXIS_ATTRIBUTES, POINTER_ATTRIBUTE } from "./attributes"
+import {
+  AXIS_ATTRIBUTES,
+  POINTER_ATTRIBUTE,
+  SURFACE_ATTRIBUTE,
+} from "./attributes"
 import type { DesignSystem } from "./config"
 import { LANGUAGES, isLanguage } from "./language"
 import type { Language } from "./language"
@@ -33,6 +37,8 @@ export type PreviewOptions = {
   rtl: boolean
   pointer: boolean
   language?: Language
+  /** The surface under a demo, as upstream's previews of chat parts set it (`bg-surface`). */
+  surface?: boolean
 }
 
 export type PreviewDesign = { system: DesignSystem; options: PreviewOptions }
@@ -78,6 +84,7 @@ export function readPreviewDesign(params: Params): PreviewDesign {
       rtl: flag(params.get("rtl")),
       pointer: flag(params.get("pointer")),
       ...language(params.get("lang")),
+      ...(flag(params.get("surface")) ? { surface: true } : {}),
     },
   }
 }
@@ -92,7 +99,10 @@ export function documentAttributes({
 }: PreviewDesign): Record<string, string | undefined> {
   const attributes: Record<string, string | undefined> = {
     dir: previewDirection(options),
+    // The demo's language, so its text takes the language's family (`page.body`).
+    lang: options.language ?? "en",
     [POINTER_ATTRIBUTE]: options.pointer ? "" : undefined,
+    [SURFACE_ATTRIBUTE]: options.surface ? "" : undefined,
   }
   for (const [axis, attribute] of Object.entries(AXIS_ATTRIBUTES)) {
     attributes[attribute] = system[axis as keyof typeof AXIS_ATTRIBUTES]
@@ -175,6 +185,7 @@ export function previewQuery({ system, options }: PreviewDesign) {
   if (options.rtl) query.set("rtl", "true")
   if (options.pointer) query.set("pointer", "true")
   if (options.language) query.set("lang", options.language)
+  if (options.surface) query.set("surface", "true")
   return query.toString()
 }
 
@@ -251,13 +262,14 @@ export function followPageDesign(
   }
   applyDocumentAttributes(root, documentAttributes(first))
   forwardModeKey(window)
-  // A design names no language: the demo keeps the one it is read in.
+  // A design names no language and no surface: the demo keeps the ones it is shown with.
   listenForDesign(window, (next) =>
     follow({
       ...next,
       options: {
         ...language(current.options.language ?? null),
         ...next.options,
+        ...(current.options.surface ? { surface: true } : {}),
       },
     })
   )
@@ -272,4 +284,40 @@ export function followPageDesign(
     })
   })
   return first
+}
+
+/**
+ * A docs page frames each demo, so the frame's width is not the page's: upstream shows its docs
+ * demos in the page itself, where a script asking `matchMedia` for the width (`useIsMobile`, a
+ * drawer that opens from the side on a wide screen) reads the reader's window. The framing page
+ * passes its width (`?pagewidth=`), and width queries are answered from it; CSS media queries
+ * still read the frame. Call it before anything asks.
+ */
+export function answerWidthQueriesFrom(target: Window) {
+  const width = Number(
+    new URLSearchParams(target.location.search).get("pagewidth")
+  )
+  if (!width) return
+  const original = target.matchMedia.bind(target)
+  const rem = 16
+  target.matchMedia = (query: string) => {
+    const match = /^\(\s*(max|min)-width:\s*([\d.]+)(px|rem|em)\s*\)$/.exec(
+      query.trim()
+    )
+    if (!match) return original(query)
+    const limit = Number(match[2]) * (match[3] === "px" ? 1 : rem)
+    const matches = match[1] === "max" ? width <= limit : width >= limit
+    // The page's width does not change under the frame: nothing to listen for.
+    const list = {
+      matches,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }
+    return list as unknown as MediaQueryList
+  }
 }

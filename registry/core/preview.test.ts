@@ -37,7 +37,7 @@ describe("the preview's design", () => {
     expect(design.system.radius).toBe("default")
   })
 
-  it("writes every axis's attribute, the direction and the pointer", () => {
+  it("writes every axis's attribute, the direction, the language, the pointer and the surface", () => {
     const attributes = documentAttributes(
       readPreviewDesign(params("style=vega&baseColor=stone&rtl=true"))
     )
@@ -46,9 +46,14 @@ describe("the preview's design", () => {
       "data-base-color": "stone",
       "data-theme": "stone",
       dir: "rtl",
+      lang: "en",
       "data-pointer": undefined,
+      "data-surface": undefined,
     })
-    expect(Object.keys(attributes)).toHaveLength(11)
+    expect(Object.keys(attributes)).toHaveLength(13)
+    expect(
+      documentAttributes(readPreviewDesign(params("lang=ar&surface=true")))
+    ).toMatchObject({ lang: "ar", "data-surface": "" })
   })
 
   it("reads a demo's language, whose direction wins over rtl", () => {

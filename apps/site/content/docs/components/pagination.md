@@ -82,7 +82,7 @@ A simple pagination with only page numbers.
 
 Use just the previous and next buttons without page numbers. This is useful for data tables with a rows per page selector.
 
-<!-- ::preview item="pagination-icons-only" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria" -->
 
 ## RTL
 

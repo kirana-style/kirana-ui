@@ -123,7 +123,7 @@ const chart = defineChart(
           ],
         })
       ),
-      // What the tooltip reads: each part over the whole half ring, unseen. Recharts' tooltip
+      // What the tooltip reads (LF-002): each part over the whole half ring, unseen. Recharts' tooltip
       // reads the month, so wherever the pointer is on the bars it lists both parts; here both
       // are under it, and `group-y` gathers them.
       polar({

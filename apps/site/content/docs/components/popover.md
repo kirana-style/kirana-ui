@@ -8,7 +8,7 @@ keywords: [popover, popup, floating, overlay, component, base, aria]
 
 # Popover
 
-<!-- ::preview item="popover-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -121,7 +121,7 @@ Use the `placement` prop on `Popover` to control the horizontal alignment.
 
 A popover with form fields inside.
 
-<!-- ::preview item="popover-form" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria" -->
 
 ## RTL
 

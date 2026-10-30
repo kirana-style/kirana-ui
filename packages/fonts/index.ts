@@ -67,3 +67,27 @@ export function loadDesignFonts(
       : [system.font, system.fontHeading]
   )
 }
+
+/**
+ * The families upstream's right-to-left demos are read in (its `--font-ar` and `--font-he`), and
+ * Vazirmatn, its Persian calendar's: each loaded the first time a demo in that language shows.
+ */
+const SCRIPT_LOADERS: Record<string, () => Promise<unknown>> = {
+  ar: () => import("@fontsource-variable/noto-sans-arabic"),
+  he: () => import("@fontsource-variable/noto-sans-hebrew"),
+  fa: () => import("@fontsource-variable/vazirmatn"),
+}
+
+const scriptsLoaded = new Map<string, Promise<unknown>>()
+
+/** Loads a language's family once; a language with none of its own loads nothing. */
+export function loadLanguageFont(language: string): Promise<unknown> {
+  const load = SCRIPT_LOADERS[language]
+  if (!load) return Promise.resolve()
+  let pending = scriptsLoaded.get(language)
+  if (!pending) {
+    pending = load()
+    scriptsLoaded.set(language, pending)
+  }
+  return pending
+}

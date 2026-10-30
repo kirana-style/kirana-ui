@@ -8,7 +8,7 @@ keywords: [date picker, calendar, popover, range, component, base, aria]
 
 # Date Picker
 
-<!-- ::preview item="date-picker-demo" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-demo" height="640" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -167,42 +167,42 @@ PopoverTrigger
 
 A basic date picker component.
 
-<!-- ::preview item="date-picker-basic" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-basic" height="668" combinations="react/base,react/aria" -->
 
 ## Range Picker
 
 A date picker component for selecting a range of dates.
 
-<!-- ::preview item="date-picker-range" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-range" height="760" combinations="react/base,react/aria" -->
 
 ## Date of Birth
 
 A date picker component for selecting a date of birth. This component includes a dropdown caption layout for date and month selection.
 
-<!-- ::preview item="date-picker-dob" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-dob" height="668" combinations="react/base,react/aria" -->
 
 ## Input
 
 A date picker component with an input field for selecting a date.
 
-<!-- ::preview item="date-picker-input" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-input" height="672" combinations="react/base,react/aria" -->
 
 ## Time Picker
 
 A date picker component with a time input field for selecting a time.
 
-<!-- ::preview item="date-picker-time" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-time" height="668" combinations="react/base,react/aria" -->
 
 ## Natural Language Picker
 
 This one parses natural language dates with [`chrono-node`](https://github.com/wanasit/chrono) (MIT).
 
-<!-- ::preview item="date-picker-natural-language" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="date-picker-natural-language" height="620" combinations="react/base,react/aria" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="date-picker-rtl" height="420" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="date-picker-rtl" height="640" combinations="react/base,react/aria" direction="rtl" -->
 
 A date picker takes Kirana's `sx` where upstream's takes `className`, on each of its parts.

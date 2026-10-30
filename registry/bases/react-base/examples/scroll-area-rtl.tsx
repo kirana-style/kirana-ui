@@ -5,7 +5,7 @@ import type { Translations } from "../components/language-selector"
 import { ScrollArea } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
 import { css } from "@kirana-style/core"
-import { radius } from "../../../core/tokens"
+import { radius, theme } from "../../../core/tokens"
 import { fontSize, fontWeight, lineHeight, space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 
@@ -16,6 +16,8 @@ const styles = {
     borderRadius: { "*": null, base: radius.md },
     borderStyle: { "*": null, base: "solid" },
     borderWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
   }),
   div: css({
     padding: space[4],

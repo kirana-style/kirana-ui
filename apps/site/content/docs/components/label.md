@@ -40,7 +40,7 @@ includes built-in `FieldLabel`, `FieldDescription`, and `FieldError` components.
 </Field>
 ```
 
-<!-- ::preview item="field-demo" height="704" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria" -->
 
 ## RTL
 

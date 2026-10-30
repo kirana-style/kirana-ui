@@ -8,7 +8,7 @@ keywords: [select, component, base, aria, ark]
 
 # Select
 
-<!-- ::preview item="select-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -119,13 +119,13 @@ Use `alignItemWithTrigger` on `SelectContent` to control whether the selected it
 
 Use `SelectGroup`, `SelectLabel`, and `SelectSeparator` to organize items.
 
-<!-- ::preview item="select-groups" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria" -->
 
 ## Scrollable
 
 A select with many items that scrolls.
 
-<!-- ::preview item="select-scrollable" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria" -->
 
 ## Disabled
 
@@ -179,7 +179,7 @@ Use the [Autocomplete](https://react-aria.adobe.com/Autocomplete) component from
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="select-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria" direction="rtl" -->
 
 <!-- ::end:only -->
 

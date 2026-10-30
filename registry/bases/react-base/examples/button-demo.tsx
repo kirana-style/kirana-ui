@@ -1,30 +1,34 @@
-import { css } from "@kirana-style/core"
-
-import { space } from "../../../core/scales"
-import { page } from "../../../styles/page.styles"
+import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import { Button } from "../ui/button"
+import { css } from "@kirana-style/core"
+import { breakpoint, space } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
 
-const row = css({
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-  gap: space[2],
-})
+const styles = {
+  div: css({
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: space[2],
+    flexDirection: { [breakpoint.md]: "row" },
+  }),
+}
 
 export default function ButtonDemo() {
   return (
-    <div sx={[page.example, row]}>
-      <Button>Default</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
-      <Button variant="destructive">Destructive</Button>
-      <Button variant="link">Link</Button>
-      <Button size="sm" variant="outline">
-        Small
-      </Button>
-      <Button size="lg">Large</Button>
-      <Button disabled>Disabled</Button>
+    <div sx={page.example}>
+      <div sx={styles.div}>
+        <Button variant="outline">Button</Button>
+        <Button variant="outline" size="icon" aria-label="Submit">
+          <IconPlaceholder
+            lucide="ArrowUpIcon"
+            tabler="IconArrowUp"
+            hugeicons="ArrowUp02Icon"
+            phosphor="ArrowUpIcon"
+            remixicon="RiArrowUpLine"
+          />
+        </Button>
+      </div>
     </div>
   )
 }

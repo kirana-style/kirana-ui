@@ -21,6 +21,8 @@
     "@fontsource-variable/merriweather": "catalog:",
     "@fontsource-variable/montserrat": "catalog:",
     "@fontsource-variable/noto-sans": "catalog:",
+    "@fontsource-variable/noto-sans-arabic": "catalog:",
+    "@fontsource-variable/noto-sans-hebrew": "catalog:",
     "@fontsource-variable/noto-serif": "catalog:",
     "@fontsource-variable/nunito-sans": "catalog:",
     "@fontsource-variable/outfit": "catalog:",
@@ -32,6 +34,7 @@
     "@fontsource-variable/roboto-slab": "catalog:",
     "@fontsource-variable/source-sans-3": "catalog:",
     "@fontsource-variable/space-grotesk": "catalog:",
+    "@fontsource-variable/vazirmatn": "catalog:",
     "@fontsource/instrument-serif": "catalog:",
     "@workspace/registry": "workspace:*"
   },

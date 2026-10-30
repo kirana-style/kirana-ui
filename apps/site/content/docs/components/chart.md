@@ -80,9 +80,14 @@ The chart colours are the design's tokens, `theme.chart1` to `theme.chart5`, whi
 
 Let's build your first chart. We'll build a bar chart, add a grid, axis, tooltip and legend.
 
-1. **Start by defining your data.** The following data represents the number of desktop and mobile users for each month.
+<!-- ::start:steps -->
 
-> **Note:** Your data can be in any shape. You are not limited to the shape of the data below. Name a mark's channels after your data's fields (`x: "month"`), or give them a function.
+### Start by defining your data
+
+The following data represents the number of desktop and mobile users for each month.
+
+> [!NOTE]
+> Your data can be in any shape. You are not limited to the shape of the data below. Name a mark's channels after your data's fields (`x: "month"`), or give them a function.
 
 ```tsx showLineNumbers title="components/example-chart.tsx"
 const chartData = [
@@ -95,7 +100,9 @@ const chartData = [
 ]
 ```
 
-2. **Define your chart config.** The chart config holds configuration for the chart. This is where you place human-readable strings, such as labels, icons and color tokens for theming.
+### Define your chart config
+
+The chart config holds configuration for the chart. This is where you place human-readable strings, such as labels, icons and color tokens for theming.
 
 ```tsx showLineNumbers title="components/example-chart.tsx"
 import { type ChartConfig } from "@/components/ui/chart"
@@ -112,17 +119,24 @@ const chartConfig = {
 } satisfies ChartConfig
 ```
 
-3. **Build your chart.** You can now build your chart with TanStack Charts' marks: a row per bar, and `group` to put a month's bars side by side, each in its series' colour.
+### Build your chart
 
-> **Important:** The container keeps its box's shape, 16 / 9 unless you give it an `aspectRatio` or a `height`, and `initialWidth` is the width a server draws the chart at, before the browser measures its box.
+You can now build your chart with TanStack Charts' marks: a row per bar, and `group` to put a month's bars side by side, each in its series' colour.
+
+> [!WARNING] Important
+> The container keeps its box's shape, 16 / 9 unless you give it an `aspectRatio` or a `height`, and `initialWidth` is the width a server draws the chart at, before the browser measures its box.
 
 <!-- ::preview item="chart-example-bar" height="400" combinations="react/base,react/aria" -->
+
+<!-- ::end:steps -->
 
 ### Add a Grid
 
 Let's add a grid to the chart.
 
-1. Round the value axis as Recharts does, and import `hiddenAxis`.
+<!-- ::start:steps -->
+
+### Round the value axis as Recharts does, and import `hiddenAxis`.
 
 ```tsx
 import { hiddenAxis, niceTicks } from "@/components/ui/chart"
@@ -130,7 +144,7 @@ import { hiddenAxis, niceTicks } from "@/components/ui/chart"
 const y = niceTicks(rows.map((row) => row.value))
 ```
 
-2. Give the `y` scale its grid, on those ticks.
+### Give the `y` scale its grid, on those ticks.
 
 ```tsx showLineNumbers {6-10}
 scales: {
@@ -148,11 +162,15 @@ scales: {
 
 <!-- ::preview item="chart-example-grid" height="400" combinations="react/base,react/aria" -->
 
+<!-- ::end:steps -->
+
 ### Add an Axis
 
 To add an x-axis to the chart, we'll give the `x` scale its `axis`.
 
-1. Draw its labels and nothing else: no line, no ticks, each month's first three letters.
+<!-- ::start:steps -->
+
+### Draw its labels and nothing else: no line, no ticks, each month's first three letters.
 
 ```tsx showLineNumbers {3-11}
 x: {
@@ -171,19 +189,23 @@ x: {
 
 <!-- ::preview item="chart-example-axis" height="400" combinations="react/base,react/aria" -->
 
+<!-- ::end:steps -->
+
 ### Add Tooltip
 
 So far we've only used TanStack Charts. They look great out of the box thanks to `chartTheme`, the design's colours for the chart's text, grid and series.
 
 To add a tooltip, we'll use `chartTooltip` and the custom `ChartTooltipContent` component from `chart`.
 
-1. Import `chartTooltip` and `ChartTooltipContent`.
+<!-- ::start:steps -->
+
+### Import `chartTooltip` and `ChartTooltipContent`.
 
 ```tsx
 import { ChartTooltipContent, chartTooltip } from "@/components/ui/chart"
 ```
 
-2. Give the definition the tooltip, and the container its content.
+### Give the definition the tooltip, and the container its content.
 
 ```tsx showLineNumbers {3,10}
 const chart = defineChart(
@@ -203,17 +225,21 @@ const chart = defineChart(
 
 Hover to see the tooltips. Easy, right? Two parts, and we've got a beautiful tooltip. The muted band behind the month is a mark too, shown while the month has the focus: `whenFocused(bandX(chartData, { x: "month", fill: theme.muted }), { match: "x" })`.
 
+<!-- ::end:steps -->
+
 ### Add Legend
 
 We'll do the same for the legend. We'll use the `ChartLegendContent` component from `chart`.
 
-1. Import the `ChartLegendContent` component.
+<!-- ::start:steps -->
+
+### Import the `ChartLegendContent` component.
 
 ```tsx
 import { ChartLegendContent } from "@/components/ui/chart"
 ```
 
-2. Give it to the container.
+### Give it to the container.
 
 ```tsx showLineNumbers {6}
 <ChartContainer
@@ -226,6 +252,8 @@ import { ChartLegendContent } from "@/components/ui/chart"
 ```
 
 <!-- ::preview item="chart-example-legend" height="400" combinations="react/base,react/aria" -->
+
+<!-- ::end:steps -->
 
 Done. You've built your first chart! What's next?
 

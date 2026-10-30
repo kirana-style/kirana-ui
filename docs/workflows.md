@@ -79,6 +79,16 @@ Concretely, for a component that arrives as Tailwind:
    - and for a variant that differs throughout, an override beside the source,
      `components/<item>/<framework>-<base>.md`, which is that page whole.
 
+   Upstream's other page parts have theirs: a guide's `<Steps>` is
+   `<!-- ::start:steps -->` … `<!-- ::end:steps -->` around its h3 steps, its
+   `<Callout>` a `> [!NOTE]` (amber, `> [!WARNING]`), and a preview upstream sets
+   on `bg-surface` takes `surface="true"`. A preview is a frame, so a demo's
+   CSS breakpoints read the frame's width (about 650px on a wide screen) where
+   upstream's inline demos read the page's; its scripts are told the page's
+   width (`useIsMobile`, a drawer's side). A demo that opens a menu, select,
+   combobox or popover gets a frame tall enough to show it whole below its
+   trigger, as upstream's overflows its box; measure it rather than guess.
+
    Link a component by the URL its variants share, `/docs/components/<item>`:
    every link to it leads to the reader's framework, and the URL itself
    redirects to the default.

@@ -2,7 +2,8 @@
  * Each docs demo's code as a project writes it, for the panel under its preview on the docs pages
  * (upstream's "View Code"): `<out>/demos/<item>.json`, its source for every framework and base that
  * has it. The preview's frame comes off (`page.example`, `page.narrow`: what upstream's preview
- * page does around a demo, not the demo's own code), its imports go to `kirana-style ui init`'s
+ * page does around a demo, not the demo's own code), so does the note a port opens with (a leading
+ * doc comment, written for whoever keeps the port), its imports go to `kirana-style ui init`'s
  * default aliases, and its icon placeholders resolve for each icon library as `ui add` resolves
  * them; a demo without icons is one source.
  */
@@ -124,6 +125,11 @@ export function atDefaultAliases(code: string): string {
   )
 }
 
+/** The demo without the doc comment its file opens with: the port's note, not the demo. */
+export function withoutPortNote(code: string): string {
+  return code.replace(/^\/\*\*[\s\S]*?\*\/\n+/, "")
+}
+
 /** One demo's code for one framework and base, or `undefined` where it has none. */
 export function demoCode(
   registry: string,
@@ -141,7 +147,7 @@ export function demoCode(
     registry,
     source,
     withoutFrame(
-      readFileSync(join(registry, source), "utf8"),
+      withoutPortNote(readFileSync(join(registry, source), "utf8")),
       combination.framework
     ),
     combination,

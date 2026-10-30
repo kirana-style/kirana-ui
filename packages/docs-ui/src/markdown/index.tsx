@@ -89,6 +89,51 @@ const styles = {
     lineHeight: "1",
     fontWeight: fontWeight.semibold,
   }),
+  // shadcn/ui's `<Steps>` as its guides set it (`className="mb-0 pt-2"`): `[counter-reset:step]
+  // md:ml-4 md:border-l md:pl-8`, each h3 in it a step whose number sits in a disc on the line.
+  steps: css({
+    counterReset: "step",
+    paddingBlockStart: spacing[2],
+    marginInlineStart: { base: 0, [breakpoint.md]: spacing[4] },
+    paddingInlineStart: { base: 0, [breakpoint.md]: spacing[8] },
+    borderInlineStartWidth: { base: 0, [breakpoint.md]: "1px" },
+    borderInlineStartStyle: "solid",
+    borderInlineStartColor: theme.border,
+  }),
+  stepHeading: css({ position: "relative", counterIncrement: "step" }),
+  // `.step:before`: `absolute size-9 rounded-full border-4 border-background bg-muted font-mono
+  // text-base font-medium ml-[-50px] mt-[-4px]`, with the step's number.
+  stepDisc: css({
+    position: "absolute",
+    insetInlineStart: "-50px",
+    marginBlockStart: "-4px",
+    display: { base: "none", [breakpoint.md]: "inline-flex" },
+    alignItems: "center",
+    justifyContent: "center",
+    width: spacing[9],
+    height: spacing[9],
+    borderRadius: radius.full,
+    borderWidth: "4px",
+    borderStyle: "solid",
+    borderColor: theme.background,
+    backgroundColor: theme.muted,
+    fontFamily: fontFamily.mono,
+    fontSize: fontSize.base,
+    lineHeight: "1",
+    fontWeight: fontWeight.medium,
+    "::before": { content: "counter(step)" },
+  }),
+  // shadcn/ui's heading anchor: the heading links to itself, underlined on hover with a `#` after it.
+  anchor: css({ color: "inherit", textDecorationLine: "none" }),
+  anchorText: css({
+    textDecorationLine: { base: "none", ":is(a:hover > *)": "underline" },
+    textUnderlineOffset: "4px",
+  }),
+  anchorMark: css({
+    marginInlineStart: spacing[2],
+    color: theme.mutedForeground,
+    opacity: { base: 0, ":is(a:hover > *)": 1 },
+  }),
   h3: css({
     fontSize: fontSize.lg,
     lineHeight: lineHeight.lg,
@@ -194,6 +239,25 @@ function H1(props: React.ComponentProps<"h1">) {
     </>
   )
 }
+/** A heading's text as a link to itself, as shadcn/ui's `HeadingAnchor`; plain without an id. */
+function HeadingAnchor({
+  id,
+  children,
+}: {
+  id?: string
+  children: React.ReactNode
+}) {
+  if (!id) return children
+  return (
+    <a href={`#${id}`} sx={styles.anchor}>
+      <span sx={styles.anchorText}>{children}</span>
+      <span aria-hidden="true" sx={styles.anchorMark}>
+        #
+      </span>
+    </a>
+  )
+}
+
 /** A numbered heading ("2. Add the plugin") is a step. */
 const STEP = /^(\d+)\.\s+/
 
@@ -209,24 +273,46 @@ function H2({ children, ...props }: React.ComponentProps<"h2">) {
   if (!step)
     return (
       <h2 {...props} sx={styles.h2}>
-        {children}
+        <HeadingAnchor id={props.id}>{children}</HeadingAnchor>
       </h2>
     )
   return (
     <h2 {...props} sx={[styles.h2, styles.step]}>
       <span sx={styles.stepNumber}>{step[1]}</span>
-      <span>
+      <HeadingAnchor id={props.id}>
         {(first as string).slice(step[0].length)}
         {parts.slice(1)}
-      </span>
+      </HeadingAnchor>
     </h2>
   )
 }
-const H3 = (props: React.ComponentProps<"h3">) => (
-  <h3 {...props} sx={styles.h3} />
-)
-const H4 = (props: React.ComponentProps<"h4">) => (
-  <h4 {...props} sx={styles.h4} />
+/** Set inside `<!-- ::start:steps -->`, where every h3 is a numbered step. */
+const InSteps = createContext(false)
+
+/** `<!-- ::start:steps -->` … `<!-- ::end:steps -->`: shadcn/ui's `<Steps>`. */
+function MarkdownSteps({ children }: { children?: React.ReactNode }) {
+  return (
+    <InSteps value>
+      <div sx={styles.steps} data-slot="steps">
+        {children}
+      </div>
+    </InSteps>
+  )
+}
+
+function H3({ children, ...props }: React.ComponentProps<"h3">) {
+  const step = use(InSteps)
+  return (
+    <h3 {...props} sx={[styles.h3, step ? styles.stepHeading : null]}>
+      {step ? <span aria-hidden="true" sx={styles.stepDisc} /> : null}
+      <HeadingAnchor id={props.id}>{children}</HeadingAnchor>
+    </h3>
+  )
+}
+const H4 = ({ children, ...props }: React.ComponentProps<"h4">) => (
+  <h4 {...props} sx={styles.h4}>
+    <HeadingAnchor id={props.id}>{children}</HeadingAnchor>
+  </h4>
 )
 
 /** Set inside table cells, where a link to a page with a logo shows it. */
@@ -282,6 +368,7 @@ export function createMarkdownComponents(
       "component-code": ComponentCode as CommentRegistry[string],
       installation: Installation as CommentRegistry[string],
       tabs: MarkdownTabs as unknown as CommentRegistry[string],
+      steps: MarkdownSteps as unknown as CommentRegistry[string],
       ...components,
     }),
   }

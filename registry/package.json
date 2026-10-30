@@ -11,6 +11,8 @@
     "@ark-ui/vue": "catalog:",
     "@base-ui/react": "catalog:",
     "@hugeicons/core-free-icons": "catalog:",
+    "@daypicker/persian": "catalog:",
+    "@fontsource-variable/vazirmatn": "catalog:",
     "@internationalized/date": "catalog:",
     "@shadcn/react": "catalog:",
     "@kirana-style/angular": "catalog:",

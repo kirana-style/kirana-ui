@@ -39,6 +39,17 @@ The `Calendar` component is built on top of [React DayPicker](https://react-day-
 You can use the `<Calendar>` component to build a date picker. See the
 [Date Picker](/docs/components/date-picker) page for more information.
 
+## Persian / Hijri / Jalali Calendar
+
+To use the Persian calendar, install React DayPicker's Persian add-on, `@daypicker/persian`, then edit `components/ui/calendar.tsx` and import `DayPicker` from it. (React DayPicker 9, which shadcn/ui uses, has it at `react-day-picker/persian`.)
+
+```diff
+- import { DayPicker } from "react-day-picker"
++ import { DayPicker } from "@daypicker/persian"
+```
+
+<!-- ::preview item="calendar-hijri" height="400" combinations="react/base" -->
+
 ## Selected Date (With TimeZone)
 
 The Calendar component accepts a `timeZone` prop to ensure dates are displayed and selected in the user's local timezone.
@@ -92,6 +103,12 @@ See the [React Aria](https://react-aria.adobe.com/Calendar) documentation for mo
 
 You can use the `<Calendar>` component to build a date picker. See the
 [Date Picker](/docs/components/date-picker) page for more information.
+
+## International Calendars
+
+To use international calendar systems such as Persian, Islamic, or Buddhist, use React Aria's `I18nProvider` to set the locale.
+
+<!-- ::preview item="calendar-hijri" height="400" combinations="react/aria" -->
 
 <!-- ::end:only -->
 
@@ -156,7 +173,37 @@ Use `showWeekNumber` to show week numbers.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="calendar-rtl" height="400" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::start:only react/base -->
+
+See also the [Hijri Guide](#persian--hijri--jalali-calendar) for enabling the Persian / Hijri / Jalali calendar.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See also the [International Calendars Guide](#international-calendars) for enabling the international calendars such as Persian / Hijri / Jalali.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria" direction="rtl" -->
+
+<!-- ::start:only react/base -->
+
+When using RTL, import the locale from `react-day-picker/locale` and pass both the `locale` and `dir` props to the Calendar component:
+
+```tsx showLineNumbers
+import { arSA } from "react-day-picker/locale"
+
+;<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  locale={arSA}
+  dir="rtl"
+/>
+```
+
+<!-- ::end:only -->
 
 ## API Reference
 
