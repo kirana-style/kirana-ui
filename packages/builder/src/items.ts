@@ -196,12 +196,17 @@ export const ITEMS: Item[] = [
   ),
   sharedStyles("visually-hidden", "Text only a screen reader reaches."),
   sharedStyles(
+    "scroll-fade",
+    "A scrolling region that fades out at an edge with more to scroll."
+  ),
+  sharedStyles("shimmer", "A highlight sweeping across text while it works."),
+  sharedStyles(
     "check",
     "What a checkbox, a radio and a switch share: their edge, fill and rings over their states."
   ),
   sharedStyles(
     "scope",
-    "Relations a component reads of another it may be installed without: a tooltip, an input group, a dropdown menu, and where a part sits in a button group."
+    "Relations a component reads of another it may be installed without: a tooltip, an input group, a dropdown menu, a message, and where a part sits in a button group."
   ),
   sharedStyles(
     "field-scope",
@@ -476,6 +481,48 @@ export const ITEMS: Item[] = [
     "calendar",
     "Calendar",
     "A calendar component that allows users to select a date or a range of dates.",
+    ["react"]
+  ),
+  component(
+    "attachment",
+    "Attachment",
+    "Displays a file or image attachment with media, metadata, upload state, and actions.",
+    ["react"]
+  ),
+  component(
+    "bubble",
+    "Bubble",
+    "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
+    ["react"]
+  ),
+  component(
+    "message",
+    "Message",
+    "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
+    ["react"]
+  ),
+  component(
+    "message-scroller",
+    "Message Scroller",
+    "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
+    ["react"]
+  ),
+  component(
+    "questionnaire",
+    "Questionnaire",
+    "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
+    ["react"]
+  ),
+  component(
+    "code-block",
+    "Code Block",
+    "Displays code, terminal output and diffs with an optional header, line numbers and a copy button.",
+    ["react"]
+  ),
+  component(
+    "trace",
+    "Trace",
+    "The building block for reasoning, tool calls, sources and more.",
     ["react"]
   ),
   component(

@@ -32,6 +32,7 @@ export const cardScope = relation("card")
 
 const SMALL = '[data-size="sm"]'
 const WITH_FOOTER = ':has([data-slot="card-footer"])'
+const HOLDS_CHOICES = ':has(> [data-slot="questionnaire-choices"])'
 
 /** Rhea's corners: `rounded-[min(var(--radius-4xl),24px)]`. */
 const RHEA_CORNER = `min(${radius["4xl"]}, 24px)`
@@ -200,7 +201,14 @@ export const card = {
   }),
 
   // cn-card-content
-  content: css({ paddingInline: cardCtx.spacing }),
+  // In Vega, content holding a questionnaire's choices stacks them:
+  // `.cn-card-content:has(> [data-slot=questionnaire-choices])`.
+  content: css({
+    paddingInline: cardCtx.spacing,
+    display: { [vega]: { [HOLDS_CHOICES]: "flex" } },
+    flexDirection: { [vega]: { [HOLDS_CHOICES]: "column" } },
+    gap: { [vega]: { [HOLDS_CHOICES]: space[3] } },
+  }),
 
   // cn-card-footer: a tinted band in Nova, a rule in Lyra, padding alone in Vega and Maia.
   footer: css({

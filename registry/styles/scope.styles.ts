@@ -25,6 +25,9 @@ export const dropdownMenuScope = relation("dropdown-menu-content", {
   optional: true,
 })
 
+/** A Message, read by its parts and by a Bubble inside it (`group/message`). */
+export const messageScope = relation("message", { optional: true })
+
 /** Inside a tooltip's content. */
 export const IN_TOOLTIP = tooltipScope.within()
 

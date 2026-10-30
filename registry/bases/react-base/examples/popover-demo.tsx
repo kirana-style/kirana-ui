@@ -1,4 +1,4 @@
-import { css } from "@kirana-style/core"
+import { css, select } from "@kirana-style/core"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
@@ -11,7 +11,9 @@ import { page } from "../../../styles/page.styles"
 const styles = {
   w80: css({ width: { "*": null, base: space[80] } }),
   gridGap4: css({ display: "grid", gap: { "*": null, base: space[4] } }),
-  spaceY2: css({ display: "flex", flexDirection: "column", gap: space[2] }),
+  spaceY2: css({
+    [select.child(":not(:last-child)")]: { marginBottom: space[2] },
+  }),
   leadingNoneFontMedium: css({
     lineHeight: "1",
     fontWeight: fontWeight.medium,

@@ -12,6 +12,7 @@
     "@base-ui/react": "catalog:",
     "@hugeicons/core-free-icons": "catalog:",
     "@internationalized/date": "catalog:",
+    "@shadcn/react": "catalog:",
     "@kirana-style/angular": "catalog:",
     "@kirana-style/core": "catalog:",
     "@kirana-style/preset-scales": "catalog:",
@@ -32,7 +33,8 @@
     "solid-js": "catalog:",
     "sonner": "catalog:",
     "svelte": "catalog:",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/d3-shape": "catalog:",

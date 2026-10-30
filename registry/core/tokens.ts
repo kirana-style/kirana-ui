@@ -78,6 +78,7 @@ export const alpha = defineTokens(
     primary10: `color-mix(in oklab, ${theme.primary} 10%, transparent)`,
     primary20: `color-mix(in oklab, ${theme.primary} 20%, transparent)`,
     primary30: `color-mix(in oklab, ${theme.primary} 30%, transparent)`,
+    primary40: `color-mix(in oklab, ${theme.primary} 40%, transparent)`,
     primary80: `color-mix(in oklab, ${theme.primary} 80%, transparent)`,
     secondary80: `color-mix(in oklab, ${theme.secondary} 80%, transparent)`,
     muted20: `color-mix(in oklab, ${theme.muted} 20%, transparent)`,

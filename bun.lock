@@ -359,6 +359,7 @@
         "@kirana-style/core": "catalog:",
         "@kirana-style/preset-scales": "catalog:",
         "@kirana-style/states": "catalog:",
+        "@shadcn/react": "catalog:",
         "@tanstack/charts": "catalog:",
         "cmdk": "catalog:",
         "d3-shape": "catalog:",
@@ -376,6 +377,7 @@
         "sonner": "catalog:",
         "svelte": "catalog:",
         "vue": "catalog:",
+        "zod": "catalog:",
       },
       "devDependencies": {
         "@types/d3-shape": "catalog:",
@@ -440,6 +442,7 @@
     "@kirana-style/registry": "0.3.5",
     "@kirana-style/states": "0.3.5",
     "@kirana-style/vite": "0.3.5",
+    "@shadcn/react": "^0.3.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tanstack/charts": "^1.1.0",
     "@tanstack/react-router": "^1.170.46",
@@ -473,6 +476,7 @@
     "vite-plugin-solid": "^2.11.14",
     "vite-plus": "1.4.0",
     "vue": "^3.5.44",
+    "zod": "^4.6.7",
   },
   "packages": {
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],

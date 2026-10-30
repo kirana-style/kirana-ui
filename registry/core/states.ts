@@ -155,6 +155,12 @@ export const toast = {
   behind: { base: Base.Toast.Content.behind },
 } as const satisfies Record<string, StateKeys>
 
+/** A collapsible panel's first frame and its exit, which it animates its height over. */
+export const collapsiblePanel = {
+  starting: { base: Base.Collapsible.Panel.startingStyle },
+  ending: { base: Base.Collapsible.Panel.endingStyle },
+} as const satisfies Record<string, StateKeys>
+
 /**
  * A checkbox's states, as upstream reads them on each base: Base UI's root is a `span`, so its
  * `disabled:` never matches (a disabled one dims through its Field, `group-has-disabled/field:`).

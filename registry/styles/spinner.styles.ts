@@ -1,7 +1,8 @@
 /**
  * Spinner: shadcn/ui's `bases/base/ui/spinner.tsx` (MIT), the same in every style: a loader icon,
  * `size-4 animate-spin`. A badge's spinner is the badge's icon size, which upstream's badge forces
- * on every `svg` child and Kirana writes below the spinner's own size.
+ * on every `svg` child and Kirana writes below the spinner's own size; a standing attachment's
+ * media is `size-6` likewise.
  */
 import { css, keyframes } from "@kirana-style/core"
 
@@ -11,6 +12,10 @@ import { space, spacing } from "../core/scales"
 /** A badge's own child (its `[&>svg]:size-3!`, `size-2.5` in Mira). */
 const IN_BADGE = ':is([data-slot="badge"] > *)'
 
+/** A standing attachment's media child (its `*:data-[slot=spinner]:size-6!`). */
+const IN_STANDING_ATTACHMENT =
+  ':is([data-slot="attachment"][data-orientation="vertical"] [data-slot="attachment-media"] > *)'
+
 // Tailwind's `spin`.
 const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 
@@ -18,10 +23,12 @@ export const spinner = css({
   width: {
     base: space[4],
     [IN_BADGE]: { base: space[3], [axes.style.mira]: spacing(2.5) },
+    [IN_STANDING_ATTACHMENT]: space[6],
   },
   height: {
     base: space[4],
     [IN_BADGE]: { base: space[3], [axes.style.mira]: spacing(2.5) },
+    [IN_STANDING_ATTACHMENT]: space[6],
   },
   animationName: spin,
   animationDuration: "1s",
