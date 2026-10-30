@@ -1,5 +1,6 @@
 "use client"
 
+import { props as styleProps } from "@kirana-style/core"
 import {
   DisclosurePanel as CollapsibleContentPrimitive,
   Disclosure as CollapsiblePrimitive,
@@ -11,23 +12,39 @@ import type {
   DisclosureProps,
 } from "react-aria-components"
 
-function Collapsible({ ...props }: DisclosureProps) {
-  return <CollapsiblePrimitive data-slot="collapsible" {...props} />
+import type { Sx } from "../../../lib/sx"
+
+// Unstyled, as upstream's: a caller's `sx` is all they draw.
+type Props<P> = Omit<P, "className"> & { sx?: Sx }
+
+function Collapsible({ sx, ...props }: Props<DisclosureProps>) {
+  return (
+    <CollapsiblePrimitive
+      data-slot="collapsible"
+      {...props}
+      {...styleProps(sx)}
+    />
+  )
 }
 
-function CollapsibleTrigger({ ...props }: ButtonProps) {
+function CollapsibleTrigger({ sx, ...props }: Props<ButtonProps>) {
   return (
     <CollapsibleTriggerPrimitive
       slot="trigger"
       data-slot="collapsible-trigger"
       {...props}
+      {...styleProps(sx)}
     />
   )
 }
 
-function CollapsibleContent({ ...props }: DisclosurePanelProps) {
+function CollapsibleContent({ sx, ...props }: Props<DisclosurePanelProps>) {
   return (
-    <CollapsibleContentPrimitive data-slot="collapsible-content" {...props} />
+    <CollapsibleContentPrimitive
+      data-slot="collapsible-content"
+      {...props}
+      {...styleProps(sx)}
+    />
   )
 }
 

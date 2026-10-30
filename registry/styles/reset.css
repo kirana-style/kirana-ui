@@ -4,8 +4,8 @@
  * the design (the page's colours and font) is applied with `sx` on `<html>` and `<body>`.
  *
  * In the `reset` layer, which an app's `kirana.config.ts` puts underneath every Kirana rule
- * (`layers: { before: ["reset"] }`). No `cursor: pointer` on buttons: that is the design
- * system's pointer option (`data-pointer` on `<html>`).
+ * (`layers: { before: ["reset"] }`). No `cursor: pointer` on buttons but under the design
+ * system's pointer option (`data-pointer` on `<html>`), at the end.
  */
 
 @layer reset {
@@ -126,5 +126,13 @@
 
   [hidden]:where(:not([hidden="until-found"])) {
     display: none !important;
+  }
+
+  /*
+   * The pointer option: the pointer cursor on enabled buttons, as shadcn/ui's `init --pointer`
+   * writes it, with `data-pointer` on `<html>`. Tailwind 4, and so upstream, keeps the default.
+   */
+  :where([data-pointer]) :where(button, [role="button"]):not(:disabled) {
+    cursor: pointer;
   }
 }

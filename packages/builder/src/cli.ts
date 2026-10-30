@@ -4,6 +4,8 @@
  *
  * - in Kirana's format, which `kirana-style ui` reads: `<out>/<item>.json`, one item for every
  *   framework and base with its style modules as written, and `<out>/index.json`;
+ * - each docs demo's code as a project writes it, for the panel under its preview:
+ *   `<out>/demos/<item>.json` (`demos.ts`);
  * - for shadcn/ui's CLI, every combination flattened, checked against the live styles with Kirana
  *   (one session, `session.ts`), each handle and each composition of handles in the markup
  *   (`compose.ts`), and validated against shadcn/ui's schema:
@@ -11,7 +13,13 @@
  *   `<out>/shadcn/index.json`.
  */
 import { spawnSync } from "node:child_process"
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
+import {
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs"
 import { join, relative } from "node:path"
 import { parseArgs } from "node:util"
 
@@ -25,6 +33,8 @@ import {
   roundTrip,
 } from "./check"
 import { compositionProbes, compositionsOf } from "./compose"
+import type { DemoCode } from "./demos"
+import { demoCode, previewedItems } from "./demos"
 import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
@@ -308,6 +318,39 @@ problems.push(
   )
 )
 
+// Each docs demo's code, for every framework and base that has it.
+const markdownIn = (folder: string): string[] =>
+  readdirSync(folder).flatMap((name) => {
+    const path = join(folder, name)
+    if (statSync(path).isDirectory()) return markdownIn(path)
+    return name.endsWith(".md") ? [readFileSync(path, "utf8")] : []
+  })
+const demos = previewedItems(markdownIn(join(ROOT, "apps", "site", "content")))
+mkdirSync(join(values.out!, "demos"), { recursive: true })
+let demoCount = 0
+for (const item of demos) {
+  const code: DemoCode = {}
+  for (const { framework, base } of FRAMEWORK_BASES) {
+    const combination = COMBINATIONS.find(
+      (each) => each.framework === framework && each.base === base
+    )
+    if (!combination) continue
+    try {
+      const source = demoCode(REGISTRY, combination, item)
+      if (source !== undefined) code[`${framework}/${base}`] = source
+    } catch (error) {
+      problems.push(`demo ${item} (${framework}/${base}): ${String(error)}`)
+    }
+  }
+  // A block previewed in the docs shows its own code on its page.
+  if (Object.keys(code).length === 0) continue
+  writeFileSync(
+    join(values.out!, "demos", `${item}.json`),
+    `${JSON.stringify(code)}\n`
+  )
+  demoCount += 1
+}
+
 const seconds = ((performance.now() - started) / 1000).toFixed(1)
 if (problems.length) {
   console.error(problems.join("\n"))
@@ -317,5 +360,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )

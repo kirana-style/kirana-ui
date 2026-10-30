@@ -81,3 +81,23 @@ export class Example {
 ```
 
 <!-- ::end:tabs -->
+
+## Avatar
+
+<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria" -->
+
+## Card
+
+<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria" -->
+
+## Text
+
+<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria" -->
+
+## Form
+
+<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria" -->
+
+## Table
+
+<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria" -->

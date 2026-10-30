@@ -86,6 +86,9 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     registryItem: (name) => `/r/${name}.json`,
     // The code installing an item writes, in the reader's style.
     codeStyle: design.system.style,
+    // A demo's code, as a project writes it, with the reader's icon library.
+    demoCode: (item) => `/r/demos/${item}.json`,
+    iconLibrary: design.system.iconLibrary,
   }
   return <DocsProvider value={value}>{children}</DocsProvider>
 }

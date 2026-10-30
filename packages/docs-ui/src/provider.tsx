@@ -73,6 +73,14 @@ export type DocsConfig = {
   registryItem?: (name: string) => string
   /** Which of an item's flattened builds the code panel shows (the design's style). */
   codeStyle?: string
+  /**
+   * Where a demo's code is served, as a project writes it, for the panel under its preview
+   * (`{ "<framework>/<base>": source | { <icon library>: source } }`). Without it, a preview
+   * shows no code.
+   */
+  demoCode?: (item: string) => string
+  /** Which icon library's code a demo that draws icons shows (the design's). */
+  iconLibrary?: string
 }
 
 export type DocsCombination = { id: string; label: string }

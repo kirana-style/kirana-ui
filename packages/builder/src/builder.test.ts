@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vite-plus/test"
 
 import { exclusiveFrom, foreignTexts } from "./check"
+import { atDefaultAliases, previewedItems, withoutFrame } from "./demos"
 import { changesFrom, classifier, flattenRecipe, flattenValue } from "./flatten"
 import { generate, quote } from "./generate"
 import type { RecipeHandle, StyleHandle } from "./kirana-stub"
@@ -756,5 +757,79 @@ describe("a read of a state key", () => {
       classifier({ style: "nova", base: "aria" })
     ) as Record<string, string>
     expect(Object.keys(flat)).toEqual([open("aria", "[data-expanded]")])
+  })
+})
+
+describe("a docs demo's code", () => {
+  it("takes the preview's frame off, keeping the demo's own style", () => {
+    const framed = [
+      'import { page } from "../../../styles/page.styles"',
+      'import { Button } from "../ui/button"',
+      "",
+      "export default function Demo() {",
+      "  return (",
+      "    <div sx={page.example}>",
+      "      <Button>One</Button>",
+      "    </div>",
+      "  )",
+      "}",
+    ].join("\n")
+    expect(withoutFrame(framed, "react")).toBe(
+      [
+        'import { Button } from "../ui/button"',
+        "",
+        "export default function Demo() {",
+        "  return (",
+        "    <Button>One</Button>",
+        "  )",
+        "}",
+      ].join("\n")
+    )
+    expect(withoutFrame("    <div sx={[page.example, row]}>", "react")).toBe(
+      "    <div sx={row}>"
+    )
+    expect(withoutFrame('  <div :sx="[page.example, column]">', "vue")).toBe(
+      '  <div :sx="column">'
+    )
+    expect(
+      withoutFrame("      <Textarea sx={page.narrow} disabled />", "react")
+    ).toBe("      <Textarea disabled />")
+  })
+
+  it("wraps more than one root in a fragment, in JSX only", () => {
+    const framed = [
+      "    <div sx={page.example}>",
+      "      <A />",
+      "      <B />",
+      "    </div>",
+    ].join("\n")
+    expect(withoutFrame(framed, "react")).toBe(
+      ["    <>", "      <A />", "      <B />", "    </>"].join("\n")
+    )
+    expect(
+      withoutFrame(
+        framed.replace("sx={", ':sx="').replace("example}", 'example"'),
+        "vue"
+      )
+    ).toBe(["    <A />", "    <B />"].join("\n"))
+  })
+
+  it("names its imports at the default aliases", () => {
+    expect(
+      atDefaultAliases(
+        'import { Button } from "@/registry/ui/button"\nimport { space } from "@/registry/lib/kirana/scales"'
+      )
+    ).toBe(
+      'import { Button } from "@/components/ui/button"\nimport { space } from "@/lib/kirana/scales"'
+    )
+  })
+
+  it("reads the items the docs preview", () => {
+    expect(
+      previewedItems([
+        '<!-- ::preview item="button-demo" height="360" -->\n<!-- ::preview item="accordion-demo" -->',
+        '<!-- ::preview item="button-demo" -->',
+      ])
+    ).toEqual(["accordion-demo", "button-demo"])
   })
 })

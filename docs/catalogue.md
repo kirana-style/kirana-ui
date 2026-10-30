@@ -583,7 +583,13 @@ and build) parses it into `apps/site/src/generated`, not committed, with `llms.t
 markdown twin per page (`/docs/<slug>.md`, `/docs/index.md` for `/docs`): each page's text without
 its own title, which the twin's header writes, its blocks' markers dropped, its links absolute (a
 docs page's to its twin), a preview as a link to its page and the code panel as links to the item's
-registry document and its flattened shadcn/ui file. A page embeds an item's live preview with `<!-- ::preview item="button-demo" -->`.
+registry document and its flattened shadcn/ui file. A page embeds an item's live preview with `<!-- ::preview item="button-demo" -->`,
+and under it, in the same box as upstream's, the demo's code: its first three lines under a View
+Code button, then the whole of it (`markdown/demo-code.tsx`). That code is the demo as a project
+writes it, which the builder writes for every item a page previews (`/r/demos/<item>.json`,
+`packages/builder/src/demos.ts`): the preview's frame (`page.example`) off, its imports at
+`ui init`'s default aliases, its icon placeholders resolved by Kirana's installer for each icon
+library, the reader's shown.
 Each ported component has one source, `apps/site/content/docs/components/<item>.md`, and a page
 per framework and base it has markup for, at `/docs/components/<framework>/<base>/<item>` (the
 scheme `/preview` and the registry use), so each framework's page is its own for search engines:
