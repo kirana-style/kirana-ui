@@ -27,7 +27,7 @@ const styles = {
 const people = [
   {
     username: "shadcn",
-    avatar: "https://github.com/shadcn.png",
+    avatar: "/avatars/kirana.png",
     email: "shadcn@vercel.com",
   },
   {

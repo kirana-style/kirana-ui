@@ -9,11 +9,20 @@ import { VARIANTS } from "../src/lib/variants.ts"
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
 
 /**
+ * Pages that are guides to building a component from others, as upstream's: no item of their own,
+ * so they take the variants of the one they build on.
+ */
+const BUILT_ON: Record<string, string> = {
+  "data-table": "table",
+  "date-picker": "calendar",
+}
+
+/**
  * The variants a component's markup exists in, by the registry's items: a page documents exactly
  * those (`checkVariants`).
  */
 function markupOf(name: string): string[] | undefined {
-  const item = ITEMS.find((entry) => entry.name === name)
+  const item = ITEMS.find((entry) => entry.name === (BUILT_ON[name] ?? name))
   if (!item) return undefined
   return FRAMEWORK_BASES.filter((entry) =>
     item.files({ ...entry, id: `${entry.bases}-nova`, style: "nova" })

@@ -22,7 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 export function Example() {
   return (
     <Avatar>
-      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   )
@@ -79,7 +79,7 @@ const online = css({
 })
 
 <Avatar>
-  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
   <AvatarBadge sx={online} />
 </Avatar>
 ```

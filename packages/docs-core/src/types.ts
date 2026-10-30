@@ -22,7 +22,6 @@ export type PageMeta = {
    * `api`, `config`, `cli`, `diagnostics` — free text, the layout picks the tint.
    */
   readonly kind?: string
-  readonly headings: readonly PageHeading[]
   /**
    * The variant this page documents, when its source is published once per variant (a component
    * per framework and base, `variants.ts`): which one, the neutral URL every variant shares (the

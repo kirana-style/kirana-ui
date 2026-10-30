@@ -127,3 +127,7 @@ Candidates for the Kirana copy, which would serve any registry's docs:
 - `markdown/demo-code.tsx`: `rtl` (new) puts upstream's note over a right-to-left demo's code: it
   sets `dir` and its language itself because the site reads left to right, and links the guide,
   `DocsConfig.rtlGuide` (new, optional).
+- `docs-page.tsx`: `headings` (new, required) is the table of contents, from the page's own document
+  (`pageHeadings` in docs-core's `pages.ts`). The manifest's page entries no longer carry their
+  headings: every page of the site loaded every docs page's sections in its first chunk, which grew
+  with each page.

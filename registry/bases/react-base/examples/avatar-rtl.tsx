@@ -60,8 +60,8 @@ export default function AvatarRtl() {
       <div sx={styles.div} dir={dir}>
         <Avatar>
           <AvatarImage
-            src="https://github.com/shadcn.png"
-            alt="@shadcn"
+            src="/avatars/kirana.png"
+            alt="@kirana"
             sx={styles.avatarImage}
           />
           <AvatarFallback>CN</AvatarFallback>
@@ -76,7 +76,7 @@ export default function AvatarRtl() {
         </Avatar>
         <AvatarGroup sx={styles.avatarGroup}>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <Avatar>

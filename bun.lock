@@ -242,7 +242,7 @@
       "name": "@workspace/docs-core",
       "version": "0.0.0",
       "dependencies": {
-        "@tanstack/highlight": "^1.1.0",
+        "@tanstack/highlight": "catalog:",
         "@tanstack/markdown": "^1.0.0",
       },
       "devDependencies": {
@@ -386,6 +386,9 @@
         "@kirana-style/states": "catalog:",
         "@shadcn/react": "catalog:",
         "@tanstack/charts": "catalog:",
+        "@tanstack/highlight": "catalog:",
+        "@tanstack/react-table": "catalog:",
+        "chrono-node": "catalog:",
         "cmdk": "catalog:",
         "d3-shape": "catalog:",
         "date-fns": "catalog:",
@@ -472,13 +475,16 @@
     "@shadcn/react": "^0.3.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tanstack/charts": "^1.1.0",
+    "@tanstack/highlight": "^1.2.0",
     "@tanstack/react-router": "^1.170.46",
     "@tanstack/react-start": "^1.169.4",
+    "@tanstack/react-table": "^9.3.1",
     "@types/d3-shape": "^3.1.8",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-vue": "^6.0.10",
+    "chrono-node": "^2.10.3",
     "cmdk": "^1.1.1",
     "d3-shape": "^3.2.0",
     "date-fns": "^4.4.0",
@@ -1683,6 +1689,8 @@
     "chalk": ["chalk@5.6.2", "", {}, "sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA=="],
 
     "chokidar": ["chokidar@5.0.0", "", { "dependencies": { "readdirp": "^5.0.0" } }, "sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw=="],
+
+    "chrono-node": ["chrono-node@2.10.3", "", {}, "sha512-MOfrzXgSMZTH4SZ5gyRKQCVwiCrCKY+uYkSJiWoRLXS88DA6WGJm8UjgS+VVEuUQeew/UUXaxrO+SeDn/WCisg=="],
 
     "cli-cursor": ["cli-cursor@5.0.0", "", { "dependencies": { "restore-cursor": "^5.0.0" } }, "sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw=="],
 

@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
 import { Markdown } from "@tanstack/markdown/react"
 
+import { pageHeadings } from "@workspace/docs-core/pages.ts"
 import { chooseCombination } from "@workspace/docs-ui/combination.ts"
 import { DocsPage } from "@workspace/docs-ui/docs-page.tsx"
 
@@ -67,7 +68,12 @@ function Page() {
   }, [variant])
 
   return (
-    <DocsPage meta={meta} previous={previous} next={next}>
+    <DocsPage
+      meta={meta}
+      headings={pageHeadings(document)}
+      previous={previous}
+      next={next}
+    >
       <Markdown components={markdownComponents}>{document}</Markdown>
     </DocsPage>
   )

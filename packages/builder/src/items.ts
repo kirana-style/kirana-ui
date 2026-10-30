@@ -189,6 +189,21 @@ export const ITEMS: Item[] = [
     files: (combination) =>
       react(combination) ? ["lib/use-mobile.ts"] : undefined,
   },
+  {
+    name: "use-highlighted-code",
+    type: "registry:lib",
+    title: "useHighlightedCode",
+    description:
+      "A code's lines, highlighted with TanStack Highlight, for Code Block.",
+    files: (combination) =>
+      react(combination)
+        ? [
+            "lib/use-highlighted-code.ts",
+            "lib/highlighter.tsx",
+            "styles/highlight.styles.ts",
+          ]
+        : undefined,
+  },
   sharedStyles("overlay", "How popups, modals and backdrops come and go."),
   sharedStyles(
     "menu",

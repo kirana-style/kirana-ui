@@ -63,8 +63,11 @@ Concretely, for a component that arrives as Tailwind:
    frontmatter, `variants: [react/base, react/aria, vue/ark]`, in the order
    `apps/site/src/lib/variants.ts` gives (the content generator fails when they
    differ from the frameworks the registry has markup for), and the generator
-   writes a page for each, at `/docs/components/<framework>/<base>/<item>`. Say
-   where they differ:
+   writes a page for each, at `/docs/components/<framework>/<base>/<item>`. A
+   guide to building a component from others, as upstream's Data Table and Date
+   Picker, has no item of its own: it takes the variants of the item it builds
+   on (`BUILT_ON` in `apps/site/scripts/generate-content.ts`). Say where they
+   differ:
    - `<!-- ::start:only react/base,react/aria -->` … `<!-- ::end:only -->` for
      a passage only some variants have (shadcn/ui's CLI is React's, a note is
      one base's);

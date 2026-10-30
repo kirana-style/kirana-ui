@@ -34,6 +34,11 @@ See the [React DayPicker](https://react-day-picker.js.org) documentation for mor
 
 The `Calendar` component is built on top of [React DayPicker](https://react-day-picker.js.org).
 
+## Date Picker
+
+You can use the `<Calendar>` component to build a date picker. See the
+[Date Picker](/docs/components/date-picker) page for more information.
+
 ## Selected Date (With TimeZone)
 
 The Calendar component accepts a `timeZone` prop to ensure dates are displayed and selected in the user's local timezone.
@@ -82,6 +87,11 @@ return <Calendar value={date} onChange={setDate} />
 ```
 
 See the [React Aria](https://react-aria.adobe.com/Calendar) documentation for more information.
+
+## Date Picker
+
+You can use the `<Calendar>` component to build a date picker. See the
+[Date Picker](/docs/components/date-picker) page for more information.
 
 <!-- ::end:only -->
 

@@ -5,7 +5,7 @@
   "private": true,
   "description": "The content engine of the docs framework, copied from the Kirana repository (CHANGES.md in docs-ui lists every change made here): markdown to parsed documents, nav, search index, llms.txt and markdown twins, built on @tanstack/markdown and @tanstack/highlight.",
   "dependencies": {
-    "@tanstack/highlight": "^1.1.0",
+    "@tanstack/highlight": "catalog:",
     "@tanstack/markdown": "^1.0.0"
   },
   "devDependencies": {

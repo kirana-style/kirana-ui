@@ -151,8 +151,8 @@ function MessageWithAvatar() {
           <MessageAvatar>
             <Avatar>
               <AvatarImage
-                src="https://github.com/shadcn.png"
-                alt="@shadcn"
+                src="/avatars/kirana.png"
+                alt="@kirana"
                 sx={styles.grayscale}
               />
               <AvatarFallback>CN</AvatarFallback>
@@ -202,10 +202,7 @@ function MessageWithAvatar() {
         <Message>
           <MessageAvatar>
             <Avatar>
-              <AvatarImage
-                src="https://avatar.vercel.sh/shadcn"
-                alt="@shadcn"
-              />
+              <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </MessageAvatar>
@@ -290,10 +287,7 @@ function MessageGroupExample() {
           <Message align="end">
             <MessageAvatar>
               <Avatar>
-                <AvatarImage
-                  src="https://avatar.vercel.sh/shadcn"
-                  alt="@shadcn"
-                />
+                <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </MessageAvatar>
@@ -318,10 +312,7 @@ function MessageGroupExample() {
           <Message>
             <MessageAvatar>
               <Avatar>
-                <AvatarImage
-                  src="https://avatar.vercel.sh/shadcn"
-                  alt="@shadcn"
-                />
+                <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </MessageAvatar>

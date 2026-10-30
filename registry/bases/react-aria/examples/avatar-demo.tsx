@@ -33,8 +33,8 @@ export default function AvatarDemo() {
       <div sx={styles.row}>
         <Avatar>
           <AvatarImage
-            src="https://github.com/shadcn.png"
-            alt="@shadcn"
+            src="/avatars/kirana.png"
+            alt="@kirana"
             sx={styles.grayscale}
           />
           <AvatarFallback>CN</AvatarFallback>
@@ -49,7 +49,7 @@ export default function AvatarDemo() {
         </Avatar>
         <AvatarGroup sx={styles.grayscale}>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <Avatar>

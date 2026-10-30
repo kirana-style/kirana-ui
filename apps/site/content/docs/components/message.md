@@ -30,7 +30,7 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 <Message>
   <MessageAvatar>
     <Avatar>
-      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   </MessageAvatar>
