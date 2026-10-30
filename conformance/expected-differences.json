@@ -29,7 +29,7 @@
     {
       "element": "button[data-slot=\"button\"]",
       "property": "line-height",
-      "route": "button-example\\?preset=b1D0dv72",
+      "route": "(button|bubble|message)-example\\?preset=b1D0dv72",
       "reason": "Mira's extra-small button: upstream's site keeps `text-xs/relaxed`'s line height under `text-[0.625rem]`, its installed copy loses it to cn; the registry follows the install"
     },
     {
@@ -1041,6 +1041,240 @@
       "property": "bottom",
       "route": "/aria/calendar-example",
       "reason": "React Aria places a popup from the page's end, and the page's height follows FieldLabel's line height; its top matches"
+    },
+    {
+      "element": "Actions › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Card and Dialog › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Chat Answer › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Diff › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Diff, Wrap and Highlighting › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Highlighted Lines › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Languages › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Line Numbers › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Markdown › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "RTL › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Show More › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Show More with Max Height › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Single Line and Empty › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Small Combinations › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Start Line › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Streaming › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Syntax Highlighting › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Tabs › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Typeset › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Wrap and Line Numbers › ",
+      "property": "(element)",
+      "route": "code-block-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "code-block-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so the grid's rows change"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "code-block-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so the grid's rows change"
+    },
+    {
+      "element": "Chat › ",
+      "property": "(element)",
+      "route": "trace-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Reasoning › ",
+      "property": "(element)",
+      "route": "trace-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "Tool Calls › ",
+      "property": "(element)",
+      "route": "trace-example",
+      "reason": "waits for the AI SDK and the syntax highlighter (deferred)"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "trace-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so the grid's rows change"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "trace-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so the grid's rows change"
+    },
+    {
+      "element": "Header Edges › ",
+      "property": "width",
+      "route": "code-block-example",
+      "reason": "its row's other example is left out with the sections that wait, so it takes the row's width"
+    },
+    {
+      "element": "div[data-slot=\"example",
+      "property": "height",
+      "route": "trace-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so its row's height or width changes"
+    },
+    {
+      "element": "Header Edges › ",
+      "property": "grid-template-columns",
+      "route": "code-block-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so its row's height or width changes"
+    },
+    {
+      "element": "Header Edges › ",
+      "property": "left",
+      "route": "code-block-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so its row's height or width changes"
+    },
+    {
+      "element": "Header Edges › ",
+      "property": "margin-left",
+      "route": "code-block-example",
+      "reason": "the sections that wait for the AI SDK and the highlighter are left out, so its row's height or width changes"
+    },
+    {
+      "element": "(page)",
+      "property": "(state)",
+      "route": "(code-block|trace)-example",
+      "reason": "the state's trigger sits in a section that waits for the AI SDK"
+    },
+    {
+      "element": "div[data-slot=\"sheet-content\"]",
+      "property": "translate",
+      "route": "trace-example",
+      "reason": "the open sheet rests at `translate: 0px` after its transition, where upstream's keyframes leave `none`: the same drawing"
+    },
+    {
+      "element": "h2[data-slot=\"dialog-title\"]",
+      "property": "max-width",
+      "route": "questionnaire-example",
+      "reason": "a visually hidden title: `visuallyHidden` caps its box at 1px, where `sr-only` leaves it `none`; 1px wide either way"
+    },
+    {
+      "element": "p[data-slot=\"dialog-description\"]",
+      "property": "max-width",
+      "route": "questionnaire-example",
+      "reason": "a visually hidden description: `visuallyHidden` caps its box at 1px, where `sr-only` leaves it `none`; 1px wide either way"
+    },
+    {
+      "element": "p[data-slot=\"dialog-description\"]",
+      "property": "margin-top",
+      "route": "questionnaire-example\\?preset=b1oVxsfY",
+      "reason": "a visually hidden description: Sera's `mt-0.5` outranks `visuallyHidden`'s margin, where upstream's `sr-only` class wins; a 1px box either way"
+    },
+    {
+      "element": "p[data-slot=\"dialog-description\"]",
+      "property": "bottom",
+      "route": "questionnaire-example\\?preset=b1oVxsfY",
+      "reason": "follows the visually hidden description's margin"
+    },
+    {
+      "element": "label[data-slot=\"questionnaire-choice\"]",
+      "property": "background-color",
+      "route": "questionnaire-example",
+      "reason": "the harness leaves its pointer where it clicked the dialog's trigger, which the open dialog covers with this choice: Chrome marks it hovered in ours and not in upstream's, with no pointer move between; both draw `hover:bg-muted/50`"
     }
   ]
 }

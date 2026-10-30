@@ -1,4 +1,4 @@
-import { css } from "@kirana-style/core"
+import { css, select } from "@kirana-style/core"
 
 import * as React from "react"
 
@@ -7,7 +7,9 @@ import { fontSize, lineHeight, space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
-  spaceY2: css({ display: "flex", flexDirection: "column", gap: space[2] }),
+  spaceY2: css({
+    [select.child(":not(:last-child)")]: { marginBottom: space[2] },
+  }),
   textCenterTextSm: css({
     textAlign: "center",
     fontSize: fontSize.sm,

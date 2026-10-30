@@ -56,6 +56,11 @@ export const registryConfig = {
       ['[data-selected-single="true"]', '[data-range-end="true"]'],
       ['[data-range-start="true"]', '[data-range-middle="true"]'],
       ['[data-range-end="true"]', '[data-range-middle="true"]'],
+      // A spinner is the direct child of one parent: a badge's, or a standing attachment's media.
+      [
+        ':is([data-slot="badge"] > *)',
+        ':is([data-slot="attachment"][data-orientation="vertical"] [data-slot="attachment-media"] > *)',
+      ],
     ],
     exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
   },
