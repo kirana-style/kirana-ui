@@ -77,6 +77,7 @@ const blocks = page("blocks/index.html")
 const charts = page("charts/area.html")
 const colors = page("colors.html")
 const typesetPage = page("typeset.html")
+// A React preview page (`apps/preview-react`): its stylesheet is every item's, as each framework's.
 const preview = page("preview/react/base/dialog-demo.html")
 // The Vue preview's stylesheet, as its page links it: a font's loads only when a design names it.
 const vueCss = page("preview/vue/index.html").css
@@ -120,6 +121,7 @@ const measured: Record<string, number> = {
   "colors.js": colors.js,
   "typeset.js": typesetPage.js,
   "preview.dialog-demo.js": preview.js,
+  "preview-react.css": preview.css,
   "site.css": siteCss,
   "preview-vue.css": vueCss,
   "registry.files": registryFiles.length,

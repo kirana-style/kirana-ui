@@ -10,3 +10,9 @@ export function previewPages(options: {
   extension: string
   extra?: readonly string[]
 }): Plugin
+
+/**
+ * `virtual:design-script`: the module at `entry` bundled on its own and minified, as a string a
+ * page writes inline before the first paint.
+ */
+export function designScript(entry: string): Plugin

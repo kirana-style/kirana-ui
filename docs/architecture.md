@@ -304,13 +304,29 @@ each page on the Worker with `HTMLRewriter` paints as early and works without
 JavaScript, but makes every page view a Worker request, where static files are
 free and unlimited; rendering each page on the server costs about 5 ms of CPU for
 a page of 124 buttons. The React preview pages are static files this way:
-prerendered in the default design, with `registry/core/design-script.ts` bundled
-on its own at build time (the preset decoder and its lists, 5.2 KB, 1.9 KB gzip)
-and written inline after the colour mode's script. Run on them, the same test
-finds no frame in the default design, and the control (the script held back
-300 ms) paints the default first. The same script runs on every page of the site,
-and reads the reader's saved design (the `kui-preset` cookie) when the URL names
-none: a page opened with no JavaScript run yet is already in the saved design.
+prerendered in the default design, with a script bundled on its own at build
+time (the preset decoder and its lists, 5.2 KB, 1.9 KB gzip) and written inline
+first in `<head>`. Run on them, the same test finds no frame in the default
+design, and the control (the script held back 300 ms) paints the default first.
+The site's pages run the same script (`registry/core/design-script.ts`, after the
+colour mode's), and it reads the reader's saved design (the `kui-preset` cookie)
+when the URL names none: a page opened with no JavaScript run yet is already in
+the saved design.
+
+**The React previews are an app of their own.** `apps/preview-react` builds every
+React item's page into the site's static files, at the same
+`/preview/react/<base>/<item>`, as each other framework's preview app does. Kirana
+compiles an app into one stylesheet, so a preview page inside the site made every
+page of the site carry every component's rules: apart, the site's sheet holds
+what its own pages draw, and every preview frame loads the same cached sheet of
+its own. Each page is prerendered by a server build of the app
+(`src/server.tsx`) into the client's `index.html`, with
+`registry/core/preview-script.ts` inline, which writes the design and the colour
+mode (`?theme=`, else the site's cookie) on `<html>`. The client loads the
+item's chunk before it hydrates, and switches to the URL's design in a
+transition: React then never meets a part still waiting for its code, which it
+would replace with nothing until the code came, so the prerendered item stays on
+screen from the first paint.
 
 **A component's look is a style module, written once for every style and every
 base.** `registry/styles/<component>.styles.ts` holds the `css()` handles a

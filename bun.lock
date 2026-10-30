@@ -98,6 +98,31 @@
         "vite-plus": "catalog:",
       },
     },
+    "apps/preview-react": {
+      "name": "preview-react",
+      "version": "0.0.1",
+      "dependencies": {
+        "@base-ui/react": "catalog:",
+        "@fontsource-variable/geist": "catalog:",
+        "@fontsource-variable/inter": "catalog:",
+        "@kirana-style/core": "catalog:",
+        "@workspace/fonts": "workspace:*",
+        "@workspace/registry": "workspace:*",
+        "react": "catalog:",
+        "react-aria-components": "catalog:",
+        "react-dom": "catalog:",
+      },
+      "devDependencies": {
+        "@kirana-style/vite": "catalog:",
+        "@types/react": "catalog:",
+        "@types/react-dom": "catalog:",
+        "@vitejs/plugin-react": "^6.1.2",
+        "@workspace/vite-config": "workspace:*",
+        "typescript": "catalog:",
+        "vite": "catalog:",
+        "vite-plus": "catalog:",
+      },
+    },
     "apps/preview-solid": {
       "name": "preview-solid",
       "version": "0.0.1",
@@ -2126,6 +2151,8 @@
     "pretty-ms": ["pretty-ms@9.3.1", "", { "dependencies": { "parse-ms": "^4.0.0" } }, "sha512-HzMy3Geq23nVALD/M2LliU+F+M+gVNsvkQWWqeBZ8HDiCgzo6YPJ/Omrmtq24EFrIsk0a3EkQGEd7bDOo+IhGA=="],
 
     "preview-angular": ["preview-angular@workspace:apps/preview-angular"],
+
+    "preview-react": ["preview-react@workspace:apps/preview-react"],
 
     "preview-solid": ["preview-solid@workspace:apps/preview-solid"],
 

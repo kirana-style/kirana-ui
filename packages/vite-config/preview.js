@@ -9,6 +9,8 @@
 import { copyFileSync, mkdirSync, readdirSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 
+import { build } from "vite-plus"
+
 /**
  * The folder a framework's preview builds into.
  * @param {string} framework
@@ -49,6 +51,49 @@ export function previewPages({ framework, base, extension, extra = [] }) {
       ]
       for (const name of names)
         copyFileSync(`${outDir}index.html`, `${outDir}${base}/${name}.html`)
+    },
+  }
+}
+
+/** The design script's module: `import designScript from "virtual:design-script"`. */
+const DESIGN_SCRIPT = "virtual:design-script"
+
+/**
+ * `virtual:design-script`: a script module (`registry/core/design-script.ts` on the site's pages,
+ * `preview-script.ts` on the React previews) bundled on its own and minified, as a string the page
+ * writes inline before the first paint (X-7). Bundled apart from the app so it carries the decoder
+ * and nothing else; bundled again when the script changes.
+ * @param {string} entry the module's path
+ * @returns {import("vite-plus").Plugin}
+ */
+export function designScript(entry) {
+  /** @type {Promise<string> | undefined} */
+  let bundled
+  const bundle = async () => {
+    const output = await build({
+      configFile: false,
+      logLevel: "silent",
+      build: {
+        write: false,
+        minify: true,
+        lib: { entry, formats: ["iife"], name: "designScript" },
+      },
+    })
+    const [result] = Array.isArray(output) ? output : [output]
+    return "output" in result ? result.output[0].code.trim() : ""
+  }
+  return {
+    name: "design-script",
+    resolveId(id) {
+      if (id === DESIGN_SCRIPT) return `\0${DESIGN_SCRIPT}`
+    },
+    async load(id) {
+      if (id !== `\0${DESIGN_SCRIPT}`) return
+      this.addWatchFile(entry)
+      return `export default ${JSON.stringify(await (bundled ??= bundle()))}`
+    },
+    watchChange(id) {
+      if (id === entry) bundled = undefined
     },
   }
 }

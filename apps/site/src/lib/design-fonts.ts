@@ -1,5 +1,5 @@
 /**
- * The design's families, for the site's pages and its React previews: the loader
+ * The design's families, for the site's pages: the loader
  * (`@workspace/fonts`, a stylesheet per family) is fetched only when a design names a family the
  * page does not link, so a page in the default design carries none of it.
  */
