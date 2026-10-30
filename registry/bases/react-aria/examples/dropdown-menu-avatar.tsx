@@ -24,7 +24,7 @@ export default function DropdownMenuAvatar() {
       <DropdownMenuTrigger>
         <Button variant="ghost" size="icon" sx={styles.button}>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+            <AvatarImage src="/avatars/kirana.png" alt="kirana" />
             <AvatarFallback>LR</AvatarFallback>
           </Avatar>
         </Button>

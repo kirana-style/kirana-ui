@@ -18,15 +18,15 @@ export default function AvatarSizeExample() {
     <div sx={page.example}>
       <div sx={styles.exampleDiv}>
         <Avatar size="sm">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>

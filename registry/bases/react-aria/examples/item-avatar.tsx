@@ -79,10 +79,7 @@ export default function ItemAvatar() {
           <ItemMedia>
             <div sx={styles.flexSpaceX2DataSlotAvata}>
               <Avatar sx={styles.hiddenSmFlex}>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
+                <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <Avatar sx={styles.hiddenSmFlex}>

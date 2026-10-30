@@ -20,7 +20,7 @@ export default function AvatarGroupCountIconExample() {
     <div sx={page.example}>
       <AvatarGroup sx={styles.exampleAvatarGroup}>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar>

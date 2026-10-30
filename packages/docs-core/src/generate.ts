@@ -372,13 +372,6 @@ export async function generate(config: DocsConfig): Promise<void> {
         ...(front.status ? { status: front.status as PageMeta["status"] } : {}),
         ...(Array.isArray(front.keywords) ? { keywords: front.keywords } : {}),
         ...(typeof front.kind === "string" ? { kind: front.kind } : {}),
-        headings: (document.headings ?? [])
-          .filter((heading) => heading.level >= 2 && heading.level <= 3)
-          .map((heading) => ({
-            id: heading.id,
-            text: heading.text,
-            level: heading.level,
-          })),
         ...(variant ? { variant } : {}),
       }
       // Search finds a variant source once, at the URL its variants share.

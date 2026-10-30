@@ -191,6 +191,8 @@ import {
   LanguageCircleIcon,
   MoonIcon,
   GitForkIcon,
+  ArrowUpDownIcon,
+  RedoIcon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -363,6 +365,8 @@ import {
   Moon,
   Palette,
   GitFork,
+  ArrowUpDown,
+  Forward,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -581,6 +585,8 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       MoonIcon: Moon,
       PaletteIcon: Palette,
       GitForkIcon: GitFork,
+      ArrowUpDownIcon: ArrowUpDown,
+      ForwardIcon: Forward,
     },
   },
   hugeicons: {
@@ -771,6 +777,8 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       LanguageCircleIcon,
       MoonIcon,
       GitForkIcon,
+      ArrowUpDownIcon,
+      RedoIcon,
     },
   },
 }

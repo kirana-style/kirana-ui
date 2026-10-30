@@ -6,7 +6,7 @@
 import { css } from "@kirana-style/core"
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 
-import type { PageMeta } from "@workspace/docs-core/types.ts"
+import type { PageHeading, PageMeta } from "@workspace/docs-core/types.ts"
 import { Icon } from "@workspace/ui/primitives/icon"
 import {
   breakpoint,
@@ -150,11 +150,14 @@ const styles = {
 
 export function DocsPage({
   meta,
+  headings,
   previous,
   next,
   children,
 }: {
   meta: PageMeta
+  /** The table of contents, from the page's document (`pageHeadings`). */
+  headings: readonly PageHeading[]
   previous?: PageMeta
   next?: PageMeta
   children: React.ReactNode
@@ -213,7 +216,7 @@ export function DocsPage({
         </nav>
       </article>
       <aside sx={styles.rail}>
-        <TableOfContents headings={meta.headings} />
+        <TableOfContents headings={headings} />
         {railFooter ? <div sx={styles.railFooter}>{railFooter}</div> : null}
       </aside>
     </div>

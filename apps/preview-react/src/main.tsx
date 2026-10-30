@@ -2,6 +2,7 @@ import "@fontsource-variable/inter"
 import "@fontsource-variable/geist"
 import "@kirana-style/core/stylesheet.css"
 import "@workspace/registry/styles/reset.css"
+import "@workspace/registry/styles/typeset.css"
 import { css, props } from "@kirana-style/core"
 import { createRoot, hydrateRoot } from "react-dom/client"
 

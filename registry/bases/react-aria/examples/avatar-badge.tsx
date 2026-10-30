@@ -13,7 +13,7 @@ export default function AvatarWithBadge() {
   return (
     <div sx={page.example}>
       <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
         <AvatarFallback>CN</AvatarFallback>
         <AvatarBadge sx={styles.avatarWithBadgeAvatarBadge} />
       </Avatar>

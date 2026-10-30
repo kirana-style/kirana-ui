@@ -3,6 +3,6 @@ import { registryConfig } from "@workspace/registry/core/kirana.ts"
 
 export default defineConfig({
   ...registryConfig,
-  // The registry's reset sits below every Kirana rule.
-  layers: { before: ["reset"] },
+  // The registry's reset and `typeset.css` (Code Block's typeset demo) sit below every Kirana rule.
+  layers: { before: ["reset", "typeset"] },
 })

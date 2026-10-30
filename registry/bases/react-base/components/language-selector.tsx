@@ -3,6 +3,7 @@
  * they are read in (`registry/lib/language.tsx`), and the selector a page shows over them.
  */
 import { css } from "@kirana-style/core"
+import type { Sx } from "../../../lib/sx"
 
 import { space } from "../../../core/scales"
 import type { Language } from "../../../lib/language"
@@ -26,10 +27,13 @@ export function LanguageSelector({
   value,
   onValueChange,
   languages = ["en", "ar", "he"],
+  sx,
 }: {
   value: Language
   onValueChange: (value: Language) => void
   languages?: readonly Language[]
+  /** On the trigger, as upstream's `className`. */
+  sx?: Sx
 }) {
   return (
     <Select
@@ -39,7 +43,7 @@ export function LanguageSelector({
     >
       <SelectTrigger
         size="sm"
-        sx={styles.trigger}
+        sx={[styles.trigger, sx]}
         dir="ltr"
         data-name="language-selector"
       >

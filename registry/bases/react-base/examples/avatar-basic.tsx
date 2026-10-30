@@ -13,8 +13,8 @@ export default function AvatarDemo() {
     <div sx={page.example}>
       <Avatar>
         <AvatarImage
-          src="https://github.com/shadcn.png"
-          alt="@shadcn"
+          src="/avatars/kirana.png"
+          alt="@kirana"
           sx={styles.avatarDemoAvatarImage}
         />
         <AvatarFallback>CN</AvatarFallback>

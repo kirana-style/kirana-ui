@@ -1,6 +1,16 @@
 import type { MarkdownDocument } from "@tanstack/markdown"
 
-import type { PageMeta } from "./types.ts"
+import type { PageHeading, PageMeta } from "./types.ts"
+
+/**
+ * A page's table of contents: its document's second- and third-level headings. They travel with
+ * the page's own document, not the manifest, which every page of the site loads.
+ */
+export function pageHeadings(document: MarkdownDocument): PageHeading[] {
+  return (document.headings ?? [])
+    .filter((heading) => heading.level >= 2 && heading.level <= 3)
+    .map(({ id, text, level }) => ({ id, text, level }))
+}
 
 /**
  * Page lookup and lazy document loading, for an app that generated its content

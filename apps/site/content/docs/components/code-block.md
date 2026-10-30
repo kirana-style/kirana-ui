@@ -10,7 +10,7 @@ keywords: [code-block, chat, component, base, aria]
 
 `CodeBlock` displays code, terminal output, logs and diffs. It has a header with a title and actions, line numbers, wrapping, diff and highlighted lines, and a small size for tool output in a [Trace](/docs/components/trace).
 
-Upstream's syntax-highlighting hook is not ported yet: here a block shows plain code and output.
+<!-- ::preview item="code-block-demo" height="440" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -161,6 +161,12 @@ Add `lineNumbers` to `CodeBlockContent`. A string child is split into lines, and
 
 <!-- ::preview item="code-block-line-numbers" height="400" combinations="react/base,react/aria" -->
 
+## Start Line
+
+Set `startLine` to number lines from a given line, for a snippet from the middle of a file. The gutter grows to fit the widest number.
+
+<!-- ::preview item="code-block-start-line" height="400" combinations="react/base,react/aria" -->
+
 ## Wrap
 
 Long lines scroll by default. Add `wrap` to wrap them, which suits tool output and error messages. To let the reader toggle it, see [Actions](#actions).
@@ -185,7 +191,89 @@ Cap the height with a `maxHeight` in `CodeBlockContent`'s `sx`. The content scro
 
 <!-- ::preview item="code-block-height" height="400" combinations="react/base,react/aria" -->
 
-`CodeBlockContent` fades its edges with `scroll-fade` as it scrolls: left and right by default, top and bottom when it wraps. Add `scroll-fade-y` to a capped block that does not wrap.
+`CodeBlockContent` fades its edges as it scrolls (`scroll-fade.styles`): left and right by default, top and bottom when it wraps. Add `scrollFade` to the `sx` of a capped block that does not wrap.
+
+## Show More
+
+`CodeBlockFooter` is a slot below the content. For Show More, cap the content while it is collapsed and put a ghost `xs` `Button` in the footer.
+
+<!-- ::preview item="code-block-show-more" height="420" combinations="react/base,react/aria" -->
+
+<!-- ::start:only react/base -->
+
+```tsx showLineNumbers
+const styles = {
+  collapsed: css({
+    maxHeight: { "*": null, base: space[64] },
+    overflowY: { "*": null, base: "hidden" },
+  }),
+  footer: css({ justifyContent: { "*": null, base: "center" } }),
+}
+
+const [expanded, setExpanded] = React.useState(false)
+const id = React.useId()
+
+<CodeBlockContent
+  id={id}
+  sx={expanded ? undefined : [scrollFade, styles.collapsed]}
+>
+  {code}
+</CodeBlockContent>
+<CodeBlockFooter sx={styles.footer}>
+  <Button
+    variant="ghost"
+    size="xs"
+    aria-expanded={expanded}
+    aria-controls={id}
+    onClick={() => setExpanded(!expanded)}
+  >
+    {expanded ? "Show less" : "Show more"}
+  </Button>
+</CodeBlockFooter>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+```tsx showLineNumbers
+const styles = {
+  collapsed: css({
+    maxHeight: { "*": null, base: space[64] },
+    overflowY: { "*": null, base: "hidden" },
+  }),
+  footer: css({ justifyContent: { "*": null, base: "center" } }),
+}
+
+const [expanded, setExpanded] = React.useState(false)
+const id = React.useId()
+
+<CodeBlockContent
+  id={id}
+  sx={expanded ? undefined : [scrollFade, styles.collapsed]}
+>
+  {code}
+</CodeBlockContent>
+<CodeBlockFooter sx={styles.footer}>
+  <Button
+    variant="ghost"
+    size="xs"
+    aria-expanded={expanded}
+    aria-controls={id}
+    onPress={() => setExpanded(!expanded)}
+  >
+    {expanded ? "Show less" : "Show more"}
+  </Button>
+</CodeBlockFooter>
+```
+
+<!-- ::end:only -->
+
+### Max Height
+
+To keep a long block from taking over the page, raise the cap instead of removing it. The expanded content scrolls, and the edges fade as you scroll.
+
+<!-- ::preview item="code-block-show-more-scroll" height="560" combinations="react/base,react/aria" -->
 
 ## Size
 
@@ -204,6 +292,96 @@ Use `variant="destructive"` for errors and failed output.
 Put a `CodeBlock` with `size="sm"` in `TraceCollapsibleContent` for tool and terminal output. Add `wrap` and a `maxHeight` in `sx` to `CodeBlockContent` so long output wraps and scrolls inside the trace. The block sets its own text color, so `TraceCollapsibleContent` does not mute it.
 
 <!-- ::preview item="code-block-trace" height="400" combinations="react/base,react/aria" -->
+
+## Tabs
+
+Show several files with [Tabs](/docs/components/tabs), one `CodeBlock` in each `TabsContent`.
+
+<!-- ::preview item="code-block-tabs" height="400" combinations="react/base,react/aria" -->
+
+## Message
+
+Put a `CodeBlock` between paragraphs inside a [Message](/docs/components/message).
+
+<!-- ::preview item="code-block-chat" height="540" combinations="react/base,react/aria" -->
+
+## Typeset
+
+A `CodeBlock` inside a [`typeset`](/docs/design-system/typeset) container keeps its own styles and gets the same space above as a paragraph.
+
+<!-- ::preview item="code-block-typeset" height="520" combinations="react/base,react/aria" -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl). Code always reads left to right. The header follows the page direction.
+
+<!-- ::preview item="code-block-rtl" height="400" combinations="react/base,react/aria" direction="rtl" -->
+
+## Syntax Highlighting
+
+`useHighlightedCode` highlights with [TanStack Highlight](https://tanstack.com/highlight) (MIT), in place of upstream's Shiki, and returns one React node per line for `CodeBlockLine`. Add it beside the code block:
+
+<!-- ::installation name="use-highlighted-code" combinations="react/base,react/aria" -->
+
+<!-- ::preview item="code-block-highlighting" height="400" combinations="react/base,react/aria" -->
+
+```tsx showLineNumbers
+const lines = useHighlightedCode(code, "json")
+
+<CodeBlock>
+  <CodeBlockContent>
+    {lines.map((line, index) => (
+      <CodeBlockLine key={index}>{line}</CodeBlockLine>
+    ))}
+  </CodeBlockContent>
+</CodeBlock>
+```
+
+The highlighter is synchronous, so the first render is already coloured, on the server too. Each token is one of a small set of classes, coloured by `highlight.styles.ts` with GitHub's light and dark colours, each a `light-dark()` pair, as upstream's.
+
+### Languages
+
+Edit the list in `lib/highlighter.tsx`: each language is a module of TanStack Highlight's, imported there. A language that is not in the list renders as plain text.
+
+<!-- ::preview item="code-block-languages" height="470" combinations="react/base,react/aria" -->
+
+The list ships with `bash`, `css`, `diff`, `html`, `javascript`, `json`, `jsx`, `markdown`, `python`, `sql`, `tsx`, `typescript` and `yaml`, plus aliases such as `ts`, `js`, `sh` and `yml`.
+
+### Terminal Output
+
+Pass `"ansi"` as the language to render the colors in terminal output. Without it, escape codes show as text.
+
+<!-- ::preview item="code-block-ansi" height="400" combinations="react/base,react/aria" -->
+
+The colours are the code's nearest token colours (red as a deletion, green as an insertion, dimmed text as a comment), and a colour runs on to the next line until a code resets it, as in a terminal.
+
+### Server Rendering
+
+`highlightCode` is the same highlighter without the hook: synchronous, so a server renders the coloured lines and the browser hydrates the same ones.
+
+```tsx showLineNumbers
+import { highlightCode } from "@/lib/highlighter"
+
+export function ServerCode({ code }: { code: string }) {
+  const lines = highlightCode(code, "tsx")
+
+  return (
+    <CodeBlock>
+      <CodeBlockContent lineNumbers>
+        {lines.map((line, index) => (
+          <CodeBlockLine key={index}>{line}</CodeBlockLine>
+        ))}
+      </CodeBlockContent>
+    </CodeBlock>
+  )
+}
+```
+
+### Streaming
+
+The hook highlights the code again each time it changes, so a block that streams in is coloured as it grows.
+
+<!-- ::preview item="code-block-streaming" height="1170" combinations="react/base,react/aria" -->
 
 ## Accessibility
 
@@ -292,3 +470,16 @@ A row below the content, such as for a Show More button.
 | `sx` | `Sx` | -       | Styles merged with the footer's own. |
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
+
+### useHighlightedCode
+
+```tsx
+const lines = useHighlightedCode(code, language)
+```
+
+Returns one React node per line, highlighted from the first render. A language that is not in the list comes back as plain text.
+
+| Argument   | Type     | Description                                                  |
+| ---------- | -------- | ------------------------------------------------------------ |
+| `code`     | `string` | The code to highlight. A trailing newline is ignored.        |
+| `language` | `string` | A language or alias from `lib/highlighter.tsx`, or `"ansi"`. |
