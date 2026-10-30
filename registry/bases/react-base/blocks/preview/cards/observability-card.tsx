@@ -50,9 +50,9 @@ export function ObservabilityCard() {
     <Card sx={styles.card}>
       <div sx={styles.div} />
       <img
-        src="https://images.unsplash.com/photo-1604076850742-4c7221f3101b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Photo by mymind on Unsplash"
-        title="Photo by mymind on Unsplash"
+        src="/scenes/highlands-800.webp"
+        alt="The highlands at sunrise, from kirana/ui\'s scenery"
+        title="The highlands at sunrise, from kirana/ui\'s scenery"
         sx={styles.img}
       />
       <CardHeader>

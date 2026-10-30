@@ -27,6 +27,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../../ui/tooltip"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { css } from "@kirana-style/core"
+import { theme } from "../../../../../core/tokens"
 import { axes } from "../../../../../core/axes"
 import {
   containerSize,
@@ -42,6 +43,8 @@ const styles = {
   }),
   cardHeader: css({
     borderBottomWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderBottomColor: theme.border,
   }),
   cardTitle: css({
     fontSize: { "*": null, base: fontSize.sm },

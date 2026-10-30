@@ -3,10 +3,10 @@
  * `IconPlaceholder` for Vue. The library is the design system's, provided under `ICON_LIBRARY`
  * (`./vue.ts`); the size is the control's (`controlIcons` in `styles/control.ts`).
  */
-import { computed, inject, ref } from "vue"
+import { computed, inject, onUnmounted, ref } from "vue"
 
 import { DEFAULT_DESIGN_SYSTEM } from "../core/config"
-import { resolveIcon } from "./data"
+import { iconDataVersion, resolveIcon, subscribeIconData } from "./data"
 import { ICON_LIBRARY } from "./vue"
 
 // Declared here, not imported: Vue resolves an imported props type through TypeScript's JavaScript
@@ -19,7 +19,12 @@ const props = defineProps<{
   remixicon: string
 }>()
 const library = inject(ICON_LIBRARY, ref(DEFAULT_DESIGN_SYSTEM.iconLibrary))
-const resolved = computed(() => resolveIcon(library.value, props))
+// Draws again when a library's data arrives (Tabler, Phosphor and Remix Icon load on demand).
+const version = ref(iconDataVersion())
+onUnmounted(subscribeIconData(() => (version.value = iconDataVersion())))
+const resolved = computed(
+  () => (void version.value, resolveIcon(library.value, props))
+)
 </script>
 
 <template>

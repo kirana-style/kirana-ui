@@ -17,12 +17,15 @@ import {
   EmptyTitle,
 } from "../../../ui/empty"
 import { css } from "@kirana-style/core"
+import { theme } from "../../../../../core/tokens"
 import { space } from "../../../../../core/scales"
 
 const styles = {
   empty: css({
     height: { "*": null, base: space[56] },
     borderWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
   }),
   avatarGroup: css({
     filter: { "*": null, base: "grayscale(100%)" },

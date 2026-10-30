@@ -4,9 +4,11 @@
  * (`lucide="ChevronDownIcon" hugeicons="ArrowDown01Icon" …`, shadcn/ui's convention); the site draws
  * the library the design system chose, and the installer resolves the placeholder in a project.
  *
- * Only Lucide and Hugeicons have data here yet, and only the icons the registry's components use:
- * the builder will generate this map from every placeholder in the sources. Until Tabler, Phosphor
- * and Remix Icon have theirs, a design that chooses one of them draws Lucide's icon.
+ * Lucide and Hugeicons are here, from their packages, for the icons the registry's components use.
+ * Tabler, Phosphor and Remix Icon are a file each (`tabler.ts`, `phosphor.ts`, `remixicon.ts`,
+ * written by `scripts/icon-data.ts` from every placeholder in the sources), loaded the first time a
+ * design draws that library: until it arrives a placeholder draws Lucide's icon, then every
+ * placeholder draws again (`subscribeIconData`).
  */
 import {
   ActivityIcon,
@@ -411,6 +413,17 @@ type Library = {
   icons: Readonly<Record<string, IconNode>>
 }
 
+/** A library's data as `scripts/icon-data.ts` writes it. */
+export type IconLibraryData = {
+  svg: Readonly<Record<string, string | number>>
+  icons: Readonly<
+    Record<
+      string,
+      readonly (readonly [string, Readonly<Record<string, string>>])[]
+    >
+  >
+}
+
 const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
   lucide: {
     svg: {
@@ -813,6 +826,46 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
   },
 }
 
+/** The libraries whose data is a file of its own, loaded when a design first draws them. */
+const LOADERS: Partial<
+  Record<IconLibrary, () => Promise<{ default: IconLibraryData }>>
+> = {
+  tabler: () => import("./tabler"),
+  phosphor: () => import("./phosphor"),
+  remixicon: () => import("./remixicon"),
+}
+
+const loading = new Set<IconLibrary>()
+const listeners = new Set<() => void>()
+let version = 0
+
+/**
+ * Loads a library's data once, in the browser, then tells every placeholder to draw again. A
+ * library already here, or one with no file, is left as it is.
+ */
+export function loadIconLibrary(library: IconLibrary) {
+  const load = LOADERS[library]
+  if (LIBRARIES[library] || !load || loading.has(library)) return
+  if (typeof window === "undefined") return
+  loading.add(library)
+  void load().then(({ default: data }) => {
+    LIBRARIES[library] = data as unknown as Library
+    version += 1
+    for (const listener of listeners) listener()
+  })
+}
+
+/** Calls `listener` when a library's data arrives; returns the function that stops it. */
+export function subscribeIconData(listener: () => void) {
+  listeners.add(listener)
+  return () => {
+    listeners.delete(listener)
+  }
+}
+
+/** How many libraries have arrived: what a placeholder compares to know it should draw again. */
+export const iconDataVersion = () => version
+
 /** `strokeLinecap` → `stroke-linecap`: Hugeicons writes React's names. */
 const svgName = (name: string) =>
   name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
@@ -825,6 +878,7 @@ export function resolveIcon(
   library: IconLibrary,
   names: Partial<IconNames>
 ): ResolvedIcon | null {
+  if (!LIBRARIES[library]) loadIconLibrary(library)
   const drawn = LIBRARIES[library] ? library : "lucide"
   const data = LIBRARIES[drawn]
   const name = names[drawn]

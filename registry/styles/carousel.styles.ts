@@ -29,10 +29,14 @@ const arrow = {
   borderRadius: ROUND,
 } as const
 
-/** Between the arrows, across a vertical carousel: `left-1/2 -translate-x-1/2 rotate-90`. */
+/**
+ * Between the arrows, across a vertical carousel: `left-1/2 -translate-x-1/2 rotate-90`. Pressed,
+ * the arrow keeps its centring as it presses in 1px (Button's `active:translate-y-px`, which
+ * Tailwind composes; Button's own pressed `translate` would drop the `-50%`).
+ */
 const across = {
   left: "50%",
-  translate: "-50% 0",
+  translate: { "*": null, base: "-50% 0", ":active": "-50% 1px" },
   rotate: "90deg",
 } as const
 

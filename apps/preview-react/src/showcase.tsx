@@ -36,11 +36,14 @@ const RAIL_COLUMN = "20rem"
 const styles = {
   // `relative flex flex-col gap-(--gap) overflow-hidden bg-muted dark:bg-background`, its sides
   // the home band's (the switch above it is the home page's).
+  // The frame's height exactly, the rest clipped as upstream's band clips its columns: the frame
+  // never scrolls (the home page fades its foot). A card's edge clears the frame's top.
   demo: css({
     position: "relative",
     overflow: "hidden",
-    minHeight: "100vh",
+    height: "100vh",
     backgroundColor: `light-dark(${theme.muted}, ${theme.background})`,
+    paddingTop: space[1],
     paddingInline: {
       base: space[4],
       [breakpoint.md]: space[6],
@@ -89,7 +92,7 @@ const styles = {
   rails: css({
     position: "absolute",
     insetInline: 0,
-    top: 0,
+    top: space[1],
     zIndex: 0,
     display: { base: "none", "@media (width >= 2200px)": "block" },
     opacity: 0.5,

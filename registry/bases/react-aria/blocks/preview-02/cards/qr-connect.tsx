@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "../../../ui/card"
 import { css } from "@kirana-style/core"
-import { radius } from "../../../../../core/tokens"
+import { radius, theme } from "../../../../../core/tokens"
 import { color, space } from "../../../../../core/scales"
 
 const styles = {
@@ -24,6 +24,8 @@ const styles = {
   div: css({
     borderRadius: radius.xl,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     backgroundColor: color.white,
     padding: space[4],
   }),
