@@ -1,6 +1,5 @@
-import { css } from "@kirana-style/core"
-
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
+
 import { Button } from "../ui/button"
 import {
   Empty,
@@ -10,17 +9,20 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "../ui/empty"
-import { space } from "../../../core/scales"
+import { css } from "@kirana-style/core"
 import { theme } from "../../../core/tokens"
+import { space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
-  flexRowJustifyCenterGap2: css({
-    flexDirection: "row",
-    justifyContent: "center",
+  emptyContent: css({
+    flexDirection: { "*": null, base: "row" },
+    justifyContent: { "*": null, base: "center" },
     gap: { "*": null, base: space[2] },
   }),
-  textMutedForeground: css({ color: theme.mutedForeground }),
+  button: css({
+    color: theme.mutedForeground,
+  }),
 }
 
 export default function EmptyDemo() {
@@ -43,14 +45,14 @@ export default function EmptyDemo() {
             your first project.
           </EmptyDescription>
         </EmptyHeader>
-        <EmptyContent sx={styles.flexRowJustifyCenterGap2}>
+        <EmptyContent sx={styles.emptyContent}>
           <Button>Create Project</Button>
           <Button variant="outline">Import Project</Button>
         </EmptyContent>
         <Button
           variant="link"
           render={<a href="#" />}
-          sx={styles.textMutedForeground}
+          sx={styles.button}
           size="sm"
           nativeButton={false}
         >

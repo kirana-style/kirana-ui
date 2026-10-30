@@ -261,6 +261,8 @@ export type DataTableFeatures = typeof features
 
 Let's start by building a basic table.
 
+<!-- ::start:steps -->
+
 ### Column Definitions
 
 First, we'll define our columns.
@@ -484,9 +486,13 @@ export function PaymentsPage() {
 }
 ```
 
+<!-- ::end:steps -->
+
 ## Cell Formatting
 
 Let's format the amount cell to display the dollar amount. We'll also align the cell to the right.
+
+<!-- ::start:steps -->
 
 ### Update columns definition
 
@@ -511,6 +517,8 @@ export const columns = columnHelper.columns([
 
 You can use the same approach to format other cells and headers.
 
+<!-- ::end:steps -->
+
 ## Row Actions
 
 <!-- ::start:only react/base -->
@@ -524,6 +532,8 @@ Let's add row actions to our table. We'll use a `<DropdownMenu />` component for
 Let's add row actions to our table. We'll use a `<Dropdown />` component for this.
 
 <!-- ::end:only -->
+
+<!-- ::start:steps -->
 
 ### Update columns definition
 
@@ -655,9 +665,13 @@ export const columns = columnHelper.columns([
 
 You can access the row data using `row.original` in the `cell` function. Use this to handle actions for your row eg. use the `id` to make a DELETE call to your API.
 
+<!-- ::end:steps -->
+
 ## Pagination
 
 Next, we'll add pagination to our table.
+
+<!-- ::start:steps -->
 
 ### Pagination is already enabled
 
@@ -714,11 +728,15 @@ export function DataTable<TData extends RowData>({
 
 See [Reusable Components](#reusable-components) section for a more advanced pagination component.
 
+<!-- ::end:steps -->
+
 ## Sorting
 
 Let's make the email column sortable.
 
 The `rowSortingFeature` and sorted row model are already registered in our features object, so all that's left is wiring up the sorting state.
+
+<!-- ::start:steps -->
 
 ### Update `<DataTable>`
 
@@ -877,11 +895,15 @@ export const columns = columnHelper.columns([
 
 This will automatically sort the table (asc and desc) when the user toggles on the header cell.
 
+<!-- ::end:steps -->
+
 ## Filtering
 
 Let's add a search input to filter emails in our table.
 
 The `columnFilteringFeature` and filtered row model are already part of our features object, so we only need to wire up the filter state and render an input.
+
+<!-- ::start:steps -->
 
 ### Update `<DataTable>`
 
@@ -943,9 +965,13 @@ export function DataTable<TData extends RowData>({
 
 Filtering is now enabled for the `email` column. You can add filters to other columns as well. See the [filtering docs](https://tanstack.com/table/latest/docs/framework/react/guide/column-filtering) for more information on customizing filters.
 
+<!-- ::end:steps -->
+
 ## Visibility
 
 Adding column visibility is fairly simple using `@tanstack/react-table` visibility API.
+
+<!-- ::start:steps -->
 
 ### Update `<DataTable>`
 
@@ -1160,9 +1186,13 @@ export function DataTable<TData extends RowData>({
 
 This adds a dropdown menu that you can use to toggle column visibility.
 
+<!-- ::end:steps -->
+
 ## Row Selection
 
 Next, we're going to add row selection to our table.
+
+<!-- ::start:steps -->
 
 ### Update column definitions
 
@@ -1335,6 +1365,8 @@ You can show the number of selected rows using the `table.getFilteredSelectedRow
   {table.getFilteredRowModel().rows.length} row(s) selected.
 </div>
 ```
+
+<!-- ::end:steps -->
 
 ## RTL
 

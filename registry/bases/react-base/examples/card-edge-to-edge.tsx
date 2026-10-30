@@ -27,6 +27,8 @@ const styles = {
     maxHeight: space[48],
     overflowY: "scroll",
     borderTopWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderTopColor: theme.border,
     backgroundColor: `color-mix(in oklab, ${theme.muted} 50%, transparent)`,
     paddingInline: cardCtx.spacing,
     paddingBlock: space[4],

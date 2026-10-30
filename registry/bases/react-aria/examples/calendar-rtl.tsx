@@ -5,16 +5,20 @@ import { I18nProvider } from "react-aria-components"
 
 import { Calendar } from "../ui/calendar"
 import { css } from "@kirana-style/core"
-import { radius } from "../../../core/tokens"
+import { calendarCtx } from "../../../core/context"
+import { radius, theme } from "../../../core/tokens"
 import { space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
+  // `rounded-lg border [--cell-size:--spacing(9)]`: the border in its colour (upstream's base layer
+  // gives every border `border-border`), the cell size through the calendar's own variable.
   calendar: css({
     borderRadius: { "*": null, base: radius.lg },
     borderStyle: { "*": null, base: "solid" },
     borderWidth: { "*": null, base: "1px" },
-    "--cell-size": `calc(${space[1]} * 9)`,
+    borderColor: theme.border,
+    [calendarCtx.cellSize]: { "*": null, base: space[9] },
   }),
 }
 

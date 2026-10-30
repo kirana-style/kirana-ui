@@ -1,34 +1,108 @@
-import { css } from "@kirana-style/core"
-
-import { space } from "../../../core/scales"
-import { page } from "../../../styles/page.styles"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { css } from "@kirana-style/core"
+import { theme } from "../../../core/tokens"
+import { fontSize, lineHeight } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
 
-const column = css({ display: "flex", flexDirection: "column", gap: space[6] })
+const styles = {
+  tabs: css({
+    width: { "*": null, base: "400px" },
+  }),
+  cardContent: css({
+    fontSize: { "*": null, base: fontSize.sm },
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
+  cardContent2: css({
+    fontSize: { "*": null, base: fontSize.sm },
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
+  cardContent3: css({
+    fontSize: { "*": null, base: fontSize.sm },
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
+  cardContent4: css({
+    fontSize: { "*": null, base: fontSize.sm },
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
+}
 
 export default function TabsDemo() {
   return (
-    <div sx={[page.example, column]}>
-      <Tabs defaultSelectedKey="account">
+    <div sx={page.example}>
+      <Tabs defaultSelectedKey="overview" sx={styles.tabs}>
         <TabsList>
-          <TabsTrigger id="account">Account</TabsTrigger>
-          <TabsTrigger id="password">Password</TabsTrigger>
-          <TabsTrigger id="billing" isDisabled>
-            Billing
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent id="account">
-          Make changes to your account here.
-        </TabsContent>
-        <TabsContent id="password">Change your password here.</TabsContent>
-      </Tabs>
-      <Tabs defaultSelectedKey="overview" orientation="vertical">
-        <TabsList variant="line">
           <TabsTrigger id="overview">Overview</TabsTrigger>
           <TabsTrigger id="analytics">Analytics</TabsTrigger>
+          <TabsTrigger id="reports">Reports</TabsTrigger>
+          <TabsTrigger id="settings">Settings</TabsTrigger>
         </TabsList>
-        <TabsContent id="overview">Your dashboard at a glance.</TabsContent>
-        <TabsContent id="analytics">What changed this week.</TabsContent>
+        <TabsContent id="overview">
+          <Card>
+            <CardHeader>
+              <CardTitle>Overview</CardTitle>
+              <CardDescription>
+                View your key metrics and recent project activity. Track
+                progress across all your active projects.
+              </CardDescription>
+            </CardHeader>
+            <CardContent sx={styles.cardContent}>
+              You have 12 active projects and 3 pending tasks.
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent id="analytics">
+          <Card>
+            <CardHeader>
+              <CardTitle>Analytics</CardTitle>
+              <CardDescription>
+                Track performance and user engagement metrics. Monitor trends
+                and identify growth opportunities.
+              </CardDescription>
+            </CardHeader>
+            <CardContent sx={styles.cardContent2}>
+              Page views are up 25% compared to last month.
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent id="reports">
+          <Card>
+            <CardHeader>
+              <CardTitle>Reports</CardTitle>
+              <CardDescription>
+                Generate and download your detailed reports. Export data in
+                multiple formats for analysis.
+              </CardDescription>
+            </CardHeader>
+            <CardContent sx={styles.cardContent3}>
+              You have 5 reports ready and available to export.
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent id="settings">
+          <Card>
+            <CardHeader>
+              <CardTitle>Settings</CardTitle>
+              <CardDescription>
+                Manage your account preferences and options. Customize your
+                experience to fit your needs.
+              </CardDescription>
+            </CardHeader>
+            <CardContent sx={styles.cardContent4}>
+              Configure notifications, security, and themes.
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   )

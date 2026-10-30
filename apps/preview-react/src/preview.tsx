@@ -86,6 +86,14 @@ function loadDesignFonts(system: Pick<DesignSystem, "font" | "fontHeading">) {
   void import("@workspace/fonts").then((fonts) => fonts.loadDesignFonts(system))
 }
 
+/** A right-to-left demo's family (Noto Sans Arabic or Hebrew), as upstream's previews read them. */
+function loadLanguageFont(language: string | undefined) {
+  if (!language || language === "en") return
+  void import("@workspace/fonts").then((fonts) =>
+    fonts.loadLanguageFont(language)
+  )
+}
+
 /**
  * The page's design. The first render is the prerendered page's, the default, so it hydrates; then
  * the URL's or the saved one, which the inline script has already written on `<html>`, and every
@@ -99,8 +107,10 @@ function usePreviewDesign(): [PreviewDesign, boolean] {
     const first = followPageDesign((next) => {
       setDesign(next)
       loadDesignFonts(next.system)
+      loadLanguageFont(next.options.language)
     })
     loadDesignFonts(first.system)
+    loadLanguageFont(first.options.language)
     startTransition(() => {
       setDesign(first)
       setHydrated(true)

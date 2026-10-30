@@ -9,6 +9,7 @@ import {
   lineHeight,
   space,
 } from "../../../core/scales"
+import { radius } from "../../../core/tokens"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
@@ -18,7 +19,15 @@ const styles = {
     maxWidth: containerSize.xs,
     flexDirection: "column",
     gap: space[4],
-    "--radius": "1rem",
+    // `[--radius:1rem]`: the corners derived from a 1rem base inside it, as shadcn/ui's theme
+    // derives them from `--radius`.
+    [radius.sm]: "calc(1rem * 0.6)",
+    [radius.md]: "calc(1rem * 0.8)",
+    [radius.lg]: "1rem",
+    [radius.xl]: "calc(1rem * 1.4)",
+    [radius["2xl"]]: "calc(1rem * 1.8)",
+    [radius["3xl"]]: "calc(1rem * 2.2)",
+    [radius["4xl"]]: "calc(1rem * 2.6)",
   }),
   itemTitle: css({
     WebkitLineClamp: { "*": null, base: "1" },

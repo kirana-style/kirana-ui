@@ -5,7 +5,9 @@
  * in an iframe, so it renders in its own framework and design. With `combinations`, a picker above
  * it chooses the framework and base, the reader's choice for the whole site (`combination.ts`).
  *
- * Under it, in the same box, the demo's code as upstream shows it (`demo-code.tsx`).
+ * Under it, in the same box, the demo's code as upstream shows it (`demo-code.tsx`), with a link to
+ * the framed page alone, in a new tab, in its corner. `surface="true"` gives the page upstream's
+ * `bg-surface`, as its chat parts' previews have.
  *
  * The frame is created once the page has hydrated, so its first address is the final one: the
  * prerendered page knows neither the reader's combination nor anything saved, and a frame created
@@ -56,6 +58,7 @@ const styles = {
     backgroundColor: theme.background,
   }),
   frame: css({ display: "block", width: "100%", borderWidth: 0 }),
+  stage: css({ position: "relative" }),
   // A right-to-left demo's bar, as upstream's: the language it is read in, and a note.
   bar: css({
     display: "flex",
@@ -122,12 +125,15 @@ export function MarkdownPreview({
   height = "360",
   combinations,
   direction,
+  surface,
 }: {
   item?: string
   height?: string
   combinations?: string
   /** `rtl`: a right-to-left demo, read in the language its bar chooses (Arabic first). */
   direction?: string
+  /** `true`: upstream's `bg-surface` under the demo. */
+  surface?: string
 }) {
   const { previewSrc } = useDocs()
   const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
@@ -141,9 +147,17 @@ export function MarkdownPreview({
   if (!item || !previewSrc)
     return <p sx={styles.missing}>No preview for {item ?? "this item"}.</p>
   const base = previewSrc(item, only ? current?.id : undefined)
-  const src = rtl
-    ? `${base}${base.includes("?") ? "&" : "?"}lang=${opened}`
+  const extra = [
+    rtl ? `lang=${opened}` : null,
+    surface === "true" ? "surface=true" : null,
+  ].filter(Boolean)
+  const src = extra.length
+    ? `${base}${base.includes("?") ? "&" : "?"}${extra.join("&")}`
     : base
+  // The page's width, which the framed demo's scripts are told (an inline demo would read it).
+  const framed = hydrated
+    ? `${src}${src.includes("?") ? "&" : "?"}pagewidth=${window.innerWidth}`
+    : src
   const choose = (next: Language) => {
     setLanguage(next)
     frame.current?.contentWindow?.postMessage(
@@ -180,23 +194,26 @@ export function MarkdownPreview({
             </Popover>
           </div>
         ) : null}
-        {hydrated ? (
-          <iframe
-            ref={frame}
-            title={`${item} preview`}
-            src={src}
-            loading="lazy"
-            height={height}
-            sx={styles.frame}
-          />
-        ) : (
-          <div style={{ height: `${height}px` }} sx={styles.frame} />
-        )}
+        <div sx={styles.stage}>
+          {hydrated ? (
+            <iframe
+              ref={frame}
+              title={`${item} preview`}
+              src={framed}
+              loading="lazy"
+              height={height}
+              sx={styles.frame}
+            />
+          ) : (
+            <div style={{ height: `${height}px` }} sx={styles.frame} />
+          )}
+        </div>
         {/* Prerendered folded, so its height is there before the code comes. */}
         <DemoCode
           item={item}
           combination={current?.id ?? "react/base"}
           rtl={rtl}
+          open={hydrated ? src : undefined}
         />
       </div>
     </div>

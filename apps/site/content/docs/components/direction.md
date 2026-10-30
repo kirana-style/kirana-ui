@@ -12,6 +12,11 @@ The `DirectionProvider` component is used to set the text direction (`ltr` or `r
 application. This is essential for supporting right-to-left languages like Arabic, Hebrew, and
 Persian.
 
+Here's a preview of the component in RTL mode. Use the language selector to switch the language. To
+see more examples, look for the RTL section on components pages.
+
+<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria" direction="rtl" -->
+
 ## Installation
 
 <!-- ::installation name="direction" combinations="react/base,react/aria" -->

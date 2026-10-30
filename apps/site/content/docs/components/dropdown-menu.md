@@ -8,7 +8,7 @@ keywords: [dropdown menu, component, base, aria, ark]
 
 # Dropdown Menu
 
-<!-- ::preview item="dropdown-menu-demo" height="460" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-demo" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
@@ -153,7 +153,7 @@ DropdownMenuTrigger
 
 A basic dropdown menu with labels and separators.
 
-<!-- ::preview item="dropdown-menu-basic" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria" -->
 
 ## Submenu
 
@@ -233,7 +233,7 @@ An account switcher dropdown triggered by an avatar.
 
 A richer example combining groups, icons, and submenus.
 
-<!-- ::preview item="dropdown-menu-complex" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria" -->
 
 <!-- ::start:only react/base,react/aria -->
 
@@ -241,7 +241,7 @@ A richer example combining groups, icons, and submenus.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dropdown-menu-rtl" height="460" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria" direction="rtl" -->
 
 <!-- ::end:only -->
 

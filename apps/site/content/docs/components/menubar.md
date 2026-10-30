@@ -8,7 +8,7 @@ keywords: [menubar, menu, desktop, commands, component, base]
 
 # Menubar
 
-<!-- ::preview item="menubar-demo" height="360" combinations="react/base" -->
+<!-- ::preview item="menubar-demo" height="492" combinations="react/base" -->
 
 ## Installation
 
@@ -100,7 +100,7 @@ Use `MenubarCheckboxItem` for toggleable options.
 
 Use `MenubarRadioGroup` and `MenubarRadioItem` for single-select options.
 
-<!-- ::preview item="menubar-radio" height="360" combinations="react/base" -->
+<!-- ::preview item="menubar-radio" height="436" combinations="react/base" -->
 
 ## Submenu
 
@@ -116,7 +116,7 @@ Use `MenubarSub`, `MenubarSubTrigger`, and `MenubarSubContent` for nested menus.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="menubar-rtl" height="360" combinations="react/base" direction="rtl" -->
+<!-- ::preview item="menubar-rtl" height="532" combinations="react/base" direction="rtl" -->
 
 ## API Reference
 

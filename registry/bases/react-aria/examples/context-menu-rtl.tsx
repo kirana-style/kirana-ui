@@ -17,7 +17,7 @@ import {
   ContextMenuTrigger,
 } from "../ui/context-menu"
 import { css } from "@kirana-style/core"
-import { radius } from "../../../core/tokens"
+import { radius, theme } from "../../../core/tokens"
 import {
   containerSize,
   fontSize,
@@ -37,6 +37,8 @@ const styles = {
     borderRadius: radius.xl,
     borderStyle: "dashed",
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     fontSize: fontSize.sm,
     lineHeight: lineHeight.sm,
   }),

@@ -1,6 +1,8 @@
 /**
  * The code under a demo's preview, as upstream's component preview shows it: its first lines faded
- * under a View Code button, then the whole demo, scrolling within 18rem, with a copy button. The
+ * under a View Code button, then the whole demo, scrolling within 18rem, with a copy button and,
+ * where upstream's has none, a button that folds it again; in its corner, folded or not, a link to
+ * the demo's page alone in a new tab. The
  * code is the registry's (`DocsConfig.demoCode`, `/r/demos/<item>.json`): the demo as a project
  * writes it, for the reader's framework and base and, where it draws icons, their icon library
  * (`DocsConfig.iconLibrary`). Fetched and highlighted in the browser once the page has hydrated;
@@ -8,11 +10,20 @@
  */
 import { useEffect, useState } from "react"
 import { css } from "@kirana-style/core"
+import { ArrowUp01Icon, LinkSquare02Icon } from "@hugeicons/core-free-icons"
 
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
+import { Icon } from "@workspace/ui/primitives/icon"
 
 import { useDocs } from "../provider.tsx"
-import { fontFamily, spacing, theme } from "../tokens.ts"
+import {
+  alpha,
+  duration,
+  fontFamily,
+  radius,
+  spacing,
+  theme,
+} from "../tokens.ts"
 import { CopyButton } from "./code-block.tsx"
 
 /** Per `framework/base`: one source, or one per icon library. */
@@ -65,10 +76,27 @@ const styles = {
     color: theme.mutedForeground,
   }),
   link: css({ textDecorationLine: "underline", textUnderlineOffset: "4px" }),
-  copy: css({
+  actions: css({
     position: "absolute",
     insetBlockStart: spacing[2],
     insetInlineEnd: spacing[2],
+    display: "flex",
+    gap: spacing[1],
+  }),
+  // Above the fade, so the folded panel's link takes the pointer.
+  above: css({ zIndex: 1 }),
+  // The copy button's look.
+  fold: css({
+    display: "grid",
+    placeItems: "center",
+    width: spacing[7],
+    height: spacing[7],
+    borderRadius: radius.md,
+    color: { base: theme.mutedForeground, ":hover": theme.foreground },
+    backgroundColor: { base: "transparent", ":hover": alpha.muted50 },
+    cursor: "pointer",
+    transitionProperty: "color, background-color",
+    transitionDuration: duration[150],
   }),
 }
 
@@ -87,12 +115,15 @@ export function DemoCode({
   item,
   combination,
   rtl,
+  open: page,
 }: {
   item: string
   /** `framework/base`, the reader's. */
   combination: string
   /** A right-to-left demo, whose code says why it sets its own direction. */
   rtl?: boolean
+  /** The framed page's address, opened alone in a new tab. */
+  open?: string
 }) {
   const { demoCode, iconLibrary, rtlGuide } = useDocs()
   const [sources, setSources] = useState<DemoSources | null>(null)
@@ -166,9 +197,35 @@ export function DemoCode({
       >
         <code dangerouslySetInnerHTML={{ __html: html }} />
       </pre>
-      {open ? (
-        <CopyButton source={source} sx={styles.copy} />
-      ) : (
+      <div sx={[styles.actions, styles.above]}>
+        {page ? (
+          <a
+            href={page}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open the preview in a new tab"
+            title="Open in a new tab"
+            sx={styles.fold}
+          >
+            <Icon icon={LinkSquare02Icon} size="0.875rem" />
+          </a>
+        ) : null}
+        {open ? (
+          <>
+            <button
+              type="button"
+              aria-label="Hide code"
+              title="Hide code"
+              sx={styles.fold}
+              onClick={() => setOpen(false)}
+            >
+              <Icon icon={ArrowUp01Icon} size="0.875rem" />
+            </button>
+            <CopyButton source={source} />
+          </>
+        ) : null}
+      </div>
+      {open ? null : (
         <div sx={styles.fade}>
           <Button
             variant="outline"

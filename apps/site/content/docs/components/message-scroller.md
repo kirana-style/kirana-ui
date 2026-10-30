@@ -186,7 +186,7 @@ a message.
 </MessageScrollerItem>
 ```
 
-<!-- ::preview item="message-scroller-group-chat" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-scroller-group-chat" height="400" combinations="react/base,react/aria" surface="true" -->
 
 ### Keeping Context Visible
 
@@ -246,7 +246,7 @@ the conversation from the bottom edge.
 </MessageScrollerProvider>
 ```
 
-<!-- ::preview item="message-scroller-opening-position" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-scroller-opening-position" height="400" combinations="react/base,react/aria" surface="true" -->
 
 `"last-anchor"` is keyed on `scrollAnchor`, not message role. If no anchor
 exists, or the last anchored turn already fits in the viewport, it falls back to

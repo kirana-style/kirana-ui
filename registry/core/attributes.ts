@@ -20,3 +20,6 @@ export const AXIS_ATTRIBUTES = {
 
 /** The pointer cursor on buttons, a project option rather than a preset axis (as shadcn/ui's). */
 export const POINTER_ATTRIBUTE = "data-pointer"
+
+/** A preview page's surface under its demo (`?surface=true`), upstream's `bg-surface` previews. */
+export const SURFACE_ATTRIBUTE = "data-surface"

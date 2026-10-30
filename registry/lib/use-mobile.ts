@@ -1,7 +1,9 @@
 /**
  * Whether the screen is narrower than Tailwind's `md` breakpoint: shadcn/ui's `use-mobile` hook
  * (MIT), at commit `481d523`, read with `useSyncExternalStore` rather than written back from an
- * effect, so mounting renders once. `false` on the server, as upstream's first render.
+ * effect, so mounting renders once. `false` on the server, as upstream's first render. It asks the
+ * media query itself where upstream reads `innerWidth`: the same answer, and the one a docs page's
+ * framed demo is told (`answerWidthQueriesFrom`).
  */
 import * as React from "react"
 
@@ -17,7 +19,7 @@ function subscribe(onChange: () => void) {
 export function useIsMobile() {
   return React.useSyncExternalStore(
     subscribe,
-    () => window.innerWidth < MOBILE_BREAKPOINT,
+    () => window.matchMedia(MOBILE_QUERY).matches,
     () => false
   )
 }

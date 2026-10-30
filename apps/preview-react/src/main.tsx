@@ -11,7 +11,12 @@ import { root } from "@workspace/registry/core/root"
 import { space } from "@workspace/registry/core/scales"
 import { page } from "@workspace/registry/styles/page.styles"
 
+import { answerWidthQueriesFrom } from "@workspace/registry/core/preview"
+
 import { Preview, frame, loadItem, previewPages } from "./preview"
+
+// A docs page's width, for the scripts that ask (`useIsMobile`), before any item loads.
+answerWidthQueriesFrom(window)
 
 const list = css({
   display: "flex",

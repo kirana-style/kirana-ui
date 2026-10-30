@@ -54,6 +54,8 @@ const styles = {
     justifyContent: "space-between",
     borderRadius: radius.md,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     paddingInline: space[4],
     paddingBlock: space[2],
     fontSize: fontSize.sm,
@@ -73,6 +75,8 @@ const styles = {
   div3: css({
     borderRadius: radius.md,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     paddingInline: space[4],
     paddingBlock: space[2],
     fontSize: fontSize.sm,
@@ -87,6 +91,8 @@ const styles = {
   div4: css({
     borderRadius: radius.md,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     paddingInline: space[4],
     paddingBlock: space[2],
     fontSize: fontSize.sm,

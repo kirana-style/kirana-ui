@@ -8,7 +8,7 @@ keywords: [combobox, autocomplete, select, search, component, base, aria]
 
 # Combobox
 
-<!-- ::preview item="combobox-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -425,25 +425,25 @@ export function ExampleComboboxMultiple() {
 
 A simple combobox with a list of frameworks.
 
-<!-- ::preview item="combobox-basic" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria" -->
 
 ## Multiple
 
 A combobox with multiple selection using `multiple` and `ComboboxChips`.
 
-<!-- ::preview item="combobox-multiple" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria" -->
 
 ## Clear Button
 
 Use the `showClear` prop to show a clear button.
 
-<!-- ::preview item="combobox-clear" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria" -->
 
 ## Groups
 
 Use `ComboboxGroup` and `ComboboxSeparator` to group items.
 
-<!-- ::preview item="combobox-groups" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria" -->
 
 ## Custom Items
 
@@ -459,7 +459,7 @@ You can render custom component inside `ComboboxItem`.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-custom" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria" -->
 
 ## Invalid
 
@@ -475,7 +475,7 @@ Use the `isInvalid` prop to make the combobox invalid.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-invalid" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria" -->
 
 ## Disabled
 
@@ -499,7 +499,7 @@ Use the `isDisabled` prop to disable the combobox.
 
 Use the `autoHighlight` prop to automatically highlight the first item on filter.
 
-<!-- ::preview item="combobox-auto-highlight" height="360" combinations="react/base" -->
+<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base" -->
 
 <!-- ::end:only -->
 
@@ -509,7 +509,7 @@ Use the `autoHighlight` prop to automatically highlight the first item on filter
 
 You can trigger the combobox from a button or any other component by using the `render` prop. Move the `ComboboxInput` inside the `ComboboxContent`.
 
-<!-- ::preview item="combobox-popup" height="360" combinations="react/base" -->
+<!-- ::preview item="combobox-popup" height="700" combinations="react/base" -->
 
 <!-- ::end:only -->
 
@@ -517,13 +517,13 @@ You can trigger the combobox from a button or any other component by using the `
 
 You can add an addon to the combobox by using the `InputGroupAddon` component inside the `ComboboxInput`.
 
-<!-- ::preview item="combobox-input-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="combobox-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria" direction="rtl" -->
 
 ## API Reference
 

@@ -1,25 +1,27 @@
 /**
- * One docs page: where it sits (tab › section) and the copy-page menu above the
- * article, previous and next pages below it, the table of contents beside it
- * on wide screens.
+ * One docs page: where it sits (tab › section), the copy-page menu and the previous and next
+ * pages' arrows above the article, those two pages again below it, the table of contents beside
+ * it on wide screens. The arrows and the pager are shadcn/ui's: secondary buttons, the pager's
+ * named.
  */
 import { css } from "@kirana-style/core"
-import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
+import {
+  ArrowLeft02Icon,
+  ArrowRight01Icon,
+  ArrowRight02Icon,
+} from "@hugeicons/core-free-icons"
 
 import type { PageHeading, PageMeta } from "@workspace/docs-core/types.ts"
 import { Icon } from "@workspace/ui/primitives/icon"
 import {
+  alpha,
   breakpoint,
   duration,
-  fontFamily,
   fontSize,
   fontWeight,
   lineHeight,
   radius,
   spacing,
-  textLeading,
-  textSize,
-  textTracking,
   theme,
 } from "./tokens.ts"
 
@@ -104,47 +106,45 @@ const styles = {
     overflowY: "auto",
     scrollbarWidth: "thin",
   }),
+  // shadcn/ui's `hidden h-16 w-full items-center gap-2 sm:flex`, under the article.
   pager: css({
-    display: "grid",
-    gap: spacing[3],
-    marginBlockStart: spacing[14],
-    gridTemplateColumns: { base: "minmax(0, 1fr)", [breakpoint.sm]: "1fr 1fr" },
-  }),
-  // shadcn/ui's quiet hover: the card takes the muted fill, as an outline button does.
-  pagerLink: css({
-    display: "grid",
-    gap: spacing[1],
-    borderRadius: radius.xl,
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: theme.border,
-    backgroundColor: { base: theme.card, ":hover": theme.muted },
-    padding: spacing[5],
-    textDecorationLine: "none",
-    transitionProperty: "background-color",
-    transitionDuration: duration[200],
-  }),
-  pagerNext: css({
-    textAlign: "end",
-    gridColumn: { base: "auto", [breakpoint.sm]: "2" },
-  }),
-  pagerLabel: css({
-    display: "flex",
+    display: { base: "none", [breakpoint.sm]: "flex" },
     alignItems: "center",
-    gap: spacing[1],
-    fontFamily: fontFamily.mono,
-    fontSize: textSize.label,
-    lineHeight: textLeading.label,
-    letterSpacing: textTracking.label,
-    textTransform: "uppercase",
-    color: theme.mutedForeground,
+    gap: spacing[2],
+    height: spacing[16],
+    marginBlockStart: spacing[6],
   }),
-  pagerNextLabel: css({ justifyContent: "flex-end" }),
-  pagerTitle: css({
-    fontSize: fontSize.base,
-    lineHeight: lineHeight.base,
-    fontWeight: fontWeight.semibold,
-    color: theme.foreground,
+  // A secondary button, `size="sm"`, without its shadow.
+  pagerLink: css({
+    display: "inline-flex",
+    alignItems: "center",
+    gap: spacing["1.5"],
+    height: spacing[8],
+    paddingInline: spacing["2.5"],
+    borderRadius: radius.md,
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    fontWeight: fontWeight.medium,
+    color: theme.secondaryForeground,
+    backgroundColor: { base: theme.secondary, ":hover": alpha.secondary80 },
+    textDecorationLine: "none",
+    whiteSpace: "nowrap",
+    transitionProperty: "background-color",
+    transitionDuration: duration[150],
+  }),
+  pagerNext: css({ marginInlineStart: "auto" }),
+  // The arrows beside "Copy page": secondary icon buttons, `size-8 md:size-7`.
+  arrows: css({ display: "flex", gap: spacing[2] }),
+  arrow: css({
+    display: "inline-grid",
+    placeItems: "center",
+    width: { base: spacing[8], [breakpoint.md]: spacing[7] },
+    height: { base: spacing[8], [breakpoint.md]: spacing[7] },
+    borderRadius: radius.md,
+    color: theme.secondaryForeground,
+    backgroundColor: { base: theme.secondary, ":hover": alpha.secondary80 },
+    transitionProperty: "background-color",
+    transitionDuration: duration[150],
   }),
 }
 
@@ -191,26 +191,40 @@ export function DocsPage({
           <span sx={styles.tools}>
             <WidthToggle />
             <CopyPage href={meta.href} />
+            <span sx={styles.arrows}>
+              {previous ? (
+                <Link
+                  href={previous.href}
+                  sx={styles.arrow}
+                  aria-label={`Previous: ${previous.title}`}
+                >
+                  <Icon icon={ArrowLeft02Icon} size="1rem" />
+                </Link>
+              ) : null}
+              {next ? (
+                <Link
+                  href={next.href}
+                  sx={styles.arrow}
+                  aria-label={`Next: ${next.title}`}
+                >
+                  <Icon icon={ArrowRight02Icon} size="1rem" />
+                </Link>
+              ) : null}
+            </span>
           </span>
         </div>
         <PageContext value={meta}>{children}</PageContext>
         <nav sx={styles.pager} aria-label="Pagination">
           {previous ? (
             <Link href={previous.href} sx={styles.pagerLink}>
-              <span sx={styles.pagerLabel}>
-                <Icon icon={ArrowLeft01Icon} size="0.75rem" />
-                Previous
-              </span>
-              <span sx={styles.pagerTitle}>{previous.title}</span>
+              <Icon icon={ArrowLeft02Icon} size="1rem" />
+              {previous.title}
             </Link>
           ) : null}
           {next ? (
             <Link href={next.href} sx={[styles.pagerLink, styles.pagerNext]}>
-              <span sx={[styles.pagerLabel, styles.pagerNextLabel]}>
-                Next
-                <Icon icon={ArrowRight01Icon} size="0.75rem" />
-              </span>
-              <span sx={styles.pagerTitle}>{next.title}</span>
+              {next.title}
+              <Icon icon={ArrowRight02Icon} size="1rem" />
             </Link>
           ) : null}
         </nav>

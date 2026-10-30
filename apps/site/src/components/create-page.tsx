@@ -22,7 +22,7 @@ import {
 } from "@hugeicons/core-free-icons"
 
 import { GetCodeDialog, OpenPresetDialog } from "@/components/create-dialogs"
-import { GLASS_EDGE, glass } from "@/components/glass"
+import { GLASS_EDGE } from "@/components/glass"
 import { DesignPickers } from "@/components/design-pickers"
 import {
   Picker,
@@ -44,6 +44,7 @@ import {
   fontSize,
   fontWeight,
   lineHeight,
+  shadow,
   space,
 } from "@workspace/registry/core/scales"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
@@ -102,7 +103,16 @@ const styles = {
     boxShadow: `0 0 0 1px ${alpha.foreground10}`,
     backgroundColor: theme.background,
   }),
-  frame: css({ display: "block", width: "100%", height: "100%", border: 0 }),
+  // Over the whole preview, whose height is the page's from md up and its `min-h` below: a
+  // frame at `height: 100%` of an auto-height box falls back to the browser's 150px.
+  frame: css({
+    position: "absolute",
+    inset: 0,
+    display: "block",
+    width: "100%",
+    height: "100%",
+    border: 0,
+  }),
   // `dark … rounded-2xl bg-card/90 backdrop-blur-xl md:w-(--customizer-width)`.
   panel: css({
     colorScheme: "dark",
@@ -162,28 +172,50 @@ const styles = {
     flex: { base: "1 1 auto", [breakpoint.md]: "none" },
   }),
   half: css({ flex: "1 1 0%", minWidth: 0 }),
-  // What the preview shows, on the preview: pressed, it opens Navigate.
+  // What the preview shows, on the preview, as upstream's `PreviewSwitcher`: `dark absolute right-3
+  // bottom-3 z-20 flex items-center gap-1 rounded-xl bg-card/90 p-1 shadow-xl backdrop-blur-xl`.
+  // Pressed, the item's name opens Navigate.
   current: css({
+    colorScheme: "dark",
     position: "absolute",
     insetInlineEnd: space[3],
     insetBlockEnd: space[3],
-    zIndex: 1,
+    zIndex: 20,
+    display: "flex",
+    alignItems: "center",
+    gap: space[1],
+    borderRadius: radius.xl,
+    backgroundColor: `color-mix(in oklab, ${theme.card} 90%, transparent)`,
+    color: theme.foreground,
+    padding: space[1],
+    boxShadow: shadow.xl,
+    backdropFilter: "blur(24px)",
   }),
   currentButton: css({ fontFamily: fontFamily.mono }),
-  // Upstream's preview switcher: two small pages, the shown one filled.
+  // Its two pages: `h-7 min-w-8 rounded-lg px-2.5 text-xs font-medium text-muted-foreground
+  // hover:text-foreground`, the shown one `bg-accent text-accent-foreground`.
   pages: css({ display: "flex", alignItems: "center", gap: space[1] }),
   pageButton: css({
+    height: { "*": null, base: space[7] },
     minWidth: space[8],
+    borderRadius: { "*": null, base: radius.lg },
+    paddingInline: { "*": null, base: space["2.5"] },
     fontSize: { "*": null, base: fontSize.xs },
     lineHeight: { "*": null, base: lineHeight.xs },
-    fontWeight: fontWeight.medium,
+    fontWeight: { "*": null, base: fontWeight.medium },
+    cursor: "pointer",
     color: {
       "*": null,
       base: theme.mutedForeground,
       ":hover": theme.foreground,
       '[aria-pressed="true"]': theme.accentForeground,
     },
-    backgroundColor: { '[aria-pressed="true"]': theme.accent },
+    backgroundColor: {
+      "*": null,
+      base: "transparent",
+      '[aria-pressed="true"]': theme.accent,
+    },
+    transitionProperty: "color",
   }),
   code: css({ fontFamily: fontFamily.mono }),
   // The Menu, from md up, as upstream's header; on a phone its actions are the footer's and the
@@ -303,36 +335,34 @@ export function CreatePage() {
         {hydrated ? (
           <iframe title={`${shown} preview`} src={src} sx={styles.frame} />
         ) : null}
-        <div sx={[glass.frame, styles.current]}>
-          <div sx={glass.card}>
-            {PREVIEW_PAGES.some((page) => page.item === shown) ? (
-              <div sx={styles.pages} role="group" aria-label="Previews">
-                {PREVIEW_PAGES.map((page) => (
-                  <Button
-                    key={page.item}
-                    variant="ghost"
-                    size="sm"
-                    sx={styles.pageButton}
-                    aria-pressed={page.item === shown}
-                    onClick={() => setPreview(page.item)}
-                  >
-                    {page.label}
-                  </Button>
-                ))}
-              </div>
-            ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                sx={styles.currentButton}
-                onClick={() => setNavigating(true)}
-                title="Navigate (Ctrl+P)"
-              >
-                {shown}
-                <Icon icon={ArrowUpDownIcon} />
-              </Button>
-            )}
-          </div>
+        <div sx={styles.current}>
+          {PREVIEW_PAGES.some((page) => page.item === shown) ? (
+            <div sx={styles.pages} role="group" aria-label="Previews">
+              {PREVIEW_PAGES.map((page) => (
+                <Button
+                  key={page.item}
+                  variant="ghost"
+                  size="sm"
+                  sx={styles.pageButton}
+                  aria-pressed={page.item === shown}
+                  onClick={() => setPreview(page.item)}
+                >
+                  {page.label}
+                </Button>
+              ))}
+            </div>
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              sx={styles.currentButton}
+              onClick={() => setNavigating(true)}
+              title="Navigate (Ctrl+P)"
+            >
+              {shown}
+              <Icon icon={ArrowUpDownIcon} />
+            </Button>
+          )}
         </div>
       </section>
 

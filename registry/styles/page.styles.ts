@@ -17,10 +17,24 @@ export const page = {
       '[data-mode="dark"]': "dark",
     },
   }),
+  // Upstream's `bg-surface dark:bg-background` where a preview asks for its surface: the site's
+  // `oklch(0.98 0 0)` between the background and the muted fill, the background in the dark.
   body: css({
-    backgroundColor: theme.background,
+    backgroundColor: {
+      base: theme.background,
+      ":is([data-surface] *)": `light-dark(color-mix(in oklab, ${theme.muted} 66%, ${theme.background}), ${theme.background})`,
+    },
     color: theme.foreground,
-    fontFamily: font.sans,
+    // Upstream reads its right-to-left demos in Noto Sans Arabic and Hebrew (`[data-lang]`); a
+    // preview page loads the family with the language.
+    fontFamily: {
+      base: font.sans,
+      ":lang(he)": {
+        base: `"Noto Sans Hebrew Variable", ${font.sans}`,
+        ":lang(ar)": `"Noto Sans Arabic Variable", ${font.sans}`,
+      },
+      ":lang(ar)": `"Noto Sans Arabic Variable", ${font.sans}`,
+    },
   }),
   // A demo's frame on its preview page, in every framework, as upstream's component preview
   // frames one (`flex w-full justify-center items-center p-10`): the demo in the middle of the

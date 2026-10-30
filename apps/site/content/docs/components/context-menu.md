@@ -8,7 +8,7 @@ keywords: [context menu, right click, menu, component, base, aria]
 
 # Context Menu
 
-<!-- ::preview item="context-menu-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="context-menu-demo" height="636" combinations="react/base,react/aria" -->
 
 ## Installation
 
@@ -145,13 +145,13 @@ Use `ContextMenuSub` to nest secondary actions.
 
 Add `ContextMenuShortcut` to show keyboard hints.
 
-<!-- ::preview item="context-menu-shortcuts" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="context-menu-shortcuts" height="404" combinations="react/base,react/aria" -->
 
 ## Groups
 
 Group related actions and separate them with dividers.
 
-<!-- ::preview item="context-menu-groups" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="context-menu-groups" height="760" combinations="react/base,react/aria" -->
 
 ## Icons
 
@@ -189,7 +189,7 @@ Use `selectionMode="single"` for exclusive choices.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="context-menu-radio" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="context-menu-radio" height="500" combinations="react/base,react/aria" -->
 
 ## Destructive
 
@@ -211,7 +211,7 @@ Control submenu placement with side and align props.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="context-menu-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="context-menu-rtl" height="564" combinations="react/base,react/aria" direction="rtl" -->
 
 ## API Reference
 

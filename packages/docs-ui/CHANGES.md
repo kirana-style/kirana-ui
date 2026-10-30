@@ -131,3 +131,17 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   (`pageHeadings` in docs-core's `pages.ts`). The manifest's page entries no longer carry their
   headings: every page of the site loaded every docs page's sections in its first chunk, which grew
   with each page.
+- `docs-page.tsx`: shadcn/ui's neighbours. The previous and next pages' arrows sit beside "Copy page"
+  (secondary icon buttons), and the pager under the article is two secondary buttons, each the
+  page's title with an arrow, where it was two cards with "Previous" and "Next" over the titles.
+- `markdown/demo-code.tsx`: an expanded demo's code folds again (a button beside the copy button),
+  which shadcn/ui's cannot.
+- `markdown/frameworks.tsx`: the chosen base's logo at the end of the variant tabs, as shadcn/ui's
+  base switcher shows it (its marks for Base UI and React Aria).
+- `markdown/preview.tsx`: a corner button opens the framed page alone in a new tab;
+  `surface="true"` (new) gives the page shadcn/ui's `bg-surface` (`?surface=true`, read by the
+  registry's preview pages); every frame is told the page's width (`?pagewidth=`), which the preview
+  answers width media queries from, so a demo's script reads what an inline one would.
+- `markdown/index.tsx`: headings link to themselves with shadcn/ui's `#` on hover (`HeadingAnchor`);
+  `<!-- ::start:steps -->` … `<!-- ::end:steps -->` (new) is shadcn/ui's `<Steps>`, each h3 in it a
+  numbered step on a line.
