@@ -611,7 +611,7 @@ item and preset on both sites):
 
 | Route                                  | Served by                                                                                       |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `/preview/react/base/<item>`, `aria/…` | `apps/site`'s route, prerendered per item and base; the design by an inline script before paint |
+| `/preview/react/base/<item>`, `aria/…` | `apps/preview-react`, prerendered per item and base into `<base>/<item>.html`; port 3007 in dev |
 | `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev  |
 | `/preview/svelte/ark/<item>`           | `apps/preview-svelte`, the same way; port 3004 in dev                                           |
 | `/preview/solid/ark/<item>`            | `apps/preview-solid`, the same way; port 3005 in dev                                            |
@@ -621,14 +621,17 @@ item and preset on both sites):
 - **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
   upstream's axis parameters (`style`, `theme` …), and `rtl` and `pointer`;
   `registry/core/preview.ts` turns it into the attributes on `<html>`. A React
-  preview is a static page in the default design: `registry/core/design-script.ts`,
-  inline first in `<head>`, writes the URL's design before the first paint, and the
-  page reads it from the router's location (`apps/site/src/lib/page-design.ts`),
-  never the route's context, which a prerendered page took at build time. What
-  `<html>` does not carry, the direction and the icon library, follows the URL once
-  the page has hydrated.
+  preview is a static page in the default design: `registry/core/preview-script.ts`,
+  inline first in `<head>`, writes the URL's design and the colour mode before the
+  first paint. The page loads its item, hydrates in the default design, then takes
+  the URL's in a transition (`apps/preview-react/src/preview.tsx`): what `<html>`
+  does not carry, the direction and the icon library, follows it then.
+- **In development** the site's dev server forwards `/preview/<framework>/` to each
+  preview app's, so its pages frame the previews as the built site does. The first
+  request for a framework starts that app's dev server when none answers on its port
+  (`vp run dev` starts them all already); one that does not come up answers 502.
 - **Each item is its own chunk** (`*/previews.ts` maps names to `import()`s), so a
-  preview downloads its item only: the dialog demo is 178 KB of script, gzip.
+  preview downloads its item only: the dialog demo is 116 KB of script, gzip.
 - **Live changes** come from the framing page as upstream's message,
   `{ type: "design-system-params", data: { preset, style, … } }`; the page takes
   the new design, and its URL with it, so a reload keeps it. The base and item

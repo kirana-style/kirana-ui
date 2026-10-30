@@ -77,15 +77,15 @@ A component's copy for a framework and base applies the style modules and holds 
 caller's classes go last in the root's own `:sx`. Its part and prop names follow upstream's copy for
 that base. Svelte takes its caller's `sx` as the `class` prop, Solid as a prop, and Angular's
 parts are directives that merge their `sx` input onto the host's `class`. Each framework's preview
-app (`apps/preview-vue`, `-svelte`, `-solid`, `-angular`) renders its copies, and its build is
+app (`apps/preview-react`, `-vue`, `-svelte`, `-solid`, `-angular`) renders its copies, and its build is
 where they compile and where their templates are checked.
 
 ## Previews
 
 `core/preview.ts` is how a preview page takes its design: the URL's `?preset=` and upstream's axis
 parameters, then the framing page's `design-system-params` messages, as attributes on `<html>`.
-Each base's `previews.ts` maps item names to components; the site's `/preview/react/<base>/<item>`
-and the Vue preview's `/preview/vue/ark/<item>` render them. `docs/catalogue.md` has the protocol.
+Each base's `previews.ts` maps item names to components; the React preview's
+`/preview/react/<base>/<item>` and the Vue preview's `/preview/vue/ark/<item>` render them. `docs/catalogue.md` has the protocol.
 
 Besides the slice's own demos (`*-demo`), the React bases carry upstream's `button-example`,
 `dialog-example`, `select-example` and `dropdown-menu-example` in its frame (`components/example.tsx`, `styles/example.styles.ts`), layout and

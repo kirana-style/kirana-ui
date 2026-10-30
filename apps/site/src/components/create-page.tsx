@@ -50,8 +50,7 @@ import {
   space,
 } from "@workspace/registry/core/scales"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
-import { previews as basePreviews } from "@workspace/registry/bases/react-base/previews"
-import { previews as ariaPreviews } from "@workspace/registry/bases/react-aria/previews"
+import reactPreviews from "virtual:react-preview-names"
 import { PREVIEW_NAMES as VUE_PREVIEWS } from "@workspace/registry/bases/vue-ark/preview-names"
 import { PREVIEW_NAMES as SVELTE_PREVIEWS } from "@workspace/registry/bases/svelte-ark/preview-names"
 import { PREVIEW_NAMES as SOLID_PREVIEWS } from "@workspace/registry/bases/solid-ark/preview-names"
@@ -62,8 +61,7 @@ import { useTheme } from "@workspace/ui/theme/theme-provider"
 
 /** The items a preview can show, per framework and base. */
 const PREVIEWS: Record<string, readonly string[]> = {
-  "react/base": Object.keys(basePreviews),
-  "react/aria": Object.keys(ariaPreviews),
+  ...reactPreviews,
   "vue/ark": VUE_PREVIEWS,
   "svelte/ark": SVELTE_PREVIEWS,
   "solid/ark": SOLID_PREVIEWS,

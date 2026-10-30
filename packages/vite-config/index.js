@@ -15,11 +15,13 @@ import { defineConfig } from "vite"
 import { lazyPlugins } from "vite-plus"
 
 /**
- * @param {{ cloudflare?: boolean, prerender?: boolean, pages?: string[], plugins?: import("vite").PluginOption[] }} [options]
+ * @param {{ cloudflare?: boolean, prerender?: boolean, pages?: string[], elsewhere?: string[], plugins?: import("vite").PluginOption[] }} [options]
  *   `cloudflare`: the app deploys as a Cloudflare Worker (its `wrangler.jsonc`); `vite dev` and `vite build` then run the server half
  *   inside workerd, the runtime production uses, so a Node-only API fails locally rather than after
  *   deploying. `prerender`: `vite build` renders every page it can reach from `/` into the static
- *   files, which are served without running the server; `pages` adds paths no link reaches.
+ *   files, which are served without running the server; `pages` adds paths no link reaches, and
+ *   `elsewhere` names the path prefixes another build writes into the same static files (a
+ *   preview app's), which the crawl leaves alone.
  *   `plugins`: the app's own, ahead of Kirana's.
  * @returns {import("vite").UserConfigFnObject}
  */
@@ -52,6 +54,10 @@ export function defineAppConfig(options = {}) {
                 enabled: true,
                 crawlLinks: true,
                 failOnError: true,
+                filter: (/** @type {{ path: string }} */ { path }) =>
+                  !(options.elsewhere ?? []).some((prefix) =>
+                    path.startsWith(prefix)
+                  ),
                 // `docs.html`, not `docs/index.html`: Cloudflare serves the first at `/docs` and
                 // redirects `/docs` to `/docs/` for the second.
                 autoSubfolderIndex: false,

@@ -27,7 +27,6 @@ import { Route as ChartsIndexRouteImport } from "./routes/charts.index"
 import { Route as ChartsTypeRouteImport } from "./routes/charts.$type"
 import { Route as DocsSplatRouteImport } from "./routes/docs.$"
 import { Route as PreviewTypesetItemRouteImport } from "./routes/preview/typeset.$item"
-import { Route as PreviewReactBaseItemRouteImport } from "./routes/preview/react/$base/$item"
 
 const IndexRoute = IndexRouteImport.update({
   id: "/",
@@ -119,11 +118,6 @@ const PreviewTypesetItemRoute = PreviewTypesetItemRouteImport.update({
   path: "/preview/typeset/$item",
   getParentRoute: () => rootRouteImport,
 } as any)
-const PreviewReactBaseItemRoute = PreviewReactBaseItemRouteImport.update({
-  id: "/preview/react/$base/$item",
-  path: "/preview/react/$base/$item",
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
@@ -144,7 +138,6 @@ export interface FileRoutesByFullPath {
   "/blocks/": typeof BlocksIndexRoute
   "/charts/": typeof ChartsIndexRoute
   "/preview/typeset/$item": typeof PreviewTypesetItemRoute
-  "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
@@ -163,7 +156,6 @@ export interface FileRoutesByTo {
   "/blocks": typeof BlocksIndexRoute
   "/charts": typeof ChartsIndexRoute
   "/preview/typeset/$item": typeof PreviewTypesetItemRoute
-  "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -185,7 +177,6 @@ export interface FileRoutesById {
   "/blocks/": typeof BlocksIndexRoute
   "/charts/": typeof ChartsIndexRoute
   "/preview/typeset/$item": typeof PreviewTypesetItemRoute
-  "/preview/react/$base/$item": typeof PreviewReactBaseItemRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -208,7 +199,6 @@ export interface FileRouteTypes {
     | "/blocks/"
     | "/charts/"
     | "/preview/typeset/$item"
-    | "/preview/react/$base/$item"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
@@ -227,7 +217,6 @@ export interface FileRouteTypes {
     | "/blocks"
     | "/charts"
     | "/preview/typeset/$item"
-    | "/preview/react/$base/$item"
   id:
     | "__root__"
     | "/"
@@ -248,7 +237,6 @@ export interface FileRouteTypes {
     | "/blocks/"
     | "/charts/"
     | "/preview/typeset/$item"
-    | "/preview/react/$base/$item"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -265,7 +253,6 @@ export interface RootRouteChildren {
   SponsorRoute: typeof SponsorRoute
   TypesetRoute: typeof TypesetRoute
   PreviewTypesetItemRoute: typeof PreviewTypesetItemRoute
-  PreviewReactBaseItemRoute: typeof PreviewReactBaseItemRoute
 }
 
 declare module "@tanstack/react-router" {
@@ -396,13 +383,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof PreviewTypesetItemRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/preview/react/$base/$item": {
-      id: "/preview/react/$base/$item"
-      path: "/preview/react/$base/$item"
-      fullPath: "/preview/react/$base/$item"
-      preLoaderRoute: typeof PreviewReactBaseItemRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -456,7 +436,6 @@ const rootRouteChildren: RootRouteChildren = {
   SponsorRoute: SponsorRoute,
   TypesetRoute: TypesetRoute,
   PreviewTypesetItemRoute: PreviewTypesetItemRoute,
-  PreviewReactBaseItemRoute: PreviewReactBaseItemRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

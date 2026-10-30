@@ -1,77 +1,56 @@
 import { spawn } from "node:child_process"
-import { createReadStream, existsSync, readdirSync } from "node:fs"
+import type { ChildProcess } from "node:child_process"
+import { createReadStream, existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { build } from "vite-plus"
 import type { Plugin } from "vite-plus"
 import { defineAppConfig } from "@workspace/vite-config"
+import { designScript } from "@workspace/vite-config/preview"
 
 const REGISTRY = fileURLToPath(new URL("../../registry/", import.meta.url))
 
 /**
- * Every React preview page, `/preview/react/<base>/<item>`: each base's examples, blocks and charts, the
- * items its `previews.ts` maps; and the typeset builder's, `/preview/typeset/<item>`.
+ * The typeset builder's preview pages, `/preview/typeset/<item>` (`src/lib/typeset.ts`'s
+ * `TYPESET_ITEMS`), which no link reaches. The React previews are their own app
+ * (`apps/preview-react`), built into this site's static files.
  */
-function previewPages() {
-  return ["base", "aria"]
-    .flatMap((base) => {
-      const folder = `${REGISTRY}bases/react-${base}/`
-      const examples = readdirSync(`${folder}examples`)
-        .filter((file) => file.endsWith(".tsx"))
-        .map((file) => file.slice(0, -4))
-      const blocks = readdirSync(`${folder}blocks`)
-      const charts = readdirSync(`${folder}charts`)
-        .filter((file) => file.endsWith(".tsx"))
-        .map((file) => file.slice(0, -4))
-      return [...examples, ...blocks, ...charts].map(
-        (item) => `/preview/react/${base}/${item}`
-      )
-    })
-    .concat(
-      // The typeset builder's content (`src/lib/typeset.ts`'s `TYPESET_ITEMS`).
-      ["docs", "chat", "article", "changelog", "notes"].map(
-        (item) => `/preview/typeset/${item}`
-      )
-    )
-}
+const TYPESET_PAGES = ["docs", "chat", "article", "changelog", "notes"].map(
+  (item) => `/preview/typeset/${item}`
+)
 
-/** The design script's module: `import designScript from "virtual:design-script"`. */
-const DESIGN_SCRIPT = "virtual:design-script"
+/** The React previews' names: `import names from "virtual:react-preview-names"`. */
+const PREVIEW_NAMES = "virtual:react-preview-names"
 
 /**
- * `virtual:design-script`: `registry/core/design-script.ts` bundled on its own and minified, as a
- * string the root writes inline before the first paint (X-7). Bundled apart from the app so it
- * carries the decoder and nothing else; bundled again when the script changes.
+ * `virtual:react-preview-names`: the items `/preview/react/<base>/<item>` answers to, per base,
+ * read from each base's `previews.ts` (its keys) at build time. `/create`'s explorer lists them;
+ * importing the maps themselves would put every item, and so its styles, into the site's build
+ * (KF-052).
  */
-function designScript(): Plugin {
-  const entry = `${REGISTRY}core/design-script.ts`
-  let bundled: Promise<string> | undefined
-  const bundle = async () => {
-    const output = await build({
-      configFile: false,
-      logLevel: "silent",
-      build: {
-        write: false,
-        minify: true,
-        lib: { entry, formats: ["iife"], name: "designScript" },
-      },
-    })
-    const [result] = Array.isArray(output) ? output : [output]
-    return "output" in result ? result.output[0].code.trim() : ""
+function reactPreviewNames(): Plugin {
+  const files = {
+    "react/base": `${REGISTRY}bases/react-base/previews.ts`,
+    "react/aria": `${REGISTRY}bases/react-aria/previews.ts`,
   }
   return {
-    name: "design-script",
+    name: "react-preview-names",
     resolveId(id) {
-      if (id === DESIGN_SCRIPT) return `\0${DESIGN_SCRIPT}`
+      if (id === PREVIEW_NAMES) return `\0${PREVIEW_NAMES}`
     },
-    async load(id) {
-      if (id !== `\0${DESIGN_SCRIPT}`) return
-      this.addWatchFile(entry)
-      return `export default ${JSON.stringify(await (bundled ??= bundle()))}`
-    },
-    watchChange(id) {
-      if (id === entry) bundled = undefined
+    load(id) {
+      if (id !== `\0${PREVIEW_NAMES}`) return
+      const names = Object.fromEntries(
+        Object.entries(files).map(([variant, file]) => {
+          this.addWatchFile(file)
+          const source = readFileSync(file, "utf8")
+          return [
+            variant,
+            [...source.matchAll(/^ {2}"([^"]+)":/gm)].map(([, name]) => name),
+          ]
+        })
+      )
+      return `export default ${JSON.stringify(names)}`
     },
   }
 }
@@ -114,11 +93,100 @@ function registryInDev(): Plugin {
   }
 }
 
+/** Each framework's preview app and the port its dev server takes (its `dev` script). */
+const PREVIEW_PORTS = {
+  react: 3007,
+  vue: 3003,
+  svelte: 3004,
+  solid: 3005,
+  angular: 3006,
+}
+
+/**
+ * The previews in development: the site's dev server forwards `/preview/<framework>/` to that
+ * preview app's, so the docs, `/create` and the home showcase frame them as the built site does.
+ * The first request for a framework starts its dev server when none answers on its port (`vp run
+ * dev` starts them all already), and the site's stops what it started. A server that does not
+ * come up answers 502 rather than leaving the frame waiting: a closed port can hang a connection
+ * instead of refusing it.
+ */
+function previewsInDev(): Plugin {
+  const APPS = fileURLToPath(new URL("../", import.meta.url))
+  const answers = (port: number) =>
+    fetch(`http://localhost:${port}/`, { signal: AbortSignal.timeout(1000) })
+      .then(() => true)
+      .catch(() => false)
+  const children: ChildProcess[] = []
+  const ready = new Map<string, Promise<boolean>>()
+  const start = async (framework: keyof typeof PREVIEW_PORTS) => {
+    const port = PREVIEW_PORTS[framework]
+    if (await answers(port)) return true
+    // `--strictPort`: when another dev server is still taking the port, this one leaves it to it.
+    const child = spawn("bun", ["run", "dev", "--strictPort"], {
+      cwd: `${APPS}preview-${framework}`,
+      stdio: ["ignore", "ignore", "inherit"],
+    })
+    children.push(child)
+    for (let tries = 0; tries < 90; tries++) {
+      if (await answers(port)) return true
+      await new Promise((done) => setTimeout(done, 1000))
+    }
+    return false
+  }
+  return {
+    name: "previews-in-dev",
+    apply: "serve",
+    config: () => ({
+      server: {
+        proxy: Object.fromEntries(
+          Object.entries(PREVIEW_PORTS).map(([framework, port]) => [
+            `/preview/${framework}/`,
+            { target: `http://localhost:${port}`, ws: true },
+          ])
+        ),
+      },
+    }),
+    configureServer(server) {
+      // Ahead of Vite's own middlewares, the proxy among them: it runs once the server answers.
+      server.middlewares.use((request, response, next) => {
+        const framework = request.url?.match(/^\/preview\/([a-z]+)\//)?.[1]
+        if (!framework || !(framework in PREVIEW_PORTS)) return next()
+        const key = framework as keyof typeof PREVIEW_PORTS
+        let starting = ready.get(key)
+        if (!starting) {
+          starting = start(key)
+          ready.set(key, starting)
+        }
+        void starting.then((up) => {
+          if (up) return next()
+          ready.delete(key)
+          response.statusCode = 502
+          response.end(
+            `The ${framework} preview's dev server (apps/preview-${framework}, port ${PREVIEW_PORTS[key]}) did not start.`
+          )
+        })
+      })
+      server.httpServer?.once("close", () => {
+        for (const child of children) child.kill()
+      })
+    },
+  }
+}
+
 // The site deploys as the Cloudflare Worker `ui` (wrangler.jsonc), its pages prerendered into the
-// static files the Worker's assets serve: those reached from `/`, and every preview.
+// static files the Worker's assets serve: those reached from `/`, and the typeset previews.
 export default defineAppConfig({
   cloudflare: true,
   prerender: true,
-  pages: previewPages(),
-  plugins: [designScript(), registryInDev()],
+  pages: TYPESET_PAGES,
+  // Each framework's preview app writes its own pages (`@workspace/vite-config/preview`).
+  elsewhere: ["react", "vue", "svelte", "solid", "angular"].map(
+    (framework) => `/preview/${framework}/`
+  ),
+  plugins: [
+    designScript(`${REGISTRY}core/design-script.ts`),
+    reactPreviewNames(),
+    registryInDev(),
+    previewsInDev(),
+  ],
 })

@@ -478,12 +478,15 @@ function DatePickerWithRange() {
               data-icon="inline-start"
             />
             {date?.start && date.end ? (
-              new Intl.DateTimeFormat(undefined, {
-                dateStyle: "long",
-              }).formatRange(
-                date.start.toDate(getLocalTimeZone()),
-                date.end.toDate(getLocalTimeZone())
-              )
+              // The prerender's ICU spaces a range unlike the browser's: the prerendered label stays.
+              <span suppressHydrationWarning>
+                {new Intl.DateTimeFormat(undefined, {
+                  dateStyle: "long",
+                }).formatRange(
+                  date.start.toDate(getLocalTimeZone()),
+                  date.end.toDate(getLocalTimeZone())
+                )}
+              </span>
             ) : (
               <span>Pick a date</span>
             )}

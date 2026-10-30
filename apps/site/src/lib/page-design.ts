@@ -1,4 +1,4 @@
-import { useMemo, useSyncExternalStore } from "react"
+import { startTransition, useEffect, useMemo, useState } from "react"
 import { useRouterState } from "@tanstack/react-router"
 
 import { loadDesignFonts } from "./design-fonts"
@@ -103,18 +103,28 @@ export function setDesign(asked: DesignSystem) {
 
 /**
  * The design a page is in. Its first render is the prerendered page's, the default, so it
- * hydrates; then the URL's or the saved one. Read again when the router moves (a preview takes a
- * framing page's design through its URL) and when the reader changes it.
+ * hydrates; then the URL's or the saved one. Read again when the router moves (a typeset preview
+ * takes a framing page's design through its URL) and when the reader changes it.
+ *
+ * The switch after hydration is a transition. A synchronous update, as `useSyncExternalStore`'s
+ * switch from the server's snapshot is, cannot enter a Suspense boundary still waiting to hydrate
+ * (a lazy part whose chunk arrives after the page, as the home showcase's chart card): React would
+ * drop its prerendered HTML and show the fallback until the chunk lands, the part drawn, removed
+ * and drawn again. In a transition, React hydrates the boundary first and the prerendered HTML
+ * stays.
  */
 export function usePageDesign(): PreviewDesign {
   const search = useRouterState({
     select: ({ location }) => location.searchStr,
   })
-  const changed = useSyncExternalStore(
-    subscribe,
-    () => version,
-    () => -1
-  )
+  const [changed, setChanged] = useState(-1)
+  useEffect(() => {
+    startTransition(() => setChanged(version))
+    const stop = subscribe(() => setChanged(version))
+    return () => {
+      stop()
+    }
+  }, [])
   return useMemo(
     () =>
       changed < 0

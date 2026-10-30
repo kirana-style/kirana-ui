@@ -11,7 +11,8 @@
  *
  * `--changed` (what `vp run conformance:pr` runs) keeps the pages whose sources import, at any
  * depth, a file changed since `--since` (`origin/main` by default); a change outside the registry and
- * the preview route compares every page. `--shard` is the harness's.
+ * the site (whose pages frame the previews but no longer build them: `apps/preview-react` does)
+ * compares every page. `--shard` is the harness's.
  *
  * Upstream's captures are cached between runs (`node_modules/.cache/kirana-ui-conformance`, by the
  * manifest's pin; `CONFORMANCE_CACHE` to move it): upstream needs serving only for a page not
@@ -120,13 +121,13 @@ if (changedFrom && !changed) {
   console.error(`conformance: ${changedFrom} is not a ref here`)
   process.exit(2)
 }
-/** Whether a change reaches every page: anything outside the registry's pages and the preview route. */
+/** Whether a change reaches every page: anything outside the registry's pages and the site. */
 const everywhere =
   !changed ||
   changed.some(
     (file) =>
       !file.startsWith("registry/") &&
-      !file.startsWith("apps/site/src/routes/preview/") &&
+      !file.startsWith("apps/site/") &&
       !file.startsWith("conformance/") &&
       !file.endsWith(".md")
   )
