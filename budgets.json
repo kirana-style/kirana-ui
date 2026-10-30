@@ -89,6 +89,11 @@
     "why": "The largest registry file: the Worker serves no static file over 25 MiB.",
     "measured": 374.2
   },
+  "demos.bytes": {
+    "budget": 6000,
+    "unit": "KB",
+    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added."
+  },
   "static.files": {
     "budget": 20000,
     "unit": "files",

@@ -80,3 +80,61 @@ export function Example() {
 ```
 
 <!-- ::end:tabs -->
+
+## Composition
+
+Use the following composition to build a `Sheet`:
+
+<!-- ::start:only react/base -->
+
+```text
+Sheet
+├── SheetTrigger
+└── SheetContent
+    ├── SheetHeader
+    │   ├── SheetTitle
+    │   └── SheetDescription
+    └── SheetFooter
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+```text
+SheetTrigger
+├── Button
+└── Sheet
+    ├── SheetHeader
+    │   ├── SheetTitle
+    │   └── SheetDescription
+    └── SheetFooter
+```
+
+<!-- ::end:only -->
+
+## Side
+
+Use the `side` prop on `SheetContent` to set the edge of the screen where the sheet appears. Values are `top`, `right`, `bottom`, or `left`.
+
+<!-- ::preview item="sheet-side" height="400" combinations="react/base,react/aria" -->
+
+## No Close Button
+
+Use `showCloseButton={false}` on `SheetContent` to hide the close button.
+
+<!-- ::preview item="sheet-no-close-button" height="400" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI Dialog](https://base-ui.com/react/components/dialog#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See the [React Aria Modal](https://react-aria.adobe.com/Modal#api) documentation.
+
+<!-- ::end:only -->

@@ -85,9 +85,12 @@ const vueCss = page("preview/vue/index.html").css
 const siteCss = readdirSync(join(CLIENT, "assets"))
   .filter((name) => /^stylesheet-.*\.css$/.test(name))
   .reduce((total, name) => total + gzip(join(CLIENT, "assets", name)), 0)
+// The registry's items; each docs demo's code (`r/demos`, the panels under the previews) apart.
+const DEMOS = join(CLIENT, "r", "demos")
 const registryFiles = existsSync(join(CLIENT, "r"))
-  ? walk(join(CLIENT, "r"))
+  ? walk(join(CLIENT, "r")).filter((path) => !path.startsWith(DEMOS))
   : []
+const demoFiles = existsSync(DEMOS) ? walk(DEMOS) : []
 const allFiles = walk(CLIENT)
 
 /**
@@ -131,6 +134,8 @@ const measured: Record<string, number> = {
   "registry.largest":
     Math.max(...registryFiles.map((path) => statSync(path).size)) / 1024,
   "static.files": allFiles.length,
+  "demos.bytes":
+    demoFiles.reduce((total, path) => total + statSync(path).size, 0) / 1024,
   ...Object.fromEntries(
     Object.entries(styleCost).map(([style, text]) => [
       `style.${style}`,

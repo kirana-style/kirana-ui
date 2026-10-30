@@ -49,7 +49,11 @@ Concretely, for a component that arrives as Tailwind:
    upstream's page for that component, section for section (its preview, an
    `installation` embed, usage, composition, every example with its docs demo,
    the API reference), from its `base` and `aria` copies, with Kirana's own words
-   only where Kirana differs (`sx` for `className`). The `installation` embed is
+   only where Kirana differs (`sx` for `className`). Upstream's docs demos
+   (`apps/v4/examples/<base>/`) port as a block's cards do (`kirana-style migrate
+   tailwind`, "Adding a block"), wrapped in the preview's frame (`page.example`);
+   each preview's code panel then comes from the builder (`/r/demos/<item>.json`),
+   with no step of its own. The `installation` embed is
    both CLIs and the manual steps, with every file the item installs. That one
    file is the
    component's page for every framework and base it has: list them in its

@@ -82,3 +82,50 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 ```
 
 <!-- ::end:tabs -->
+
+## Composition
+
+Use the following composition to build `Tabs`:
+
+```text
+Tabs
+├── TabsList
+│   ├── TabsTrigger
+│   └── TabsTrigger
+├── TabsContent
+└── TabsContent
+```
+
+## Line
+
+Use the `variant="line"` prop on `TabsList` for a line style.
+
+<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria" -->
+
+## Vertical
+
+Use `orientation="vertical"` for vertical tabs.
+
+<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria" -->
+
+## Disabled
+
+<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria" -->
+
+## Icons
+
+<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI Tabs](https://base-ui.com/react/components/tabs#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See the [React Aria Tabs](https://react-aria.adobe.com/Tabs#api) documentation.
+
+<!-- ::end:only -->

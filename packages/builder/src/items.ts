@@ -642,7 +642,7 @@ export const ITEMS: Item[] = [
 /**
  * Where a registry file lives in an installed project, relative to the registry's root for the
  * combination: markup and style modules in `ui/`, the design system in `lib/kirana/`, a block's
- * page and parts in `blocks/<name>/` and `components/`, a chart in `components/`.
+ * page and parts in `blocks/<name>/` and `components/`, a chart and a docs demo in `components/`.
  */
 export function installedPath(source: string): string {
   const base = /^bases\/[^/]+\/ui\/(.+)$/.exec(source)
@@ -660,6 +660,10 @@ export function installedPath(source: string): string {
   // A chart is one component, as upstream's install into `components/`.
   const chart = /^bases\/[^/]+\/charts\/(.+)$/.exec(source)
   if (chart) return `components/${chart[1]}`
+  // So is a docs demo, as upstream's examples (`registry:example`), and the frame upstream's
+  // `-example` pages share (its `example` item).
+  const demo = /^bases\/[^/]+\/(?:examples|components)\/(.+)$/.exec(source)
+  if (demo) return `components/${demo[1]}`
   const block = /^bases\/[^/]+\/blocks\/(.+)$/.exec(source)
   if (block) return `blocks/${block[1]}`
   throw new Error(`No place for ${source} in an installed project.`)

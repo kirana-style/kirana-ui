@@ -5,6 +5,8 @@
  * in an iframe, so it renders in its own framework and design. With `combinations`, a picker above
  * it chooses the framework and base, the reader's choice for the whole site (`combination.ts`).
  *
+ * Under it, in the same box, the demo's code as upstream shows it (`demo-code.tsx`).
+ *
  * The frame is created once the page has hydrated, so its first address is the final one: the
  * prerendered page knows neither the reader's combination nor anything saved, and a frame created
  * before would load twice. The colour mode is not in the address: the framed page reads the site's
@@ -28,18 +30,20 @@ import {
 import type { DocsCombination } from "../provider.tsx"
 import { useDocs } from "../provider.tsx"
 import { radius, spacing, theme } from "../tokens.ts"
+import { DemoCode } from "./demo-code.tsx"
 
 const styles = {
   root: css({ marginBlockEnd: spacing[5] }),
-  frame: css({
-    display: "block",
-    width: "100%",
+  // The demo and its code in one bordered box, as upstream's component preview.
+  box: css({
+    overflow: "hidden",
     borderRadius: radius.xl,
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
     backgroundColor: theme.background,
   }),
+  frame: css({ display: "block", width: "100%", borderWidth: 0 }),
   picker: css({
     marginBlockEnd: spacing[2],
     overflowX: "auto",
@@ -106,17 +110,21 @@ export function MarkdownPreview({
       {only ? (
         <CombinationPicker available={available} current={current} />
       ) : null}
-      {hydrated ? (
-        <iframe
-          title={`${item} preview`}
-          src={src}
-          loading="lazy"
-          height={height}
-          sx={styles.frame}
-        />
-      ) : (
-        <div style={{ height: `${height}px` }} sx={styles.frame} />
-      )}
+      <div sx={styles.box}>
+        {hydrated ? (
+          <iframe
+            title={`${item} preview`}
+            src={src}
+            loading="lazy"
+            height={height}
+            sx={styles.frame}
+          />
+        ) : (
+          <div style={{ height: `${height}px` }} sx={styles.frame} />
+        )}
+        {/* Prerendered folded, so its height is there before the code comes. */}
+        <DemoCode item={item} combination={current?.id ?? "react/base"} />
+      </div>
     </div>
   )
 }

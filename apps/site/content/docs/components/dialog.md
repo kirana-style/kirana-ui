@@ -112,3 +112,73 @@ import {
 On React Aria, `DialogTrigger` holds both the button and the dialog, which has no separate content part.
 
 <!-- ::end:only -->
+
+## Composition
+
+Use the following composition to build a `Dialog`:
+
+<!-- ::start:only react/base -->
+
+```text
+Dialog
+├── DialogTrigger
+└── DialogContent
+    ├── DialogHeader
+    │   ├── DialogTitle
+    │   └── DialogDescription
+    └── DialogFooter
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+```text
+DialogTrigger
+├── Button
+└── Dialog
+    ├── DialogHeader
+    │   ├── DialogTitle
+    │   └── DialogDescription
+    └── DialogFooter
+```
+
+<!-- ::end:only -->
+
+## Custom Close Button
+
+Replace the default close control with your own button.
+
+<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria" -->
+
+## No Close Button
+
+Use `showCloseButton={false}` to hide the close button.
+
+<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria" -->
+
+## Sticky Footer
+
+Keep actions visible while the content scrolls.
+
+<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria" -->
+
+## Scrollable Content
+
+Long content can scroll while the header stays in view.
+
+<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI](https://base-ui.com/react/components/dialog#api-reference) documentation for more information.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See the [React Aria](https://react-aria.adobe.com/Modal#api) documentation for more information.
+
+<!-- ::end:only -->

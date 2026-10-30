@@ -28,3 +28,35 @@ export function Example() {
   )
 }
 ```
+
+## Vertical
+
+Use `orientation="vertical"` for a vertical separator.
+
+<!-- ::preview item="separator-vertical" height="400" combinations="react/base,react/aria" -->
+
+## Menu
+
+Vertical separators between menu items with descriptions.
+
+<!-- ::preview item="separator-menu" height="400" combinations="react/base,react/aria" -->
+
+## List
+
+Horizontal separators between list items.
+
+<!-- ::preview item="separator-list" height="400" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI Separator](https://base-ui.com/react/components/separator#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See the [React Aria Separator](https://react-aria.adobe.com/Separator#api) documentation.
+
+<!-- ::end:only -->

@@ -57,3 +57,69 @@ export function Example() {
 ```
 
 <!-- ::end:tabs -->
+
+## Composition
+
+Use the following composition to build a `Tooltip`:
+
+<!-- ::start:only react/base -->
+
+```text
+Tooltip
+├── TooltipTrigger
+└── TooltipContent
+```
+
+<!-- ::end:only -->
+
+## Side
+
+<!-- ::start:only react/base -->
+
+Use the `side` prop to change the position of the tooltip.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+```text
+TooltipTrigger
+├── Button
+└── Tooltip
+```
+
+<!-- ::end:only -->
+
+## Placement
+
+<!-- ::start:only react/aria -->
+
+Use the `placement` prop to change the position of the tooltip.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria" -->
+
+## With Keyboard Shortcut
+
+<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria" -->
+
+## Disabled Button
+
+Show a tooltip on a disabled button by wrapping it with a span.
+
+<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria" -->
+
+## API Reference
+
+<!-- ::start:only react/base -->
+
+See the [Base UI Tooltip](https://base-ui.com/react/components/tooltip#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+See the [React Aria Tooltip](https://react-aria.adobe.com/Tooltip#api) documentation.
+
+<!-- ::end:only -->

@@ -111,6 +111,14 @@ Use `align="block-end"` to position the addon below the input.
 
 <!-- ::preview item="input-group-textarea" height="360" combinations="react/base,react/aria" -->
 
+## Custom Input
+
+Add the `data-slot="input-group-control"` attribute to your custom input for automatic focus state handling.
+
+Here's an example of a custom resizable textarea from a third-party library.
+
+<!-- ::preview item="input-group-custom" height="400" combinations="react/base,react/aria" -->
+
 ## API Reference
 
 ### InputGroup

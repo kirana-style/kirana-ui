@@ -158,3 +158,98 @@ export class Example {}
 ```
 
 <!-- ::end:tabs -->
+
+## Composition
+
+Use the following composition to build a `Card`:
+
+```text
+Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter
+```
+
+## Size
+
+Use the `size="sm"` prop to set the size of the card to small. The small size variant uses smaller spacing.
+
+<!-- ::preview item="card-small" height="400" combinations="react/base,react/aria" -->
+
+## Spacing
+
+In addition to the `size` prop, the card's spacing context sets the spacing between sections and the inset of its parts: `[cardCtx.spacing]: spacing(6)` on the card (`@/lib/kirana/context`).
+
+<!-- ::preview item="card-spacing" height="400" combinations="react/base,react/aria" -->
+
+Use negative margins of `calc(${cardCtx.spacing} * -1)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, give `CardContent` the same negative bottom margin to remove the section gap.
+
+<!-- ::preview item="card-edge-to-edge" height="400" combinations="react/base,react/aria" -->
+
+## Image
+
+Add an image before the card header to create a card with an image.
+
+<!-- ::preview item="card-image" height="400" combinations="react/base,react/aria" -->
+
+## API Reference
+
+### Card
+
+The `Card` component is the root container for card content.
+
+| Prop   | Type                | Default     |
+| ------ | ------------------- | ----------- |
+| `size` | `"default" \| "sm"` | `"default"` |
+| `sx`   | `Sx`                | -           |
+
+### CardHeader
+
+The `CardHeader` component is used for a title, description, and optional action.
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| `sx` | `Sx` | -       |
+
+### CardTitle
+
+The `CardTitle` component is used for the card title.
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| `sx` | `Sx` | -       |
+
+### CardDescription
+
+The `CardDescription` component is used for helper text under the title.
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| `sx` | `Sx` | -       |
+
+### CardAction
+
+The `CardAction` component places content in the top-right of the header (for example, a button or a badge).
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| `sx` | `Sx` | -       |
+
+### CardContent
+
+The `CardContent` component is used for the main card body.
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| `sx` | `Sx` | -       |
+
+### CardFooter
+
+The `CardFooter` component is used for actions and secondary content at the bottom of the card.
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| `sx` | `Sx` | -       |

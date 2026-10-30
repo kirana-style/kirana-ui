@@ -114,3 +114,8 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   browser with docs-core's highlighter, loaded on demand.
 - `markdown/tabs.tsx`: a tab group whose headings are all combinations' labels follows the shared
   choice instead of `?tab=` (framework and base tabs on code blocks).
+- `markdown/demo-code.tsx` (new), drawn by `markdown/preview.tsx` under every preview, in one
+  bordered box with it, as shadcn/ui's component preview: the demo's code, fetched from
+  `DocsConfig.demoCode` (new) for the reader's combination and icon library
+  (`DocsConfig.iconLibrary`, new), folded to three lines under a View Code button, highlighted in the
+  browser with docs-core's highlighter.
