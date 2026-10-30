@@ -280,6 +280,8 @@ export const previews: Record<
   "pagination-simple": () => import("./examples/pagination-simple"),
   "popover-alignments": () => import("./examples/popover-alignments"),
   "popover-basic": () => import("./examples/popover-basic"),
+  preview: () => import("./blocks/preview/page"),
+  "preview-02": () => import("./blocks/preview-02/page"),
   "popover-demo": () => import("./examples/popover-demo"),
   "popover-example": () => import("./examples/popover-example"),
   "popover-form": () => import("./examples/popover-form"),

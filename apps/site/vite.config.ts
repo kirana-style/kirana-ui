@@ -46,7 +46,10 @@ function reactPreviewNames(): Plugin {
           const source = readFileSync(file, "utf8")
           return [
             variant,
-            [...source.matchAll(/^ {2}"([^"]+)":/gm)].map(([, name]) => name),
+            // A key is quoted when it is not an identifier (`"preview-02"`, but `preview`).
+            [...source.matchAll(/^ {2}"?([\w-]+)"?:/gm)].map(
+              ([, name]) => name
+            ),
           ]
         })
       )

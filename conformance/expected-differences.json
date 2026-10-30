@@ -1275,6 +1275,102 @@
       "property": "background-color",
       "route": "questionnaire-example",
       "reason": "the harness leaves its pointer where it clicked the dialog's trigger, which the open dialog covers with this choice: Chrome marks it hovered in ours and not in upstream's, with no pointer move between; both draw `hover:bg-muted/50`"
+    },
+    {
+      "element": "button[data-slot=\"sidebar-menu-button\"]",
+      "property": "text-align",
+      "route": "/preview-02\\?",
+      "reason": "a menu button's `start`, upstream's `text-left`: the same in left-to-right text, and what upstream's right-to-left install writes"
+    },
+    {
+      "element": "button[data-slot=\"toggle-group-item\"]",
+      "property": "background-color",
+      "route": "/aria/preview(-02)?\\?",
+      "reason": "upstream's bug: in a single-selection group React Aria marks the chosen toggle `role=radio aria-checked`, which upstream's `aria-pressed:bg-muted` never matches, so its chosen time slot is not filled; ours fills it, as Base UI's does"
+    },
+    {
+      "element": "div[data-slot=\"field\"]",
+      "property": "line-height",
+      "route": "/preview-02\\?",
+      "reason": "inherited from the choice card's FieldLabel, whose line height follows upstream's install rather than its site (the field-label entry)"
+    },
+    {
+      "element": "span[data-slot=\"radio-group-",
+      "property": "line-height",
+      "route": "/preview-02\\?",
+      "reason": "inherited from the choice card's FieldLabel, whose line height follows upstream's install rather than its site (the field-label entry)"
+    },
+    {
+      "element": "label[data-slot=\"radio-group-item\"]",
+      "property": "line-height",
+      "route": "/preview-02\\?",
+      "reason": "inherited from the choice card's FieldLabel, whose line height follows upstream's install rather than its site (the field-label entry)"
+    },
+    {
+      "element": "div[data-slot=\"slider-",
+      "property": "left",
+      "route": "/base/preview(-02)?\\?",
+      "reason": "Base UI 1.9 places an edge-aligned thumb a fraction of a pixel from upstream's 1.6 (as on the slider example)"
+    },
+    {
+      "element": "div[data-slot=\"card",
+      "property": "height",
+      "route": "/preview(-02)?\\?",
+      "reason": "follows FieldLabel's line height: most of these cards are forms"
+    },
+    {
+      "element": "div[data-slot=\"field-group\"]",
+      "property": "grid-template-rows",
+      "route": "/preview(-02)?\\?",
+      "reason": "follows FieldLabel's line height: most of these cards are forms"
+    },
+    {
+      "element": "div[data-slot=\"capture-target\"]",
+      "property": "height",
+      "route": "/preview(-02)?\\?",
+      "reason": "follows FieldLabel's line height: most of these cards are forms"
+    },
+    {
+      "element": "div[data-slot=\"capture-target\"]",
+      "property": "grid-template-rows",
+      "route": "/preview(-02)?\\?",
+      "reason": "follows FieldLabel's line height: most of these cards are forms"
+    },
+    {
+      "element": "fieldset[data-slot=\"field-set\"]",
+      "property": "height",
+      "route": "/preview(-02)?\\?",
+      "reason": "follows FieldLabel's line height: most of these cards are forms"
+    },
+    {
+      "element": "legend[data-slot=\"field-legend\"]",
+      "property": "bottom",
+      "route": "/preview(-02)?\\?",
+      "reason": "follows FieldLabel's line height: most of these cards are forms"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "line-height",
+      "route": "\\?preset=b1oVxsfY",
+      "reason": "Sera's Label: upstream's site keeps `leading-relaxed` under a card's `text-xs`, its installed copy loses it to cn; the registry follows the install"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "height",
+      "route": "/preview-02\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry): the registry follows upstream's install"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "height",
+      "route": "/preview-02\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry): the registry follows upstream's install"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "grid-template-rows",
+      "route": "/preview-02\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry): the registry follows upstream's install"
     }
   ]
 }

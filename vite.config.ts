@@ -89,9 +89,10 @@ export default defineConfig({
         command: "bun packages/builder/src/upstream-cli.ts",
         cache: false,
       },
-      // The registry's pages against shadcn/ui's own site, every example and block in every style
-      // (`scripts/conformance.ts`, kirana-lab's harness); `conformance:pr` keeps the pages a change
-      // since `origin/main` reaches. Needs the site's Worker, upstream's site and kirana-lab.
+      // The registry's pages against shadcn/ui's own site (`scripts/conformance.ts`, kirana-lab's
+      // harness): the pages a run names (`-- --pages tabs-example`), in Nova at rest unless it asks
+      // for more; `conformance:pr` the pages a change since `origin/main` reaches, at most eight.
+      // Needs the site's Worker, upstream's site and kirana-lab.
       conformance: { command: "bun scripts/conformance.ts", cache: false },
       "conformance:pr": {
         command: "bun scripts/conformance.ts --changed",

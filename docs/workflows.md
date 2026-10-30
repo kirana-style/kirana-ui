@@ -113,7 +113,27 @@ parts in `components/`), as `login-01` and `sidebar-07` are. Then, once:
 2. its entry in `packages/builder/src/items.ts` (its files per combination), and in each base's
    `previews.ts`, which gives it its preview page, the frame `/blocks` shows;
 3. `vp run registry`, `vp run build` (the preview page and the category page are prerendered),
-   and `vp run conformance -- --pages <name>` against upstream's site.
+   and `vp run conformance -- --pages <name> --styles all` against upstream's site.
+
+A block of many cards (`preview`, `preview-02`) is ported with `kirana-style migrate tailwind`, from a
+scratch folder whose `kirana.config.mjs` adds `@kirana-style/preset-scales/preset` and points
+`utilities.scales.color` and `radius` at `registry/core/tokens.ts`'s `theme` and `radius`, and
+`utilities.variants` at the eight `style-*` conditions. Its output then needs what Tailwind's
+cascade does and Kirana's per-entry merge does not:
+
+- a card's style on a registry component replaces that component's value in every style, so each
+  property but the colours is `{ "*": null, base: … }` (upstream's per-style rules sit in
+  `@layer base`, under every utility);
+- under a card's `text-*`, a component keeps its own line height in the styles where it sets
+  `leading-*` (Tailwind's `--tw-leading`) and takes the size's where its line height comes with its
+  size: read it per style from upstream's `registry/styles/style-*.css`;
+- `p-*`, `m-*` and `inset-*` are the shorthands, a gradient is a `backgroundImage`, `border` needs
+  no `borderStyle` (the reset's is `solid`), and the composition variables (`compose[…]`) resolve
+  to the values a hand port writes;
+- an upstream custom property a component reads through a context (`--cell-size`) is the context's
+  key (`calendarCtx.cellSize`), and Recharts becomes TanStack Charts by hand.
+
+What the codemod should do itself is logged for Kirana.
 
 ### Adding a chart
 
@@ -260,13 +280,17 @@ The registry's preview pages are compared with the same pages on shadcn/ui's
 site, a production build of its `apps/v4` at the manifest's commit (`next
 build` once, then `next start` on port 4000, from a clone of shadcn/ui kept for
 it), by the same harness in URL-pair mode: each route is loaded from both sites, with the
-expected site's path rewritten. `vp run conformance` runs it for every example
-and block the site ports, on both React bases, in every style, at rest and in
-every state (`scripts/conformance.ts`); `vp run conformance:pr` keeps the pages
-whose sources reach a file changed since `origin/main`. It needs the site's
-Worker on 8787, upstream's site on 4000 and a kirana-lab checkout beside this
-repository (`KIRANA_LAB` otherwise); `--rest` skips the states, `--shard 1/3` splits the routes, `--list`
-prints them. Upstream's captures are kept between runs
+expected site's path rewritten. `scripts/conformance.ts` compares only the
+pages a run names, on both React bases: `vp run conformance -- --pages
+tabs-example,login-01`, in Nova and at rest unless `--styles lyra,sera` (`all`
+for the eight) and `--states` ask for more. A page an earlier run compared is
+not compared again unless the change concerns it. `vp run conformance:pr`
+(`--changed`) keeps the pages whose own sources reach a file changed since
+`origin/main`, and stops when more than eight do, so a run names the ones the
+change concerns instead; `--all` is the whole matrix, for a change that truly
+reaches every page. It needs the site's Worker on 8787, upstream's site on 4000
+and a kirana-lab checkout beside this repository (`KIRANA_LAB` otherwise);
+`--shard 1/3` splits the routes, `--list` prints them. Upstream's captures are kept between runs
 (`node_modules/.cache/kirana-ui-conformance/upstream-<pin>`), so its server is
 needed only for a page not captured yet. A difference not in
 `conformance/expected-differences.json` fails it; each entry there says why it

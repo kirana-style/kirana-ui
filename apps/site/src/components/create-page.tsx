@@ -5,7 +5,8 @@
  * Reset `⇧R`); the base is the project's, chosen in Get Code; its pickers lock on hover for shuffling;
  * its footer, as upstream's, copies the preset, then opens one, shuffles or resets, then gets the
  * code. The preview frames any item in any base, created once the page has hydrated so it loads
- * once; the item's name on it opens Navigate. The design is the site's
+ * once: upstream's second preview first, and its switcher (01, 02) over the two previews; on any
+ * other item, the item's name, which opens Navigate. The design is the site's
  * (`setDesign`), so every page follows what `/create` makes.
  */
 import * as React from "react"
@@ -20,11 +21,7 @@ import {
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 
-import {
-  GetCodeDialog,
-  NavigateDialog,
-  OpenPresetDialog,
-} from "@/components/create-dialogs"
+import { GetCodeDialog, OpenPresetDialog } from "@/components/create-dialogs"
 import { GLASS_EDGE, glass } from "@/components/glass"
 import { DesignPickers } from "@/components/design-pickers"
 import {
@@ -67,6 +64,19 @@ const PREVIEWS: Record<string, readonly string[]> = {
   "solid/ark": SOLID_PREVIEWS,
   "angular/ng": ANGULAR_PREVIEWS,
 }
+
+/** Upstream's two previews, in its switcher's order: the second is the first shown. */
+const PREVIEW_PAGES = [
+  { label: "01", item: "preview-02" },
+  { label: "02", item: "preview" },
+] as const
+
+/** Navigate, loaded the first time it opens (`create-navigate.tsx`). */
+const NavigateDialog = React.lazy(() =>
+  import("@/components/create-navigate").then((module) => ({
+    default: module.NavigateDialog,
+  }))
+)
 
 const subscribeNever = () => () => {}
 const isClient = () => true
@@ -160,6 +170,21 @@ const styles = {
     zIndex: 1,
   }),
   currentButton: css({ fontFamily: fontFamily.mono }),
+  // Upstream's preview switcher: two small pages, the shown one filled.
+  pages: css({ display: "flex", alignItems: "center", gap: space[1] }),
+  pageButton: css({
+    minWidth: space[8],
+    fontSize: { "*": null, base: fontSize.xs },
+    lineHeight: { "*": null, base: lineHeight.xs },
+    fontWeight: fontWeight.medium,
+    color: {
+      "*": null,
+      base: theme.mutedForeground,
+      ":hover": theme.foreground,
+      '[aria-pressed="true"]': theme.accentForeground,
+    },
+    backgroundColor: { '[aria-pressed="true"]': theme.accent },
+  }),
   code: css({ fontFamily: fontFamily.mono }),
   // The Menu, from md up, as upstream's header; on a phone its actions are the footer's and the
   // preview's item button, and its keys need a keyboard.
@@ -208,9 +233,12 @@ export function CreatePage() {
     isServer
   )
   const [locked, setLocked] = React.useState<ReadonlySet<DesignAxis>>(new Set())
-  const [preview, setPreview] = React.useState("button-example")
+  const [preview, setPreview] = React.useState<string>(PREVIEW_PAGES[0].item)
   const [opening, setOpening] = React.useState(false)
   const [navigating, setNavigating] = React.useState(false)
+  // Once opened, Navigate stays mounted, so it closes with its animation.
+  const [navigated, setNavigated] = React.useState(false)
+  if (navigating && !navigated) setNavigated(true)
   const [rtl, setRtl] = React.useState(false)
   const [pointer, setPointer] = React.useState(false)
 
@@ -277,16 +305,33 @@ export function CreatePage() {
         ) : null}
         <div sx={[glass.frame, styles.current]}>
           <div sx={glass.card}>
-            <Button
-              variant="ghost"
-              size="sm"
-              sx={styles.currentButton}
-              onClick={() => setNavigating(true)}
-              title="Navigate (Ctrl+P)"
-            >
-              {shown}
-              <Icon icon={ArrowUpDownIcon} />
-            </Button>
+            {PREVIEW_PAGES.some((page) => page.item === shown) ? (
+              <div sx={styles.pages} role="group" aria-label="Previews">
+                {PREVIEW_PAGES.map((page) => (
+                  <Button
+                    key={page.item}
+                    variant="ghost"
+                    size="sm"
+                    sx={styles.pageButton}
+                    aria-pressed={page.item === shown}
+                    onClick={() => setPreview(page.item)}
+                  >
+                    {page.label}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                sx={styles.currentButton}
+                onClick={() => setNavigating(true)}
+                title="Navigate (Ctrl+P)"
+              >
+                {shown}
+                <Icon icon={ArrowUpDownIcon} />
+              </Button>
+            )}
           </div>
         </div>
       </section>
@@ -387,13 +432,17 @@ export function CreatePage() {
           />
         </div>
       </aside>
-      <NavigateDialog
-        open={navigating}
-        onOpenChange={setNavigating}
-        items={items}
-        current={shown}
-        onPick={setPreview}
-      />
+      {navigated ? (
+        <React.Suspense fallback={null}>
+          <NavigateDialog
+            open={navigating}
+            onOpenChange={setNavigating}
+            items={items}
+            current={shown}
+            onPick={setPreview}
+          />
+        </React.Suspense>
+      ) : null}
       <OpenPresetDialog
         open={opening}
         onOpenChange={setOpening}

@@ -1,23 +1,26 @@
 /**
  * The registry's pages against the same pages on shadcn/ui's own site, computed style for computed
  * style, with kirana-lab's harness in URL-pair mode (`docs/workflows.md`, "Against shadcn/ui's own
- * site"): every upstream example and block the site ports, on Base UI and React Aria, in every
- * style, at rest and in every state. A difference not in `conformance/expected-differences.json`
- * fails it.
+ * site"): upstream's examples and blocks the site ports, on Base UI and React Aria. A difference not
+ * in `conformance/expected-differences.json` fails it.
  *
- *   bun scripts/conformance.ts [--changed [--since <ref>]] [--styles nova,lyra] [--shard i/n] [--pages a,b] [--rest] [--list]
+ *   bun scripts/conformance.ts --pages a,b [--styles nova,lyra|all] [--states] [--shard i/n] [--list]
+ *   bun scripts/conformance.ts --changed [--since <ref>] [...]
+ *   bun scripts/conformance.ts --all [...]
  *
- * `--rest` skips the states, for a fix that changes no state. `--list` prints the routes and stops; `--pages tabs-example,login-01` keeps those pages.
+ * A run compares only the pages it names: what a change concerns, never what an earlier run
+ * already compared, unless that is what broke. By default in Nova and at rest; `--styles` adds the
+ * styles a change concerns (`all` for the eight) and `--states` opens every state too. `--list`
+ * prints the routes and stops.
  *
- * `--changed` (what `vp run conformance:pr` runs) keeps the pages whose sources import, at any
- * depth, a file changed since `--since` (`origin/main` by default); a change outside the registry and
- * the site (whose pages frame the previews but no longer build them: `apps/preview-react` does)
- * compares every page. `--shard` is the harness's.
+ * `--changed` (what `vp run conformance:pr` runs) keeps the pages whose own sources import, at any
+ * depth, a file changed since `--since` (`origin/main` by default), and stops when more than
+ * `MAX_CHANGED` do: name the pages the change concerns with `--pages` instead. `--all` is the
+ * whole matrix, for a change that truly reaches every page. `--shard` is the harness's.
  *
  * Upstream's captures are cached between runs (`node_modules/.cache/kirana-ui-conformance`, by the
  * manifest's pin; `CONFORMANCE_CACHE` to move it): upstream needs serving only for a page not
- * captured yet. Run in tiers: one page and style while fixing (`--pages x --styles nova`), every
- * page the branch reaches before the pull request (`--changed`).
+ * captured yet.
  *
  * Needs the site's Worker (`SITE_URL`, default `http://localhost:8787`), upstream's `apps/v4`
  * served at the manifest's commit (`UPSTREAM_URL`, default `http://localhost:4000`), and a
@@ -51,7 +54,8 @@ const { values } = parseArgs({
   allowPositionals: true,
   options: {
     changed: { type: "boolean", default: false },
-    rest: { type: "boolean", default: false },
+    all: { type: "boolean", default: false },
+    states: { type: "boolean", default: false },
     since: { type: "string" },
     styles: { type: "string" },
     shard: { type: "string" },
@@ -61,13 +65,25 @@ const { values } = parseArgs({
 })
 const changedFrom = values.changed ? (values.since ?? "origin/main") : undefined
 
-const styles = (values.styles?.split(",") ?? Object.keys(PRESETS)).filter(
-  (style) => {
-    if (PRESETS[style]) return true
-    console.error(`conformance: no upstream code for ${style}`)
-    process.exit(2)
-  }
-)
+if (!values.pages && !values.changed && !values.all) {
+  console.error(
+    "conformance: name the pages a change concerns (--pages tabs-example,login-01), or --changed, or --all"
+  )
+  process.exit(2)
+}
+
+/** The most pages `--changed` compares; past it, the run names the pages instead. */
+const MAX_CHANGED = 8
+
+const styles = (
+  values.styles === "all"
+    ? Object.keys(PRESETS)
+    : (values.styles?.split(",") ?? ["nova"])
+).filter((style) => {
+  if (PRESETS[style]) return true
+  console.error(`conformance: no upstream code for ${style}`)
+  process.exit(2)
+})
 
 /** The pages upstream also has: its examples, and the blocks, each with its entry file. */
 function pages(base: string) {
@@ -121,19 +137,9 @@ if (changedFrom && !changed) {
   console.error(`conformance: ${changedFrom} is not a ref here`)
   process.exit(2)
 }
-/** Whether a change reaches every page: anything outside the registry's pages and the site. */
-const everywhere =
-  !changed ||
-  changed.some(
-    (file) =>
-      !file.startsWith("registry/") &&
-      !file.startsWith("apps/site/") &&
-      !file.startsWith("conformance/") &&
-      !file.endsWith(".md")
-  )
 const touches = (entry: string) =>
-  everywhere ||
-  [...closure(entry)].some((file) => changed!.includes(relative(ROOT, file)))
+  !changed ||
+  [...closure(entry)].some((file) => changed.includes(relative(ROOT, file)))
 
 const routes = (bases: string[], only?: (name: string) => boolean) =>
   bases.flatMap((base) =>
@@ -247,9 +253,16 @@ if (all.length === 0) {
   console.log("conformance: no page reaches a changed file")
   process.exit(0)
 }
+const named = new Set(all.map((route) => route.split("/")[4]!.split("?")[0]))
+if (values.changed && !values.all && named.size > MAX_CHANGED) {
+  console.error(
+    `conformance: the change reaches ${named.size} pages (${[...named].join(", ")}); compare the ones it concerns with --pages, or every page with --all`
+  )
+  process.exit(2)
+}
 // React Aria's DialogTrigger and MenuTrigger render no element: its overlays open from the first
 // button in an example.
-const passes = values.rest
+const passes = !values.states
   ? [compare("rest", all)]
   : [
       compare("rest", all),
