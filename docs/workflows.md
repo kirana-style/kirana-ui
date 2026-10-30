@@ -152,7 +152,32 @@ has its charts) into `registry/bases/<base>/charts/<name>.tsx` for each React ba
 Charts: a `defineChart` definition beside the card, as `chart-area-default` and the others are. A
 config colour is a token (`theme.chart1`); Recharts' angles start at 3 o'clock and turn
 counter-clockwise, TanStack Charts' at 12 and clockwise, so a pie or radial chart starts at
-`Math.PI / 2` and ends at `Math.PI / 2 - Math.PI * 2`. Then, once:
+`Math.PI / 2` and ends at `Math.PI / 2 - Math.PI * 2`. What Recharts does by itself is written
+out:
+
+- **The value axis.** Upstream hides it and draws the grid on its ticks, which Recharts rounds
+  its own way (0 to 320 in steps of 80 for a top of 305). `niceTicks(values)` gives that domain and
+  those ticks; the scale takes `scaleLinear().domain(ticks.domain)` and the hidden axis
+  `hiddenAxis(ticks.ticks)`. A shown axis puts `ticks.values` on its own ticks.
+- **Stacked areas.** Each row's layers are worked out once, bottom to top in the order Recharts
+  draws the series: an `areaY` with the series' raw value as `y` between `y1` and `y2` (so the
+  tooltip reads the raw value), and the top edge a `lineY` on `y2`, wrapped in `decorative()` so
+  it adds no tooltip rows. Recharts' area stroke is its top edge only; an `areaY` stroke outlines
+  the whole shape.
+- **The active dot.** Recharts draws one on each series at the hovered point: a `dot` wrapped in
+  `whenFocused(…, { match: "x" })`, `r: 4` (or the chart's `activeDot` radius), the series' colour
+  with a 2px ring in the background colour. A per-row colour is a `color` channel with the chart's
+  `color` scale; `dot`'s `fill` is one colour.
+- **The tooltip cursor.** Where upstream leaves Recharts' cursor on (no `cursor={false}`), a bar
+  chart's is the focused band in the muted colour, `whenFocused(bandX(…, { fill: theme.muted }))`,
+  and a line chart's a rule, `whenFocused(ruleX(…, { stroke: theme.border }))`.
+- **The tooltip's order.** Recharts lists the series in the order it draws them; TanStack Charts
+  top to bottom. A stacked or multiple-series chart gives the tooltip `sort`, by the series' order.
+- **Labels** (`LabelList`) are `text` marks, `decorative()`, offset with `dy`.
+- **A legend** is `legend={<ChartLegendContent />}`: the chart then fills what the legend leaves of
+  the box.
+
+Then, once:
 
 1. its title, description (the file's own `description`) and type in `registry/charts.ts`, which
    the builder writes into the registry's item and `/charts/<type>` reads;

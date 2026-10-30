@@ -297,7 +297,14 @@ A chart is a TanStack Charts definition handed to `ChartContainer` with a
 registry's tokens are custom properties Kirana names, so `--chart-1` does not
 exist. A mark reads the series as upstream's does, `var(--color-desktop)`, which
 the container sets. `chartTheme` gives a definition the axis, grid and palette
-colours and no focus ring, as upstream's charts draw none.
+colours and no focus ring, as upstream's charts draw none; the container draws the
+grid at full opacity, as upstream's `stroke-border/50`. `niceTicks(values)` rounds a
+value axis as Recharts does and `hiddenAxis(ticks)` places the grid on it without
+drawing the axis, so a grid falls where upstream's does. The tooltip body finds a
+row's name and colour as upstream's: `nameKey` names a datum field or a config key,
+and the indicator is the row's `fill`, else the series' colour, else the mark's
+paint. With `legend`, the chart fills what the legend leaves of the box.
+`docs/workflows.md` ("Adding a chart") has the patterns the charts share.
 
 Writing one:
 

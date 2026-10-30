@@ -274,34 +274,22 @@
       "reason": "the same menu trigger: the harness hovers the first `[data-slot=\"button\"]`, which on upstream's page is that trigger, so its Action button is never hovered there"
     },
     {
-      "element": "Area Chart › ",
-      "property": "(element)",
-      "route": "chart-example",
-      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
-    },
-    {
-      "element": "Line Chart › ",
-      "property": "(element)",
-      "route": "chart-example",
-      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
-    },
-    {
       "element": "Pie Chart › ",
       "property": "(element)",
       "route": "chart-example",
-      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+      "reason": "left out: the Area, Bar and Line charts are ported so far; the pie, radar and radial charts come with the rest of the charts"
     },
     {
       "element": "Radial Chart › ",
       "property": "(element)",
       "route": "chart-example",
-      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+      "reason": "left out: the Area, Bar and Line charts are ported so far; the pie, radar and radial charts come with the rest of the charts"
     },
     {
       "element": "Radar Chart › ",
       "property": "(element)",
       "route": "chart-example",
-      "reason": "left out: the one chart ported so far is the Bar Chart; the others come with the rest of the charts"
+      "reason": "left out: the Area, Bar and Line charts are ported so far; the pie, radar and radial charts come with the rest of the charts"
     },
     {
       "element": "",

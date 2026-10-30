@@ -54,10 +54,10 @@
     "measured": 124.1
   },
   "preview-react.css": {
-    "budget": 80,
+    "budget": 90,
     "unit": "KB",
-    "why": "The React preview's stylesheets, gzip, as a page links them: Kirana's compiled stylesheet for every React item of the 64 components in every style and axis value, Kirana's base sheet, the registry's reset, and Inter and Geist. One sheet for every preview, so each frame on a page loads the same cached file. Measured 69.8 on its own app (KF-052's option C).",
-    "measured": 72.8
+    "why": "The React preview's stylesheets, gzip, as a page links them: Kirana's compiled stylesheet for every React item of the 64 components in every style and axis value, Kirana's base sheet, the registry's reset, and Inter and Geist. One sheet for every preview, so each frame on a page loads the same cached file. Measured 69.8 on its own app (KF-052's option C). Raised to 90 KB with P2-10's area, bar and line charts (27 charts, about 4.6 KB): the sheet holds every chart's rules, most of these the interactive charts' card parts, which replace their component's values in every style; main measured 76.2 before (with typeset.css, 3.2 KB, which Code Block's typeset demo needs), and the pie, radar, radial and tooltip charts are still to come.",
+    "measured": 80.8
   },
   "site.css": {
     "budget": 56,
