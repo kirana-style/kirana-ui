@@ -20,6 +20,7 @@ import {
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlShadow, controlTransition, laterRings } from "./control"
+import { fullInField } from "./field-scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -28,7 +29,7 @@ export const textarea = css({
   display: "flex",
   fieldSizing: "content",
   minHeight: space[16],
-  width: "100%",
+  width: fullInField,
   outlineStyle: "none",
   ...controlTransition,
   transitionProperty: {

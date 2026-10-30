@@ -513,10 +513,8 @@ keeps to the brand and its actions, as the Kirana site's docs do (no menus; its 
 docs' own sections). Outside the docs and `/create`, the header, every section and the footer
 stand in the page's rail (`components/page/rail.tsx`, Kirana's `Rail`: a centred column, 80rem at
 most, ruled on both sides from `md` up, each section's bottom border crossing the rules); the
-home page's showcase is the one band that runs across it: its grid keeps upstream's 1600 px, and
-beyond it, from 1700 px, upstream's skeleton rails go on to the page's edges at half strength
-(`components/showcase/skeleton-rails.tsx`, four of upstream's skeleton cards); the
-footer's top rule closes the grid. Each page stands in a scene (`components/header/nav.ts`'s
+home page's showcase is the one band that runs across it, to the page's edges; the footer's top
+rule closes it. Each page stands in a scene (`components/header/nav.ts`'s
 `SCENES`, `Page`'s `scene`): its picture (the hero's and the footer's), and its hue
 (`components/page/hue.ts`, the Kirana site's scene hues), which tints the hero's pixel and italic
 word, the chapters' numbers, Create's chip and the engine's tile. The home page stands in the
@@ -543,16 +541,16 @@ colour mode as Kirana's pill with its `D` chip, three link groups, the landscape
 until it draws. The chrome carries the Kirana brand; the components and their pages still follow
 shadcn/ui. The header carries the docs' search on every page (⌘K; a field from `xl`, an icon below), its
 dialog loaded on first open. The home page is upstream's: the hero, its two calls to action (Get
-Started, New Project), and the showcase (`components/showcase/`, a file per card, as upstream's
-`(root)/cards`): the cards of upstream's home and `preview` block the registry can draw, live in
-the reader's design, four columns from 1400 px, the chart card in its own chunk. Site code, not a
-registry item, since a block holding some of upstream's `preview` cards would differ from upstream's
-whole block.
+Started, New Project), and the showcase (`components/showcase/`): each framework's preview app's
+showcase page in a frame (`/preview/<framework>/<base>/showcase`), which takes the design as every
+framed preview does. React's is upstream's home (`apps/preview-react/src/showcase.tsx`, upstream's
+`(root)/cards`): every card, drawn by the registry's `preview` and `preview-02` blocks and Message
+Scroller's demo, in upstream's columns (two from `md`, three from `lg`, four from 1400 px, five
+from 1900 px), and from 2200 px, where upstream's skeleton rails go on to the page's edges, the
+same cards themselves at half strength, out of reach. The other frameworks' have the cards they
+can draw with the components they have, laid out by `registry/styles/showcase.styles.ts`.
 Above it, the framework switch (`components/showcase/frameworks.ts`): React, Vue, Svelte, Solid
-and Angular. React is the grid itself, drawn on Base UI; another framework swaps it for its preview
-app's showcase page in a frame (`/preview/<framework>/<base>/showcase`, the cards it can draw with
-the components it has, laid out by `registry/styles/showcase.styles.ts`), which takes the design as
-every framed preview does. The choice is the docs' combination (docs-ui's `combination.ts`), so a
+and Angular. The choice is the docs' combination (docs-ui's `combination.ts`), so a
 component page opens on the framework chosen here.
 `/blocks` and `/blocks/<category>` are upstream's blocks pages (`routes/blocks*.tsx`, the parts in
 `components/blocks/`): Kirana's page hero (`components/page/`, as the project pages; the charts and
@@ -638,7 +636,7 @@ item and preset on both sites):
 | `/preview/svelte/ark/<item>`           | `apps/preview-svelte`, the same way; port 3004 in dev                                           |
 | `/preview/solid/ark/<item>`            | `apps/preview-solid`, the same way; port 3005 in dev                                            |
 | `/preview/angular/ng/<item>`           | `apps/preview-angular` (Analog's Vite plugin, Angular's compiler run first); port 3006 in dev   |
-| `/preview/<framework>/<base>/showcase` | each preview app's showcase: the home showcase's cards the framework can draw so far            |
+| `/preview/<framework>/<base>/showcase` | each preview app's showcase: React's is upstream's home; the others the cards each draws so far |
 
 - **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
   upstream's axis parameters (`style`, `theme` …), and `rtl` and `pointer`;

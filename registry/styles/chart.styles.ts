@@ -41,6 +41,16 @@ export const chart = {
     "--ts-chart-tooltip-border": "none",
     "--ts-chart-tooltip-shadow": "none",
     "--ts-chart-tooltip-padding": "0",
+    // Until the chart mounts (`data-entering`, as the server renders it), its marks wait for the
+    // entrance, which replays from the baseline: shown, they would flash at their final size
+    // first. Only where scripts run and motion is allowed; otherwise the server's chart is the
+    // chart.
+    [select.descendant('[class~="ts-chart__marks"]')]: {
+      visibility: {
+        "@media (scripting: enabled) and (prefers-reduced-motion: no-preference)":
+          { "[data-entering]": "hidden" },
+      },
+    },
   }),
   // The chart itself fills the container. Its grid is the theme's half-strength border at full
   // opacity, as upstream's `stroke-border/50`: TanStack Charts paints a grid at 0.11 by default.

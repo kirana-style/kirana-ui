@@ -49,11 +49,31 @@ describe("the preview's design", () => {
       lang: "en",
       "data-pointer": undefined,
       "data-surface": undefined,
+      "data-charts": undefined,
     })
-    expect(Object.keys(attributes)).toHaveLength(13)
+    expect(Object.keys(attributes)).toHaveLength(14)
     expect(
       documentAttributes(readPreviewDesign(params("lang=ar&surface=true")))
     ).toMatchObject({ lang: "ar", "data-surface": "" })
+  })
+
+  it("draws a charts page's colours while the design keeps the default ones", () => {
+    const gallery = readPreviewDesign(params("charts=blue"))
+    expect(gallery.options.charts).toBe("blue")
+    expect(documentAttributes(gallery)).toMatchObject({
+      "data-chart-color": "blue",
+      "data-charts": "",
+    })
+    // A chart colour the reader chose wins.
+    expect(
+      documentAttributes(
+        readPreviewDesign(params("charts=blue&chartColor=rose"))
+      )
+    ).toMatchObject({ "data-chart-color": "rose" })
+    expect(readPreviewDesign(params(previewQuery(gallery)))).toEqual(gallery)
+    expect(
+      readPreviewDesign(params("charts=plaid")).options.charts
+    ).toBeUndefined()
   })
 
   it("reads a demo's language, whose direction wins over rtl", () => {

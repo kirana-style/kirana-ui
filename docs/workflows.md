@@ -82,12 +82,26 @@ Concretely, for a component that arrives as Tailwind:
    Upstream's other page parts have theirs: a guide's `<Steps>` is
    `<!-- ::start:steps -->` … `<!-- ::end:steps -->` around its h3 steps, its
    `<Callout>` a `> [!NOTE]` (amber, `> [!WARNING]`), and a preview upstream sets
-   on `bg-surface` takes `surface="true"`. A preview is a frame, so a demo's
-   CSS breakpoints read the frame's width (about 650px on a wide screen) where
-   upstream's inline demos read the page's; its scripts are told the page's
-   width (`useIsMobile`, a drawer's side). A demo that opens a menu, select,
-   combobox or popover gets a frame tall enough to show it whole below its
-   trigger, as upstream's overflows its box; measure it rather than guess.
+   on `bg-surface` takes `surface="true"`; upstream's `hideCode` is
+   `code="false"`, its `type="block"` (a block shown as on a desktop, Sidebar)
+   `block="true"`, and its `figcaption` `caption="…"`. A preview is a frame, so
+   a demo's CSS breakpoints read the frame's width (about 650px on a wide
+   screen) where upstream's inline demos read the page's; its scripts are told
+   the page's width (`useIsMobile`, a drawer's side), and a demo that hides
+   something below a breakpoint the frame does not reach (`hidden md:flex`)
+   takes `wide="true"`, a frame the page's width, centred and clipped. A demo
+   that opens a menu, select, combobox or popover gets a frame tall enough to
+   show it whole below its trigger, as upstream's overflows its box; measure it
+   rather than guess. An illustration upstream shows (Sidebar's structure) is
+   `<!-- ::figure light="…" dark="…" alt="…" caption="…" -->`, its files in
+   `apps/site/public/images/`, its caption saying whose it is. The components
+   index lists the pages itself (`<!-- ::components-list -->`); a page with
+   `new: true` in its front matter is in its New Components list and carries
+   the sidebar's blue dot.
+
+   A chat demo streams a scripted conversation as upstream's do, with
+   `@shadcn/helpers/ai-sdk`'s `createChat` and the AI SDK's `useChat`
+   (`registry/lib/ai.ts`, upstream's `@/lib/ai`): no model and no network.
 
    Link a component by the URL its variants share, `/docs/components/<item>`:
    every link to it leads to the reader's framework, and the URL itself

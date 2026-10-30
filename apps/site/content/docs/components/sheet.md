@@ -117,7 +117,7 @@ SheetTrigger
 
 Use the `side` prop on `SheetContent` to set the edge of the screen where the sheet appears. Values are `top`, `right`, `bottom`, or `left`.
 
-<!-- ::preview item="sheet-side" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="sheet-side" height="640" combinations="react/base,react/aria" -->
 
 ## No Close Button
 

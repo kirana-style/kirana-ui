@@ -372,6 +372,7 @@ export async function generate(config: DocsConfig): Promise<void> {
         ...(front.status ? { status: front.status as PageMeta["status"] } : {}),
         ...(Array.isArray(front.keywords) ? { keywords: front.keywords } : {}),
         ...(typeof front.kind === "string" ? { kind: front.kind } : {}),
+        ...(front.new === true ? { new: true } : {}),
         ...(variant ? { variant } : {}),
       }
       // Search finds a variant source once, at the URL its variants share.
@@ -424,6 +425,7 @@ export async function generate(config: DocsConfig): Promise<void> {
       description: page.meta.description,
       ...(page.meta.keywords ? { keywords: page.meta.keywords } : {}),
       ...(page.meta.kind ? { kind: page.meta.kind } : {}),
+      ...(page.meta.new ? { new: true } : {}),
     })
 
     // `pages` is already in reading order, so a branch is emitted the first time

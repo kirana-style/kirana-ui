@@ -22,6 +22,8 @@ export type PageMeta = {
    * `api`, `config`, `cli`, `diagnostics` — free text, the layout picks the tint.
    */
   readonly kind?: string
+  /** Recently added (`new: true`): the sidebar and the components list mark it, as upstream's. */
+  readonly new?: boolean
   /**
    * The variant this page documents, when its source is published once per variant (a component
    * per framework and base, `variants.ts`): which one, the neutral URL every variant shares (the
@@ -57,6 +59,7 @@ export type NavItem = {
   readonly description?: string
   readonly keywords?: readonly string[]
   readonly kind?: string
+  readonly new?: boolean
 }
 
 /** A collapsible sub-group of pages inside a section. */

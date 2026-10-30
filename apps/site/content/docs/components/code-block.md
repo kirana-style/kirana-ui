@@ -2,6 +2,7 @@
 title: Code Block
 description: Displays code, terminal output and diffs with an optional header, line numbers and a copy button.
 section: components
+new: true
 variants: [react/base, react/aria]
 keywords: [code-block, chat, component, base, aria]
 ---
@@ -382,6 +383,23 @@ export function ServerCode({ code }: { code: string }) {
 The hook highlights the code again each time it changes, so a block that streams in is coloured as it grows.
 
 <!-- ::preview item="code-block-streaming" height="1170" combinations="react/base,react/aria" -->
+
+### Markdown
+
+Render the message with [TanStack Markdown](https://tanstack.com/markdown) and route fenced code to a `CodeBlock`: its React renderer draws a fence as a `pre` naming its language in `data-lang`, around a `code` element holding the text, so `components.pre` draws the `CodeBlock` and `components.code` stays for inline code. (Upstream renders with Streamdown, whose `data-block` marks fenced code.)
+
+<!-- ::preview item="code-block-markdown" height="520" combinations="react/base,react/aria" -->
+
+While the message streams, pass the streaming extension, which leaves out a half-written trailing block until its text arrives. To disable the copy button until the closing fence arrives (Streamdown's `useIsCodeFenceIncomplete`), count the fences in the streamed text: an odd count means the last one is still open.
+
+```tsx
+<Markdown
+  components={{ code: MarkdownCode, pre: MarkdownPre }}
+  extensions={[streamingMarkdownExtension()]}
+>
+  {text}
+</Markdown>
+```
 
 ## Accessibility
 

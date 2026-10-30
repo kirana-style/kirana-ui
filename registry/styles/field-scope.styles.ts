@@ -47,3 +47,13 @@ export const fillInField = {
   [CHILD_OF_VERTICAL]: "100%",
   [CHILD_OF_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
 }
+
+/**
+ * The width of a `w-full` control (Input, Textarea) as a Field's child: from `md` a responsive
+ * field's `*:w-auto` beats the control's own `w-full`, so the input keeps its own size beside the
+ * label.
+ */
+export const fullInField = {
+  base: "100%",
+  [CHILD_OF_RESPONSIVE]: { [GROUP_MD]: "auto" },
+}

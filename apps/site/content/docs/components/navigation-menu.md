@@ -8,7 +8,7 @@ keywords: [navigation, menu, links, nav, component, base]
 
 # Navigation Menu
 
-<!-- ::preview item="navigation-menu-demo" height="472" combinations="react/base" -->
+<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base" -->
 
 ## Installation
 
@@ -87,7 +87,7 @@ export function NavigationMenuDemo() {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="navigation-menu-rtl" height="472" combinations="react/base" direction="rtl" -->
+<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base" direction="rtl" -->
 
 ## API Reference
 

@@ -1,17 +1,15 @@
 /**
  * The home page's showcase, as upstream's home has it (`app/(app)/(root)/cards`): a grid of
  * application cards drawn with the registry's components, live in the reader's design, so every
- * choice in the customizer shows on them at once. The cards are the ones of upstream's home and of
- * its `preview` block that the registry can draw today (Card, Button, Field, Input, Separator,
- * Skeleton, Chart); the rest come with their components. Site code, not a registry item: a block
- * holding some of upstream's `preview` cards would differ from upstream's whole block.
+ * choice in the customizer shows on them at once.
  *
- * Above the grid, the framework switch (the docs' shared choice of framework and base, so a component
- * page follows it): React is this grid, drawn on Base UI; every other framework is its preview app's
- * showcase page, framed (`/preview/<framework>/<base>/showcase`), with the cards that framework can
- * draw with the components it has so far. The design reaches the frame as it reaches every preview.
+ * Above it, the framework switch (the docs' shared choice of framework and base, so a component page
+ * follows it). Each framework's showcase is its preview app's page, framed
+ * (`/preview/<framework>/<base>/showcase`), and the design reaches the frame as it reaches every
+ * preview: React's is upstream's home, every card and its arrangement, with the cards themselves in
+ * the rails beside the grid where upstream draws skeletons (`apps/preview-react/src/showcase.tsx`);
+ * every other framework's has the cards it can draw with the components it has so far.
  */
-import * as React from "react"
 import { css } from "@kirana-style/core"
 
 import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
@@ -25,14 +23,7 @@ import {
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
 
-import { EnvironmentVariables } from "./environment-variables"
 import { SHOWCASE_FRAMEWORKS } from "./frameworks"
-import { NewMilestone } from "./new-milestone"
-import { PowerUsage } from "./power-usage"
-import { QrConnect } from "./qr-connect"
-import { SkeletonLoading } from "./skeleton-loading"
-import { StyleOverview } from "./style-overview"
-import { WeeklyFitnessSummary } from "./weekly-fitness-summary"
 import {
   breakpoint,
   fontSize,
@@ -41,26 +32,8 @@ import {
 } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
 
-/**
- * The chart card carries TanStack Charts, the showcase's largest dependency, and is off the first
- * screen: its own chunk, loaded as the page hydrates. The prerendered page has it already, and
- * React keeps that markup until the chunk arrives, so nothing moves.
- */
-const TrafficChannels = React.lazy(() =>
-  import("./traffic-channels").then((module) => ({
-    default: module.TrafficChannels,
-  }))
-)
-
-// Drawn only from 1700 px, so in a chunk of its own.
-const SkeletonRails = React.lazy(() =>
-  import("./skeleton-rails").then((module) => ({
-    default: module.SkeletonRails,
-  }))
-)
-
 const styles = {
-  // Across the page's rail, the one band that does: the cards, then the skeleton rails to the edges.
+  // Across the page's rail, the one band that does.
   demo: css({
     position: "relative",
     overflow: "hidden",
@@ -71,31 +44,6 @@ const styles = {
       [breakpoint.xl]: space[12],
     },
     paddingBottom: 0,
-  }),
-  grid: css({
-    position: "relative",
-    zIndex: 1,
-    display: "grid",
-    gap: { base: space[4], [breakpoint.lg]: space[6] },
-    gridTemplateColumns: {
-      base: "minmax(0, 1fr)",
-      [breakpoint.md]: "repeat(2, minmax(0, 1fr))",
-      [breakpoint.lg]: "repeat(3, minmax(0, 1fr))",
-      "@media (width >= 1400px)": "repeat(4, minmax(0, 1fr))",
-    },
-    // Upstream's 1600 px at most: beyond it the skeleton rails go on, not wider cards.
-    marginInline: "auto",
-    maxWidth: { base: "48rem", [breakpoint.lg]: "100rem" },
-  }),
-  column: css({
-    display: "flex",
-    flexDirection: "column",
-    gap: { base: space[4], [breakpoint.lg]: space[6] },
-  }),
-  fromMd: css({ display: { base: "none", [breakpoint.md]: "flex" } }),
-  fromLg: css({ display: { base: "none", [breakpoint.lg]: "flex" } }),
-  fromWide: css({
-    display: { base: "none", "@media (width >= 1400px)": "flex" },
   }),
   // The switch, centred over the grid, and what the chosen framework draws so far.
   switch: css({
@@ -116,7 +64,7 @@ const styles = {
     color: theme.mutedForeground,
     textAlign: "center",
   }),
-  // Another framework's showcase, where the grid would be.
+  // A framework's showcase, framed.
   frame: css({
     position: "relative",
     zIndex: 1,
@@ -127,6 +75,23 @@ const styles = {
     height: { base: "48rem", [breakpoint.lg]: "60rem" },
     borderWidth: 0,
     backgroundColor: "transparent",
+  }),
+  // React's, upstream's home: across the band, to the page's edges, where its rails go on.
+  reactFrame: css({
+    maxWidth: { "*": null, base: "none" },
+    width: {
+      "*": null,
+      base: `calc(100% + 2 * ${space[4]})`,
+      [breakpoint.md]: `calc(100% + 2 * ${space[6]})`,
+      [breakpoint.xl]: `calc(100% + 2 * ${space[12]})`,
+    },
+    marginInline: {
+      "*": null,
+      base: `calc(-1 * ${space[4]})`,
+      [breakpoint.md]: `calc(-1 * ${space[6]})`,
+      [breakpoint.xl]: `calc(-1 * ${space[12]})`,
+    },
+    height: { "*": null, base: "56rem", [breakpoint.lg]: "84rem" },
   }),
   fade: css({
     position: "absolute",
@@ -147,9 +112,6 @@ export function Showcase() {
     SHOWCASE_FRAMEWORKS[0]!
   return (
     <section sx={styles.demo} aria-label="Components in your design">
-      <React.Suspense fallback={null}>
-        <SkeletonRails />
-      </React.Suspense>
       <div sx={styles.switch}>
         <Tabs
           value={framework.id}
@@ -177,42 +139,13 @@ export function Showcase() {
           </p>
         )}
       </div>
-      {framework.id === "react" ? (
-        <ReactGrid />
-      ) : (
-        <iframe
-          key={framework.id}
-          title={`The showcase in ${framework.label}`}
-          src={`/preview/${framework.combination}/showcase`}
-          sx={styles.frame}
-        />
-      )}
+      <iframe
+        key={framework.id}
+        title={`The showcase in ${framework.label}`}
+        src={`/preview/${framework.combination}/showcase`}
+        sx={[styles.frame, framework.id === "react" && styles.reactFrame]}
+      />
       <div sx={styles.fade} />
     </section>
-  )
-}
-
-function ReactGrid() {
-  return (
-    <div sx={styles.grid}>
-      <div sx={styles.column}>
-        <StyleOverview />
-        <NewMilestone />
-      </div>
-      <div sx={[styles.column, styles.fromMd]}>
-        <React.Suspense fallback={null}>
-          <TrafficChannels />
-        </React.Suspense>
-        <SkeletonLoading />
-      </div>
-      <div sx={[styles.column, styles.fromLg]}>
-        <QrConnect />
-        <EnvironmentVariables />
-      </div>
-      <div sx={[styles.column, styles.fromWide]}>
-        <WeeklyFitnessSummary />
-        <PowerUsage />
-      </div>
-    </div>
   )
 }

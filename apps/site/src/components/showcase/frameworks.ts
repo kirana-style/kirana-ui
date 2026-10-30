@@ -1,7 +1,7 @@
 /**
  * The frameworks the showcase switches between, each with the combination it shows (the docs'
- * shared choice, `react/base` …) and its mark. React's is the live grid; every other framework's is
- * its preview app's showcase page, `/preview/<framework>/<base>/showcase`.
+ * shared choice, `react/base` …) and its mark. Each is its preview app's showcase page,
+ * `/preview/<framework>/<base>/showcase`.
  */
 import type { SvglIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"

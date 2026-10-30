@@ -6,6 +6,7 @@
 import { Suspense, lazy, startTransition, useEffect, useState } from "react"
 import type { ComponentType } from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
+import { Tooltip } from "@base-ui/react/tooltip"
 import { css } from "@kirana-style/core"
 import { I18nProvider } from "react-aria-components"
 
@@ -30,14 +31,22 @@ const BASES: Record<string, () => Promise<{ previews: Previews }>> = {
   aria: () => import("@workspace/registry/bases/react-aria/previews"),
 }
 
+/**
+ * The app's own pages beside the registry's items: the home page's React showcase, as every
+ * framework's preview app has its own (`./showcase.tsx`).
+ */
+const APP_PAGES: Record<string, Previews> = {
+  base: { showcase: () => import("./showcase") },
+}
+
 /** Every page the app has, as `[base, item]`. */
 export async function previewPages(): Promise<[string, string][]> {
   const pages = await Promise.all(
     Object.entries(BASES).map(async ([base, load]) =>
-      Object.keys((await load()).previews).map((item): [string, string] => [
-        base,
-        item,
-      ])
+      [
+        ...Object.keys((await load()).previews),
+        ...Object.keys(APP_PAGES[base] ?? {}),
+      ].map((item): [string, string] => [base, item])
     )
   )
   return pages.flat()
@@ -48,6 +57,8 @@ export async function loadItem(
   base: string,
   item: string
 ): Promise<ComponentType | undefined> {
+  const own = APP_PAGES[base]?.[item]
+  if (own) return (await own()).default
   const previews = (await BASES[base]?.())?.previews
   return previews && item in previews
     ? (await previews[item]()).default
@@ -134,7 +145,11 @@ export function Preview({ base, Item }: { base: string; Item: ComponentType }) {
         <IconLibraryProvider library={design.system.iconLibrary}>
           {/* A right-to-left demo's language; one that the URL does not name is the demo's own. */}
           <LanguageProvider language={language}>
-            <Item />
+            {/* Upstream's site wraps every page in `TooltipProvider delay={0}`, so a Base UI tooltip
+                opens at once where it would wait its own 600ms. */}
+            <Tooltip.Provider delay={0}>
+              <Item />
+            </Tooltip.Provider>
           </LanguageProvider>
           {hydrated && (
             <Suspense>

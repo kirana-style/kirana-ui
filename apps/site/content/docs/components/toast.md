@@ -47,7 +47,9 @@ toast.add({
 ## Types
 
 Set the `type` option to render a status icon. The built-in renderer recognizes
-`success`, `info`, `warning`, `error`, and `loading`.
+`success`, `info`, `warning`, `error`, and `loading`. Each status icon has its colour, where
+shadcn/ui's keep the text's but the error's: green for `success`, sky for `info`, orange for
+`warning` and the destructive red for `error`.
 
 <!-- ::preview item="toast-types" height="300" combinations="react/base" -->
 

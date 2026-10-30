@@ -49,6 +49,7 @@ import {
 import { accent, tint } from "./accent.ts"
 import { tabFor, useDocs } from "./provider.tsx"
 import { DocsSearch } from "./search.tsx"
+import { NewDot } from "./new-dot.tsx"
 
 const SCROLL_KEY = "docs-ui:sidebar-scroll"
 
@@ -254,6 +255,7 @@ function Row({
       {pageIcon?.(item.href)}
       <span sx={styles.rowLabel}>
         {label ?? item.title}
+        {item.new ? <NewDot /> : null}
         {trail ? <span sx={styles.trail}>{trail}</span> : null}
       </span>
       {item.kind ? <span sx={styles.badge}>{item.kind}</span> : null}

@@ -7,7 +7,8 @@
  *
  * Under it, in the same box, the demo's code as upstream shows it (`demo-code.tsx`), with a link to
  * the framed page alone, in a new tab, in its corner. `surface="true"` gives the page upstream's
- * `bg-surface`, as its chat parts' previews have.
+ * `bg-surface`, as its chat parts' previews have; `code="false"` leaves the code out, as upstream's
+ * `hideCode`.
  *
  * The frame is created once the page has hydrated, so its first address is the final one: the
  * prerendered page knows neither the reader's combination nor anything saved, and a frame created
@@ -59,6 +60,36 @@ const styles = {
   }),
   frame: css({ display: "block", width: "100%", borderWidth: 0 }),
   stage: css({ position: "relative" }),
+  // A block, as upstream's `type="block"`: the page 1600px wide in a `4 / 2.5` box, clipped at the
+  // box's end (its start, right to left), so the block lays out as on a desktop.
+  blockStage: css({ aspectRatio: "4 / 2.5", overflow: "hidden" }),
+  blockFrame: css({
+    position: "absolute",
+    insetBlock: 0,
+    insetInlineStart: 0,
+    width: "1600px",
+    maxWidth: "none",
+    height: "100%",
+  }),
+  blockFrameEnd: css({ insetInlineStart: "auto", insetInlineEnd: 0 }),
+  // A wide demo: the frame the page's width, centred in the box and clipped by it, so its CSS
+  // breakpoints read the page's width as upstream's inline demo does (a `hidden md:flex` item).
+  wideStage: css({ overflow: "hidden" }),
+  wideFrame: css({
+    position: "absolute",
+    insetBlock: 0,
+    left: "50%",
+    maxWidth: "none",
+    height: "100%",
+    translate: "-50% 0",
+  }),
+  caption: css({
+    marginBlockStart: spacing[4],
+    textAlign: "center",
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
   // A right-to-left demo's bar, as upstream's: the language it is read in, and a note.
   bar: css({
     display: "flex",
@@ -126,6 +157,10 @@ export function MarkdownPreview({
   combinations,
   direction,
   surface,
+  code,
+  block,
+  caption,
+  wide,
 }: {
   item?: string
   height?: string
@@ -134,12 +169,22 @@ export function MarkdownPreview({
   direction?: string
   /** `true`: upstream's `bg-surface` under the demo. */
   surface?: string
+  /** `false`: the demo without its code (upstream's `hideCode`). */
+  code?: string
+  /** `true`: a block, shown as on a desktop and without its code (upstream's `type="block"`). */
+  block?: string
+  /** A line under the box (upstream's `figcaption`). */
+  caption?: string
+  /** `true`: the frame as wide as the page, for a demo whose CSS breakpoints must read the page. */
+  wide?: string
 }) {
   const { previewSrc } = useDocs()
   const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
   const only = combinationList(combinations)
   const { available, current } = useCombination(only)
   const rtl = direction === "rtl"
+  const isBlock = block === "true"
+  const isWide = wide === "true" && !isBlock
   const [language, setLanguage] = useState<Language>("ar")
   // The frame opens in the first language and takes the next by message, so it is not reloaded.
   const [opened] = useState<Language>("ar")
@@ -154,10 +199,12 @@ export function MarkdownPreview({
   const src = extra.length
     ? `${base}${base.includes("?") ? "&" : "?"}${extra.join("&")}`
     : base
-  // The page's width, which the framed demo's scripts are told (an inline demo would read it).
-  const framed = hydrated
-    ? `${src}${src.includes("?") ? "&" : "?"}pagewidth=${window.innerWidth}`
-    : src
+  // The page's width, which the framed demo's scripts are told (an inline demo would read it). A
+  // block's frame is a desktop's width itself.
+  const framed =
+    hydrated && !isBlock
+      ? `${src}${src.includes("?") ? "&" : "?"}pagewidth=${window.innerWidth}`
+      : src
   const choose = (next: Language) => {
     setLanguage(next)
     frame.current?.contentWindow?.postMessage(
@@ -194,28 +241,44 @@ export function MarkdownPreview({
             </Popover>
           </div>
         ) : null}
-        <div sx={styles.stage}>
+        <div
+          sx={[
+            styles.stage,
+            isBlock && styles.blockStage,
+            isWide && styles.wideStage,
+          ]}
+          style={isWide ? { height: `${height}px` } : undefined}
+        >
           {hydrated ? (
             <iframe
               ref={frame}
               title={`${item} preview`}
               src={framed}
               loading="lazy"
-              height={height}
-              sx={styles.frame}
+              height={isBlock || isWide ? undefined : height}
+              style={isWide ? { width: `${window.innerWidth}px` } : undefined}
+              sx={[
+                styles.frame,
+                isBlock && styles.blockFrame,
+                isBlock && rtl && styles.blockFrameEnd,
+                isWide && styles.wideFrame,
+              ]}
             />
-          ) : (
+          ) : isBlock ? null : (
             <div style={{ height: `${height}px` }} sx={styles.frame} />
           )}
         </div>
         {/* Prerendered folded, so its height is there before the code comes. */}
-        <DemoCode
-          item={item}
-          combination={current?.id ?? "react/base"}
-          rtl={rtl}
-          open={hydrated ? src : undefined}
-        />
+        {code === "false" || isBlock ? null : (
+          <DemoCode
+            item={item}
+            combination={current?.id ?? "react/base"}
+            rtl={rtl}
+            open={hydrated ? src : undefined}
+          />
+        )}
       </div>
+      {caption ? <p sx={styles.caption}>{caption}</p> : null}
     </div>
   )
 }

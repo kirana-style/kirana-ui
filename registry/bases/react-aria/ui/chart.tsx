@@ -14,8 +14,9 @@
 import * as React from "react"
 import { props as styleProps } from "@kirana-style/core"
 import type { ChartPoint, ChartTheme, ChartValue } from "@tanstack/charts"
-import { Chart } from "@tanstack/charts/react/tooltip"
-import type { ChartProps } from "@tanstack/charts/react/tooltip"
+import { motion } from "@tanstack/charts/motion"
+import { RendererChart } from "@tanstack/charts/react/tooltip"
+import type { RendererChartProps } from "@tanstack/charts/react/tooltip"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { tooltip } from "@tanstack/charts/tooltip"
 
@@ -129,8 +130,21 @@ export function radialBands<TValue extends string>(
   }
 }
 
-/** The tooltip extension, for a definition's `tooltip`: `ChartContainer` draws its body. */
-export const chartTooltip = { use: tooltip } as const
+/**
+ * The tooltip extension, for a definition's `tooltip`: `ChartContainer` draws its body. It moves
+ * at once, out of the entrance's timing.
+ */
+export const chartTooltip = { use: tooltip, motion: false } as const
+
+/**
+ * Recharts' entrance (its `animationDuration` of 1.5s and `animationEasing` of `ease`): bars and
+ * paths grow from their baseline, radial marks from the centre, arcs sweep round; still where the
+ * reader asks for less motion. It plays when the chart mounts in the browser (`ChartContainer`
+ * mounts it again at its measured width).
+ */
+const entrance = motion({
+  transition: { type: "tween", duration: 1500, easing: "ease" },
+})
 
 /** Each series' `--color-<key>`. */
 function seriesColors(config: ChartConfig): React.CSSProperties {
@@ -151,8 +165,8 @@ type ChartContainerProps<
   TXValue extends ChartValue,
   TYValue extends ChartValue,
 > = Omit<
-  ChartProps<TDatum, TXValue, TYValue>,
-  "className" | "style" | "renderTooltipBody"
+  RendererChartProps<TDatum, TXValue, TYValue>,
+  "className" | "style" | "renderTooltipBody" | "renderer"
 > & {
   config: ChartConfig
   /** The tooltip body, usually a `<ChartTooltipContent />`; the definition needs `chartTooltip`. */
@@ -194,10 +208,31 @@ function ChartContainer<
   // With a legend and no height, the chart fills what the legend leaves of the box: TanStack
   // Charts then reads the height from its own box, as it reads the width.
   const fill = legend !== undefined && rest.height === undefined
+  // The server draws the chart at `initialWidth`. Once mounted, and once the page's fonts have
+  // come, the box is measured and the chart mounted again at that width, so its entrance plays
+  // through: a repaint (at the measured width, or for a font that arrives and re-measures the
+  // text) would end it, as a curve cannot morph from its baseline (LF-005). Until then the marks wait
+  // (`data-entering`, `chart.container`).
+  const box = React.useRef<HTMLDivElement>(null)
+  const [width, setWidth] = React.useState<number>()
+  React.useEffect(() => {
+    let live = true
+    void document.fonts.ready.then(() => {
+      if (live)
+        setWidth(box.current?.getBoundingClientRect().width || undefined)
+    })
+    return () => {
+      live = false
+    }
+  }, [])
+  const entering = width === undefined
   const plotProps = styleProps(styles.plot, fill && styles.plotWithLegend)
   const plot = (
-    <Chart
+    <RendererChart
+      key={width ?? "server"}
+      renderer={entrance}
       {...rest}
+      {...(width === undefined ? {} : { initialWidth: width })}
       {...(rest.height === undefined && !fill ? { aspectRatio } : {})}
       className={plotProps.className}
       style={fill ? { ...plotProps.style, height: "auto" } : plotProps.style}
@@ -208,7 +243,9 @@ function ChartContainer<
   return (
     <ChartContext.Provider value={{ config }}>
       <div
+        ref={box}
         data-slot="chart"
+        data-entering={entering ? "" : undefined}
         className={className}
         style={{ ...style, ...seriesColors(config) }}
       >

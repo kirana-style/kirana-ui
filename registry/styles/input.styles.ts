@@ -21,6 +21,7 @@ import {
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlShadow, controlTransition, laterRings } from "./control"
+import { fullInField } from "./field-scope.styles"
 import {
   BUTTON_GROUP_CHILD,
   IN_OUTLINE_BUTTON_GROUP,
@@ -32,7 +33,7 @@ const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 // cn-input
 export const input = css({
-  width: "100%",
+  width: fullInField,
   minWidth: 0,
   outlineStyle: "none",
   ...controlTransition,

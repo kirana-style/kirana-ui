@@ -3,6 +3,8 @@
  * this file only says where the site's content lives and how its `llms.txt` introduces it. The
  * output is not committed: `predev`, `prebuild` and the workspace's `content` task write it.
  */
+import { readFileSync, readdirSync } from "node:fs"
+
 import { generate } from "@workspace/docs-core/generate.ts"
 
 import { VARIANTS } from "../src/lib/variants.ts"
@@ -29,6 +31,22 @@ function markupOf(name: string): string[] | undefined {
   ).map((entry) => `${entry.framework}/${entry.base}`)
 }
 
+/** The component pages, by title, and whether each is new (`new: true`), for the list's twin. */
+function componentPages() {
+  const folder = new URL("../content/docs/components/", import.meta.url)
+  return readdirSync(folder)
+    .filter((file) => file.endsWith(".md") && file !== "index.md")
+    .map((file) => {
+      const text = readFileSync(new URL(file, folder), "utf8")
+      return {
+        name: file.slice(0, -3),
+        title: /^title: (.+)$/m.exec(text)?.[1] ?? file.slice(0, -3),
+        new: /^new: true$/m.test(text),
+      }
+    })
+    .sort((left, right) => left.title.localeCompare(right.title))
+}
+
 await generate({
   root: new URL("..", import.meta.url).pathname,
   typesImport: "@/lib/content",
@@ -51,6 +69,15 @@ await generate({
   plain: {
     // The links between a component's frameworks: the twin's header names them instead.
     frameworks: () => "",
+    // The components list, from the pages themselves, as the page draws it.
+    "components-list": ({ variant }) =>
+      componentPages()
+        .filter((page) => variant !== "new" || page.new)
+        .map((page) => `- [${page.title}](/docs/components/${page.name})`)
+        .join("\n"),
+    // An illustration is its picture, with its caption.
+    figure: ({ light, alt, caption }) =>
+      `![${alt ?? ""}](https://ui.kirana.style${light ?? ""})${caption ? `\n\n${caption}` : ""}`,
     // A language model reads the preview as a link to the page that draws the item.
     preview: ({ item, combinations }) =>
       `[Preview: ${item}](https://ui.kirana.style/preview/${combinations?.split(",")[0] ?? "react/base"}/${item})`,

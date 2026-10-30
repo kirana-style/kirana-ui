@@ -2,7 +2,7 @@
  * One chart on the charts pages, as upstream's `ChartDisplay`: a toolbar (the chart's type with its
  * icon, copy the code, View Code) over the chart in a frame. The frame is the chart's preview page
  * (`/preview/<framework>/<base>/<name>`, the chart alone, in the reader's design, which `setDesign`
- * messages to it), 460px tall as upstream's, created once the page has hydrated so it loads once,
+ * messages to it; in upstream's blue while the design keeps the default chart colours, `?charts=`), 460px tall as upstream's, created once the page has hydrated so it loads once,
  * and lazily. View Code opens the chart's installed file in a sheet, as upstream's code viewer.
  */
 import * as React from "react"
@@ -199,7 +199,7 @@ export function ChartDisplay({
           <iframe
             key={combination}
             title={`${chart.title} preview`}
-            src={`/preview/${combination}/${chart.name}`}
+            src={`/preview/${combination}/${chart.name}?charts=blue`}
             loading="lazy"
             sx={styles.frame}
           />
