@@ -38,7 +38,7 @@ import {
 import { space } from "@workspace/registry/core/scales"
 import { radius, theme } from "@workspace/registry/core/tokens"
 import type { Sx } from "@workspace/registry/lib/sx"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 import {
   Picker,

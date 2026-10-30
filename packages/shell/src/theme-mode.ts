@@ -7,11 +7,8 @@
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getCookie } from "@tanstack/react-start/server"
 
-import {
-  isThemeMode,
-  readThemeCookie,
-} from "@workspace/ui/theme/theme-provider"
-import type { ThemeMode } from "@workspace/ui/theme/themes"
+import { isThemeMode, readThemeCookie } from "./theme-provider"
+import type { ThemeMode } from "./themes"
 
 /** One name on every Kirana site, so a shared cookie can carry the choice between them later. */
 export const THEME_COOKIE = "kirana-theme"

@@ -23,8 +23,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@workspace/registry/bases/react-base/ui/sheet"
-import { Icon } from "@workspace/ui/primitives/icon"
-import type { IconProps } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
+import type { IconProps } from "@workspace/shell/icon"
 import {
   alpha,
   breakpoint,

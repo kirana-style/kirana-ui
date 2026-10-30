@@ -19,7 +19,7 @@ import {
   space,
 } from "@workspace/registry/core/scales"
 import { alpha, theme } from "@workspace/registry/core/tokens"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 const styles = {
   // The docs' code frame (`code-block.tsx`): a muted frame, 3px of it round the inset panel.

@@ -2261,6 +2261,34 @@
         "cn-rtl-flip": "registry/styles/context-menu.styles.ts#contextMenu.subTriggerIcon"
       }
     },
+    "dashboard-01": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/app-sidebar.tsx": "sha256:15902b26a764871a",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/chart-area-interactive.tsx": "sha256:e1942e184e55549e",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/data-table.tsx": "sha256:550720f1a152940a",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/nav-documents.tsx": "sha256:cb168562f94349f5",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/nav-main.tsx": "sha256:09abbf9776cbe311",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/nav-secondary.tsx": "sha256:60900bfd06854906",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/nav-user.tsx": "sha256:06965da79797f742",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/section-cards.tsx": "sha256:71ce8d0b5051d133",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/components/site-header.tsx": "sha256:b273d4a462c98fb5",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/data.json": "sha256:a8dcfbe6d014ab33",
+        "apps/v4/registry/bases/base/blocks/dashboard-01/page.tsx": "sha256:55a5d9446cb038b9",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/app-sidebar.tsx": "sha256:e78724a14e5d84b8",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/chart-area-interactive.tsx": "sha256:fe5cd00b80400646",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/data-table.tsx": "sha256:bbd996eeeb65db0b",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/nav-documents.tsx": "sha256:dcfea5c41b645ce8",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/nav-main.tsx": "sha256:1bdf7d7956abd7ba",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/nav-secondary.tsx": "sha256:29c2bb1db88eb33e",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/nav-user.tsx": "sha256:b76c7e3cc3976c81",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/section-cards.tsx": "sha256:43e5041dee1804cb",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/components/site-header.tsx": "sha256:c07804ef0326847b",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/data.json": "sha256:a8dcfbe6d014ab33",
+        "apps/v4/registry/bases/aria/blocks/dashboard-01/page.tsx": "sha256:28420c500bae6f4d"
+      },
+      "hooks": {}
+    },
     "dialog": {
       "ported": "481d523",
       "units": {
@@ -3372,6 +3400,46 @@
         "apps/v4/registry/bases/base/blocks/login-01/page.tsx": "sha256:b580f4c7b6c6e730",
         "apps/v4/registry/bases/aria/blocks/login-01/components/login-form.tsx": "sha256:a031d69953770aed",
         "apps/v4/registry/bases/aria/blocks/login-01/page.tsx": "sha256:ee38ef1ffa9285d5"
+      },
+      "hooks": {}
+    },
+    "login-02": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/login-02/components/login-form.tsx": "sha256:c757243e16aa9f9f",
+        "apps/v4/registry/bases/base/blocks/login-02/page.tsx": "sha256:bd16d2c1a22c0bb7",
+        "apps/v4/registry/bases/aria/blocks/login-02/components/login-form.tsx": "sha256:b378bd547dd23862",
+        "apps/v4/registry/bases/aria/blocks/login-02/page.tsx": "sha256:aa3c857db1817cd9"
+      },
+      "hooks": {}
+    },
+    "login-03": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/login-03/components/login-form.tsx": "sha256:f90632a176ac859c",
+        "apps/v4/registry/bases/base/blocks/login-03/page.tsx": "sha256:f1a89f962e47c30f",
+        "apps/v4/registry/bases/aria/blocks/login-03/components/login-form.tsx": "sha256:9d9d79997b003318",
+        "apps/v4/registry/bases/aria/blocks/login-03/page.tsx": "sha256:12d1e0e798268fb0"
+      },
+      "hooks": {}
+    },
+    "login-04": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/login-04/components/login-form.tsx": "sha256:10c42d73ff227550",
+        "apps/v4/registry/bases/base/blocks/login-04/page.tsx": "sha256:def8f53c44cb592f",
+        "apps/v4/registry/bases/aria/blocks/login-04/components/login-form.tsx": "sha256:ea254350df727e57",
+        "apps/v4/registry/bases/aria/blocks/login-04/page.tsx": "sha256:f152fafb9e111f9a"
+      },
+      "hooks": {}
+    },
+    "login-05": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/login-05/components/login-form.tsx": "sha256:fb6662cd1b4802ac",
+        "apps/v4/registry/bases/base/blocks/login-05/page.tsx": "sha256:6b6e9f37acc2a179",
+        "apps/v4/registry/bases/aria/blocks/login-05/components/login-form.tsx": "sha256:0b5780e354afa0ce",
+        "apps/v4/registry/bases/aria/blocks/login-05/page.tsx": "sha256:a2ca3799d2381a12"
       },
       "hooks": {}
     },
@@ -4648,6 +4716,278 @@
       "units": {
         "apps/v4/registry/bases/base/ui/separator.tsx": "sha256:9a80ff8c110e0c55",
         "apps/v4/registry/bases/aria/ui/separator.tsx": "sha256:482ee8e50eaf1095"
+      },
+      "hooks": {}
+    },
+    "sidebar-01": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-01/components/app-sidebar.tsx": "sha256:0706b80153fd7e36",
+        "apps/v4/registry/bases/base/blocks/sidebar-01/components/search-form.tsx": "sha256:de56eba498a5d43b",
+        "apps/v4/registry/bases/base/blocks/sidebar-01/components/version-switcher.tsx": "sha256:e1bc16c890eeccb5",
+        "apps/v4/registry/bases/base/blocks/sidebar-01/page.tsx": "sha256:da01031b244ffb56",
+        "apps/v4/registry/bases/aria/blocks/sidebar-01/components/app-sidebar.tsx": "sha256:37c1e9ea51d03759",
+        "apps/v4/registry/bases/aria/blocks/sidebar-01/components/search-form.tsx": "sha256:da5bbacdb2c44213",
+        "apps/v4/registry/bases/aria/blocks/sidebar-01/components/version-switcher.tsx": "sha256:afcc9b6e4caa3e55",
+        "apps/v4/registry/bases/aria/blocks/sidebar-01/page.tsx": "sha256:1a03adc4fed85ba9"
+      },
+      "hooks": {}
+    },
+    "sidebar-02": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-02/components/app-sidebar.tsx": "sha256:4c8a8d01dc433202",
+        "apps/v4/registry/bases/base/blocks/sidebar-02/components/search-form.tsx": "sha256:de56eba498a5d43b",
+        "apps/v4/registry/bases/base/blocks/sidebar-02/components/version-switcher.tsx": "sha256:e1bc16c890eeccb5",
+        "apps/v4/registry/bases/base/blocks/sidebar-02/page.tsx": "sha256:65f1aded5f452919",
+        "apps/v4/registry/bases/aria/blocks/sidebar-02/components/app-sidebar.tsx": "sha256:f5423c0eb5a35df3",
+        "apps/v4/registry/bases/aria/blocks/sidebar-02/components/search-form.tsx": "sha256:da5bbacdb2c44213",
+        "apps/v4/registry/bases/aria/blocks/sidebar-02/components/version-switcher.tsx": "sha256:afcc9b6e4caa3e55",
+        "apps/v4/registry/bases/aria/blocks/sidebar-02/page.tsx": "sha256:d95dac0d9e0dc046"
+      },
+      "hooks": {}
+    },
+    "sidebar-03": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-03/components/app-sidebar.tsx": "sha256:3de1f12afaaf9fec",
+        "apps/v4/registry/bases/base/blocks/sidebar-03/page.tsx": "sha256:6f431666f924a998",
+        "apps/v4/registry/bases/aria/blocks/sidebar-03/components/app-sidebar.tsx": "sha256:76a01dbaf2ca360d",
+        "apps/v4/registry/bases/aria/blocks/sidebar-03/page.tsx": "sha256:f03759885aea937a"
+      },
+      "hooks": {}
+    },
+    "sidebar-04": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-04/components/app-sidebar.tsx": "sha256:171513f5a260d8d4",
+        "apps/v4/registry/bases/base/blocks/sidebar-04/page.tsx": "sha256:b97e02e066c37839",
+        "apps/v4/registry/bases/aria/blocks/sidebar-04/components/app-sidebar.tsx": "sha256:6ac4b0ab59ff4e3c",
+        "apps/v4/registry/bases/aria/blocks/sidebar-04/page.tsx": "sha256:5f92d4c018ea30a6"
+      },
+      "hooks": {}
+    },
+    "sidebar-05": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-05/components/app-sidebar.tsx": "sha256:f1520e8a4743c248",
+        "apps/v4/registry/bases/base/blocks/sidebar-05/components/search-form.tsx": "sha256:de56eba498a5d43b",
+        "apps/v4/registry/bases/base/blocks/sidebar-05/page.tsx": "sha256:7572beec7b2379f7",
+        "apps/v4/registry/bases/aria/blocks/sidebar-05/components/app-sidebar.tsx": "sha256:3cbdb790f00437d6",
+        "apps/v4/registry/bases/aria/blocks/sidebar-05/components/search-form.tsx": "sha256:da5bbacdb2c44213",
+        "apps/v4/registry/bases/aria/blocks/sidebar-05/page.tsx": "sha256:66275adf79c7b405"
+      },
+      "hooks": {}
+    },
+    "sidebar-06": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-06/components/app-sidebar.tsx": "sha256:aae9f68136ae356f",
+        "apps/v4/registry/bases/base/blocks/sidebar-06/components/nav-main.tsx": "sha256:33d096ceea5fe0c2",
+        "apps/v4/registry/bases/base/blocks/sidebar-06/components/sidebar-opt-in-form.tsx": "sha256:d82bb3007bafa328",
+        "apps/v4/registry/bases/base/blocks/sidebar-06/page.tsx": "sha256:50ddbc4c11c06027",
+        "apps/v4/registry/bases/aria/blocks/sidebar-06/components/app-sidebar.tsx": "sha256:027cd48f16a8a809",
+        "apps/v4/registry/bases/aria/blocks/sidebar-06/components/nav-main.tsx": "sha256:3e3bfde2d27e4a5f",
+        "apps/v4/registry/bases/aria/blocks/sidebar-06/components/sidebar-opt-in-form.tsx": "sha256:e9d1f4e42e7152c1",
+        "apps/v4/registry/bases/aria/blocks/sidebar-06/page.tsx": "sha256:3315cec3b0450b6e"
+      },
+      "hooks": {}
+    },
+    "sidebar-08": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-08/components/app-sidebar.tsx": "sha256:f8a7105fd59b8af5",
+        "apps/v4/registry/bases/base/blocks/sidebar-08/components/nav-main.tsx": "sha256:31ce645c56af08ac",
+        "apps/v4/registry/bases/base/blocks/sidebar-08/components/nav-projects.tsx": "sha256:931600846ef2d6fb",
+        "apps/v4/registry/bases/base/blocks/sidebar-08/components/nav-secondary.tsx": "sha256:f61c3e168ede48fe",
+        "apps/v4/registry/bases/base/blocks/sidebar-08/components/nav-user.tsx": "sha256:df0cb0ea87bd0a4d",
+        "apps/v4/registry/bases/base/blocks/sidebar-08/page.tsx": "sha256:0090713c9150a929",
+        "apps/v4/registry/bases/aria/blocks/sidebar-08/components/app-sidebar.tsx": "sha256:73c7056d059fd703",
+        "apps/v4/registry/bases/aria/blocks/sidebar-08/components/nav-main.tsx": "sha256:3deffefeb1b55cea",
+        "apps/v4/registry/bases/aria/blocks/sidebar-08/components/nav-projects.tsx": "sha256:1fe072e23dee990c",
+        "apps/v4/registry/bases/aria/blocks/sidebar-08/components/nav-secondary.tsx": "sha256:810d8ff38364c42b",
+        "apps/v4/registry/bases/aria/blocks/sidebar-08/components/nav-user.tsx": "sha256:03c1b88db7c976bc",
+        "apps/v4/registry/bases/aria/blocks/sidebar-08/page.tsx": "sha256:c15276e0033a616e"
+      },
+      "hooks": {}
+    },
+    "sidebar-09": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-09/components/app-sidebar.tsx": "sha256:11fa26562187b507",
+        "apps/v4/registry/bases/base/blocks/sidebar-09/components/nav-user.tsx": "sha256:d3083ee27f6710e4",
+        "apps/v4/registry/bases/base/blocks/sidebar-09/page.tsx": "sha256:3069314272e3a339",
+        "apps/v4/registry/bases/aria/blocks/sidebar-09/components/app-sidebar.tsx": "sha256:e4dfec9df05ef7bc",
+        "apps/v4/registry/bases/aria/blocks/sidebar-09/components/nav-user.tsx": "sha256:e010fc54fcb3fd93",
+        "apps/v4/registry/bases/aria/blocks/sidebar-09/page.tsx": "sha256:b6c0bb8edf22adf1"
+      },
+      "hooks": {}
+    },
+    "sidebar-10": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/app-sidebar.tsx": "sha256:29f755141a6dcf00",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/nav-actions.tsx": "sha256:89bd29af3ebd8c3d",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/nav-favorites.tsx": "sha256:5e02a40d00969554",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/nav-main.tsx": "sha256:2797717ec72e664a",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/nav-secondary.tsx": "sha256:eb50a91db1fad901",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/nav-workspaces.tsx": "sha256:1049b0a8ee6906eb",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/components/team-switcher.tsx": "sha256:61f72b467462e675",
+        "apps/v4/registry/bases/base/blocks/sidebar-10/page.tsx": "sha256:a02a0addb2575726",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/app-sidebar.tsx": "sha256:79bb011371ba69b7",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/nav-actions.tsx": "sha256:813a2690a92af97d",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/nav-favorites.tsx": "sha256:226d1f38d656bed5",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/nav-main.tsx": "sha256:cc5ece5a85fd2498",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/nav-secondary.tsx": "sha256:76fcae04edb7be13",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/nav-workspaces.tsx": "sha256:15c6fa43051aedd1",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/components/team-switcher.tsx": "sha256:3403a50238d535f5",
+        "apps/v4/registry/bases/aria/blocks/sidebar-10/page.tsx": "sha256:ed5fec927f320f0d"
+      },
+      "hooks": {}
+    },
+    "sidebar-11": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-11/components/app-sidebar.tsx": "sha256:2bb62dded6d01585",
+        "apps/v4/registry/bases/base/blocks/sidebar-11/page.tsx": "sha256:36874b69aca49ad6",
+        "apps/v4/registry/bases/aria/blocks/sidebar-11/components/app-sidebar.tsx": "sha256:2671700be9cd611c",
+        "apps/v4/registry/bases/aria/blocks/sidebar-11/page.tsx": "sha256:7101bafcf3dc2639"
+      },
+      "hooks": {}
+    },
+    "sidebar-12": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-12/components/app-sidebar.tsx": "sha256:294b4d6655295e56",
+        "apps/v4/registry/bases/base/blocks/sidebar-12/components/calendars.tsx": "sha256:c0aca4d618b4a9f0",
+        "apps/v4/registry/bases/base/blocks/sidebar-12/components/date-picker.tsx": "sha256:036516cbc2952ed6",
+        "apps/v4/registry/bases/base/blocks/sidebar-12/components/nav-user.tsx": "sha256:49323bff01a3de56",
+        "apps/v4/registry/bases/base/blocks/sidebar-12/page.tsx": "sha256:b016eade0abcf944",
+        "apps/v4/registry/bases/aria/blocks/sidebar-12/components/app-sidebar.tsx": "sha256:c5db08d0a2c485de",
+        "apps/v4/registry/bases/aria/blocks/sidebar-12/components/calendars.tsx": "sha256:b7a1bc20b9683f8b",
+        "apps/v4/registry/bases/aria/blocks/sidebar-12/components/date-picker.tsx": "sha256:30b4e7f1e0b597e0",
+        "apps/v4/registry/bases/aria/blocks/sidebar-12/components/nav-user.tsx": "sha256:5e128346d2af236e",
+        "apps/v4/registry/bases/aria/blocks/sidebar-12/page.tsx": "sha256:3ec4aa75cbbcfbc6"
+      },
+      "hooks": {}
+    },
+    "sidebar-13": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-13/components/settings-dialog.tsx": "sha256:5eb60a1820a6ff57",
+        "apps/v4/registry/bases/base/blocks/sidebar-13/page.tsx": "sha256:c880983476c82b24",
+        "apps/v4/registry/bases/aria/blocks/sidebar-13/components/settings-dialog.tsx": "sha256:a6cc7ec5916cb579",
+        "apps/v4/registry/bases/aria/blocks/sidebar-13/page.tsx": "sha256:ae780c920f09f9cb"
+      },
+      "hooks": {}
+    },
+    "sidebar-14": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-14/components/app-sidebar.tsx": "sha256:36ba0061685aebef",
+        "apps/v4/registry/bases/base/blocks/sidebar-14/page.tsx": "sha256:89b8b5bd29da03c3",
+        "apps/v4/registry/bases/aria/blocks/sidebar-14/components/app-sidebar.tsx": "sha256:0b92b3b3faaf4e0c",
+        "apps/v4/registry/bases/aria/blocks/sidebar-14/page.tsx": "sha256:84ba7c5494f0cae5"
+      },
+      "hooks": {}
+    },
+    "sidebar-15": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/calendars.tsx": "sha256:8b0601efc1705490",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/date-picker.tsx": "sha256:036516cbc2952ed6",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/nav-favorites.tsx": "sha256:a7947335729ef2db",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/nav-main.tsx": "sha256:2797717ec72e664a",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/nav-secondary.tsx": "sha256:eb50a91db1fad901",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/nav-user.tsx": "sha256:098d9aa91f347699",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/nav-workspaces.tsx": "sha256:1049b0a8ee6906eb",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/sidebar-left.tsx": "sha256:63dd693e312f6d27",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/sidebar-right.tsx": "sha256:77437221cd4c51d8",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/components/team-switcher.tsx": "sha256:b85db69e78db5adf",
+        "apps/v4/registry/bases/base/blocks/sidebar-15/page.tsx": "sha256:8ab6e3a1817c8d0f",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/calendars.tsx": "sha256:f7ad375ec9fef8a0",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/date-picker.tsx": "sha256:30b4e7f1e0b597e0",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/nav-favorites.tsx": "sha256:00949d1fe7faa2ab",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/nav-main.tsx": "sha256:cc5ece5a85fd2498",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/nav-secondary.tsx": "sha256:76fcae04edb7be13",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/nav-user.tsx": "sha256:439da7d1dcd18f25",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/nav-workspaces.tsx": "sha256:15c6fa43051aedd1",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/sidebar-left.tsx": "sha256:bf53d076f842e18c",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/sidebar-right.tsx": "sha256:3ca8bdef6ff94d83",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/components/team-switcher.tsx": "sha256:753c7cc3d01649fd",
+        "apps/v4/registry/bases/aria/blocks/sidebar-15/page.tsx": "sha256:fbbbeddc1f11c8b4"
+      },
+      "hooks": {}
+    },
+    "sidebar-16": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/app-sidebar.tsx": "sha256:e9f5ac1a56a67782",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/nav-main.tsx": "sha256:354ebd81e14f3878",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/nav-projects.tsx": "sha256:931600846ef2d6fb",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/nav-secondary.tsx": "sha256:f61c3e168ede48fe",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/nav-user.tsx": "sha256:10d8c204c882bfe8",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/search-form.tsx": "sha256:2b4edc9d1d264ddc",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/components/site-header.tsx": "sha256:299939d076676f77",
+        "apps/v4/registry/bases/base/blocks/sidebar-16/page.tsx": "sha256:97227a120d54f165",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/app-sidebar.tsx": "sha256:eb7400abd6357fbb",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/nav-main.tsx": "sha256:3deffefeb1b55cea",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/nav-projects.tsx": "sha256:1fe072e23dee990c",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/nav-secondary.tsx": "sha256:810d8ff38364c42b",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/nav-user.tsx": "sha256:ab96a4cdbdf23500",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/search-form.tsx": "sha256:b4cae03cc4c61467",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/components/site-header.tsx": "sha256:b724aeb32f2a0b02",
+        "apps/v4/registry/bases/aria/blocks/sidebar-16/page.tsx": "sha256:44e82548c4309138"
+      },
+      "hooks": {}
+    },
+    "signup-01": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/signup-01/components/signup-form.tsx": "sha256:ea243e4d4022ab6e",
+        "apps/v4/registry/bases/base/blocks/signup-01/page.tsx": "sha256:836d43123a3c39c0",
+        "apps/v4/registry/bases/aria/blocks/signup-01/components/signup-form.tsx": "sha256:d1d78bfed770ccf8",
+        "apps/v4/registry/bases/aria/blocks/signup-01/page.tsx": "sha256:bec2ec8437c6e44a"
+      },
+      "hooks": {}
+    },
+    "signup-02": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/signup-02/components/signup-form.tsx": "sha256:7581dabc05309213",
+        "apps/v4/registry/bases/base/blocks/signup-02/page.tsx": "sha256:09a99ed4915bbe52",
+        "apps/v4/registry/bases/aria/blocks/signup-02/components/signup-form.tsx": "sha256:25aa46884a854b99",
+        "apps/v4/registry/bases/aria/blocks/signup-02/page.tsx": "sha256:b58e3b929b8374b9"
+      },
+      "hooks": {}
+    },
+    "signup-03": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/signup-03/components/signup-form.tsx": "sha256:a9d260cf0d6de16b",
+        "apps/v4/registry/bases/base/blocks/signup-03/page.tsx": "sha256:9ccdecdf680a1f5d",
+        "apps/v4/registry/bases/aria/blocks/signup-03/components/signup-form.tsx": "sha256:c23262017bc6c2a7",
+        "apps/v4/registry/bases/aria/blocks/signup-03/page.tsx": "sha256:5759330a7f86d497"
+      },
+      "hooks": {}
+    },
+    "signup-04": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/signup-04/components/signup-form.tsx": "sha256:e56608360e34027e",
+        "apps/v4/registry/bases/base/blocks/signup-04/page.tsx": "sha256:2f42fae40add52a1",
+        "apps/v4/registry/bases/aria/blocks/signup-04/components/signup-form.tsx": "sha256:0bccb8e20993c318",
+        "apps/v4/registry/bases/aria/blocks/signup-04/page.tsx": "sha256:c2e74b2b749bed1d"
+      },
+      "hooks": {}
+    },
+    "signup-05": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/blocks/signup-05/components/signup-form.tsx": "sha256:205c9cd0de2a9825",
+        "apps/v4/registry/bases/base/blocks/signup-05/page.tsx": "sha256:9c5923c6bd4759b3",
+        "apps/v4/registry/bases/aria/blocks/signup-05/components/signup-form.tsx": "sha256:22a576c99aab91b5",
+        "apps/v4/registry/bases/aria/blocks/signup-05/page.tsx": "sha256:2b4fa1f13a25dc6d"
       },
       "hooks": {}
     },

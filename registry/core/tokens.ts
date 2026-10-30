@@ -3,8 +3,7 @@
  * design (Neutral, Inter, a 0.625rem radius) and reassigned on `<html>` by `root.ts` for the other
  * values of each axis. Components read these and never know which design is on.
  *
- * The names follow `packages/ui`'s `theme/semantic.ts`, so components move here in P2 without
- * renaming.
+ * The names are shadcn/ui's variables in camel case (`--primary-foreground`, `theme.primaryForeground`).
  */
 import { defineTokens } from "@kirana-style/core"
 

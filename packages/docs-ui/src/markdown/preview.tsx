@@ -42,7 +42,7 @@ import {
   PopoverTrigger,
 } from "@workspace/registry/bases/react-base/ui/popover"
 import { LANGUAGE_MESSAGE } from "@workspace/registry/core/preview"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 import { fontSize, lineHeight, radius, spacing, theme } from "../tokens.ts"
 import { DemoCode } from "./demo-code.tsx"

@@ -4,41 +4,34 @@
 
 ```mermaid
 flowchart TD
-    subgraph L1["Layer 1 — primitives (tokens/)"]
-        A["plain constants and @kirana-style/preset-scales<br/>color.red500 · spacing[4] · fontSize.sm<br/><i>inlined, emit no CSS</i>"]
+    subgraph L1["Scales (registry/core/scales.ts)"]
+        A["plain constants and @kirana-style/preset-scales<br/>space[4] · fontSize.sm · breakpoint.md<br/><i>inlined, emit no CSS</i>"]
     end
-    subgraph L2["Layer 2 — semantic (theme/semantic.ts)"]
-        B["defineTokens(…, { variable: true })<br/>theme · alpha · surface · radius"]
-        C["light-dark() values<br/><i>color-scheme picks the half</i>"]
+    subgraph L2["Design tokens (registry/core/tokens.ts, palettes.ts, root.ts)"]
+        B["defineTokens(…, { variable: true })<br/>theme · alpha · surface · radius · font"]
+        C["light-dark() values, reassigned per axis on &lt;html&gt;<br/><i>color-scheme picks the half</i>"]
     end
-    subgraph L3["Layer 3 — conditions (tokens/, theme/)"]
-        D["breakpoints and container queries"]
-        E["relation() + within / after / before<br/><i>group-* · peer-* · in-*</i>"]
+    subgraph L3["Conditions (registry/core/axes.ts, states.ts, context.ts)"]
+        D["the ui relation on &lt;html&gt;<br/><i>axes.style.* · axes.mode.*</i>"]
+        E["when() for every base's state · relation()<br/><i>data-* · group-* · peer-*</i>"]
         F["context tokens<br/><i>parent → child handoff</i>"]
     end
-    subgraph L4["Layer 4 — recipes (recipes/)"]
-        G["recipe()<br/><i>replaces cva</i>"]
-        H["shared chrome<br/>control · overlay · menu"]
+    subgraph L4["Style modules (registry/styles)"]
+        G["one per component, every style in it<br/><i>Nova the base value, the others axes.style.* overrides</i>"]
+        H["shared chrome<br/>control · overlay · menu · check"]
     end
-    subgraph L5["Layer 5 — primitives (primitives/)"]
-        I["Box · Flex · Stack · Grid<br/>Text · Icon · Link · VisuallyHidden"]
-    end
-    subgraph L6["Layer 6 — components (components/)"]
-        J["41 shadcn components"]
+    subgraph L5["Markup (registry/bases)"]
+        J["per framework and base, no style values<br/>components · blocks · examples"]
     end
 
     A --> B --> C
-    A --> D
-    B --> G
-    C --> J
+    A --> G
+    C --> G
     D --> G
-    E --> J
-    F --> J
+    E --> G
+    F --> G
+    H --> G
     G --> J
-    H --> J
-    A --> I
-    B --> I
-    I --> J
     J --> K["Kirana compiler<br/>(@kirana-style/vite)"]
     K --> L["one layered atomic stylesheet<br/>+ class strings in the modules"]
 ```
@@ -73,9 +66,8 @@ The rule that falls out:
 > Everything else is a constant.**
 
 Spacing, blur and shadows re-export `@kirana-style/preset-scales`, the Tailwind-compatible
-scale package generated from Tailwind's own `theme.css`. The other scale files keep
-this design system's own values (rounded line-height ratios, shadcn's `3xl`
-breakpoint, named z-index layers).
+scale package generated from Tailwind's own `theme.css`. `scales.ts` keeps this design
+system's own values beside them (rounded line-height ratios, shadcn's `3xl` breakpoint).
 
 ### Semantic tokens come in three groups
 
@@ -154,7 +146,7 @@ flowchart LR
     end
     subgraph after["Kirana"]
         Y["backgroundColor:<br/>surface.control"]
-        Z["theme/semantic.ts<br/>light-dark(transparent,<br/>alpha.input30)"]
+        Z["core/tokens.ts<br/>light-dark(transparent,<br/>alpha.input30)"]
         Y -.-> Z
     end
     before ==> after
@@ -197,9 +189,9 @@ compiled and never matched.
 A parent can style a descendant with `select.descendant("svg")`. Those rules live
 in a lower layer than every element's own styles, so a child's own style always
 wins — which is what Tailwind's `[&_svg:not([class*='size-'])]` guard was faking.
-`packages/ui` still prefers handing a value down (`ctx.iconSize` read by the `Icon`
-primitive): the contract is a named token rather than a selector reaching into
-markup. The registry cannot: once installed, a control's icons are the project's
+Handing a value down is the better contract where the reader is ours (the site's
+chrome `Icon` reads `ctx.iconSize`): a named token rather than a selector reaching
+into markup. The registry's controls cannot rely on it: once installed, a control's icons are the project's
 own icon library's components, which shadcn/ui's CLI puts in place of the
 placeholder, or icons the project adds itself, and none of them reads a token. So
 each registry control sets `ctx.iconSize` and sizes every `svg` inside it to it
@@ -263,9 +255,8 @@ unambiguous. The one name covers both kinds of element:
 
 `sx` compiles in any module; nothing has to be imported for it.
 
-**The global stylesheet names no tokens.** `styles/globals.css` is a structural
-reset plus a few rules for markup no component owns — a chart library's SVG, the
-children a Field lays out, the links a caller writes in an alert. Kirana hashes
+**The global stylesheet names no tokens.** `registry/styles/reset.css` is a structural
+reset plus a few rules for markup no component owns. Kirana hashes
 its variable names, so there is nothing stable for plain CSS to reference;
 anything theme-dependent is applied with `sx` starting at `<html>`, and where a
 global rule needs a colour, the component hands it down as a plain custom
@@ -278,11 +269,11 @@ implicit default is deliberately gone.
 
 **One package, internal layers.** Token and relation identities hash from the
 package name plus the namespace and key, never the file path, so files can move
-freely. The same group name in two packages is two sets of properties: the
-registry's `theme` and `packages/ui`'s `theme` never collide.
+freely. The same group name in two packages is two sets of properties, which
+`kirana-style export` tells apart by package.
 
-**The design system is a set of attributes on `<html>`.** Being rebuilt in
-`registry/` (its README has the details). Every customization axis is an
+**The design system is a set of attributes on `<html>`.** It is `registry/core`
+(the registry's README has the details). Every customization axis is an
 attribute (`data-style`, `data-base-color`, `data-theme`, `data-radius` …), and
 every value of every axis is compiled into the stylesheet ahead of time, so
 choosing a design changes attributes and never writes CSS: Kirana makes no rules
@@ -499,30 +490,30 @@ them already compiled.
 
 Everything else is in the app's `kirana.config.ts`:
 
-- `layers: { before: ["reset", "base"] }` places the hand-written reset below every
-  Kirana rule. The stylesheet begins with `@layer reset, base, kirana;`, the same in
-  development and production.
+- `layers: { before: ["reset", "base", "typeset"] }` places the registry's reset, the
+  docs' code colours and `typeset.css` below every Kirana rule. The stylesheet begins
+  with `@layer reset, base, typeset, kirana;`, the same in development and production.
 - Targets default to the `light-dark()` floor (Chrome 123, Safari 17.5, Firefox
   120). Colours are never rewritten at that floor.
 
 The root route links `@kirana-style/core/stylesheet.css?url` first, so its layer
-statement fixes the order before `globals.css` loads. In development the plugin
+statement fixes the order before the page's own stylesheet (`registry.css`, the reset) loads. In development the plugin
 serves the live stylesheet with CSS hot updates; in a build it writes the finished
 stylesheet into that asset, renamed by content hash.
 
 ```mermaid
 flowchart LR
   subgraph authored["What you write"]
-    T["tokens/*.ts<br/>constants"]
-    V["theme/*.ts<br/>defineTokens · relation · keyframes"]
-    C["recipes · primitives · components<br/>css() · sx"]
+    T["core/scales.ts<br/>constants"]
+    V["core/tokens · context · axes<br/>defineTokens · relation · keyframes"]
+    C["styles · bases<br/>css() · sx"]
   end
   subgraph build["Build"]
     P["@kirana-style/vite → Kirana engine (Rust)"]
   end
   subgraph out["Output"]
     I["inlined literals<br/>no CSS"]
-    A["@layer reset, base, kirana<br/>tokens · themes · contextual · atoms"]
+    A["@layer reset, base, typeset, kirana<br/>tokens · themes · contextual · atoms"]
     H["class strings in the modules<br/>__k.sx() only for runtime values"]
   end
   T --> P --> I

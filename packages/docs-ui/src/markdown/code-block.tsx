@@ -27,7 +27,7 @@ import {
 } from "@hugeicons/core-free-icons"
 
 import type { Sx } from "@workspace/registry/lib/sx"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 import {
   alpha,
   breakpoint,

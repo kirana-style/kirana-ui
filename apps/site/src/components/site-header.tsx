@@ -26,8 +26,8 @@ import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import githubDark from "@workspace/docs-ui/brands/github_dark.svg?url"
 import githubLight from "@workspace/docs-ui/brands/github_light.svg?url"
 import { DocsSearch } from "@workspace/docs-ui/search.tsx"
-import { useThemeHotkey } from "@workspace/shell/theme-toggle"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { useThemeHotkey } from "@workspace/docs-ui/theme-toggle.tsx"
+import { Icon } from "@workspace/shell/icon"
 
 export { REPOSITORY }
 

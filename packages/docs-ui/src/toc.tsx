@@ -9,7 +9,7 @@ import { TextAlignLeftIcon } from "@hugeicons/core-free-icons"
 import { motion, useReducedMotion } from "motion/react"
 
 import type { PageHeading } from "@workspace/docs-core/types.ts"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 import {
   duration,
   fontSize,

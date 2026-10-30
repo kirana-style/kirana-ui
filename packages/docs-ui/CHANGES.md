@@ -41,16 +41,18 @@ it was, names included.
   `@workspace/ui/theme/semantic`, so the frame follows the design the reader chooses. The type roles
   are Tailwind's sizes, untracked, not the Kirana site's fluid roles.
 - Components from the registry (`registry/bases/react-base/ui`): Button, Tabs, DropdownMenu,
-  Separator, Sheet and Collapsible. `Sx` from `registry/lib/sx`.
-- Still from `@workspace/ui` until the registry has them: Kbd (`search.tsx`, `theme-toggle.tsx`),
-  Table (`markdown/index.tsx`), Alert (`markdown/callout.tsx`), Command (`search.tsx`); and the
-  mechanism, not the look: the `Icon` primitive, `touchTarget`, the theme provider and modes.
-- `scheme.ts`: re-exports `@workspace/ui`'s `schemeMarker`, which the site anchors on `<html>`,
+  Separator, Sheet, Collapsible, Kbd (`search.tsx`, `theme-toggle.tsx`), Table
+  (`markdown/index.tsx`), Alert (`markdown/callout.tsx`) and Command (`search-dialog.tsx`). `Sx`
+  from `registry/lib/sx`.
+- The mechanism, not the look, from `@workspace/shell` (the Kirana copy's `@workspace/ui`): the
+  `Icon` primitive (reading the registry's `ctx.iconSize`), `touchTarget`, the theme provider and
+  modes.
+- `scheme.ts`: re-exports `@workspace/shell`'s `schemeMarker`, which the site anchors on `<html>`,
   instead of declaring a relation of the same name.
 - `README.md`: the first paragraph says what this copy is drawn with; the rest still describes
   the Kirana copy's look (its hues, its fonts).
-- `package.json`, `tsconfig.json`: `@workspace/registry` and `@kirana-style/preset-scales`;
-  `@kirana-style/core` from the catalog.
+- `package.json`, `tsconfig.json`: `@workspace/registry`, `@workspace/shell` (for
+  `@workspace/ui`) and `@kirana-style/preset-scales`; `@kirana-style/core` from the catalog.
 
 ### The Kirana brand, taken out
 

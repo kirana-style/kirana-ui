@@ -51,8 +51,8 @@ import { PREVIEW_NAMES as SVELTE_PREVIEWS } from "@workspace/registry/bases/svel
 import { PREVIEW_NAMES as SOLID_PREVIEWS } from "@workspace/registry/bases/solid-ark/preview-names"
 import { PREVIEW_NAMES as ANGULAR_PREVIEWS } from "@workspace/registry/bases/angular-ng/preview-names"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
-import { Icon } from "@workspace/ui/primitives/icon"
-import { useTheme } from "@workspace/ui/theme/theme-provider"
+import { Icon } from "@workspace/shell/icon"
+import { useTheme } from "@workspace/shell/theme-provider"
 
 /** The items a preview can show, per framework and base. */
 const PREVIEWS: Record<string, readonly string[]> = {

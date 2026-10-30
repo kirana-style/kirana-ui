@@ -32,7 +32,6 @@
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "@workspace/shell": "workspace:*",
-    "@workspace/ui": "workspace:*",
     "react": "catalog:",
     "react-aria-components": "catalog:",
     "react-dom": "catalog:"

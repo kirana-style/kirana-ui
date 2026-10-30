@@ -73,16 +73,16 @@ and at-rules nest **inside a property value**. Only pseudo-_elements_ and
 | `style-vega:h-9`                     | `height: { base: …, [axes.style.vega]: space[9] }` in a registry style module                                  |
 | `data-open:`, `data-entering:`       | `...when(overlay.starting, x)` in the registry: every base's key (`core/states.ts`)                            |
 | `animate-in fade-in-0`               | transitions against `data-starting-style`                                                                      |
-| `animate-spin`                       | `animationName: animation.spin` (`keyframes()` in `theme/animations.ts`)                                       |
+| `animate-spin`                       | `animationName` of a `keyframes()` in the style module (`spinner.styles.ts`)                                   |
 | `ring-3`                             | `boxShadow: \`0 0 0 ${ring.width} …\``                                                                         |
 | `transition-colors`                  | longhands + `duration[150]` + `easing.inOut`                                                                   |
 | `transition-all` on a moved element  | name the property you animate — `translate`, not `transform`. What that costs in fidelity: `docs/workflows.md` |
-| `sr-only`                            | the `VisuallyHidden` primitive                                                                                 |
+| `sr-only`                            | `visuallyHidden` (`styles/visually-hidden.styles.ts`)                                                          |
 | `no-scrollbar`                       | `scrollbarWidth: "none"` + `"::-webkit-scrollbar"`                                                             |
-| `line-clamp-2`                       | `Text clamp="2"`, or the four `-webkit-box` properties                                                         |
+| `line-clamp-2`                       | the four `-webkit-box` properties                                                                              |
 | `className={cn(a, b)}` on an element | `sx={[a, b]}`                                                                                                  |
 | `className` on a Base UI part        | `{...styleProps(a, b, sx)}`                                                                                    |
-| `cva(…)`                             | `recipe()` (this package's helper, or Kirana's with compound variants and slots)                               |
+| `cva(…)`                             | Kirana's `recipe()` in the style module, with compound variants and slots                                      |
 | `!important`                         | nothing — reorder the `sx` array, or nest the condition that must win                                          |
 | `[class*='size-']`                   | nothing — class names are hashed. Use an explicit prop                                                         |
 
@@ -135,17 +135,17 @@ A few smaller translations that are easy to get slightly wrong:
 ```mermaid
 flowchart TD
     Q{"What is the Tailwind rule doing?"}
-    Q -->|"styling a descendant<br/>[&_svg] · *:[svg] · [&>input]"| A["hand a value down<br/>theme/context.ts"]
+    Q -->|"styling a descendant<br/>[&_svg] · *:[svg] · [&>input]"| A["hand a value down<br/>core/context.ts"]
     Q -->|"reading an ancestor or sibling<br/>group-* · peer-* · has-*"| B["relation + within / after / before"]
     Q -->|"positioning among siblings<br/>:last-child · ~"| C["let the child decide<br/>from its own position"]
-    Q -->|"third-party markup<br/>.recharts-* · library classes"| D["scoped plain CSS<br/>styles/globals.css"]
+    Q -->|"third-party markup<br/>library classes"| D["scoped plain CSS<br/>styles/reset.css, last resort"]
 ```
 
 **1. Descendant selectors.** `[&_svg:not([class*='size-'])]:size-4` appeared 25
-times. It became the `Icon` primitive reading a `ctx.iconSize` variable each
-control sets. The same hand-off replaced `[&>input]`, `*:[img:first-child]` and
-`[&_a]` — the last became the `Link` primitive. `select.descendant` can express
-the selector half (and contextual styles always lose to the child's own), but the
+times in the components. Where the child is ours, a value handed down is the
+better contract: the child reads a context token (`ctx.iconSize`, as the site's
+chrome `Icon` does) that the parent sets. `select.descendant` can express the
+selector half (and contextual styles always lose to the child's own), but the
 `[class*='size-']` half never works with hashed names. The registry's controls do
 size their `svg`s from outside (`controlIcons`, `[select.descendant("svg")]` at
 `ctx.iconSize`): installed, their icons are the project's icon library's
@@ -161,10 +161,11 @@ while a popup is open, so `:last-child` silently stops matching. Use
 `:not(:has(~ [data-slot]))` — "last real control" — which is what the Tailwind
 original matched on.
 
-**4. Markup the component does not own.** Recharts renders its own SVG with
-fixed class names and hard-coded `#ccc`. A Field lays out whatever children it is
-handed; an alert description holds the caller's links and paragraphs. That stays
-in `globals.css`, scoped by `data-slot`. The catalogue lists every block and why.
+**4. Markup the component does not own.** A Field lays out whatever children it is
+handed; an alert description holds the caller's links and paragraphs. Reach them
+from the part with `select.child` or `select.descendant` (they have no style of
+their own to lose to), and keep plain CSS for what no handle can write, scoped by
+`data-slot` (the registry's `reset.css`, `typeset.css`).
 
 ## Pitfalls
 
@@ -216,7 +217,7 @@ Two conditions of the same class that can match together (`[data-starting-style]
 and `[data-ending-style]`) tie on the ladder; the compiler warns with
 `ambiguous-precedence`. Nest the one that should win inside the other, or, when
 the library guarantees they never match at once, declare the pair in
-`packages/ui/src/kirana.ts`. Pairs that set the same value, or that selectors
+`registry/core/kirana.ts`. Pairs that set the same value, or that selectors
 prove exclusive (`X` and `:not(X)`), do not warn.
 
 ### Logical and physical longhands are different entries
@@ -253,8 +254,8 @@ formula on the element that owns the library's variables:
 Base UI merges a part's `className` with its `render` element's by concatenating
 strings. If both carry atomic classes for the same property, the cascade picks a
 winner and the compiler's merge never runs. Pass the part's styles as `sx` to the
-rendered component instead; `withSx` in `components/toast.tsx` does this for the
-toast's action and close buttons.
+rendered component instead, as the registry's Toast does for its action and close
+buttons (`render={<Button variant="outline" size="sm" sx={[styles.action, sx]} />}`).
 
 The reverse fails more quietly. One of our components used as the `render`
 element — `render={<Label />}` — takes `sx`, not `className`, so the classes the
@@ -333,8 +334,7 @@ condition on `aria-orientation`, `data-orientation`, `data-side`.
 - `group-has-*` asks whether the group **contains** a match, never the group
   itself: `fieldMarker.within(':has([data-orientation="horizontal"])')`.
 - `[&>a]:underline` on a description part styles links the caller writes into
-  it. It is a `globals.css` rule scoped to the part's `data-slot`, with the hover
-  colour handed down as `--inline-link-hover`.
+  it: `[select.descendant("a")]` on the part (`alert.styles.ts`).
 - `*:[div:not([class*='w-'])]:w-full` skips any child whose class _contains_
   `w-` — `max-w-*`, and `overflow-hidden` too. Check which children it really
   reached before reproducing it.
@@ -347,9 +347,9 @@ flowchart TD
     A --> B["Self → conditions nested in property values"]
     A --> C["Ancestor / sibling → relation + within / after"]
     A --> D["Descendant → invert, or hand a value down"]
-    B & C & D --> E["cva → recipe()"]
+    B & C & D --> E["cva → Kirana's recipe()"]
     E --> F["className → sx on elements,<br/>styleProps on library parts, sx last"]
-    F --> G["HugeiconsIcon → Icon primitive"]
+    F --> G["an icon → IconPlaceholder, named in every library"]
     G --> H["vp run check && vp run build"]
     H --> I["Compare computed styles<br/>against the original"]
 ```

@@ -1,0 +1,87 @@
+import { AppSidebar } from "./components/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "../../ui/breadcrumb"
+import { Separator } from "../../ui/separator"
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "../../ui/sidebar"
+import { css } from "@kirana-style/core"
+import { sidebarCtx } from "../../../../core/context"
+import { radius, theme } from "../../../../core/tokens"
+import { breakpoint, space } from "../../../../core/scales"
+
+const styles = {
+  // Upstream's `--sidebar-width: 350px`.
+  provider: css({ [sidebarCtx.width]: "350px" }),
+  pageHeader: css({
+    position: "sticky",
+    top: space["0"],
+    display: "flex",
+    flexShrink: "0",
+    alignItems: "center",
+    gap: space[2],
+    borderBottomWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderBottomColor: theme.border,
+    backgroundColor: theme.background,
+    padding: space[4],
+  }),
+  pageSidebarTrigger: css({
+    marginLeft: { "*": null, base: `calc(${space[1]} * -1)` },
+  }),
+  pageSeparator: css({
+    marginRight: { "*": null, base: space[2] },
+    height: { "[data-vertical]": space[4] },
+    alignSelf: { "[data-vertical]": "auto" },
+  }),
+  pageBreadcrumbItem: css({
+    display: { "*": null, base: "none", [breakpoint.md]: "inline-flex" },
+  }),
+  pageDiv: css({
+    display: "flex",
+    flex: "1 1 0%",
+    flexDirection: "column",
+    gap: space[4],
+    padding: space[4],
+  }),
+  pageDiv2: css({
+    aspectRatio: "16 / 9",
+    height: space[12],
+    width: "100%",
+    borderRadius: radius.lg,
+    backgroundColor: `color-mix(in oklab, ${theme.muted} 50%, transparent)`,
+  }),
+}
+
+export default function Page() {
+  return (
+    <SidebarProvider sx={styles.provider}>
+      <AppSidebar />
+      <SidebarInset>
+        <header sx={styles.pageHeader}>
+          <SidebarTrigger sx={styles.pageSidebarTrigger} />
+          <Separator orientation="vertical" sx={styles.pageSeparator} />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem sx={styles.pageBreadcrumbItem}>
+                <BreadcrumbLink href="#">All Inboxes</BreadcrumbLink>
+              </BreadcrumbItem>
+
+              <BreadcrumbItem>
+                <BreadcrumbPage>Inbox</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <div sx={styles.pageDiv}>
+          {Array.from({ length: 24 }).map((_, index) => (
+            <div key={index} sx={styles.pageDiv2} />
+          ))}
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}

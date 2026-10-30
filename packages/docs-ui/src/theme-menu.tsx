@@ -15,11 +15,11 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@workspace/registry/bases/react-base/ui/dropdown-menu"
-import { Icon } from "@workspace/ui/primitives/icon"
-import type { IconProps } from "@workspace/ui/primitives/icon"
-import { touchTarget } from "@workspace/ui/recipes/touch"
-import { useTheme } from "@workspace/ui/theme/theme-provider"
-import type { ThemeMode } from "@workspace/ui/theme/themes"
+import { Icon } from "@workspace/shell/icon"
+import type { IconProps } from "@workspace/shell/icon"
+import { touchTarget } from "@workspace/shell/touch"
+import { useTheme } from "@workspace/shell/theme-provider"
+import type { ThemeMode } from "@workspace/shell/themes"
 import { spacing } from "./tokens.ts"
 
 import { schemeMarker } from "./scheme.ts"

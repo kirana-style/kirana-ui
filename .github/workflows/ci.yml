@@ -77,7 +77,7 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      # The demo, blocks and examples; a Kirana compiler error fails the build.
+      # The site and every preview app; a Kirana compiler error fails the build.
       - name: Build
         run: vp run build
 

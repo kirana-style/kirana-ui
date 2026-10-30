@@ -39,7 +39,7 @@ import {
 } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 /** A choice of the reader's kept in localStorage: the bar open or folded, every axis or the quick set. */
 function preference(key: string) {

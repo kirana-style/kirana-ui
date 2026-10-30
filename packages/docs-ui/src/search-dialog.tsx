@@ -21,9 +21,9 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@workspace/ui/components/command"
-import { Kbd, KbdGroup } from "@workspace/ui/components/kbd"
-import { Icon } from "@workspace/ui/primitives/icon"
+} from "@workspace/registry/bases/react-base/ui/command"
+import { Kbd, KbdGroup } from "@workspace/registry/bases/react-base/ui/kbd"
+import { Icon } from "@workspace/shell/icon"
 import {
   alpha,
   breakpoint,

@@ -82,7 +82,7 @@ transition when it is set. Nothing animates on its own.
 
 - The sidebar is a `nav` with `aria-current="page"` on the current row. Doc links match their route
   exactly, so `/docs` is not marked current on every page.
-- Search opens with ⌘K / Ctrl+K and is a dialog (`@workspace/ui` Command).
+- Search opens with ⌘K / Ctrl+K and is a dialog (the registry's Command).
 - Checked by hand on 2026-09-29 across the site's routes: every Tab stop shows a focus ring; no CSS or Web
   Animation keeps running under reduced motion; no horizontal overflow at 390, 768 and 1280 px in either
   scheme. The section tabs move into the menu sheet below 1024 px, where five tabs and the actions do not

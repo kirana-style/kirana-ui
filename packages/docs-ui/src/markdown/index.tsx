@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@workspace/ui/components/table"
+} from "@workspace/registry/bases/react-base/ui/table"
 import { Separator } from "@workspace/registry/bases/react-base/ui/separator"
 import {
   alpha,

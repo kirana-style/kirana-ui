@@ -12,7 +12,7 @@ import { css, defineTokens } from "@kirana-style/core"
 import type { StyleHandle } from "@kirana-style/core"
 
 import { theme } from "@workspace/registry/core/tokens"
-import { schemeMarker } from "@workspace/ui/theme/scheme-marker"
+import { schemeMarker } from "@workspace/shell/scheme-marker"
 
 export const hue = defineTokens(
   "hue",

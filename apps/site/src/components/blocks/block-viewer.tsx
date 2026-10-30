@@ -38,7 +38,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
-import { Icon } from "@workspace/ui/primitives/icon"
+import { Icon } from "@workspace/shell/icon"
 
 /** The bases a block has: React's, since no block is on Ark UI yet. */
 const COMBINATIONS = ["react/base", "react/aria"]

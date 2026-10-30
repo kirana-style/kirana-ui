@@ -6,7 +6,10 @@
  * Paths are relative to `registry/`. A file's place in an installed project follows from its source
  * path (`installedPath`).
  */
-import { blockInfo } from "../../../registry/blocks"
+import { readdirSync } from "node:fs"
+import { join } from "node:path"
+
+import { BLOCKS, blockInfo } from "../../../registry/blocks"
 import { CHARTS } from "../../../registry/charts"
 import type { Base } from "./flatten"
 
@@ -120,6 +123,41 @@ function sharedStyles(name: string, description: string): Item {
     title: `${name[0].toUpperCase()}${name.slice(1)} styles`,
     description,
     files: () => [`styles/${name}.styles.ts`],
+  }
+}
+
+/** The registry's folder, which a block's files are listed from. */
+const REGISTRY = join(import.meta.dirname, "..", "..", "..", "registry")
+
+/** A block's files in a combination's base: its page first, then its parts and data, sorted. */
+function blockFiles(bases: string, name: string): string[] {
+  const root = join(REGISTRY, "bases", bases, "blocks", name)
+  const walk = (folder: string): string[] =>
+    readdirSync(join(root, folder), { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory()
+        ? walk(join(folder, entry.name))
+        : [join(folder, entry.name)]
+    )
+  return walk("")
+    .sort((left, right) =>
+      left === "page.tsx"
+        ? -1
+        : right === "page.tsx"
+          ? 1
+          : left.localeCompare(right)
+    )
+    .map((file) => `bases/${bases}/blocks/${name}/${file}`)
+}
+
+/** A block, as an item: `registry/blocks.ts` names it, its folder holds it, React draws it. */
+function blockItem(name: string): Item {
+  return {
+    name,
+    type: "registry:block",
+    title: blockInfo(name).title,
+    description: blockInfo(name).description,
+    files: (combination) =>
+      react(combination) ? blockFiles(combination.bases, name) : undefined,
   }
 }
 
@@ -612,43 +650,9 @@ export const ITEMS: Item[] = [
     "A popup that displays information related to an element when it receives focus or is hovered.",
     ["react"]
   ),
-  {
-    name: "login-01",
-    type: "registry:block",
-    // Its title and description, with the blocks page's categories, are `registry/blocks.ts`'s.
-    title: blockInfo("login-01").title,
-    description: blockInfo("login-01").description,
-    files: (combination) =>
-      react(combination)
-        ? [
-            `bases/${combination.bases}/blocks/login-01/page.tsx`,
-            `bases/${combination.bases}/blocks/login-01/components/login-form.tsx`,
-          ]
-        : undefined,
-  },
-  {
-    name: "sidebar-07",
-    type: "registry:block",
-    // Its title and description, with the blocks page's categories, are `registry/blocks.ts`'s.
-    title: blockInfo("sidebar-07").title,
-    description: blockInfo("sidebar-07").description,
-    files: (combination) =>
-      react(combination)
-        ? [
-            `bases/${combination.bases}/blocks/sidebar-07/page.tsx`,
-            ...[
-              "app-sidebar",
-              "nav-main",
-              "nav-projects",
-              "nav-user",
-              "team-switcher",
-            ].map(
-              (part) =>
-                `bases/${combination.bases}/blocks/sidebar-07/components/${part}.tsx`
-            ),
-          ]
-        : undefined,
-  },
+  // The blocks, upstream's `registry/bases/<base>/blocks`: each one's title and description
+  // `registry/blocks.ts`'s, its files read from its folder, on both React bases.
+  ...BLOCKS.map((entry): Item => blockItem(entry.name)),
   // The charts, upstream's `registry/new-york-v4/charts`: one file each, its title and description
   // `registry/charts.ts`'s, on both React bases (Ark UI has no Chart yet).
   ...CHARTS.map((chart): Item => ({

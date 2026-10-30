@@ -4,10 +4,10 @@
  */
 import { props as styleProps } from "@kirana-style/core"
 
-import { schemeMarker } from "@workspace/ui/theme/scheme-marker"
-import { themeStyles } from "@workspace/ui/theme/theme-provider"
-import { THEME_MODES } from "@workspace/ui/theme/themes"
-import type { ThemeMode } from "@workspace/ui/theme/themes"
+import { schemeMarker } from "./scheme-marker"
+import { themeStyles } from "./theme-provider"
+import { THEME_MODES } from "./themes"
+import type { ThemeMode } from "./themes"
 
 import { THEME_COOKIE } from "./theme-mode"
 
@@ -20,7 +20,7 @@ export function themeDocumentProps(mode: ThemeMode) {
 }
 
 /**
- * Puts the saved mode on `<html>` before the first paint. A prerendered page (the demo) is written
+ * Puts the saved mode on `<html>` before the first paint. A prerendered page is written
  * in the system mode, and the provider applies the saved one only once the page's scripts run, so
  * without this a reader who chose dark would see the light page first on a slow connection. A
  * preview frame's `?theme=` comes first: the block viewer names the mode it shows. It writes the

@@ -1,7 +1,8 @@
 /**
  * The header's links and menus, ported from the Kirana site's header (its own links before the
- * menus, as kirana/ui's components lead): `NavigationMenu` (Base UI), which
- * morphs its popup between panels and slides content in from the side the pointer came from, with
+ * menus, as kirana/ui's components lead): the registry's `NavigationMenu` parts in a root and popup
+ * of the header's own (Base UI's), which morphs between panels as the content slides in from the
+ * side the pointer came from, with
  * one pill over the triggers gliding to the one under the pointer, or the open one. Each panel is
  * a card in a frame of frosted glass: the featured destinations on their landscapes, then a column
  * of links with their glyphs. Below `lg` the same links are in a sheet.
@@ -14,7 +15,9 @@ import {
   useRef,
   useState,
 } from "react"
-import { css } from "@kirana-style/core"
+import { css, props as styleProps } from "@kirana-style/core"
+import * as State from "@kirana-style/states/base-ui"
+import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu"
 import { Menu01Icon } from "@hugeicons/core-free-icons"
 
 import { DocsLink } from "@/components/docs-link"
@@ -35,14 +38,14 @@ import {
   SheetTrigger,
 } from "@workspace/registry/bases/react-base/ui/sheet"
 import {
-  NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@workspace/ui/components/navigation-menu"
-import { Icon } from "@workspace/ui/primitives/icon"
+} from "@workspace/registry/bases/react-base/ui/navigation-menu"
+import { navigationMenu } from "@workspace/registry/styles/navigation-menu.styles"
+import { Icon } from "@workspace/shell/icon"
 
 import { LINKS, MENUS } from "./nav"
 import type { NavLinkItem } from "./nav"
@@ -91,8 +94,29 @@ const styles = {
     fontWeight: 500,
     textDecorationLine: "none",
   }),
-  // The popup is the glass, the content's padding its width, and the panel the card inside it.
+  // The popup is the glass, the content's padding its width, and the panel the card inside it. The
+  // registry's NavigationMenu draws upstream's popup in each style; this one is the Kirana site's,
+  // the same in every style, so the header renders the root and the popup itself.
   glass: css({
+    position: "relative",
+    height: "var(--popup-height)",
+    width: "var(--popup-width)",
+    transformOrigin: "var(--transform-origin)",
+    color: theme.popoverForeground,
+    outlineStyle: "none",
+    transitionProperty: "opacity, scale, width, height",
+    transitionDuration: "350ms",
+    transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+    opacity: {
+      base: 1,
+      [State.NavigationMenu.Popup.startingStyle]: 0,
+      [State.NavigationMenu.Popup.endingStyle]: 0,
+    },
+    scale: {
+      base: 1,
+      [State.NavigationMenu.Popup.startingStyle]: 0.9,
+      [State.NavigationMenu.Popup.endingStyle]: 0.9,
+    },
     // The panel's corner and the glass around it, as the customizer's frame (`glass.ts`).
     borderRadius: `calc(${radius["2xl"]} + min(${radius["2xl"]}, ${space["1.5"]}))`,
     backgroundColor:
@@ -151,10 +175,11 @@ export function DesktopNav({ sx }: { sx?: Sx }) {
         sx={styles.pill}
         style={{ left: box?.left, width: box?.width, opacity: shown ? 1 : 0 }}
       />
-      <NavigationMenu
-        popupSx={styles.glass}
+      <NavigationMenuPrimitive.Root
+        data-slot="navigation-menu"
         value={open}
         onValueChange={(value) => setOpen((value as string | null) ?? null)}
+        {...styleProps(navigationMenu.root)}
       >
         <NavigationMenuList>
           {LINKS.map((link) => (
@@ -181,7 +206,21 @@ export function DesktopNav({ sx }: { sx?: Sx }) {
             </NavigationMenuItem>
           ))}
         </NavigationMenuList>
-      </NavigationMenu>
+        <NavigationMenuPrimitive.Portal>
+          <NavigationMenuPrimitive.Positioner
+            side="bottom"
+            sideOffset={8}
+            align="start"
+            {...styleProps(navigationMenu.positioner)}
+          >
+            <NavigationMenuPrimitive.Popup {...styleProps(styles.glass)}>
+              <NavigationMenuPrimitive.Viewport
+                {...styleProps(navigationMenu.viewport)}
+              />
+            </NavigationMenuPrimitive.Popup>
+          </NavigationMenuPrimitive.Positioner>
+        </NavigationMenuPrimitive.Portal>
+      </NavigationMenuPrimitive.Root>
     </div>
   )
 }

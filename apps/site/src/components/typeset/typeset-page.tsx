@@ -77,8 +77,8 @@ import {
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
 import { visuallyHidden } from "@workspace/registry/styles/visually-hidden.styles"
-import { Icon } from "@workspace/ui/primitives/icon"
-import { useTheme } from "@workspace/ui/theme/theme-provider"
+import { Icon } from "@workspace/shell/icon"
+import { useTheme } from "@workspace/shell/theme-provider"
 
 const SITE = "https://ui.kirana.style"
 
