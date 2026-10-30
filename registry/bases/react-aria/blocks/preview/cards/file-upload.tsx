@@ -18,10 +18,13 @@ import {
 } from "../../../ui/empty"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { css } from "@kirana-style/core"
+import { theme } from "../../../../../core/tokens"
 
 const styles = {
   empty: css({
     borderWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
   }),
 }
 

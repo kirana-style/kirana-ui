@@ -20,11 +20,14 @@ import {
   FieldSet,
 } from "../../../ui/field"
 import { css } from "@kirana-style/core"
+import { theme } from "../../../../../core/tokens"
 import { axes } from "../../../../../core/axes"
 
 const styles = {
   fieldLegend: css({
     borderWidth: { "*": null, base: "0" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     clipPath: { "*": null, base: "inset(50%)" },
     height: { "*": null, base: "1px" },
     margin: { "*": null, base: "-1px" },

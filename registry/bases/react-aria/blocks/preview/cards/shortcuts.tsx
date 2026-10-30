@@ -36,6 +36,8 @@ const styles = {
   }),
   item: css({
     borderWidth: { "*": null, base: "0px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     padding: { "*": null, base: space["0"] },
   }),
   itemTitle: css({

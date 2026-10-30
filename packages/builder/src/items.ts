@@ -123,6 +123,14 @@ function sharedStyles(name: string, description: string): Item {
   }
 }
 
+/** The icon placeholder's data: the map, and the libraries it loads when a design draws them. */
+const ICON_DATA = [
+  "icons/data.ts",
+  "icons/tabler.ts",
+  "icons/phosphor.ts",
+  "icons/remixicon.ts",
+]
+
 export const ITEMS: Item[] = [
   {
     name: "kirana",
@@ -173,12 +181,13 @@ export const ITEMS: Item[] = [
     title: "Icon placeholder",
     description:
       "An icon named for every icon library, drawn in the one the project uses.",
-    // React's and Vue's for now; Svelte, Solid and Angular get theirs with their first icon.
+    // React's and Vue's for now; Svelte, Solid and Angular get theirs with their first icon. The
+    // data: Lucide's and Hugeicons' in `data.ts`, each other library's in a file it loads on demand.
     files: (combination) =>
       react(combination)
-        ? ["icons/data.ts", "icons/icon-placeholder.tsx"]
+        ? [...ICON_DATA, "icons/icon-placeholder.tsx"]
         : combination.framework === "vue"
-          ? ["icons/data.ts", "icons/IconPlaceholder.vue", "icons/vue.ts"]
+          ? [...ICON_DATA, "icons/IconPlaceholder.vue", "icons/vue.ts"]
           : undefined,
   },
   {

@@ -9,12 +9,17 @@
  * file's name. So a placeholder takes only what an icon component takes: no `sx`, which an icon
  * library does not read; a style is spread as `{...props(…)}`.
  */
-import { createContext, createElement, useContext } from "react"
+import {
+  createContext,
+  createElement,
+  useContext,
+  useSyncExternalStore,
+} from "react"
 import type { ComponentProps, ReactNode } from "react"
 
 import { DEFAULT_DESIGN_SYSTEM } from "../core/config"
 import type { IconLibrary } from "../core/config"
-import { resolveIcon } from "./data"
+import { iconDataVersion, resolveIcon, subscribeIconData } from "./data"
 import type { IconNames } from "./data"
 
 const IconLibraryContext = createContext<IconLibrary>(
@@ -57,6 +62,8 @@ export function IconPlaceholder({
   ...props
 }: IconPlaceholderProps) {
   const library = useContext(IconLibraryContext)
+  // Draws again when a library's data arrives (Tabler, Phosphor and Remix Icon load on demand).
+  useSyncExternalStore(subscribeIconData, iconDataVersion, () => 0)
   const resolved = resolveIcon(library, {
     lucide,
     hugeicons,

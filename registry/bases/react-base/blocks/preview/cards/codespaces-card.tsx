@@ -104,6 +104,8 @@ const styles = {
     width: { "*": null, base: "100%" },
     justifyContent: { "*": null, base: "flex-start" },
     borderBottomWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderBottomColor: theme.border,
     [select.child("button")]: {
       flex: "0",
     },
@@ -111,6 +113,8 @@ const styles = {
   div2: css({
     borderRadius: radius.md,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     backgroundColor: `color-mix(in oklab, ${theme.muted} 30%, transparent)`,
     padding: space[2],
   }),
@@ -119,6 +123,8 @@ const styles = {
   }),
   fieldLabel: css({
     borderWidth: { "*": null, base: "0" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     clipPath: { "*": null, base: "inset(50%)" },
     height: { "*": null, base: "1px" },
     margin: { "*": null, base: "-1px" },
@@ -133,6 +139,8 @@ const styles = {
   }),
   fieldLabel2: css({
     borderWidth: { "*": null, base: "0" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     clipPath: { "*": null, base: "inset(50%)" },
     height: { "*": null, base: "1px" },
     margin: { "*": null, base: "-1px" },
@@ -147,6 +155,8 @@ const styles = {
   }),
   fieldLabel3: css({
     borderWidth: { "*": null, base: "0" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     clipPath: { "*": null, base: "inset(50%)" },
     height: { "*": null, base: "1px" },
     margin: { "*": null, base: "-1px" },

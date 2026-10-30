@@ -48,9 +48,9 @@
     "measured": 308.1
   },
   "preview.dialog-demo.js": {
-    "budget": 140,
+    "budget": 143,
     "unit": "KB",
-    "why": "A React preview page, the dialog demo, gzip: React, Base UI's and React Aria's providers, the icon map every placeholder reads, the design's decoder and the item's chunks. Lowered from 196 KB when the previews became their own app (`apps/preview-react`, KF-052's option C), without the site's router, route tree and docs manifest: measured 115.7, where 161.4 as a route of the site.",
+    "why": "A React preview page, the dialog demo, gzip: React, Base UI's and React Aria's providers, the icon map every placeholder reads, the design's decoder and the item's chunks. Lowered from 196 KB when the previews became their own app (`apps/preview-react`, KF-052's option C), without the site's router, route tree and docs manifest: measured 115.7, where 161.4 as a route of the site. Raised to 143 KB with `/create`'s charts preview, a page of the app's own on each base: the entry lists the chunks each page preloads, here its 67 charts' (about 3 KB); 140.1 measured.",
     "measured": 124.1
   },
   "preview-react.css": {

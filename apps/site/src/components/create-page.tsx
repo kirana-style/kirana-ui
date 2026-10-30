@@ -4,10 +4,11 @@
  * which picks what the preview shows; Open Preset `O`, Shuffle `R`, Light/Dark `D`, Undo, Redo,
  * Reset `⇧R`); the base is the project's, chosen in Get Code; its pickers lock on hover for shuffling;
  * its footer, as upstream's, copies the preset, then opens one or shuffles, then gets the code
- * (Reset is the Menu's and `⇧R`, as upstream's). The preview frames any item in any base, created once the page has hydrated so it loads
- * once: upstream's second preview first, and its switcher (01, 02) over the two previews; on any
- * other item, the item's name, which opens Navigate. The design is the site's
- * (`setDesign`), so every page follows what `/create` makes.
+ * (Reset is the Menu's and `⇧R`, as upstream's). The preview frames any item in any base, created
+ * once the page has hydrated so it loads once: upstream's second preview first, and its switcher
+ * over the previews (01 and 02, upstream's, and 03, the registry's charts by type); on any other
+ * item, the item's name, which opens Navigate. The design is the site's (`setDesign`), so every
+ * page follows what `/create` makes.
  */
 import * as React from "react"
 import { css } from "@kirana-style/core"
@@ -66,6 +67,8 @@ const PREVIEWS: Record<string, readonly string[]> = {
 const PREVIEW_PAGES = [
   { label: "01", item: "preview-02" },
   { label: "02", item: "preview" },
+  // The registry's charts, a column per type (`apps/preview-react/src/charts-base.tsx`).
+  { label: "03", item: "charts" },
 ] as const
 
 /** Navigate, loaded the first time it opens (`create-navigate.tsx`). */
@@ -304,7 +307,9 @@ export function CreatePage() {
 
   const combination = `${system.framework}/${system.base}`
   const items = PREVIEWS[combination] ?? []
-  const shown = items.includes(preview) ? preview : (items[0] ?? "")
+  // The charts are a page of the React preview app's own, not an item.
+  const own = preview === "charts" && combination.startsWith("react/")
+  const shown = items.includes(preview) || own ? preview : (items[0] ?? "")
   const query = new URLSearchParams({
     ...(rtl ? { rtl: "true" } : {}),
     ...(pointer ? { pointer: "true" } : {}),

@@ -33,10 +33,15 @@ const BASES: Record<string, () => Promise<{ previews: Previews }>> = {
 
 /**
  * The app's own pages beside the registry's items: the home page's React showcase, as every
- * framework's preview app has its own (`./showcase.tsx`).
+ * framework's preview app has its own (`./showcase.tsx`), and `/create`'s charts preview on each
+ * base (`./charts-base.tsx`, `./charts-aria.tsx`).
  */
 const APP_PAGES: Record<string, Previews> = {
-  base: { showcase: () => import("./showcase") },
+  base: {
+    showcase: () => import("./showcase"),
+    charts: () => import("./charts-base"),
+  },
+  aria: { charts: () => import("./charts-aria") },
 }
 
 /** Every page the app has, as `[base, item]`. */

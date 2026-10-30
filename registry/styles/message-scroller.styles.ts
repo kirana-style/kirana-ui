@@ -20,9 +20,14 @@ const IDLE = '[data-active="false"]'
 const AT_END = '[data-direction="end"]'
 const AT_START = '[data-direction="start"]'
 
-/** Its slide: centred on the scroller, off its edge while idle. */
+/**
+ * Its slide: centred on the scroller, off its edge while idle, and pressed in 1px as Button is
+ * (`active:translate-y-px`, which Tailwind composes with the centring and Kirana would not: the
+ * Button's own pressed `translate` would drop the `-50%`, and the button jump sideways).
+ */
 const slide = (x: string) => ({
   base: `${x} 0`,
+  ":active": `${x} 1px`,
   [IDLE]: { [AT_END]: `${x} 100%`, [AT_START]: `${x} -100%` },
 })
 
@@ -77,7 +82,7 @@ export const messageScroller = {
   button: css({
     position: "absolute",
     insetInlineStart: "50%",
-    translate: { ...slide("-50%"), ":dir(rtl)": slide("50%") },
+    translate: { "*": null, ...slide("-50%"), ":dir(rtl)": slide("50%") },
     scale: { [IDLE]: "0.95", [ACTIVE]: "1" },
     opacity: { [IDLE]: 0, [ACTIVE]: 1 },
     pointerEvents: { [IDLE]: "none" },
