@@ -1034,6 +1034,13 @@
         "cn-chart-tooltip": "registry/styles/chart.styles.ts#chart.tooltip"
       }
     },
+    "chart-area-axes": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-axes.tsx": "sha256:9aae9d966c0cd069"
+      },
+      "hooks": {}
+    },
     "chart-area-default": {
       "ported": "481d523",
       "units": {
@@ -1041,10 +1048,129 @@
       },
       "hooks": {}
     },
+    "chart-area-gradient": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-gradient.tsx": "sha256:45a85be38bfd7ead"
+      },
+      "hooks": {}
+    },
+    "chart-area-icons": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-icons.tsx": "sha256:69ca202f4bb4c33b"
+      },
+      "hooks": {}
+    },
+    "chart-area-interactive": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-interactive.tsx": "sha256:81fcf9732a151a5e"
+      },
+      "hooks": {}
+    },
+    "chart-area-legend": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-legend.tsx": "sha256:b16d9ef9b2016c81"
+      },
+      "hooks": {}
+    },
+    "chart-area-linear": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-linear.tsx": "sha256:e06cd4187d027639"
+      },
+      "hooks": {}
+    },
+    "chart-area-stacked": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-stacked.tsx": "sha256:db215c13b806e732"
+      },
+      "hooks": {}
+    },
+    "chart-area-stacked-expand": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-stacked-expand.tsx": "sha256:5df80ae409fa14f3"
+      },
+      "hooks": {}
+    },
+    "chart-area-step": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-area-step.tsx": "sha256:967c57218247435b"
+      },
+      "hooks": {}
+    },
+    "chart-bar-active": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-active.tsx": "sha256:66f5fae5da3a6b4c"
+      },
+      "hooks": {}
+    },
     "chart-bar-default": {
       "ported": "481d523",
       "units": {
         "apps/v4/registry/new-york-v4/charts/chart-bar-default.tsx": "sha256:e714948c1087af16"
+      },
+      "hooks": {}
+    },
+    "chart-bar-horizontal": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-horizontal.tsx": "sha256:0dccb76e8d82c6b1"
+      },
+      "hooks": {}
+    },
+    "chart-bar-interactive": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-interactive.tsx": "sha256:aa01c82fb2a4edc6"
+      },
+      "hooks": {}
+    },
+    "chart-bar-label": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-label.tsx": "sha256:26cef730a6f2c9fc"
+      },
+      "hooks": {}
+    },
+    "chart-bar-label-custom": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-label-custom.tsx": "sha256:5cc3f8ce78a519ba"
+      },
+      "hooks": {}
+    },
+    "chart-bar-mixed": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-mixed.tsx": "sha256:b7e6ee25820af6a5"
+      },
+      "hooks": {}
+    },
+    "chart-bar-multiple": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-multiple.tsx": "sha256:537e06323e0db164"
+      },
+      "hooks": {}
+    },
+    "chart-bar-negative": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-negative.tsx": "sha256:22733cdd896a6f87"
+      },
+      "hooks": {}
+    },
+    "chart-bar-stacked": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-bar-stacked.tsx": "sha256:5e1b682a5f8f90cc"
       },
       "hooks": {}
     },
@@ -1060,6 +1186,69 @@
       "ported": "481d523",
       "units": {
         "apps/v4/registry/new-york-v4/charts/chart-line-default.tsx": "sha256:d9632a0e955df05c"
+      },
+      "hooks": {}
+    },
+    "chart-line-dots": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-dots.tsx": "sha256:e41121b704b22277"
+      },
+      "hooks": {}
+    },
+    "chart-line-dots-colors": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-dots-colors.tsx": "sha256:740393cadcc4aa63"
+      },
+      "hooks": {}
+    },
+    "chart-line-dots-custom": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-dots-custom.tsx": "sha256:9d299f24f38d467f"
+      },
+      "hooks": {}
+    },
+    "chart-line-interactive": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-interactive.tsx": "sha256:76a4f6f74fd18f18"
+      },
+      "hooks": {}
+    },
+    "chart-line-label": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-label.tsx": "sha256:7534f79654716037"
+      },
+      "hooks": {}
+    },
+    "chart-line-label-custom": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-label-custom.tsx": "sha256:e789387b957d5e22"
+      },
+      "hooks": {}
+    },
+    "chart-line-linear": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-linear.tsx": "sha256:c120b438d13b32cc"
+      },
+      "hooks": {}
+    },
+    "chart-line-multiple": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-multiple.tsx": "sha256:8d55a8b24aaefccd"
+      },
+      "hooks": {}
+    },
+    "chart-line-step": {
+      "ported": "481d523",
+      "units": {
+        "apps/v4/registry/new-york-v4/charts/chart-line-step.tsx": "sha256:7de698cb7d6f1b17"
       },
       "hooks": {}
     },

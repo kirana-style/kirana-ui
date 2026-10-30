@@ -69,6 +69,42 @@ export const chartTheme: ChartTheme = {
   ],
 }
 
+/**
+ * A value axis rounded as Recharts rounds it: `count` evenly spaced ticks from zero (or the lowest
+ * value, when it is negative) past the highest, with a step of one or two significant digits (80,
+ * 150, 2.5). Upstream's charts hide that axis and draw their grid on its ticks; give `domain` to the
+ * scale and `ticks` to the grid's axis (`hiddenAxis`), and the grid falls where upstream's does.
+ */
+export function niceTicks(values: readonly number[], count = 5) {
+  const low = Math.min(0, ...values)
+  const high = Math.max(0, ...values)
+  const rough = (high - low) / (count - 1) || 1
+  const digits = Math.floor(Math.log10(rough)) + 1
+  const unit = 10 ** digits
+  const scale = digits === 1 ? 0.1 : 0.05
+  let step = Math.ceil(rough / unit / scale - 1e-9) * scale * unit
+  let start = low < 0 ? Math.floor(low / step) * step : 0
+  // A negative start can push the top past `count` steps: take the next step up.
+  while (start + step * (count - 1) < high) {
+    step = (Math.ceil(step / unit / scale + 1e-9) + 1) * scale * unit
+    start = low < 0 ? Math.floor(low / step) * step : 0
+  }
+  const ticks = Array.from(
+    { length: count },
+    (_, index) => +(start + step * index).toPrecision(12)
+  )
+  return { domain: [ticks[0]!, ticks[count - 1]!] as [number, number], ticks }
+}
+
+/** An axis that draws nothing but places the grid on `ticks`, as upstream's hidden `YAxis`. */
+export function hiddenAxis(ticks: readonly number[]) {
+  return {
+    line: false,
+    ticks: { values: ticks, size: 0 },
+    tickLabels: false,
+  } as const
+}
+
 /** The tooltip extension, for a definition's `tooltip`: `ChartContainer` draws its body. */
 export const chartTooltip = { use: tooltip } as const
 
@@ -131,11 +167,16 @@ function ChartContainer<
       )
     : undefined
   const { className, style } = styleProps(styles.container, sx)
+  // With a legend and no height, the chart fills what the legend leaves of the box: TanStack
+  // Charts then reads the height from its own box, as it reads the width.
+  const fill = legend !== undefined && rest.height === undefined
+  const plotProps = styleProps(styles.plot, fill && styles.plotWithLegend)
   const plot = (
     <Chart
       {...rest}
-      {...(rest.height === undefined ? { aspectRatio } : {})}
-      {...styleProps(styles.plot)}
+      {...(rest.height === undefined && !fill ? { aspectRatio } : {})}
+      className={plotProps.className}
+      style={fill ? { ...plotProps.style, height: "auto" } : plotProps.style}
       renderTooltipBody={renderTooltipBody}
     />
   )
@@ -178,13 +219,22 @@ function categoryOf(point: ChartPoint): ChartValue {
   return typeof point.yValue === "number" ? point.xValue : point.yValue
 }
 
-/** A focused point's config entry: by its datum's `nameKey` field, else its series, else its mark. */
+/**
+ * A focused point's config entry, as upstream finds it: by its datum's `nameKey` field when that is
+ * a string (a key such as `"chrome"`), else `nameKey` itself when the config has it (upstream's
+ * `nameKey="views"` or `"visitors"`), else its series, else its mark.
+ */
 function pointConfig(config: ChartConfig, point: ChartPoint, nameKey?: string) {
   const field =
     nameKey && point.datum && typeof point.datum === "object"
       ? (point.datum as Record<string, unknown>)[nameKey]
       : undefined
-  const name = String(field ?? point.group ?? point.markId)
+  const name = String(
+    (typeof field === "string" ? field : undefined) ??
+      (nameKey && nameKey in config ? nameKey : undefined) ??
+      point.group ??
+      point.markId
+  )
   return { name, item: config[name] }
 }
 
@@ -245,7 +295,17 @@ function ChartTooltipContent({
       <div sx={styles.tooltipRows}>
         {points.map((point) => {
           const { name, item } = pointConfig(config, point, nameKey)
-          const indicatorColor = color ?? point.color
+          // Upstream's order: the row's own `fill`, else the series' colour (Recharts' item colour
+          // is its stroke; a mark painted with a gradient, `url(#…)`, has none of its own to show),
+          // else the mark's paint.
+          const datum = point.datum as { fill?: unknown } | null
+          const indicatorColor =
+            color ??
+            (typeof datum?.fill === "string"
+              ? datum.fill
+              : item?.color || item?.theme
+                ? `var(--color-${name})`
+                : point.color)
           const value = valueOf(point)
           return (
             <div

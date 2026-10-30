@@ -193,6 +193,8 @@ import {
   GitForkIcon,
   ArrowUpDownIcon,
   RedoIcon,
+  Activity01Icon,
+  ChartDownIcon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -367,6 +369,7 @@ import {
   GitFork,
   ArrowUpDown,
   Forward,
+  TrendingDown,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -587,6 +590,7 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       GitForkIcon: GitFork,
       ArrowUpDownIcon: ArrowUpDown,
       ForwardIcon: Forward,
+      TrendingDownIcon: TrendingDown,
     },
   },
   hugeicons: {
@@ -779,6 +783,8 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       GitForkIcon,
       ArrowUpDownIcon,
       RedoIcon,
+      Activity01Icon,
+      ChartDownIcon,
     },
   },
 }

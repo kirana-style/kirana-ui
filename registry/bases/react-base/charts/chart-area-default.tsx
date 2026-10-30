@@ -1,10 +1,9 @@
 /**
- * Upstream's `chart-area-default`, a simple area chart, on TanStack Charts: Recharts' `<Area
- * type="natural">` is an area and its line drawn as two marks with d3's natural curve, the
- * tooltip's indicator a line.
+ * Upstream's `chart-area-default`, a simple area chart, on TanStack Charts: an area and its top
+ * edge drawn as two marks with d3's natural curve, the tooltip's indicator a line.
  */
 import { css, props as styleProps } from "@kirana-style/core"
-import { areaY, defineChart, lineY } from "@tanstack/charts"
+import { areaY, defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
 import { d3Curve } from "@tanstack/charts/d3/shape"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { scalePoint } from "@tanstack/charts/scales/point"
@@ -27,6 +26,8 @@ import {
   ChartTooltipContent,
   chartTheme,
   chartTooltip,
+  hiddenAxis,
+  niceTicks,
 } from "../ui/chart"
 
 export const description = "A simple area chart"
@@ -67,7 +68,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const natural = d3Curve(curveNatural)
+const curve = d3Curve(curveNatural)
+const y = niceTicks(chartData.map((row) => row.desktop))
 
 const chart = defineChart(
   {
@@ -76,17 +78,29 @@ const chart = defineChart(
         id: "desktop",
         x: "month",
         y: "desktop",
-        curve: natural,
+        curve,
         fill: "var(--color-desktop)",
         fillOpacity: 0.4,
       }),
       lineY(chartData, {
         x: "month",
         y: "desktop",
-        curve: natural,
+        curve,
         stroke: "var(--color-desktop)",
         strokeWidth: 1,
       }),
+      // Recharts' active dot at the focused month.
+      whenFocused(
+        dot(chartData, {
+          x: "month",
+          y: "desktop",
+          r: 4,
+          fill: "var(--color-desktop)",
+          stroke: theme.background,
+          strokeWidth: 2,
+        }),
+        { match: "x" }
+      ),
     ],
     scales: {
       // Recharts' category axis on an area chart: the first and last months on the plot's edges.
@@ -102,7 +116,11 @@ const chart = defineChart(
           tickLabels: { fontSize: 12 },
         },
       },
-      y: { scale: scaleLinear, grid: true, axis: false },
+      y: {
+        scale: scaleLinear().domain(y.domain),
+        grid: true,
+        axis: hiddenAxis(y.ticks),
+      },
     },
     margin: { left: 12, right: 12 },
     theme: chartTheme,

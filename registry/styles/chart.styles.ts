@@ -12,7 +12,7 @@
  * A series' colour is a custom property on the container, `--color-<key>`, as upstream's; an
  * indicator reads the row's colour from `--color-bg` and `--color-border`, set on it.
  */
-import { css } from "@kirana-style/core"
+import { css, select } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import {
@@ -42,10 +42,17 @@ export const chart = {
     "--ts-chart-tooltip-shadow": "none",
     "--ts-chart-tooltip-padding": "0",
   }),
-  // The chart itself fills the container.
-  plot: css({ width: "100%" }),
+  // The chart itself fills the container. Its grid is the theme's half-strength border at full
+  // opacity, as upstream's `stroke-border/50`: TanStack Charts paints a grid at 0.11 by default.
+  plot: css({
+    width: "100%",
+    // KF-079: a class is written as its attribute, `[class~=…]`, in a contextual target.
+    [select.descendant('[class~="ts-chart__grid"]')]: { strokeOpacity: 1 },
+  }),
   // With a legend, Recharts' wrapper: the plot over the legend (or under it, `verticalAlign="top"`).
   withLegend: css({ display: "flex", flexDirection: "column", width: "100%" }),
+  // There, the plot takes the height the legend leaves, as Recharts' does inside `aspect-video`.
+  plotWithLegend: css({ flex: "1 1 0%", minHeight: 0 }),
 
   // cn-chart-tooltip and the component's own classes (`grid min-w-32 items-start`): a bordered
   // card in the first five styles; Luma, Rhea and Sera ring a popover instead.
@@ -159,7 +166,17 @@ export const chart = {
   }),
   legendTop: css({ order: -1, paddingBottom: space[3] }),
   legendBottom: css({ paddingTop: space[3] }),
-  legendItem: css({ display: "flex", alignItems: "center", gap: space["1.5"] }),
+  // `[&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground`: a series' icon in place of its swatch.
+  legendItem: css({
+    display: "flex",
+    alignItems: "center",
+    gap: space["1.5"],
+    [select.child("svg")]: {
+      width: space[3],
+      height: space[3],
+      color: theme.mutedForeground,
+    },
+  }),
   legendSwatch: css({
     width: space[2],
     height: space[2],

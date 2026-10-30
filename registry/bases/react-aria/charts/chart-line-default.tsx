@@ -1,9 +1,9 @@
 /**
- * Upstream's `chart-line-default`, a line chart, on TanStack Charts: Recharts' `<Line
- * type="natural" dot={false}>`, a 2px line on d3's natural curve, the tooltip without its label.
+ * Upstream's `chart-line-default`, a line chart, on TanStack Charts: the desktop visitors drawn
+ * with d3's natural curve, a dot at the focused month.
  */
 import { css, props as styleProps } from "@kirana-style/core"
-import { defineChart, lineY } from "@tanstack/charts"
+import { defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
 import { d3Curve } from "@tanstack/charts/d3/shape"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { scalePoint } from "@tanstack/charts/scales/point"
@@ -26,6 +26,8 @@ import {
   ChartTooltipContent,
   chartTheme,
   chartTooltip,
+  hiddenAxis,
+  niceTicks,
 } from "../ui/chart"
 
 export const description = "A line chart"
@@ -63,6 +65,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const curve = d3Curve(curveNatural)
+const y = niceTicks(chartData.map((row) => row.desktop))
+
 const chart = defineChart(
   {
     marks: [
@@ -70,14 +75,26 @@ const chart = defineChart(
         id: "desktop",
         x: "month",
         y: "desktop",
-        curve: d3Curve(curveNatural),
+        curve,
         stroke: "var(--color-desktop)",
         strokeWidth: 2,
       }),
+      // Recharts' active dot at the focused point.
+      whenFocused(
+        dot(chartData, {
+          x: "month",
+          y: "desktop",
+          r: 4,
+          fill: "var(--color-desktop)",
+          stroke: theme.background,
+          strokeWidth: 2,
+        }),
+        { match: "x" }
+      ),
     ],
     scales: {
-      // Recharts' category axis on a line chart: the first and last months on the plot's edges.
       x: {
+        // Recharts' category axis on a line chart: the first and last months on the plot's edges.
         scale: () => scalePoint<string>(),
         axis: {
           line: false,
@@ -89,7 +106,11 @@ const chart = defineChart(
           tickLabels: { fontSize: 12 },
         },
       },
-      y: { scale: scaleLinear, grid: true, axis: false },
+      y: {
+        scale: scaleLinear().domain(y.domain),
+        grid: true,
+        axis: hiddenAxis(y.ticks),
+      },
     },
     margin: { left: 12, right: 12 },
     theme: chartTheme,
