@@ -1,14 +1,13 @@
 /**
- * Upstream's `chart-radial-simple`, a radial chart, on TanStack Charts' polar entry: a ring per
- * browser between Recharts' `innerRadius={30}` and `outerRadius={110}`, each bar's sweep its
- * visitors, over a full ring in the muted colour (Recharts' `background`, upstream's
- * `fill-muted`). Recharts sweeps from 3 o'clock counter-clockwise, TanStack Charts from 12
- * clockwise, so the polar turns from a quarter turn back the other way.
+ * Upstream's `chart-radial-simple`, a radial chart, on TanStack Charts' polar entry:
+ * a ring per browser between Recharts' `innerRadius={30}` and `outerRadius={110}`, each bar's
+ * sweep its visitors, over a full ring in the muted colour (Recharts' `background`, upstream's
+ * `fill-muted`). Recharts sweeps from 3 o'clock anticlockwise, TanStack Charts from 12 clockwise,
+ * so the polar turns from a quarter turn back the other way.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { defineChart } from "@tanstack/charts"
 import { polar, radialBarAngle } from "@tanstack/charts/polar"
-import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 
 import { fontWeight, space } from "../../../core/scales"
@@ -28,14 +27,15 @@ import {
   ChartTooltipContent,
   chartTheme,
   chartTooltip,
+  radialBands,
 } from "../ui/chart"
 
 export const description = "A radial chart"
 
 const styles = {
   card: css({ display: "flex", flexDirection: "column" }),
-  // `items-center pb-0`.
-  header: css({ alignItems: "center", textAlign: "center", paddingBottom: 0 }),
+  // `items-center pb-0`: the header is a grid, so its rows keep their width.
+  header: css({ alignItems: "center", paddingBottom: 0 }),
   content: css({ flex: "1 1 0%", paddingBottom: 0 }),
   // `mx-auto aspect-square max-h-[250px]`.
   chart: css({ marginInline: "auto", aspectRatio: "1", maxHeight: "250px" }),
@@ -52,11 +52,11 @@ const styles = {
 }
 
 const chartData = [
-  { browser: "chrome", visitors: 275 },
-  { browser: "safari", visitors: 200 },
-  { browser: "firefox", visitors: 187 },
-  { browser: "edge", visitors: 173 },
-  { browser: "other", visitors: 90 },
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 90, fill: "var(--color-other)" },
 ]
 
 const chartConfig = {
@@ -96,13 +96,10 @@ const chart = defineChart(
         endAngle: Math.PI / 2 - Math.PI * 2,
         scales: {
           angle: { scale: scaleLinear().domain([0, MOST]) },
-          radius: {
-            // Recharts' `barCategoryGap` of 10%, each ring's share of its band.
-            scale: () => scaleBand<string>().domain(BROWSERS).padding(0.1),
-            range: [30, 110],
-          },
+          radius: radialBands(BROWSERS, 30, 110),
         },
         marks: [
+          // Recharts' `background`: each bar's track, the whole sweep, in the muted colour.
           radialBarAngle(chartData, {
             id: "background",
             radius: "browser",

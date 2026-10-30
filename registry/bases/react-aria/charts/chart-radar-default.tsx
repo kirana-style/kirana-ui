@@ -1,14 +1,17 @@
 /**
  * Upstream's `chart-radar-default`, a radar chart, on TanStack Charts' polar entry: a month per
- * spoke (`angleGrid`, its labels Recharts' `PolarAngleAxis`), polygon rings (`PolarGrid`), and the
- * visitors as a closed area at 60% opacity. Recharts' radius is 80% of the box's.
+ * spoke, polygon rings, and the visitors as a closed area at 60% opacity. Recharts' radius is 80%
+ * of the box's; its rings fall on the radius axis' rounded ticks.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { defineChart } from "@tanstack/charts"
+import { decorative } from "@tanstack/charts/mark/decorative"
 import {
   angleGrid,
+  focusGroupAngle,
   polar,
   radialArea,
+  radialDot,
   radialGrid,
 } from "@tanstack/charts/polar"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
@@ -32,17 +35,13 @@ import {
   ChartTooltipContent,
   chartTheme,
   chartTooltip,
+  niceTicks,
 } from "../ui/chart"
 
 export const description = "A radar chart"
 
 const styles = {
-  // `items-center pb-4`.
-  header: css({
-    alignItems: "center",
-    textAlign: "center",
-    paddingBottom: space[4],
-  }),
+  header: css({ alignItems: "center", paddingBottom: space[4] }),
   content: css({ paddingBottom: 0 }),
   // `mx-auto aspect-square max-h-[250px]`.
   chart: css({ marginInline: "auto", aspectRatio: "1", maxHeight: "250px" }),
@@ -80,47 +79,68 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const radius = niceTicks(chartData.map((row) => row.desktop))
+
+/** The radar's angle and radius, the same in its drawing and its points. */
+const scales = {
+  angle: {
+    scale: scalePoint<string>().domain(chartData.map((row) => row.month)),
+    wrap: true,
+  },
+  radius: { scale: scaleLinear().domain(radius.domain) },
+}
+
 const chart = defineChart(
   {
     marks: [
+      // The drawing: in a polar container of its own, out of the tooltip's reach.
+      decorative(
+        polar({
+          // Recharts' margin, 5px on every side, is taken off before the 80%.
+          inset: 5,
+          radiusRatio: 0.8,
+          scales,
+          // Recharts' grid in the border colour (upstream's `stroke-border`).
+          guides: [
+            radialGrid({
+              shape: "polygon",
+              values: radius.ticks.slice(1),
+              stroke: theme.border,
+              strokeOpacity: 1,
+            }),
+            angleGrid({
+              labels: true,
+              stroke: theme.border,
+              strokeOpacity: 1,
+              labelFill: theme.mutedForeground,
+              labelFontSize: 12,
+            }),
+          ],
+          marks: [
+            radialArea(chartData, {
+              angle: "month",
+              radius: "desktop",
+              curve: curveLinearClosed,
+              fill: "var(--color-desktop)",
+              fillOpacity: 0.6,
+            }),
+          ],
+        })
+      ),
+      // The points the tooltip reads, over it in the same place.
       polar({
+        inset: 5,
         radiusRatio: 0.8,
-        scales: {
-          angle: {
-            scale: scalePoint<string>().domain(
-              chartData.map((row) => row.month)
-            ),
-            wrap: true,
-          },
-          radius: {
-            scale: scaleLinear()
-              .domain([0, Math.max(...chartData.map((row) => row.desktop))])
-              .nice(),
-          },
-        },
-        // Recharts' grid lines in the border colour (upstream's `stroke-border`).
-        guides: [
-          radialGrid({
-            shape: "polygon",
-            stroke: theme.border,
-            strokeOpacity: 1,
-          }),
-          angleGrid({
-            labels: true,
-            stroke: theme.border,
-            strokeOpacity: 1,
-            labelFill: theme.mutedForeground,
-            labelFontSize: 12,
-          }),
-        ],
+        scales,
         marks: [
-          radialArea(chartData, {
+          // The tooltip's point at each month, Recharts' active dot when focused.
+          radialDot(chartData, {
             id: "desktop",
             angle: "month",
             radius: "desktop",
-            curve: curveLinearClosed,
+            r: 0,
             fill: "var(--color-desktop)",
-            fillOpacity: 0.6,
+            states: [{ when: { focus: "group" }, style: { r: 4 } }],
           }),
         ],
       }),
@@ -128,7 +148,10 @@ const chart = defineChart(
     scales: { x: null, y: null },
     theme: chartTheme,
   },
-  { tooltip: chartTooltip }
+  {
+    focus: focusGroupAngle,
+    tooltip: chartTooltip,
+  }
 )
 
 export default function ChartRadarDefault() {

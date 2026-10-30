@@ -1,8 +1,7 @@
 /**
  * Upstream's `chart-pie-simple`, a simple pie chart, on TanStack Charts' polar entry: `pie` turns
- * the visitors into slices and `radialArc` draws them, one chart colour per browser. Recharts
- * starts a pie at 3 o'clock and turns counter-clockwise, TanStack Charts at 12 and clockwise, so
- * the slices run from a quarter turn back the other way; its default radius is 80% of the box's.
+ * the visitors into slices and `radialArc` draws them, one chart colour per browser. Recharts'
+ * radius is 80% of the box's.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import { defineChart } from "@tanstack/charts"
@@ -32,10 +31,14 @@ export const description = "A simple pie chart"
 const styles = {
   card: css({ display: "flex", flexDirection: "column" }),
   // `items-center pb-0`.
-  header: css({ alignItems: "center", textAlign: "center", paddingBottom: 0 }),
+  header: css({ alignItems: "center", paddingBottom: 0 }),
   content: css({ flex: "1 1 0%", paddingBottom: 0 }),
   // `mx-auto aspect-square max-h-[250px]`.
-  chart: css({ marginInline: "auto", aspectRatio: "1", maxHeight: "250px" }),
+  chart: css({
+    marginInline: "auto",
+    aspectRatio: "1",
+    maxHeight: "250px",
+  }),
   footer: css({ flexDirection: "column", gap: space[2] }),
   trend: css({
     display: "flex",
@@ -49,11 +52,11 @@ const styles = {
 }
 
 const chartData = [
-  { browser: "chrome", visitors: 275 },
-  { browser: "safari", visitors: 200 },
-  { browser: "firefox", visitors: 187 },
-  { browser: "edge", visitors: 173 },
-  { browser: "other", visitors: 90 },
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 90, fill: "var(--color-other)" },
 ]
 
 const chartConfig = {
@@ -84,21 +87,26 @@ const chartConfig = {
 
 const BROWSERS = chartData.map((row) => row.browser)
 
+// Recharts starts a pie at 3 o'clock and turns anticlockwise; TanStack Charts at 12, clockwise.
+const slices = pie(chartData, {
+  value: "visitors",
+  startAngle: Math.PI / 2,
+  endAngle: Math.PI / 2 - Math.PI * 2,
+})
+
 const chart = defineChart(
   {
     marks: [
       polar({
+        // Recharts' margin, 5px on every side, is taken off before the 80%.
+        inset: 5,
         radiusRatio: 0.8,
         scales: { angle: null, radius: null },
         marks: [
-          radialArc(
-            pie(chartData, {
-              value: "visitors",
-              startAngle: Math.PI / 2,
-              endAngle: Math.PI / 2 - Math.PI * 2,
-            }),
-            { color: "browser", key: "browser" }
-          ),
+          radialArc(slices, {
+            color: "browser",
+            key: "browser",
+          }),
         ],
       }),
     ],
