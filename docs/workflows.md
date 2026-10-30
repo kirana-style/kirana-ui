@@ -175,7 +175,34 @@ out:
   top to bottom. A stacked or multiple-series chart gives the tooltip `sort`, by the series' order.
 - **Labels** (`LabelList`) are `text` marks, `decorative()`, offset with `dy`.
 - **A legend** is `legend={<ChartLegendContent />}`: the chart then fills what the legend leaves of
-  the box.
+  the box. Where upstream gives the chart negative margins to keep it whole under its legend (the
+  radar's `margin={{ top: -40, bottom: -10 }}`), the legend's own margins pull it over the chart's
+  foot instead, so the chart keeps the box.
+
+Pies, radars and radial charts are TanStack Charts' polar entry (`@tanstack/charts/polar`):
+
+- **The radius.** Recharts takes its 5px margin off before the 80% radius: `polar({ inset: 5,
+  radiusRatio: 0.8, … })` (`inset: 10` where upstream sets a 10px margin). A radial chart's bars
+  sit in Recharts' bands, `barCategoryGap` 10% and a bar 80% of its band in whole pixels:
+  `radius: radialBands(categories, innerRadius, outerRadius)`.
+- **Drawing the tooltip must not reach** (a radar's areas and grid, a pie's labels, a donut's
+  text, a radial chart's track) is a polar container of its own wrapped in `decorative()`, over
+  or under the interactive one with the same `scales`: `decorative` inside a `polar` leaves its
+  children interactive. A centre label sits in a container whose angle scale is radians
+  (`scaleLinear().domain([0, Math.PI * 2])`) at `angle: () => 0, radius: () => 0`.
+- **A radar's tooltip** reads a `radialDot` of long rows (month, series, value) grouped by
+  `z: "series"`, `r: 0` and `r: 4` when focused, with `focus: focusGroupAngle`, so every series at
+  the month is listed, as Recharts does.
+- **A radial chart's tooltip** that lists every part wherever the pointer is on the bars (the
+  stacked one) reads unseen arcs, one per part over the whole sweep (`fillOpacity: 0`), with
+  `focus: "group-y"`: TanStack Charts' own focus presets hit-test the shapes, a custom strategy
+  does not.
+- **Labels along a curve** (Recharts' `position="insideStart"` on a radial bar) have no TanStack
+  Charts counterpart, since its text is straight: Recharts' own `textPath` arcs, in an SVG over
+  the chart's centre (`chart-radial-label`).
+- **Upstream's site is Recharts 3**, which draws no pie labels (`chart-pie-label`,
+  `chart-pie-label-list`) and scales a stacked radial chart's angle to its largest part alone:
+  those are drawn as upstream meant them, the labels shown and the stack the whole half ring.
 
 Then, once:
 

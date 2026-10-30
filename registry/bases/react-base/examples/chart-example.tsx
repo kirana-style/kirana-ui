@@ -1,7 +1,8 @@
 /**
- * Upstream's `chart-example`, its Area, Bar and Line charts, on TanStack Charts, drawn as the
- * charts pages draw `chart-area-default`, `chart-bar-multiple` and `chart-line-multiple`: the pie,
- * radar and radial charts come with the rest of the charts.
+ * Upstream's `chart-example` on TanStack Charts, each card drawn as the charts pages draw its
+ * chart: `chart-area-default`, `chart-bar-multiple`, `chart-line-multiple`,
+ * `chart-pie-donut-text`, `chart-radial-shape` (its radii 64px to 94px) and
+ * `chart-radar-multiple`.
  */
 import { css, props as styleProps } from "@kirana-style/core"
 import {
@@ -14,10 +15,23 @@ import {
   whenFocused,
 } from "@tanstack/charts"
 import { d3Curve } from "@tanstack/charts/d3/shape"
+import { decorative } from "@tanstack/charts/mark/decorative"
+import {
+  angleGrid,
+  focusGroupAngle,
+  pie,
+  polar,
+  radialArc,
+  radialArea,
+  radialBarAngle,
+  radialDot,
+  radialGrid,
+  radialText,
+} from "@tanstack/charts/polar"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { scalePoint } from "@tanstack/charts/scales/point"
-import { curveMonotoneX, curveNatural } from "d3-shape"
+import { curveLinearClosed, curveMonotoneX, curveNatural } from "d3-shape"
 
 import { fontWeight, space } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
@@ -39,6 +53,7 @@ import {
   chartTooltip,
   hiddenAxis,
   niceTicks,
+  radialBands,
 } from "../ui/chart"
 
 const styles = {
@@ -73,6 +88,24 @@ const styles = {
   }),
   icon: css({ width: space[4], height: space[4] }),
   note: css({ lineHeight: "1", color: theme.mutedForeground }),
+  // The pie, radar and radial cards: `items-center pb-0` (`pb-4` on the radar's), the header a grid.
+  polarHeader: css({ alignItems: "center", paddingBottom: 0 }),
+  radarHeader: css({ alignItems: "center", paddingBottom: space[4] }),
+  polarContent: css({ flex: "1 1 0%", paddingBottom: 0 }),
+  radarContent: css({ paddingBottom: 0 }),
+  // `mx-auto aspect-square max-h-[250px]`, and `max-h-[210px]` for the radial chart.
+  polarChart: css({
+    marginInline: "auto",
+    aspectRatio: "1",
+    maxHeight: "250px",
+  }),
+  radialChart: css({
+    marginInline: "auto",
+    aspectRatio: "1",
+    maxHeight: "210px",
+  }),
+  // `flex-col gap-2`, centred by the footer's own `items-center`.
+  polarFooter: css({ flexDirection: "column", gap: space[2] }),
 }
 
 const areaChartData = [
@@ -293,12 +326,308 @@ const lineChart = defineChart(
   }
 )
 
+const pieChartData = [
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 190, fill: "var(--color-other)" },
+]
+
+const pieChartConfig = {
+  visitors: {
+    label: "Visitors",
+  },
+  chrome: {
+    label: "Chrome",
+    color: theme.chart1,
+  },
+  safari: {
+    label: "Safari",
+    color: theme.chart2,
+  },
+  firefox: {
+    label: "Firefox",
+    color: theme.chart3,
+  },
+  edge: {
+    label: "Edge",
+    color: theme.chart4,
+  },
+  other: {
+    label: "Other",
+    color: theme.chart5,
+  },
+} satisfies ChartConfig
+
+const BROWSERS = pieChartData.map((row) => row.browser)
+const totalVisitors = pieChartData.reduce((sum, row) => sum + row.visitors, 0)
+
+const pieChart = defineChart(
+  {
+    marks: [
+      polar({
+        // Recharts' margin, 5px on every side, is taken off before the 80%.
+        inset: 5,
+        radiusRatio: 0.8,
+        scales: { angle: null, radius: null },
+        marks: [
+          // Recharts starts a pie at 3 o'clock and turns anticlockwise; TanStack Charts at 12,
+          // clockwise.
+          radialArc(
+            pie(pieChartData, {
+              value: "visitors",
+              startAngle: Math.PI / 2,
+              endAngle: Math.PI / 2 - Math.PI * 2,
+            }),
+            { innerRadius: 60, color: "browser", key: "browser" }
+          ),
+        ],
+      }),
+      // The total in the middle, out of the tooltip's reach.
+      decorative(
+        polar({
+          scales: {
+            angle: { scale: scaleLinear().domain([0, Math.PI * 2]) },
+            radius: { scale: scaleLinear().domain([0, 1]) },
+          },
+          marks: [
+            radialText([totalVisitors], {
+              angle: () => 0,
+              radius: () => 0,
+              text: (total) => total.toLocaleString(),
+              baseline: "middle",
+              fill: theme.foreground,
+              fontSize: 30,
+              fontWeight: 700,
+            }),
+            radialText(["Visitors"], {
+              angle: () => 0,
+              radius: () => 0,
+              dy: 24,
+              baseline: "middle",
+              fill: theme.mutedForeground,
+            }),
+          ],
+        })
+      ),
+    ],
+    scales: { x: null, y: null },
+    color: {
+      domain: BROWSERS,
+      range: BROWSERS.map((browser) => `var(--color-${browser})`),
+    },
+    theme: chartTheme,
+  },
+  { tooltip: chartTooltip }
+)
+
+const radarChartData = [
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+  { month: "April", desktop: 73, mobile: 190 },
+  { month: "May", desktop: 209, mobile: 130 },
+  { month: "June", desktop: 214, mobile: 140 },
+]
+
+const radarChartConfig = barChartConfig
+
+/** Each month's value per series, a point each for the tooltip. */
+const radarPoints = radarChartData.flatMap((row) =>
+  SERIES.map((series) => ({ month: row.month, series, value: row[series] }))
+)
+const radarTicks = niceTicks(
+  radarChartData.flatMap((row) => [row.desktop, row.mobile])
+)
+
+/** The radar's angle and radius, the same in its drawing and its points. */
+const radarScales = {
+  angle: {
+    scale: scalePoint<string>().domain(radarChartData.map((row) => row.month)),
+    wrap: true,
+  },
+  radius: { scale: scaleLinear().domain(radarTicks.domain) },
+}
+
+const radarChart = defineChart(
+  {
+    marks: [
+      // The drawing: in a polar container of its own, out of the tooltip's reach.
+      decorative(
+        polar({
+          inset: 5,
+          radiusRatio: 0.8,
+          scales: radarScales,
+          // Recharts' grid in the border colour (upstream's `stroke-border`).
+          guides: [
+            radialGrid({
+              shape: "polygon",
+              values: radarTicks.ticks.slice(1),
+              stroke: theme.border,
+              strokeOpacity: 1,
+            }),
+            angleGrid({
+              labels: true,
+              stroke: theme.border,
+              strokeOpacity: 1,
+              labelFill: theme.mutedForeground,
+              labelFontSize: 12,
+            }),
+          ],
+          marks: [
+            radialArea(radarChartData, {
+              angle: "month",
+              radius: "desktop",
+              curve: curveLinearClosed,
+              fill: "var(--color-desktop)",
+              fillOpacity: 0.6,
+            }),
+            radialArea(radarChartData, {
+              angle: "month",
+              radius: "mobile",
+              curve: curveLinearClosed,
+              fill: "var(--color-mobile)",
+              fillOpacity: 1,
+            }),
+          ],
+        })
+      ),
+      // The points the tooltip reads, over it in the same place.
+      polar({
+        inset: 5,
+        radiusRatio: 0.8,
+        scales: radarScales,
+        marks: [
+          // The tooltip's points at each month, a series each: Recharts' active dots when focused.
+          radialDot(radarPoints, {
+            id: "visitors",
+            angle: "month",
+            radius: "value",
+            z: "series",
+            r: 0,
+            fill: (point) => `var(--color-${point.series})`,
+            states: [{ when: { focus: "group" }, style: { r: 4 } }],
+          }),
+        ],
+      }),
+    ],
+    scales: { x: null, y: null },
+    theme: chartTheme,
+  },
+  {
+    focus: focusGroupAngle,
+    tooltip: {
+      ...chartTooltip,
+      // Recharts lists the series in the order it draws them.
+      sort: (left, right) =>
+        SERIES.indexOf(left.datum.series) - SERIES.indexOf(right.datum.series),
+    },
+  }
+)
+
+const radialChartData = [
+  { browser: "safari", visitors: 1260, fill: "var(--color-safari)" },
+]
+
+const radialChartConfig = {
+  visitors: {
+    label: "Visitors",
+  },
+  safari: {
+    label: "Safari",
+    color: theme.chart2,
+  },
+} satisfies ChartConfig
+
+const RADIAL_BROWSERS = radialChartData.map((row) => row.browser)
+
+const radialChart = defineChart({
+  marks: [
+    // Upstream's two filled circles (`PolarGrid` at 86px in the muted colour, 74px in the
+    // background's): a ring between them, all the way round, under the bar.
+    decorative(
+      polar({
+        scales: { angle: null, radius: null },
+        marks: [
+          radialArc([{ startAngle: 0, endAngle: Math.PI * 2 }], {
+            innerRadius: 74,
+            outerRadius: 86,
+            fill: theme.muted,
+            key: () => "ring",
+          }),
+        ],
+      })
+    ),
+    // Safari's visitors swept through 100° from 3 o'clock: TanStack Charts turns clockwise
+    // from 12. Recharts' track (`background`) is not drawn: the bar, as long as the sweep,
+    // covers it.
+    polar({
+      startAngle: Math.PI / 2,
+      endAngle: Math.PI / 2 - (Math.PI * 100) / 180,
+      scales: {
+        angle: {
+          scale: scaleLinear().domain([0, radialChartData[0]!.visitors]),
+        },
+        radius: radialBands(RADIAL_BROWSERS, 64, 94),
+      },
+      marks: [
+        radialBarAngle(radialChartData, {
+          radius: "browser",
+          angle: "visitors",
+          color: "browser",
+          key: "browser",
+        }),
+      ],
+    }),
+    // The visitors, over the bar.
+    decorative(
+      polar({
+        scales: {
+          angle: { scale: scaleLinear().domain([0, Math.PI * 2]) },
+          radius: {
+            scale: scaleLinear().domain([0, 1]),
+            range: [0, 1] as [number, number],
+          },
+        },
+        marks: [
+          radialText([radialChartData[0]!.visitors], {
+            angle: () => 0,
+            radius: () => 0,
+            text: (value) => value.toLocaleString(),
+            baseline: "middle",
+            fill: theme.foreground,
+            fontSize: 36,
+            fontWeight: 700,
+          }),
+          radialText(["Visitors"], {
+            angle: () => 0,
+            radius: () => 0,
+            dy: 24,
+            baseline: "middle",
+            fill: theme.mutedForeground,
+          }),
+        ],
+      })
+    ),
+  ],
+  scales: { x: null, y: null },
+  color: {
+    domain: RADIAL_BROWSERS,
+    range: RADIAL_BROWSERS.map((browser) => `var(--color-${browser})`),
+  },
+  theme: chartTheme,
+})
+
 export default function ChartExample() {
   return (
     <ExampleWrapper>
       <ChartAreaExample />
       <ChartBarExample />
       <ChartLineExample />
+      <ChartPieExample />
+      <ChartRadialExample />
+      <ChartRadarExample />
     </ExampleWrapper>
   )
 }
@@ -408,6 +737,102 @@ function ChartBarExample() {
             Showing total visitors for the last 6 months
           </div>
         </CardFooter>
+      </Card>
+    </Example>
+  )
+}
+
+/** The pie, radar and radial cards' footer, as upstream's. */
+function PolarFooter({ note, row }: { note: string; row?: boolean }) {
+  return (
+    <CardFooter sx={styles.polarFooter}>
+      <div sx={styles.trendRow}>
+        Trending up by 5.2% this month{" "}
+        <IconPlaceholder
+          lucide="TrendingUpIcon"
+          tabler="IconTrendingUp"
+          hugeicons="ChartUpIcon"
+          phosphor="TrendUpIcon"
+          remixicon="RiLineChartLine"
+          {...styleProps(styles.icon)}
+        />
+      </div>
+      <div sx={row ? styles.noteRow : styles.note}>{note}</div>
+    </CardFooter>
+  )
+}
+
+function ChartPieExample() {
+  return (
+    <Example title="Pie Chart">
+      <Card sx={styles.card}>
+        <CardHeader sx={styles.polarHeader}>
+          <CardTitle>Pie Chart - Donut with Text</CardTitle>
+          <CardDescription>January - June 2024</CardDescription>
+        </CardHeader>
+        <CardContent sx={styles.polarContent}>
+          <ChartContainer
+            config={pieChartConfig}
+            definition={pieChart}
+            ariaLabel="Visitors by browser, January to June 2024"
+            initialWidth={250}
+            aspectRatio={1}
+            sx={styles.polarChart}
+            tooltip={<ChartTooltipContent hideLabel />}
+          />
+        </CardContent>
+        <PolarFooter note="Showing total visitors for the last 6 months" />
+      </Card>
+    </Example>
+  )
+}
+
+function ChartRadarExample() {
+  return (
+    <Example title="Radar Chart">
+      <Card sx={styles.card}>
+        <CardHeader sx={styles.radarHeader}>
+          <CardTitle>Radar Chart - Multiple</CardTitle>
+          <CardDescription>
+            Showing total visitors for the last 6 months
+          </CardDescription>
+        </CardHeader>
+        <CardContent sx={styles.radarContent}>
+          <ChartContainer
+            config={radarChartConfig}
+            definition={radarChart}
+            ariaLabel="Desktop and mobile visitors by month, January to June 2024"
+            initialWidth={250}
+            aspectRatio={1}
+            sx={styles.polarChart}
+            tooltip={<ChartTooltipContent indicator="line" />}
+          />
+        </CardContent>
+        <PolarFooter note="January - June 2024" row />
+      </Card>
+    </Example>
+  )
+}
+
+function ChartRadialExample() {
+  return (
+    <Example title="Radial Chart">
+      <Card sx={styles.card}>
+        <CardHeader>
+          <CardTitle>Radial Chart - Shape</CardTitle>
+          <CardDescription>January - June 2024</CardDescription>
+        </CardHeader>
+        <CardContent sx={styles.polarContent}>
+          <ChartContainer
+            config={radialChartConfig}
+            definition={radialChart}
+            ariaLabel="Safari visitors, January to June 2024"
+            initialWidth={210}
+            aspectRatio={1}
+            sx={styles.radialChart}
+          />
+        </CardContent>
+        <PolarFooter note="Showing total visitors for the last 6 months" />
       </Card>
     </Example>
   )

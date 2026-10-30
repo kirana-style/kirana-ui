@@ -16,6 +16,7 @@ import { props as styleProps } from "@kirana-style/core"
 import type { ChartPoint, ChartTheme, ChartValue } from "@tanstack/charts"
 import { Chart } from "@tanstack/charts/react/tooltip"
 import type { ChartProps } from "@tanstack/charts/react/tooltip"
+import { scaleBand } from "@tanstack/charts/scales/band"
 import { tooltip } from "@tanstack/charts/tooltip"
 
 import type { Sx } from "../../../lib/sx"
@@ -103,6 +104,29 @@ export function hiddenAxis(ticks: readonly number[]) {
     ticks: { values: ticks, size: 0 },
     tickLabels: false,
   } as const
+}
+
+/**
+ * A radial chart's radius as Recharts lays out its bars between `innerRadius` and `outerRadius`:
+ * a band for each category, its bar 10% of the band in from its start (`barCategoryGap`) and 80%
+ * of it wide, in whole pixels. Give it to the polar container's `radius` scale.
+ */
+export function radialBands<TValue extends string>(
+  domain: readonly TValue[],
+  innerRadius: number,
+  outerRadius: number
+) {
+  const band = (outerRadius - innerRadius) / domain.length
+  const gap = 1 - Math.floor(band * 0.8) / band
+  return {
+    scale: () =>
+      scaleBand<TValue>()
+        .domain(domain)
+        .paddingInner(gap)
+        .paddingOuter(gap / 2)
+        .align(0.1 / gap),
+    range: [innerRadius, outerRadius] as [number, number],
+  }
 }
 
 /** The tooltip extension, for a definition's `tooltip`: `ChartContainer` draws its body. */
@@ -260,7 +284,17 @@ function ChartTooltipContent({
     label: React.ReactNode,
     points: readonly ChartPoint[]
   ) => React.ReactNode
-  formatter?: (value: ChartValue, point: ChartPoint) => React.ReactNode
+  /**
+   * A row's content, in place of its indicator, name and value, as upstream's: given the value, the
+   * series' key, the point, its index and its datum.
+   */
+  formatter?: (
+    value: ChartValue,
+    name: string,
+    point: ChartPoint,
+    index: number,
+    datum: unknown
+  ) => React.ReactNode
   /** One indicator colour for every row, instead of each series' own. */
   color?: string
   nameKey?: string
@@ -293,7 +327,7 @@ function ChartTooltipContent({
     <div sx={[styles.tooltip, sx]}>
       {nestLabel ? null : tooltipLabel}
       <div sx={styles.tooltipRows}>
-        {points.map((point) => {
+        {points.map((point, index) => {
           const { name, item } = pointConfig(config, point, nameKey)
           // Upstream's order: the row's own `fill`, else the series' colour (Recharts' item colour
           // is its stroke; a mark painted with a gradient, `url(#…)`, has none of its own to show),
@@ -315,45 +349,51 @@ function ChartTooltipContent({
                 indicator === "dot" && styles.tooltipRowDot,
               ]}
             >
-              {item?.icon ? (
-                <item.icon />
-              ) : hideIndicator ? null : (
-                <div
-                  sx={[
-                    styles.indicator,
-                    indicator === "dot" && styles.indicatorDot,
-                    indicator === "line" && styles.indicatorLine,
-                    indicator === "dashed" && styles.indicatorDashed,
-                    nestLabel &&
-                      indicator === "dashed" &&
-                      styles.indicatorNested,
-                  ]}
-                  style={
-                    {
-                      "--color-bg": indicatorColor,
-                      "--color-border": indicatorColor,
-                    } as React.CSSProperties
-                  }
-                />
+              {formatter ? (
+                formatter(value, name, point, index, point.datum)
+              ) : (
+                <>
+                  {item?.icon ? (
+                    <item.icon />
+                  ) : hideIndicator ? null : (
+                    <div
+                      sx={[
+                        styles.indicator,
+                        indicator === "dot" && styles.indicatorDot,
+                        indicator === "line" && styles.indicatorLine,
+                        indicator === "dashed" && styles.indicatorDashed,
+                        nestLabel &&
+                          indicator === "dashed" &&
+                          styles.indicatorNested,
+                      ]}
+                      style={
+                        {
+                          "--color-bg": indicatorColor,
+                          "--color-border": indicatorColor,
+                        } as React.CSSProperties
+                      }
+                    />
+                  )}
+                  <div
+                    sx={[
+                      styles.tooltipBody,
+                      nestLabel
+                        ? styles.tooltipBodyNested
+                        : styles.tooltipBodyFlat,
+                    ]}
+                  >
+                    <div sx={styles.tooltipNames}>
+                      {nestLabel ? tooltipLabel : null}
+                      <span sx={styles.tooltipName}>{item?.label ?? name}</span>
+                    </div>
+                    <span sx={styles.tooltipValue}>
+                      {typeof value === "number"
+                        ? value.toLocaleString()
+                        : String(value)}
+                    </span>
+                  </div>
+                </>
               )}
-              <div
-                sx={[
-                  styles.tooltipBody,
-                  nestLabel ? styles.tooltipBodyNested : styles.tooltipBodyFlat,
-                ]}
-              >
-                <div sx={styles.tooltipNames}>
-                  {nestLabel ? tooltipLabel : null}
-                  <span sx={styles.tooltipName}>{item?.label ?? name}</span>
-                </div>
-                <span sx={styles.tooltipValue}>
-                  {formatter
-                    ? formatter(value, point)
-                    : typeof value === "number"
-                      ? value.toLocaleString()
-                      : String(value)}
-                </span>
-              </div>
             </div>
           )
         })}

@@ -1,8 +1,9 @@
 /**
- * Upstream's `chart-tooltip-default`, the default tooltip, on TanStack Charts: running and swimming
- * stacked per day, the lower bar rounded at its foot and the upper at its head, as Recharts'
- * `radius` arrays, and `ChartTooltipContent` as it comes. Recharts' `defaultIndex={1}` (the
- * tooltip open on the second day before any pointer) has no counterpart: it opens on focus.
+ * Upstream's `chart-tooltip-default`, on TanStack Charts: running and swimming stacked per day, the lower bar
+ * rounded at its foot and the upper at its head, as Recharts' `radius` arrays, and
+ * `ChartTooltipContent` as it comes. The value axis is rounded as Recharts rounds it. Recharts' `defaultIndex={1}` (the
+ * tooltip open on the second day before any pointer) has no counterpart: it opens on focus. The
+ * days are read in UTC, so the page prerendered on a server shows the days the browser does.
  */
 import { barY, defineChart, stack } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
@@ -22,6 +23,7 @@ import {
   ChartTooltipContent,
   chartTheme,
   chartTooltip,
+  niceTicks,
 } from "../ui/chart"
 
 export const description = "A stacked bar chart with a legend"
@@ -49,7 +51,12 @@ const chartConfig = {
 const SERIES = ["running", "swimming"] as const
 
 const weekday = (date: string) =>
-  new Date(date).toLocaleDateString("en-US", { weekday: "short" })
+  new Date(date).toLocaleDateString("en-US", {
+    weekday: "short",
+    timeZone: "UTC",
+  })
+
+const y = niceTicks(chartData.map((row) => row.running + row.swimming))
 
 const chart = defineChart(
   {
@@ -82,7 +89,7 @@ const chart = defineChart(
           tickLabels: { fontSize: 12 },
         },
       },
-      y: { scale: scaleLinear, axis: false },
+      y: { scale: scaleLinear().domain(y.domain), axis: false },
     },
     color: {
       domain: SERIES,
@@ -90,7 +97,15 @@ const chart = defineChart(
     },
     theme: chartTheme,
   },
-  { focus: "group-x", tooltip: chartTooltip }
+  {
+    focus: "group-x",
+    tooltip: {
+      ...chartTooltip,
+      // Recharts lists the series in the order it draws them.
+      sort: (left, right) =>
+        SERIES.indexOf(left.datum.series) - SERIES.indexOf(right.datum.series),
+    },
+  }
 )
 
 export default function ChartTooltipDefault() {

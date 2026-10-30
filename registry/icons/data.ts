@@ -195,6 +195,8 @@ import {
   RedoIcon,
   Activity01Icon,
   ChartDownIcon,
+  FootprintsIcon,
+  WavesIcon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -370,6 +372,10 @@ import {
   ArrowUpDown,
   Forward,
   TrendingDown,
+  ArrowDownFromLine,
+  ArrowUpFromLine,
+  Footprints,
+  Waves,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -591,6 +597,10 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       ArrowUpDownIcon: ArrowUpDown,
       ForwardIcon: Forward,
       TrendingDownIcon: TrendingDown,
+      ArrowDownFromLineIcon: ArrowDownFromLine,
+      ArrowUpFromLineIcon: ArrowUpFromLine,
+      FootprintsIcon: Footprints,
+      WavesIcon: Waves,
     },
   },
   hugeicons: {
@@ -785,6 +795,8 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       RedoIcon,
       Activity01Icon,
       ChartDownIcon,
+      FootprintsIcon,
+      WavesIcon,
     },
   },
 }

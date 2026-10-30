@@ -112,12 +112,19 @@ export const chart = {
   tooltipLabel: css({ fontWeight: fontWeight.medium }),
   tooltipRows: css({ display: "grid", gap: space["1.5"] }),
   // A row: its indicator, then its name and value.
+  // `[&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground`: a series' icon in place of its
+  // indicator.
   tooltipRow: css({
     display: "flex",
     width: "100%",
     flexWrap: "wrap",
     alignItems: "stretch",
     gap: space[2],
+    [select.child("svg")]: {
+      width: space["2.5"],
+      height: space["2.5"],
+      color: theme.mutedForeground,
+    },
   }),
   tooltipRowDot: css({ alignItems: "center" }),
   tooltipBody: css({
