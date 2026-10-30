@@ -51,6 +51,8 @@ const styles = {
     gap: { "*": null, base: space[1] },
     borderBottomWidth: "1px",
     borderBottomColor: theme.border,
+    // Upstream's `[.border-b]:pb-(--card-spacing)`.
+    paddingBottom: cardCtx.spacing,
   }),
   flex1OverflowHiddenP0: css({
     flex: 1,
@@ -63,6 +65,8 @@ const styles = {
     justifyContent: "center",
     borderTopWidth: "1px",
     borderTopColor: theme.border,
+    // Upstream's `[.border-t]:pt-(--card-spacing)`.
+    paddingTop: cardCtx.spacing,
   }),
   full: css({ width: "100%" }),
   mxAutoMaxWSmPx05TextCent: css({

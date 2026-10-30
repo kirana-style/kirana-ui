@@ -54,6 +54,8 @@ const styles = {
     gap: { "*": null, base: space[1] },
     borderBottomWidth: "1px",
     borderBottomColor: theme.border,
+    // Upstream's `[.border-b]:pb-(--card-spacing)`.
+    paddingBottom: cardCtx.spacing,
   }),
   minH0Flex1P0: css({
     minHeight: "0",
@@ -72,6 +74,8 @@ const styles = {
     gap: { "*": null, base: space[2] },
     borderTopWidth: "1px",
     borderTopColor: theme.border,
+    // Upstream's `[.border-t]:pt-(--card-spacing)`.
+    paddingTop: cardCtx.spacing,
   }),
   full: css({ width: "100%" }),
   textXsTextMutedForegroun: css({

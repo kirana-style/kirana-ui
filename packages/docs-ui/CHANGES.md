@@ -145,3 +145,13 @@ Candidates for the Kirana copy, which would serve any registry's docs:
 - `markdown/index.tsx`: headings link to themselves with shadcn/ui's `#` on hover (`HeadingAnchor`);
   `<!-- ::start:steps -->` … `<!-- ::end:steps -->` (new) is shadcn/ui's `<Steps>`, each h3 in it a
   numbered step on a line.
+- `markdown/preview.tsx`: `code="false"` (new) draws the preview without its code, as shadcn/ui's
+  `hideCode`.
+- `markdown/preview.tsx`: `block="true"` (new) shows a block as shadcn/ui's `type="block"` preview
+  does: the page in a 1600px frame clipped by a `4 / 2.5` box (at its start for a right-to-left
+  demo), without the code; `caption` (new) puts a line under the box.
+- `markdown/figure.tsx` (new), registered as `figure`: `<!-- ::figure light="…" dark="…" alt="…"
+  caption="…" -->`, an illustration in the site's colour scheme with its caption.
+- `markdown/preview.tsx`: `wide="true"` (new) makes the frame as wide as the page, centred in the
+  box and clipped by it, so a demo's CSS breakpoints read the page's width as shadcn/ui's inline
+  demos do (an item that is `hidden md:flex`).

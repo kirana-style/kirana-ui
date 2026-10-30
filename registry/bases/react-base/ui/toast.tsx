@@ -146,6 +146,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
         hugeicons="CheckmarkCircle02Icon"
         phosphor="CheckCircleIcon"
         remixicon="RiCheckboxCircleLine"
+        {...styleProps(styles.iconSuccess)}
         aria-hidden="true"
       />
     )
@@ -159,6 +160,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
         hugeicons="InformationCircleIcon"
         phosphor="InfoIcon"
         remixicon="RiInformationLine"
+        {...styleProps(styles.iconInfo)}
         aria-hidden="true"
       />
     )
@@ -172,6 +174,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
         hugeicons="Alert02Icon"
         phosphor="WarningIcon"
         remixicon="RiErrorWarningLine"
+        {...styleProps(styles.iconWarning)}
         aria-hidden="true"
       />
     )

@@ -8,9 +8,9 @@ keywords: [sidebar, component, base, aria]
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" height="640" combinations="react/base,react/aria" -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria" caption="A sidebar that collapses to icons." -->
 
-A sidebar that collapses to icons. Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
+Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
 Sidebars are one of the most complex components to build. They are central to any application and
 often contain a lot of moving parts. This one is composable, themeable and customizable.
@@ -92,6 +92,8 @@ SidebarProvider
 - **SidebarInset** — Wraps main content when using the `inset` variant.
 - **SidebarTrigger** — Control that toggles the sidebar open or collapsed.
 
+<!-- ::figure light="/images/sidebar-structure.png" dark="/images/sidebar-structure-dark.png" alt="Sidebar Structure" width="716" height="420" caption="Illustration from shadcn/ui's documentation (MIT)." -->
+
 ## SidebarProvider
 
 The `SidebarProvider` component is used to provide the sidebar context to the `Sidebar` component. You should always wrap your application in a `SidebarProvider` component.
@@ -106,10 +108,24 @@ The `SidebarProvider` component is used to provide the sidebar context to the `S
 
 ### Width
 
-The sidebar's widths are context tokens in `lib/kirana/context.ts`: `sidebarCtx.width` (16rem)
-and `sidebarCtx.widthIcon` (3rem, collapsed to its icons). Set them on the provider, through its
-`sx`, for one sidebar or for each of several. On a small screen the sidebar opens as a sheet 18rem
-wide, set in `sidebar.styles.ts` (`mobile`).
+If you have a single sidebar in your application, set its widths where they are defined: `sidebarCtx.width` and `sidebarCtx.widthIcon` (collapsed to its icons) in `lib/kirana/context.ts`, and the width of the sheet it opens as on a small screen in `sidebar.styles.ts`.
+
+```ts showLineNumbers title="lib/kirana/context.ts"
+export const sidebarCtx = defineTokens(
+  "sidebarCtx",
+  { width: "16rem", widthIcon: "3rem" },
+  { variable: true }
+)
+```
+
+```ts showLineNumbers title="components/ui/sidebar.styles.ts"
+  mobile: css({
+    [sidebarCtx.width]: "18rem",
+    // …
+  }),
+```
+
+For multiple sidebars in your application, set the tokens on each provider, through its `sx`.
 
 ```tsx showLineNumbers
 import { css } from "@kirana-style/core"
@@ -359,6 +375,8 @@ const chevron = css({
 
 The `SidebarMenu` component is used for building a menu within a `SidebarGroup`.
 
+<!-- ::figure light="/images/sidebar-menu.png" dark="/images/sidebar-menu-dark.png" alt="Sidebar Menu" width="716" height="420" caption="Illustration from shadcn/ui's documentation (MIT)." -->
+
 <!-- ::start:only react/base -->
 
 ```tsx showLineNumbers
@@ -554,11 +572,20 @@ export function AppSidebar() {
 
 ## Theming
 
-The sidebar's colours are the design system's tokens, `theme.sidebar`, `theme.sidebarForeground`,
-`theme.sidebarPrimary`, `theme.sidebarPrimaryForeground`, `theme.sidebarAccent`,
-`theme.sidebarAccentForeground`, `theme.sidebarBorder` and `theme.sidebarRing`
-(`lib/kirana/tokens.ts`), each a `light-dark()` pair. The base colour and the theme set them, as
-they set every other colour: see [Colours and theming](/docs/design-system/theming).
+We use the following tokens to theme the sidebar, each a `light-dark()` pair. These are Neutral's: the base colour sets the sidebar's surface, text, accent, border and ring, and the theme its primary, as they set every other colour (see [Colours and theming](/docs/design-system/theming)).
+
+```ts showLineNumbers title="lib/kirana/palettes.ts"
+sidebar: "light-dark(oklch(0.985 0 0), oklch(0.205 0 0))",
+sidebarForeground: "light-dark(oklch(0.145 0 0), oklch(0.985 0 0))",
+sidebarPrimary: "light-dark(oklch(0.205 0 0), oklch(0.488 0.243 264.376))",
+sidebarPrimaryForeground: "oklch(0.985 0 0)",
+sidebarAccent: "light-dark(oklch(0.97 0 0), oklch(0.269 0 0))",
+sidebarAccentForeground: "light-dark(oklch(0.205 0 0), oklch(0.985 0 0))",
+sidebarBorder: "light-dark(oklch(0.922 0 0), oklch(1 0 0 / 10%))",
+sidebarRing: "light-dark(oklch(0.708 0 0), oklch(0.556 0 0))",
+```
+
+A style reads them as `theme.sidebar`, `theme.sidebarForeground` and so on (`lib/kirana/tokens.ts`).
 
 ## Styling
 
@@ -600,4 +627,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" height="640" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria" direction="rtl" -->

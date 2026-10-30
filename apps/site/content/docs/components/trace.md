@@ -2,17 +2,38 @@
 title: Trace
 description: The building block for reasoning, tool calls, sources and more.
 section: components
+new: true
 variants: [react/base, react/aria]
 keywords: [trace, chat, component, base, aria]
 ---
 
 # Trace
 
+<!-- ::preview item="trace-demo" height="560" combinations="react/base,react/aria" -->
+
 `Trace` is a list of lines. Each line has an icon, a title, and an optional description and status. A line can expand to show more detail, link to a page, or open a dialog or sheet.
 
 Every line has the same shape, so reasoning, tool calls, sources and plans built from `Trace` look and behave the same.
 
 Use `Trace` for the steps an agent takes, like calling a tool, running a subagent or editing a file. Use [Message](/docs/components/message) for its reply, and [Marker](/docs/components/marker) for notes and dividers between turns.
+
+## Built with Trace
+
+Every pattern below is a composition of `Trace` parts. See shadcn/ui's [AI Elements](https://ui.shadcn.com/docs/ai-elements) for examples and code.
+
+| Pattern                                                                          | Shows                                                            |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [Chain of Thought](https://ui.shadcn.com/docs/ai-elements/base/chain-of-thought) | A summary that expands into the steps behind it.                 |
+| [Plan](https://ui.shadcn.com/docs/ai-elements/base/plan)                         | The steps the agent plans to take, and how far it has got.       |
+| [Queue](https://ui.shadcn.com/docs/ai-elements/base/queue)                       | The agent's todo list, split into what is left and what is done. |
+| [Reasoning](https://ui.shadcn.com/docs/ai-elements/base/reasoning)               | The agent's thinking as it streams.                              |
+| [Sources](https://ui.shadcn.com/docs/ai-elements/base/sources)                   | The links the agent used for a reply.                            |
+| [Stack Trace](https://ui.shadcn.com/docs/ai-elements/base/stack-trace)           | A failed tool call and its stack frames.                         |
+| [Subagent](https://ui.shadcn.com/docs/ai-elements/base/subagent)                 | A subagent run, with its tool calls and result.                  |
+| [Task](https://ui.shadcn.com/docs/ai-elements/base/task)                         | The steps the agent takes, as it takes them.                     |
+| [Terminal](https://ui.shadcn.com/docs/ai-elements/base/terminal)                 | A command the agent runs, with its output as it streams.         |
+| [Test Results](https://ui.shadcn.com/docs/ai-elements/base/test-results)         | A test run by the agent, with its suites and failures.           |
+| [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool)                         | A tool call the agent makes, from input to output.               |
 
 ## Installation
 
@@ -324,6 +345,22 @@ A commit is a collapsible row with a line for each changed file. Say what change
 Three levels: the turn, a summary, and the rows. Text between steps sits between two `Trace` lists.
 
 <!-- ::preview item="trace-turn" height="400" combinations="react/base,react/aria" -->
+
+## Reasoning
+
+Render a `reasoning` part from the AI SDK. The row is a `TraceLine` until the first text arrives. See [Open State](#open-state).
+
+<!-- ::preview item="trace-thinking" height="360" combinations="react/base,react/aria" -->
+
+See shadcn/ui's [Reasoning](https://ui.shadcn.com/docs/ai-elements/base/reasoning) for more examples.
+
+## Tool
+
+Render tool parts from the AI SDK. Map the tool part as in shadcn/ui's [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool#states).
+
+<!-- ::preview item="trace-tool-calls" height="400" combinations="react/base,react/aria" -->
+
+See shadcn/ui's [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool) for more examples.
 
 ## Accessibility
 

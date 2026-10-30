@@ -63,7 +63,8 @@ export default function ToggleGroupFontWeightSelector() {
   const [weight, setWeight] = React.useState("normal")
   return (
     <div sx={page.example}>
-      <Field>
+      {/* Upstream's preview narrows the field (`*:data-[slot=field]:max-w-xs`). */}
+      <Field sx={page.narrow}>
         <FieldLabel>Font Weight</FieldLabel>
         <ToggleGroup
           value={[weight]}

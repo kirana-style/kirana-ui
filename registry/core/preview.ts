@@ -9,10 +9,12 @@
  */
 import {
   AXIS_ATTRIBUTES,
+  CHARTS_ATTRIBUTE,
   POINTER_ATTRIBUTE,
   SURFACE_ATTRIBUTE,
 } from "./attributes"
-import type { DesignSystem } from "./config"
+import { CHART_COLORS, DEFAULT_DESIGN_SYSTEM } from "./config"
+import type { ChartColor, DesignSystem } from "./config"
 import { LANGUAGES, isLanguage } from "./language"
 import type { Language } from "./language"
 import { PRESET_FIELDS, encodePreset, readDesignSystem } from "./preset"
@@ -39,6 +41,11 @@ export type PreviewOptions = {
   language?: Language
   /** The surface under a demo, as upstream's previews of chat parts set it (`bg-surface`). */
   surface?: boolean
+  /**
+   * The chart colours a page draws while the design keeps the default ones: upstream's charts
+   * pages draw theirs in `theme-default`'s blue, whatever the site's colours (`?charts=blue`).
+   */
+  charts?: ChartColor
 }
 
 export type PreviewDesign = { system: DesignSystem; options: PreviewOptions }
@@ -68,6 +75,11 @@ function withoutMode(params: Params): Params {
 const language = (value: string | null) =>
   isLanguage(value) ? { language: value } : {}
 
+const charts = (value: string | null) =>
+  (CHART_COLORS as readonly string[]).includes(value ?? "")
+    ? { charts: value as ChartColor }
+    : {}
+
 /** The reading direction of a preview's options: its language's, else `rtl`'s. */
 export const previewDirection = (options: PreviewOptions) =>
   options.language
@@ -85,6 +97,7 @@ export function readPreviewDesign(params: Params): PreviewDesign {
       pointer: flag(params.get("pointer")),
       ...language(params.get("lang")),
       ...(flag(params.get("surface")) ? { surface: true } : {}),
+      ...charts(params.get("charts")),
     },
   }
 }
@@ -103,10 +116,13 @@ export function documentAttributes({
     lang: options.language ?? "en",
     [POINTER_ATTRIBUTE]: options.pointer ? "" : undefined,
     [SURFACE_ATTRIBUTE]: options.surface ? "" : undefined,
+    [CHARTS_ATTRIBUTE]: options.charts ? "" : undefined,
   }
   for (const [axis, attribute] of Object.entries(AXIS_ATTRIBUTES)) {
     attributes[attribute] = system[axis as keyof typeof AXIS_ATTRIBUTES]
   }
+  if (options.charts && system.chartColor === DEFAULT_DESIGN_SYSTEM.chartColor)
+    attributes[AXIS_ATTRIBUTES.chartColor] = options.charts
   return attributes
 }
 
@@ -186,6 +202,7 @@ export function previewQuery({ system, options }: PreviewDesign) {
   if (options.pointer) query.set("pointer", "true")
   if (options.language) query.set("lang", options.language)
   if (options.surface) query.set("surface", "true")
+  if (options.charts) query.set("charts", options.charts)
   return query.toString()
 }
 
@@ -262,7 +279,8 @@ export function followPageDesign(
   }
   applyDocumentAttributes(root, documentAttributes(first))
   forwardModeKey(window)
-  // A design names no language and no surface: the demo keeps the ones it is shown with.
+  // A design names no language, no surface and no charts' colours: the demo keeps the ones it is
+  // shown with.
   listenForDesign(window, (next) =>
     follow({
       ...next,
@@ -270,6 +288,7 @@ export function followPageDesign(
         ...language(current.options.language ?? null),
         ...next.options,
         ...(current.options.surface ? { surface: true } : {}),
+        ...charts(current.options.charts ?? null),
       },
     })
   )

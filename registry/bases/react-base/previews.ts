@@ -251,6 +251,7 @@ export const previews: Record<
   "code-block-highlighting": () => import("./examples/code-block-highlighting"),
   "code-block-languages": () => import("./examples/code-block-languages"),
   "code-block-line-numbers": () => import("./examples/code-block-line-numbers"),
+  "code-block-markdown": () => import("./examples/code-block-markdown"),
   "code-block-rtl": () => import("./examples/code-block-rtl"),
   "code-block-show-more": () => import("./examples/code-block-show-more"),
   "code-block-show-more-scroll": () =>
@@ -459,11 +460,28 @@ export const previews: Record<
   "message-example": () => import("./examples/message-example"),
   "message-group": () => import("./examples/message-group"),
   "message-header-footer": () => import("./examples/message-header-footer"),
+  "message-scroller-anchoring": () =>
+    import("./examples/message-scroller-anchoring"),
+  "message-scroller-animation": () =>
+    import("./examples/message-scroller-animation"),
+  "message-scroller-commands": () =>
+    import("./examples/message-scroller-commands"),
+  "message-scroller-demo": () => import("./examples/message-scroller-demo"),
   "message-scroller-group-chat": () =>
     import("./examples/message-scroller-group-chat"),
+  "message-scroller-load-history": () =>
+    import("./examples/message-scroller-load-history"),
   "message-scroller-opening-position": () =>
     import("./examples/message-scroller-opening-position"),
+  "message-scroller-previous-context": () =>
+    import("./examples/message-scroller-previous-context"),
+  "message-scroller-scrollable": () =>
+    import("./examples/message-scroller-scrollable"),
   "message-scroller-state": () => import("./examples/message-scroller-state"),
+  "message-scroller-streaming": () =>
+    import("./examples/message-scroller-streaming"),
+  "message-scroller-visibility": () =>
+    import("./examples/message-scroller-visibility"),
   "native-select-demo": () => import("./examples/native-select-demo"),
   "native-select-disabled": () => import("./examples/native-select-disabled"),
   "native-select-example": () => import("./examples/native-select-example"),
@@ -632,6 +650,7 @@ export const previews: Record<
   "tooltip-sides": () => import("./examples/tooltip-sides"),
   "trace-collapsible": () => import("./examples/trace-collapsible"),
   "trace-commit": () => import("./examples/trace-commit"),
+  "trace-demo": () => import("./examples/trace-demo"),
   "trace-description": () => import("./examples/trace-description"),
   "trace-dialog": () => import("./examples/trace-dialog"),
   "trace-example": () => import("./examples/trace-example"),
@@ -643,5 +662,7 @@ export const previews: Record<
   "trace-static": () => import("./examples/trace-static"),
   "trace-status": () => import("./examples/trace-status"),
   "trace-steps": () => import("./examples/trace-steps"),
+  "trace-thinking": () => import("./examples/trace-thinking"),
+  "trace-tool-calls": () => import("./examples/trace-tool-calls"),
   "trace-turn": () => import("./examples/trace-turn"),
 }

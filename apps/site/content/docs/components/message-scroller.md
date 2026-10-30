@@ -8,6 +8,8 @@ keywords: [message-scroller, chat, component, base, aria]
 
 # Message Scroller
 
+<!-- ::preview item="message-scroller-demo" height="688" combinations="react/base,react/aria" surface="true" -->
+
 ## What Makes a Great Streaming Chat Experience
 
 Building a chat interface used to be simple. You create an inverted list with
@@ -169,6 +171,8 @@ viewport.
 
 In the following example, the user's message is anchored. When you send a new message, the viewport anchors it near the top and appends the assistant reply below it. Toggle the anchor to the assistant's message to see the difference.
 
+<!-- ::preview item="message-scroller-anchoring" height="688" combinations="react/base,react/aria" surface="true" -->
+
 ### Group Chat
 
 In a group chat, the turn boundary is more specific than "the user message". It is often
@@ -186,7 +190,7 @@ a message.
 </MessageScrollerItem>
 ```
 
-<!-- ::preview item="message-scroller-group-chat" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-group-chat" height="688" combinations="react/base,react/aria" surface="true" -->
 
 ### Keeping Context Visible
 
@@ -203,6 +207,8 @@ conversation restarted on a blank page.
 ```
 
 Adjust the peek amount in the example below to see how it affects the conversation.
+
+<!-- ::preview item="message-scroller-previous-context" height="688" combinations="react/base,react/aria" surface="true" -->
 
 ### Following the Live Edge
 
@@ -222,6 +228,8 @@ follow-output takes over from the anchor.
   <MessageScroller>{/* streamed turns */}</MessageScroller>
 </MessageScrollerProvider>
 ```
+
+<!-- ::preview item="message-scroller-streaming" height="688" combinations="react/base,react/aria" surface="true" -->
 
 Calling `scrollToEnd`, or pressing `MessageScrollerButton`, re-engages
 follow-output when `autoScroll` is enabled, so a reader who scrolled away can
@@ -246,7 +254,7 @@ the conversation from the bottom edge.
 </MessageScrollerProvider>
 ```
 
-<!-- ::preview item="message-scroller-opening-position" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-opening-position" height="688" combinations="react/base,react/aria" surface="true" code="false" -->
 
 `"last-anchor"` is keyed on `scrollAnchor`, not message role. If no anchor
 exists, or the last anchored turn already fits in the viewport, it falls back to
@@ -305,6 +313,8 @@ same place while history loads above them.
 
 This is enabled by default through `preserveScrollOnPrepend`.
 
+<!-- ::preview item="message-scroller-load-history" height="688" combinations="react/base,react/aria" surface="true" -->
+
 Use stable `messageId` values for message rows. That gives the scroller a
 specific row to preserve instead of guessing from whichever pixel happens to sit
 at the viewport edge.
@@ -322,6 +332,8 @@ its final position so it feels like it rises from the live edge of the viewport.
 ```tsx
 const MotionMessageScrollerItem = motion.create(MessageScrollerItem)
 ```
+
+<!-- ::preview item="message-scroller-animation" height="688" combinations="react/base,react/aria" surface="true" -->
 
 Avoid animating height, margin, or padding for row entrances; those changes can
 fight the scroller's positioning work. If the reader prefers reduced motion,
@@ -342,6 +354,8 @@ import { useMessageScroller } from "@/components/ui/message-scroller"
 ```tsx
 const { scrollToMessage, scrollToEnd, scrollToStart } = useMessageScroller()
 ```
+
+<!-- ::preview item="message-scroller-commands" height="688" combinations="react/base,react/aria" surface="true" code="false" -->
 
 `scrollToMessage` targets the `messageId` on `MessageScrollerItem`, so rows that
 need to be addressable should have stable ids. `scrollToMessage` returns `false`
@@ -366,6 +380,8 @@ import { useMessageScrollerVisibility } from "@/components/ui/message-scroller"
 const { currentAnchorId, visibleMessageIds } = useMessageScrollerVisibility()
 ```
 
+<!-- ::preview item="message-scroller-visibility" height="688" combinations="react/base,react/aria" surface="true" code="false" -->
+
 `currentAnchorId` answers "where am I" by reporting the current anchored turn,
 and it stays set after that anchor scrolls above the viewport. `visibleMessageIds`
 answers "what is on screen", in document order.
@@ -389,6 +405,8 @@ import { useMessageScrollerScrollable } from "@/components/ui/message-scroller"
 ```tsx
 const { start, end } = useMessageScrollerScrollable()
 ```
+
+<!-- ::preview item="message-scroller-scrollable" height="688" combinations="react/base,react/aria" surface="true" -->
 
 ## Performance
 

@@ -197,6 +197,9 @@ import {
   ChartDownIcon,
   FootprintsIcon,
   WavesIcon,
+  AttachmentIcon,
+  BubbleChatIcon,
+  Telescope01Icon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -376,6 +379,9 @@ import {
   ArrowUpFromLine,
   Footprints,
   Waves,
+  MessageCircleDashed,
+  Paperclip,
+  Telescope,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -601,6 +607,9 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       ArrowUpFromLineIcon: ArrowUpFromLine,
       FootprintsIcon: Footprints,
       WavesIcon: Waves,
+      MessageCircleDashedIcon: MessageCircleDashed,
+      PaperclipIcon: Paperclip,
+      TelescopeIcon: Telescope,
     },
   },
   hugeicons: {
@@ -797,6 +806,9 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       ChartDownIcon,
       FootprintsIcon,
       WavesIcon,
+      AttachmentIcon,
+      BubbleChatIcon,
+      Telescope01Icon,
     },
   },
 }

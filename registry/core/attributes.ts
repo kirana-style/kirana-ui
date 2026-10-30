@@ -23,3 +23,9 @@ export const POINTER_ATTRIBUTE = "data-pointer"
 
 /** A preview page's surface under its demo (`?surface=true`), upstream's `bg-surface` previews. */
 export const SURFACE_ATTRIBUTE = "data-surface"
+
+/**
+ * A charts gallery's frame (`?charts=`): the page sits 1px in, so a card's edge shows at the frame's
+ * edge (upstream's gallery draws `new-york-v4`'s border; Nova's ring falls outside the card).
+ */
+export const CHARTS_ATTRIBUTE = "data-charts"

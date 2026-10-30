@@ -90,9 +90,9 @@
     "measured": 374.2
   },
   "demos.bytes": {
-    "budget": 6000,
+    "budget": 7000,
     "unit": "KB",
-    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added."
+    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added. Raised to 7 MB with Message Scroller's nine missing demos, Trace's three and Code Block's Markdown (the chat demos are long, their scripted conversations in the code): 6.5 MB for 492 demos."
   },
   "static.files": {
     "budget": 20000,

@@ -3,8 +3,8 @@
  * pickers beside the preview. The panel's Menu holds the actions and their keys (Navigate `Ctrl+P`,
  * which picks what the preview shows; Open Preset `O`, Shuffle `R`, Light/Dark `D`, Undo, Redo,
  * Reset `⇧R`); the base is the project's, chosen in Get Code; its pickers lock on hover for shuffling;
- * its footer, as upstream's, copies the preset, then opens one, shuffles or resets, then gets the
- * code. The preview frames any item in any base, created once the page has hydrated so it loads
+ * its footer, as upstream's, copies the preset, then opens one or shuffles, then gets the code
+ * (Reset is the Menu's and `⇧R`, as upstream's). The preview frames any item in any base, created once the page has hydrated so it loads
  * once: upstream's second preview first, and its switcher (01, 02) over the two previews; on any
  * other item, the item's name, which opens Navigate. The design is the site's
  * (`setDesign`), so every page follows what `/create` makes.
@@ -13,12 +13,8 @@ import * as React from "react"
 import { css } from "@kirana-style/core"
 import {
   ArrowUpDownIcon,
-  Copy01Icon,
-  FolderOpenIcon,
+  LinkSquare02Icon,
   Menu09Icon,
-  RefreshIcon,
-  ShuffleIcon,
-  Tick02Icon,
 } from "@hugeicons/core-free-icons"
 
 import { GetCodeDialog, OpenPresetDialog } from "@/components/create-dialogs"
@@ -154,6 +150,8 @@ const styles = {
     borderBottomStyle: "solid",
     borderBottomColor: theme.border,
   }),
+  // Upstream's two footers: on a phone one row (the preset, Open, Shuffle); from md a column of
+  // full-width text buttons, then Get Code.
   footer: css({
     display: "flex",
     flexDirection: { base: "row", [breakpoint.md]: "column" },
@@ -165,22 +163,44 @@ const styles = {
     borderTopColor: theme.border,
   }),
   wide: css({ width: { [breakpoint.md]: "100%" } }),
-  // Open, Shuffle and Reset share a row, as upstream's footer has them.
-  row: css({
-    display: "flex",
-    gap: space[2],
-    flex: { base: "1 1 auto", [breakpoint.md]: "none" },
+  // `min-w-0 flex-1 md:flex-none`, over a transparent outline button (`bg-transparent!
+  // hover:bg-muted!`), its label one truncated line.
+  action: css({
+    flex: { base: "1 1 0%", [breakpoint.md]: "none" },
+    minWidth: 0,
+    width: { [breakpoint.md]: "100%" },
+    backgroundColor: {
+      "*": null,
+      base: "transparent",
+      ":hover": theme.muted,
+    },
   }),
-  half: css({ flex: "1 1 0%", minWidth: 0 }),
+  // Open and Shuffle: `max-w-20 sm:max-w-none`.
+  short: css({ maxWidth: { base: space[20], [breakpoint.sm]: "none" } }),
+  label: css({
+    minWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  }),
+  phoneOnly: css({ display: { [breakpoint.md]: "none" } }),
+  wideOnlyText: css({ display: { base: "none", [breakpoint.md]: "inline" } }),
   // What the preview shows, on the preview, as upstream's `PreviewSwitcher`: `dark absolute right-3
   // bottom-3 z-20 flex items-center gap-1 rounded-xl bg-card/90 p-1 shadow-xl backdrop-blur-xl`.
   // Pressed, the item's name opens Navigate.
-  current: css({
-    colorScheme: "dark",
+  // The preview's corner: opening the preview on its own, as /typeset's toolbar has it, then the
+  // switcher.
+  corner: css({
     position: "absolute",
     insetInlineEnd: space[3],
     insetBlockEnd: space[3],
     zIndex: 20,
+    display: "flex",
+    alignItems: "center",
+    gap: space["1.5"],
+  }),
+  current: css({
+    colorScheme: "dark",
     display: "flex",
     alignItems: "center",
     gap: space[1],
@@ -190,6 +210,15 @@ const styles = {
     padding: space[1],
     boxShadow: shadow.xl,
     backdropFilter: "blur(24px)",
+  }),
+  // /typeset's pill: `text-xs text-muted-foreground hover:text-foreground`.
+  newTab: css({
+    fontSize: { "*": null, base: fontSize.xs },
+    color: {
+      "*": null,
+      base: theme.mutedForeground,
+      ":hover": theme.foreground,
+    },
   }),
   currentButton: css({ fontFamily: fontFamily.mono }),
   // Its two pages: `h-7 min-w-8 rounded-lg px-2.5 text-xs font-medium text-muted-foreground
@@ -217,7 +246,6 @@ const styles = {
     },
     transitionProperty: "color",
   }),
-  code: css({ fontFamily: fontFamily.mono }),
   // The Menu, from md up, as upstream's header; on a phone its actions are the footer's and the
   // preview's item button, and its keys need a keyboard.
   wideOnly: css({ display: { base: "none", [breakpoint.md]: "flex" } }),
@@ -237,20 +265,20 @@ const typing = (target: EventTarget | null) =>
 
 function CopyPreset({ code }: { code: string }) {
   const [copied, setCopied] = React.useState(false)
+  const label = copied ? "Copied" : `--preset ${code}`
   return (
     <Button
       variant="outline"
-      size="sm"
-      sx={[styles.wide, styles.code]}
+      sx={styles.action}
+      title={label}
       onClick={() =>
         void navigator.clipboard.writeText(`--preset ${code}`).then(() => {
           setCopied(true)
-          setTimeout(() => setCopied(false), 1500)
+          setTimeout(() => setCopied(false), 2000)
         })
       }
     >
-      <Icon icon={copied ? Tick02Icon : Copy01Icon} />
-      --preset {code}
+      <span sx={styles.label}>{label}</span>
     </Button>
   )
 }
@@ -335,34 +363,48 @@ export function CreatePage() {
         {hydrated ? (
           <iframe title={`${shown} preview`} src={src} sx={styles.frame} />
         ) : null}
-        <div sx={styles.current}>
-          {PREVIEW_PAGES.some((page) => page.item === shown) ? (
-            <div sx={styles.pages} role="group" aria-label="Previews">
-              {PREVIEW_PAGES.map((page) => (
-                <Button
-                  key={page.item}
-                  variant="ghost"
-                  size="sm"
-                  sx={styles.pageButton}
-                  aria-pressed={page.item === shown}
-                  onClick={() => setPreview(page.item)}
-                >
-                  {page.label}
-                </Button>
-              ))}
-            </div>
-          ) : (
+        <div sx={styles.corner}>
+          <div sx={styles.current}>
             <Button
               variant="ghost"
               size="sm"
-              sx={styles.currentButton}
-              onClick={() => setNavigating(true)}
-              title="Navigate (Ctrl+P)"
+              sx={styles.newTab}
+              nativeButton={false}
+              render={<a href={src} target="_blank" rel="noreferrer" />}
             >
-              {shown}
-              <Icon icon={ArrowUpDownIcon} />
+              <Icon icon={LinkSquare02Icon} />
+              Open in New Tab
             </Button>
-          )}
+          </div>
+          <div sx={styles.current}>
+            {PREVIEW_PAGES.some((page) => page.item === shown) ? (
+              <div sx={styles.pages} role="group" aria-label="Previews">
+                {PREVIEW_PAGES.map((page) => (
+                  <Button
+                    key={page.item}
+                    variant="ghost"
+                    size="sm"
+                    sx={styles.pageButton}
+                    aria-pressed={page.item === shown}
+                    onClick={() => setPreview(page.item)}
+                  >
+                    {page.label}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                sx={styles.currentButton}
+                onClick={() => setNavigating(true)}
+                title="Navigate (Ctrl+P)"
+              >
+                {shown}
+                <Icon icon={ArrowUpDownIcon} />
+              </Button>
+            )}
+          </div>
         </div>
       </section>
 
@@ -420,37 +462,25 @@ export function CreatePage() {
         </div>
         <div sx={styles.footer}>
           <CopyPreset code={encodePreset(system)} />
-          <div sx={styles.row}>
-            <Button
-              variant="outline"
-              size="sm"
-              sx={styles.half}
-              onClick={() => setOpening(true)}
-              title="Open Preset (O)"
-            >
-              <Icon icon={FolderOpenIcon} />
-              Open
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              sx={styles.half}
-              onClick={actions.shuffle}
-              title="Shuffle (R)"
-            >
-              <Icon icon={ShuffleIcon} />
-              Shuffle
-            </Button>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              onClick={actions.reset}
-              aria-label="Reset"
-              title="Reset (⇧R)"
-            >
-              <Icon icon={RefreshIcon} />
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            sx={[styles.action, styles.short]}
+            onClick={() => setOpening(true)}
+            title="Open Preset (O)"
+          >
+            <span sx={styles.label}>
+              <span sx={styles.phoneOnly}>Open</span>
+              <span sx={styles.wideOnlyText}>Open Preset</span>
+            </span>
+          </Button>
+          <Button
+            variant="outline"
+            sx={[styles.action, styles.short]}
+            onClick={actions.shuffle}
+            title="Shuffle (R)"
+          >
+            <span sx={styles.label}>Shuffle</span>
+          </Button>
           <GetCodeDialog
             system={system}
             onChange={history.apply}
@@ -458,7 +488,7 @@ export function CreatePage() {
             pointer={pointer}
             onRtl={setRtl}
             onPointer={setPointer}
-            trigger={<Button size="sm" sx={styles.wide} />}
+            trigger={<Button sx={styles.wide} />}
           />
         </div>
       </aside>

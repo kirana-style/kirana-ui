@@ -30,7 +30,7 @@ import {
   zIndex,
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
-import { focusRing, laterRings } from "./control"
+import { controlIcons, focusRing, laterRings } from "./control"
 import { ringAndShadow } from "./menu.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
@@ -286,6 +286,8 @@ export const navigationMenu = {
     alignItems: "center",
     outlineStyle: "none",
     ...ALL,
+    // `[&_svg:not([class*='size-'])]:size-4`: the link's icons (`controlIcons`).
+    ...controlIcons,
     [ctx.iconSize]: { base: "1rem", [sera]: "0.875rem" },
     gap: {
       base: space[2],

@@ -31,6 +31,8 @@ import { DOCS_CHROME } from "../chrome.ts"
 import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
 import { Callout } from "./callout.tsx"
+import { ComponentsList } from "./components-list.tsx"
+import { MarkdownFigure } from "./figure.tsx"
 import { CodeBlock } from "./code-block.tsx"
 import type { CodeBlockProps } from "./code-block.tsx"
 import { createCommentComponent } from "./comment-component.tsx"
@@ -369,6 +371,8 @@ export function createMarkdownComponents(
       installation: Installation as CommentRegistry[string],
       tabs: MarkdownTabs as unknown as CommentRegistry[string],
       steps: MarkdownSteps as unknown as CommentRegistry[string],
+      figure: MarkdownFigure as CommentRegistry[string],
+      "components-list": ComponentsList as CommentRegistry[string],
       ...components,
     }),
   }

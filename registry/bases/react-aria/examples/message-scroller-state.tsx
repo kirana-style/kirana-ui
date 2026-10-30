@@ -26,6 +26,7 @@ import {
   spacing,
 } from "../../../core/scales"
 import { radius, theme } from "../../../core/tokens"
+import { cardCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
@@ -42,6 +43,8 @@ const styles = {
     flex: "1 1 0%",
     paddingInline: { "*": null, base: "0" },
     paddingBlock: { "*": null, base: "0" },
+    // Upstream's `[.border-b]:pb-(--card-spacing)`.
+    paddingBottom: cardCtx.spacing,
   }),
   gap4P4Pt12: css({
     gap: { "*": null, base: space[4] },

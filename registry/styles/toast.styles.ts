@@ -195,6 +195,17 @@ export const toast = {
     },
   }),
   iconError: css({ color: theme.destructive }),
+  // Not upstream's, whose other icons keep the text colour: a success icon is green, an info icon
+  // sky and a warning icon orange, beside the error's red (Tailwind's 600 in light, 400 in dark).
+  iconSuccess: css({
+    color: "light-dark(oklch(0.627 0.194 149.214), oklch(0.792 0.209 151.711))",
+  }),
+  iconInfo: css({
+    color: "light-dark(oklch(0.588 0.158 241.966), oklch(0.746 0.16 232.661))",
+  }),
+  iconWarning: css({
+    color: "light-dark(oklch(0.646 0.222 41.116), oklch(0.75 0.183 55.934))",
+  }),
   // `animate-spin`
   iconLoading: css({
     animationName: spin,

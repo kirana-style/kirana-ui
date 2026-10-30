@@ -39,7 +39,7 @@ Use `orientation="vertical"` for a vertical separator.
 
 Vertical separators between menu items with descriptions.
 
-<!-- ::preview item="separator-menu" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="separator-menu" height="400" wide="true" combinations="react/base,react/aria" -->
 
 ## List
 

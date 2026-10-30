@@ -165,6 +165,12 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
 <!-- ::preview item="field-group" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="field-rtl" height="760" combinations="react/base,react/aria" direction="rtl" -->
+
 ## Responsive Layout
 
 - **Vertical fields:** Default orientation stacks label, control, and helper text—ideal for mobile-first layouts.
@@ -192,12 +198,6 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 - `FieldSet` and `FieldLegend` keep related controls grouped for keyboard and assistive tech users.
 - `Field` outputs `role="group"` so nested controls inherit labeling from `FieldLabel` and `FieldLegend` when combined.
 - Apply `FieldSeparator` sparingly to ensure screen readers encounter clear section boundaries.
-
-## RTL
-
-To set the direction, see [Right to left](/docs/design-system/rtl).
-
-<!-- ::preview item="field-rtl" height="760" combinations="react/base,react/aria" direction="rtl" -->
 
 ## API Reference
 

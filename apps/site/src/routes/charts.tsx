@@ -18,7 +18,7 @@ const DESCRIPTION =
 
 /**
  * `/charts` and `/charts/<type>`: Kirana's page hero by still water, then as upstream's: the chart types in a row of
- * their own with the framework and base at its end, then the type's charts in a grid
+ * their own with the framework and base at its end (held under the header as the page scrolls), then the type's charts in a grid
  * (`components/charts/`). The design is the site's, so the customizer changes every chart at once.
  */
 export const Route = createFileRoute("/charts")({
@@ -41,12 +41,26 @@ const styles = {
     paddingInline: { base: space[2], [breakpoint.md]: space[4] },
     paddingBlock: space[2],
   }),
-  // The row's rule runs across the page, as every section's does.
+  // The row's rule runs across the page, as every section's does. It stays under the header while
+  // the charts scroll by, frosted as the header is (the blur on a layer of its own, so the row
+  // does not hold its popups).
   band: css({
-    scrollMarginTop: space[16],
+    position: "sticky",
+    top: `calc(${space[16]} + 1px)`,
+    zIndex: 30,
+    isolation: "isolate",
+    scrollMarginTop: `calc(${space[16]} + 1px)`,
     borderBottomWidth: "1px",
     borderBottomStyle: "solid",
     borderBottomColor: theme.border,
+    "::before": {
+      content: "''",
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
+      backgroundColor: `color-mix(in oklab, ${theme.background} 72%, transparent)`,
+      backdropFilter: "blur(14px) saturate(1.5)",
+    },
   }),
   section: css({
     paddingInline: { base: space[4], [breakpoint.md]: space[6] },

@@ -93,10 +93,11 @@ export const progress = {
     textTransform: { [sera]: "uppercase" },
   }),
 
-  // cn-progress-value
+  // cn-progress-value: `ml-auto`, which upstream's right-to-left build writes `ms-auto`, so the value
+  // keeps to the far end in either direction.
   value: css({
     ...label,
-    marginLeft: "auto",
+    marginInlineStart: "auto",
     color: theme.mutedForeground,
     fontVariantNumeric: "tabular-nums",
   }),

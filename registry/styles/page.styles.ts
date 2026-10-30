@@ -25,6 +25,8 @@ export const page = {
       ":is([data-surface] *)": `light-dark(color-mix(in oklab, ${theme.muted} 66%, ${theme.background}), ${theme.background})`,
     },
     color: theme.foreground,
+    // A charts gallery's frame: the chart's card 1px in, so its edge shows (`CHARTS_ATTRIBUTE`).
+    padding: { ":is([data-charts] *)": "1px" },
     // Upstream reads its right-to-left demos in Noto Sans Arabic and Hebrew (`[data-lang]`); a
     // preview page loads the family with the language.
     fontFamily: {
@@ -42,10 +44,11 @@ export const page = {
   example: css({
     display: "flex",
     width: "100%",
-    minHeight: "100dvh",
+    // A demo the React showcase draws among its cards (`data-showcase`) takes only its own size.
+    minHeight: { base: "100dvh", ":is([data-showcase] *)": "auto" },
     alignItems: "center",
     justifyContent: "center",
-    padding: space[10],
+    padding: { base: space[10], ":is([data-showcase] *)": 0 },
   }),
   // A docs demo's width in that frame where upstream's preview narrows it (`*:max-w-xs`).
   narrow: css({ width: "100%", maxWidth: containerSize.xs }),
