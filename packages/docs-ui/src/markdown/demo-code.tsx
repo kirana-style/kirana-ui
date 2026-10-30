@@ -55,6 +55,16 @@ const styles = {
     justifyContent: "center",
     backgroundImage: `linear-gradient(to top, ${theme.muted}, color-mix(in oklab, ${theme.muted} 60%, transparent), transparent)`,
   }),
+  rtl: css({
+    margin: 0,
+    paddingInline: spacing[4],
+    paddingBlockStart: spacing["3.5"],
+    fontFamily: fontFamily.mono,
+    fontSize: "0.8125rem",
+    lineHeight: LINE,
+    color: theme.mutedForeground,
+  }),
+  link: css({ textDecorationLine: "underline", textUnderlineOffset: "4px" }),
   copy: css({
     position: "absolute",
     insetBlockStart: spacing[2],
@@ -76,12 +86,15 @@ const LANGUAGES: Record<string, string> = {
 export function DemoCode({
   item,
   combination,
+  rtl,
 }: {
   item: string
   /** `framework/base`, the reader's. */
   combination: string
+  /** A right-to-left demo, whose code says why it sets its own direction. */
+  rtl?: boolean
 }) {
-  const { demoCode, iconLibrary } = useDocs()
+  const { demoCode, iconLibrary, rtlGuide } = useDocs()
   const [sources, setSources] = useState<DemoSources | null>(null)
   const [highlight, setHighlight] = useState<Highlight>()
   const [open, setOpen] = useState(false)
@@ -126,6 +139,26 @@ export function DemoCode({
 
   return (
     <div sx={styles.root} data-slot="demo-code">
+      {open && rtl ? (
+        <p sx={styles.rtl}>
+          {"// This example sets `dir` and its language itself, because this"}
+          <br />
+          {
+            "// site does not read right to left. In your application, set `dir`"
+          }
+          <br />
+          {"// on <html>"}
+          {rtlGuide ? (
+            <>
+              {": see "}
+              <a href={rtlGuide} sx={styles.link}>
+                Right to left
+              </a>
+            </>
+          ) : null}
+          .
+        </p>
+      ) : null}
       <pre
         sx={[styles.pre, open ? null : styles.folded]}
         data-slot="code-block-source"

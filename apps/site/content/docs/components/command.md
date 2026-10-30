@@ -159,6 +159,12 @@ Scrollable command menu with multiple items.
 
 <!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

@@ -44,6 +44,12 @@ Use the `size` prop to change the size of the toggle.
 
 <!-- ::preview item="toggle-disabled" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="toggle-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

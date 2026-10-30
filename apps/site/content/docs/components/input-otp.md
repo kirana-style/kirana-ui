@@ -120,6 +120,12 @@ Use `REGEXP_ONLY_DIGITS_AND_CHARS` to accept both letters and numbers.
 
 <!-- ::preview item="input-otp-form" height="480" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="input-otp-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 See the [input-otp](https://input-otp.rodz.dev) documentation for more information.

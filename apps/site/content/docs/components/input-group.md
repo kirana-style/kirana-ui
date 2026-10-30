@@ -119,6 +119,12 @@ Here's an example of a custom resizable textarea from a third-party library.
 
 <!-- ::preview item="input-group-custom" height="400" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="input-group-rtl" height="480" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### InputGroup

@@ -89,6 +89,7 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     // A demo's code, as a project writes it, with the reader's icon library.
     demoCode: (item) => `/r/demos/${item}.json`,
     iconLibrary: design.system.iconLibrary,
+    rtlGuide: "/docs/design-system/rtl",
   }
   return <DocsProvider value={value}>{children}</DocsProvider>
 }

@@ -74,6 +74,12 @@ You can customize the alert colors by adding custom classes such as `bg-amber-50
 
 <!-- ::preview item="alert-colors" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="alert-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Alert

@@ -193,6 +193,12 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 - `Field` outputs `role="group"` so nested controls inherit labeling from `FieldLabel` and `FieldLegend` when combined.
 - Apply `FieldSeparator` sparingly to ensure screen readers encounter clear section boundaries.
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="field-rtl" height="740" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### FieldSet

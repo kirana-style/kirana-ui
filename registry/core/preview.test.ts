@@ -51,6 +51,19 @@ describe("the preview's design", () => {
     expect(Object.keys(attributes)).toHaveLength(11)
   })
 
+  it("reads a demo's language, whose direction wins over rtl", () => {
+    const hebrew = readPreviewDesign(params("lang=he"))
+    expect(hebrew.options.language).toBe("he")
+    expect(documentAttributes(hebrew).dir).toBe("rtl")
+    const english = readPreviewDesign(params("lang=en&rtl=true"))
+    expect(documentAttributes(english).dir).toBe("ltr")
+    expect(readPreviewDesign(params("lang=fr")).options).toEqual({
+      rtl: false,
+      pointer: false,
+    })
+    expect(readPreviewDesign(params(previewQuery(hebrew)))).toEqual(hebrew)
+  })
+
   it("names itself with a k preset that reads back the same", () => {
     const design = readPreviewDesign(
       params("style=maia&theme=blue&pointer=true")

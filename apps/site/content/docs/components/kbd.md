@@ -59,6 +59,12 @@ You can use the `Kbd` component inside a `InputGroupAddon` component to display 
 
 <!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Kbd

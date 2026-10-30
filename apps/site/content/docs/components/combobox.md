@@ -519,6 +519,12 @@ You can add an addon to the combobox by using the `InputGroupAddon` component in
 
 <!-- ::preview item="combobox-input-group" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="combobox-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

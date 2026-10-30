@@ -125,6 +125,12 @@ Use `showCloseButton={false}` on `SheetContent` to hide the close button.
 
 <!-- ::preview item="sheet-no-close-button" height="400" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="sheet-rtl" height="420" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

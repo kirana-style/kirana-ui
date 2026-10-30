@@ -119,3 +119,11 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   `DocsConfig.demoCode` (new) for the reader's combination and icon library
   (`DocsConfig.iconLibrary`, new), folded to three lines under a View Code button, highlighted in the
   browser with docs-core's highlighter.
+- `markdown/preview.tsx`: `direction="rtl"` (new) draws a right-to-left demo as shadcn/ui's
+  component preview does: a bar over it with the language it is read in (Arabic first, Hebrew,
+  English) and a note that the translations are made with AI. The frame opens at `?lang=ar` and
+  takes the next language by message (`LANGUAGE_MESSAGE` from `@workspace/registry/core/preview`),
+  so it is not reloaded. The selector is the registry's `LanguageSelector`, on Base UI.
+- `markdown/demo-code.tsx`: `rtl` (new) puts upstream's note over a right-to-left demo's code: it
+  sets `dir` and its language itself because the site reads left to right, and links the guide,
+  `DocsConfig.rtlGuide` (new, optional).

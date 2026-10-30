@@ -116,6 +116,12 @@ Use multiple fields to create a checkbox list.
 
 <!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

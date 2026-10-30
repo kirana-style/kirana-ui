@@ -235,6 +235,16 @@ A richer example combining groups, icons, and submenus.
 
 <!-- ::preview item="dropdown-menu-complex" height="400" combinations="react/base,react/aria" -->
 
+<!-- ::start:only react/base,react/aria -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="dropdown-menu-rtl" height="460" combinations="react/base,react/aria" direction="rtl" -->
+
+<!-- ::end:only -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

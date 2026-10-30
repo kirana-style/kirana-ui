@@ -150,6 +150,12 @@ Use the `render` prop to render the item as a link. The hover and focus states w
 
 <!-- ::preview item="item-dropdown" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="item-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Item

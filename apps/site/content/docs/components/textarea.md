@@ -47,3 +47,9 @@ Use the `aria-invalid` prop to mark the textarea as invalid. To style the invali
 Pair with `Button` to create a textarea with a submit button.
 
 <!-- ::preview item="textarea-button" height="360" combinations="react/base,react/aria" -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="textarea-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->

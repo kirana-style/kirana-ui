@@ -234,6 +234,12 @@ export function Example() {
 
 <!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/) for more information on props and plugins.

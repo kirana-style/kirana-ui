@@ -112,6 +112,12 @@ Use `MenubarSub`, `MenubarSubTrigger`, and `MenubarSubContent` for nested menus.
 
 <!-- ::preview item="menubar-icons" height="360" combinations="react/base" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="menubar-rtl" height="360" combinations="react/base" direction="rtl" -->
+
 ## API Reference
 
 See the [Base UI Menubar](https://base-ui.com/react/components/menubar#api-reference) documentation.

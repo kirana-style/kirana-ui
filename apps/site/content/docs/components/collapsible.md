@@ -143,6 +143,12 @@ Use nested collapsibles to build a file tree.
 
 <!-- ::preview item="collapsible-file-tree" height="400" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="collapsible-rtl" height="400" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

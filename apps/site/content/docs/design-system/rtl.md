@@ -13,6 +13,10 @@ The components are written in logical properties (`paddingInlineStart`,
 `insetInlineEnd`), so they follow the page's direction: set `dir="rtl"` on
 `<html>`.
 
+<!-- ::preview item="card-rtl" height="480" direction="rtl" -->
+
+Each component's page shows it right to left, in Arabic or Hebrew, under **RTL**.
+
 The headless libraries need to know too, for keyboard navigation and positioning:
 
 - **Base UI:** wrap your app in `DirectionProvider` from
@@ -22,4 +26,6 @@ The headless libraries need to know too, for keyboard navigation and positioning
 
 A popup that slides in from a logical side slides from the other way when the text
 runs right to left, as shadcn/ui's do. Every preview takes `?rtl=true`, as
-`/preview/react/base/select-example?rtl=true`.
+`/preview/react/base/select-example?rtl=true`, and a right-to-left demo takes the
+language it is read in, `?lang=ar`, `he` or `en`, as
+`/preview/react/base/card-rtl?lang=he`.

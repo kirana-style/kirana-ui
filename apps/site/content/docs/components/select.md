@@ -173,6 +173,16 @@ Use the [Autocomplete](https://react-aria.adobe.com/Autocomplete) component from
 
 <!-- ::end:only -->
 
+<!-- ::start:only react/base,react/aria -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="select-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
+<!-- ::end:only -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->

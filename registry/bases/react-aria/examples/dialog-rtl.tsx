@@ -1,0 +1,107 @@
+import { useTranslation } from "../components/language-selector"
+import type { Translations } from "../components/language-selector"
+import { Button } from "../ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
+import { Field, FieldGroup } from "../ui/field"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { css } from "@kirana-style/core"
+import { breakpoint, containerSize } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+
+const styles = {
+  dialog: css({
+    maxWidth: { [breakpoint.sm]: containerSize.sm },
+  }),
+}
+
+const translations: Translations = {
+  en: {
+    dir: "ltr",
+    values: {
+      openDialog: "Open Dialog",
+      editProfile: "Edit profile",
+      description:
+        "Make changes to your profile here. Click save when you're done.",
+      name: "Name",
+      username: "Username",
+      cancel: "Cancel",
+      saveChanges: "Save changes",
+    },
+  },
+  ar: {
+    dir: "rtl",
+    values: {
+      openDialog: "فتح الحوار",
+      editProfile: "تعديل الملف الشخصي",
+      description:
+        "قم بإجراء تغييرات على ملفك الشخصي هنا. انقر فوق حفظ عند الانتهاء.",
+      name: "الاسم",
+      username: "اسم المستخدم",
+      cancel: "إلغاء",
+      saveChanges: "حفظ التغييرات",
+    },
+  },
+  he: {
+    dir: "rtl",
+    values: {
+      openDialog: "פתח דיאלוג",
+      editProfile: "ערוך פרופיל",
+      description: "בצע שינויים בפרופיל שלך כאן. לחץ על שמור כשתסיים.",
+      name: "שם",
+      username: "שם משתמש",
+      cancel: "בטל",
+      saveChanges: "שמור שינויים",
+    },
+  },
+}
+
+export default function DialogRtl() {
+  const { dir, t, language } = useTranslation(translations, "ar")
+
+  return (
+    <div sx={page.example}>
+      <DialogTrigger>
+        <form>
+          <Button variant="outline">{t.openDialog}</Button>
+          <Dialog
+            sx={styles.dialog}
+            dir={dir}
+            data-lang={dir === "rtl" ? language : undefined}
+          >
+            <DialogHeader>
+              <DialogTitle>{t.editProfile}</DialogTitle>
+              <DialogDescription>{t.description}</DialogDescription>
+            </DialogHeader>
+            <FieldGroup>
+              <Field>
+                <Label htmlFor="name-1">{t.name}</Label>
+                <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              </Field>
+              <Field>
+                <Label htmlFor="username-1">{t.username}</Label>
+                <Input
+                  id="username-1"
+                  name="username"
+                  defaultValue="@peduarte"
+                />
+              </Field>
+            </FieldGroup>
+            <DialogFooter>
+              <DialogClose variant="outline">{t.cancel}</DialogClose>
+              <Button type="submit">{t.saveChanges}</Button>
+            </DialogFooter>
+          </Dialog>
+        </form>
+      </DialogTrigger>
+    </div>
+  )
+}

@@ -85,6 +85,12 @@ You can add an `InputGroup` component to the `EmptyContent` component.
 
 <!-- ::preview item="empty-input-group" height="360" combinations="react/base,react/aria" -->
 
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="empty-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+
 ## API Reference
 
 ### Empty

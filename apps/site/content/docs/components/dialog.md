@@ -169,6 +169,16 @@ Long content can scroll while the header stays in view.
 
 <!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria" -->
 
+<!-- ::start:only react/base,react/aria -->
+
+## RTL
+
+To set the direction, see [Right to left](/docs/design-system/rtl).
+
+<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria" direction="rtl" -->
+
+<!-- ::end:only -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->
