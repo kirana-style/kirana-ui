@@ -19,7 +19,7 @@ import {
   spacing,
 } from "../core/scales"
 import { alpha, radius, theme } from "../core/tokens"
-import { shimmer } from "./shimmer.styles"
+import { shimmerProperties } from "./shimmer.styles"
 
 const { lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -111,19 +111,43 @@ export const trace = {
     ...COLOURS,
     // `data-[status=running]:*:data-[slot=trace-title]:shimmer`
     [select.child('[data-slot="trace-title"]')]: {
-      "--spread": { '[data-status="running"]': shimmer["--spread"] },
-      "--highlight": { '[data-status="running"]': shimmer["--highlight"] },
-      backgroundRepeat: { '[data-status="running"]': shimmer.backgroundRepeat },
-      backgroundSize: { '[data-status="running"]': shimmer.backgroundSize },
+      "--_shimmer-highlight": {
+        '[data-status="running"]': shimmerProperties["--_shimmer-highlight"],
+      },
+      backgroundImage: {
+        '[data-status="running"]': shimmerProperties.backgroundImage,
+      },
+      backgroundRepeat: {
+        '[data-status="running"]': shimmerProperties.backgroundRepeat,
+      },
+      backgroundSize: {
+        '[data-status="running"]': shimmerProperties.backgroundSize,
+      },
       backgroundPosition: {
-        '[data-status="running"]': shimmer.backgroundPosition,
+        '[data-status="running"]': shimmerProperties.backgroundPosition,
       },
-      backgroundClip: { '[data-status="running"]': shimmer.backgroundClip },
-      animation: { '[data-status="running"]': shimmer.animation },
-      backgroundImage: { '[data-status="running"]': shimmer.backgroundImage },
+      backgroundClip: {
+        '[data-status="running"]': shimmerProperties.backgroundClip,
+      },
       WebkitTextFillColor: {
-        '[data-status="running"]': shimmer.WebkitTextFillColor,
+        '[data-status="running"]': shimmerProperties.WebkitTextFillColor,
       },
+      animationName: {
+        '[data-status="running"]': shimmerProperties.animationName,
+      },
+      animationDuration: {
+        '[data-status="running"]': shimmerProperties.animationDuration,
+      },
+      animationTimingFunction: {
+        '[data-status="running"]': shimmerProperties.animationTimingFunction,
+      },
+      animationIterationCount: {
+        '[data-status="running"]': shimmerProperties.animationIterationCount,
+      },
+    },
+    // The sweep follows the title's own direction.
+    [select.child('[data-slot="trace-title"]:dir(rtl)')]: {
+      animationDirection: { '[data-status="running"]': "reverse" },
     },
   }),
   // cn-trace-icon

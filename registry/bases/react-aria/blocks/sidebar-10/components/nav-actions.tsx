@@ -52,7 +52,10 @@ const styles = {
     borderRadius: { "*": null, base: radius.lg },
     padding: { "*": null, base: space["0"] },
   }),
+  // The popover's width: upstream's `w-(--sidebar-width)` is undefined in the portaled popover, so
+  // the sidebar fills it; this token has its 16rem everywhere, so the sidebar says so.
   navActionsSidebar: css({
+    width: { "*": null, base: "auto" },
     backgroundColor: "transparent",
   }),
   sidebarGroup: css({

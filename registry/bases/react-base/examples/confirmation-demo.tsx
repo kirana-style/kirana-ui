@@ -164,7 +164,7 @@ export default function ConfirmationDemo() {
                       <Item key={part.toolCallId} variant="outline" size="sm">
                         <ItemMedia variant="icon">
                           <IconPlaceholder
-                            lucide="TerminalIcon"
+                            lucide="CommandIcon"
                             tabler="IconCommand"
                             hugeicons="CommandIcon"
                             phosphor="CommandIcon"
@@ -222,7 +222,7 @@ export default function ConfirmationDemo() {
                       >
                         <TraceIcon>
                           <IconPlaceholder
-                            lucide="TerminalIcon"
+                            lucide="CommandIcon"
                             tabler="IconCommand"
                             hugeicons="CommandIcon"
                             phosphor="CommandIcon"

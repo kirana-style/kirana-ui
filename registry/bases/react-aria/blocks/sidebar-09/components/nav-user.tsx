@@ -28,6 +28,13 @@ import {
 } from "../../../../../core/scales"
 
 const styles = {
+  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the
+  // picture, the fallback and the hairline take it too, which round themselves otherwise.
+  avatarSquare: css({
+    borderRadius: { "*": null, base: radius.lg },
+    "::after": { borderRadius: radius.lg },
+  }),
+  avatarSquarePart: css({ borderRadius: { "*": null, base: radius.lg } }),
   sidebarMenuButton: css({
     backgroundColor: { '[aria-expanded="true"]': theme.sidebarAccent },
     color: { '[aria-expanded="true"]': theme.sidebarAccentForeground },
@@ -130,9 +137,17 @@ export function NavUser({
       <SidebarMenuItem>
         <DropdownMenuTrigger>
           <SidebarMenuButton size="lg" sx={styles.sidebarMenuButton}>
-            <Avatar sx={styles.navUserAvatar}>
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback sx={styles.avatarFallback}>CN</AvatarFallback>
+            <Avatar sx={[styles.navUserAvatar, styles.avatarSquare]}>
+              <AvatarImage
+                src={user.avatar}
+                alt={user.name}
+                sx={styles.avatarSquarePart}
+              />
+              <AvatarFallback
+                sx={[styles.avatarFallback, styles.avatarSquarePart]}
+              >
+                CN
+              </AvatarFallback>
             </Avatar>
             <div sx={styles.navUserDiv}>
               <span sx={styles.navUserSpan}>{user.name}</span>
@@ -154,9 +169,15 @@ export function NavUser({
           >
             <DropdownMenuLabel sx={styles.dropdownMenuLabel}>
               <div sx={styles.div2}>
-                <Avatar sx={styles.avatar2}>
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback sx={styles.avatarFallback2}>
+                <Avatar sx={[styles.avatar2, styles.avatarSquare]}>
+                  <AvatarImage
+                    src={user.avatar}
+                    alt={user.name}
+                    sx={styles.avatarSquarePart}
+                  />
+                  <AvatarFallback
+                    sx={[styles.avatarFallback2, styles.avatarSquarePart]}
+                  >
                     CN
                   </AvatarFallback>
                 </Avatar>

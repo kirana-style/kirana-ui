@@ -12,6 +12,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "../../ui/sidebar"
 import { css } from "@kirana-style/core"
 import { radius, theme } from "../../../../core/tokens"
 import { breakpoint, space } from "../../../../core/scales"
+import { orientation, when } from "../../../../core/states"
 
 const styles = {
   pageHeader: css({
@@ -32,8 +33,8 @@ const styles = {
   }),
   pageSeparator: css({
     marginRight: { "*": null, base: space[2] },
-    height: { "[data-vertical]": space[4] },
-    alignSelf: { "[data-vertical]": "auto" },
+    height: { ...when(orientation.vertical, space[4]) },
+    alignSelf: { ...when(orientation.vertical, "auto") },
   }),
   pageBreadcrumbItem: css({
     display: { "*": null, base: "none", [breakpoint.md]: "block" },

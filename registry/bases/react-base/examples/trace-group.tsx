@@ -40,7 +40,7 @@ export default function TraceGroupDemo() {
         <TraceLine>
           <TraceIcon>
             <IconPlaceholder
-              lucide="TerminalIcon"
+              lucide="CommandIcon"
               tabler="IconCommand"
               hugeicons="CommandIcon"
               phosphor="CommandIcon"

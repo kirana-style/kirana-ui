@@ -3,11 +3,11 @@
  * item's preview is served.
  */
 import {
-  AiChat02Icon,
   BookOpen01Icon,
   DashboardSquare01Icon,
   PackageIcon,
   PaintBrush01Icon,
+  SparklesIcon,
 } from "@hugeicons/core-free-icons"
 import { useRouter } from "@tanstack/react-router"
 
@@ -17,7 +17,7 @@ import type { DocsConfig, DocsTab } from "@workspace/docs-ui/provider.tsx"
 import { DocsLink } from "@/components/docs-link"
 import { NAV, PAGES } from "@/generated/content.gen"
 import { VARIANTS } from "@/lib/variants"
-import { usePageDesign } from "@/lib/page-design"
+import { frameQuery, usePageDesign } from "@/lib/page-design"
 import { loadSearch, search } from "@/lib/search"
 
 /** Tabs group sections; a page's URL never depends on its tab. */
@@ -26,7 +26,7 @@ export const TABS: readonly DocsTab[] = [
     id: "docs",
     label: "Docs",
     href: "/docs",
-    sections: ["start", "design", "project"],
+    sections: ["start", "design", "forms", "utils", "project"],
     accent: "neutral",
     icon: BookOpen01Icon,
   },
@@ -44,7 +44,7 @@ export const TABS: readonly DocsTab[] = [
     href: "/docs/ai-elements",
     sections: ["ai-elements"],
     accent: "neutral",
-    icon: AiChat02Icon,
+    icon: SparklesIcon,
   },
   {
     id: "kirana",
@@ -91,6 +91,7 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     // from the cookie, and takes a change from the customizer by message.
     previewSrc: (item, combination = "react/base") =>
       `/preview/${combination}/${item}`,
+    frameQuery,
     combinations: COMBINATIONS,
     registryItem: (name) => `/r/${name}.json`,
     // The code installing an item writes, in the reader's style.

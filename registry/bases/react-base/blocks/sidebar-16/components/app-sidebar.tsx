@@ -276,7 +276,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton size="lg" render={<a href="#" />}>
               <div sx={styles.appSidebarDiv}>
                 <IconPlaceholder
-                  lucide="TerminalIcon"
+                  lucide="CommandIcon"
                   tabler="IconCommand"
                   hugeicons="CommandIcon"
                   phosphor="CommandIcon"

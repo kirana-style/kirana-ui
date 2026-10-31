@@ -155,7 +155,7 @@ function StackTrace({ stack }: { stack: string }) {
         <TraceLine status="error">
           <TraceIcon>
             <IconPlaceholder
-              lucide="TerminalIcon"
+              lucide="CommandIcon"
               tabler="IconCommand"
               hugeicons="CommandIcon"
               phosphor="CommandIcon"
@@ -239,7 +239,7 @@ function CommandRow({
           <TraceLine>
             <TraceIcon>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"
@@ -264,7 +264,7 @@ function CommandRow({
     <TraceLine status={streaming ? "running" : "error"}>
       <TraceIcon>
         <IconPlaceholder
-          lucide="TerminalIcon"
+          lucide="CommandIcon"
           tabler="IconCommand"
           hugeicons="CommandIcon"
           phosphor="CommandIcon"

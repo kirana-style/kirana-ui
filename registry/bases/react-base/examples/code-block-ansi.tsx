@@ -40,7 +40,7 @@ export default function CodeBlockAnsi() {
           <CodeBlockHeader>
             <CodeBlockTitle>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"

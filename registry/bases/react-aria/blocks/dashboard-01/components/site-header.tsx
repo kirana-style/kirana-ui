@@ -10,6 +10,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
+import { orientation, when } from "../../../../../core/states"
 
 const styles = {
   siteHeaderHeader: css({
@@ -39,7 +40,7 @@ const styles = {
   siteHeaderSeparator: css({
     marginInline: { "*": null, base: space[2] },
     height: { "*": null, base: space[4] },
-    alignSelf: { "[data-vertical]": "auto" },
+    alignSelf: { ...when(orientation.vertical, "auto") },
   }),
   siteHeaderH1: css({
     fontSize: fontSize.base,

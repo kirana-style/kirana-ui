@@ -34,7 +34,7 @@ export default function CodeBlockSize() {
           <CodeBlockHeader>
             <CodeBlockTitle>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"
@@ -52,7 +52,7 @@ export default function CodeBlockSize() {
           <CodeBlockHeader>
             <CodeBlockTitle>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"

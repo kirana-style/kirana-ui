@@ -106,6 +106,11 @@ Concretely, for a component that arrives as Tailwind:
    its own (`name="trace code-block"`). The section's index lists it by itself
    (`<!-- ::section-cards section="ai-elements" -->`).
 
+   A Forms guide (`apps/site/content/docs/forms/<library>.md`, `section: forms`) is written the
+   same way. Its forms are upstream's Radix ones ported to each base, so a sample built on a
+   control is one `::only` block per base, with that base's props, and the finished form is
+   shown whole with `<!-- ::demo-source item="…" title="form.tsx" -->`.
+
    A chat demo streams a scripted conversation as upstream's do, with
    `@shadcn/helpers/ai-sdk`'s `createChat` and the AI SDK's `useChat`
    (`registry/lib/ai.ts`, upstream's `@/lib/ai`): no model and no network.

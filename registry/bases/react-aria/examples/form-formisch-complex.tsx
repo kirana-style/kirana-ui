@@ -1,0 +1,340 @@
+import { Form, Field as FormischField, reset, useForm } from "@formisch/react"
+import type { SubmitHandler } from "@formisch/react"
+import { toast } from "sonner"
+import * as v from "valibot"
+
+import { Button } from "../ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
+import { Checkbox } from "../ui/checkbox"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from "../ui/field"
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
+import { Switch } from "../ui/switch"
+import { css, props as styleProps } from "@kirana-style/core"
+import { containerSize, space } from "../../../core/scales"
+import { alpha, radius, theme } from "../../../core/tokens"
+import { page } from "../../../styles/page.styles"
+
+const styles = {
+  // The toast upstream's demos raise: `rounded-[calc(var(--radius)+4px)]`, its content
+  // `flex flex-col gap-2`.
+  toast: css({ "--border-radius": `calc(${radius.lg} + 4px)` }),
+  toastContent: css({
+    display: "flex",
+    flexDirection: "column",
+    gap: space[2],
+  }),
+  handleSubmitPre: css({
+    // `bg-code text-code-foreground`: upstream's site's code surface.
+    backgroundColor: alpha.muted50,
+    color: `light-dark(${theme.foreground}, ${theme.mutedForeground})`,
+    marginTop: space[2],
+    width: "320px",
+    overflowX: "auto",
+    borderRadius: radius.md,
+    padding: space[4],
+  }),
+  card: css({
+    width: { "*": null, base: "100%" },
+    maxWidth: { "*": null, base: containerSize.sm },
+  }),
+  cardHeader: css({
+    borderBottomWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderBottomColor: theme.border,
+    borderStyle: { "*": null, base: "solid" },
+  }),
+  cardFooter: css({
+    borderStyle: { "*": null, base: "solid" },
+    borderTopWidth: { "*": null, base: "1px" },
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderTopColor: theme.border,
+  }),
+}
+
+const addons = [
+  {
+    id: "analytics",
+    title: "Analytics",
+    description: "Advanced analytics and reporting",
+  },
+  {
+    id: "backup",
+    title: "Backup",
+    description: "Automated daily backups",
+  },
+  {
+    id: "support",
+    title: "Priority Support",
+    description: "24/7 premium customer support",
+  },
+] as const
+
+const FormSchema = v.object({
+  plan: v.pipe(
+    v.string(),
+    v.minLength(1, "Please select a subscription plan"),
+    v.check(
+      (value) => value === "basic" || value === "pro",
+      "Invalid plan selection. Please choose Basic or Pro"
+    )
+  ),
+  billingPeriod: v.pipe(
+    v.string(),
+    v.minLength(1, "Please select a billing period")
+  ),
+  addons: v.pipe(
+    v.array(v.string()),
+    v.minLength(1, "Please select at least one add-on"),
+    v.maxLength(3, "You can select up to 3 add-ons"),
+    v.check(
+      (value) => value.every((addon) => addons.some((a) => a.id === addon)),
+      "You selected an invalid add-on"
+    )
+  ),
+  emailNotifications: v.boolean(),
+})
+
+export default function FormFormischComplex() {
+  const form = useForm({
+    schema: FormSchema,
+    initialInput: {
+      plan: "basic",
+      billingPeriod: "",
+      addons: [],
+      emailNotifications: false,
+    },
+  })
+
+  const handleSubmit: SubmitHandler<typeof FormSchema> = (output) => {
+    toast("You submitted the following values:", {
+      description: (
+        <pre sx={styles.handleSubmitPre}>
+          <code>{JSON.stringify(output, null, 2)}</code>
+        </pre>
+      ),
+      position: "bottom-right",
+      classNames: {
+        toast: styleProps(styles.toast).className,
+        content: styleProps(styles.toastContent).className,
+      },
+    })
+  }
+
+  return (
+    <div sx={page.example}>
+      <Card sx={styles.card}>
+        <CardHeader sx={styles.cardHeader}>
+          <CardTitle>You&apos;re almost there!</CardTitle>
+          <CardDescription>
+            Choose your subscription plan and billing period.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form of={form} id="form-formisch-complex" onSubmit={handleSubmit}>
+            <FieldGroup>
+              <FormischField of={form} path={["plan"]}>
+                {(field) => (
+                  <FieldSet data-invalid={field.errors !== null}>
+                    <FieldLegend variant="label">Subscription Plan</FieldLegend>
+                    <FieldDescription>
+                      Choose your subscription plan.
+                    </FieldDescription>
+                    <RadioGroup
+                      value={field.input ?? ""}
+                      onChange={(value) => field.onChange(value)}
+                      isInvalid={field.errors !== null}
+                    >
+                      <FieldLabel htmlFor="form-formisch-complex-basic">
+                        <Field orientation="horizontal">
+                          <FieldContent>
+                            <FieldTitle>Basic</FieldTitle>
+                            <FieldDescription>
+                              For individuals and small teams
+                            </FieldDescription>
+                          </FieldContent>
+                          <RadioGroupItem
+                            value="basic"
+                            id="form-formisch-complex-basic"
+                          />
+                        </Field>
+                      </FieldLabel>
+                      <FieldLabel htmlFor="form-formisch-complex-pro">
+                        <Field orientation="horizontal">
+                          <FieldContent>
+                            <FieldTitle>Pro</FieldTitle>
+                            <FieldDescription>
+                              For businesses with higher demands
+                            </FieldDescription>
+                          </FieldContent>
+                          <RadioGroupItem
+                            value="pro"
+                            id="form-formisch-complex-pro"
+                          />
+                        </Field>
+                      </FieldLabel>
+                    </RadioGroup>
+                    {field.errors && (
+                      <FieldError
+                        errors={field.errors.map((message) => ({ message }))}
+                      />
+                    )}
+                  </FieldSet>
+                )}
+              </FormischField>
+              <FieldSeparator />
+              <FormischField of={form} path={["billingPeriod"]}>
+                {(field) => (
+                  <Field data-invalid={field.errors !== null}>
+                    <FieldLabel htmlFor="form-formisch-complex-billingPeriod">
+                      Billing Period
+                    </FieldLabel>
+                    <Select
+                      placeholder="Select"
+                      value={field.input ?? ""}
+                      onChange={(value) => field.onChange(String(value))}
+                    >
+                      <SelectTrigger
+                        id="form-formisch-complex-billingPeriod"
+                        aria-invalid={field.errors !== null}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem id="monthly">Monthly</SelectItem>
+                        <SelectItem id="yearly">Yearly</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FieldDescription>
+                      Choose how often you want to be billed.
+                    </FieldDescription>
+                    {field.errors && (
+                      <FieldError
+                        errors={field.errors.map((message) => ({ message }))}
+                      />
+                    )}
+                  </Field>
+                )}
+              </FormischField>
+              <FieldSeparator />
+              <FormischField of={form} path={["addons"]}>
+                {(field) => {
+                  const current = field.input ?? []
+                  return (
+                    <FieldSet>
+                      <FieldLegend>Add-ons</FieldLegend>
+                      <FieldDescription>
+                        Select additional features you&apos;d like to include.
+                      </FieldDescription>
+                      <FieldGroup data-slot="checkbox-group">
+                        {addons.map((addon) => (
+                          <Field
+                            key={addon.id}
+                            orientation="horizontal"
+                            data-invalid={field.errors !== null}
+                          >
+                            <Checkbox
+                              id={`form-formisch-complex-${addon.id}`}
+                              isInvalid={field.errors !== null}
+                              isSelected={current.includes(addon.id)}
+                              onChange={(checked: boolean) => {
+                                field.onChange(
+                                  checked === true
+                                    ? [...current, addon.id]
+                                    : current.filter(
+                                        (value) => value !== addon.id
+                                      )
+                                )
+                              }}
+                            />
+                            <FieldContent>
+                              <FieldLabel
+                                htmlFor={`form-formisch-complex-${addon.id}`}
+                              >
+                                {addon.title}
+                              </FieldLabel>
+                              <FieldDescription>
+                                {addon.description}
+                              </FieldDescription>
+                            </FieldContent>
+                          </Field>
+                        ))}
+                      </FieldGroup>
+                      {field.errors && (
+                        <FieldError
+                          errors={field.errors.map((message) => ({ message }))}
+                        />
+                      )}
+                    </FieldSet>
+                  )
+                }}
+              </FormischField>
+              <FieldSeparator />
+              <FormischField of={form} path={["emailNotifications"]}>
+                {(field) => (
+                  <Field
+                    orientation="horizontal"
+                    data-invalid={field.errors !== null}
+                  >
+                    <FieldContent>
+                      <FieldLabel htmlFor="form-formisch-complex-emailNotifications">
+                        Email Notifications
+                      </FieldLabel>
+                      <FieldDescription>
+                        Receive email updates about your subscription
+                      </FieldDescription>
+                    </FieldContent>
+                    <Switch
+                      id="form-formisch-complex-emailNotifications"
+                      isSelected={field.input ?? false}
+                      onChange={(checked: boolean) => field.onChange(checked)}
+                    />
+                    {field.errors && (
+                      <FieldError
+                        errors={field.errors.map((message) => ({ message }))}
+                      />
+                    )}
+                  </Field>
+                )}
+              </FormischField>
+            </FieldGroup>
+          </Form>
+        </CardContent>
+        <CardFooter sx={styles.cardFooter}>
+          <Field>
+            <Button type="submit" form="form-formisch-complex">
+              Save Preferences
+            </Button>
+            <Button type="button" variant="outline" onClick={() => reset(form)}>
+              Reset
+            </Button>
+          </Field>
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}

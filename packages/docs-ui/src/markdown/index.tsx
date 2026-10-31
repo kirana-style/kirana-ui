@@ -40,6 +40,7 @@ import { createCommentComponent } from "./comment-component.tsx"
 import type { CommentRegistry } from "./comment-component.tsx"
 import { InstallTabs } from "./install-tabs.tsx"
 import { ComponentCode } from "./component-code.tsx"
+import { DemoSource } from "./demo-source.tsx"
 import { Installation } from "./installation.tsx"
 import { MarkdownFrameworks } from "./frameworks.tsx"
 import { MarkdownPreview } from "./preview.tsx"
@@ -369,6 +370,7 @@ export function createMarkdownComponents(
       preview: MarkdownPreview as CommentRegistry[string],
       frameworks: MarkdownFrameworks as CommentRegistry[string],
       "component-code": ComponentCode as CommentRegistry[string],
+      "demo-source": DemoSource as CommentRegistry[string],
       installation: Installation as CommentRegistry[string],
       tabs: MarkdownTabs as unknown as CommentRegistry[string],
       steps: MarkdownSteps as unknown as CommentRegistry[string],

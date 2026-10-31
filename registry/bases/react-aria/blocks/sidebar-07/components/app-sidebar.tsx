@@ -53,7 +53,7 @@ const data = {
       name: "Evil Corp.",
       logo: (
         <IconPlaceholder
-          lucide="TerminalIcon"
+          lucide="CommandIcon"
           tabler="IconCommand"
           hugeicons="CommandIcon"
           phosphor="CommandIcon"

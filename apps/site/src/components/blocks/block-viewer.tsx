@@ -40,6 +40,8 @@ import {
 } from "@workspace/registry/bases/react-base/ui/tabs"
 import { Icon } from "@workspace/shell/icon"
 
+import { frameQuery } from "@/lib/page-design"
+
 /** The bases a block has: React's, since no block is on Ark UI yet. */
 const COMBINATIONS = ["react/base", "react/aria"]
 
@@ -196,7 +198,9 @@ export function BlockViewer({ block }: { block: Block }) {
   const [reload, setReload] = React.useState(0)
   const [dragging, setDragging] = React.useState(false)
   const stage = React.useRef<HTMLDivElement>(null)
-  const src = `/preview/${combination}/${block.name}`
+  // The page's own design (its green) while the reader has none saved, once hydrated.
+  const query = hydrated ? frameQuery() : ""
+  const src = `/preview/${combination}/${block.name}${query ? `?${query}` : ""}`
 
   const drag = (event: React.PointerEvent<HTMLDivElement>) => {
     const box = stage.current?.getBoundingClientRect()

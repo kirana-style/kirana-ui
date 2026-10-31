@@ -9,6 +9,7 @@ import {
   DESIGN_COOKIE,
   DESIGN_MESSAGE,
   applyDocumentAttributes,
+  cookieValue,
   documentAttributes,
   namesDesign,
   readPageDesign,
@@ -47,6 +48,49 @@ function frameOptions(frame: HTMLIFrameElement) {
   }
 }
 
+/**
+ * A page's own design for its frames while the reader has none of theirs (no design in the URL,
+ * none saved): the home page's showcase and the blocks in their page's hue (terracotta is Orange,
+ * the blocks' tea green is Green), AI Elements' and the utilities' demos in Rhea and the forms in
+ * Vega, the styles upstream shows them in.
+ * The page itself stays in the site's design; once the reader chooses one, every frame takes it.
+ */
+const FRAME_DEFAULTS: readonly {
+  path: RegExp
+  design: Partial<DesignSystem>
+}[] = [
+  { path: /^\/$/, design: { theme: "orange", chartColor: "orange" } },
+  { path: /^\/blocks(\/|$)/, design: { theme: "green", chartColor: "green" } },
+  { path: /^\/docs\/(ai-elements|utils)(\/|$)/, design: { style: "rhea" } },
+  { path: /^\/docs\/forms(\/|$)/, design: { style: "vega" } },
+]
+
+/** Whether the reader has a design of their own: the URL names one, or one is saved. */
+function hasOwnDesign() {
+  return (
+    namesDesign(new URLSearchParams(location.search)) ||
+    cookieValue(document.cookie, DESIGN_COOKIE) !== undefined
+  )
+}
+
+/** The design the page's frames show while the reader has none, if the page has its own. */
+function frameDefault(): DesignSystem | undefined {
+  const found = FRAME_DEFAULTS.find((entry) =>
+    entry.path.test(location.pathname)
+  )
+  return found ? resolveDesignSystem(found.design).system : undefined
+}
+
+/**
+ * The query a frame's address takes for the page's own design (`preset=…`), or `""`: in the
+ * browser only, once the page has hydrated, as every frame is created.
+ */
+export function frameQuery(): string {
+  if (typeof window === "undefined" || hasOwnDesign()) return ""
+  const design = frameDefault()
+  return design ? `preset=${encodePreset(design)}` : ""
+}
+
 /** Sends a design to every preview framed on the page, each with its own options. */
 function frameDesign(code: string) {
   for (const frame of document.querySelectorAll("iframe")) {
@@ -69,7 +113,9 @@ export function previewDesign(asked: DesignSystem | null) {
     document.documentElement,
     documentAttributes({ system, options: saved.options })
   )
-  frameDesign(encodePreset(system))
+  // Back from a picker's value, a frame shows the page's own design again if the reader has none.
+  const framed = asked || hasOwnDesign() ? system : (frameDefault() ?? system)
+  frameDesign(encodePreset(framed))
 }
 
 export function setDesign(asked: DesignSystem) {
