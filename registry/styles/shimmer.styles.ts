@@ -8,13 +8,14 @@
  * - `shimmerProperties`: the same declarations as an object, for a component that shimmers under a
  *   condition of its own (a running trace line, an uploading attachment's title).
  *
- * Its knobs are upstream's variables, set on the text: `--shimmer-color` (the highlight),
- * `--shimmer-duration` (one sweep, 2s), `--shimmer-spread` (the band, `calc(3ch + 40px)`) and
- * `--shimmer-angle` (its tilt, 20deg).
+ * Its knobs are tokens set on the text, upstream's variables (`shimmerCtx`): `color` (the
+ * highlight), `duration` (one sweep, 2s), `spread` (the band, `calc(3ch + 40px)`) and `angle` (its
+ * tilt, 20deg).
  */
-import { css, keyframes } from "@kirana-style/core"
+import { css, fallback, keyframes } from "@kirana-style/core"
 
 import { DARK_SCHEME, axes } from "../core/axes"
+import { shimmerCtx } from "../core/context"
 
 const sweep = keyframes({
   from: { backgroundPosition: "100% 0" },
@@ -22,17 +23,21 @@ const sweep = keyframes({
 })
 const REDUCED = "@media (prefers-reduced-motion: reduce)"
 
-const LIGHT =
-  "var(--shimmer-color, oklch(from currentColor l c h / calc(alpha * 0.2)))"
-const DARK =
-  "var(--shimmer-color, oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4)))"
-const HIGHLIGHT = "var(--_shimmer-highlight)"
-const SPREAD = "var(--shimmer-spread, calc(3ch + 40px))"
+const LIGHT = fallback(
+  shimmerCtx.color,
+  "oklch(from currentColor l c h / calc(alpha * 0.2))"
+)
+const DARK = fallback(
+  shimmerCtx.color,
+  "oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4))"
+)
+const HIGHLIGHT = shimmerCtx.highlight
+const SPREAD = fallback(shimmerCtx.spread, "calc(3ch + 40px)")
 const MIXED = `color-mix(in oklch, ${HIGHLIGHT}, currentColor 50%)`
-const GRADIENT = `linear-gradient(calc(90deg + var(--shimmer-angle, 20deg)), currentColor calc(50% - ${SPREAD}), ${MIXED} calc(50% - ${SPREAD} * 0.5), ${HIGHLIGHT} 50%, ${MIXED} calc(50% + ${SPREAD} * 0.5), currentColor calc(50% + ${SPREAD}))`
+const GRADIENT = `linear-gradient(calc(90deg + ${shimmerCtx.angle}), currentColor calc(50% - ${SPREAD}), ${MIXED} calc(50% - ${SPREAD} * 0.5), ${HIGHLIGHT} 50%, ${MIXED} calc(50% + ${SPREAD} * 0.5), currentColor calc(50% + ${SPREAD}))`
 
 export const shimmerProperties = {
-  "--_shimmer-highlight": {
+  [shimmerCtx.highlight]: {
     base: LIGHT,
     [DARK_SCHEME]: { base: DARK, [axes.mode.light]: LIGHT },
     [axes.mode.dark]: DARK,
@@ -45,7 +50,7 @@ export const shimmerProperties = {
   backgroundClip: "text",
   WebkitTextFillColor: { base: "transparent", [REDUCED]: "currentColor" },
   animationName: { base: sweep, [REDUCED]: "none" },
-  animationDuration: "var(--shimmer-duration, 2s)",
+  animationDuration: fallback(shimmerCtx.duration, "2s"),
   animationTimingFunction: "linear",
   animationIterationCount: "infinite",
   animationDirection: { base: "normal", ":dir(rtl)": "reverse" },

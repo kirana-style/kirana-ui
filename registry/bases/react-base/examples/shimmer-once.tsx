@@ -4,6 +4,7 @@ import { css } from "@kirana-style/core"
 import { Button } from "../ui/button"
 import { fontSize, lineHeight, space } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
+import { shimmerCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 import { shimmer, shimmerOnce } from "../../../styles/shimmer.styles"
 
@@ -19,7 +20,7 @@ const styles = {
     fontSize: fontSize.sm,
     lineHeight: lineHeight.sm,
     color: theme.mutedForeground,
-    "--shimmer-duration": "1100ms",
+    [shimmerCtx.duration]: "1100ms",
   }),
 }
 

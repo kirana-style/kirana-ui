@@ -2,6 +2,7 @@ import { css } from "@kirana-style/core"
 
 import { color, fontSize, lineHeight, space } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
+import { shimmerCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 import { shimmer } from "../../../styles/shimmer.styles"
 
@@ -18,10 +19,10 @@ const styles = {
   }),
   // `shimmer-color-blue-500/60`
   blue: css({
-    "--shimmer-color": `color-mix(in oklch, ${color.blue[500]} 60%, transparent)`,
+    [shimmerCtx.color]: `color-mix(in oklch, ${color.blue[500]} 60%, transparent)`,
   }),
   // `shimmer-color-[#378ADD]`
-  custom: css({ "--shimmer-color": "#378add" }),
+  custom: css({ [shimmerCtx.color]: "#378add" }),
 }
 
 export default function ShimmerColor() {

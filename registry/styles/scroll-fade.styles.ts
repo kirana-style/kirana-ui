@@ -13,24 +13,46 @@
  *
  * Each replaces the mask of one before it, so `[scrollFadeX, scrollFade]` fades the top and bottom.
  *
- * Its knobs are upstream's variables, set on the region: `--scroll-fade-size`, the depth
- * (`min(12%, 2.5rem)`); `--scroll-fade-t-size`, `-b-`, `-s-` and `-e-` for one edge; and
- * `--scroll-fade-reveal`, the distance scrolled while a fade eases in (6rem). Each edge's depth is a
- * registered variable (`scrollFadeCtx`), so it eases instead of jumping.
+ * Its knobs are tokens set on the region, upstream's variables (`scrollFadeCtx`): `size`, the depth
+ * (`min(12%, 2.5rem)`); `topSize`, `bottomSize`, `startSize` and `endSize` for one edge; and
+ * `reveal`, the distance scrolled while a fade eases in (6rem). Each edge's depth is a registered
+ * token too, so it eases instead of jumping.
  */
-import { css, keyframes } from "@kirana-style/core"
+import { css, fallback, keyframes } from "@kirana-style/core"
 
 import { scrollFadeCtx } from "../core/context"
 import { space } from "../core/scales"
 
 const { top, bottom, start, end } = scrollFadeCtx
 
-/** The fade's depth: `min(12%, calc(var(--spacing) * 10))`, unless the region sets its own. */
-const DEPTH = `var(--scroll-fade-size, min(12%, ${space[10]}))`
-const depth = (edge: "t" | "b" | "s" | "e") =>
-  `var(--scroll-fade-${edge}-size, ${DEPTH})`
+/**
+ * An edge's depth: its own size, else every edge's, else `min(12%, calc(var(--spacing) * 10))`.
+ */
+const DEPTH = {
+  t: fallback(
+    scrollFadeCtx.topSize,
+    scrollFadeCtx.size,
+    `min(12%, ${space[10]})`
+  ),
+  b: fallback(
+    scrollFadeCtx.bottomSize,
+    scrollFadeCtx.size,
+    `min(12%, ${space[10]})`
+  ),
+  s: fallback(
+    scrollFadeCtx.startSize,
+    scrollFadeCtx.size,
+    `min(12%, ${space[10]})`
+  ),
+  e: fallback(
+    scrollFadeCtx.endSize,
+    scrollFadeCtx.size,
+    `min(12%, ${space[10]})`
+  ),
+}
+const depth = (edge: keyof typeof DEPTH) => DEPTH[edge]
 /** How far the region scrolls while a fade eases in or out. */
-const REVEAL = `var(--scroll-fade-reveal, ${space[24]})`
+const REVEAL = fallback(scrollFadeCtx.reveal, space[24])
 
 const revealTop = keyframes({
   from: { [top]: "0px" },

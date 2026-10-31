@@ -9,6 +9,7 @@ import {
   space,
 } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
+import { shimmerCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 import { shimmer } from "../../../styles/shimmer.styles"
 
@@ -33,8 +34,8 @@ const styles = {
     lineHeight: lineHeight.xs,
   }),
   // `shimmer-spread-4` and `shimmer-spread-24`: the band on the spacing scale.
-  narrow: css({ "--shimmer-spread": space[4] }),
-  wide: css({ "--shimmer-spread": space[24] }),
+  narrow: css({ [shimmerCtx.spread]: space[4] }),
+  wide: css({ [shimmerCtx.spread]: space[24] }),
 }
 
 export default function ShimmerSpread() {
@@ -43,11 +44,11 @@ export default function ShimmerSpread() {
       <div sx={styles.grid}>
         <div sx={styles.example}>
           <p sx={[shimmer, styles.narrow]}>Generating response&hellip;</p>
-          <p sx={styles.caption}>--shimmer-spread: 1rem</p>
+          <p sx={styles.caption}>shimmerCtx.spread: 1rem</p>
         </div>
         <div sx={styles.example}>
           <p sx={[shimmer, styles.wide]}>Generating response&hellip;</p>
-          <p sx={styles.caption}>--shimmer-spread: 6rem</p>
+          <p sx={styles.caption}>shimmerCtx.spread: 6rem</p>
         </div>
       </div>
     </div>

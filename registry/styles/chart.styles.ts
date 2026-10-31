@@ -45,7 +45,7 @@ export const chart = {
     // entrance, which replays from the baseline: shown, they would flash at their final size
     // first. Only where scripts run and motion is allowed; otherwise the server's chart is the
     // chart.
-    [select.descendant('[class~="ts-chart__marks"]')]: {
+    [select.descendant(".ts-chart__marks")]: {
       visibility: {
         "@media (scripting: enabled) and (prefers-reduced-motion: no-preference)":
           { "[data-entering]": "hidden" },
@@ -56,8 +56,7 @@ export const chart = {
   // opacity, as upstream's `stroke-border/50`: TanStack Charts paints a grid at 0.11 by default.
   plot: css({
     width: "100%",
-    // KF-079: a class is written as its attribute, `[class~=…]`, in a contextual target.
-    [select.descendant('[class~="ts-chart__grid"]')]: { strokeOpacity: 1 },
+    [select.descendant(".ts-chart__grid")]: { strokeOpacity: 1 },
   }),
   // With a legend, Recharts' wrapper: the plot over the legend (or under it, `verticalAlign="top"`).
   withLegend: css({ display: "flex", flexDirection: "column", width: "100%" }),

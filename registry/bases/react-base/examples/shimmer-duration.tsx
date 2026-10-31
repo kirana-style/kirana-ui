@@ -9,6 +9,7 @@ import {
   space,
 } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
+import { shimmerCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 import { shimmer } from "../../../styles/shimmer.styles"
 
@@ -33,7 +34,7 @@ const styles = {
     lineHeight: lineHeight.xs,
   }),
   // `shimmer-duration-1000`
-  fast: css({ "--shimmer-duration": "1s" }),
+  fast: css({ [shimmerCtx.duration]: "1s" }),
 }
 
 export default function ShimmerDuration() {
@@ -46,7 +47,7 @@ export default function ShimmerDuration() {
         </div>
         <div sx={styles.example}>
           <p sx={[shimmer, styles.fast]}>Generating response&hellip;</p>
-          <p sx={styles.caption}>--shimmer-duration: 1s</p>
+          <p sx={styles.caption}>shimmerCtx.duration: 1s</p>
         </div>
       </div>
     </div>

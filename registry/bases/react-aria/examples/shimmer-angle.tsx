@@ -9,6 +9,7 @@ import {
   space,
 } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
+import { shimmerCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 import { shimmer } from "../../../styles/shimmer.styles"
 
@@ -33,7 +34,7 @@ const styles = {
     lineHeight: lineHeight.xs,
   }),
   // `shimmer-angle-45`
-  angle: css({ "--shimmer-angle": "45deg" }),
+  angle: css({ [shimmerCtx.angle]: "45deg" }),
 }
 
 export default function ShimmerAngle() {
@@ -46,7 +47,7 @@ export default function ShimmerAngle() {
         </div>
         <div sx={styles.example}>
           <p sx={[shimmer, styles.angle]}>Generating response&hellip;</p>
-          <p sx={styles.caption}>--shimmer-angle: 45deg</p>
+          <p sx={styles.caption}>shimmerCtx.angle: 45deg</p>
         </div>
       </div>
     </div>

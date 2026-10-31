@@ -103,13 +103,39 @@ export const calendarCtx = defineTokens(
 )
 
 /**
- * How deep a scrolling region fades at each edge (`styles/scroll-fade.styles.ts`): registered, so
- * the reveal its scrolling drives eases each from nothing to the fade's depth instead of jumping.
- * Each is the region's own (`inherits: false`), so a region inside another fades on its own.
+ * A scrolling region's fade (`styles/scroll-fade.styles.ts`). Its knobs, set on the region, are
+ * upstream's variables: `size` (`--scroll-fade-size`, every edge's depth), `topSize` …
+ * `endSize` (`--scroll-fade-t-size` …, one edge's), and `reveal` (`--scroll-fade-reveal`, how far
+ * the region scrolls while a fade eases in). Each starts unset and is read with `fallback()`, one
+ * edge's size, then every edge's, then upstream's default.
+ *
+ * `top` … `end` are the depth each edge is drawn at, registered so the reveal its scrolling drives
+ * eases them from nothing instead of jumping, and the region's own (`inherits: false`), so a region
+ * inside another fades on its own.
  */
 export const scrollFadeCtx = defineTokens("scrollFadeCtx", {
+  size: { syntax: "*" },
+  topSize: { syntax: "*" },
+  bottomSize: { syntax: "*" },
+  startSize: { syntax: "*" },
+  endSize: { syntax: "*" },
+  reveal: { syntax: "*" },
   top: { value: "0px", syntax: "<length-percentage>", inherits: false },
   bottom: { value: "0px", syntax: "<length-percentage>", inherits: false },
   start: { value: "0px", syntax: "<length-percentage>", inherits: false },
   end: { value: "0px", syntax: "<length-percentage>", inherits: false },
+})
+
+/**
+ * A shimmer's knobs (`styles/shimmer.styles.ts`), set on the text: upstream's `--shimmer-color`
+ * (the highlight), `--shimmer-duration` (one sweep), `--shimmer-spread` (the band's width), unset
+ * until set and read with `fallback()`, and `--shimmer-angle` (the band's tilt), registered at
+ * upstream's 20deg. `highlight` is the shimmer's own: the colour it sweeps, by scheme.
+ */
+export const shimmerCtx = defineTokens("shimmerCtx", {
+  color: { syntax: "*" },
+  duration: { syntax: "*" },
+  spread: { syntax: "*" },
+  angle: { value: "20deg", syntax: "<angle>" },
+  highlight: { syntax: "*" },
 })

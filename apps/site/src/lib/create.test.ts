@@ -9,6 +9,7 @@ import { encodePreset } from "@workspace/registry/core/preset"
 import {
   componentsJson,
   initCommand,
+  presetRun,
   itemOf,
   openPreset,
   shuffle,
@@ -60,6 +61,13 @@ describe("/create", () => {
     expect(command).toContain("--template vite-react my-app")
     expect(command).toContain("--framework react --base aria")
     expect(command).toContain(`--preset ${encodePreset(design)}`)
+    expect(command).not.toContain("--pointer")
+    expect(
+      initCommand(design, "vite-react", { pointer: true, rtl: true })
+    ).toContain("--pointer --rtl")
+    expect(presetRun(design, { rtl: true })).toBe(
+      `kirana-style ui preset ${encodePreset(design)} --rtl`
+    )
     expect(JSON.parse(componentsJson(design)).style).toBe("react-aria-lyra")
     expect(itemOf("dropdown-menu-demo")).toBe("dropdown-menu")
     expect(itemOf("sidebar-07")).toBe("sidebar-07")

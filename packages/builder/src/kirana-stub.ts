@@ -109,6 +109,11 @@ export function defineTokens<T extends Record<string, unknown>>(
   ) as T
 }
 
+/** A `var()` chain: one token, then the next, then a value (Kirana's `fallback()`). */
+export function fallback(...args: string[]): string {
+  return marker({ kind: "fallback", args })
+}
+
 export const media = (query: string) => `@media ${query}`
 export const container = (query: string, name?: string) =>
   name ? `@container ${name} ${query}` : `@container ${query}`

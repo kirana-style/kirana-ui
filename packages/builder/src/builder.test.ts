@@ -396,6 +396,45 @@ describe("writing a module", () => {
     expect(quote(":hover")).toBe('":hover"')
   })
 
+  it("writes a fallback() chain back as code, inside a template string too", () => {
+    const token = (key: string) =>
+      marker({ kind: "token", group: "scrollFadeCtx", key })
+    const chain = marker({
+      kind: "fallback",
+      args: [token("topSize"), token("size"), "min(12%, 2.5rem)"],
+    })
+    const handle: StyleHandle = {
+      kind: "style",
+      anchors: [],
+      styles: [{ paddingTop: chain, marginTop: `calc(${chain} * -1)` }],
+      site: { file: "", line: 0 },
+    }
+    const names = {
+      tokens: new Map([
+        [
+          "scrollFadeCtx",
+          { module: "context" as const, name: "scrollFadeCtx" },
+        ],
+      ]),
+      axes: new Map(),
+      relations: new Map(),
+    }
+    const { code } = generate({ fade: handle }, names, {
+      flatten: (h) => h,
+      flattenRecipe: (h) => h,
+      imports: (module) => `./${module}`,
+      header: "// test",
+      relationsFrom: (module) => ({ specifier: `./${module}`, own: false }),
+    })
+    expect(code).toContain('import { css, fallback } from "@kirana-style/core"')
+    expect(code).toContain(
+      'paddingTop: fallback(scrollFadeCtx.topSize, scrollFadeCtx.size, "min(12%, 2.5rem)")'
+    )
+    expect(code).toContain(
+      'marginTop: `calc(${fallback(scrollFadeCtx.topSize, scrollFadeCtx.size, "min(12%, 2.5rem)")} * -1)`'
+    )
+  })
+
   it("writes tokens, reads and targets back as code, with each css() line", () => {
     const handle: StyleHandle = {
       kind: "style",

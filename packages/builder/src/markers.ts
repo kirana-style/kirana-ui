@@ -20,6 +20,8 @@ export type Marker =
   | { kind: "anchor"; relation: string }
   | { kind: "target"; how: "child" | "descendant"; selector: string }
   | { kind: "keyframes"; id: string }
+  /** `fallback(token, …, value)`: each argument a token's marker, the last maybe a value. */
+  | { kind: "fallback"; args: string[] }
   | { kind: "state"; base: "base" | "aria" | "ark" | "ng"; key: string }
 
 export function marker(value: Marker): string {

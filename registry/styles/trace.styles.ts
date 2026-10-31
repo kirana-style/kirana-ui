@@ -7,7 +7,7 @@
 import { css, relation, select } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
-import { ctx } from "../core/context"
+import { ctx, shimmerCtx } from "../core/context"
 import { collapsiblePanel, when } from "../core/states"
 import {
   duration,
@@ -111,8 +111,8 @@ export const trace = {
     ...COLOURS,
     // `data-[status=running]:*:data-[slot=trace-title]:shimmer`
     [select.child('[data-slot="trace-title"]')]: {
-      "--_shimmer-highlight": {
-        '[data-status="running"]': shimmerProperties["--_shimmer-highlight"],
+      [shimmerCtx.highlight]: {
+        '[data-status="running"]': shimmerProperties[shimmerCtx.highlight],
       },
       backgroundImage: {
         '[data-status="running"]': shimmerProperties.backgroundImage,
