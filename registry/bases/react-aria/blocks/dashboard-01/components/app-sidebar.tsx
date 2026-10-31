@@ -46,7 +46,7 @@ const styles = {
 
 const data = {
   user: {
-    name: "shadcn",
+    name: "kirana",
     email: "m@example.com",
     avatar: "/avatars/kirana.png",
   },

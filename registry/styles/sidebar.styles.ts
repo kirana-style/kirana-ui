@@ -434,7 +434,8 @@ export const sidebar = {
   // `dark:bg-input/30` in the dark scheme; Input's fill is one `light-dark()` pair here, so the
   // sidebar's is too.
   input: css({
-    height: space[8],
+    // `h-8` in every style, over Input's own height in each.
+    height: { "*": null, base: space[8] },
     width: "100%",
     backgroundColor: {
       base: `light-dark(${theme.background}, ${alpha.input30})`,

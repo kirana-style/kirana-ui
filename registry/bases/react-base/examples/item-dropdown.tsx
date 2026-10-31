@@ -31,7 +31,7 @@ const styles = {
 
 const people = [
   {
-    username: "shadcn",
+    username: "kirana",
     avatar: "/avatars/kirana.png",
     email: "shadcn@vercel.com",
   },

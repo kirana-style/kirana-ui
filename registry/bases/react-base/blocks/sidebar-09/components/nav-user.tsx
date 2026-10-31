@@ -17,6 +17,7 @@ import {
   useSidebar,
 } from "../../../ui/sidebar"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
+import { axes } from "../../../../../core/axes"
 import { css, props as styleProps } from "@kirana-style/core"
 import { radius, theme } from "../../../../../core/tokens"
 import {
@@ -28,6 +29,23 @@ import {
   space,
 } from "../../../../../core/scales"
 
+/**
+ * Upstream's `md:h-8 md:p-0` and `px-2.5 md:px-2` are utilities, which beat the menu button's own
+ * size and padding in every style. Here the button's values sit under each style's condition, so
+ * the block's entries are given again under each style that sets its own.
+ */
+const overButton = <T extends object>(entries: T) => ({
+  ...entries,
+  [axes.style.maia]: entries,
+  [axes.style.luma]: entries,
+  [axes.style.rhea]: {
+    ...entries,
+    ":has(> svg:first-child)": entries,
+    ":has(> svg:last-child)": entries,
+  },
+  [axes.style.sera]: entries,
+})
+
 const styles = {
   // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the
   // picture, the fallback and the hairline take it too, which round themselves otherwise.
@@ -37,8 +55,10 @@ const styles = {
   }),
   avatarSquarePart: css({ borderRadius: { "*": null, base: radius.lg } }),
   sidebarMenuButton: css({
-    height: { [breakpoint.md]: space[8] },
-    padding: { [breakpoint.md]: space["0"] },
+    height: overButton({ [breakpoint.md]: space[8] }),
+    paddingBlock: overButton({ [breakpoint.md]: space["0"] }),
+    paddingInlineStart: overButton({ [breakpoint.md]: space["0"] }),
+    paddingInlineEnd: overButton({ [breakpoint.md]: space["0"] }),
     backgroundColor: { "[data-open]": theme.sidebarAccent },
     color: { "[data-open]": theme.sidebarAccentForeground },
   }),
