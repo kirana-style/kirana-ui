@@ -405,6 +405,14 @@
         "cn-attachment-trigger": "registry/styles/attachment.styles.ts#attachment.trigger"
       }
     },
+    "avatar-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/avatar-example.tsx": "sha256:78f6fb795d33ef90",
+        "apps/v4/registry/bases/aria/examples/avatar-example.tsx": "sha256:aeeefb4e49620691"
+      },
+      "hooks": {}
+    },
     "badge": {
       "ported": "481d523",
       "units": {
@@ -476,6 +484,14 @@
         "cn-badge-variant-outline": "registry/styles/badge.styles.ts#badge.outline",
         "cn-badge-variant-secondary": "registry/styles/badge.styles.ts#badge.secondary"
       }
+    },
+    "breadcrumb-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/breadcrumb-example.tsx": "sha256:3880b085f86ee868",
+        "apps/v4/registry/bases/aria/examples/breadcrumb-example.tsx": "sha256:5173f8682642fdff"
+      },
+      "hooks": {}
     },
     "bubble": {
       "ported": "481d523",
@@ -970,6 +986,14 @@
         "cn-card-title": "registry/styles/card.styles.ts#card.title",
         "cn-font-heading": "registry/styles/card.styles.ts#card.title"
       }
+    },
+    "card-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/card-example.tsx": "sha256:00daf26ba404d0bf",
+        "apps/v4/registry/bases/aria/examples/card-example.tsx": "sha256:8df73f6f5241bfa3"
+      },
+      "hooks": {}
     },
     "carousel": {
       "ported": "481d523",
@@ -1712,6 +1736,14 @@
         "cn-code-block-variant-destructive": "registry/styles/code-block.styles.ts#codeBlock.root"
       }
     },
+    "collapsible-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/collapsible-example.tsx": "sha256:dd365dedc98eea45",
+        "apps/v4/registry/bases/aria/examples/collapsible-example.tsx": "sha256:079b3d29d4e1aab6"
+      },
+      "hooks": {}
+    },
     "combobox": {
       "ported": "481d523",
       "units": {
@@ -2090,6 +2122,14 @@
         "cn-command-shortcut-aria": "registry/styles/command.styles.ts#command.shortcut"
       }
     },
+    "component-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/component-example.tsx": "sha256:3d6f2bef51863c37",
+        "apps/v4/registry/bases/aria/examples/component-example.tsx": "sha256:05e8e0b9cfbe3ccf"
+      },
+      "hooks": {}
+    },
     "context-menu": {
       "ported": "481d523",
       "units": {
@@ -2286,6 +2326,14 @@
         "apps/v4/registry/bases/aria/blocks/dashboard-01/components/site-header.tsx": "sha256:c07804ef0326847b",
         "apps/v4/registry/bases/aria/blocks/dashboard-01/data.json": "sha256:a8dcfbe6d014ab33",
         "apps/v4/registry/bases/aria/blocks/dashboard-01/page.tsx": "sha256:28420c500bae6f4d"
+      },
+      "hooks": {}
+    },
+    "demo": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/demo.tsx": "sha256:4c231dbbd89ae696",
+        "apps/v4/registry/bases/aria/examples/demo.tsx": "sha256:464e3f2efdc8c1e4"
       },
       "hooks": {}
     },
@@ -2898,6 +2946,14 @@
         "cn-field-title": "registry/styles/field.styles.ts#field.title"
       }
     },
+    "field-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/field-example.tsx": "sha256:54e279b7e55e513d",
+        "apps/v4/registry/bases/aria/examples/field-example.tsx": "sha256:4a49210516aae4b8"
+      },
+      "hooks": {}
+    },
     "hover-card": {
       "ported": "481d523",
       "units": {
@@ -2951,6 +3007,14 @@
       "hooks": {
         "cn-input": "registry/styles/input.styles.ts#input"
       }
+    },
+    "input-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/input-example.tsx": "sha256:f77f44d96b1f4e26",
+        "apps/v4/registry/bases/aria/examples/input-example.tsx": "sha256:48ab2a88429fb61a"
+      },
+      "hooks": {}
     },
     "input-group": {
       "ported": "481d523",
@@ -3393,6 +3457,14 @@
         "cn-label-aria": "registry/styles/label.styles.ts#label"
       }
     },
+    "label-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/label-example.tsx": "sha256:c20d97df90233246",
+        "apps/v4/registry/bases/aria/examples/label-example.tsx": "sha256:cf305435333a9c89"
+      },
+      "hooks": {}
+    },
     "login-01": {
       "ported": "481d523",
       "units": {
@@ -3774,6 +3846,14 @@
         "cn-message-scroller-item": "registry/styles/message-scroller.styles.ts#messageScroller.item",
         "cn-message-scroller-viewport": "registry/styles/message-scroller.styles.ts#messageScroller.viewport"
       }
+    },
+    "message-scroller-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/message-scroller-example.tsx": "sha256:43ab1c6161d424cb",
+        "apps/v4/registry/bases/aria/examples/message-scroller-example.tsx": "sha256:69ca1e6eacd252ca"
+      },
+      "hooks": {}
     },
     "native-select": {
       "ported": "481d523",
@@ -4719,6 +4799,22 @@
       },
       "hooks": {}
     },
+    "separator-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/separator-example.tsx": "sha256:88f72bb831d29263",
+        "apps/v4/registry/bases/aria/examples/separator-example.tsx": "sha256:c7c79964c2d69fbf"
+      },
+      "hooks": {}
+    },
+    "sheet-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/sheet-example.tsx": "sha256:380fc3aa16a97504",
+        "apps/v4/registry/bases/aria/examples/sheet-example.tsx": "sha256:d8d2fe3d978c14af"
+      },
+      "hooks": {}
+    },
     "sidebar-01": {
       "ported": "96da9cc",
       "units": {
@@ -4941,6 +5037,38 @@
       },
       "hooks": {}
     },
+    "sidebar-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/sidebar-example.tsx": "sha256:098cd742d7f8df6c",
+        "apps/v4/registry/bases/aria/examples/sidebar-example.tsx": "sha256:537ddb29a022610e"
+      },
+      "hooks": {}
+    },
+    "sidebar-floating-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/sidebar-floating-example.tsx": "sha256:db28dfe6a837858e",
+        "apps/v4/registry/bases/aria/examples/sidebar-floating-example.tsx": "sha256:2bc55e77ab87864a"
+      },
+      "hooks": {}
+    },
+    "sidebar-icon-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/sidebar-icon-example.tsx": "sha256:d908d0a6d481b1f4",
+        "apps/v4/registry/bases/aria/examples/sidebar-icon-example.tsx": "sha256:00da0a5e7ec607bd"
+      },
+      "hooks": {}
+    },
+    "sidebar-inset-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/sidebar-inset-example.tsx": "sha256:5e22f9ec066cf0f8",
+        "apps/v4/registry/bases/aria/examples/sidebar-inset-example.tsx": "sha256:835373665502b4bc"
+      },
+      "hooks": {}
+    },
     "signup-01": {
       "ported": "96da9cc",
       "units": {
@@ -4988,6 +5116,14 @@
         "apps/v4/registry/bases/base/blocks/signup-05/page.tsx": "sha256:9c5923c6bd4759b3",
         "apps/v4/registry/bases/aria/blocks/signup-05/components/signup-form.tsx": "sha256:22a576c99aab91b5",
         "apps/v4/registry/bases/aria/blocks/signup-05/page.tsx": "sha256:2b4fa1f13a25dc6d"
+      },
+      "hooks": {}
+    },
+    "skeleton-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/skeleton-example.tsx": "sha256:848b6c79fecadd25",
+        "apps/v4/registry/bases/aria/examples/skeleton-example.tsx": "sha256:f612b224d30bd9da"
       },
       "hooks": {}
     },
@@ -5437,6 +5573,14 @@
         "cn-toggle-group": "registry/styles/toggle-group.styles.ts#toggleGroup.root",
         "cn-toggle-group-item": "registry/styles/toggle-group.styles.ts#toggleGroup.item"
       }
+    },
+    "tooltip-example": {
+      "ported": "96da9cc",
+      "units": {
+        "apps/v4/registry/bases/base/examples/tooltip-example.tsx": "sha256:c60557bd5445d1f6",
+        "apps/v4/registry/bases/aria/examples/tooltip-example.tsx": "sha256:486fa3f6b86a2f46"
+      },
+      "hooks": {}
     },
     "trace": {
       "ported": "481d523",

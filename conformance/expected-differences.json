@@ -276,79 +276,79 @@
     {
       "element": "",
       "property": "text-align",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar(-floating|-icon|-inset)?-example",
       "reason": "a menu button's `start`, upstream's `text-left`: the same in left-to-right text, and what upstream's right-to-left install writes; what is inside the button inherits it"
     },
     {
       "element": "img[data-slot=\"avatar-image\"]",
       "property": "(element)",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar(-floating|-icon|-inset)?-example",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so the avatar shows its fallback"
     },
     {
       "element": "span[data-slot=\"avatar-fallback\"]",
       "property": "(element)",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar(-floating|-icon|-inset)?-example",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so the avatar shows its fallback"
     },
     {
       "element": "img[data-slot=\"avatar-image\"]",
       "property": "display",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "div[data-slot=\"avatar-fallback\"]",
       "property": "display",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "img[data-slot=\"avatar-image\"]",
       "property": "height",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "div[data-slot=\"avatar-fallback\"]",
       "property": "height",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "img[data-slot=\"avatar-image\"]",
       "property": "min-height",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "div[data-slot=\"avatar-fallback\"]",
       "property": "min-height",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "img[data-slot=\"avatar-image\"]",
       "property": "min-width",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "div[data-slot=\"avatar-fallback\"]",
       "property": "min-width",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "img[data-slot=\"avatar-image\"]",
       "property": "width",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
       "element": "div[data-slot=\"avatar-fallback\"]",
       "property": "width",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/(sidebar-07|sidebar(-floating|-icon|-inset)?-example)",
       "reason": "the block's `/avatars/shadcn.jpg` is a picture on upstream's site only; the site has none, so React Aria's avatar shows its fallback"
     },
     {
@@ -468,7 +468,7 @@
     {
       "element": "div[data-slot=\"field\"]",
       "property": "line-height",
-      "route": "(checkbox|radio-group|switch)-example",
+      "route": "(checkbox|radio-group|switch|field)-example",
       "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
     },
     {
@@ -480,19 +480,19 @@
     {
       "element": "label[data-slot=\"checkbox",
       "property": "line-height",
-      "route": "checkbox-example",
+      "route": "(checkbox|field)-example",
       "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
     },
     {
       "element": "span[data-slot=\"radio-group",
       "property": "line-height",
-      "route": "radio-group-example",
+      "route": "(radio-group|field)-example",
       "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
     },
     {
       "element": "label[data-slot=\"radio-group",
       "property": "line-height",
-      "route": "radio-group-example",
+      "route": "(radio-group|field)-example",
       "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
     },
     {
@@ -510,31 +510,31 @@
     {
       "element": "div[data-slot=\"radio-group\"]",
       "property": "height",
-      "route": "radio-group-example",
+      "route": "(radio-group|field)-example",
       "reason": "follows FieldLabel's line height, which sets the row's height beside a checkbox, radio or switch"
     },
     {
       "element": "div[data-slot=\"radio-group\"]",
       "property": "grid-template-rows",
-      "route": "radio-group-example",
+      "route": "(radio-group|field)-example",
       "reason": "follows FieldLabel's line height, which sets the row's height beside a checkbox, radio or switch"
     },
     {
       "element": "fieldset[data-slot=\"field-set\"]",
       "property": "height",
-      "route": "radio-group-example",
+      "route": "(radio-group|field)-example",
       "reason": "follows FieldLabel's line height, which sets the row's height beside a checkbox, radio or switch"
     },
     {
       "element": "div[data-slot=\"example",
       "property": "height",
-      "route": "(checkbox|radio-group|switch|textarea|combobox)-example",
+      "route": "(checkbox|radio-group|switch|textarea|combobox|field|input|card)-example",
       "reason": "follows FieldLabel's line height"
     },
     {
       "element": "div[data-slot=\"example-wrapper\"]",
       "property": "grid-template-rows",
-      "route": "(checkbox|radio-group|switch|textarea|combobox)-example",
+      "route": "(checkbox|radio-group|switch|textarea|combobox|field|input|card)-example",
       "reason": "follows FieldLabel's line height"
     },
     {
@@ -636,13 +636,13 @@
     {
       "element": "button[data-slot=\"toggle",
       "property": "line-height",
-      "route": "toggle(-group)?-example\\?preset=(b0|b1D0dv72)",
+      "route": "(toggle(-group)?|card)-example\\?preset=(b0|b1D0dv72)",
       "reason": "Nova's and Mira's small toggle: upstream's site keeps text-sm's line height under text-[0.8rem] (Mira's text-xs/relaxed under text-[0.625rem]), its installed copy loses it to cn; the registry follows the install, as Button's"
     },
     {
       "element": "button[data-slot=\"toggle",
       "property": "background-color",
-      "route": "/aria/toggle(-group)?-example",
+      "route": "/aria/(toggle(-group)?|card)-example",
       "reason": "upstream's bug: its React Aria toggle's `data-selected:bg-muted` loses to every variant's `bg-transparent`, so a selected toggle never shows it; ours is muted when selected, as Base UI's pressed toggle is upstream"
     },
     {
@@ -838,38 +838,50 @@
     {
       "element": "button[data-slot=\"popover-trigger\"]",
       "property": "(element)",
-      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
       "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
     },
     {
       "element": "button[data-slot=\"hover-card-trigger\"]",
       "property": "(element)",
-      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
       "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
     },
     {
       "element": "button[data-slot=\"dialog-trigger\"]",
       "property": "(element)",
-      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
       "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
     },
     {
       "element": "button[data-slot=\"alert-dialog-trigger\"]",
       "property": "(element)",
-      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
       "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
     },
     {
       "element": "button[data-slot=\"button\"]",
       "property": "(element)",
-      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
       "reason": "the same element as the trigger, named by the trigger's `data-slot` (Base UI 1.9)"
     },
     {
       "element": "(page)",
       "property": "(state)",
-      "route": "/base/(popover|hover-card|alert-dialog)-example",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
       "reason": "the dialog's trigger is named by its own `data-slot` (Base UI 1.9), where upstream's is the rendered Button's, so only one site finds it by name"
+    },
+    {
+      "element": "button[data-slot=\"sheet-trigger\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "(element)",
+      "route": "/base/(popover|hover-card|alert-dialog|sheet|breadcrumb)-example",
+      "reason": "Base UI 1.9 keeps the trigger's own `data-slot` over the rendered Button's, where upstream's 1.6 took the Button's: the same element"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
@@ -1341,6 +1353,54 @@
       "property": "grid-template-rows",
       "route": "/preview-02\\?preset=b1oVxsfY",
       "reason": "follows Sera's Label line height (the label entry): the registry follows upstream's install"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "width",
+      "route": "collapsible-example",
+      "reason": "upstream's `sr-only` on a FieldLabel loses its width to the label's own `w-fit` in its stylesheet, so its clipped label measures its text; ours is `sr-only` throughout. Hidden either way"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "right",
+      "route": "collapsible-example",
+      "reason": "upstream's `sr-only` on a FieldLabel loses its width to the label's own `w-fit` in its stylesheet, so its clipped label measures its text; ours is `sr-only` throughout. Hidden either way"
+    },
+    {
+      "element": "span[data-slot=\"checkbox\"]",
+      "property": "line-height",
+      "route": "field-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "div[data-slot=\"card\"]",
+      "property": "height",
+      "route": "card-example",
+      "reason": "follows FieldLabel's line height (the login form's labels)"
+    },
+    {
+      "element": "div[data-slot=\"card-content\"]",
+      "property": "height",
+      "route": "card-example",
+      "reason": "follows FieldLabel's line height (the login form's labels)"
+    },
+    {
+      "element": "span[data-slot=\"checkbox-indicator\"]",
+      "property": "line-height",
+      "route": "field-example",
+      "reason": "follows FieldLabel's line height, which the controls and fields inside a choice card inherit"
+    },
+    {
+      "element": "label[data-slot=\"field-label\"]",
+      "property": "bottom",
+      "route": "collapsible-example",
+      "reason": "upstream's `sr-only` on a FieldLabel loses its width to the label's own `w-fit` in its stylesheet, so its clipped label measures its text; ours is `sr-only` throughout. Hidden either way"
+    },
+    {
+      "element": "div[data-slot=\"collapsible-content\"]",
+      "property": "grid-template-rows",
+      "route": "/aria/collapsible-example",
+      "reason": "a closed panel, hidden until found and 0px tall on both sites: upstream's site resolves its subgrid's rows, ours resolves `none`; nothing of it shows, and opened the two lay out alike"
     }
   ]
 }

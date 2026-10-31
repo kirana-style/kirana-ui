@@ -430,12 +430,16 @@ export const sidebar = {
     },
   }),
 
-  // cn-sidebar-input, over Input's own look.
+  // cn-sidebar-input, over Input's own look. Upstream's `bg-background` loses to Input's
+  // `dark:bg-input/30` in the dark scheme; Input's fill is one `light-dark()` pair here, so the
+  // sidebar's is too.
   input: css({
     height: space[8],
     width: "100%",
     backgroundColor: {
-      base: theme.background,
+      base: `light-dark(${theme.background}, ${alpha.input30})`,
+      // Maia's Input fills with `bg-input/30` in both schemes, which the background replaces.
+      [maia]: theme.background,
       [mira]: surface.mutedSoft,
       [luma]: alpha.input50,
       [rhea]: alpha.input50,
