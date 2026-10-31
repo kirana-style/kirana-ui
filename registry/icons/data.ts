@@ -226,6 +226,11 @@ import {
   Route01Icon,
   TaskDone01Icon,
   TestTube01Icon,
+  Home01Icon,
+  ShoppingBag01Icon,
+  StopCircleIcon,
+  SunIcon,
+  TextCheckIcon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -435,6 +440,10 @@ import {
   ListChecks,
   ListTodo,
   Route,
+  Captions,
+  MoreVertical,
+  ShoppingBag,
+  StopCircle,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -701,6 +710,13 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       ListChecksIcon: ListChecks,
       ListTodoIcon: ListTodo,
       RouteIcon: Route,
+      BookOpen,
+      CaptionsIcon: Captions,
+      LifeBuoy,
+      MoreVerticalIcon: MoreVertical,
+      Send,
+      ShoppingBagIcon: ShoppingBag,
+      StopCircleIcon: StopCircle,
     },
   },
   hugeicons: {
@@ -924,6 +940,11 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       Route01Icon,
       TaskDone01Icon,
       TestTube01Icon,
+      Home01Icon,
+      ShoppingBag01Icon,
+      StopCircleIcon,
+      SunIcon,
+      TextCheckIcon,
     },
   },
 }

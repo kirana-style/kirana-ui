@@ -102,7 +102,8 @@ function portedItems(upstream: Upstream, ref: string): Ported[] {
   const examples = readdirSync(
     join(REGISTRY, "bases", "react-base", "examples")
   )
-    .filter((file) => file.endsWith("-example.tsx"))
+    // The `-example` pages, and `demo`, upstream's page of every control that its v0 export opens.
+    .filter((file) => file.endsWith("-example.tsx") || file === "demo.tsx")
     .map((file): Ported => ({
       name: file.replace(/\.tsx$/, ""),
       kind: "example",
