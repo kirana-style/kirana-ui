@@ -300,6 +300,7 @@ export const FOOTER: readonly {
     title: "Library",
     links: [
       { label: "Components", href: "/docs/components" },
+      { label: "AI Elements", href: "/docs/ai-elements" },
       { label: "Blocks", href: "/blocks" },
       { label: "Charts", href: "/charts" },
       { label: "Colors", href: "/colors" },

@@ -21,7 +21,8 @@ import { lazyPlugins } from "vite-plus"
  *   deploying. `prerender`: `vite build` renders every page it can reach from `/` into the static
  *   files, which are served without running the server; `pages` adds paths no link reaches, and
  *   `elsewhere` names the path prefixes another build writes into the same static files (a
- *   preview app's), which the crawl leaves alone.
+ *   preview app's), which the crawl leaves alone, as it leaves the `.md` and `.txt` files the app
+ *   writes itself.
  *   `plugins`: the app's own, ahead of Kirana's.
  * @returns {import("vite").UserConfigFnObject}
  */
@@ -54,7 +55,11 @@ export function defineAppConfig(options = {}) {
                 enabled: true,
                 crawlLinks: true,
                 failOnError: true,
+                // A static file the app writes itself (a docs page's markdown twin, `llms.txt`)
+                // is copied as it is: crawled, its text would be read for links, the relative
+                // links in its code samples included.
                 filter: (/** @type {{ path: string }} */ { path }) =>
+                  !/\.(md|txt)$/.test(path.split(/[?#]/)[0] ?? path) &&
                   !(options.elsewhere ?? []).some((prefix) =>
                     path.startsWith(prefix)
                   ),

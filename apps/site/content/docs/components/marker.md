@@ -77,13 +77,13 @@ Give `MarkerContent` a shimmer, a highlight sweeping across the text, for an ani
 
 <!-- ::start:only react/base -->
 
-Use the `separator` variant for labeled dividers, such as dates or section breaks, in a conversation. A checkpoint is a separator with a button that restores the thread to that point.
+Use the `separator` variant for labeled dividers, such as dates or section breaks, in a conversation. A [Checkpoint](/docs/ai-elements/checkpoint) is a separator with a button that restores the thread to that point.
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-Use the `separator` variant for labeled dividers, such as dates or section breaks, in a conversation. A checkpoint is a separator with a button that restores the thread to that point.
+Use the `separator` variant for labeled dividers, such as dates or section breaks, in a conversation. A [Checkpoint](/docs/ai-elements/checkpoint) is a separator with a button that restores the thread to that point.
 
 <!-- ::end:only -->
 

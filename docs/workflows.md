@@ -99,6 +99,13 @@ Concretely, for a component that arrives as Tailwind:
    `new: true` in its front matter is in its New Components list and carries
    the sidebar's blue dot.
 
+   An AI Elements pattern is written the same way, in
+   `apps/site/content/docs/ai-elements/<pattern>.md` with `section: ai-elements`: its demos ported
+   as a component's, its `variants` the React bases that have every demo it previews (the
+   generator checks), and its Installation naming the components it is built from, the first
+   its own (`name="trace code-block"`). The section's index lists it by itself
+   (`<!-- ::section-cards section="ai-elements" -->`).
+
    A chat demo streams a scripted conversation as upstream's do, with
    `@shadcn/helpers/ai-sdk`'s `createChat` and the AI SDK's `useChat`
    (`registry/lib/ai.ts`, upstream's `@/lib/ai`): no model and no network.

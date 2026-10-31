@@ -518,9 +518,25 @@ has a canonical link to itself. The sidebar, search, the pager and `llms.txt` li
 by the URL its variants share, `/docs/components/<item>`, which `DocsLink` sends to the reader's
 framework (the page's, else their choice, else React with Base UI) and which answers with a 301 to
 React with Base UI, as shadcn/ui's does to its Base UI page. Each variant has its markdown twin,
-whose header names the framework and links the others. A component without an upstream demo the registry can draw shows
+whose header names the framework and links the others, and the shared URL has the default
+variant's. A component without an upstream demo the registry can draw shows
 another item's (Label the Card's, Field the Input's, Sidebar `sidebar-07`). A demo's frame
 (`page.example`) is upstream's preview frame: the demo centred, filling its own width.
+
+The AI Elements (`/docs/ai-elements`, a section and a docs tab of its own after Components) are
+upstream's 21 patterns for agentic interfaces, each a page from one source,
+`apps/site/content/docs/ai-elements/<pattern>.md`, published per variant as a component's is
+(`/docs/ai-elements/react/base/reasoning`). A pattern has no registry item: its variants are
+React's bases that have every demo the page previews (`patternMarkup` in the content generator),
+its demos are the registry's examples (`reasoning-demo` …), and its Installation names the
+components it is built from, `<!-- ::installation name="trace code-block" -->`: the command adds
+them all, Manual copies the first and lists the others. The index lists the patterns as cards,
+`<!-- ::section-cards section="ai-elements" -->` (docs-ui's `section-cards.tsx`, from the nav).
+A sample on these pages writes upstream's classes as `sx` with their `css()` above it, and an
+icon's style through `styleProps`, since an installed icon component reads no `sx`. The chat
+demos render a reply with `components/markdown.tsx` (upstream's `@/components/markdown`, on
+TanStack Markdown in place of Streamdown, with Streamdown's element styles) and stream scripted
+turns with `@shadcn/helpers`' `createChat`.
 
 ## The preview pages
 
