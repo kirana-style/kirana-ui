@@ -446,8 +446,9 @@ dialog loaded on first open. The home page is upstream's: the hero, its two call
 Started, New Project), and the showcase (`components/showcase/`): each framework's preview app's
 showcase page in a frame (`/preview/<framework>/<base>/showcase`), which takes the design as every
 framed preview does. React's is upstream's home (`apps/preview-react/src/showcase.tsx`, upstream's
-`(root)/cards`): every card, drawn by the registry's `preview` and `preview-02` blocks and Message
-Scroller's demo, in upstream's columns (two from `md`, three from `lg`, four from 1400 px, five
+`(root)/cards`): every card, ported from that folder into `apps/preview-react/src/showcase-cards/`
+(upstream's lighter copies of the `preview` and `preview-02` blocks' cards: one Savings Targets card,
+a drawn Analytics trend) on Base UI, and Message Scroller's demo, in upstream's columns (two from `md`, three from `lg`, four from 1400 px, five
 from 1900 px), and from 2200 px, where upstream's skeleton rails go on to the page's edges, the
 same cards themselves at half strength, out of reach. The other frameworks' have the cards they
 can draw with the components they have, laid out by `registry/styles/showcase.styles.ts`.

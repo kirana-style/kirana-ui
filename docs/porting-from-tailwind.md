@@ -229,6 +229,22 @@ the physical sides, which sit beside the logical ones instead of replacing them
 (the compiler warns with `mixed-logical-physical`). Before writing a shorthand over a component's style,
 look at which longhands it set.
 
+A block shorthand does not yet drop a component's block longhands: Card sets
+`paddingTop` and `paddingBottom`, and `paddingBlock: { "*": null, base: 0 }` on
+a Card leaves Card's 16px in place, where `padding: { "*": null, base: 0 }`
+removes them. Name the longhands the component sets (`paddingTop`,
+`paddingBottom`), each with `"*": null`.
+
+### A utility outranked every style's class
+
+Upstream's styles are classes (`cn-sidebar-menu-button`) in a layer under the
+utilities, so a block's `md:p-0` beat the button's padding in every style.
+Here a style's value sits under that style's condition (`[maia]: …`), which
+ranks above a plain `[breakpoint.md]` entry. Give the entry again under each
+style that sets its own (`{ [md]: 0, [axes.style.maia]: { [md]: 0 }, … }`),
+as `sidebar-09`'s `overButton` does, and check the block in every style, not
+only Nova.
+
 A `px-*` in `sx` also replaces a Button's icon-side padding, which in Tailwind
 was a `has-*` variant that outranked the caller's utility and survived. Restate
 it: `{ base: spacing["2.5"], ':has([data-icon="inline-start"])': spacing[2] }`.

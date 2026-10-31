@@ -1,8 +1,8 @@
 /**
  * The home page's showcase in React (`/preview/react/base/showcase`), which the home page frames
  * as it frames every framework's: upstream's home (`app/(app)/(root)/cards`, `CardsDemo`), its
- * cards drawn by the registry's `preview` and `preview-02` blocks and its chat by Message
- * Scroller's demo, in the same columns, each shown from the width upstream's is. Where the page is
+ * cards ported from that folder (`showcase-cards/`, upstream's lighter copies of the `preview`
+ * and `preview-02` blocks' cards, on Base UI) and its chat by Message Scroller's demo, in the same columns, each shown from the width upstream's is. Where the page is
  * wider than the grid, upstream goes on in skeleton cards at half strength; here the rails are the
  * same cards themselves, dimmed and out of reach.
  */
@@ -10,22 +10,22 @@ import { css, select } from "@kirana-style/core"
 
 import { breakpoint, space } from "@workspace/registry/core/scales"
 import { theme } from "@workspace/registry/core/tokens"
-import { AnalyticsCard } from "@workspace/registry/bases/react-base/blocks/preview/cards/analytics-card"
-import { UIElements } from "@workspace/registry/bases/react-base/blocks/preview/cards/ui-elements"
-import { AccountAccess } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/account-access"
-import { ClaimableBalance } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/claimable-balance"
-import { ContributionHistory } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/contribution-history"
-import { DividendIncome } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/dividend-income"
-import { EmptyDistributeTrack } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/empty-distribute-track"
-import { NewMilestone } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/new-milestone"
-import { NotificationSettings } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/notification-settings"
-import { Payments } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/payments"
-import { PayoutThreshold } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/payout-threshold"
-import { PowerUsage } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/power-usage"
-import { QrConnect } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/qr-connect"
-import { SavingsTargets } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/savings-targets"
-import { SidebarNav } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/sidebar-nav"
-import { TransferFunds } from "@workspace/registry/bases/react-base/blocks/preview-02/cards/transfer-funds"
+import { AnalyticsCard } from "./showcase-cards/analytics-card"
+import { UIElements } from "./showcase-cards/ui-elements"
+import { AccountAccess } from "./showcase-cards/account-access"
+import { ClaimableBalance } from "./showcase-cards/claimable-balance"
+import { ContributionHistory } from "./showcase-cards/contribution-history"
+import { DividendIncome } from "./showcase-cards/dividend-income"
+import { EmptyDistributeTrack } from "./showcase-cards/empty-distribute-track"
+import { NewMilestone } from "./showcase-cards/new-milestone"
+import { NotificationSettings } from "./showcase-cards/notification-settings"
+import { Payments } from "./showcase-cards/payments"
+import { PayoutThreshold } from "./showcase-cards/payout-threshold"
+import { PowerUsage } from "./showcase-cards/power-usage"
+import { QrConnect } from "./showcase-cards/qr-connect"
+import { SavingsTargets } from "./showcase-cards/savings-targets"
+import { SidebarNav } from "./showcase-cards/sidebar-nav"
+import { TransferFunds } from "./showcase-cards/transfer-funds"
 import MessageScrollerDemo from "@workspace/registry/bases/react-base/examples/message-scroller-demo"
 
 /** Upstream's `--gap`: 1.5rem from `lg`, 2.5rem from 1900px. */

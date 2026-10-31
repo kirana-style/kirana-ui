@@ -36,11 +36,12 @@ const styles = {
     paddingInlineEnd: `calc(${spacing["1.5"]} - 1px)`,
     color: { base: theme.mutedForeground, ":hover": theme.foreground },
   }),
+  // Over Kbd's own values in every style, which are under the style's conditions.
   key: css({
-    width: { base: spacing[5], [pointer.coarse]: spacing[8] },
-    height: { base: spacing[5], [pointer.coarse]: spacing[8] },
-    paddingInline: 0,
-    borderRadius: radius.full,
+    width: { "*": null, base: spacing[5], [pointer.coarse]: spacing[8] },
+    height: { "*": null, base: spacing[5], [pointer.coarse]: spacing[8] },
+    paddingInline: { "*": null, base: 0 },
+    borderRadius: { "*": null, base: radius.full },
   }),
   // One per mode; the one `<html data-mode>` names shows.
   mode: css({ display: "none", alignItems: "center", gap: spacing[2] }),

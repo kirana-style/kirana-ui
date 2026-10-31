@@ -276,7 +276,7 @@
     {
       "element": "",
       "property": "text-align",
-      "route": "sidebar-07|sidebar(-floating|-icon|-inset)?-example",
+      "route": "sidebar-(0[125679]|16)|sidebar(-floating|-icon|-inset)?-example",
       "reason": "a menu button's `start`, upstream's `text-left`: the same in left-to-right text, and what upstream's right-to-left install writes; what is inside the button inherits it"
     },
     {
@@ -456,13 +456,13 @@
     {
       "element": "div[data-slot=\"separator\"]",
       "property": "height",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/sidebar-(0[125679]|16)",
       "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
     },
     {
       "element": "div[data-slot=\"separator\"]",
       "property": "align-self",
-      "route": "/aria/sidebar-07",
+      "route": "/aria/sidebar-(0[125679]|16)",
       "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
     },
     {
@@ -1401,6 +1401,150 @@
       "property": "grid-template-rows",
       "route": "/aria/collapsible-example",
       "reason": "a closed panel, hidden until found and 0px tall on both sites: upstream's site resolves its subgrid's rows, ours resolves `none`; nothing of it shows, and opened the two lay out alike"
+    },
+    {
+      "element": "div[data-slot=\"sidebar-inner\"]",
+      "property": "flex-direction",
+      "route": "sidebar-09",
+      "reason": "the two inner sidebars sit in a row of their own: upstream's `*:data-[sidebar=sidebar]:flex-row` cannot beat the inner sidebar's column here, so the row is a wrapper; the two sidebars are drawn in the same places"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "span[data-slot=\"avatar\"]",
+      "property": "::after border-top-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar\"]",
+      "property": "::after border-top-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "height",
+      "route": "sidebar-09\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry): the registry follows upstream's install"
+    },
+    {
+      "element": "span[data-slot=\"switch\"]",
+      "property": "line-height",
+      "route": "sidebar-09\\?preset=b1oVxsfY",
+      "reason": "inherited from Sera's Label, which holds the switch (the label entry)"
+    },
+    {
+      "element": "label[data-slot=\"switch\"]",
+      "property": "line-height",
+      "route": "sidebar-09\\?preset=b1oVxsfY",
+      "reason": "inherited from Sera's Label, which holds the switch (the label entry)"
+    },
+    {
+      "element": "span[data-slot=\"switch-thumb\"]",
+      "property": "line-height",
+      "route": "sidebar-09\\?preset=b1oVxsfY",
+      "reason": "inherited from Sera's Label, which holds the switch (the label entry)"
+    },
+    {
+      "element": "span[data-slot=\"avatar\"]",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "span[data-slot=\"avatar\"]",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "span[data-slot=\"avatar\"]",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "span[data-slot=\"avatar\"]",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar\"]",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar\"]",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar\"]",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar\"]",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"avatar-fallback\"]",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(09|16)",
+      "reason": "the block's `rounded-lg` avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the picture and the hairline take the corner; upstream's site rounds them fully under Avatar's own `rounded-full`"
+    },
+    {
+      "element": "div[data-slot=\"card\"]",
+      "property": "box-shadow",
+      "route": "sidebar-06",
+      "reason": "the card's `shadow-none`: `none` here, upstream's transparent shadow and ring layers there; neither draws anything"
     }
   ]
 }

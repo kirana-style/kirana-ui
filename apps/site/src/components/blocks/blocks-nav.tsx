@@ -25,10 +25,12 @@ const styles = {
     display: "flex",
     alignItems: "center",
     height: space[7],
-    paddingInline: space[4],
+    paddingInline: space[3],
     whiteSpace: "nowrap",
-    fontSize: fontSize.base,
-    lineHeight: lineHeight.base,
+    // Upstream's `text-base`, one step down here: the site's header menu is `text-sm`, and the
+    // page's own row should not outweigh it.
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
     fontWeight: fontWeight.medium,
     textDecorationLine: "none",
     color: {

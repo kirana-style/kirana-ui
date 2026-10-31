@@ -19,6 +19,7 @@ import {
 } from "../../../ui/sidebar"
 import { Switch } from "../../../ui/switch"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
+import { axes } from "../../../../../core/axes"
 import { css, props as styleProps } from "@kirana-style/core"
 import { sidebarCtx } from "../../../../../core/context"
 import { radius, theme } from "../../../../../core/tokens"
@@ -30,6 +31,23 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
+
+/**
+ * Upstream's `md:h-8 md:p-0` and `px-2.5 md:px-2` are utilities, which beat the menu button's own
+ * size and padding in every style. Here the button's values sit under each style's condition, so
+ * the block's entries are given again under each style that sets its own.
+ */
+const overButton = <T extends object>(entries: T) => ({
+  ...entries,
+  [axes.style.maia]: entries,
+  [axes.style.luma]: entries,
+  [axes.style.rhea]: {
+    ...entries,
+    ":has(> svg:first-child)": entries,
+    ":has(> svg:last-child)": entries,
+  },
+  [axes.style.sera]: entries,
+})
 
 const styles = {
   appSidebarSidebar: css({
@@ -51,8 +69,10 @@ const styles = {
     borderStyle: { "*": null, base: "solid" },
   }),
   sidebarMenuButton: css({
-    height: { [breakpoint.md]: space[8] },
-    padding: { [breakpoint.md]: space["0"] },
+    height: overButton({ [breakpoint.md]: space[8] }),
+    paddingBlock: overButton({ [breakpoint.md]: space["0"] }),
+    paddingInlineStart: overButton({ [breakpoint.md]: space["0"] }),
+    paddingInlineEnd: overButton({ [breakpoint.md]: space["0"] }),
   }),
   appSidebarDiv: css({
     display: "flex",
@@ -97,7 +117,14 @@ const styles = {
     },
   }),
   sidebarMenuButton2: css({
-    paddingInline: { base: space["2.5"], [breakpoint.md]: space[2] },
+    paddingInlineStart: overButton({
+      base: space["2.5"],
+      [breakpoint.md]: space[2],
+    }),
+    paddingInlineEnd: overButton({
+      base: space["2.5"],
+      [breakpoint.md]: space[2],
+    }),
   }),
   sidebar3: css({
     display: { "*": null, base: "none", [breakpoint.md]: "flex" },
@@ -129,8 +156,9 @@ const styles = {
     gap: { "*": null, base: space[2] },
     fontSize: { "*": null, base: fontSize.sm },
   }),
+  // `shadow-none`: Vega's switch casts a shadow under its own condition; the focus ring stays.
   appSidebarSwitch: css({
-    boxShadow: "none",
+    boxShadow: { base: "none", [axes.style.vega]: "none" },
   }),
   sidebarGroup: css({
     paddingInline: { "*": null, base: space["0"] },
@@ -180,7 +208,7 @@ const styles = {
 // This is sample data
 const data = {
   user: {
-    name: "shadcn",
+    name: "kirana",
     email: "m@example.com",
     avatar: "/avatars/kirana.png",
   },

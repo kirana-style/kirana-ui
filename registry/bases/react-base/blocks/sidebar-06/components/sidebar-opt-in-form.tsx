@@ -15,9 +15,12 @@ import { fontSize, lineHeight, space } from "../../../../../core/scales"
 const styles = {
   sidebarOptInFormCard: css({
     gap: { "*": null, base: space[2] },
-    paddingBlock: { "*": null, base: space[4] },
-
-    boxShadow: "none",
+    // Longhands: Card sets `paddingTop` and `paddingBottom`, which a `paddingBlock` loses to
+    // (KF-083, open on 0.3.6).
+    paddingTop: { "*": null, base: space[4] },
+    paddingBottom: { "*": null, base: space[4] },
+    // `shadow-none`, over the ring Card draws in Vega, Luma, Rhea and Sera.
+    boxShadow: { "*": null, base: "none" },
   }),
   cardHeader: css({
     paddingInline: { "*": null, base: space[4] },
