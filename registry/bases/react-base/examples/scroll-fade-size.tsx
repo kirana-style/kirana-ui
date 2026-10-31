@@ -8,6 +8,7 @@ import {
   space,
 } from "../../../core/scales"
 import { radius, theme } from "../../../core/tokens"
+import { scrollFadeCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 import { scrollFade } from "../../../styles/scroll-fade.styles"
 
@@ -34,8 +35,8 @@ const styles = {
     overflowY: "auto",
   }),
   // `scroll-fade-4` and `scroll-fade-24`: the fade's depth on the spacing scale.
-  shallow: css({ "--scroll-fade-size": space[4] }),
-  deep: css({ "--scroll-fade-size": space[24] }),
+  shallow: css({ [scrollFadeCtx.size]: space[4] }),
+  deep: css({ [scrollFadeCtx.size]: space[24] }),
   caption: css({
     textAlign: "center",
     fontFamily: fontFamily.mono,
@@ -69,7 +70,7 @@ export default function ScrollFadeSize() {
               <ScrollFadeSizeItems />
             </div>
           </div>
-          <p sx={styles.caption}>--scroll-fade-size: 1rem</p>
+          <p sx={styles.caption}>scrollFadeCtx.size: 1rem</p>
         </div>
         <div sx={styles.example}>
           <div sx={styles.frame}>
@@ -77,7 +78,7 @@ export default function ScrollFadeSize() {
               <ScrollFadeSizeItems />
             </div>
           </div>
-          <p sx={styles.caption}>--scroll-fade-size: 6rem</p>
+          <p sx={styles.caption}>scrollFadeCtx.size: 6rem</p>
         </div>
       </div>
     </div>

@@ -18,16 +18,16 @@ The shimmer styles are one file, `shimmer.styles.ts`. The components that shimme
 
 ## Usage
 
-| Style                  | Styles                                                                                               |
-| ---------------------- | ---------------------------------------------------------------------------------------------------- |
-| `shimmer`              | `backgroundClip: "text"`, `animationName: sweep`, `animationDuration: "var(--shimmer-duration, 2s)"` |
-| `shimmerOnce`          | `animationIterationCount: 1`                                                                         |
-| `shimmerReverse`       | `animationDirection: "reverse"`                                                                      |
-| `shimmerNone`          | `backgroundImage: "none"`, `WebkitTextFillColor: "currentColor"`                                     |
-| `"--shimmer-color"`    | The highlight's colour.                                                                              |
-| `"--shimmer-duration"` | One sweep, `2s` by default.                                                                          |
-| `"--shimmer-spread"`   | The width of the highlight band, `calc(3ch + 40px)` by default.                                      |
-| `"--shimmer-angle"`    | The tilt of the band, `20deg` by default.                                                            |
+| Style                 | Styles                                                                                                     |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `shimmer`             | `backgroundClip: "text"`, `animationName: sweep`, `animationDuration: fallback(shimmerCtx.duration, "2s")` |
+| `shimmerOnce`         | `animationIterationCount: 1`                                                                               |
+| `shimmerReverse`      | `animationDirection: "reverse"`                                                                            |
+| `shimmerNone`         | `backgroundImage: "none"`, `WebkitTextFillColor: "currentColor"`                                           |
+| `shimmerCtx.color`    | The highlight's colour.                                                                                    |
+| `shimmerCtx.duration` | One sweep, `2s` by default.                                                                                |
+| `shimmerCtx.spread`   | The width of the highlight band, `calc(3ch + 40px)` by default.                                            |
+| `shimmerCtx.angle`    | The tilt of the band, `20deg` by default.                                                                  |
 
 Add `shimmer` to a text element.
 
@@ -66,16 +66,18 @@ The shimmer composes with any component that renders text. A common pattern is a
 
 ## Color
 
-Set `--shimmer-color` to choose the highlight's colour. It takes any colour: a token, a palette colour mixed with transparent for its opacity, or a value of your own.
+Set `shimmerCtx.color` to choose the highlight's colour. It takes any colour: a token, a palette colour mixed with transparent for its opacity, or a value of your own.
 
 <!-- ::preview item="shimmer-color" height="288" -->
 
 ```tsx showLineNumbers
+import { shimmerCtx } from "@/lib/kirana/context"
+
 const styles = {
   blue: css({
-    "--shimmer-color": `color-mix(in oklch, ${color.blue[500]} 60%, transparent)`,
+    [shimmerCtx.color]: `color-mix(in oklch, ${color.blue[500]} 60%, transparent)`,
   }),
-  custom: css({ "--shimmer-color": "#378add" }),
+  custom: css({ [shimmerCtx.color]: "#378add" }),
 }
 
 <p sx={[shimmer, styles.blue]}>Generating response&hellip;</p>
@@ -84,13 +86,13 @@ const styles = {
 
 ## Duration
 
-Set `--shimmer-duration` to the length of one sweep. The default is `2s`.
+Set `shimmerCtx.duration` to the length of one sweep. The default is `2s`.
 
 <!-- ::preview item="shimmer-duration" height="288" -->
 
 ```tsx showLineNumbers
 const styles = {
-  fast: css({ "--shimmer-duration": "1s" }),
+  fast: css({ [shimmerCtx.duration]: "1s" }),
 }
 
 <p sx={[shimmer, styles.fast]}>Generating response&hellip;</p>
@@ -98,13 +100,13 @@ const styles = {
 
 ## Spread
 
-Set `--shimmer-spread` to the width of the highlight band, on the spacing scale or as any length or percentage. The default is `calc(3ch + 40px)`: a fixed base plus a `3ch` term that scales with the font size.
+Set `shimmerCtx.spread` to the width of the highlight band, on the spacing scale or as any length or percentage. The default is `calc(3ch + 40px)`: a fixed base plus a `3ch` term that scales with the font size.
 
 <!-- ::preview item="shimmer-spread" height="288" -->
 
 ```tsx showLineNumbers
 const styles = {
-  wide: css({ "--shimmer-spread": space[24] }),
+  wide: css({ [shimmerCtx.spread]: space[24] }),
 }
 
 <p sx={[shimmer, styles.wide]}>Generating response&hellip;</p>
@@ -114,19 +116,19 @@ For one-off values, use any length or percentage:
 
 ```tsx showLineNumbers
 const styles = {
-  wide: css({ "--shimmer-spread": "5rem" }),
+  wide: css({ [shimmerCtx.spread]: "5rem" }),
 }
 ```
 
 ## Angle
 
-Set `--shimmer-angle` to the tilt of the highlight band. The default is `20deg`.
+Set `shimmerCtx.angle` to the tilt of the highlight band. The default is `20deg`.
 
 <!-- ::preview item="shimmer-angle" height="288" -->
 
 ```tsx showLineNumbers
 const styles = {
-  steep: css({ "--shimmer-angle": "45deg" }),
+  steep: css({ [shimmerCtx.angle]: "45deg" }),
 }
 
 <p sx={[shimmer, styles.steep]}>Generating response&hellip;</p>
@@ -142,13 +144,13 @@ Add `shimmerReverse` after `shimmer` to sweep the highlight the other way. In a 
 
 ## Play Once
 
-Add `shimmerOnce` to play a single sweep instead of looping, useful as a reveal when streaming completes. Pair it with `--shimmer-duration` to control how long the sweep takes.
+Add `shimmerOnce` to play a single sweep instead of looping, useful as a reveal when streaming completes. Pair it with `shimmerCtx.duration` to control how long the sweep takes.
 
 <!-- ::preview item="shimmer-once" height="288" -->
 
 ```tsx showLineNumbers
 const styles = {
-  reveal: css({ "--shimmer-duration": "1100ms" }),
+  reveal: css({ [shimmerCtx.duration]: "1100ms" }),
 }
 
 <p sx={[shimmer, styles.reveal, shimmerOnce]}>Response generated.</p>

@@ -97,8 +97,11 @@ export class Example {}
 
 Buttons keep the default cursor, as upstream's have since Tailwind v4. For `cursor: pointer` on
 every enabled button, put `data-pointer` on `<html>`: the registry's reset (`reset.css`, installed
-with the design system) gives them the pointer then. `/create` previews it when Get Code's **Use
-pointer on buttons** is on.
+with the design system) gives them the pointer then.
+
+You can also enable this during project setup with `npx kirana-style ui init --pointer`, or later
+with `kirana-style ui preset <code> --pointer`. `/create` previews it, and adds the flag to its
+commands, when Get Code's **Use pointer on buttons** is on.
 
 ## Size
 

@@ -440,14 +440,14 @@ export function GetCodeDialog({
               />
               {rtl ? (
                 <p sx={styles.message}>
-                  Set dir=&quot;rtl&quot; on &lt;html&gt;, and give your base
-                  its direction: Base UI&apos;s DirectionProvider, React
+                  --rtl sets dir=&quot;rtl&quot; on &lt;html&gt;. Give your base
+                  its direction too: Base UI&apos;s DirectionProvider, React
                   Aria&apos;s I18nProvider.
                 </p>
               ) : null}
             </div>
             <div sx={styles.footer}>
-              <Command run={initRun(system, card.value)} />
+              <Command run={initRun(system, card.value, { pointer, rtl })} />
             </div>
           </TabsContent>
           <TabsContent value="existing">
@@ -460,7 +460,7 @@ export function GetCodeDialog({
               </p>
             </div>
             <div sx={styles.footer}>
-              <Command exec={presetRun(system)} />
+              <Command exec={presetRun(system, { pointer, rtl })} />
             </div>
           </TabsContent>
         </Tabs>

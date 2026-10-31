@@ -13,6 +13,11 @@ The components are written in logical properties (`paddingInlineStart`,
 `insetInlineEnd`), so they follow the page's direction: set `dir="rtl"` on
 `<html>`.
 
+A new project can start that way: `--rtl` sets `dir="rtl"` on `<html>` for you,
+in `init` or later in `preset`.
+
+<!-- ::install run="@kirana-style/registry init --template vite-react my-app --rtl" -->
+
 <!-- ::preview item="card-rtl" height="480" direction="rtl" -->
 
 Each component's page shows it right to left, in Arabic or Hebrew, under **RTL**.

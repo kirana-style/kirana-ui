@@ -10,7 +10,7 @@
 import { css, relation, select } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
-import { ctx } from "../core/context"
+import { ctx, shimmerCtx } from "../core/context"
 import {
   duration,
   easing,
@@ -283,7 +283,7 @@ export const attachment = {
     fontWeight: fontWeight.medium,
   }),
   titleWorking: css({
-    "--_shimmer-highlight": working(shimmerProperties["--_shimmer-highlight"]),
+    [shimmerCtx.highlight]: working(shimmerProperties[shimmerCtx.highlight]),
     backgroundImage: working(shimmerProperties.backgroundImage),
     backgroundRepeat: working(shimmerProperties.backgroundRepeat),
     backgroundSize: working(shimmerProperties.backgroundSize),

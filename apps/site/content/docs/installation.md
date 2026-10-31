@@ -28,7 +28,9 @@ Give the design you chose with its preset code, and the base for React:
 <!-- ::install run="@kirana-style/registry init --template vite-react my-app --base base --preset k0" -->
 
 `k0` is the default design. A [preset code](/docs/presets) holds every axis of a
-design in a few characters.
+design in a few characters. `--pointer` gives the buttons a pointer cursor and `--rtl`
+sets the page right to left: each writes its attribute on `<html>`
+([Button](/docs/components/button#cursor), [Right to left](/docs/design-system/rtl)).
 
 > [!NOTE] Before the launch
 > `kirana-style ui` looks for kirana/ui's registry at `ui.kirana.style`, which is

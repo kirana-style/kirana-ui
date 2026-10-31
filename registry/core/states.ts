@@ -135,9 +135,7 @@ export const accordion = {
   /** An open item on either base: `data-open:`, React Aria's `data-expanded:`. */
   expanded: { base: Base.Accordion.Item.open, aria: Aria.Disclosure.expanded },
   panelOpen: { base: Base.Accordion.Panel.open },
-  // Kirana's vocabulary has no `closed` on `Accordion.Panel` (KF-072, for 0.3.6); Base UI's
-  // accordion panel is its collapsible panel and writes the same `data-closed`.
-  panelClosed: { base: Base.Collapsible.Panel.closed },
+  panelClosed: { base: Base.Accordion.Panel.closed },
   triggerDisabled: { base: '[aria-disabled="true"]', aria: ":disabled" },
 } as const satisfies Record<string, StateKeys>
 

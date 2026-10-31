@@ -128,10 +128,22 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     base,
     "--preset",
     preset,
+    // Get Code's "Use pointer on buttons": `data-pointer` on `<html>`, which the reset reads.
+    "--pointer",
     "--registry",
     registry
   )
   const app = join(folder, "app")
+  if (
+    !/<html[^>]*\bdata-pointer\b/.test(
+      readFileSync(join(app, "index.html"), "utf8")
+    )
+  ) {
+    console.error(
+      `install: init --pointer did not set data-pointer on <html> in ${app}`
+    )
+    process.exit(1)
+  }
   // The preset's font is Inter: `init` installs its item, which imports the family's stylesheet.
   const sources = readdirSync(join(app, "src"), {
     recursive: true,

@@ -132,6 +132,8 @@ export function generate(
         return `${kirana("select")}.${marker.how}(${quote(marker.selector)})`
       case "state":
         return quote(marker.key)
+      case "fallback":
+        return `${kirana("fallback")}(${marker.args.map(leaf).join(", ")})`
       case "keyframes": {
         kirana("keyframes")
         if (!used.keyframes.has(marker.id)) {
