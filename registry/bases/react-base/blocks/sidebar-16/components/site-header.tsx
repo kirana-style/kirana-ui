@@ -16,6 +16,7 @@ import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { css, props as styleProps } from "@kirana-style/core"
 import { theme } from "../../../../../core/tokens"
 import { breakpoint, space } from "../../../../../core/scales"
+import { orientation, when } from "../../../../../core/states"
 
 const styles = {
   siteHeaderHeader: css({
@@ -45,8 +46,8 @@ const styles = {
   }),
   siteHeaderSeparator: css({
     marginRight: { "*": null, base: space[2] },
-    height: { "[data-vertical]": space[4] },
-    alignSelf: { "[data-vertical]": "auto" },
+    height: { ...when(orientation.vertical, space[4]) },
+    alignSelf: { ...when(orientation.vertical, "auto") },
   }),
   siteHeaderBreadcrumb: css({
     display: { "*": null, base: "none", [breakpoint.sm]: "block" },

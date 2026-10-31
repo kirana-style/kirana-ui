@@ -178,7 +178,7 @@ export function MarkdownPreview({
   /** `true`: the frame as wide as the page, for a demo whose CSS breakpoints must read the page. */
   wide?: string
 }) {
-  const { previewSrc } = useDocs()
+  const { previewSrc, frameQuery } = useDocs()
   const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
   const only = combinationList(combinations)
   const { available, current } = useCombination(only)
@@ -195,6 +195,8 @@ export function MarkdownPreview({
   const extra = [
     rtl ? `lang=${opened}` : null,
     surface === "true" ? "surface=true" : null,
+    // The page's own design for its frames, once hydrated: the browser knows what the reader saved.
+    (hydrated && frameQuery?.()) || null,
   ].filter(Boolean)
   const src = extra.length
     ? `${base}${base.includes("?") ? "&" : "?"}${extra.join("&")}`

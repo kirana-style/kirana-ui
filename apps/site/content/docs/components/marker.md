@@ -46,7 +46,7 @@ Marker
 - Inline marker, bordered row, and labeled separator variants
 - Decorative icon slot that is hidden from assistive tech
 - Polymorphic root via `render` for link and button markers
-- Pairs with a shimmer for streaming status text
+- Pairs with the [shimmer](/docs/utils/shimmer) for streaming status text
 - Customizable styling through the `className` prop on every part
 
 ## Variants
@@ -69,7 +69,7 @@ Set `role="status"` and include a [`Spinner`](/docs/components/spinner) for stre
 
 ## Shimmer
 
-Give `MarkerContent` a shimmer, a highlight sweeping across the text, for an animated streaming-text effect. The example writes shadcn/ui's `shimmer` utility as a Kirana style.
+Give `MarkerContent` the [shimmer](/docs/utils/shimmer), a highlight sweeping across the text, for an animated streaming-text effect.
 
 <!-- ::preview item="marker-shimmer" height="360" combinations="react/base,react/aria" -->
 

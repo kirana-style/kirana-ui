@@ -67,7 +67,6 @@ const styles = {
   }),
   textMutedForeground: css({ color: theme.mutedForeground }),
   gap8: css({ gap: { "*": null, base: space[8] } }),
-  shimmer: css({ ...shimmer }),
   transitionColorsHoverTex: css({
     transitionProperty: "color, background-color, border-color",
     transitionDuration: duration[150],
@@ -121,12 +120,10 @@ function MarkerExample() {
         <MarkerIcon>
           <Spinner />
         </MarkerIcon>
-        <MarkerContent sx={styles.shimmer}>
-          Marker with shimmer effect
-        </MarkerContent>
+        <MarkerContent sx={shimmer}>Marker with shimmer effect</MarkerContent>
       </Marker>
       <Marker role="status">
-        <MarkerContent sx={styles.shimmer}>Thinking...</MarkerContent>
+        <MarkerContent sx={shimmer}>Thinking...</MarkerContent>
       </Marker>
       <Marker render={(props) => <a href="#" {...props} />}>
         <MarkerIcon>
@@ -257,7 +254,7 @@ function MarkerSeparator() {
         <MarkerContent>Compacting conversation</MarkerContent>
       </Marker>
       <Marker variant="separator" role="status">
-        <MarkerContent sx={styles.shimmer}>Reading 4 files</MarkerContent>
+        <MarkerContent sx={shimmer}>Reading 4 files</MarkerContent>
       </Marker>
       <Marker variant="separator">
         <MarkerIcon>

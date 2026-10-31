@@ -362,7 +362,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 >
                   <div sx={styles.appSidebarDiv}>
                     <IconPlaceholder
-                      lucide="TerminalIcon"
+                      lucide="CommandIcon"
                       tabler="IconCommand"
                       hugeicons="CommandIcon"
                       phosphor="CommandIcon"

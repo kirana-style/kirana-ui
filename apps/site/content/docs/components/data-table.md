@@ -55,9 +55,7 @@ This guide will show you how to use [TanStack Table](https://tanstack.com/table)
 
 2. Add the `@tanstack/react-table` dependency. This guide uses **TanStack Table v9**:
 
-```bash
-npm install @tanstack/react-table
-```
+<!-- ::install packages="@tanstack/react-table" -->
 
 ## Prerequisites
 

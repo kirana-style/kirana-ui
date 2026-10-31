@@ -192,7 +192,7 @@ Cap the height with a `maxHeight` in `CodeBlockContent`'s `sx`. The content scro
 
 <!-- ::preview item="code-block-height" height="400" combinations="react/base,react/aria" -->
 
-`CodeBlockContent` fades its edges as it scrolls (`scroll-fade.styles`): left and right by default, top and bottom when it wraps. Add `scrollFade` to the `sx` of a capped block that does not wrap.
+`CodeBlockContent` fades its edges with the [scroll fade](/docs/utils/scroll-fade) as it scrolls: left and right by default, top and bottom when it wraps. Add `scrollFade` to the `sx` of a capped block that does not wrap.
 
 ## Show More
 

@@ -1,11 +1,7 @@
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import * as React from "react"
 
-import {
-  LanguageProvider,
-  LanguageSelector,
-  useTranslation,
-} from "../components/language-selector"
+import { useTranslation } from "../components/language-selector"
 import type { Translations } from "../components/language-selector"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
@@ -59,15 +55,10 @@ import { collapsibleScope, OPEN } from "../../../styles/collapsible.styles"
 import { COLLAPSED, WRAPPER_COLLAPSED } from "../../../styles/sidebar.styles"
 
 const styles = {
+  // Upstream shows the sidebar as a block (`type="block"`): edge to edge, the frame unpadded.
+  flush: css({ padding: { "*": null, base: "0" } }),
   appSidebarWithProviderDiv: css({
     position: "relative",
-  }),
-  appSidebarWithProviderLanguageSelector: css({
-    position: "absolute",
-    top: space[4],
-    right: { base: space[4], ":dir(rtl)": "auto" },
-    zIndex: 10,
-    left: { ":dir(rtl)": space[4] },
   }),
   sidebarContentInnerDiv: css({
     display: "flex",
@@ -356,25 +347,20 @@ const translations: Translations = {
 
 export default function SidebarRtl() {
   return (
-    <div sx={page.example}>
-      <LanguageProvider defaultLanguage="ar">
-        <AppSidebarWithProvider />
-      </LanguageProvider>
+    <div sx={[page.example, styles.flush]}>
+      {/* The language is the preview bar's, as every right-to-left demo's: upstream's page of its
+          own draws its picker in the corner. */}
+      <AppSidebarWithProvider />
     </div>
   )
 }
 
 function AppSidebarWithProvider() {
-  const { language, setLanguage, dir } = useTranslation(translations, "ar")
+  const { dir } = useTranslation(translations, "ar")
 
   return (
     <DirectionProvider direction={dir}>
       <div sx={styles.appSidebarWithProviderDiv} dir={dir}>
-        <LanguageSelector
-          value={language}
-          onValueChange={setLanguage}
-          sx={styles.appSidebarWithProviderLanguageSelector}
-        />
         <AppSidebar />
       </div>
     </DirectionProvider>

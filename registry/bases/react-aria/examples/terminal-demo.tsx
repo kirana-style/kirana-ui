@@ -187,7 +187,7 @@ function CommandRow({
         <TraceLine status={running ? "running" : failed ? "error" : undefined}>
           <TraceIcon>
             <IconPlaceholder
-              lucide="TerminalIcon"
+              lucide="CommandIcon"
               tabler="IconCommand"
               hugeicons="CommandIcon"
               phosphor="CommandIcon"

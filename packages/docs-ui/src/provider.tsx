@@ -64,6 +64,11 @@ export type DocsConfig = {
    */
   previewSrc?: (item: string, combination?: string) => string
   /**
+   * What a preview's address adds once the page has hydrated (`preset=…`): the page's own design
+   * for its frames while the reader has none saved. Read in the browser only.
+   */
+  frameQuery?: () => string
+  /**
    * The framework-and-base pairs a component can be shown in (`{ id: "react/base", label: "Base
    * UI" }`), in order, the first the default. A tab group whose headings are their labels follows
    * the reader's choice.

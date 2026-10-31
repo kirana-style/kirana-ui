@@ -33,9 +33,7 @@ combination as its `style`:
 
 (`ui.kirana.style` once it is attached), and adds items by namespace:
 
-```bash
-npx shadcn add @kirana/button @kirana/dialog
-```
+<!-- ::install run="shadcn add @kirana/button @kirana/dialog" -->
 
 The CLI replaces each icon with your library's, as it does for shadcn/ui's own
 components.

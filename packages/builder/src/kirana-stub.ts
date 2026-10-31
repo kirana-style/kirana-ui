@@ -96,11 +96,15 @@ export function defineTokens<T extends Record<string, unknown>>(
   values: T,
   options?: { variable?: boolean }
 ): T {
-  if (!options?.variable) return values
+  // A token written `{ value, syntax }` is registered with `@property`, so a variable too.
+  const registered = (value: unknown) =>
+    typeof value === "object" && value !== null && "syntax" in value
   return Object.fromEntries(
-    Object.keys(values).map((key) => [
+    Object.entries(values).map(([key, value]) => [
       key,
-      marker({ kind: "token", group, key }),
+      options?.variable || registered(value)
+        ? marker({ kind: "token", group, key })
+        : value,
     ])
   ) as T
 }

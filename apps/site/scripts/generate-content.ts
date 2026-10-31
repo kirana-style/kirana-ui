@@ -32,14 +32,11 @@ function markupOf(name: string): string[] | undefined {
 }
 
 /**
- * The variants an AI Elements page can have: React's bases with every demo it previews, since a
- * pattern is a composition of components and has no item of its own.
+ * The variants an AI Elements page or a Forms guide can have: React's bases with every demo it
+ * previews, since a pattern or a form is a composition of components and has no item of its own.
  */
-function patternMarkup(name: string): string[] | undefined {
-  const page = new URL(
-    `../content/docs/ai-elements/${name}.md`,
-    import.meta.url
-  )
+function patternMarkup(section: string, name: string): string[] | undefined {
+  const page = new URL(`../content/docs/${section}/${name}.md`, import.meta.url)
   if (!existsSync(page)) return undefined
   const demos = [
     ...readFileSync(page, "utf8").matchAll(/::preview item="([^"]+)"/g),
@@ -100,11 +97,11 @@ await generate({
   variants: VARIANTS,
   checkVariants: (href, variants) => {
     const component = /^\/docs\/components\/([^/]+)$/.exec(href)?.[1]
-    const pattern = /^\/docs\/ai-elements\/([^/]+)$/.exec(href)?.[1]
+    const pattern = /^\/docs\/(ai-elements|forms)\/([^/]+)$/.exec(href)
     const markup = component
       ? markupOf(component)
       : pattern
-        ? patternMarkup(pattern)
+        ? patternMarkup(pattern[1]!, pattern[2]!)
         : undefined
     if (!markup)
       return `${href} lists variants, but no registry item is named for it`
@@ -132,6 +129,9 @@ await generate({
     // An illustration is its picture, with its caption.
     figure: ({ light, alt, caption }) =>
       `![${alt ?? ""}](https://ui.kirana.style${light ?? ""})${caption ? `\n\n${caption}` : ""}`,
+    // A demo's whole code is its registry document, every framework and base.
+    "demo-source": ({ item, title }) =>
+      `[${title ?? item}](https://ui.kirana.style/r/demos/${item}.json)`,
     // A language model reads the preview as a link to the page that draws the item.
     preview: ({ item, combinations }) =>
       `[Preview: ${item}](https://ui.kirana.style/preview/${combinations?.split(",")[0] ?? "react/base"}/${item})`,

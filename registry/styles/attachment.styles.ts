@@ -23,7 +23,7 @@ import {
 } from "../core/scales"
 import { alpha, radius, theme } from "../core/tokens"
 import { scrollFadeX } from "./scroll-fade.styles"
-import { shimmer } from "./shimmer.styles"
+import { shimmerProperties } from "./shimmer.styles"
 
 const { vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -283,15 +283,18 @@ export const attachment = {
     fontWeight: fontWeight.medium,
   }),
   titleWorking: css({
-    "--spread": working(shimmer["--spread"]),
-    "--highlight": working(shimmer["--highlight"]),
-    backgroundRepeat: working(shimmer.backgroundRepeat),
-    backgroundSize: working(shimmer.backgroundSize),
-    backgroundPosition: working(shimmer.backgroundPosition),
-    backgroundClip: working(shimmer.backgroundClip),
-    animation: working(shimmer.animation),
-    backgroundImage: working(shimmer.backgroundImage),
-    WebkitTextFillColor: working(shimmer.WebkitTextFillColor),
+    "--_shimmer-highlight": working(shimmerProperties["--_shimmer-highlight"]),
+    backgroundImage: working(shimmerProperties.backgroundImage),
+    backgroundRepeat: working(shimmerProperties.backgroundRepeat),
+    backgroundSize: working(shimmerProperties.backgroundSize),
+    backgroundPosition: working(shimmerProperties.backgroundPosition),
+    backgroundClip: working(shimmerProperties.backgroundClip),
+    WebkitTextFillColor: working(shimmerProperties.WebkitTextFillColor),
+    animationName: working(shimmerProperties.animationName),
+    animationDuration: working(shimmerProperties.animationDuration),
+    animationTimingFunction: working(shimmerProperties.animationTimingFunction),
+    animationIterationCount: working(shimmerProperties.animationIterationCount),
+    animationDirection: working(shimmerProperties.animationDirection),
   }),
   // cn-attachment-description
   description: css({

@@ -8,6 +8,14 @@
     "label": "Design system"
   },
   {
+    "slug": "forms",
+    "label": "Forms"
+  },
+  {
+    "slug": "utils",
+    "label": "Utilities"
+  },
+  {
     "slug": "components",
     "label": "Components"
   },

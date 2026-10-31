@@ -560,7 +560,7 @@ function ToolRow({ part, streaming }: { part: ToolPart; streaming: boolean }) {
           <TraceLine status={failed ? "error" : undefined}>
             <TraceIcon>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"
@@ -587,7 +587,7 @@ function ToolRow({ part, streaming }: { part: ToolPart; streaming: boolean }) {
     <TraceLine status={streaming ? "running" : "error"}>
       <TraceIcon>
         <IconPlaceholder
-          lucide="TerminalIcon"
+          lucide="CommandIcon"
           tabler="IconCommand"
           hugeicons="CommandIcon"
           phosphor="CommandIcon"

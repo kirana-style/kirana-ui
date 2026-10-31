@@ -71,7 +71,7 @@ export default function CodeBlockRtl() {
           <CodeBlockHeader>
             <CodeBlockTitle>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"

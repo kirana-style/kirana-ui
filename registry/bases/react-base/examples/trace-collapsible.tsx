@@ -27,7 +27,7 @@ export default function TraceCollapsibleDemo() {
             <TraceLine>
               <TraceIcon>
                 <IconPlaceholder
-                  lucide="TerminalIcon"
+                  lucide="CommandIcon"
                   tabler="IconCommand"
                   hugeicons="CommandIcon"
                   phosphor="CommandIcon"

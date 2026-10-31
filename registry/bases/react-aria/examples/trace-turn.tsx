@@ -64,7 +64,7 @@ export default function TraceTurn() {
                   <TraceLine status="error">
                     <TraceIcon>
                       <IconPlaceholder
-                        lucide="TerminalIcon"
+                        lucide="CommandIcon"
                         tabler="IconCommand"
                         hugeicons="CommandIcon"
                         phosphor="CommandIcon"
@@ -79,7 +79,7 @@ export default function TraceTurn() {
                     <TraceLine>
                       <TraceIcon>
                         <IconPlaceholder
-                          lucide="TerminalIcon"
+                          lucide="CommandIcon"
                           tabler="IconCommand"
                           hugeicons="CommandIcon"
                           phosphor="CommandIcon"
@@ -93,7 +93,7 @@ export default function TraceTurn() {
                         <TraceLine status="error">
                           <TraceIcon>
                             <IconPlaceholder
-                              lucide="TerminalIcon"
+                              lucide="CommandIcon"
                               tabler="IconCommand"
                               hugeicons="CommandIcon"
                               phosphor="CommandIcon"

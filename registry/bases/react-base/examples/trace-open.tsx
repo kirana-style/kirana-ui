@@ -39,7 +39,7 @@ export default function TraceOpen() {
             <TraceLine>
               <TraceIcon>
                 <IconPlaceholder
-                  lucide="TerminalIcon"
+                  lucide="CommandIcon"
                   tabler="IconCommand"
                   hugeicons="CommandIcon"
                   phosphor="CommandIcon"
@@ -62,7 +62,7 @@ export default function TraceOpen() {
             <TraceLine>
               <TraceIcon>
                 <IconPlaceholder
-                  lucide="TerminalIcon"
+                  lucide="CommandIcon"
                   tabler="IconCommand"
                   hugeicons="CommandIcon"
                   phosphor="CommandIcon"

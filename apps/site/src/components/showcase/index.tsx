@@ -10,6 +10,7 @@
  * the rails beside the grid where upstream draws skeletons (`apps/preview-react/src/showcase.tsx`);
  * every other framework's has the cards it can draw with the components it has so far.
  */
+import { useSyncExternalStore } from "react"
 import { css } from "@kirana-style/core"
 
 import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
@@ -30,7 +31,14 @@ import {
   lineHeight,
   space,
 } from "@workspace/registry/core/scales"
-import { theme } from "@workspace/registry/core/tokens"
+import { radius, theme } from "@workspace/registry/core/tokens"
+import { tab, when } from "@workspace/registry/core/states"
+
+import { frameQuery } from "@/lib/page-design"
+
+const subscribeNever = () => () => {}
+const isClient = () => true
+const isServer = () => false
 
 const styles = {
   // Across the page's rail, the one band that does.
@@ -55,8 +63,31 @@ const styles = {
     gap: space[2],
     marginBlockEnd: { base: space[4], [breakpoint.lg]: space[6] },
   }),
-  // No scroll container: the line tab's indicator reaches below the list and would scroll.
   tabs: css({ maxWidth: "100%" }),
+  // The switch as pills: a rounded track on the page's ground with a hairline (the band is the
+  // list's own muted), and the chosen framework a muted pill in it.
+  pills: css({
+    borderRadius: { "*": null, base: radius.full },
+    backgroundColor: { "*": null, base: theme.background },
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.border,
+    height: { "*": null, base: "auto" },
+    padding: { "*": null, base: space[1] },
+  }),
+  pill: css({
+    borderRadius: { "*": null, base: radius.full },
+    paddingInline: { "*": null, base: space[3] },
+    paddingBlock: { "*": null, base: space["1.5"] },
+    boxShadow: { "*": null, base: "none" },
+    borderColor: { "*": null, base: "transparent" },
+    backgroundColor: {
+      "*": null,
+      base: "transparent",
+      ":hover": `color-mix(in oklab, ${theme.muted} 60%, transparent)`,
+      ...when(tab.active, theme.muted),
+    },
+  }),
   mark: css({ display: "inline-flex" }),
   note: css({
     fontSize: fontSize.sm,
@@ -110,6 +141,8 @@ export function Showcase() {
   const framework =
     SHOWCASE_FRAMEWORKS.find((entry) => entry.combination === saved) ??
     SHOWCASE_FRAMEWORKS[0]!
+  const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
+  const query = hydrated ? frameQuery() : ""
   return (
     <section sx={styles.demo} aria-label="Components in your design">
       <div sx={styles.switch}>
@@ -121,9 +154,9 @@ export function Showcase() {
           }}
           sx={styles.tabs}
         >
-          <TabsList variant="line" aria-label="Framework">
+          <TabsList aria-label="Framework" sx={styles.pills}>
             {SHOWCASE_FRAMEWORKS.map((entry) => (
-              <TabsTrigger key={entry.id} value={entry.id}>
+              <TabsTrigger key={entry.id} value={entry.id} sx={styles.pill}>
                 <span sx={styles.mark} aria-hidden="true">
                   <BrandIcon icon={entry.icon} size="0.875rem" />
                 </span>
@@ -139,12 +172,19 @@ export function Showcase() {
           </p>
         )}
       </div>
-      <iframe
-        key={framework.id}
-        title={`The showcase in ${framework.label}`}
-        src={`/preview/${framework.combination}/showcase`}
-        sx={[styles.frame, framework.id === "react" && styles.reactFrame]}
-      />
+      {/* Created once hydrated, in the page's terracotta while the reader has no design saved. */}
+      {hydrated ? (
+        <iframe
+          key={framework.id}
+          title={`The showcase in ${framework.label}`}
+          src={`/preview/${framework.combination}/showcase${query ? `?${query}` : ""}`}
+          sx={[styles.frame, framework.id === "react" && styles.reactFrame]}
+        />
+      ) : (
+        <div
+          sx={[styles.frame, framework.id === "react" && styles.reactFrame]}
+        />
+      )}
       <div sx={styles.fade} />
     </section>
   )

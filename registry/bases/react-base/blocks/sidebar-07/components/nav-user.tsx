@@ -9,7 +9,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
-import { theme } from "../../../../../core/tokens"
+import { radius, theme } from "../../../../../core/tokens"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
 import {
@@ -29,6 +29,13 @@ import {
 } from "../../../ui/sidebar"
 
 const styles = {
+  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the
+  // picture, the fallback and the hairline take it too, which round themselves otherwise.
+  avatarSquare: css({
+    borderRadius: { "*": null, base: radius.lg },
+    "::after": { borderRadius: radius.lg },
+  }),
+  avatarSquarePart: css({ borderRadius: { "*": null, base: radius.lg } }),
   trigger: css({ backgroundColor: { '[aria-expanded="true"]': theme.muted } }),
   // The name over the address, each cut short to the room there is.
   text: css({
@@ -56,7 +63,9 @@ const styles = {
     width: space[4],
     height: space[4],
   }),
-  menu: css({ width: "fit-content" }),
+  // The trigger's width, at least 14rem, as shadcn/ui's blocks page draws it (its `new-york-v4`
+  // copy, `w-(--radix-dropdown-menu-trigger-width) min-w-56`); upstream's Base UI copy writes `w-fit`.
+  menu: css({ minWidth: { "*": null, base: space[56] } }),
   // The label holds the whole account row, with no padding or weight of its own (`p-0
   // font-normal`, which win over every style's).
   label: css({
@@ -94,9 +103,13 @@ export function NavUser({
           <DropdownMenuTrigger
             render={<SidebarMenuButton size="lg" sx={styles.trigger} />}
           >
-            <Avatar>
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback>CN</AvatarFallback>
+            <Avatar sx={styles.avatarSquare}>
+              <AvatarImage
+                src={user.avatar}
+                alt={user.name}
+                sx={styles.avatarSquarePart}
+              />
+              <AvatarFallback sx={styles.avatarSquarePart}>CN</AvatarFallback>
             </Avatar>
             <div sx={styles.text}>
               <span sx={styles.name}>{user.name}</span>
@@ -120,9 +133,15 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.label}>
                 <div sx={styles.account}>
-                  <Avatar>
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>CN</AvatarFallback>
+                  <Avatar sx={styles.avatarSquare}>
+                    <AvatarImage
+                      src={user.avatar}
+                      alt={user.name}
+                      sx={styles.avatarSquarePart}
+                    />
+                    <AvatarFallback sx={styles.avatarSquarePart}>
+                      CN
+                    </AvatarFallback>
                   </Avatar>
                   <div sx={styles.text}>
                     <span sx={styles.name}>{user.name}</span>

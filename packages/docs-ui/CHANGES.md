@@ -163,3 +163,6 @@ Candidates for the Kirana copy, which would serve any registry's docs:
 - `markdown/preview.tsx`: `wide="true"` (new) makes the frame as wide as the page, centred in the
   box and clipped by it, so a demo's CSS breakpoints read the page's width as shadcn/ui's inline
   demos do (an item that is `hidden md:flex`).
+- `markdown/demo-source.tsx` (new), registered as `demo-source`: `<!-- ::demo-source item="…"
+  title="…" combinations="…" -->`, a demo's whole code as a titled, foldable code block, as
+  shadcn/ui's `ComponentSource` shows a file (its Forms guides end on the finished form).

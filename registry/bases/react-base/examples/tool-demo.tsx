@@ -107,7 +107,7 @@ function ToolRow({
           <TraceLine status={failed ? "error" : undefined}>
             <TraceIcon>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"
@@ -134,7 +134,7 @@ function ToolRow({
     <TraceLine status={streaming ? "running" : "error"}>
       <TraceIcon>
         <IconPlaceholder
-          lucide="TerminalIcon"
+          lucide="CommandIcon"
           tabler="IconCommand"
           hugeicons="CommandIcon"
           phosphor="CommandIcon"

@@ -216,7 +216,12 @@ const styles = {
   }),
   // /typeset's pill: `text-xs text-muted-foreground hover:text-foreground`.
   newTab: css({
+    // The page buttons' height beside it (`h-7`), in every style: the two boxes stand level.
+    height: { "*": null, base: space[7] },
+    borderRadius: { "*": null, base: radius.lg },
+    paddingInline: { "*": null, base: space["2.5"] },
     fontSize: { "*": null, base: fontSize.xs },
+    lineHeight: { "*": null, base: lineHeight.xs },
     color: {
       "*": null,
       base: theme.mutedForeground,

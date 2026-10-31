@@ -1,7 +1,8 @@
 /**
- * The canvas `/create`'s charts preview lays its columns on (`charts-base.tsx`, `charts-aria.tsx`):
- * `preview-02`'s, a muted ground scrolling sideways, its columns a gap apart, here seven, one per
- * chart type, each under its name.
+ * The canvas `/create`'s charts preview lays its charts on (`charts-base.tsx`, `charts-aria.tsx`):
+ * `preview-02`'s, a muted ground scrolling sideways, seven columns a gap apart. The charts flow
+ * through them type by type, each type under its name, and the columns are balanced: a type of
+ * tall charts (radar, pie) no longer runs a column far past the others.
  */
 import type { ReactNode } from "react"
 import { css, select } from "@kirana-style/core"
@@ -39,10 +40,10 @@ export const styles = {
     justifyContent: "center",
   }),
   canvas: css({
-    display: "grid",
+    display: "block",
     width: { base: "2400px", [breakpoint.md]: "3000px" },
-    gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
-    alignItems: "start",
+    columnCount: 7,
+    columnFill: "balance",
     columnGap: "var(--gap)",
     // Longhands: Kirana cannot tell a variable is one value, so a shorthand stays whole.
     paddingBlockStart: "var(--gap)",
@@ -50,14 +51,19 @@ export const styles = {
     paddingInlineStart: "var(--gap)",
     paddingInlineEnd: "var(--gap)",
   }),
+  // A type's charts flow on through the columns: the section itself draws no box.
   column: css({
-    display: "flex",
-    flexDirection: "column",
-    rowGap: "var(--gap)",
-    padding: space[1],
-    [select.descendant('[data-slot="card"]')]: { width: "100%" },
+    display: "contents",
+    [select.descendant('[data-slot="card"]')]: {
+      width: "100%",
+      breakInside: "avoid",
+      marginBlockEnd: "var(--gap)",
+    },
   }),
   heading: css({
+    breakAfter: "avoid",
+    marginBlockEnd: space[3],
+    paddingInline: space[1],
     fontSize: fontSize.sm,
     lineHeight: lineHeight.sm,
     fontWeight: fontWeight.medium,

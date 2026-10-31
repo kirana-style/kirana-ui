@@ -101,3 +101,15 @@ export const calendarCtx = defineTokens(
   { cellSize: "1.75rem", cellRadius: "0" },
   { variable: true }
 )
+
+/**
+ * How deep a scrolling region fades at each edge (`styles/scroll-fade.styles.ts`): registered, so
+ * the reveal its scrolling drives eases each from nothing to the fade's depth instead of jumping.
+ * Each is the region's own (`inherits: false`), so a region inside another fades on its own.
+ */
+export const scrollFadeCtx = defineTokens("scrollFadeCtx", {
+  top: { value: "0px", syntax: "<length-percentage>", inherits: false },
+  bottom: { value: "0px", syntax: "<length-percentage>", inherits: false },
+  start: { value: "0px", syntax: "<length-percentage>", inherits: false },
+  end: { value: "0px", syntax: "<length-percentage>", inherits: false },
+})

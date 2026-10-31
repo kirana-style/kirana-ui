@@ -42,12 +42,26 @@ const styles = {
     paddingInline: { base: space[2], [breakpoint.md]: space[4] },
     paddingBlock: space[2],
   }),
-  // The row's rule runs across the page, as every section's does.
+  // The row's rule runs across the page, as every section's does. It stays under the header while
+  // the blocks scroll by, frosted as the header is, as the charts' row does (the blur on a layer of
+  // its own, so the row does not hold its popups).
   band: css({
-    scrollMarginTop: space[16],
+    position: "sticky",
+    top: `calc(${space[16]} + 1px)`,
+    zIndex: 30,
+    isolation: "isolate",
+    scrollMarginTop: `calc(${space[16]} + 1px)`,
     borderBottomWidth: "1px",
     borderBottomStyle: "solid",
     borderBottomColor: theme.border,
+    "::before": {
+      content: "''",
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
+      backgroundColor: `color-mix(in oklab, ${theme.background} 72%, transparent)`,
+      backdropFilter: "blur(14px) saturate(1.5)",
+    },
   }),
   all: css({
     display: { base: "none", [breakpoint.lg]: "inline-flex" },

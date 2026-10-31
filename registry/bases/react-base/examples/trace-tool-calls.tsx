@@ -91,7 +91,7 @@ function ToolTrace({ part, live }: { part: DynamicToolUIPart; live: boolean }) {
           <TraceLine status={failed ? "error" : undefined}>
             <TraceIcon>
               <IconPlaceholder
-                lucide="TerminalIcon"
+                lucide="CommandIcon"
                 tabler="IconCommand"
                 hugeicons="CommandIcon"
                 phosphor="CommandIcon"
@@ -121,7 +121,7 @@ function ToolTrace({ part, live }: { part: DynamicToolUIPart; live: boolean }) {
       <TraceLine>
         <TraceIcon>
           <IconPlaceholder
-            lucide="TerminalIcon"
+            lucide="CommandIcon"
             tabler="IconCommand"
             hugeicons="CommandIcon"
             phosphor="CommandIcon"
@@ -137,7 +137,7 @@ function ToolTrace({ part, live }: { part: DynamicToolUIPart; live: boolean }) {
     <TraceLine status={live ? "running" : "error"}>
       <TraceIcon>
         <IconPlaceholder
-          lucide="TerminalIcon"
+          lucide="CommandIcon"
           tabler="IconCommand"
           hugeicons="CommandIcon"
           phosphor="CommandIcon"

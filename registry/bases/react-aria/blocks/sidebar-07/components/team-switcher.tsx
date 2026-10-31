@@ -66,7 +66,9 @@ const styles = {
     lineHeight: lineHeight.xs,
   }),
   chevron: css({ marginInlineStart: "auto" }),
-  menu: css({ width: "fit-content" }),
+  // The trigger's width, at least 14rem, as shadcn/ui's blocks page draws it (its `new-york-v4`
+  // copy, `w-(--radix-dropdown-menu-trigger-width) min-w-56`); upstream's Base UI copy writes `w-fit`.
+  menu: css({ minWidth: { "*": null, base: space[56] } }),
   label: css({
     fontSize: fontSize.xs,
     lineHeight: lineHeight.xs,

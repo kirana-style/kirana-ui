@@ -27,7 +27,6 @@ const styles = {
     gap: { "*": null, base: space[6] },
     paddingBlock: { "*": null, base: space[12] },
   }),
-  shimmer: css(shimmer),
   medium: css({ fontWeight: fontWeight.medium }),
 }
 
@@ -99,7 +98,7 @@ export default function MessageDemo() {
           </MessageContent>
         </Message>
         <Marker role="status">
-          <MarkerContent sx={styles.shimmer}>
+          <MarkerContent sx={shimmer}>
             <span sx={styles.medium}>Oliver</span> is typing...
           </MarkerContent>
         </Marker>

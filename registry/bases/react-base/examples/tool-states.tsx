@@ -34,7 +34,7 @@ export default function ToolStates() {
             <TraceLine>
               <TraceIcon>
                 <IconPlaceholder
-                  lucide="TerminalIcon"
+                  lucide="CommandIcon"
                   tabler="IconCommand"
                   hugeicons="CommandIcon"
                   phosphor="CommandIcon"
@@ -58,7 +58,7 @@ export default function ToolStates() {
             <TraceLine status="error">
               <TraceIcon>
                 <IconPlaceholder
-                  lucide="TerminalIcon"
+                  lucide="CommandIcon"
                   tabler="IconCommand"
                   hugeicons="CommandIcon"
                   phosphor="CommandIcon"
@@ -79,7 +79,7 @@ export default function ToolStates() {
         <TraceLine>
           <TraceIcon>
             <IconPlaceholder
-              lucide="TerminalIcon"
+              lucide="CommandIcon"
               tabler="IconCommand"
               hugeicons="CommandIcon"
               phosphor="CommandIcon"
@@ -91,7 +91,7 @@ export default function ToolStates() {
         <TraceLine status="running">
           <TraceIcon>
             <IconPlaceholder
-              lucide="TerminalIcon"
+              lucide="CommandIcon"
               tabler="IconCommand"
               hugeicons="CommandIcon"
               phosphor="CommandIcon"

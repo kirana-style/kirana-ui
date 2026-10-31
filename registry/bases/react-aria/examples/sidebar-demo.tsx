@@ -48,6 +48,8 @@ import { collapsibleScope, OPEN } from "../../../styles/collapsible.styles"
 import { COLLAPSED, WRAPPER_COLLAPSED } from "../../../styles/sidebar.styles"
 
 const styles = {
+  // Upstream shows the sidebar as a block (`type="block"`): edge to edge, the frame unpadded.
+  flush: css({ padding: { "*": null, base: "0" } }),
   teamSwitcherSidebarMenuButton: css({
     backgroundColor: { '[data-state="open"]': theme.sidebarAccent },
     color: { '[data-state="open"]': theme.sidebarAccentForeground },
@@ -845,7 +847,7 @@ export default function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <div sx={page.example}>
+    <div sx={[page.example, styles.flush]}>
       <SidebarProvider>
         <Sidebar collapsible="icon" {...props}>
           <SidebarHeader>

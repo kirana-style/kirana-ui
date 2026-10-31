@@ -36,34 +36,34 @@ For example, the [Queue](/docs/ai-elements/queue#migrating-from-ai-sdk-elements)
 
 Each file from AI SDK Elements, and the pattern or component that replaces it.
 
-| AI SDK Elements        | kirana/ui                                                 |
-| ---------------------- | --------------------------------------------------------- |
-| `agent.tsx`            | [Subagent](/docs/ai-elements/subagent)                    |
-| `attachments.tsx`      | [Attachment](/docs/components/attachment)                 |
-| `chain-of-thought.tsx` | [Chain of Thought](/docs/ai-elements/chain-of-thought)    |
-| `checkpoint.tsx`       | [Checkpoint](/docs/ai-elements/checkpoint)                |
-| `code-block.tsx`       | [Code Block](/docs/components/code-block)                 |
-| `commit.tsx`           | [Trace](/docs/components/trace#commit)                    |
-| `confirmation.tsx`     | [Confirmation](/docs/ai-elements/confirmation)            |
-| `context.tsx`          | [Context](/docs/ai-elements/context)                      |
-| `conversation.tsx`     | [Chat](/docs/ai-elements/chat)                            |
-| `file-tree.tsx`        | [File Tree](/docs/ai-elements/file-tree)                  |
-| `inline-citation.tsx`  | [Inline Citation](/docs/ai-elements/inline-citation)      |
-| `message.tsx`          | [Message](/docs/ai-elements/message)                      |
-| `model-selector.tsx`   | [Model Selector](/docs/ai-elements/model-selector)        |
-| `plan.tsx`             | [Plan](/docs/ai-elements/plan)                            |
-| `prompt-input.tsx`     | [Prompt Input](/docs/ai-elements/prompt-input)            |
-| `question.tsx`         | [Questionnaire](/docs/components/questionnaire)           |
-| `queue.tsx`            | [Queue](/docs/ai-elements/queue)                          |
-| `reasoning.tsx`        | [Reasoning](/docs/ai-elements/reasoning)                  |
-| `shimmer.tsx`          | [Trace](/docs/components/trace#status)'s `running` status |
-| `sources.tsx`          | [Sources](/docs/ai-elements/sources)                      |
-| `stack-trace.tsx`      | [Stack Trace](/docs/ai-elements/stack-trace)              |
-| `suggestion.tsx`       | [Suggestion](/docs/ai-elements/suggestion)                |
-| `task.tsx`             | [Task](/docs/ai-elements/task)                            |
-| `terminal.tsx`         | [Terminal](/docs/ai-elements/terminal)                    |
-| `test-results.tsx`     | [Test Results](/docs/ai-elements/test-results)            |
-| `tool.tsx`             | [Tool](/docs/ai-elements/tool)                            |
+| AI SDK Elements        | kirana/ui                                              |
+| ---------------------- | ------------------------------------------------------ |
+| `agent.tsx`            | [Subagent](/docs/ai-elements/subagent)                 |
+| `attachments.tsx`      | [Attachment](/docs/components/attachment)              |
+| `chain-of-thought.tsx` | [Chain of Thought](/docs/ai-elements/chain-of-thought) |
+| `checkpoint.tsx`       | [Checkpoint](/docs/ai-elements/checkpoint)             |
+| `code-block.tsx`       | [Code Block](/docs/components/code-block)              |
+| `commit.tsx`           | [Trace](/docs/components/trace#commit)                 |
+| `confirmation.tsx`     | [Confirmation](/docs/ai-elements/confirmation)         |
+| `context.tsx`          | [Context](/docs/ai-elements/context)                   |
+| `conversation.tsx`     | [Chat](/docs/ai-elements/chat)                         |
+| `file-tree.tsx`        | [File Tree](/docs/ai-elements/file-tree)               |
+| `inline-citation.tsx`  | [Inline Citation](/docs/ai-elements/inline-citation)   |
+| `message.tsx`          | [Message](/docs/ai-elements/message)                   |
+| `model-selector.tsx`   | [Model Selector](/docs/ai-elements/model-selector)     |
+| `plan.tsx`             | [Plan](/docs/ai-elements/plan)                         |
+| `prompt-input.tsx`     | [Prompt Input](/docs/ai-elements/prompt-input)         |
+| `question.tsx`         | [Questionnaire](/docs/components/questionnaire)        |
+| `queue.tsx`            | [Queue](/docs/ai-elements/queue)                       |
+| `reasoning.tsx`        | [Reasoning](/docs/ai-elements/reasoning)               |
+| `shimmer.tsx`          | [Shimmer](/docs/utils/shimmer)                         |
+| `sources.tsx`          | [Sources](/docs/ai-elements/sources)                   |
+| `stack-trace.tsx`      | [Stack Trace](/docs/ai-elements/stack-trace)           |
+| `suggestion.tsx`       | [Suggestion](/docs/ai-elements/suggestion)             |
+| `task.tsx`             | [Task](/docs/ai-elements/task)                         |
+| `terminal.tsx`         | [Terminal](/docs/ai-elements/terminal)                 |
+| `test-results.tsx`     | [Test Results](/docs/ai-elements/test-results)         |
+| `tool.tsx`             | [Tool](/docs/ai-elements/tool)                         |
 
 ### Elements without a replacement
 
@@ -96,9 +96,7 @@ Build from kirana/ui's components instead.
 
 ### Add the components
 
-```bash
-npx kirana-style ui add trace code-block
-```
+<!-- ::install exec="kirana-style ui add trace code-block" -->
 
 ### Copy a pattern
 
