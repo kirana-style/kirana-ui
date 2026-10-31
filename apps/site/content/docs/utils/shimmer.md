@@ -110,6 +110,14 @@ const styles = {
 <p sx={[shimmer, styles.wide]}>Generating response&hellip;</p>
 ```
 
+For one-off values, use any length or percentage:
+
+```tsx showLineNumbers
+const styles = {
+  wide: css({ "--shimmer-spread": "5rem" }),
+}
+```
+
 ## Angle
 
 Set `--shimmer-angle` to the tilt of the highlight band. The default is `20deg`.
@@ -183,7 +191,19 @@ const styles = {
 
 ## Fallback
 
-The shimmer is built on modern colour features, [relative color syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) and `color-mix()`, which are available in all current browsers. In older browsers without support, the highlight gradient is dropped and the text can render transparent. If you target older browsers, apply the shimmer under a `@supports` condition, through `shimmerProperties`.
+The shimmer is built on modern colour features, [relative color syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) and `color-mix()`, which are available in all current browsers. In older browsers without support, the highlight gradient is dropped and the text can render transparent. If you target older browsers, apply the shimmer under a `@supports` condition, through `shimmerProperties`:
+
+```tsx showLineNumbers
+const SUPPORTED = "@supports (color: oklch(from white l c h))"
+
+const styles = {
+  status: css({
+    backgroundImage: { [SUPPORTED]: shimmerProperties.backgroundImage },
+    WebkitTextFillColor: { [SUPPORTED]: shimmerProperties.WebkitTextFillColor },
+    // … and each of its other properties.
+  }),
+}
+```
 
 ## Reduced Motion
 

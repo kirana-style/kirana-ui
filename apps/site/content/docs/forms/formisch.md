@@ -16,7 +16,7 @@ This guide covers building forms with [Formisch](https://formisch.dev), the ligh
 We'll build the following form. It has a simple text input and a textarea. On submit, we'll validate the form data and display any errors.
 
 > [!NOTE]
-> For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in Formisch. It is recommended to add basic browser validation in your production code.
+> **Note:** For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in Formisch. It is recommended to add basic browser validation in your production code.
 
 <!-- ::preview item="form-formisch-demo" height="700" combinations="react/base,react/aria" -->
 
@@ -86,7 +86,7 @@ Here's a basic example of a form using the `<Field />` component from Formisch a
 ```
 
 > [!NOTE]
-> Formisch ships its own `Field` component. To avoid a name clash with kirana/ui's `Field`, the examples below import the Formisch one as `FormischField` and keep kirana/ui's `Field` under its original name. In your own code you can alias either side — just be consistent.
+> **Note:** Formisch ships its own `Field` component. To avoid a name clash with kirana/ui's `Field`, the examples below import the Formisch one as `FormischField` and keep kirana/ui's `Field` under its original name. In your own code you can alias either side — just be consistent.
 
 ## Form
 

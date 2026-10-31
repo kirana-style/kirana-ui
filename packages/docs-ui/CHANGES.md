@@ -166,3 +166,7 @@ Candidates for the Kirana copy, which would serve any registry's docs:
 - `markdown/demo-source.tsx` (new), registered as `demo-source`: `<!-- ::demo-source item="…"
   title="…" combinations="…" -->`, a demo's whole code as a titled, foldable code block, as
   shadcn/ui's `ComponentSource` shows a file (its Forms guides end on the finished form).
+- `markdown/callout.tsx`: shadcn/ui's callout. A quiet aside in the site's surface colour, its
+  border the same, small text, the kind's icon in the text's colour; every kind looks alike, where
+  each had a tinted surface and hairline of its own, and a line naming no title shows none (the
+  parser's default, the kind's name, was a heading on every note).

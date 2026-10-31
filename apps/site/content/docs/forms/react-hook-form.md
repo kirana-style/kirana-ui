@@ -16,7 +16,7 @@ In this guide, we will take a look at building forms with React Hook Form. We'll
 We are going to build the following form. It has a simple text input and a textarea. On submit, we'll validate the form data and display any errors.
 
 > [!NOTE]
-> For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in React Hook Form. It is recommended to add basic browser validation in your production code.
+> **Note:** For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in React Hook Form. It is recommended to add basic browser validation in your production code.
 
 <!-- ::preview item="form-rhf-demo" height="700" combinations="react/base,react/aria" -->
 
@@ -63,7 +63,7 @@ Here's a basic example of a form using the `<Controller />` component from React
 We'll start by defining the shape of our form using a Zod schema.
 
 > [!NOTE]
-> This example uses Zod 4 for schema validation, but you can replace it with any other Standard Schema validation library supported by React Hook Form.
+> **Note:** This example uses Zod 4 for schema validation, but you can replace it with any other Standard Schema validation library supported by React Hook Form.
 
 ```tsx showLineNumbers title="form.tsx"
 import * as z from "zod"

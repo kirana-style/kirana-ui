@@ -1,4 +1,5 @@
 import { alpha, radius, theme } from "../../../core/tokens"
+import { cardCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 /* eslint-disable react/no-children-prop */
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
@@ -61,6 +62,8 @@ const styles = {
     // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
     borderBottomColor: theme.border,
     borderStyle: { "*": null, base: "solid" },
+    // The header's `[.border-b]:pb-(--card-spacing)`, which a class name cannot reach here.
+    paddingBlockEnd: cardCtx.spacing,
   }),
   fieldSet: css({
     gap: { "*": null, base: space[4] },
@@ -73,6 +76,8 @@ const styles = {
     borderTopWidth: { "*": null, base: "1px" },
     // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
     borderTopColor: theme.border,
+    // The footer's `[.border-t]:pt-(--card-spacing)`, which a class name cannot reach here.
+    paddingBlockStart: cardCtx.spacing,
   }),
 }
 

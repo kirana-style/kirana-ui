@@ -16,7 +16,7 @@ This guide explores how to build forms using TanStack Form. You'll learn to crea
 We'll start by building the following form. It has a simple text input and a textarea. On submit, we'll validate the form data and display any errors.
 
 > [!NOTE]
-> For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in TanStack Form. It is recommended to add basic browser validation in your production code.
+> **Note:** For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in TanStack Form. It is recommended to add basic browser validation in your production code.
 
 <!-- ::preview item="form-tanstack-demo" height="700" combinations="react/base,react/aria" -->
 
@@ -80,7 +80,7 @@ Here's a basic example of a form using TanStack Form with the `<Field />` compon
 We'll start by defining the shape of our form using a Zod schema.
 
 > [!NOTE]
-> This example uses Zod 4 for schema validation. TanStack Form integrates seamlessly with Zod and other Standard Schema validation libraries through its validators API.
+> **Note:** This example uses Zod 4 for schema validation. TanStack Form integrates seamlessly with Zod and other Standard Schema validation libraries through its validators API.
 
 ```tsx showLineNumbers title="form.tsx"
 import * as z from "zod"

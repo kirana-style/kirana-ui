@@ -54,7 +54,7 @@ The fade is scroll-aware and tracks the scroll position:
 
 The fade is applied with `mask-image`, so it dissolves the content itself rather than overlaying a colour. The mask is a linear fade from transparent to black, so it adapts to any background without configuration. If your scroll area sits inside a card, put the background and border on a wrapper and `scrollFade` on the inner scroller, so the fade dissolves the content and not the card.
 
-The fade eases in because each edge's depth is a registered custom property (`scrollFadeCtx`, in `core/context.ts`) that the scroll drives. In a browser without scroll-driven animations, both edges stay faded.
+The fade eases in because each edge's depth is a registered custom property (`scrollFadeCtx`, in `core/context.ts`) that the scroll drives.
 
 The [Code Block](/docs/components/code-block) and [Message Scroller](/docs/components/message-scroller) components use the scroll fade on their scrolling content.
 
@@ -139,8 +139,6 @@ const styles = {
 
 Add `scrollFadeNone` after the other styles to remove the fade. Under a condition, a breakpoint or a state, set `maskImage` to `none` under it:
 
-<!-- ::preview item="scroll-fade-none" height="548" -->
-
 ```tsx showLineNumbers
 const styles = {
   plainFromMd: css({ maskImage: { [breakpoint.md]: "none" } }),
@@ -149,10 +147,18 @@ const styles = {
 <div sx={[scrollFade, styles.list, styles.plainFromMd]}>{/* ... */}</div>
 ```
 
+<!-- ::preview item="scroll-fade-none" height="548" -->
+
+## Fallback
+
+The scroll-aware behavior is implemented with [CSS scroll-driven animations](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations), with no JavaScript and no scroll listeners. In browsers that do not support scroll-driven animations, `scrollFade` falls back to a static fade on both edges, and the edge styles fall back to a static fade on their edge.
+
+Since the mask is applied to the scroll container itself, a visible scrollbar fades with the content at the edges. Give the container `scrollbarWidth: "none"`, as the demos do, if you want to hide the scrollbar entirely.
+
 ## RTL
 
 To enable RTL support, see the [RTL guide](/docs/design-system/rtl).
 
-`scrollFadeX`, `scrollFadeS` and `scrollFadeE` follow the reading direction. In RTL, the start edge is on the right.
+`scrollFadeX` follows the reading direction. At rest, the start edge is crisp and the end edge fades. In RTL layouts that means a crisp right edge and a fade on the left, mirrored from LTR. `scrollFadeS` and `scrollFadeE` mirror the same way.
 
 <!-- ::preview item="scroll-fade-rtl" height="288" direction="rtl" -->

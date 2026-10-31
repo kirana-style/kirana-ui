@@ -37,6 +37,7 @@ import { Switch } from "../ui/switch"
 import { css, props as styleProps } from "@kirana-style/core"
 import { containerSize, space } from "../../../core/scales"
 import { alpha, radius, theme } from "../../../core/tokens"
+import { cardCtx } from "../../../core/context"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
@@ -67,12 +68,16 @@ const styles = {
     // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
     borderBottomColor: theme.border,
     borderStyle: { "*": null, base: "solid" },
+    // The header's `[.border-b]:pb-(--card-spacing)`, which a class name cannot reach here.
+    paddingBlockEnd: cardCtx.spacing,
   }),
   cardFooter: css({
     borderStyle: { "*": null, base: "solid" },
     borderTopWidth: { "*": null, base: "1px" },
     // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
     borderTopColor: theme.border,
+    // The footer's `[.border-t]:pt-(--card-spacing)`, which a class name cannot reach here.
+    paddingBlockStart: cardCtx.spacing,
   }),
 }
 
