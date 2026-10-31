@@ -19,21 +19,21 @@ Use `Trace` for the steps an agent takes, like calling a tool, running a subagen
 
 ## Built with Trace
 
-Every pattern below is a composition of `Trace` parts. See shadcn/ui's [AI Elements](https://ui.shadcn.com/docs/ai-elements) for examples and code.
+Every pattern below is a composition of `Trace` parts. See [AI Elements](/docs/ai-elements) for examples and code.
 
-| Pattern                                                                          | Shows                                                            |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [Chain of Thought](https://ui.shadcn.com/docs/ai-elements/base/chain-of-thought) | A summary that expands into the steps behind it.                 |
-| [Plan](https://ui.shadcn.com/docs/ai-elements/base/plan)                         | The steps the agent plans to take, and how far it has got.       |
-| [Queue](https://ui.shadcn.com/docs/ai-elements/base/queue)                       | The agent's todo list, split into what is left and what is done. |
-| [Reasoning](https://ui.shadcn.com/docs/ai-elements/base/reasoning)               | The agent's thinking as it streams.                              |
-| [Sources](https://ui.shadcn.com/docs/ai-elements/base/sources)                   | The links the agent used for a reply.                            |
-| [Stack Trace](https://ui.shadcn.com/docs/ai-elements/base/stack-trace)           | A failed tool call and its stack frames.                         |
-| [Subagent](https://ui.shadcn.com/docs/ai-elements/base/subagent)                 | A subagent run, with its tool calls and result.                  |
-| [Task](https://ui.shadcn.com/docs/ai-elements/base/task)                         | The steps the agent takes, as it takes them.                     |
-| [Terminal](https://ui.shadcn.com/docs/ai-elements/base/terminal)                 | A command the agent runs, with its output as it streams.         |
-| [Test Results](https://ui.shadcn.com/docs/ai-elements/base/test-results)         | A test run by the agent, with its suites and failures.           |
-| [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool)                         | A tool call the agent makes, from input to output.               |
+| Pattern                                                | Shows                                                            |
+| ------------------------------------------------------ | ---------------------------------------------------------------- |
+| [Chain of Thought](/docs/ai-elements/chain-of-thought) | A summary that expands into the steps behind it.                 |
+| [Plan](/docs/ai-elements/plan)                         | The steps the agent plans to take, and how far it has got.       |
+| [Queue](/docs/ai-elements/queue)                       | The agent's todo list, split into what is left and what is done. |
+| [Reasoning](/docs/ai-elements/reasoning)               | The agent's thinking as it streams.                              |
+| [Sources](/docs/ai-elements/sources)                   | The links the agent used for a reply.                            |
+| [Stack Trace](/docs/ai-elements/stack-trace)           | A failed tool call and its stack frames.                         |
+| [Subagent](/docs/ai-elements/subagent)                 | A subagent run, with its tool calls and result.                  |
+| [Task](/docs/ai-elements/task)                         | The steps the agent takes, as it takes them.                     |
+| [Terminal](/docs/ai-elements/terminal)                 | A command the agent runs, with its output as it streams.         |
+| [Test Results](/docs/ai-elements/test-results)         | A test run by the agent, with its suites and failures.           |
+| [Tool](/docs/ai-elements/tool)                         | A tool call the agent makes, from input to output.               |
 
 ## Installation
 
@@ -306,13 +306,13 @@ A collapsible row whose detail is a `Trace` of link rows.
 
 <!-- ::start:only react/base -->
 
-See Sources for more examples.
+See [Sources](/docs/ai-elements/sources) for more examples.
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-See Sources for more examples.
+See [Sources](/docs/ai-elements/sources) for more examples.
 
 <!-- ::end:only -->
 
@@ -324,13 +324,13 @@ A chain of thought is a collapsible row with step rows inside. Set the parent's 
 
 <!-- ::start:only react/base -->
 
-See Chain of Thought and Task for more examples.
+See [Chain of Thought](/docs/ai-elements/chain-of-thought) and [Task](/docs/ai-elements/task) for more examples.
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-See Chain of Thought and Task for more examples.
+See [Chain of Thought](/docs/ai-elements/chain-of-thought) and [Task](/docs/ai-elements/task) for more examples.
 
 <!-- ::end:only -->
 
@@ -352,15 +352,15 @@ Render a `reasoning` part from the AI SDK. The row is a `TraceLine` until the fi
 
 <!-- ::preview item="trace-thinking" height="360" combinations="react/base,react/aria" -->
 
-See shadcn/ui's [Reasoning](https://ui.shadcn.com/docs/ai-elements/base/reasoning) for more examples.
+See [Reasoning](/docs/ai-elements/reasoning) for more examples.
 
 ## Tool
 
-Render tool parts from the AI SDK. Map the tool part as in shadcn/ui's [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool#states).
+Render tool parts from the AI SDK. Map the tool part as in [Tool](/docs/ai-elements/tool#states).
 
 <!-- ::preview item="trace-tool-calls" height="400" combinations="react/base,react/aria" -->
 
-See shadcn/ui's [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool) for more examples.
+See [Tool](/docs/ai-elements/tool) for more examples.
 
 ## Accessibility
 

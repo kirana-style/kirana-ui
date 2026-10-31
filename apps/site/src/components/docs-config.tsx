@@ -3,6 +3,7 @@
  * item's preview is served.
  */
 import {
+  AiChat02Icon,
   BookOpen01Icon,
   DashboardSquare01Icon,
   PackageIcon,
@@ -36,6 +37,14 @@ export const TABS: readonly DocsTab[] = [
     sections: ["components"],
     accent: "neutral",
     icon: DashboardSquare01Icon,
+  },
+  {
+    id: "ai-elements",
+    label: "AI Elements",
+    href: "/docs/ai-elements",
+    sections: ["ai-elements"],
+    accent: "neutral",
+    icon: AiChat02Icon,
   },
   {
     id: "kirana",

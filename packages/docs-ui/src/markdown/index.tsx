@@ -32,6 +32,7 @@ import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
 import { Callout } from "./callout.tsx"
 import { ComponentsList } from "./components-list.tsx"
+import { SectionCards } from "./section-cards.tsx"
 import { MarkdownFigure } from "./figure.tsx"
 import { CodeBlock } from "./code-block.tsx"
 import type { CodeBlockProps } from "./code-block.tsx"
@@ -373,6 +374,7 @@ export function createMarkdownComponents(
       steps: MarkdownSteps as unknown as CommentRegistry[string],
       figure: MarkdownFigure as CommentRegistry[string],
       "components-list": ComponentsList as CommentRegistry[string],
+      "section-cards": SectionCards as CommentRegistry[string],
       ...components,
     }),
   }

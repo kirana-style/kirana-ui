@@ -220,6 +220,12 @@ import {
   StarOffIcon,
   UndoIcon,
   UserCircle02Icon,
+  CancelCircleIcon,
+  CheckListIcon,
+  Layers01Icon,
+  Route01Icon,
+  TaskDone01Icon,
+  TestTube01Icon,
 } from "@hugeicons/core-free-icons"
 import {
   // Renamed: it would hide the global `Map`.,
@@ -422,6 +428,13 @@ import {
   Send,
   StarOff,
   Video,
+  CircleDot,
+  CircleX,
+  FlaskConical,
+  Layers,
+  ListChecks,
+  ListTodo,
+  Route,
 } from "lucide"
 
 import type { IconLibrary } from "../core/config"
@@ -681,6 +694,13 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       SendIcon: Send,
       StarOffIcon: StarOff,
       VideoIcon: Video,
+      CircleDotIcon: CircleDot,
+      CircleXIcon: CircleX,
+      FlaskConicalIcon: FlaskConical,
+      LayersIcon: Layers,
+      ListChecksIcon: ListChecks,
+      ListTodoIcon: ListTodo,
+      RouteIcon: Route,
     },
   },
   hugeicons: {
@@ -898,6 +918,12 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       StarOffIcon,
       UndoIcon,
       UserCircle02Icon,
+      CancelCircleIcon,
+      CheckListIcon,
+      Layers01Icon,
+      Route01Icon,
+      TaskDone01Icon,
+      TestTube01Icon,
     },
   },
 }

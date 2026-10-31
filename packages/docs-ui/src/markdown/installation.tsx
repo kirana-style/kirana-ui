@@ -11,6 +11,9 @@
  *   modules it reads), each folded until expanded, then the import paths.
  *
  * It follows the reader's combination, as the code panel does (`component-code.tsx`).
+ *
+ * `name` may list several items (`name="trace code-block"`), as a pattern built from components
+ * does: the command adds them all, and the manual steps copy the first and add the others.
  */
 import { useEffect, useState } from "react"
 import { css } from "@kirana-style/core"
@@ -156,7 +159,13 @@ export function Installation({
   useEffect(() => {
     if (tab !== "manual" || loaded || !name || !registryItem) return
     let live = true
-    load(name, registryItem)
+    const [first = name, ...others] = name.split(/\s+/).filter(Boolean)
+    load(first, registryItem)
+      .then((value) => ({
+        ...value,
+        // The pattern's other components, beside the ones the first item uses.
+        uses: [...new Set([...others, ...value.uses])],
+      }))
       .then((value) => live && setLoaded(value))
       .catch(() => live && setFailed(true))
     void import("@workspace/docs-core/highlight.ts").then(
@@ -173,6 +182,7 @@ export function Installation({
 
   if (!name) return null
   const react = current?.id.startsWith("react/") ?? true
+  const names = name.split(/\s+/).filter(Boolean)
 
   return (
     <div sx={styles.root} data-slot="installation">
@@ -188,20 +198,22 @@ export function Installation({
       </Tabs>
       {tab === "command" ? (
         <>
-          <InstallTabs exec={`kirana-style ui add ${name}`} />
+          <InstallTabs exec={`kirana-style ui add ${names.join(" ")}`} />
           {react ? (
             <>
               <p sx={styles.note}>
                 Or with shadcn/ui&apos;s CLI, from the registry&apos;s{" "}
                 <Link href="/docs/shadcn">export</Link>:
               </p>
-              <InstallTabs run={`shadcn@latest add @kirana/${name}`} />
+              <InstallTabs
+                run={`shadcn@latest add ${names.map((each) => `@kirana/${each}`).join(" ")}`}
+              />
             </>
           ) : null}
         </>
       ) : (
         <Manual
-          name={name}
+          name={names[0] ?? name}
           loaded={loaded}
           failed={failed || !registryItem}
           highlight={highlight}

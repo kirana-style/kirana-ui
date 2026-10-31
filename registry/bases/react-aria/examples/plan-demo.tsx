@@ -1,0 +1,229 @@
+import { IconPlaceholder } from "../../../icons/icon-placeholder"
+import { useChat } from "@ai-sdk/react"
+import type { UIMessage } from "ai"
+
+import { createChat, getMessageText } from "../../../lib/ai"
+import { Bubble, BubbleContent } from "../ui/bubble"
+import { Button } from "../ui/button"
+import { Message, MessageContent } from "../ui/message"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "../ui/trace"
+import { css } from "@kirana-style/core"
+import {
+  containerSize,
+  fontSize,
+  lineHeight,
+  space,
+} from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+
+const styles = {
+  div: css({
+    display: "flex",
+    minHeight: space[72],
+    width: "100%",
+    maxWidth: containerSize.sm,
+    flexDirection: "column",
+    gap: space[4],
+    paddingBlock: space[6],
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+  }),
+  messageContent: css({
+    gap: { "*": null, base: space[4] },
+  }),
+  button: css({
+    marginTop: { "*": null, base: "auto" },
+    alignSelf: { "*": null, base: "flex-start" },
+  }),
+}
+
+type ChatMessage = UIMessage<
+  unknown,
+  {
+    plan: {
+      title: string
+      steps: { title: string; status: "done" | "running" | "pending" }[]
+    }
+  }
+>
+
+type PlanPart = Extract<ChatMessage["parts"][number], { type: "data-plan" }>
+
+const STEPS = [
+  "Install @base-ui/react",
+  "Replace the Radix imports",
+  "Rename asChild to render",
+  "Run the type checker",
+]
+
+function planAt(current: number) {
+  return {
+    title: "Plan: migrate to Base UI",
+    steps: STEPS.map((title, index) => ({
+      title,
+      status:
+        index < current ? "done" : index === current ? "running" : "pending",
+    })),
+  } satisfies PlanPart["data"]
+}
+
+const chat = createChat<ChatMessage>()
+  .user("Migrate the dialog components to Base UI.")
+  .assistant(({ writer }) => {
+    STEPS.forEach((_, index) => {
+      writer
+        .data({ type: "data-plan", id: "plan", data: planAt(index) })
+        .sleep(1200)
+    })
+    writer.data({ type: "data-plan", id: "plan", data: planAt(STEPS.length) })
+    writer.text("Migrated Dialog and AlertDialog. The type checker passes.")
+  })
+
+const transcript = chat.get()
+const [question] = chat.get(1)
+const transport = chat.transport({ delayMs: 20 })
+
+function PlanRow({
+  plan,
+  streaming,
+}: {
+  plan: PlanPart["data"]
+  streaming: boolean
+}) {
+  const done = plan.steps.filter((step) => step.status === "done").length
+  const running = streaming && done < plan.steps.length
+
+  return (
+    <TraceCollapsible defaultExpanded>
+      <TraceCollapsibleTrigger>
+        <TraceLine status={running ? "running" : undefined}>
+          <TraceIcon>
+            <IconPlaceholder
+              lucide="RouteIcon"
+              tabler="IconRoute"
+              hugeicons="Route01Icon"
+              phosphor="PathIcon"
+              remixicon="RiRouteLine"
+            />
+          </TraceIcon>
+          <TraceTitle>{plan.title}</TraceTitle>
+          <TraceDescription>
+            {done} of {plan.steps.length} done
+          </TraceDescription>
+        </TraceLine>
+      </TraceCollapsibleTrigger>
+      <TraceCollapsibleContent>
+        <Trace>
+          {plan.steps.map((step) => (
+            <TraceLine
+              key={step.title}
+              status={
+                step.status === "pending"
+                  ? "pending"
+                  : streaming && step.status === "running"
+                    ? "running"
+                    : undefined
+              }
+            >
+              <TraceIcon>
+                {step.status === "done" ? (
+                  <IconPlaceholder
+                    lucide="CircleCheckIcon"
+                    tabler="IconCircleCheckFilled"
+                    hugeicons="CheckmarkCircle01Icon"
+                    phosphor="CheckCircleIcon"
+                    remixicon="RiCheckboxCircleFill"
+                  />
+                ) : step.status === "running" ? (
+                  <IconPlaceholder
+                    lucide="CircleDotIcon"
+                    tabler="IconCircleDot"
+                    hugeicons="RecordIcon"
+                    phosphor="RecordIcon"
+                    remixicon="RiRecordCircleLine"
+                  />
+                ) : (
+                  <IconPlaceholder
+                    lucide="CircleIcon"
+                    tabler="IconCircle"
+                    hugeicons="CircleIcon"
+                    phosphor="CircleIcon"
+                    remixicon="RiCheckboxBlankCircleLine"
+                  />
+                )}
+              </TraceIcon>
+              <TraceTitle>{step.title}</TraceTitle>
+            </TraceLine>
+          ))}
+        </Trace>
+      </TraceCollapsibleContent>
+    </TraceCollapsible>
+  )
+}
+
+export default function PlanDemo() {
+  const { messages, sendMessage, setMessages, status } = useChat({
+    messages: transcript,
+    transport,
+  })
+  const busy = status === "submitted" || status === "streaming"
+
+  return (
+    <div sx={page.example}>
+      <div sx={styles.div}>
+        {messages.map((message) => {
+          if (message.role === "user") {
+            return (
+              <Message key={message.id} align="end">
+                <MessageContent>
+                  <Bubble align="end" variant="muted">
+                    <BubbleContent>{getMessageText(message)}</BubbleContent>
+                  </Bubble>
+                </MessageContent>
+              </Message>
+            )
+          }
+
+          const streaming = busy && message === messages.at(-1)
+          const plan = message.parts.find((part) => part.type === "data-plan")
+          const text = getMessageText(message)
+
+          return (
+            <Message key={message.id}>
+              <MessageContent sx={styles.messageContent}>
+                {plan && (
+                  <Trace>
+                    <PlanRow plan={plan.data} streaming={streaming} />
+                  </Trace>
+                )}
+                {text && <p>{text}</p>}
+              </MessageContent>
+            </Message>
+          )
+        })}
+        {!busy && (
+          <Button
+            variant="outline"
+            size="sm"
+            sx={styles.button}
+            onPress={() => {
+              setMessages([])
+              void sendMessage(question)
+            }}
+          >
+            Replay
+          </Button>
+        )}
+      </div>
+    </div>
+  )
+}

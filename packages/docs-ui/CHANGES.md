@@ -16,7 +16,8 @@ it was, names included.
   (`<name>/<variant>.md`); `PageMeta.variant` carries the variant, the URL the variants share and
   the siblings. The nav, search, the pager (`ORDER`, `neighbours`) and `llms.txt` list a variant
   source once, at its shared URL; `defaultVariant()` finds where that URL leads; each variant has
-  its twin, whose header names it and links the others. `DocsConfig.variants` and
+  its twin, whose header names it and links the others, and the shared URL has the default
+  variant's twin, so a link to it in another twin reads a page. `DocsConfig.variants` and
   `checkVariants` (the app's check against its source of truth). A candidate for the Kirana copy.
 - `package.json`: no `test` script or coverage dependencies. The workspace's `vp run test` runs
   `test/`; `vitest.config.ts` (the coverage floor) is not copied.
@@ -77,7 +78,12 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   it, Command and Manual. Manual's steps read the registry's documents: the project set up with
   `init`, the components the item uses, the packages its framework and base need, and every file
   it installs, its shared modules' included. `markdown/component-code.tsx` exports
-  `RegistryItem` for it.
+  `RegistryItem` for it. `name` may list several items (`name="trace code-block"`), as an AI
+  Elements pattern built from components does: the command adds them all, and Manual copies the
+  first and lists the others among the components to add.
+- `markdown/section-cards.tsx` (new), registered as `section-cards`: `<!-- ::section-cards
+  section="…" -->`, a section's pages but its index as cards, each its title and description, as
+  shadcn/ui's AI Elements page lists its patterns (`LinkedCard`). It reads the navigation.
 - `markdown/code-block.tsx`: `collapsible` (new, optional): a file longer than sixteen lines is
   folded until expanded, from its header or the fade at its foot, as shadcn/ui's component source.
 - `markdown/preview.tsx` (new), registered as `preview` in `createMarkdownComponents`:

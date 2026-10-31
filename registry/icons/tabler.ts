@@ -311,6 +311,17 @@ export default {
       ["path", { d: "M15 3.5a9 9 0 0 1 5.5 5.5h-4.5a1 1 0 0 1 -1 -1v-4.5" }],
     ],
     IconCheck: [["path", { d: "M5 12l5 5l10 -10" }]],
+    IconChecklist: [
+      [
+        "path",
+        {
+          d: "M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8",
+        },
+      ],
+      ["path", { d: "M14 19l2 2l4 -4" }],
+      ["path", { d: "M9 8h4" }],
+      ["path", { d: "M9 12h2" }],
+    ],
     IconChevronDown: [["path", { d: "M6 9l6 6l6 -6" }]],
     IconChevronLeft: [["path", { d: "M15 6l-6 6l6 6" }]],
     IconChevronRight: [["path", { d: "M9 6l6 6l-6 6" }]],
@@ -360,6 +371,10 @@ export default {
       ["path", { d: "M20.31 8.56a9 9 0 0 0 -1.95 -2.92" }],
       ["path", { d: "M15.44 3.69a9 9 0 0 0 -3.44 -.69" }],
     ],
+    IconCircleDot: [
+      ["path", { d: "M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" }],
+      ["path", { d: "M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" }],
+    ],
     IconCirclePlus: [
       ["path", { d: "M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" }],
       ["path", { d: "M9 12h6" }],
@@ -374,6 +389,10 @@ export default {
           stroke: "none",
         },
       ],
+    ],
+    IconCircleX: [
+      ["path", { d: "M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" }],
+      ["path", { d: "M10 10l4 4m0 -4l-4 4" }],
     ],
     IconClipboard: [
       [
@@ -702,6 +721,14 @@ export default {
         },
       ],
     ],
+    IconFlask: [
+      ["path", { d: "M9 3l6 0" }],
+      ["path", { d: "M10 9l4 0" }],
+      [
+        "path",
+        { d: "M10 3v6l-4 11a.7 .7 0 0 0 .5 1h11a.7 .7 0 0 0 .5 -1l-4 -11v-6" },
+      ],
+    ],
     IconFlipHorizontal: [
       ["path", { d: "M12 3l0 18" }],
       ["path", { d: "M16 7l0 10l5 0l-5 -10" }],
@@ -1019,6 +1046,14 @@ export default {
       ["path", { d: "M5 12l0 .01" }],
       ["path", { d: "M5 18l0 .01" }],
     ],
+    IconListCheck: [
+      ["path", { d: "M3.5 5.5l1.5 1.5l2.5 -2.5" }],
+      ["path", { d: "M3.5 11.5l1.5 1.5l2.5 -2.5" }],
+      ["path", { d: "M3.5 17.5l1.5 1.5l2.5 -2.5" }],
+      ["path", { d: "M11 6l9 0" }],
+      ["path", { d: "M11 12l9 0" }],
+      ["path", { d: "M11 18l9 0" }],
+    ],
     IconListDetails: [
       ["path", { d: "M13 5h8" }],
       ["path", { d: "M13 9h5" }],
@@ -1313,6 +1348,14 @@ export default {
       ["path", { d: "M7.16 18.37l0 .01" }],
       ["path", { d: "M11 19.94l0 .01" }],
     ],
+    IconRoute: [
+      ["path", { d: "M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" }],
+      ["path", { d: "M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4" }],
+      [
+        "path",
+        { d: "M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" },
+      ],
+    ],
     IconSearch: [
       ["path", { d: "M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" }],
       ["path", { d: "M21 21l-6 -6" }],
@@ -1439,6 +1482,11 @@ export default {
           d: "M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6",
         },
       ],
+    ],
+    IconStack2: [
+      ["path", { d: "M12 4l-8 4l8 4l8 -4l-8 -4" }],
+      ["path", { d: "M4 12l8 4l8 -4" }],
+      ["path", { d: "M4 16l8 4l8 -4" }],
     ],
     IconStar: [
       [

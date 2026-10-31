@@ -139,7 +139,7 @@ Use a trigger button to reveal additional settings.
 
 ## File Tree
 
-Use nested collapsibles to build a file tree.
+Use nested collapsibles to build a file tree. In a conversation, this is the [File Tree](/docs/ai-elements/file-tree) pattern.
 
 <!-- ::preview item="collapsible-file-tree" height="400" combinations="react/base,react/aria" -->
 

@@ -625,14 +625,22 @@ export const SEARCH: readonly SearchRecord[] = ${JSON.stringify(
         : []),
       "",
     ].join("\n")
-    twins.add(join(publicDir, "docs", `${slug}.md`))
-    if (
-      await emit(
-        join(publicDir, "docs", `${slug}.md`),
-        `${header}\n${body(page)}\n`
-      )
-    ) {
-      stale.push(relative(root, join(publicDir, "docs", `${slug}.md`)))
+    // The URL a page's variants share has a twin too, the default variant's, as its page answers
+    // with the default variant: a link to the shared URL (`/docs/components/button`) reads it.
+    const slugs = [
+      slug,
+      ...(variant?.default ? [variant.of.replace(/^\/docs\//, "")] : []),
+    ]
+    for (const each of slugs) {
+      twins.add(join(publicDir, "docs", `${each}.md`))
+      if (
+        await emit(
+          join(publicDir, "docs", `${each}.md`),
+          `${header}\n${body(page)}\n`
+        )
+      ) {
+        stale.push(relative(root, join(publicDir, "docs", `${each}.md`)))
+      }
     }
   }
 
