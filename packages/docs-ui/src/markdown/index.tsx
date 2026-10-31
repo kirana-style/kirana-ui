@@ -30,7 +30,7 @@ import { accent, tint } from "../accent.ts"
 import { DOCS_CHROME } from "../chrome.ts"
 import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
-import { Callout } from "./callout.tsx"
+import { Callout, InCallout } from "./callout.tsx"
 import { ComponentsList } from "./components-list.tsx"
 import { SectionCards } from "./section-cards.tsx"
 import { MarkdownFigure } from "./figure.tsx"
@@ -159,6 +159,13 @@ const styles = {
     fontSize: fontSize.base,
     lineHeight: "1.75",
     color: theme.foreground,
+  }),
+  // In a callout, the alert's `text-sm` and `[&_p]:leading-relaxed`, in its colour.
+  pCallout: css({
+    marginBlockEnd: { "*": null, base: spacing[2], ":last-child": "0" },
+    fontSize: { "*": null, base: "inherit" },
+    lineHeight: { "*": null, base: "1.625" },
+    color: { "*": null, base: "inherit" },
   }),
   // Dashed underline in the text colour; the section's accent on hover.
   a: css({
@@ -384,7 +391,9 @@ export function createMarkdownComponents(
 
 /** A markdown paragraph, for the same reason. */
 export function MarkdownParagraph(props: React.ComponentProps<"p">) {
-  return <p {...props} sx={styles.p} />
+  return (
+    <p {...props} sx={[styles.p, use(InCallout) ? styles.pCallout : null]} />
+  )
 }
 
 const base: MarkdownComponents = {
@@ -418,22 +427,25 @@ const base: MarkdownComponents = {
   ),
   "md-code": CodeBlock,
   // A callout's title is plain text from the `> [!NOTE] Title` line; its `code` spans are set
-  // as the body's are.
+  // as the body's are. A line that names no title gets its kind's name from the parser, which
+  // shadcn/ui's callouts do not show.
   "md-callout": ({ title, ...props }: React.ComponentProps<typeof Callout>) => (
     <Callout
       {...props}
       title={
-        typeof title === "string"
-          ? title.split("`").map((part, index) =>
-              index % 2 === 1 ? (
-                <code key={index} sx={styles.code}>
-                  {part}
-                </code>
-              ) : (
-                part
+        typeof title === "string" && title.toLowerCase() === props.kind
+          ? undefined
+          : typeof title === "string"
+            ? title.split("`").map((part, index) =>
+                index % 2 === 1 ? (
+                  <code key={index} sx={styles.code}>
+                    {part}
+                  </code>
+                ) : (
+                  part
+                )
               )
-            )
-          : title
+            : title
       }
     />
   ),

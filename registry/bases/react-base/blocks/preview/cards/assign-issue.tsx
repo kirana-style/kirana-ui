@@ -27,6 +27,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../../ui/tooltip"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { css } from "@kirana-style/core"
+import { cardCtx } from "../../../../../core/context"
 import { theme } from "../../../../../core/tokens"
 import { axes } from "../../../../../core/axes"
 import {
@@ -45,6 +46,8 @@ const styles = {
     borderBottomWidth: { "*": null, base: "1px" },
     // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
     borderBottomColor: theme.border,
+    // The header's `[.border-b]:pb-(--card-spacing)`, which a class name cannot reach here.
+    paddingBlockEnd: cardCtx.spacing,
   }),
   cardTitle: css({
     fontSize: { "*": null, base: fontSize.sm },

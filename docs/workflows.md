@@ -81,7 +81,9 @@ Concretely, for a component that arrives as Tailwind:
 
    Upstream's other page parts have theirs: a guide's `<Steps>` is
    `<!-- ::start:steps -->` … `<!-- ::end:steps -->` around its h3 steps, its
-   `<Callout>` a `> [!NOTE]` (amber, `> [!WARNING]`), and a preview upstream sets
+   `<Callout>` a `> [!NOTE]` (`> [!WARNING]` …, each a quiet surface box like
+   upstream's, only the icon differing; upstream's `**Note:**` stays in the text,
+   and `> [!NOTE] Title` gives a heading), and a preview upstream sets
    on `bg-surface` takes `surface="true"`; upstream's `hideCode` is
    `code="false"`, its `type="block"` (a block shown as on a desktop, Sidebar)
    `block="true"`, and its `figcaption` `caption="…"`. A preview is a frame, so

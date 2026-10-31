@@ -326,6 +326,11 @@ condition on `aria-orientation`, `data-orientation`, `data-side`.
   not translate it to `boxShadow: "none"`.
 - `border` sets a width and inherits the style. On an `Empty`, which is
   `border-dashed`, it draws a dashed line: add widths only.
+- `border-b` on a `CardHeader` (`border-t` on a `CardFooter`) also pads it:
+  the card's own `[.border-b]:pb-(--card-spacing)` reads the class, which a
+  Kirana style cannot. Write the padding with the border,
+  `paddingBlockEnd: cardCtx.spacing` (`paddingBlockStart` on the footer), and
+  the border's colour, `theme.border`, which the reset does not give.
 - `data-open`, `data-closed`, `data-checked`, `data-unchecked`, `data-selected`,
   `data-disabled`, `data-active`, `data-horizontal` and `data-vertical` are
   shadcn's custom variants (`shadcn-tailwind.css` in the original), not

@@ -19,6 +19,8 @@ const styles = {
     overflow: "hidden",
     borderRadius: radius["2xl"],
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
   }),
   // `h-72 scroll-fade scrollbar-none overflow-y-auto`
   scroller: css({
