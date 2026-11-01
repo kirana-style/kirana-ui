@@ -47,8 +47,8 @@ const overButton = <T extends object>(entries: T) => ({
 })
 
 const styles = {
-  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy); the
-  // picture, the fallback and the hairline take the root's corner.
+  // `rounded-lg` on the avatar, as upstream's bases draw it; the picture, the fallback and the
+  // hairline take the root's corner.
   avatarSquare: css({
     borderRadius: { "*": null, base: radius.lg },
   }),

@@ -56,8 +56,11 @@ const styles = {
     flexDirection: { "*": null, base: "column" },
     gap: { "*": null, base: space[6] },
   }),
+  // Upstream's home draws one design, whose row fits; here a reader's design can be wider (Sera's
+  // capitals), so the buttons and badges wrap rather than leave the card.
   div: css({
     display: "flex",
+    flexWrap: "wrap",
     gap: space[2],
   }),
   field: css({
@@ -73,6 +76,7 @@ const styles = {
   }),
   div3: css({
     display: "flex",
+    flexWrap: "wrap",
     gap: space[2],
   }),
   badge: css({

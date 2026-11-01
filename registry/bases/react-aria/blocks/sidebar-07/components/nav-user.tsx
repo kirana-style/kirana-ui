@@ -9,7 +9,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
-import { radius, theme } from "../../../../../core/tokens"
+import { theme } from "../../../../../core/tokens"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
 import {
@@ -28,11 +28,6 @@ import {
 } from "../../../ui/sidebar"
 
 const styles = {
-  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy); the
-  // picture, the fallback and the hairline take the root's corner.
-  avatarSquare: css({
-    borderRadius: { "*": null, base: radius.lg },
-  }),
   trigger: css({ backgroundColor: { '[aria-expanded="true"]': theme.muted } }),
   // The name over the address, each cut short to the room there is.
   text: css({
@@ -60,9 +55,8 @@ const styles = {
     width: space[4],
     height: space[4],
   }),
-  // The trigger's width, at least 14rem, as shadcn/ui's blocks page draws it (its `new-york-v4`
-  // copy, `w-(--radix-dropdown-menu-trigger-width) min-w-56`); upstream's Base UI copy writes `w-fit`.
-  menu: css({ minWidth: { "*": null, base: space[56] } }),
+  // `w-fit`, as upstream's bases write it.
+  menu: css({ width: { "*": null, base: "fit-content" } }),
   // The label holds the whole account row, with no padding or weight of its own (`p-0
   // font-normal`, which win over every style's).
   label: css({
@@ -98,7 +92,7 @@ export function NavUser({
       <SidebarMenuItem>
         <DropdownMenuTrigger>
           <SidebarMenuButton size="lg" sx={styles.trigger}>
-            <Avatar sx={styles.avatarSquare}>
+            <Avatar>
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -123,7 +117,7 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.label}>
                 <div sx={styles.account}>
-                  <Avatar sx={styles.avatarSquare}>
+                  <Avatar>
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
