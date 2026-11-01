@@ -52,8 +52,10 @@ import { COLLAPSED, WRAPPER_COLLAPSED } from "../../../styles/sidebar.styles"
 const styles = {
   // Upstream shows the sidebar as a block (`type="block"`): edge to edge, the frame unpadded.
   flush: css({ padding: { "*": null, base: "0" } }),
+  // Upstream's page fills its frame; here the root sits in the centred `page.example`.
   appSidebarWithProviderDiv: css({
     position: "relative",
+    width: "100%",
   }),
   sidebarContentInnerDiv: css({
     display: "flex",

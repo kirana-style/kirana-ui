@@ -57,9 +57,10 @@ const styles = {
     backgroundColor: { '[aria-expanded="true"]': theme.sidebarAccent },
     color: { '[aria-expanded="true"]': theme.sidebarAccentForeground },
   }),
+  // `size-8`, over the small icon button's size in every style.
   sidebarIconExample: css({
-    width: space[8],
-    height: space[8],
+    width: { "*": null, base: space[8] },
+    height: { "*": null, base: space[8] },
   }),
   div: css({
     display: "grid",
