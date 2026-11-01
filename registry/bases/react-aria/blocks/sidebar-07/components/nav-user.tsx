@@ -28,13 +28,11 @@ import {
 } from "../../../ui/sidebar"
 
 const styles = {
-  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy): the
-  // picture, the fallback and the hairline take it too, which round themselves otherwise.
+  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy); the
+  // picture, the fallback and the hairline take the root's corner.
   avatarSquare: css({
     borderRadius: { "*": null, base: radius.lg },
-    "::after": { borderRadius: radius.lg },
   }),
-  avatarSquarePart: css({ borderRadius: { "*": null, base: radius.lg } }),
   trigger: css({ backgroundColor: { '[aria-expanded="true"]': theme.muted } }),
   // The name over the address, each cut short to the room there is.
   text: css({
@@ -101,12 +99,8 @@ export function NavUser({
         <DropdownMenuTrigger>
           <SidebarMenuButton size="lg" sx={styles.trigger}>
             <Avatar sx={styles.avatarSquare}>
-              <AvatarImage
-                src={user.avatar}
-                alt={user.name}
-                sx={styles.avatarSquarePart}
-              />
-              <AvatarFallback sx={styles.avatarSquarePart}>CN</AvatarFallback>
+              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div sx={styles.text}>
               <span sx={styles.name}>{user.name}</span>
@@ -130,14 +124,8 @@ export function NavUser({
               <DropdownMenuLabel sx={styles.label}>
                 <div sx={styles.account}>
                   <Avatar sx={styles.avatarSquare}>
-                    <AvatarImage
-                      src={user.avatar}
-                      alt={user.name}
-                      sx={styles.avatarSquarePart}
-                    />
-                    <AvatarFallback sx={styles.avatarSquarePart}>
-                      CN
-                    </AvatarFallback>
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <div sx={styles.text}>
                     <span sx={styles.name}>{user.name}</span>

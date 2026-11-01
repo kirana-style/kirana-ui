@@ -69,7 +69,8 @@ export const avatar = {
       content: "''",
       position: "absolute",
       inset: 0,
-      borderRadius: radius.full,
+      // The root's corner, as the picture and the fallback take it (below).
+      borderRadius: "inherit",
       borderWidth: "1px",
       borderStyle: "solid",
       borderColor: theme.border,
@@ -87,7 +88,10 @@ export const avatar = {
     width: "100%",
     height: "100%",
     objectFit: "cover",
-    borderRadius: radius.full,
+    // Upstream rounds the picture fully whatever the root's corner, so a `rounded-lg` avatar drew
+    // a square frame round a round picture; here the picture, the fallback and the ring take the
+    // root's corner, so an avatar is one shape in every style and radius.
+    borderRadius: "inherit",
     // React Aria's: a picture that failed to load gives way to the fallback.
     display: { '[data-state="error"]': "none" },
   }),
@@ -99,7 +103,7 @@ export const avatar = {
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: radius.full,
+    borderRadius: "inherit",
     backgroundColor: theme.muted,
     color: theme.mutedForeground,
     fontSize: { base: fontSize.sm, [SM]: fontSize.xs },
