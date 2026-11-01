@@ -28,8 +28,7 @@ import {
 } from "../../../../../core/scales"
 
 const styles = {
-  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy); the
-  // picture, the fallback and the hairline take the root's corner.
+  // `rounded-lg` on the sidebar's avatar, as upstream's bases draw it; the menu's stays round.
   avatarSquare: css({
     borderRadius: { "*": null, base: radius.lg },
   }),
@@ -163,7 +162,7 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.dropdownMenuLabel}>
                 <div sx={styles.div2}>
-                  <Avatar sx={[styles.avatar2, styles.avatarSquare]}>
+                  <Avatar sx={styles.avatar2}>
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback sx={styles.avatarFallback2}>
                       CN

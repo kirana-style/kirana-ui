@@ -12,4 +12,4 @@ keywords: [forms, react hook form, tanstack form, formisch, validation, field]
 
 Start by picking your form library. Then follow its guide to build forms with kirana/ui's `Field` and the library of your choice. Each guide's forms are on Base UI and React Aria.
 
-<!-- ::section-cards section="forms" -->
+<!-- ::forms-cards -->

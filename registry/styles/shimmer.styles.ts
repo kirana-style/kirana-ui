@@ -33,7 +33,11 @@ const DARK = fallback(
 )
 const HIGHLIGHT = shimmerCtx.highlight
 const SPREAD = fallback(shimmerCtx.spread, "calc(3ch + 40px)")
-const MIXED = `color-mix(in oklch, ${HIGHLIGHT}, currentColor 50%)`
+// Upstream mixes `in oklch`, where its greys are `lab()` colours whose hue is powerless, so the
+// highlight keeps its hue. The registry's greys are `oklch(… 0 0)`, a hue of 0 that swung a blue
+// highlight to purple; `oklab` keeps the highlight's hue against any grey, which is upstream's
+// result.
+const MIXED = `color-mix(in oklab, ${HIGHLIGHT}, currentColor 50%)`
 const GRADIENT = `linear-gradient(calc(90deg + ${shimmerCtx.angle}), currentColor calc(50% - ${SPREAD}), ${MIXED} calc(50% - ${SPREAD} * 0.5), ${HIGHLIGHT} 50%, ${MIXED} calc(50% + ${SPREAD} * 0.5), currentColor calc(50% + ${SPREAD}))`
 
 export const shimmerProperties = {

@@ -126,6 +126,11 @@ await generate({
       sectionPages(section ?? "")
         .map((page) => `- [${page.title}](${page.href}): ${page.description}`)
         .join("\n"),
+    // The Forms index's library picker: its guides as links.
+    "forms-cards": () =>
+      sectionPages("forms")
+        .map((page) => `- [${page.title}](${page.href}): ${page.description}`)
+        .join("\n"),
     // An illustration is its picture, with its caption.
     figure: ({ light, alt, caption }) =>
       `![${alt ?? ""}](https://ui.kirana.style${light ?? ""})${caption ? `\n\n${caption}` : ""}`,

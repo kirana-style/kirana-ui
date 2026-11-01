@@ -217,7 +217,7 @@ export default function MessageScrollerDemo() {
                         remixicon="RiChat3Line"
                       />
                     </EmptyMedia>
-                    <EmptyTitle>Morning, shadcn!</EmptyTitle>
+                    <EmptyTitle>Morning, kirana!</EmptyTitle>
                     <EmptyDescription>
                       What are we working on today? Press send to start a new
                       conversation

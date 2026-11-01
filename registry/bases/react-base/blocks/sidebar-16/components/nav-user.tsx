@@ -28,11 +28,6 @@ import {
 } from "../../../../../core/scales"
 
 const styles = {
-  // `rounded-lg` on the avatar, as shadcn/ui's blocks page draws it (its `new-york-v4` copy); the
-  // picture, the fallback and the hairline take the root's corner.
-  avatarSquare: css({
-    borderRadius: { "*": null, base: radius.lg },
-  }),
   sidebarMenuButton: css({
     backgroundColor: { '[aria-expanded="true"]': theme.muted },
     color: { '[aria-expanded="true"]': theme.foreground },
@@ -121,7 +116,7 @@ export function NavUser({
               <SidebarMenuButton size="lg" sx={styles.sidebarMenuButton} />
             }
           >
-            <Avatar sx={styles.avatarSquare}>
+            <Avatar>
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -147,7 +142,7 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.dropdownMenuLabel}>
                 <div sx={styles.div2}>
-                  <Avatar sx={styles.avatarSquare}>
+                  <Avatar>
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>

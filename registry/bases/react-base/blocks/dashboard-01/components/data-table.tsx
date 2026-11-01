@@ -326,9 +326,9 @@ const styles = {
     alignItems: "center",
     gap: space[2],
   }),
-  // The column menu: `w-56`, as shadcn/ui's blocks page draws it (its `new-york-v4` copy).
+  // The column menu: `w-32`, as upstream's bases write it.
   dataTableDropdownMenuContent: css({
-    width: { "*": null, base: space[56] },
+    width: { "*": null, base: space[32] },
   }),
   dropdownMenuCheckboxItem: css({
     textTransform: { "*": null, base: "capitalize" },

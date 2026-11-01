@@ -1,6 +1,5 @@
 "use client"
 
-import { space } from "../../../../../core/scales"
 import { css, props as styleProps } from "@kirana-style/core"
 
 import { alpha, theme } from "../../../../../core/tokens"
@@ -27,8 +26,8 @@ const styles = {
   // Hidden while the sidebar is collapsed to its icons.
   group: css({ display: { [COLLAPSED]: "none" } }),
   action: css({ backgroundColor: { '[aria-expanded="true"]': theme.muted } }),
-  // `w-48`, as shadcn/ui's blocks page draws it (its `new-york-v4` copy); Base UI's writes `w-fit`.
-  menu: css({ width: { "*": null, base: space[48] } }),
+  // `w-fit`, as upstream's bases write it.
+  menu: css({ width: { "*": null, base: "fit-content" } }),
   quiet: css({ color: alpha.sidebarForeground70 }),
 }
 
