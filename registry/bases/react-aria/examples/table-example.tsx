@@ -147,7 +147,7 @@ function TableBasic() {
   return (
     <Example title="Basic">
       <figure>
-        <Table>
+        <Table aria-label="Invoices">
           <TableHeader>
             <TableHead isRowHeader sx={styles.invoice}>
               Invoice
@@ -177,7 +177,7 @@ function TableWithFooter() {
   return (
     <Example title="With Footer">
       <figure>
-        <Table>
+        <Table aria-label="Invoices">
           <TableHeader>
             <TableHead isRowHeader sx={styles.invoice}>
               Invoice
@@ -212,7 +212,7 @@ function TableWithFooter() {
 function TableSimple() {
   return (
     <Example title="Simple">
-      <Table>
+      <Table aria-label="Users">
         <TableHeader>
           <TableHead isRowHeader>Name</TableHead>
           <TableHead>Email</TableHead>
@@ -243,7 +243,7 @@ function TableSimple() {
 function TableWithBadges() {
   return (
     <Example title="With Badges">
-      <Table>
+      <Table aria-label="Tasks">
         <TableHeader>
           <TableHead isRowHeader>Task</TableHead>
           <TableHead>Status</TableHead>
@@ -286,7 +286,7 @@ function TableWithBadges() {
 function TableWithActions() {
   return (
     <Example title="With Actions">
-      <Table>
+      <Table aria-label="Products">
         <TableHeader>
           <TableHead isRowHeader>Product</TableHead>
           <TableHead>Price</TableHead>
@@ -405,7 +405,7 @@ const tasks = [
 function TableWithSelect() {
   return (
     <Example title="With Select">
-      <Table>
+      <Table aria-label="Tasks">
         <TableHeader>
           <TableHead isRowHeader>Task</TableHead>
           <TableHead>Assignee</TableHead>
@@ -443,7 +443,7 @@ function TableWithSelect() {
 function TableWithInput() {
   return (
     <Example title="With Input">
-      <Table>
+      <Table aria-label="Products">
         <TableHeader>
           <TableHead isRowHeader>Product</TableHead>
           <TableHead>Quantity</TableHead>

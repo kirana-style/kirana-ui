@@ -101,7 +101,7 @@ export function Invoice() {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Table aria-label="Invoice items">
           <TableHeader>
             <TableHead isRowHeader>Item</TableHead>
             <TableHead sx={styles.tableHead}>Qty</TableHead>
