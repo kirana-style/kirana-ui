@@ -150,7 +150,7 @@ const tableData = [
 function CheckboxInTable() {
   return (
     <Example title="In Table">
-      <Table>
+      <Table aria-label="Users">
         <TableHeader>
           <TableHead sx={styles.check}>
             <Checkbox slot="selection" />

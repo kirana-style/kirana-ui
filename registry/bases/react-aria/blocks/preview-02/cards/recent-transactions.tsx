@@ -281,7 +281,7 @@ export function RecentTransactions() {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Table aria-label="Recent transactions">
           <TableHeader>
             <TableHead />
             <TableHead isRowHeader>Merchant</TableHead>
