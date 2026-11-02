@@ -30,11 +30,9 @@ import {
   STYLE_INFO,
 } from "@workspace/registry/core/config"
 import type { DesignSystem } from "@workspace/registry/core/config"
-import {
-  baseColors,
-  chartColors,
-  themeColors,
-} from "@workspace/registry/core/palettes"
+import { baseColors } from "@workspace/registry/core/base-color-palette"
+import { chartColors } from "@workspace/registry/core/chart-color-palette"
+import { themeColors } from "@workspace/registry/core/theme-palette"
 import { space } from "@workspace/registry/core/scales"
 import { radius, theme } from "@workspace/registry/core/tokens"
 import type { Sx } from "@workspace/registry/lib/sx"

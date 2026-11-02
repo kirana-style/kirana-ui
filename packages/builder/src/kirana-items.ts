@@ -19,6 +19,12 @@ import { AXES, FONTS, FONT_INFO } from "../../../registry/core/config"
 import { LAYOUTS } from "../../../registry/core/preset"
 import type { Combination, Framework, Item } from "./items"
 import { COMBINATIONS, ITEMS, installedPath } from "./items"
+import {
+  COLOR_AXES,
+  axisModule,
+  paletteModule,
+  readPaletteModule,
+} from "./palette-modules"
 import type { BuiltFile } from "./registry"
 import { dependenciesOf, ownersOf, rewriteImports, sourcesOf } from "./registry"
 
@@ -91,6 +97,47 @@ export function designOf(): KiranaDesign {
   }
 }
 
+/**
+ * The colour axes' builds for the design system (KF-080): for each value of the base colour, the
+ * theme and the chart colour, that axis's module with that value's colours and entries alone, in
+ * place of the module with every value. `ui init --preset` and `ui preset` install the design's
+ * own; `ui init --all-designs` keeps every value, for a project with a theme switcher of its own.
+ */
+function colourBuilds(
+  shared: BuiltFile[]
+): Record<string, Record<string, KiranaFile[]>> {
+  const source = (name: string) => {
+    const file = shared.find((entry) => entry.source === `core/${name}`)
+    if (!file) throw new Error(`the design system has no core/${name}`)
+    return file
+  }
+  return Object.fromEntries(
+    COLOR_AXES.map((spec) => {
+      const data = source(spec.paletteFile)
+      const entries = source(spec.file)
+      const { palette, commit } = readPaletteModule(data.content, spec)
+      return [
+        spec.axis,
+        Object.fromEntries(
+          AXES[spec.axis].map((value) => [
+            value,
+            [
+              kiranaFile({
+                ...data,
+                content: paletteModule(spec, palette, commit, value),
+              }),
+              kiranaFile({
+                ...entries,
+                content: axisModule(spec, palette, commit, value),
+              }),
+            ],
+          ])
+        ),
+      ]
+    })
+  )
+}
+
 export type KiranaItem = {
   $schema: string
   name: string
@@ -107,8 +154,10 @@ export type KiranaItem = {
   files?: KiranaFile[]
   design?: KiranaDesign
   flattened?: {
-    axis: string
-    builds: Record<string, Record<string, KiranaFile[]>>
+    axis?: string
+    builds?: Record<string, Record<string, KiranaFile[]>>
+    /** A design axis's builds of the files it owns, one per value (KF-080). */
+    axes?: Record<string, Record<string, KiranaFile[]>>
   }
   setup?: Item["setup"]
   /**
@@ -361,7 +410,17 @@ export function buildKiranaRegistry(
       ...(shared.length > 0 ? { files: shared.map(kiranaFile) } : {}),
       ...(Object.keys(builds).length > 0
         ? { flattened: { axis: "style", builds } }
-        : {}),
+        : kindOf(item) === "design-system"
+          ? // `axis` and an empty `builds` only because Kirana's schema requires them beside
+            // `axes` (KF-084, open on 0.3.6); the installer falls back to the item's own files.
+            {
+              flattened: {
+                axis: "style",
+                builds: {},
+                axes: colourBuilds(shared),
+              },
+            }
+          : {}),
       ...(kindOf(item) === "design-system" ? { design: designOf() } : {}),
       ...(item.setup ? { setup: item.setup } : {}),
     })

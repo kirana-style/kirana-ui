@@ -26,7 +26,9 @@ installation takes for your design. Every file carries a SHA-256 hash of its
 content, which the lockfile records.
 
 The `kirana` item is the design system itself: its tokens and axes, its reset, and
-how `init` wires it in. It also says what `kirana-style ui preset` reads: each axis
+how `init` wires it in. Its colours are a file per axis (base colour, theme, chart
+colours), each also built for every value, so a project installs its own design's
+colours alone. It also says what `kirana-style ui preset` reads: each axis
 with the attribute it sets on `<html>` and its values, and how a preset code holds
 them.
 

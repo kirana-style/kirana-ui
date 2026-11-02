@@ -3,11 +3,13 @@
  * besides its default reassigns the variable tokens it owns. The defaults are the tokens' own values
  * (`tokens.ts`), so a page with no attribute shows Neutral, Inter and a 0.625rem radius.
  *
- * The base colour, the theme and the chart colour own disjoint groups of tokens (`palettes.ts`), so
+ * The base colour, the theme and the chart colour own disjoint groups of tokens, so
  * no two axes assign the same token and each has one winner for every combination; the compiler's
  * `ambiguous-precedence` warning is the check, and stays at zero here. The one overlap, the menu
  * accent's `bold` over the base colour's `accent`, is resolved by nesting. Their entries are
- * generated from shadcn/ui's palettes (`colors.ts`, `scripts/import-palettes.ts`).
+ * generated from shadcn/ui's palettes, a module per axis (`base-colors.ts`, `themes.ts`,
+ * `chart-colors.ts`, `scripts/import-palettes.ts`); an installed project has its own design's
+ * values only (the `kirana` item's per-value builds).
  *
  * Every rule here is in the stylesheet ahead of time: switching a design is switching attributes.
  */
@@ -15,11 +17,15 @@ import { css } from "@kirana-style/core"
 
 import { on } from "./axes"
 import { FONT_INFO, RADIUS_VALUES } from "./config"
-import { colorEntries } from "./colors"
+import { baseColorEntries } from "./base-colors"
+import { chartColorEntries } from "./chart-colors"
+import { themeEntries } from "./themes"
 import { font, radiusBase } from "./tokens"
 
 export const root = css({
-  ...colorEntries,
+  ...baseColorEntries,
+  ...themeEntries,
+  ...chartColorEntries,
 
   // Radius: the base every corner derives from. Lyra and Sera draw square corners whatever the
   // radius, and Rhea has no large one: the choice is kept (`resolveDesignSystem`) and comes back with

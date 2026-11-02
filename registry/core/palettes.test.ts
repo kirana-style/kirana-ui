@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vite-plus/test"
 
 import { BASE_COLORS, THEMES } from "./config"
-import { baseColors, chartColors, themeColors } from "./palettes"
+import { baseColors } from "./base-color-palette"
+import { chartColors } from "./chart-color-palette"
+import { themeColors } from "./theme-palette"
 
 const keys = (group: Record<string, object>) =>
   Object.values(group).map((colors) => Object.keys(colors))

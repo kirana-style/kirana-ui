@@ -59,7 +59,7 @@ export const STYLE_INFO: Record<Style, { title: string; description: string }> =
     rhea: { title: "Rhea", description: "Like Luma but compact." },
   }
 
-/** The greys: each sets every neutral colour (`palettes.ts`). */
+/** The greys: each sets every neutral colour (`base-color-palette.ts`). */
 export const BASE_COLORS = [
   "neutral",
   "stone",

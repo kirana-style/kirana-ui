@@ -574,7 +574,7 @@ export function AppSidebar() {
 
 We use the following tokens to theme the sidebar, each a `light-dark()` pair. These are Neutral's: the base colour sets the sidebar's surface, text, accent, border and ring, and the theme its primary, as they set every other colour (see [Colours and theming](/docs/design-system/theming)).
 
-```ts showLineNumbers title="lib/kirana/palettes.ts"
+```ts showLineNumbers title="lib/kirana/neutral.ts"
 sidebar: "light-dark(oklch(0.985 0 0), oklch(0.205 0 0))",
 sidebarForeground: "light-dark(oklch(0.145 0 0), oklch(0.985 0 0))",
 sidebarPrimary: "light-dark(oklch(0.205 0 0), oklch(0.488 0.243 264.376))",

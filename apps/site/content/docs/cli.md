@@ -58,8 +58,10 @@ registry's content and of what was written. Commit it: the two hashes are how
 `preset` writes the design to `ui.design` in `kirana.config.ts`, sets its
 attributes on `<html>`, and places every installed component again. The registry
 carries each component's styles flattened for every style, so the project gets the
-build for its new style, with only that style's values in it. A file you changed
-stops it until you look, or pass `--overwrite`.
+build for its new style, with only that style's values in it, and the design
+system's colours built for every value, so it gets the new design's colours alone
+([Colours and theming](/docs/design-system/theming#in-your-project)). A file you
+changed stops it until you look, or pass `--overwrite`.
 
 ## Kirana's reference
 

@@ -7,7 +7,7 @@ flowchart TD
     subgraph L1["Scales (registry/core/scales.ts)"]
         A["plain constants and @kirana-style/preset-scales<br/>space[4] · fontSize.sm · breakpoint.md<br/><i>inlined, emit no CSS</i>"]
     end
-    subgraph L2["Design tokens (registry/core/tokens.ts, palettes.ts, root.ts)"]
+    subgraph L2["Design tokens (registry/core/tokens.ts, the colour axes' modules, root.ts)"]
         B["defineTokens(…, { variable: true })<br/>theme · alpha · surface · radius · font"]
         C["light-dark() values, reassigned per axis on &lt;html&gt;<br/><i>color-scheme picks the half</i>"]
     end
