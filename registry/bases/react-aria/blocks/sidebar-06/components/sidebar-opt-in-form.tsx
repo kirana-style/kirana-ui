@@ -46,7 +46,8 @@ const styles = {
   }),
   sidebarOptInFormButton: css({
     width: { "*": null, base: "100%" },
-    backgroundColor: theme.sidebarPrimary,
+    // `bg-sidebar-primary`, a utility, beats the button's hover too: one colour, no hover.
+    backgroundColor: { "*": null, base: theme.sidebarPrimary },
     color: theme.sidebarPrimaryForeground,
 
     boxShadow: "none",

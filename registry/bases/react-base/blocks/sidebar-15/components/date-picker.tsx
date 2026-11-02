@@ -13,7 +13,7 @@ const styles = {
   datePickerCalendar: css({
     backgroundColor: { "*": null, base: "transparent" },
     // Upstream's `[--cell-size:2.1rem]`, the calendar's own variable.
-    [calendarCtx.cellSize]: "2.1rem",
+    [calendarCtx.cellSize]: { "*": null, base: "2.1rem" },
   }),
 }
 

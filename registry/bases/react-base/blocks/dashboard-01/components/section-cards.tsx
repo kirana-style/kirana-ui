@@ -11,15 +11,43 @@ import {
 } from "../../../ui/card"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { css, select, props as styleProps } from "@kirana-style/core"
-import { theme } from "../../../../../core/tokens"
+import { axes } from "../../../../../core/axes"
+import { alpha, surface, theme } from "../../../../../core/tokens"
 import {
   breakpoint,
   fontSize,
   fontWeight,
+  leading,
   lineHeight,
   shadow,
   space,
 } from "../../../../../core/scales"
+
+/**
+ * Upstream's `text-2xl @[250px]/card:text-3xl` on the title: Tailwind's `text-*` keeps a `leading-*`
+ * the card title already set (Nova's `snug`, Vega's `normal`, as ratios) and brings its own line
+ * height in the other styles, where the title sets none.
+ */
+const TITLE_LEADING = {
+  "*": null,
+  base: lineHeight["2xl"],
+  "@container card (width >= 250px)": lineHeight["3xl"],
+  [axes.style.nova]: leading.snug,
+  [axes.style.vega]: leading.normal,
+}
+
+/**
+ * `*:data-[slot=card]:shadow-xs`: Tailwind's shadow replaces the shadow layer of each style's card
+ * and keeps its ring, so each card here is its style's ring and `shadow-xs`. Written on the cards,
+ * where it wins over Card's own per-style shadow.
+ */
+const CARD_SHADOW = {
+  "*": null,
+  base: `0 0 0 1px ${alpha.foreground10}, ${shadow.xs}`,
+  [axes.style.luma]: `0 0 0 1px ${surface.ringSoft}, ${shadow.xs}`,
+  [axes.style.rhea]: `0 0 0 1px ${surface.ringSoft}, ${shadow.xs}`,
+  [axes.style.sera]: `0 0 0 1px ${alpha.foreground5}, ${shadow.xs}`,
+}
 
 const styles = {
   sectionCardsDiv: css({
@@ -33,15 +61,14 @@ const styles = {
     paddingInline: { base: space[4], [breakpoint.lg]: space[6] },
     // `*:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card`.
     [select.child('[data-slot="card"]')]: {
-      backgroundImage: `linear-gradient(to top, color-mix(in oklab, ${theme.primary} 5%, transparent), ${theme.card})`,
-
-      boxShadow: `${shadow.xs}`,
+      backgroundImage: `linear-gradient(to top, color-mix(in oklab, ${theme.primary} 5%, transparent) 0%, ${theme.card} 100%)`,
       backgroundColor: `light-dark(transparent, ${theme.card})`,
     },
   }),
   sectionCardsCard: css({
     containerType: { "*": null, base: "inline-size" },
     containerName: { "*": null, base: "card" },
+    boxShadow: CARD_SHADOW,
   }),
   cardTitle: css({
     fontSize: {
@@ -49,10 +76,7 @@ const styles = {
       base: fontSize["2xl"],
       "@container card (width >= 250px)": fontSize["3xl"],
     },
-    lineHeight: {
-      base: lineHeight["2xl"],
-      "@container card (width >= 250px)": lineHeight["3xl"],
-    },
+    lineHeight: TITLE_LEADING,
     fontWeight: { "*": null, base: fontWeight.semibold },
     fontVariantNumeric: { "*": null, base: "tabular-nums" },
   }),
@@ -81,6 +105,7 @@ const styles = {
   card2: css({
     containerType: { "*": null, base: "inline-size" },
     containerName: { "*": null, base: "card" },
+    boxShadow: CARD_SHADOW,
   }),
   cardTitle2: css({
     fontSize: {
@@ -88,10 +113,7 @@ const styles = {
       base: fontSize["2xl"],
       "@container card (width >= 250px)": fontSize["3xl"],
     },
-    lineHeight: {
-      base: lineHeight["2xl"],
-      "@container card (width >= 250px)": lineHeight["3xl"],
-    },
+    lineHeight: TITLE_LEADING,
     fontWeight: { "*": null, base: fontWeight.semibold },
     fontVariantNumeric: { "*": null, base: "tabular-nums" },
   }),
@@ -120,6 +142,7 @@ const styles = {
   card3: css({
     containerType: { "*": null, base: "inline-size" },
     containerName: { "*": null, base: "card" },
+    boxShadow: CARD_SHADOW,
   }),
   cardTitle3: css({
     fontSize: {
@@ -127,10 +150,7 @@ const styles = {
       base: fontSize["2xl"],
       "@container card (width >= 250px)": fontSize["3xl"],
     },
-    lineHeight: {
-      base: lineHeight["2xl"],
-      "@container card (width >= 250px)": lineHeight["3xl"],
-    },
+    lineHeight: TITLE_LEADING,
     fontWeight: { "*": null, base: fontWeight.semibold },
     fontVariantNumeric: { "*": null, base: "tabular-nums" },
   }),
@@ -159,6 +179,7 @@ const styles = {
   card4: css({
     containerType: { "*": null, base: "inline-size" },
     containerName: { "*": null, base: "card" },
+    boxShadow: CARD_SHADOW,
   }),
   cardTitle4: css({
     fontSize: {
@@ -166,10 +187,7 @@ const styles = {
       base: fontSize["2xl"],
       "@container card (width >= 250px)": fontSize["3xl"],
     },
-    lineHeight: {
-      base: lineHeight["2xl"],
-      "@container card (width >= 250px)": lineHeight["3xl"],
-    },
+    lineHeight: TITLE_LEADING,
     fontWeight: { "*": null, base: fontWeight.semibold },
     fontVariantNumeric: { "*": null, base: "tabular-nums" },
   }),

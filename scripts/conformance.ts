@@ -85,11 +85,16 @@ const styles = (
   process.exit(2)
 })
 
+/** Example files upstream's site serves on no route (`component-example`: its registry only). */
+const NOT_ON_UPSTREAM = new Set(["component-example.tsx"])
+
 /** The pages upstream also has: its examples, and the blocks, each with its entry file. */
 function pages(base: string) {
   const folder = join(BASES, `react-${base}`)
   const examples = readdirSync(join(folder, "examples"))
-    .filter((file) => file.endsWith("-example.tsx"))
+    .filter(
+      (file) => file.endsWith("-example.tsx") && !NOT_ON_UPSTREAM.has(file)
+    )
     .map((file) => ({
       name: file.replace(/\.tsx$/, ""),
       entry: join(folder, "examples", file),

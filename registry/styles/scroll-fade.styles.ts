@@ -78,14 +78,41 @@ const NOT_SCROLLING = "@supports not (animation-timeline: scroll())"
 const AT_START = `0 ${REVEAL}`
 const AT_END = `calc(100% - ${REVEAL}) 100%`
 
-/** The reveal of an edge or two (`names`), driven by the region's scrolling along `axis`. */
-const reveal = (names: string, axis: string, range: string) => ({
+/**
+ * The animation's values for one edge or two. Each is listed once per animation, as upstream's
+ * `animation` shorthand computes them; the fill mode stays one, as upstream sets it apart.
+ */
+const ONE = {
+  duration: "1ms",
+  timing: "ease-in-out",
+  delay: "0s",
+  count: "1",
+  direction: "normal",
+}
+const TWO = {
+  duration: "1ms, 1ms",
+  timing: "ease-in-out, ease-in-out",
+  delay: "0s, 0s",
+  count: "1, 1",
+  direction: "normal, normal",
+}
+
+/** The reveal of an edge or two (`names`), driven by the region's scrolling (`timeline`). */
+const reveal = (
+  names: string,
+  timeline: string,
+  range: string,
+  each: typeof ONE
+) => ({
   maskComposite: "intersect",
   maskRepeat: "no-repeat",
   animationName: { [SCROLLING]: names },
-  animationDuration: { [SCROLLING]: "1ms" },
-  animationTimingFunction: { [SCROLLING]: "ease-in-out" },
-  animationTimeline: { [SCROLLING]: `scroll(self ${axis})` },
+  animationDuration: { [SCROLLING]: each.duration },
+  animationTimingFunction: { [SCROLLING]: each.timing },
+  animationDelay: { [SCROLLING]: each.delay },
+  animationIterationCount: { [SCROLLING]: each.count },
+  animationDirection: { [SCROLLING]: each.direction },
+  animationTimeline: { [SCROLLING]: timeline },
   animationRange: { [SCROLLING]: range },
   animationFillMode: { [SCROLLING]: "both" },
 })
@@ -99,7 +126,12 @@ const trailing = (to: string, edge: string) =>
 
 /** `scroll-fade`, `scroll-fade-y`: the top and bottom. */
 export const scrollFade = css(
-  reveal(`${revealTop}, ${revealBottom}`, "y", `${AT_START}, ${AT_END}`),
+  reveal(
+    `${revealTop}, ${revealBottom}`,
+    "scroll(self y), scroll(self y)",
+    `${AT_START}, ${AT_END}`,
+    TWO
+  ),
   {
     maskImage: { "*": null, base: both("to bottom", top, bottom) },
     [top]: { [NOT_SCROLLING]: depth("t") },
@@ -110,7 +142,12 @@ export const scrollFadeY = scrollFade
 
 /** `scroll-fade-x`: the start and end of a region that scrolls inline. */
 export const scrollFadeX = css(
-  reveal(`${revealStart}, ${revealEnd}`, "inline", `${AT_START}, ${AT_END}`),
+  reveal(
+    `${revealStart}, ${revealEnd}`,
+    "scroll(self inline), scroll(self inline)",
+    `${AT_START}, ${AT_END}`,
+    TWO
+  ),
   {
     maskImage: {
       "*": null,
@@ -123,48 +160,66 @@ export const scrollFadeX = css(
 )
 
 /** `scroll-fade-t`: the top only, once the region has scrolled from it. */
-export const scrollFadeT = css(reveal(revealTop, "y", AT_START), {
-  maskImage: { "*": null, base: leading("to bottom", top) },
-  [top]: { [NOT_SCROLLING]: depth("t") },
-})
+export const scrollFadeT = css(
+  reveal(revealTop, "scroll(self y)", AT_START, ONE),
+  {
+    maskImage: { "*": null, base: leading("to bottom", top) },
+    [top]: { [NOT_SCROLLING]: depth("t") },
+  }
+)
 
 /** `scroll-fade-b`: the bottom only, until the region reaches it (a message list). */
-export const scrollFadeB = css(reveal(revealBottom, "y", AT_END), {
-  maskImage: { "*": null, base: trailing("to bottom", bottom) },
-  [bottom]: { [NOT_SCROLLING]: depth("b") },
-})
+export const scrollFadeB = css(
+  reveal(revealBottom, "scroll(self y)", AT_END, ONE),
+  {
+    maskImage: { "*": null, base: trailing("to bottom", bottom) },
+    [bottom]: { [NOT_SCROLLING]: depth("b") },
+  }
+)
 
 /** `scroll-fade-l`: the left edge, whatever the direction. */
-export const scrollFadeL = css(reveal(revealStart, "x", AT_START), {
-  maskImage: { "*": null, base: leading("to right", start) },
-  [start]: { [NOT_SCROLLING]: depth("s") },
-})
+export const scrollFadeL = css(
+  reveal(revealStart, "scroll(self x)", AT_START, ONE),
+  {
+    maskImage: { "*": null, base: leading("to right", start) },
+    [start]: { [NOT_SCROLLING]: depth("s") },
+  }
+)
 
 /** `scroll-fade-r`: the right edge, whatever the direction. */
-export const scrollFadeR = css(reveal(revealEnd, "x", AT_END), {
-  maskImage: { "*": null, base: trailing("to right", end) },
-  [end]: { [NOT_SCROLLING]: depth("e") },
-})
+export const scrollFadeR = css(
+  reveal(revealEnd, "scroll(self x)", AT_END, ONE),
+  {
+    maskImage: { "*": null, base: trailing("to right", end) },
+    [end]: { [NOT_SCROLLING]: depth("e") },
+  }
+)
 
 /** `scroll-fade-s`: the inline start, the right edge in a right-to-left page. */
-export const scrollFadeS = css(reveal(revealStart, "inline", AT_START), {
-  maskImage: {
-    "*": null,
-    base: leading("to right", start),
-    ":dir(rtl)": leading("to left", start),
-  },
-  [start]: { [NOT_SCROLLING]: depth("s") },
-})
+export const scrollFadeS = css(
+  reveal(revealStart, "scroll(self inline)", AT_START, ONE),
+  {
+    maskImage: {
+      "*": null,
+      base: leading("to right", start),
+      ":dir(rtl)": leading("to left", start),
+    },
+    [start]: { [NOT_SCROLLING]: depth("s") },
+  }
+)
 
 /** `scroll-fade-e`: the inline end, the left edge in a right-to-left page. */
-export const scrollFadeE = css(reveal(revealEnd, "inline", AT_END), {
-  maskImage: {
-    "*": null,
-    base: trailing("to right", end),
-    ":dir(rtl)": trailing("to left", end),
-  },
-  [end]: { [NOT_SCROLLING]: depth("e") },
-})
+export const scrollFadeE = css(
+  reveal(revealEnd, "scroll(self inline)", AT_END, ONE),
+  {
+    maskImage: {
+      "*": null,
+      base: trailing("to right", end),
+      ":dir(rtl)": trailing("to left", end),
+    },
+    [end]: { [NOT_SCROLLING]: depth("e") },
+  }
+)
 
 /** `scroll-fade-none`: no fade, whichever of the others came before it. */
 export const scrollFadeNone = css({ maskImage: { "*": null, base: "none" } })

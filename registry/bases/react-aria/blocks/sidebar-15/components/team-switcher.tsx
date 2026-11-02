@@ -62,9 +62,10 @@ const styles = {
     lineHeight: lineHeight.xs,
     color: theme.mutedForeground,
   }),
+  // `gap-2 p-2`, over the menu item's own.
   dropdownMenuItem: css({
-    gap: space[2],
-    padding: space[2],
+    gap: { "*": null, base: space[2] },
+    padding: { "*": null, base: space[2] },
   }),
   div2: css({
     // Tailwind's `rounded-xs`, outside the radius scale.

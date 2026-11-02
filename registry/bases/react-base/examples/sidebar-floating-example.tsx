@@ -43,9 +43,11 @@ const styles = {
   item: css({
     padding: { "*": null, base: space["0"] },
   }),
-  // `text-sm`: the size alone; the title keeps its own `leading-snug`, as upstream's does.
+  // `text-sm`: the size, and the title keeps its own `leading-snug`, as upstream's does; Lyra's title
+  // sets no leading, so there `text-sm` brings its own line height.
   itemTitle: css({
     fontSize: { "*": null, base: fontSize.sm },
+    lineHeight: { [axes.style.lyra]: lineHeight.sm },
   }),
   sidebarMenuButton: css({
     backgroundColor: { "[data-popup-open]": theme.sidebarAccent },
@@ -71,7 +73,8 @@ const styles = {
   }),
   button: css({
     width: { "*": null, base: "100%" },
-    backgroundColor: theme.sidebarPrimary,
+    // `bg-sidebar-primary`, a utility, beats the button's hover too: one colour, no hover.
+    backgroundColor: { "*": null, base: theme.sidebarPrimary },
     color: theme.sidebarPrimaryForeground,
   }),
   header: css({

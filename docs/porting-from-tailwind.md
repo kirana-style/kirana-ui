@@ -238,12 +238,27 @@ removes them. Name the longhands the component sets (`paddingTop`,
 ### A utility outranked every style's class
 
 Upstream's styles are classes (`cn-sidebar-menu-button`) in a layer under the
-utilities, so a block's `md:p-0` beat the button's padding in every style.
-Here a style's value sits under that style's condition (`[maia]: …`), which
-ranks above a plain `[breakpoint.md]` entry. Give the entry again under each
-style that sets its own (`{ [md]: 0, [axes.style.maia]: { [md]: 0 }, … }`),
-as `sidebar-09`'s `overButton` does, and check the block in every style, not
-only Nova.
+utilities, so a block's `md:p-0` or `bg-background` beat the component's value in
+every style. Here a style's value sits under that style's condition (`[maia]: …`),
+which ranks above a plain entry. Give the entries again under every style with
+`inEveryStyle` (`registry/core/axes.ts`):
+
+```ts
+import { inEveryStyle } from "@/lib/kirana/axes"
+
+// `bg-background` on an Input, over its own fill in every style.
+const field = css({ backgroundColor: inEveryStyle({ base: theme.background }) })
+```
+
+States go in the same object (`{ base: "transparent", ":hover": … }`), so they
+outrank the style's base too. A context token a component sets per style
+(`calendarCtx.cellSize`) takes `{ "*": null, base: … }` instead. Check a block in
+every style, not only Nova: `vp run conformance -- --pages <block> --styles all`.
+
+A Tailwind `text-*` utility keeps a `leading-*` the element already set (it is a
+ratio, `--tw-leading`) and brings its own line height otherwise. Where a style's
+part sets `leading-snug` and another's sets none (a card title, an item title),
+the line height follows that per style.
 
 A `px-*` in `sx` also replaces a Button's icon-side padding, which in Tailwind
 was a `has-*` variant that outranked the caller's utility and survived. Restate

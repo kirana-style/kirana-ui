@@ -50,7 +50,7 @@
     {
       "element": "div[data-slot=\"card",
       "property": "height",
-      "route": "login-01",
+      "route": "(login|signup)-0\\d",
       "reason": "follows FieldLabel's line height"
     },
     {
@@ -240,7 +240,7 @@
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
-      "route": "/aria/(table|toggle-group|button-group|combobox|pagination|calendar)-example",
+      "route": "/aria/((table|toggle-group|button-group|combobox|pagination|calendar)-example|sidebar-1[25])",
       "reason": "upstream's bug, as its menus': its React Aria select carries `cn-menu-translucent-aria` too, so a highlighted row is translucent in the default menu colour"
     },
     {
@@ -354,115 +354,115 @@
     {
       "element": "ul[data-slot=\"sidebar-menu-sub\"]",
       "property": "display",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "upstream's bug: collapsed to icons, its sub-list stays drawn, a 12px stub with its border under the first section, because the style file's `group-data-[collapsible=icon]:hidden` loses to the component's own `flex`; ours hides it, as the rule means"
     },
     {
       "element": "ul[data-slot=\"sidebar-menu-sub\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "upstream's bug: collapsed to icons, its sub-list stays drawn, a 12px stub with its border under the first section, because the style file's `group-data-[collapsible=icon]:hidden` loses to the component's own `flex`; ours hides it, as the rule means"
     },
     {
       "element": "ul[data-slot=\"sidebar-menu-sub\"]",
       "property": "width",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "upstream's bug: collapsed to icons, its sub-list stays drawn, a 12px stub with its border under the first section, because the style file's `group-data-[collapsible=icon]:hidden` loses to the component's own `flex`; ours hides it, as the rule means"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "bottom",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "left",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "min-height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "min-width",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "right",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "top",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"sidebar-menu-sub-item\"]",
       "property": "width",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "div[data-slot=\"sidebar-group\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "ul[data-slot=\"sidebar-menu\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "div[data-slot=\"sidebar-menu\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "li[data-slot=\"collapsible\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "div[data-slot=\"collapsible\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "div[data-slot=\"collapsible-content\"]",
       "property": "height",
-      "route": "sidebar-07",
+      "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     },
     {
       "element": "div[data-slot=\"separator\"]",
       "property": "height",
-      "route": "/aria/sidebar-(0[125679]|16)",
+      "route": "/aria/(sidebar-\\d+|dashboard-01)",
       "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
     },
     {
       "element": "div[data-slot=\"separator\"]",
       "property": "align-self",
-      "route": "/aria/sidebar-(0[125679]|16)",
+      "route": "/aria/(sidebar-\\d+|dashboard-01)",
       "reason": "upstream's bug: the page's `data-vertical:h-4 data-vertical:self-auto` never holds on React Aria, whose separator writes `aria-orientation`, so it stretches to the header's height there; ours is 1rem tall on both bases, as on Base UI upstream"
     },
     {
@@ -642,7 +642,7 @@
     {
       "element": "button[data-slot=\"toggle",
       "property": "background-color",
-      "route": "/aria/(toggle(-group)?|card)-example",
+      "route": "/aria/((toggle(-group)?|card)-example|dashboard-01)",
       "reason": "upstream's bug: its React Aria toggle's `data-selected:bg-muted` loses to every variant's `bg-transparent`, so a selected toggle never shows it; ours is muted when selected, as Base UI's pressed toggle is upstream"
     },
     {
@@ -908,7 +908,7 @@
     {
       "element": "label[data-slot=\"field-label\"]",
       "property": "font-size",
-      "route": "switch-example\\?preset=b1oVxsfY",
+      "route": "(switch|field)-example\\?preset=b1oVxsfY",
       "reason": "as Sera's label after a switch: the variant's size, which upstream's production build orders below `text-xs`"
     },
     {
@@ -1545,6 +1545,132 @@
       "property": "box-shadow",
       "route": "sidebar-06",
       "reason": "the card's `shadow-none`: `none` here, upstream's transparent shadow and ring layers there; neither draws anything"
+    },
+    {
+      "element": "div[data-slot=\"card-content\"]",
+      "property": "height",
+      "route": "(login|signup)-0\\d",
+      "reason": "follows FieldLabel's line height (the form's labels)"
+    },
+    {
+      "element": "div[data-slot=\"card-content\"]",
+      "property": "grid-template-rows",
+      "route": "(login|signup)-0\\d",
+      "reason": "follows FieldLabel's line height (the form's labels)"
+    },
+    {
+      "element": "div[data-slot=\"field\"]",
+      "property": "grid-template-rows",
+      "route": "(login|signup)-0\\d",
+      "reason": "follows FieldLabel's line height (the form's labels): a field holding two labelled fields side by side"
+    },
+    {
+      "element": "span[data-slot=\"badge\"]",
+      "property": "line-height",
+      "route": "field-example\\?preset=b1D0dv72",
+      "reason": "Mira's badge, `text-[0.625rem]` with no line height of its own, inherits it from the FieldLabel it sits in (the field-label entry)"
+    },
+    {
+      "element": "label[data-slot=\"label\"]",
+      "property": "height",
+      "route": "\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry): the registry follows upstream's install"
+    },
+    {
+      "element": "div[data-slot=\"example",
+      "property": "height",
+      "route": "label-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry)"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "label-example\\?preset=b1oVxsfY",
+      "reason": "follows Sera's Label line height (the label entry)"
+    },
+    {
+      "element": "a[data-slot=\"sidebar-menu-button\"]",
+      "property": "font-weight",
+      "route": "/base/sidebar-14",
+      "reason": "upstream's own: its fourth top-level link (\"Architecture\") renders without the `font-medium` its `render` element gives the other four, at the same commit; ours keeps it on all five"
+    },
+    {
+      "element": "hr[data-slot=\"separator\"]",
+      "property": "color",
+      "route": "/aria/(login|signup)-0\\d",
+      "reason": "React Aria's separator is an `<hr>`: upstream's here inherits a parent's colour no rule sets (black), ours keeps the browser's grey. It draws nothing: the line is its background"
+    },
+    {
+      "element": "button[data-slot=\"button\"]",
+      "property": "line-height",
+      "route": "(dashboard-01|sidebar-13)\\?preset=b0",
+      "reason": "Nova's small button: upstream's site keeps `text-sm`'s line height under `text-[0.8rem]`, its installed copy drops `text-sm` in `cn` and inherits; the registry follows the install, which shows where the parent's line height is not `text-sm`'s"
+    },
+    {
+      "element": "button[data-slot=\"dialog-trigger\"]",
+      "property": "line-height",
+      "route": "(dashboard-01|sidebar-13)\\?preset=b0",
+      "reason": "Nova's small button: upstream's site keeps `text-sm`'s line height under `text-[0.8rem]`, its installed copy drops `text-sm` in `cn` and inherits; the registry follows the install, which shows where the parent's line height is not `text-sm`'s"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "line-height",
+      "route": "(dashboard-01|sidebar-13)\\?preset=b0",
+      "reason": "Nova's small button: upstream's site keeps `text-sm`'s line height under `text-[0.8rem]`, its installed copy drops `text-sm` in `cn` and inherits; the registry follows the install, which shows where the parent's line height is not `text-sm`'s"
+    },
+    {
+      "element": "div[data-slot=\"sidebar-separator\"]",
+      "property": "width",
+      "route": "/base/sidebar-15",
+      "reason": "the right sidebar's separator, hidden below `lg`: upstream declares Separator's `100%`, ours `auto`; shown, both fill the row"
+    },
+    {
+      "element": "hr[data-slot=\"sidebar-separator\"]",
+      "property": "width",
+      "route": "/aria/sidebar-15",
+      "reason": "the right sidebar's separator, hidden below `lg`: upstream declares Separator's `100%`, ours `auto`; shown, both fill the row"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "(element)",
+      "route": "/base/dashboard-01",
+      "reason": "the chart's time-range select, shown below the card's `@[767px]` width: upstream's Base UI 1.6 mounts its closed popup ahead (0px high), 1.9 mounts it on opening; opened, both list the same three ranges"
+    },
+    {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "(element)",
+      "route": "/base/dashboard-01",
+      "reason": "the items of that closed popup (the select-content entry)"
+    },
+    {
+      "element": "div[data-slot=\"chart\"]",
+      "property": "height",
+      "route": "/preview\\?",
+      "reason": "measured before the fonts settle: ChartContainer mounts the chart again at its measured width once they have (LF-005's workaround); settled, every chart's height agrees at 390px in every style"
+    },
+    {
+      "element": "",
+      "property": "(element)",
+      "route": "/base/sidebar-09",
+      "reason": "upstream's own: opening the user menu throws (Base UI error #31: a DropdownMenuLabel outside its group) and unmounts the page, so its menu state has no elements; ours wraps the label in its group"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "bottom",
+      "route": "/aria/sidebar-1[25]",
+      "reason": "the open popup's `bottom` is measured to its containing block: upstream's sits in the document, ours in a container the viewport's height; its top, size and place on the page agree"
+    },
+    {
+      "element": "li[data-slot=\"sidebar-menu-item\"]",
+      "property": "height",
+      "route": "sidebar-07|sidebar-icon-example",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "div[data-slot=\"sidebar-menu-item\"]",
+      "property": "height",
+      "route": "sidebar-07|sidebar-icon-example",
+      "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
     }
   ]
 }

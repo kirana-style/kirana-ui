@@ -15,15 +15,8 @@ import {
 } from "../../../ui/sidebar"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
 import { css, props as styleProps } from "@kirana-style/core"
-import { theme } from "../../../../../core/tokens"
 
 const styles = {
-  appSidebarSidebar: css({
-    borderRightWidth: { "*": null, base: "0px" },
-    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
-    borderRightColor: theme.border,
-    borderStyle: { "*": null, base: "solid" },
-  }),
   appSidebarNavSecondary: css({
     marginTop: "auto",
   }),
@@ -357,8 +350,10 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // Upstream's `border-r-0` never holds: Sidebar's `group-data-[side=left]:border-r` outranks it,
+  // so its site draws the border. Sidebar's own is kept, as drawn.
   return (
-    <Sidebar sx={styles.appSidebarSidebar} {...props}>
+    <Sidebar {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
         <NavMain items={data.navMain} />
