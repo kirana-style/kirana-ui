@@ -4,7 +4,9 @@
  * (`npx @kirana-style/registry init --template`, which reads the release's source from GitHub), set
  * to that style's preset code (which installs its font), the slice added with `kirana-style ui add`
  * from the registry this checkout built, then built (and type-checked with `vue-tsc` for Vue), and
- * its lockfile validated. Exits non-zero on the first failure.
+ * its lockfile validated. The colour axes are checked to hold the design's values only (the
+ * `kirana` item's per-value builds), and again after `ui preset` to another design and back. Exits
+ * non-zero on the first failure.
  *
  *   bun scripts/install-smoke.ts [<framework>-<base>-<style> …]   # what `vp run install` runs
  *
@@ -21,6 +23,7 @@ import {
   statSync,
 } from "node:fs"
 import { createServer } from "node:http"
+import { gzipSync } from "node:zlib"
 import type { AddressInfo } from "node:net"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
@@ -81,6 +84,70 @@ const server = createServer((request, response) => {
 await new Promise<void>((resolve) => server.listen(0, resolve))
 const { port } = server.address() as AddressInfo
 const registry = `@kirana=http://localhost:${port}/r/{name}.json`
+
+/** The colour axes' modules a project installs, one value each (KF-080). */
+const COLOUR_FILES = [
+  "base-colors.ts",
+  "themes.ts",
+  "chart-colors.ts",
+  "base-color-palette.ts",
+  "theme-palette.ts",
+  "chart-color-palette.ts",
+]
+
+/**
+ * Every colour value the installed modules hold: the entries' attributes (`theme=cyan`) and the
+ * palettes' values (`palette=cyan`).
+ */
+function colourValues(app: string): string[] {
+  const files = readdirSync(join(app, "src"), {
+    recursive: true,
+    encoding: "utf8",
+  }).filter((file) => COLOUR_FILES.some((name) => file.endsWith(`/${name}`)))
+  if (files.length !== COLOUR_FILES.length) {
+    console.error(
+      `install: ${COLOUR_FILES.join(", ")} not all installed in ${app}`
+    )
+    process.exit(1)
+  }
+  const found = new Set<string>()
+  for (const file of files) {
+    const text = readFileSync(join(app, "src", file), "utf8")
+    for (const match of text.matchAll(
+      /data-(base-color|theme|chart-color)="([^"]+)"/g
+    ))
+      found.add(`${match[1]}=${match[2]}`)
+    for (const match of text.matchAll(/^ {2}"?([a-z]+)"?: \{$/gm))
+      found.add(`palette=${match[1]}`)
+  }
+  return [...found].sort()
+}
+
+function expectColours(app: string, expected: string[], when: string) {
+  const found = colourValues(app)
+  if (found.join() !== [...expected].sort().join()) {
+    console.error(
+      `install: ${when}, the colour axes hold ${found.join(", ") || "no value"}, not ${expected.join(", ") || "no value"}`
+    )
+    process.exit(1)
+  }
+  console.log(
+    `install: ${when}, colours ${found.join(", ") || "the default's"}`
+  )
+}
+
+/** The built stylesheets' size, gzip, for the log. */
+function stylesheetSize(app: string) {
+  const dist = join(app, "dist")
+  const css = readdirSync(dist, { recursive: true, encoding: "utf8" }).filter(
+    (file) => file.endsWith(".css")
+  )
+  const bytes = css.reduce(
+    (sum, file) => sum + gzipSync(readFileSync(join(dist, file))).length,
+    0
+  )
+  return `${(bytes / 1024).toFixed(1)} KB gzip`
+}
 
 /** Asynchronous, so the server above keeps answering while the command runs. */
 async function run(cwd: string, command: string, ...args: string[]) {
@@ -162,6 +229,40 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     process.exit(1)
   }
   await run(app, "bunx", "kirana-style", "ui", "add", ...ITEMS[framework])
+  // The style's preset has the default colours, whose values are the tokens' own: no entries,
+  // and Neutral alone in each palette.
+  expectColours(app, ["palette=neutral"], "installed")
+  await run(app, "bun", "run", "build")
+  console.log(`install: stylesheets ${stylesheetSize(app)}`)
+  // Another design's colours replace the modules, and coming back leaves none of them.
+  const colours = encodePreset(
+    readDesignSystem(
+      new URLSearchParams({
+        framework,
+        base,
+        style,
+        baseColor: "stone",
+        theme: "cyan",
+        chartColor: "green",
+      })
+    ).system
+  )
+  await run(app, "bunx", "kirana-style", "ui", "preset", colours)
+  expectColours(
+    app,
+    [
+      "base-color=stone",
+      "theme=cyan",
+      "chart-color=green",
+      "palette=stone",
+      "palette=cyan",
+      "palette=green",
+    ],
+    `after ui preset ${colours}`
+  )
+  await run(app, "bun", "run", "build")
+  await run(app, "bunx", "kirana-style", "ui", "preset", preset)
+  expectColours(app, ["palette=neutral"], `back at ${preset}`)
   await run(app, "bun", "run", "build")
   // Vue templates are type-checked in the project only: Ark's required props show there (CLI-06).
   if (framework === "vue") await run(app, "bun", "run", "typecheck")

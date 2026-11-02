@@ -1,9 +1,9 @@
 /**
  * The design axes the site offers, in the order the customizers show them, each with its values
  * as a picker lists them: the bottom bar and `/create` read the same list. Only values the site
- * draws are offered: the base colours, themes and chart colours with a palette (`palettes.ts`, all
- * of shadcn/ui's; the codec's `gray` has none, as upstream's site has none), and the fonts the site
- * loads. A value only some other choice allows (a theme of the base colour's) is left out, as
+ * draws are offered: the base colours, themes and chart colours with a palette
+ * (`base-color-palette.ts`, `theme-palette.ts`, all of shadcn/ui's; the codec's `gray` has none,
+ * as upstream's site has none), and the fonts the site loads. A value only some other choice allows (a theme of the base colour's) is left out, as
  * shadcn/ui's customizer leaves it out.
  */
 import {
@@ -24,7 +24,8 @@ import type {
   Font,
   Theme,
 } from "@workspace/registry/core/config"
-import { baseColors, themeColors } from "@workspace/registry/core/palettes"
+import { baseColors } from "@workspace/registry/core/base-color-palette"
+import { themeColors } from "@workspace/registry/core/theme-palette"
 
 /**
  * The families the pickers offer: every one of the design system's. The site links Inter and

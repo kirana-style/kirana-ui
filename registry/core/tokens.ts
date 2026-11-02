@@ -8,18 +8,10 @@
 import { defineTokens } from "@kirana-style/core"
 
 import { FONT_INFO, RADIUS_VALUES } from "./config"
-import { baseColors, chartColors, themeColors } from "./palettes"
+import { neutral } from "./neutral"
 
 /** The colours: shadcn/ui's custom properties, each a `light-dark()` pair. */
-export const theme = defineTokens(
-  "theme",
-  {
-    ...baseColors.neutral,
-    ...themeColors.neutral,
-    ...chartColors.neutral,
-  },
-  { variable: true }
-)
+export const theme = defineTokens("theme", neutral, { variable: true })
 
 /** The one radius every corner derives from; the radius axis reassigns it. */
 export const radiusBase = defineTokens(

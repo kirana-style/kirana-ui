@@ -57,7 +57,7 @@ export const DARK_SCHEME = "@media (prefers-color-scheme: dark)"
  * the styles that change the radius.
  */
 export const on = {
-  // The colour axes' conditions are written by `scripts/import-palettes.ts` into `colors.ts`.
+  // The colour axes' conditions are written by `scripts/import-palettes.ts` into each axis's entries module (`base-colors.ts`, `themes.ts`, `chart-colors.ts`).
   style: {
     lyra: '[data-style="lyra"]',
     sera: '[data-style="sera"]',
