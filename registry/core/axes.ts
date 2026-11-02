@@ -48,6 +48,25 @@ export const axes = {
   },
 } as const
 
+/**
+ * Entries restated under every style's condition. Upstream's per-style values are classes in a
+ * layer under the utilities, so a utility a block writes (`bg-background`, `md:p-0`) beats them in
+ * every style. Here a style's own value sits under its condition and outranks a plain entry, so a
+ * caller that means "in every style" gives its entries again under each
+ * (`docs/porting-from-tailwind.md`).
+ */
+export const inEveryStyle = <T extends object>(entries: T) => ({
+  ...entries,
+  [axes.style.nova]: entries,
+  [axes.style.vega]: entries,
+  [axes.style.maia]: entries,
+  [axes.style.lyra]: entries,
+  [axes.style.mira]: entries,
+  [axes.style.luma]: entries,
+  [axes.style.sera]: entries,
+  [axes.style.rhea]: entries,
+})
+
 /** The system's dark scheme, which `axes.mode.light` overrides. */
 export const DARK_SCHEME = "@media (prefers-color-scheme: dark)"
 

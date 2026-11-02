@@ -100,6 +100,7 @@ import {
 } from "../../../ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../ui/tabs"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
+import { inEveryStyle } from "../../../../../core/axes"
 import { css, select, props as styleProps } from "@kirana-style/core"
 import { radius, theme } from "../../../../../core/tokens"
 import {
@@ -178,15 +179,17 @@ const styles = {
   input: css({
     height: { "*": null, base: space[8] },
     width: { "*": null, base: space[16] },
-    borderColor: "transparent",
-    backgroundColor: {
-      base: "light-dark(transparent, transparent)",
-      ":hover": `light-dark(color-mix(in oklab, ${theme.input} 30%, transparent), color-mix(in oklab, ${theme.input} 30%, transparent))`,
+    // `border-transparent bg-transparent shadow-none` and their states, over Input's own in every
+    // style (Sera's underline, Vega's shadow, the others' fills).
+    borderColor: inEveryStyle({ base: "transparent" }),
+    borderBottomColor: inEveryStyle({ base: "transparent" }),
+    backgroundColor: inEveryStyle({
+      base: "transparent",
+      ":hover": `color-mix(in oklab, ${theme.input} 30%, transparent)`,
       ":focus-visible": `light-dark(${theme.background}, color-mix(in oklab, ${theme.input} 30%, transparent))`,
-    },
+    }),
     textAlign: { "*": null, base: "right" },
-
-    boxShadow: "none",
+    boxShadow: inEveryStyle({ base: "none" }),
     borderStyle: { ":focus-visible": "solid" },
     borderWidth: { ":focus-visible": "1px" },
   }),
@@ -210,15 +213,17 @@ const styles = {
   input2: css({
     height: { "*": null, base: space[8] },
     width: { "*": null, base: space[16] },
-    borderColor: "transparent",
-    backgroundColor: {
-      base: "light-dark(transparent, transparent)",
-      ":hover": `light-dark(color-mix(in oklab, ${theme.input} 30%, transparent), color-mix(in oklab, ${theme.input} 30%, transparent))`,
+    // `border-transparent bg-transparent shadow-none` and their states, over Input's own in every
+    // style (Sera's underline, Vega's shadow, the others' fills).
+    borderColor: inEveryStyle({ base: "transparent" }),
+    borderBottomColor: inEveryStyle({ base: "transparent" }),
+    backgroundColor: inEveryStyle({
+      base: "transparent",
+      ":hover": `color-mix(in oklab, ${theme.input} 30%, transparent)`,
       ":focus-visible": `light-dark(${theme.background}, color-mix(in oklab, ${theme.input} 30%, transparent))`,
-    },
+    }),
     textAlign: { "*": null, base: "right" },
-
-    boxShadow: "none",
+    boxShadow: inEveryStyle({ base: "none" }),
     borderStyle: { ":focus-visible": "solid" },
     borderWidth: { ":focus-visible": "1px" },
   }),
@@ -237,12 +242,14 @@ const styles = {
   }),
   selectTrigger: css({
     width: { "*": null, base: "9.5rem" },
-    [select.descendant('[data-slot="select-value"]')]: {
-      display: "block",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap",
-    },
+  }),
+  // `**:data-[slot=select-value]:block truncate` on the trigger, written on the value, where it
+  // wins over SelectValue's own `flex`.
+  selectValue: css({
+    display: { "*": null, base: "block" },
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   }),
   button: css({
     display: { "*": null, base: "flex" },
@@ -811,7 +818,10 @@ const columns = columnHelper.columns([
               size="sm"
               id={`${row.original.id}-reviewer`}
             >
-              <SelectValue placeholder="Assign reviewer" />
+              <SelectValue
+                sx={styles.selectValue}
+                placeholder="Assign reviewer"
+              />
             </SelectTrigger>
             <SelectContent align="end">
               <SelectGroup>

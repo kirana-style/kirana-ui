@@ -7,6 +7,7 @@ import {
   FieldSeparator,
 } from "../../../ui/field"
 import { Input } from "../../../ui/input"
+import { inEveryStyle } from "../../../../../core/axes"
 import { css } from "@kirana-style/core"
 import { theme } from "../../../../../core/tokens"
 import {
@@ -41,16 +42,20 @@ const styles = {
     color: theme.mutedForeground,
   }),
   signupFormInput: css({
-    backgroundColor: theme.background,
+    // `bg-background`, over Input's own fill in every style.
+    backgroundColor: inEveryStyle({ base: theme.background }),
   }),
   input2: css({
-    backgroundColor: theme.background,
+    // `bg-background`, over Input's own fill in every style.
+    backgroundColor: inEveryStyle({ base: theme.background }),
   }),
   input3: css({
-    backgroundColor: theme.background,
+    // `bg-background`, over Input's own fill in every style.
+    backgroundColor: inEveryStyle({ base: theme.background }),
   }),
   input4: css({
-    backgroundColor: theme.background,
+    // `bg-background`, over Input's own fill in every style.
+    backgroundColor: inEveryStyle({ base: theme.background }),
   }),
   fieldDescription: css({
     paddingInline: { "*": null, base: space[6] },

@@ -31,9 +31,10 @@ import {
   SidebarTrigger,
 } from "../ui/sidebar"
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
+import { axes, inEveryStyle } from "../../../core/axes"
 import { css, props as styleProps } from "@kirana-style/core"
 import { radius, theme } from "../../../core/tokens"
-import { breakpoint, fontSize, space } from "../../../core/scales"
+import { breakpoint, fontSize, lineHeight, space } from "../../../core/scales"
 
 const styles = {
   sidebarMenuButton: css({
@@ -43,9 +44,11 @@ const styles = {
   item: css({
     padding: { "*": null, base: space["0"] },
   }),
-  // `text-sm`: the size alone; the title keeps its own `leading-snug`, as upstream's does.
+  // `text-sm`: the size, and the title keeps its own `leading-snug`, as upstream's does; Lyra's title
+  // sets no leading, so there `text-sm` brings its own line height.
   itemTitle: css({
     fontSize: { "*": null, base: fontSize.sm },
+    lineHeight: { [axes.style.lyra]: lineHeight.sm },
   }),
   iconPlaceholder: css({
     marginLeft: "auto",
@@ -69,8 +72,9 @@ const styles = {
     whiteSpace: { "*": null, base: "nowrap" },
     width: { "*": null, base: "1px" },
   }),
+  // `pl-8` for the icon, over Input's own padding in every style.
   sidebarInput: css({
-    paddingLeft: { "*": null, base: space[8] },
+    paddingInlineStart: inEveryStyle({ base: space[8] }),
   }),
   iconPlaceholder2: css({
     pointerEvents: "none",

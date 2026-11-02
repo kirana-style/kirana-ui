@@ -22,8 +22,9 @@ import { collapsibleScope } from "../../../../../styles/collapsible.styles"
 import { duration, easing } from "../../../../../core/scales"
 
 const styles = {
+  // `data-[active=true]:bg-transparent`, keyed as the menu button keys its highlight, so it replaces it.
   treeSidebarMenuButton: css({
-    backgroundColor: { '[data-active="true"]': "transparent" },
+    backgroundColor: { "[data-active]": "transparent" },
   }),
   // A folder's button: its chevron (the first icon) turned while the folder is open, upstream's
   // `[&[data-state=open]>button>svg:first-child]:rotate-90` (whose Radix attribute Base UI never

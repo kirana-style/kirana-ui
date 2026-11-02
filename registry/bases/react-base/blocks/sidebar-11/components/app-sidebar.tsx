@@ -26,6 +26,8 @@ import { collapsibleScope } from "../../../../../styles/collapsible.styles"
 import { duration, easing } from "../../../../../core/scales"
 
 const styles = {
+  // `data-[active=true]:bg-transparent`: Base UI's button writes `data-active=""`, which it never
+  // matches, so the current file keeps its highlight, as on upstream's site.
   treeSidebarMenuButton: css({
     backgroundColor: { '[data-active="true"]': "transparent" },
   }),

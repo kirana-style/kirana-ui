@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from "../../../ui/select"
 import { ToggleGroup, ToggleGroupItem } from "../../../ui/toggle-group"
-import { css, select } from "@kirana-style/core"
+import { css } from "@kirana-style/core"
 import { radius, theme } from "../../../../../core/tokens"
 import { breakpoint, space } from "../../../../../core/scales"
 
@@ -62,12 +62,14 @@ const styles = {
       "@container card (width >= 767px)": "none",
     },
     width: { "*": null, base: space[40] },
-    [select.descendant('[data-slot="select-value"]')]: {
-      display: "block",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap",
-    },
+  }),
+  // `**:data-[slot=select-value]:block truncate` on the trigger, written on the value, where it
+  // wins over SelectValue's own `flex`.
+  selectValue: css({
+    display: { "*": null, base: "block" },
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   }),
   selectContent: css({
     borderRadius: { "*": null, base: radius.xl },
@@ -382,7 +384,10 @@ export function ChartAreaInteractive() {
               size="sm"
               aria-label="Select a value"
             >
-              <SelectValue placeholder="Last 3 months" />
+              <SelectValue
+                placeholder="Last 3 months"
+                sx={styles.selectValue}
+              />
             </SelectTrigger>
             <SelectContent sx={styles.selectContent}>
               <SelectItem value="90d" sx={styles.selectItem}>

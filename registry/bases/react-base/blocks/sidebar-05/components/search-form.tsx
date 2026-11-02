@@ -7,7 +7,7 @@ import {
   SidebarInput,
 } from "../../../ui/sidebar"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
-import { axes } from "../../../../../core/axes"
+import { inEveryStyle } from "../../../../../core/axes"
 import { css, props as styleProps } from "@kirana-style/core"
 import { theme } from "../../../../../core/tokens"
 import { space } from "../../../../../core/scales"
@@ -33,14 +33,8 @@ const styles = {
     width: { "*": null, base: "1px" },
   }),
   sidebarInput: css({
-    // `pl-*` for the icon, over Input's own padding, which sits under each style's condition.
-    paddingInlineStart: {
-      base: space[8],
-      [axes.style.maia]: space[8],
-      [axes.style.mira]: space[8],
-      [axes.style.luma]: space[8],
-      [axes.style.sera]: space[8],
-    },
+    // `pl-*` for the icon, over Input's own padding in every style.
+    paddingInlineStart: inEveryStyle({ base: space[8] }),
   }),
   iconPlaceholder: css({
     pointerEvents: "none",

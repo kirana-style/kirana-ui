@@ -53,10 +53,14 @@ export const shimmerProperties = {
   backgroundPosition: "0 0",
   backgroundClip: "text",
   WebkitTextFillColor: { base: "transparent", [REDUCED]: "currentColor" },
+  // Without motion, upstream's `animation: none`: every longhand back to its initial value.
   animationName: { base: sweep, [REDUCED]: "none" },
-  animationDuration: fallback(shimmerCtx.duration, "2s"),
-  animationTimingFunction: "linear",
-  animationIterationCount: "infinite",
+  animationDuration: {
+    base: fallback(shimmerCtx.duration, "2s"),
+    [REDUCED]: "0s",
+  },
+  animationTimingFunction: { base: "linear", [REDUCED]: "ease" },
+  animationIterationCount: { base: "infinite", [REDUCED]: "1" },
   animationDirection: { base: "normal", ":dir(rtl)": "reverse" },
 } as const
 

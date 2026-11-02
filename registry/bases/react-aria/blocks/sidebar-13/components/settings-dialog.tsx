@@ -27,6 +27,7 @@ import {
   SidebarProvider,
 } from "../../../ui/sidebar"
 import { IconPlaceholder } from "../../../../../icons/icon-placeholder"
+import { inEveryStyle } from "../../../../../core/axes"
 import { css } from "@kirana-style/core"
 import { WRAPPER_COLLAPSED } from "../../../../../styles/sidebar.styles"
 import { radius, theme } from "../../../../../core/tokens"
@@ -42,7 +43,11 @@ const styles = {
     overflow: { "*": null, base: "hidden" },
     padding: { "*": null, base: space["0"] },
     maxHeight: { [breakpoint.md]: "500px" },
-    maxWidth: { [breakpoint.md]: "700px", [breakpoint.lg]: "800px" },
+    // `md:max-w-[700px] lg:max-w-[800px]`, over Dialog's own width in every style.
+    maxWidth: inEveryStyle({
+      [breakpoint.md]: "700px",
+      [breakpoint.lg]: "800px",
+    }),
   }),
   dialogTitle: css({
     borderWidth: { "*": null, base: "0" },
