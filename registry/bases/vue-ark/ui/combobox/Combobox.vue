@@ -104,6 +104,7 @@ const positioning = computed(() =>
   place(placement.value, { rtl: locale?.value?.dir === "rtl" })
 )
 
+const inputId = ref<string>()
 provide(COMBOBOX, {
   filtered,
   filter,
@@ -113,6 +114,7 @@ provide(COMBOBOX, {
   remove,
   chips: ref(false),
   placement,
+  inputId,
 })
 </script>
 
@@ -131,6 +133,7 @@ provide(COMBOBOX, {
     :input-behavior="autoHighlight ? 'autohighlight' : 'none'"
     :selection-behavior="multiple ? 'clear' : 'replace'"
     :positioning="positioning"
+    :ids="inputId ? { input: inputId } : undefined"
     open-on-click
     :highlighted-value="highlighted ?? undefined"
     :sx="combobox.rootArk"

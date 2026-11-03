@@ -8,6 +8,7 @@
     "build": "vue-tsc --noEmit -p tsconfig.vue.json && vp build"
   },
   "dependencies": {
+    "@ai-sdk/vue": "catalog:",
     "@ark-ui/vue": "catalog:",
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",

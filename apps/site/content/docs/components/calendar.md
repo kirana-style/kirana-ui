@@ -213,11 +213,11 @@ const cells = css({
 })
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/base,vue/ark -->
 
 ## Week Numbers
 
-Use `showWeekNumber` to show week numbers.
+Use `showWeekNumber` (`show-week-number` on Vue) to show week numbers.
 
 <!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark" -->
 

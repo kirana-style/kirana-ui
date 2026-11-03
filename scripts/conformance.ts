@@ -306,8 +306,8 @@ function compare(name: string, paths: string[], ...options: string[]) {
  * A framework's pages against React's on the same site: every item it has that React's Base UI has
  * too, or the ones `--pages` names.
  */
-/** Pages of a preview app's own, not items, which React's has too (`charts-base.tsx`). */
-const APP_PAGES = ["charts"]
+/** Pages of a preview app's own, not items, which React's has too (`charts-base.tsx`, `showcase.tsx`). */
+const APP_PAGES = ["charts", "showcase"]
 
 /** The app pages a framework's preview builds (its `previewPages` extras). */
 function frameworkAppPages(name: string) {
@@ -350,7 +350,7 @@ function frameworkRoutes() {
           .filter((file) => file.endsWith(extension))
           .map((file) => file.slice(0, -extension.length))
       : []),
-    // The preview apps' own pages both have: `/create`'s charts.
+    // The preview apps' own pages both have: `/create`'s charts and the home page's showcase.
     ...APP_PAGES.filter((page) =>
       frameworkAppPages(values.framework!).includes(page)
     ),

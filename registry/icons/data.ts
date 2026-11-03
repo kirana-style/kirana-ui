@@ -243,6 +243,7 @@ import {
   ArrowUp,
   ArrowUpRight,
   AudioLines,
+  AudioWaveform,
   BadgeCheck,
   Bell,
   Bluetooth,
@@ -604,6 +605,7 @@ const LIBRARIES: Partial<Record<IconLibrary, Library>> = {
       XIcon: X,
       // sidebar-07's. Upstream's names, from Lucide's older ones for `SquareTerminal` and `ChartPie`.
       AudioLinesIcon: AudioLines,
+      AudioWaveformIcon: AudioWaveform,
       BookOpenIcon: BookOpen,
       BotIcon: Bot,
       FolderIcon: Folder,

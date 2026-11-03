@@ -8,7 +8,7 @@ keywords: [spinner, loading, loader, component, base, aria, ark, vue]
 
 # Spinner
 
-<!-- ::preview item="spinner-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="spinner-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
@@ -91,7 +91,7 @@ Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` be
 
 ## Input Group
 
-<!-- ::preview item="spinner-input-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="spinner-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Empty
 
@@ -101,4 +101,4 @@ Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` be
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="spinner-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="spinner-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->

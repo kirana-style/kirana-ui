@@ -110,6 +110,7 @@
       "name": "preview-vue",
       "version": "0.0.1",
       "dependencies": {
+        "@ai-sdk/vue": "catalog:",
         "@ark-ui/vue": "catalog:",
         "@fontsource-variable/geist": "catalog:",
         "@fontsource-variable/inter": "catalog:",

@@ -108,7 +108,7 @@ Use the `EmptyMedia` component to display an avatar group in the empty state.
 
 You can add an `InputGroup` component to the `EmptyContent` component.
 
-<!-- ::preview item="empty-input-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="empty-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 

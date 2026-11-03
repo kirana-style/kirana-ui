@@ -65,13 +65,13 @@ Use the `Kbd` component inside a `Button` component to display a keyboard key in
 
 You can use the `Kbd` component inside a `Tooltip` component to display a tooltip with a keyboard key.
 
-<!-- ::preview item="kbd-tooltip" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="kbd-tooltip" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Input Group
 
 You can use the `Kbd` component inside a `InputGroupAddon` component to display a keyboard key inside an input group.
 
-<!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
