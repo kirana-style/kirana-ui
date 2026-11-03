@@ -20,7 +20,7 @@ const styles = {
   <div :sx="page.example">
     <AvatarGroup :sx="styles.exampleAvatarGroup">
       <Avatar>
-        <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+        <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <Avatar>

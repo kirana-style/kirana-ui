@@ -33,7 +33,7 @@ const styles = {
     <div :sx="styles.row">
       <Avatar>
         <AvatarImage
-          src="/avatars/kirana.png"
+          :src="'/avatars/kirana.png'"
           alt="@kirana"
           :sx="styles.grayscale"
         />
@@ -49,7 +49,7 @@ const styles = {
       </Avatar>
       <AvatarGroup :sx="styles.grayscale">
         <Avatar>
-          <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+          <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar>

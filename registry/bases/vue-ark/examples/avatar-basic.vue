@@ -14,7 +14,7 @@ const styles = {
   <div :sx="page.example">
     <Avatar>
       <AvatarImage
-        src="/avatars/kirana.png"
+        :src="'/avatars/kirana.png'"
         alt="@kirana"
         :sx="styles.avatarDemoAvatarImage"
       />

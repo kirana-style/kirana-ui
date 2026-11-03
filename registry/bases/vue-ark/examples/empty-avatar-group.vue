@@ -38,7 +38,7 @@ const styles = {
         <EmptyMedia>
           <div :sx="styles.flexSpaceX2DataSlotAvata">
             <Avatar>
-              <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+              <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <Avatar>

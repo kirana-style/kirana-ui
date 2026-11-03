@@ -14,7 +14,7 @@ const styles = {
 <template>
   <div :sx="page.example">
     <Avatar>
-      <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+      <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
       <AvatarFallback>CN</AvatarFallback>
       <AvatarBadge :sx="styles.avatarWithBadgeAvatarBadge" />
     </Avatar>

@@ -2,17 +2,17 @@
 title: Navigation Menu
 description: A collection of links for navigating websites.
 section: components
-variants: [react/base]
-keywords: [navigation, menu, links, nav, component, base]
+variants: [react/base, vue/ark]
+keywords: [navigation, menu, links, nav, component, base, ark, vue]
 ---
 
 # Navigation Menu
 
-<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base" -->
+<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="navigation-menu" combinations="react/base" -->
+<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark" -->
 
 ## Usage
 
@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/navigation-menu"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <NavigationMenu>
   <NavigationMenuList>
@@ -39,6 +41,27 @@ import {
   </NavigationMenuList>
 </NavigationMenu>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <NavigationMenu>
+    <NavigationMenuList>
+      <NavigationMenuItem>
+        <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+        <NavigationMenuContent>
+          <NavigationMenuLink>Link</NavigationMenuLink>
+        </NavigationMenuContent>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+  </NavigationMenu>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -87,7 +110,7 @@ export function NavigationMenuDemo() {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base" direction="rtl" -->
+<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark" direction="rtl" -->
 
 ## API Reference
 
