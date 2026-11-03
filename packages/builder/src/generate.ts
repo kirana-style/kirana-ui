@@ -172,13 +172,38 @@ export function generate(
     return IDENTIFIER.test(text) ? text : quote(text)
   }
 
+  /**
+   * Printed keys and values, each key once. Two bases' state keys can be one attribute (React
+   * Aria's and Ark UI's `[data-invalid]`): the same key with the same value is written once, as an
+   * object literal allows; with another value it would be a module that no longer says what the
+   * source says.
+   */
+  function once(entries: [string, string][]): Map<string, string> {
+    const written = new Map<string, string>()
+    for (const [printed, code] of entries) {
+      const earlier = written.get(printed)
+      if (earlier !== undefined && earlier !== code)
+        throw new Error(
+          `${printed} written twice with different values: ${earlier} and ${code}`
+        )
+      written.set(printed, code)
+    }
+    return written
+  }
+
   function object(value: StyleObject, indent: string): string {
     const inner = `${indent}  `
-    const lines = Object.entries(value).map(
-      ([name, entry]) => `${inner}${key(name)}: ${any(entry, inner)},`
+    const written = once(
+      Object.entries(value).map(([name, entry]) => [
+        key(name),
+        any(entry, inner),
+      ])
     )
-    const flat = `{ ${Object.entries(value)
-      .map(([name, entry]) => `${key(name)}: ${any(entry, inner)}`)
+    const lines = [...written].map(
+      ([name, code]) => `${inner}${name}: ${code},`
+    )
+    const flat = `{ ${[...written]
+      .map(([name, code]) => `${name}: ${code}`)
       .join(", ")} }`
     return !flat.includes("\n") && flat.length + indent.length < 90
       ? flat
@@ -216,14 +241,16 @@ export function generate(
       return leaf(entry)
     if (isObject(entry) && !isRelation(entry)) {
       const inner = `${indent}  `
-      const members = Object.entries(entry)
-        .map(([name, part]) => {
-          const code = member(part, `${path}.${name}`, inner)
-          return code === undefined
-            ? undefined
-            : `${inner}${key(name)}: ${code},`
-        })
-        .filter((line) => line !== undefined)
+      const members = [
+        ...once(
+          Object.entries(entry).flatMap(([name, part]) => {
+            const code = member(part, `${path}.${name}`, inner)
+            return code === undefined
+              ? []
+              : [[key(name), code] as [string, string]]
+          })
+        ),
+      ].map(([name, code]) => `${inner}${name}: ${code},`)
       return members.length ? `{\n${members.join("\n")}\n${indent}}` : undefined
     }
     return undefined
