@@ -2,17 +2,17 @@
 title: Drawer
 description: A drawer component for React.
 section: components
-variants: [react/base, react/aria]
-keywords: [drawer, bottom sheet, panel, swipe, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [drawer, bottom sheet, panel, swipe, component, base, aria, ark, vue]
 ---
 
 # Drawer
 
-<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="drawer" combinations="react/base,react/aria" -->
+<!-- ::installation name="drawer" combinations="react/base,react/aria,vue/ark" -->
 
 On iOS Safari, the drawer's overlay is absolutely positioned, and covers the viewport after the page
 is scrolled only inside a positioned `body`. Add it to your global styles (see the
@@ -45,6 +45,8 @@ const styles = {
 }
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <Drawer>
   <DrawerTrigger render={<Button variant="outline" />}>Open</DrawerTrigger>
@@ -61,6 +63,35 @@ const styles = {
   </DrawerContent>
 </Drawer>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Drawer>
+    <DrawerTrigger as-child>
+      <Button variant="outline">Open</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader>
+        <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+        <DrawerDescription>This action cannot be undone.</DrawerDescription>
+      </DrawerHeader>
+      <div :sx="styles.body"><!-- Content here --></div>
+      <DrawerFooter>
+        <Button>Submit</Button>
+        <DrawerClose as-child>
+          <Button variant="outline">Cancel</Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -148,25 +179,46 @@ Use the `swipeDirection` prop to set the side of the drawer.
 
 Available options are `up`, `right`, `down`, and `left`.
 
-<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria" -->
+<!-- ::start:only vue/ark -->
+
+Vue's `Drawer` takes the same sides and hands Ark UI its own, which are logical (`start` and `end`
+for left and right, read with the page's direction), so a right-to-left page keeps a drawer on the
+side it names.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Swipe Handle
 
 Use `showSwipeHandle` on `Drawer` to render a swipe handle.
 
-<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Nested
 
 Open drawers from inside another drawer. Parent drawers stay mounted and stack behind the frontmost drawer.
 
-<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria" -->
+<!-- ::start:only vue/ark -->
+
+Ark UI places each drawer itself, from its swipe and snap point, so a parent drawer stays full size
+behind the frontmost one where Base UI's shrinks into the stack.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Non Modal
 
 Set `modal={false}` to allow interaction with the rest of the page while the drawer is open. Combine with `disablePointerDismissal` to prevent the drawer from closing on outside presses. Use `modal="trap-focus"` to keep focus inside the drawer while leaving scroll and pointer interaction unrestricted.
 
-<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria" -->
+<!-- ::start:only vue/ark -->
+
+On Vue, `modal` is `true` or `false`: Ark UI's drawer has no focus-only mode.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Snap Points
 
@@ -174,13 +226,13 @@ Use `snapPoints` to snap a drawer to preset heights. Numbers between `0` and `1`
 
 Track the active snap point with the controlled `snapPoint` and `onSnapPointChange` props. At the full snap point, the drawer gets a `data-expanded` attribute you can style with the `data-expanded:` variant.
 
-<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Responsive
 
 You can combine the `Dialog` and `Drawer` components to create a responsive dialog. This renders a `Dialog` component on desktop and a `Drawer` on mobile.
 
-<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## API Reference
 

@@ -183,6 +183,9 @@ export const toast = {
 export const collapsiblePanel = {
   starting: { base: Base.Collapsible.Panel.startingStyle },
   ending: { base: Base.Collapsible.Panel.endingStyle },
+  // Ark UI's content, opening or leaving: its motion is keyframes over the `--height` it sets.
+  open: { ark: Ark.Collapsible.Content.state.open },
+  closed: { ark: Ark.Collapsible.Content.state.closed },
 } as const satisfies Record<string, StateKeys>
 
 /**
@@ -215,6 +218,19 @@ export const check = {
     aria: `[data-rac]${Aria.Checkbox.disabled}`,
     // None on Ark UI, as none holds on Base UI (its box is never `:disabled`): a disabled one dims
     // through its Field, whose hidden input is `:disabled`.
+  },
+} as const satisfies Record<string, StateKeys>
+
+/**
+ * A pressed toggle, alone or in a group: Base UI's `aria-pressed`, React Aria's `data-selected`,
+ * Ark UI's `data-state`, which a single-choice group's items write too (they are radios there,
+ * `aria-checked`, where Base UI's stay `aria-pressed`).
+ */
+export const toggleState = {
+  pressed: {
+    base: '[aria-pressed="true"]',
+    aria: Aria.ToggleButton.selected,
+    ark: Ark.Toggle.Root.state.on,
   },
 } as const satisfies Record<string, StateKeys>
 

@@ -2,17 +2,17 @@
 title: Button Group
 description: A container that groups related buttons together with consistent styling.
 section: components
-variants: [react/base, react/aria]
-keywords: [button group, toolbar, split button, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [button group, toolbar, split button, component, base, aria, ark, vue]
 ---
 
 # Button Group
 
-<!-- ::preview item="button-group-demo" height="564" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-demo" height="564" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="button-group" combinations="react/base,react/aria" -->
+<!-- ::installation name="button-group" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -24,12 +24,29 @@ import {
 } from "@/components/ui/button-group"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <ButtonGroup>
   <Button>Button 1</Button>
   <Button>Button 2</Button>
 </ButtonGroup>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <ButtonGroup>
+    <Button>Button 1</Button>
+    <Button>Button 2</Button>
+  </ButtonGroup>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -64,19 +81,19 @@ ButtonGroup
 
 Set the `orientation` prop to change the button group layout.
 
-<!-- ::preview item="button-group-orientation" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-orientation" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Size
 
 Control the size of buttons using the `size` prop on individual buttons.
 
-<!-- ::preview item="button-group-size" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-size" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Nested
 
 Nest `<ButtonGroup>` components to create button groups with spacing.
 
-<!-- ::preview item="button-group-nested" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-nested" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Separator
 
@@ -84,49 +101,49 @@ The `ButtonGroupSeparator` component visually divides buttons within a group.
 
 Buttons with variant `outline` do not need a separator since they have a border. For other variants, a separator is recommended to improve the visual hierarchy.
 
-<!-- ::preview item="button-group-separator" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-separator" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Split
 
 Create a split button group by adding two buttons separated by a `ButtonGroupSeparator`.
 
-<!-- ::preview item="button-group-split" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-split" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Input
 
 Wrap an `Input` component with buttons.
 
-<!-- ::preview item="button-group-input" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-input" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Input Group
 
 Wrap an `InputGroup` component to create complex input layouts.
 
-<!-- ::preview item="button-group-input-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Dropdown Menu
 
 Create a split button group with a `DropdownMenu` component.
 
-<!-- ::preview item="button-group-dropdown" height="588" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-dropdown" height="588" combinations="react/base,react/aria,vue/ark" -->
 
 ## Select
 
 Pair with a `Select` component.
 
-<!-- ::preview item="button-group-select" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-select" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Popover
 
 Use with a `Popover` component.
 
-<!-- ::preview item="button-group-popover" height="492" combinations="react/base,react/aria" -->
+<!-- ::preview item="button-group-popover" height="492" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="button-group-rtl" height="564" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="button-group-rtl" height="564" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

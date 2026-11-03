@@ -71,7 +71,7 @@ const HOVER_CARD_SIDES = [
             <div :sx="styles.flexFlexColStyleVegaGap2">
               <h4 :sx="styles.medium">Hover Card</h4>
               <p>
-                This hover card appears on the {{ side.replace("-", " ") }}side
+                This hover card appears on the {{ side.replace("-", " ") }} side
                 of the trigger.
               </p>
             </div>

@@ -55,12 +55,30 @@ export const IN_OUTLINE_BUTTON_GROUP =
 const ROW = '[data-slot="button-group"]:not([data-orientation="vertical"])'
 const COLUMN = '[data-slot="button-group"][data-orientation="vertical"]'
 
+/**
+ * A part: an element with a `data-slot`, or Ark UI's Select root, which holds the trigger and leaves
+ * the layout (`display: contents`) where Base UI renders no element; only Ark's parts write
+ * `data-scope`.
+ */
+const ARK_SELECT = '[data-scope="select"][data-part="root"]'
+const CHILD = `:is([data-slot], ${ARK_SELECT})`
+
 /** A part of a row (`*:data-slot:`), one after another (`[&>[data-slot]~[data-slot]]:`), the last. */
-const IN_ROW = `:is(${ROW} > [data-slot])`
-const ROW_LATER = `:is(${ROW} > [data-slot] ~ [data-slot])`
-const COLUMN_PART = `:is(${COLUMN} > [data-slot])`
-const COLUMN_LATER = `:is(${COLUMN} > [data-slot] ~ [data-slot])`
-const LAST = ":not(:has(~ [data-slot]))"
+const IN_ROW = `:is(${ROW} > ${CHILD})`
+const ROW_LATER = `:is(${ROW} > ${CHILD} ~ ${CHILD})`
+const COLUMN_PART = `:is(${COLUMN} > ${CHILD})`
+const COLUMN_LATER = `:is(${COLUMN} > ${CHILD} ~ ${CHILD})`
+const LAST = `:not(:has(~ ${CHILD}))`
+
+/** Ark UI's Select trigger, joined where its root sits in the group. */
+const ARK_TRIGGER = (group: string, root = "") =>
+  `:is(${group} > ${ARK_SELECT}${root} > [data-slot="select-trigger"])`
+const ARK_IN_ROW = ARK_TRIGGER(ROW)
+const ARK_ROW_LATER = `:is(${ROW} > ${CHILD} ~ ${ARK_SELECT} > [data-slot="select-trigger"])`
+const ARK_COLUMN_PART = ARK_TRIGGER(COLUMN)
+const ARK_COLUMN_LATER = `:is(${COLUMN} > ${CHILD} ~ ${ARK_SELECT} > [data-slot="select-trigger"])`
+const ARK_ROW_LAST = ARK_TRIGGER(ROW, LAST)
+const ARK_COLUMN_LAST = ARK_TRIGGER(COLUMN, LAST)
 
 /**
  * React Aria's Select wraps its trigger (`[data-slot="select"]`): the wrapper is the group's part,
@@ -96,7 +114,14 @@ const END = {
 export const joinedInButtonGroup = {
   zIndex: { [IN_BUTTON_GROUP]: { ":focus-visible": 10 } },
   borderTopLeftRadius: {
-    [IN_BUTTON_GROUP]: { [PART]: { [ROW_LATER]: "0", [COLUMN_LATER]: "0" } },
+    [IN_BUTTON_GROUP]: {
+      [PART]: {
+        [ROW_LATER]: "0",
+        [COLUMN_LATER]: "0",
+        [ARK_ROW_LATER]: "0",
+        [ARK_COLUMN_LATER]: "0",
+      },
+    },
   },
   borderTopRightRadius: {
     [IN_BUTTON_GROUP]: {
@@ -104,6 +129,8 @@ export const joinedInButtonGroup = {
         [IN_ROW]: { base: "0", [LAST]: END },
         [COLUMN_LATER]: "0",
         [ROW_SELECT_TRIGGER]: "0",
+        [ARK_IN_ROW]: { base: "0", [ARK_ROW_LAST]: END },
+        [ARK_COLUMN_LATER]: "0",
       },
     },
   },
@@ -112,6 +139,8 @@ export const joinedInButtonGroup = {
       [PART]: {
         [ROW_LATER]: "0",
         [COLUMN_PART]: { base: "0", [LAST]: END },
+        [ARK_ROW_LATER]: "0",
+        [ARK_COLUMN_PART]: { base: "0", [ARK_COLUMN_LAST]: END },
       },
     },
   },
@@ -121,11 +150,17 @@ export const joinedInButtonGroup = {
         [IN_ROW]: { base: "0", [LAST]: END },
         [COLUMN_PART]: { base: "0", [LAST]: END },
         [ROW_SELECT_TRIGGER]: "0",
+        [ARK_IN_ROW]: { base: "0", [ARK_ROW_LAST]: END },
+        [ARK_COLUMN_PART]: { base: "0", [ARK_COLUMN_LAST]: END },
       },
     },
   },
-  borderLeftWidth: { [IN_BUTTON_GROUP]: { [ROW_LATER]: "0" } },
-  borderTopWidth: { [IN_BUTTON_GROUP]: { [COLUMN_LATER]: "0" } },
+  borderLeftWidth: {
+    [IN_BUTTON_GROUP]: { [ROW_LATER]: "0", [ARK_ROW_LATER]: "0" },
+  },
+  borderTopWidth: {
+    [IN_BUTTON_GROUP]: { [COLUMN_LATER]: "0", [ARK_COLUMN_LATER]: "0" },
+  },
 } as const
 
 /** `*:focus-visible:relative`, for a part not positioned already. */

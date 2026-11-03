@@ -5,14 +5,15 @@
  *
  * A sheet is a dialog pinned to one edge of the screen (`sheet.side`, by its `side`): it fades in
  * as it slides 2.5rem from that edge, on each base's first frame and exit (`overlay.starting`,
- * `.ending`). The close button is a ghost `icon-sm` Button placed by
+ * `.ending`), or, on Ark UI, which keeps a closing sheet mounted only while an animation runs, as
+ * keyframes on its `data-state` (`presence`). The close button is a ghost `icon-sm` Button placed by
  * `sheet.close`.
  *
  * Different from upstream on purpose:
  * - `transition` is written as the properties that move;
  * - `supports-backdrop-filter:` is dropped: a browser without `backdrop-filter` ignores it anyway.
  */
-import { css } from "@kirana-style/core"
+import { css, keyframes } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import {
@@ -30,7 +31,7 @@ import {
   space,
   zIndex,
 } from "../core/scales"
-import { overlay, when } from "../core/states"
+import { overlay, presence, when } from "../core/states"
 import { font, theme } from "../core/tokens"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
@@ -43,6 +44,42 @@ const slide = (away: string) => ({
   base: "0",
   ...when(overlay.starting, away),
   ...when(overlay.ending, away),
+})
+
+/** Ark UI's enter and exit from `away`: keyframes, the same fade and travel. */
+const fadeIn = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } })
+const fadeOut = keyframes({ from: { opacity: 1 }, to: { opacity: 0 } })
+const enterTop = keyframes({
+  from: { opacity: 0, translate: `0 -${TRAVEL}` },
+  to: { opacity: 1, translate: "0" },
+})
+const exitTop = keyframes({
+  from: { opacity: 1, translate: "0" },
+  to: { opacity: 0, translate: `0 -${TRAVEL}` },
+})
+const enterRight = keyframes({
+  from: { opacity: 0, translate: `${TRAVEL} 0` },
+  to: { opacity: 1, translate: "0" },
+})
+const exitRight = keyframes({
+  from: { opacity: 1, translate: "0" },
+  to: { opacity: 0, translate: `${TRAVEL} 0` },
+})
+const enterBottom = keyframes({
+  from: { opacity: 0, translate: `0 ${TRAVEL}` },
+  to: { opacity: 1, translate: "0" },
+})
+const exitBottom = keyframes({
+  from: { opacity: 1, translate: "0" },
+  to: { opacity: 0, translate: `0 ${TRAVEL}` },
+})
+const enterLeft = keyframes({
+  from: { opacity: 0, translate: `-${TRAVEL} 0` },
+  to: { opacity: 1, translate: "0" },
+})
+const exitLeft = keyframes({
+  from: { opacity: 1, translate: "0" },
+  to: { opacity: 0, translate: `-${TRAVEL} 0` },
 })
 
 /** `border-*` on the side facing the page. */
@@ -67,6 +104,12 @@ export const sheet = {
     transitionProperty: "opacity",
     transitionDuration: duration[150],
     transitionTimingFunction: easing.inOut,
+    animationDuration: duration[150],
+    animationTimingFunction: easing.inOut,
+    animationName: {
+      ...when(presence.open, fadeIn),
+      ...when(presence.closed, fadeOut),
+    },
     opacity: {
       base: 1,
       ...when(overlay.starting, 0),
@@ -117,6 +160,8 @@ export const sheet = {
     transitionProperty: "opacity, translate",
     transitionDuration: duration[200],
     transitionTimingFunction: easing.inOut,
+    animationDuration: duration[200],
+    animationTimingFunction: easing.inOut,
     opacity: {
       base: 1,
       ...when(overlay.starting, 0),
@@ -138,6 +183,10 @@ export const sheet = {
       height: "auto",
       borderBottomWidth: EDGE,
       translate: slide(`0 -${TRAVEL}`),
+      animationName: {
+        ...when(presence.open, enterTop),
+        ...when(presence.closed, exitTop),
+      },
     }),
     right: css({
       top: 0,
@@ -148,6 +197,10 @@ export const sheet = {
       maxWidth: { [breakpoint.sm]: containerSize.sm },
       borderLeftWidth: EDGE,
       translate: slide(`${TRAVEL} 0`),
+      animationName: {
+        ...when(presence.open, enterRight),
+        ...when(presence.closed, exitRight),
+      },
     }),
     bottom: css({
       bottom: 0,
@@ -156,6 +209,10 @@ export const sheet = {
       height: "auto",
       borderTopWidth: EDGE,
       translate: slide(`0 ${TRAVEL}`),
+      animationName: {
+        ...when(presence.open, enterBottom),
+        ...when(presence.closed, exitBottom),
+      },
     }),
     left: css({
       top: 0,
@@ -166,6 +223,10 @@ export const sheet = {
       maxWidth: { [breakpoint.sm]: containerSize.sm },
       borderRightWidth: EDGE,
       translate: slide(`-${TRAVEL} 0`),
+      animationName: {
+        ...when(presence.open, enterLeft),
+        ...when(presence.closed, exitLeft),
+      },
     }),
   },
 

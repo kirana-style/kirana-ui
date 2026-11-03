@@ -20,6 +20,7 @@ import {
   shadow,
   space,
 } from "../core/scales"
+import { toggleState, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlIcons } from "./control"
 
@@ -107,8 +108,7 @@ export const toggle = recipe({
     backgroundColor: {
       base: "transparent",
       ":hover": theme.muted,
-      '[aria-pressed="true"]': theme.muted,
-      "[data-selected]": theme.muted,
+      ...when(toggleState.pressed, theme.muted),
     },
     borderColor: {
       ":focus-visible": theme.ring,

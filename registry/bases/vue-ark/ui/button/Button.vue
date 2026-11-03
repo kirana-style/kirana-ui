@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ark } from "@ark-ui/vue/factory"
 import { props as styleProps } from "@kirana-style/core"
-import { h, Text, useSlots } from "vue"
+import { createTextVNode, Fragment, h, Text, useSlots } from "vue"
 import type { VNode } from "vue"
 import { useSx } from "@kirana-style/core/vue"
 
@@ -27,18 +27,43 @@ const label = styleProps(buttonLabel).className
 
 /**
  * Each run of text, trimmed to its capitals; icons and elements pass through. White space alone
- * stays bare text, which the flex container drops: a label of its own would add a gap.
+ * stays bare text, which the flex container drops: a label of its own would add a gap. A slot a
+ * part passes on (Input Group's button) arrives as a fragment, read through when `fragments`.
  */
-const Labelled = () =>
-  (slots.default?.() ?? []).map((node: VNode) =>
+const labelled = (nodes: VNode[], fragments = false): VNode[] =>
+  nodes.map((node: VNode) =>
     node.type === Text && String(node.children).trim()
       ? h(
           "span",
           { "data-slot": "button-label", class: label },
           node.children as string
         )
-      : node
+      : fragments && node.type === Fragment && Array.isArray(node.children)
+        ? h(Fragment, labelled(node.children as VNode[], true))
+        : node
   )
+const Labelled = () => labelled(slots.default?.() ?? [], true)
+
+/**
+ * As its child (`as-child`): that element, its own text labelled, as React's Button labels its
+ * children inside the element it renders (`render={<span />}`). Text a part passes on through a
+ * slot of its own arrives as a fragment and stays bare, as the text of React's rendered element
+ * itself does (Pagination's links).
+ */
+function child(): VNode | undefined {
+  const nodes = slots.default?.() ?? []
+  const node = nodes.find((each: VNode) => typeof each.type === "string")
+  if (!node) return nodes[0]
+  const children =
+    typeof node.children === "string"
+      ? [createTextVNode(node.children)]
+      : Array.isArray(node.children)
+        ? (node.children as VNode[])
+        : undefined
+  return children
+    ? h(node.type as string, node.props, labelled(children))
+    : node
+}
 </script>
 
 <template>
@@ -50,7 +75,7 @@ const Labelled = () =>
     :sx="[button({ variant: props.variant, size: props.size }), sx]"
     :as-child="asChild"
   >
-    <slot v-if="asChild" />
+    <component :is="child()" v-if="asChild" />
     <Labelled v-else />
   </ark.button>
 </template>

@@ -2,13 +2,13 @@
 title: Carousel
 description: A carousel with motion and swipe built using Embla.
 section: components
-variants: [react/base, react/aria]
-keywords: [carousel, slider, slides, embla, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [carousel, slider, slides, embla, component, base, aria, ark, vue]
 ---
 
 # Carousel
 
-<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## About
 
@@ -16,7 +16,7 @@ The carousel component is built using the [Embla Carousel](https://www.embla-car
 
 ## Installation
 
-<!-- ::installation name="carousel" combinations="react/base,react/aria" -->
+<!-- ::installation name="carousel" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -30,6 +30,8 @@ import {
 } from "@/components/ui/carousel"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <Carousel>
   <CarouselContent>
@@ -41,6 +43,26 @@ import {
   <CarouselNext />
 </Carousel>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Carousel>
+    <CarouselContent>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -59,7 +81,7 @@ Carousel
 
 To set the size of the items, give the `<CarouselItem />` a `flexBasis` through `sx`.
 
-<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ```tsx
 // 33% of the carousel width.
@@ -86,7 +108,7 @@ const item = css({
 To set the spacing between the items, give the `<CarouselItem />` a `paddingLeft` and the
 `<CarouselContent />` the same negative `marginLeft`.
 
-<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ```tsx
 const content = css({ marginLeft: `calc(${space[2]} * -1)` })
@@ -105,7 +127,7 @@ const item = css({ paddingLeft: space[2] })
 
 Use the `orientation` prop to set the orientation of the carousel.
 
-<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria" -->
+<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,vue/ark" -->
 
 ```tsx
 <Carousel orientation="vertical | horizontal">
@@ -122,6 +144,8 @@ Use the `orientation` prop to set the orientation of the carousel.
 You can pass options to the carousel using the `opts` prop. See the
 [Embla Carousel docs](https://www.embla-carousel.com/api/options/) for more information.
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <Carousel
   opts={{
@@ -137,11 +161,31 @@ You can pass options to the carousel using the `opts` prop. See the
 </Carousel>
 ```
 
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Carousel :opts="{ align: 'start', loop: true }">
+    <CarouselContent>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+    </CarouselContent>
+  </Carousel>
+</template>
+```
+
+<!-- ::end:only -->
+
 ## API
 
 Use a state and the `setApi` prop to get an instance of the carousel API.
 
-<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,vue/ark" -->
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 import { type CarouselApi } from "@/components/ui/carousel"
@@ -176,9 +220,46 @@ export function Example() {
 }
 ```
 
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue"
+
+import { type CarouselApi } from "@/components/ui/carousel"
+
+const current = ref(0)
+const count = ref(0)
+
+function setApi(api: CarouselApi) {
+  count.value = api.scrollSnapList().length
+  current.value = api.selectedScrollSnap() + 1
+  api.on("select", () => {
+    current.value = api.selectedScrollSnap() + 1
+  })
+}
+</script>
+
+<template>
+  <Carousel :set-api="setApi">
+    <CarouselContent>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+    </CarouselContent>
+  </Carousel>
+</template>
+```
+
+<!-- ::end:only -->
+
 ## Events
 
 You can listen to events using the api instance from `setApi`.
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 import { type CarouselApi } from "@/components/ui/carousel"
@@ -208,11 +289,41 @@ export function Example() {
 }
 ```
 
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+import { type CarouselApi } from "@/components/ui/carousel"
+
+function setApi(api: CarouselApi) {
+  api.on("select", () => {
+    // Do something on select.
+  })
+}
+</script>
+
+<template>
+  <Carousel :set-api="setApi">
+    <CarouselContent>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+    </CarouselContent>
+  </Carousel>
+</template>
+```
+
+<!-- ::end:only -->
+
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/events/) for more information on using events.
 
 ## Plugins
 
 You can use the `plugins` prop to add plugins to the carousel.
+
+<!-- ::start:only react/base,react/aria -->
 
 ```ts
 import Autoplay from "embla-carousel-autoplay"
@@ -232,13 +343,33 @@ export function Example() {
 }
 ```
 
-<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria" -->
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+import Autoplay from "embla-carousel-autoplay"
+
+const plugin = Autoplay({ delay: 2000 })
+</script>
+
+<template>
+  <Carousel :plugins="[plugin]">
+    <!-- ... -->
+  </Carousel>
+</template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

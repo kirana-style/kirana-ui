@@ -250,7 +250,11 @@ export const ITEMS: Item[] = [
     title: "useIsMobile",
     description: "Whether the screen is narrower than the md breakpoint.",
     files: (combination) =>
-      react(combination) ? ["lib/use-mobile.ts"] : undefined,
+      react(combination)
+        ? ["lib/use-mobile.ts"]
+        : combination.framework === "vue"
+          ? ["lib/vue/use-mobile.ts"]
+          : undefined,
   },
   {
     name: "use-highlighted-code",
@@ -263,9 +267,16 @@ export const ITEMS: Item[] = [
         ? [
             "lib/use-highlighted-code.ts",
             "lib/highlighter.tsx",
+            "lib/highlight-tokens.ts",
             "styles/highlight.styles.ts",
           ]
-        : undefined,
+        : combination.framework === "vue"
+          ? [
+              "lib/vue/use-highlighted-code.ts",
+              "lib/highlight-tokens.ts",
+              "styles/highlight.styles.ts",
+            ]
+          : undefined,
   },
   sharedStyles("overlay", "How popups, modals and backdrops come and go."),
   sharedStyles(
@@ -376,7 +387,7 @@ export const ITEMS: Item[] = [
     "toggle-group",
     "Toggle Group",
     "A set of two-state buttons that can be toggled on or off.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "native-select",
@@ -394,7 +405,7 @@ export const ITEMS: Item[] = [
     "input-group",
     "Input Group",
     "Add addons, buttons, and helper content to inputs.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "input-otp",
@@ -438,7 +449,7 @@ export const ITEMS: Item[] = [
     "item",
     "Item",
     "A versatile component for displaying content with media, title, description, and actions.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "progress",
@@ -456,7 +467,7 @@ export const ITEMS: Item[] = [
     "button-group",
     "Button Group",
     "A container that groups related buttons together with consistent styling.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "scroll-area",
@@ -480,7 +491,7 @@ export const ITEMS: Item[] = [
     "alert-dialog",
     "Alert Dialog",
     "A modal dialog that interrupts the user with important content and expects a response.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "context-menu",
@@ -500,7 +511,12 @@ export const ITEMS: Item[] = [
     "Command menu for search and quick actions.",
     ["react"]
   ),
-  component("drawer", "Drawer", "A drawer component for React.", ["react"]),
+  component(
+    "drawer",
+    "Drawer",
+    "A drawer that slides in from an edge of the screen.",
+    ["react", "vue"]
+  ),
   component(
     "navigation-menu",
     "Navigation Menu",
@@ -525,7 +541,7 @@ export const ITEMS: Item[] = [
     "pagination",
     "Pagination",
     "Pagination with page navigation, next and previous links.",
-    ["react"]
+    ["react", "vue"]
   ),
   {
     // A provider, drawing nothing: its markup only, no style module.
@@ -560,7 +576,7 @@ export const ITEMS: Item[] = [
     "carousel",
     "Carousel",
     "A carousel with motion and swipe built using Embla.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "calendar",
@@ -572,7 +588,7 @@ export const ITEMS: Item[] = [
     "attachment",
     "Attachment",
     "Displays a file or image attachment with media, metadata, upload state, and actions.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "bubble",
@@ -602,13 +618,13 @@ export const ITEMS: Item[] = [
     "code-block",
     "Code Block",
     "Displays code, terminal output and diffs with an optional header, line numbers and a copy button.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "trace",
     "Trace",
     "The building block for reasoning, tool calls, sources and more.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "label",
@@ -644,7 +660,7 @@ export const ITEMS: Item[] = [
     "sheet",
     "Sheet",
     "Extends the Dialog to display content from an edge of the screen.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "sidebar",

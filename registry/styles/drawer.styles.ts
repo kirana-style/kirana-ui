@@ -10,11 +10,19 @@
  * (`--drawer-inset`), rounded all round. The parts read the popup (`drawerScope`, upstream's
  * `group/drawer-popup`): its axis, its direction, a nested drawer open.
  *
+ * Ark UI's Drawer (Vue, Svelte, Solid) is Zag's, modelled on Base UI's: its content is the popup and
+ * its positioner the viewport, and it writes the same swipe, direction and nested-drawer attributes
+ * and the same custom properties, so the keys above read both. Its enter and exit are not a first
+ * frame and an exit but `data-state` (`presence`), on which it keeps a closing drawer mounted while
+ * an animation runs: there the popup comes in from `--closed-transform` and the backdrop from
+ * transparent as keyframes. Zag writes the popup's `transform` itself, from its own swipe and snap
+ * point, without the stack's scale, so a drawer behind a nested one stays full size on Ark.
+ *
  * Different from upstream on purpose:
  * - `supports-backdrop-filter:` is dropped, as Dialog's;
  * - the backdrop's `data-swiping:duration-0`: Base UI's backdrop writes no `data-swiping`.
  */
-import { css, relation } from "@kirana-style/core"
+import { css, keyframes, relation } from "@kirana-style/core"
 import { Drawer } from "@kirana-style/states/base-ui"
 
 import { axes, DARK_SCHEME } from "../core/axes"
@@ -31,6 +39,7 @@ import {
   spacing,
   zIndex,
 } from "../core/scales"
+import { presence, when } from "../core/states"
 import { font, radius, theme } from "../core/tokens"
 
 const { vega, lyra, maia, mira, luma, rhea, sera } = axes.style
@@ -56,6 +65,12 @@ const ON_X = drawerScope.parent(X)
 
 /** The popup's open and close: Base UI's swipe strength sets how fast it leaves. */
 const SWIPE_DURATION = "calc(var(--drawer-swipe-strength) * 400ms)"
+
+/** Ark UI's enter and exit, from and to where the popup leaves, the backdrop clear. */
+const popupIn = keyframes({ from: { transform: "var(--closed-transform)" } })
+const popupOut = keyframes({ to: { transform: "var(--closed-transform)" } })
+const backdropIn = keyframes({ from: { opacity: 0 } })
+const backdropOut = keyframes({ to: { opacity: 0 } })
 
 /** `rounded-*-xl` on the side facing the page, by direction; none in Lyra and Sera. */
 const CORNER = {
@@ -111,7 +126,19 @@ export const drawer = {
       [Backdrop.startingStyle]: 0,
       [Backdrop.endingStyle]: 0,
     },
-    pointerEvents: { [Backdrop.endingStyle]: "none" },
+    pointerEvents: {
+      [Backdrop.endingStyle]: "none",
+      ...when(presence.closed, "none"),
+    },
+    animationName: {
+      ...when(presence.open, backdropIn),
+      ...when(presence.closed, backdropOut),
+    },
+    animationDuration: {
+      base: "450ms",
+      ...when(presence.closed, SWIPE_DURATION),
+    },
+    animationTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
     transitionProperty: "opacity",
     transitionDuration: {
       base: "450ms",
@@ -242,8 +269,8 @@ export const drawer = {
     },
     "--translate-y": {
       [DOWN]:
-        "calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y) - var(--stack-peek-offset) - (var(--stack-shrink) * var(--stack-height)))",
-      [UP]: "calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y) + var(--stack-peek-offset) + (var(--stack-shrink) * var(--stack-height)))",
+        "calc(var(--drawer-snap-point-offset, var(--drawer-snap-point-offset-y, 0px)) + var(--drawer-swipe-movement-y) - var(--stack-peek-offset) - (var(--stack-shrink) * var(--stack-height)))",
+      [UP]: "calc(var(--drawer-snap-point-offset, var(--drawer-snap-point-offset-y, 0px)) + var(--drawer-swipe-movement-y) + var(--stack-peek-offset) + (var(--stack-shrink) * var(--stack-height)))",
     },
     "--translate-x": {
       [LEFT]:
@@ -332,6 +359,15 @@ export const drawer = {
       [Popup.startingStyle]: "var(--closed-transform)",
       [Popup.endingStyle]: "var(--closed-transform)",
     },
+    animationName: {
+      ...when(presence.open, popupIn),
+      ...when(presence.closed, popupOut),
+    },
+    animationDuration: {
+      base: "450ms",
+      ...when(presence.closed, SWIPE_DURATION),
+    },
+    animationTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
   }),
 
   // cn-drawer-swipe-handle and the component's own classes: a bar across the popup's start, or

@@ -469,6 +469,24 @@ Svelte and Solid after):
   nothing; one that matches another base's part too gets that base's marker
   (`[data-rac]` for React Aria, `[data-scope]` for Ark, a library's own, as
   `[data-separator]`), since the site serves every base's keys at once.
+- **Ark's motion is keyframes.** Ark keeps a closing popup mounted only while
+  an animation runs, so where Base UI's motion is a transition on its first
+  frame and exit, Ark's is keyframes on its `data-state` (`presence`): Sheet's
+  slide, Drawer's travel from `--closed-transform`, a collapsible panel's
+  height over Ark's `--height`. Where Zag writes a part's transform inline (a
+  drawer's), the keyframes animate that property and win over it.
+- **Text keeps React's white space.** JSX drops white space that holds a line
+  break; a Vue template keeps one space there. Inside an element that draws its
+  text inline (a code block's title, beside its icon) or keeps white space
+  (`pre-wrap` code), the text sits against its neighbours (`<Icon />Terminal`,
+  `<CodeBlockContent>{{ code }}</CodeBlockContent>`), and a string holding line
+  breaks stays an interpolation (`{{ "$ node --version\nv24.18.0" }}`).
+- **Base UI's API where a page calls one.** Drawer takes Base UI's physical
+  sides and `disablePointerDismissal`; a Button rendered as
+  its child (`as-child`) labels the text written inside that child, as React's
+  labels its children inside the element it renders, while text a part passes
+  on through a slot of its own stays bare, as Pagination's links. A demo's
+  helpers have a Vue composable beside React's hook (`lib/vue/`).
 
 `vue-tsc` checks the registry's Vue markup and its demos before the Vue
 preview builds (`apps/preview-vue/tsconfig.vue.json`), as `vp check` checks
