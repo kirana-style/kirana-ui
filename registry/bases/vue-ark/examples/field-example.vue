@@ -639,7 +639,7 @@ const horizontalItems = [
             :step="0.1"
           />
           <FieldDescription>
-            Range: {{ temperature[0].toFixed(1) }}-
+            Range: {{ temperature[0].toFixed(1) }} -
             {{ temperature[1].toFixed(1) }}
           </FieldDescription>
         </Field>

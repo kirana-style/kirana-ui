@@ -2,17 +2,17 @@
 title: Pagination
 description: Pagination with page navigation, next and previous links.
 section: components
-variants: [react/base, react/aria]
-keywords: [pagination, pages, navigation, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [pagination, pages, navigation, component, base, aria, ark, vue]
 ---
 
 # Pagination
 
-<!-- ::preview item="pagination-demo" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="pagination-demo" height="300" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="pagination" combinations="react/base,react/aria" -->
+<!-- ::installation name="pagination" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -27,6 +27,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 ```
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 <Pagination>
@@ -55,6 +57,39 @@ import {
 </Pagination>
 ```
 
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Pagination>
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious href="#" />
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationLink href="#">1</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationLink href="#" is-active>2</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationLink href="#">3</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationEllipsis />
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationNext href="#" />
+      </PaginationItem>
+    </PaginationContent>
+  </Pagination>
+</template>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Pagination`:
@@ -76,19 +111,19 @@ Pagination
 
 A simple pagination with only page numbers.
 
-<!-- ::preview item="pagination-simple" height="300" combinations="react/base,react/aria" -->
+<!-- ::preview item="pagination-simple" height="300" combinations="react/base,react/aria,vue/ark" -->
 
 ## Icons Only
 
 Use just the previous and next buttons without page numbers. This is useful for data tables with a rows per page selector.
 
-<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

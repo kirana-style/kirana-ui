@@ -2,19 +2,19 @@
 title: Attachment
 description: Displays a file or image attachment with media, metadata, upload state, and actions.
 section: components
-variants: [react/base, react/aria]
-keywords: [attachment, chat, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [attachment, chat, component, base, aria, ark, vue]
 ---
 
 # Attachment
 
-<!-- ::preview item="attachment-demo" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="attachment-demo" height="400" combinations="react/base,react/aria,vue/ark" surface="true" -->
 
 The `Attachment` component displays a file or image attachment, its media, name, and metadata, with optional actions and upload state. Use it for files and images in chat composers, message threads, and upload lists.
 
 ## Installation
 
-<!-- ::installation name="attachment" combinations="react/base,react/aria" -->
+<!-- ::installation name="attachment" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -29,6 +29,8 @@ import {
   AttachmentTitle,
 } from "@/components/ui/attachment"
 ```
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 <Attachment>
@@ -46,6 +48,31 @@ import {
   </AttachmentActions>
 </Attachment>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Attachment>
+    <AttachmentMedia>
+      <FileTextIcon />
+    </AttachmentMedia>
+    <AttachmentContent>
+      <AttachmentTitle>sales-dashboard.pdf</AttachmentTitle>
+      <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+    </AttachmentContent>
+    <AttachmentActions>
+      <AttachmentAction aria-label="Remove sales-dashboard.pdf">
+        <XIcon />
+      </AttachmentAction>
+    </AttachmentActions>
+  </Attachment>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -83,31 +110,31 @@ AttachmentGroup
 
 Set `variant="image"` on `AttachmentMedia` and render an `<img>` inside it. Use `orientation="vertical"` to stack the media above the content.
 
-<!-- ::preview item="attachment-image" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="attachment-image" height="400" combinations="react/base,react/aria,vue/ark" surface="true" -->
 
 ## States
 
 Set `state` to reflect the upload lifecycle. `uploading` and `processing` shimmer the title, and `error` switches to a destructive treatment.
 
-<!-- ::preview item="attachment-states" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="attachment-states" height="400" combinations="react/base,react/aria,vue/ark" surface="true" -->
 
 ## Sizes
 
 Use `size` to switch between `default`, `sm`, and `xs`.
 
-<!-- ::preview item="attachment-sizes" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="attachment-sizes" height="400" combinations="react/base,react/aria,vue/ark" surface="true" -->
 
 ## Group
 
 Wrap attachments in `AttachmentGroup` to lay them out in a horizontally scrollable, snapping row with an edge fade.
 
-<!-- ::preview item="attachment-group" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="attachment-group" height="400" combinations="react/base,react/aria,vue/ark" surface="true" -->
 
 ## Trigger
 
 Add an `AttachmentTrigger` to make the whole card open a link or dialog. It fills the card behind the actions, so the actions stay clickable.
 
-<!-- ::preview item="attachment-trigger" height="400" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="attachment-trigger" height="400" combinations="react/base,react/aria,vue/ark" surface="true" -->
 
 <!-- ::start:only react/base -->
 

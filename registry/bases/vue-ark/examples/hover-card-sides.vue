@@ -41,7 +41,9 @@ const HOVER_CARD_SIDES = ["left", "top", "bottom", "right"] as const
         <HoverCardContent :side="side">
           <div :sx="styles.flexFlexColGap1">
             <h4 :sx="styles.medium">Hover Card</h4>
-            <p>This hover card appears on the {{ side }}side of the trigger.</p>
+            <p>
+              This hover card appears on the {{ side }} side of the trigger.
+            </p>
           </div>
         </HoverCardContent>
       </HoverCard>

@@ -3,7 +3,7 @@
     {
       "element": "div[data-slot=\"toast-",
       "property": "(element)",
-      "reason": "React's Base UI preview mounts Base UI's toaster around every item; it is the page's, not the item's, and Vue's Toast comes with its layer-1 components"
+      "reason": "React's Base UI preview mounts Base UI's toaster around every item; it is the page's, not the item's, and Vue's Toast comes with the next components"
     },
     {
       "element": "span[data-slot=\"checkbox\"]",
@@ -293,12 +293,6 @@
       "reason": "follows the description's offset above"
     },
     {
-      "element": "span[data-slot=\"button-label\"]",
-      "property": "(element)",
-      "route": "empty-(demo|rtl)",
-      "reason": "a Button rendered as its child (`as-child`, a link): React's Button still wraps the link's text in its label, Vue's hands the child over as written; the text is the same, its capitals untrimmed"
-    },
-    {
       "element": "div[data-slot=\"progress-indicator\"]",
       "property": "right",
       "reason": "Base UI writes the indicator's `right: 0` inline in a right-to-left progress, as its `left: 0`; Ark UI only its width"
@@ -312,14 +306,14 @@
     {
       "element": "",
       "property": "pointer-events",
-      "reason": "Base UI's modal dialog sets `pointer-events: none` on the page behind it while open; Ark UI's traps focus and covers the page with its backdrop instead (the same at rest)",
-      "route": "-example"
+      "reason": "a modal blocks the page behind it, and each library does so its own way: Base UI's dialog sets `pointer-events: none` on the page, its drawer leaves the page to its backdrop; Ark UI's sets `pointer-events: none` on `<body>`, which its backdrop inherits (a press outside closes it through a document listener), and clears it when its exit ends",
+      "route": "-example|(alert-dialog|dialog|drawer|sheet)-"
     },
     {
       "element": "div[data-slot=\"dialog-overlay\"]",
       "property": "user-select",
       "reason": "Base UI writes `user-select: none` inline on its backdrop; Ark UI's takes the page's",
-      "route": "-example"
+      "route": "-example|(alert-dialog|dialog|drawer|sheet)-"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
@@ -343,24 +337,24 @@
       "element": "div[data-slot=\"select-content\"]",
       "property": "transition-property",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|input|table)-example"
+      "route": "(select|field|button-group|toggle-group|pagination)-example"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "(element)",
-      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0\u00d70); Ark UI mounts it when it opens",
+      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0×0); Ark UI mounts it when it opens",
       "route": "select-example"
     },
     {
       "element": "div[data-slot=\"select-group\"]",
       "property": "(element)",
-      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0\u00d70); Ark UI mounts it when it opens",
+      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0×0); Ark UI mounts it when it opens",
       "route": "select-example"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "(element)",
-      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0\u00d70); Ark UI mounts it when it opens",
+      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0×0); Ark UI mounts it when it opens",
       "route": "select-example"
     },
     {
@@ -417,6 +411,68 @@
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
       "route": "(select|field)-example"
+    },
+    {
+      "element": "With Text › label[data-slot=\"button-group-text\"]",
+      "property": "line-height",
+      "route": "button-group-example",
+      "reason": "the group's text rendered as a Label: React joins the text's classes with the Label's own, and the later atom in the stylesheet wins (the Label's); Vue merges them per entry, the text's last, as the registry means (KF-091)"
+    },
+    {
+      "element": "div[data-slot=\"alert-dialog-overlay\"]",
+      "property": "user-select",
+      "reason": "as the dialog's backdrop: Base UI writes `user-select: none` inline on it; Ark UI's takes the page's"
+    },
+    {
+      "element": "div[data-slot=\"sheet-overlay\"]",
+      "property": "user-select",
+      "reason": "as the dialog's backdrop: Base UI writes `user-select: none` inline on it; Ark UI's takes the page's"
+    },
+    {
+      "element": "div[data-slot=\"alert-dialog-portal\"]",
+      "property": "(element)",
+      "reason": "as the dialog's portal: Base UI's is an element of its own; Vue's content teleports itself to `<body>` with no wrapper"
+    },
+    {
+      "element": "div[data-slot=\"sheet-portal\"]",
+      "property": "(element)",
+      "reason": "as the dialog's portal: Base UI's is an element of its own; Vue's content teleports itself to `<body>` with no wrapper"
+    },
+    {
+      "element": "div[data-slot=\"drawer-portal\"]",
+      "property": "(element)",
+      "reason": "as the dialog's portal: Base UI's is an element of its own; Vue's content teleports itself to `<body>` with no wrapper"
+    },
+    {
+      "element": "div[data-slot=\"drawer-popup\"]",
+      "property": "animation-timing-function",
+      "reason": "Ark UI keeps a closing popup mounted only while an animation runs, so its enter and exit are keyframes in the transition's easing, where Base UI's are the transition itself (no animation)"
+    },
+    {
+      "element": "div[data-slot=\"drawer-overlay\"]",
+      "property": "animation-timing-function",
+      "reason": "Ark UI keeps a closing popup mounted only while an animation runs, so its enter and exit are keyframes in the transition's easing, where Base UI's are the transition itself (no animation)"
+    },
+    {
+      "element": "div[data-slot=\"sheet-content\"]",
+      "property": "animation-timing-function",
+      "reason": "Ark UI keeps a closing popup mounted only while an animation runs, so its enter and exit are keyframes in the transition's easing, where Base UI's are the transition itself (no animation)"
+    },
+    {
+      "element": "div[data-slot=\"sheet-overlay\"]",
+      "property": "animation-timing-function",
+      "reason": "Ark UI keeps a closing popup mounted only while an animation runs, so its enter and exit are keyframes in the transition's easing, where Base UI's are the transition itself (no animation)"
+    },
+    {
+      "element": "div[data-slot=\"trace-collapsible-content\"]",
+      "property": "animation-timing-function",
+      "reason": "as the sheet's and drawer's: Ark UI's panel opens and closes as keyframes over its `--height`, in the transition's easing, where Base UI's is the transition itself (no animation)"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "(element)",
+      "route": "(input-group|button-group)-example",
+      "reason": "the comparison opens a tooltip by hovering the page's first `tooltip-trigger`: on Vue that is a button inside an input group or button group, which Ark's trigger names (`as-child`), where React's Base UI trigger leaves the button its own `data-slot`, so the two runs hover different elements; hovered by the pointer, Vue's tooltip opens (checked by hand)"
     }
   ]
 }

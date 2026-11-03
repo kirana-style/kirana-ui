@@ -1,0 +1,31 @@
+<script setup lang="ts">
+import { Button } from "../ui/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet"
+import { page } from "../../../styles/page.styles"
+</script>
+
+<template>
+  <div :sx="page.example">
+    <Sheet>
+      <SheetTrigger as-child>
+        <Button variant="outline"> Open Sheet </Button>
+      </SheetTrigger>
+      <SheetContent :show-close-button="false">
+        <SheetHeader>
+          <SheetTitle> No Close Button </SheetTitle>
+          <SheetDescription>
+            This sheet doesn&apos;t have a close button in the top-right corner.
+            Click outside to close.
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  </div>
+</template>

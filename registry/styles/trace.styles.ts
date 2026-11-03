@@ -4,7 +4,7 @@
  * what differs. A trace's lines sit in links, buttons or collapsible triggers; each line marks its
  * status, and a running line's title shimmers (`shimmer.styles.ts`).
  */
-import { css, relation, select } from "@kirana-style/core"
+import { css, keyframes, relation, select } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import { ctx, shimmerCtx } from "../core/context"
@@ -25,6 +25,16 @@ const { lyra, maia, mira, luma, rhea, sera } = axes.style
 
 /** A collapsible trigger, read by its chevron (`group/trace-collapsible-trigger`). */
 export const traceTriggerScope = relation("trace-collapsible-trigger")
+
+/** Ark UI's panel, opening and closing over its `--height`. */
+const panelOpenArk = keyframes({
+  from: { height: "0" },
+  to: { height: "var(--height, auto)" },
+})
+const panelCloseArk = keyframes({
+  from: { height: "var(--height, auto)" },
+  to: { height: "0" },
+})
 
 /** A line's wrapper: a link, a button or a trigger holding one (`*:has-[>[data-slot=trace-line]]`). */
 const LINE_HOLDER = ':has(> [data-slot="trace-line"])'
@@ -228,6 +238,15 @@ export const trace = {
     transitionProperty: "height",
     transitionDuration: duration[200],
     transitionTimingFunction: easing.inOut,
+  }),
+  // Ark UI's content: the same motion, as keyframes over the `--height` Ark sets on it.
+  contentArk: css({
+    animationName: {
+      ...when(collapsiblePanel.open, panelOpenArk),
+      ...when(collapsiblePanel.closed, panelCloseArk),
+    },
+    animationDuration: duration[200],
+    animationTimingFunction: easing.inOut,
   }),
   // React Aria's panel moves its own height.
   contentAria: css({

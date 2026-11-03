@@ -1,0 +1,38 @@
+<script setup lang="ts">
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog"
+import { Button } from "../ui/button"
+import { page } from "../../../styles/page.styles"
+</script>
+
+<template>
+  <div :sx="page.example">
+    <AlertDialog>
+      <AlertDialogTrigger as-child>
+        <Button variant="outline"> Show Dialog </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle> Are you absolutely sure? </AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel> Cancel </AlertDialogCancel>
+          <AlertDialogAction> Continue </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  </div>
+</template>

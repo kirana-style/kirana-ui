@@ -6,7 +6,7 @@ import { previews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { LANGUAGES } from "@workspace/registry/core/language.ts"
 import { previewDirection } from "@workspace/registry/core/preview.ts"
 import { space } from "@workspace/registry/core/scales.ts"
-import { computed, defineAsyncComponent, provide } from "vue"
+import { computed, defineAsyncComponent, onMounted, provide, ref } from "vue"
 
 import { design } from "./design"
 import Showcase from "./Showcase.vue"
@@ -25,6 +25,16 @@ provide(
   LANGUAGE,
   computed(() => design.value.options.language)
 )
+
+/**
+ * Sonner's toaster, as upstream's site mounts it on every page (`top-center`): loaded after the
+ * page, since only the items that call `toast()` need it.
+ */
+const SonnerToaster = defineAsyncComponent(
+  () => import("@workspace/registry/bases/vue-ark/ui/sonner/Toaster.vue")
+)
+const mounted = ref(false)
+onMounted(() => (mounted.value = true))
 
 const list = css({
   display: "flex",
@@ -48,5 +58,6 @@ const list = css({
       </a>
       <a href="/preview/vue/ark/showcase">showcase</a>
     </nav>
+    <SonnerToaster v-if="mounted && current" position="top-center" />
   </LocaleProvider>
 </template>
