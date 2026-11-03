@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ComboboxContent, ComboboxPositioner } from "@ark-ui/vue"
 import { useSx } from "@kirana-style/core/vue"
-import { watchEffect } from "vue"
+import { provide, watchEffect } from "vue"
 
 import { combobox } from "../../../../styles/combobox.styles"
 import { menuPositioner, menuSurface } from "../../../../styles/menu.styles"
 import { popupMotion } from "../../../../styles/overlay.styles"
-import { useCombobox } from "./context"
+import { IN_CONTENT, useCombobox } from "./context"
 
 defineOptions({ inheritAttrs: false })
 
@@ -26,6 +26,7 @@ const {
 }>()
 const { sx, attrs } = useSx()
 const { placement, chips } = useCombobox()
+provide(IN_CONTENT, true)
 watchEffect(() => {
   placement.value = { side, sideOffset, align, alignOffset }
 })

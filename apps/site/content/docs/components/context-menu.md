@@ -226,7 +226,7 @@ Use `variant="destructive"` to style the menu item as destructive.
 
 ## Sides
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/base,vue/ark -->
 
 Control submenu placement with side and align props.
 

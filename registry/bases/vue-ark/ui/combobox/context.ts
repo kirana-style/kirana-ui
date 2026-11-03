@@ -20,6 +20,11 @@ export type ComboboxContext = {
   /** Whether the popup is anchored to the chips (`data-chips`). */
   chips: Ref<boolean>
   placement: Ref<PlacementProps>
+  /**
+   * The input's id, a caller's (`<ComboboxInput id>`), which the root hands Zag as its own: Zag
+   * finds its input by the id it gave it.
+   */
+  inputId: Ref<string | undefined>
 }
 
 export const COMBOBOX: InjectionKey<ComboboxContext> = Symbol("combobox")
@@ -27,6 +32,9 @@ export const COMBOBOX: InjectionKey<ComboboxContext> = Symbol("combobox")
 /** A group's items, which its `ComboboxCollection` draws. */
 export const COMBOBOX_GROUP: InjectionKey<ComputedRef<unknown[]>> =
   Symbol("combobox-group")
+
+/** Inside the popup: an input there is not the anchor (the popup's own trigger is). */
+export const IN_CONTENT: InjectionKey<boolean> = Symbol("combobox-in-content")
 
 export function useCombobox() {
   const context = inject(COMBOBOX)

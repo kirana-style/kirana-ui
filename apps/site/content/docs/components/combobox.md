@@ -527,9 +527,19 @@ Use the `isDisabled` prop to disable the combobox.
 
 ## Auto Highlight
 
+<!-- ::start:only react/base,vue/ark -->
+
 <!-- ::start:only react/base -->
 
 Use the `autoHighlight` prop to automatically highlight the first item on filter.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+Use the `auto-highlight` prop to automatically highlight the first item on filter.
+
+<!-- ::end:only -->
 
 <!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,vue/ark" -->
 
@@ -537,9 +547,19 @@ Use the `autoHighlight` prop to automatically highlight the first item on filter
 
 ## Popup
 
+<!-- ::start:only react/base,vue/ark -->
+
 <!-- ::start:only react/base -->
 
 You can trigger the combobox from a button or any other component by using the `render` prop. Move the `ComboboxInput` inside the `ComboboxContent`.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+You can trigger the combobox from a button or any other component by giving `ComboboxTrigger` the element (`as-child`). Move the `ComboboxInput` inside the `ComboboxContent`.
+
+<!-- ::end:only -->
 
 <!-- ::preview item="combobox-popup" height="700" combinations="react/base,vue/ark" -->
 

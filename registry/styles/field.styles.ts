@@ -378,8 +378,11 @@ export const field = {
     // Plain text inside Sera's capitalised labels.
     textTransform: { [sera]: "none" },
     letterSpacing: { [sera]: letterSpacing.normal },
+    // Not Ark UI's progress, whose parts write an orientation Base UI's progress does not.
     textWrap: {
-      [fieldScope.within(':has([data-orientation="horizontal"])')]: "balance",
+      [fieldScope.within(
+        ':has([data-orientation="horizontal"]:not([data-scope="progress"]))'
+      )]: "balance",
     },
     // Pulled up under a legend; tightened above the control it describes, flush at the end.
     marginTop: {

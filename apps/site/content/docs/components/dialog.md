@@ -149,33 +149,33 @@ DialogTrigger
 
 Replace the default close control with your own button.
 
-<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## No Close Button
 
 Use `showCloseButton={false}` to hide the close button.
 
-<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Sticky Footer
 
 Keep actions visible while the content scrolls.
 
-<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Scrollable Content
 
 Long content can scroll while the header stays in view.
 
-<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria,vue/ark" -->
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/base,react/aria,vue/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 

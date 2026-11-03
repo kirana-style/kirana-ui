@@ -110,6 +110,8 @@ const styles = {
     justifyContent: "center",
     borderRadius: radius.md,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
   }),
   teamSwitcherDropdownMenuItem2: css({
     gap: { "*": null, base: space[2] },
@@ -123,6 +125,8 @@ const styles = {
     justifyContent: "center",
     borderRadius: radius.md,
     borderWidth: "1px",
+    // Upstream's base layer gives every border `border-border`; the registry's reset cannot.
+    borderColor: theme.border,
     backgroundColor: "transparent",
   }),
   teamSwitcherIconPlaceholder2: css({

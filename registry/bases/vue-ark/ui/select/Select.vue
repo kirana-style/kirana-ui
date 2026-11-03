@@ -19,7 +19,7 @@ import { positioning as place } from "../../../../lib/placement"
 import type { PlacementProps } from "../../../../lib/placement"
 import { select } from "../../../../styles/select.styles"
 import { PLACEHOLDER, REGISTER } from "./placeholder"
-import { PLACEMENT } from "./placement"
+import { PLACEMENT, TRIGGER_ID } from "./placement"
 
 defineOptions({ inheritAttrs: false })
 
@@ -80,6 +80,8 @@ provide(
 // The content's `side`, `align` and offsets (Base UI's), placed from here as Ark places a popup.
 const placement = ref<PlacementProps>({})
 provide(PLACEMENT, placement)
+const triggerId = ref<string>()
+provide(TRIGGER_ID, triggerId)
 const locale = useLocaleContext()
 const positioning = computed(() =>
   place(placement.value, { rtl: locale?.value?.dir === "rtl" })
@@ -106,6 +108,7 @@ const report = (value: string[]) =>
     :default-value="defaultValue"
     :model-value="modelValue"
     :positioning="positioning"
+    :ids="triggerId ? { trigger: triggerId } : undefined"
     :sx="select.rootArk"
     v-bind="$attrs"
     @update:model-value="emit('update:modelValue', report($event))"

@@ -461,8 +461,11 @@ framed preview does. React's is upstream's home (`apps/preview-react/src/showcas
 (upstream's lighter copies of the `preview` and `preview-02` blocks' cards: one Savings Targets card,
 a drawn Analytics trend) on Base UI, and Message Scroller's demo, in upstream's columns (two from `md`, three from `lg`, four from 1400 px, five
 from 1900 px), and from 2200 px, where upstream's skeleton rails go on to the page's edges, the
-same cards themselves at half strength, out of reach. The other frameworks' have the cards they
-can draw with the components they have, laid out by `registry/styles/showcase.styles.ts`.
+same cards themselves at half strength, out of reach. Vue's is the same, card for card
+(`apps/preview-vue/src/Showcase.vue`, its cards converted into `apps/preview-vue/src/showcase-cards/`),
+the chat Message Scroller's demo on Vue (`ChatCard.vue`: Message Scroller has no Vue version, so
+its messages sit in a list that keeps to its bottom). Svelte's, Solid's and Angular's have the cards
+they can draw with the components they have, laid out by `registry/styles/showcase.styles.ts`.
 Above it, the framework switch (`components/showcase/frameworks.ts`): React, Vue, Svelte, Solid
 and Angular. The choice is the docs' combination (docs-ui's `combination.ts`), so a
 component page opens on the framework chosen here.

@@ -319,25 +319,25 @@
       "element": "div[data-slot=\"select-item\"]",
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field)-example"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field)-example"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "max-height",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field)-example"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "transition-property",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination)-example"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
@@ -404,13 +404,13 @@
       "element": "div[data-slot=\"select-content\"]",
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field)-example"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
     },
     {
       "element": "div[data-slot=\"select-group\"]",
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field)-example"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
     },
     {
       "element": "With Text › label[data-slot=\"button-group-text\"]",
@@ -515,6 +515,34 @@
       "property": "visibility",
       "route": "/preview$|/preview\\?",
       "reason": "the page draws its UI Elements card twice, one copy in a column it hides at each width (`display: none`): Base UI keeps a slider's thumb and range `visibility: hidden` until it has measured the track, which a hidden slider never has; Ark UI places them from the value, so they stay visible inside the hidden column, which draws nothing"
+    },
+    {
+      "element": "div[data-slot=\"progress-indicator\"]",
+      "property": "height",
+      "route": "/showcase",
+      "reason": "the showcase's rails are `display: none` below 2200px, so their bars report a specified height: Base UI writes `height: inherit` inline on the indicator (the track's 4px), Ark UI leaves the style's `100%`; drawn, both are 4px"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "max-height",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "max-width",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "height",
+      "route": "select-scrollable",
+      "reason": "a list that overflows fills the popup's maximum height, which each positioner measures its own way (Base UI's `--available-height`, Ark's), a few pixels apart; the bottom scroll arrow sits at that height"
+    },
+    {
+      "element": "div[data-slot=\"select-scroll-down-button\"]",
+      "property": "top",
+      "route": "select-scrollable",
+      "reason": "a list that overflows fills the popup's maximum height, which each positioner measures its own way (Base UI's `--available-height`, Ark's), a few pixels apart; the bottom scroll arrow sits at that height"
     }
   ]
 }
