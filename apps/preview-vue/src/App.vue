@@ -33,6 +33,10 @@ provide(
 const SonnerToaster = defineAsyncComponent(
   () => import("@workspace/registry/bases/vue-ark/ui/sonner/Toaster.vue")
 )
+/** The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item. */
+const ToastToaster = defineAsyncComponent(
+  () => import("@workspace/registry/bases/vue-ark/ui/toast/Toaster.vue")
+)
 const mounted = ref(false)
 onMounted(() => (mounted.value = true))
 
@@ -59,5 +63,6 @@ const list = css({
       <a href="/preview/vue/ark/showcase">showcase</a>
     </nav>
     <SonnerToaster v-if="mounted && current" position="top-center" />
+    <ToastToaster v-if="mounted && current" />
   </LocaleProvider>
 </template>

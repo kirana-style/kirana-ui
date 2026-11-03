@@ -26,6 +26,10 @@ import {
   parseDate,
 } from "@ark-ui/vue"
 import type { DateValue } from "@ark-ui/vue"
+import type {
+  Calendar as CalendarSystem,
+  CalendarIdentifier,
+} from "@internationalized/date"
 import { useSx } from "@kirana-style/core/vue"
 import { computed } from "vue"
 
@@ -63,8 +67,21 @@ const props = withDefaults(
     locale?: string
     /** The week's first day, 0 for Sunday: day-picker reads it from its locale, Ark's locale is a tag. */
     weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6
+    /**
+     * The calendar system for a locale's identifier, as `@internationalized/date`'s
+     * `createCalendar` (Persian for `fa-IR`): React DayPicker's add-on calendars.
+     */
+    createCalendar?: (identifier: CalendarIdentifier) => CalendarSystem
     dir?: "ltr" | "rtl"
-    formatters?: { formatMonthDropdown?: (date: Date) => string }
+    /**
+     * React DayPicker's formatters: the month dropdown's names, and the weekdays' (two letters of
+     * each by default, as date-fns' `cccccc` in English; a date-fns locale carries its own, which a
+     * BCP 47 tag does not).
+     */
+    formatters?: {
+      formatMonthDropdown?: (date: Date) => string
+      formatWeekdayName?: (date: Date) => string
+    }
   }>(),
   {
     mode: "single" as never,
@@ -82,6 +99,7 @@ const props = withDefaults(
     buttonVariant: "ghost",
     locale: undefined,
     weekStartsOn: undefined,
+    createCalendar: undefined,
     dir: undefined,
     formatters: undefined,
   }
@@ -135,6 +153,21 @@ const thisYear = new Date().getFullYear()
 const beyond = (date: Date) =>
   date.getFullYear() > thisYear || date.getFullYear() < thisYear - 100
 const years = Array.from({ length: 101 }, (_, i) => thisYear - 100 + i)
+/**
+ * The month and its year, in that order, as day-picker's caption (date-fns' `LLLL y`): Intl
+ * writes some locales' year first (`fa-IR`), so each is formatted alone in the calendar's system.
+ */
+const caption = (
+  api: {
+    format: (value: DateValue, options: Intl.DateTimeFormatOptions) => string
+  },
+  value: DateValue
+) =>
+  `${api.format(value, { month: "long" })} ${api.format(value, { year: "numeric" })}`
+const weekdayName = (day: { long: string; value: DateValue }) =>
+  props.formatters?.formatWeekdayName?.(toDate(day.value)) ??
+  day.long.slice(0, 2)
+
 const monthName = (month: number) => {
   const date = new Date(2000, month, 1)
   return (
@@ -154,6 +187,7 @@ const monthName = (month: number) => {
     :default-focused-value="defaultFocused"
     :locale="locale"
     :start-of-week="weekStartsOn"
+    :create-calendar="createCalendar"
     :is-date-unavailable="(v: DateValue) => isDisabled(toDate(v))"
     outside-day-selectable
     :fixed-weeks="fixedWeeks"
@@ -294,12 +328,7 @@ const monthName = (month: number) => {
                       role="status"
                       aria-live="polite"
                       :sx="calendar.caption"
-                      >{{
-                        api.format(offset.visibleRange.start, {
-                          month: "long",
-                          year: "numeric",
-                        })
-                      }}</span
+                      >{{ caption(api, offset.visibleRange.start) }}</span
                     >
                   </div>
                   <DatePickerTable as-child>
@@ -308,12 +337,7 @@ const monthName = (month: number) => {
                       :aria-multiselectable="
                         mode !== 'single' ? 'true' : 'false'
                       "
-                      :aria-label="
-                        api.format(offset.visibleRange.start, {
-                          month: 'long',
-                          year: 'numeric',
-                        })
-                      "
+                      :aria-label="caption(api, offset.visibleRange.start)"
                       :sx="calendar.monthGrid"
                     >
                       <DatePickerTableHead as-child>
@@ -331,7 +355,7 @@ const monthName = (month: number) => {
                               scope="col"
                               :sx="calendar.weekday"
                             >
-                              {{ day.long.slice(0, 2) }}
+                              {{ weekdayName(day) }}
                             </th>
                           </tr>
                         </thead>
@@ -378,10 +402,11 @@ const monthName = (month: number) => {
                                   :locale="locale"
                                   :class="own(toDate(day))"
                                 >
-                                  <template #default="day">
-                                    <slot name="day" v-bind="day">{{
+                                  <!-- The day in the calendar's own system, which a Persian one counts its own way. -->
+                                  <template #default="cell">
+                                    <slot name="day" v-bind="cell">{{
                                       new Intl.NumberFormat(locale).format(
-                                        day.date.getDate()
+                                        cell.value.day
                                       )
                                     }}</slot>
                                   </template>

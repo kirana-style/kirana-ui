@@ -113,6 +113,7 @@ const ITEMS = {
     "table",
     "tabs",
     "textarea",
+    "toast",
     "toggle",
     "toggle-group",
     "tooltip",

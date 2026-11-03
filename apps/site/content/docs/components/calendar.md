@@ -134,6 +134,38 @@ To use international calendar systems such as Persian, Islamic, or Buddhist, use
 
 <!-- ::end:only -->
 
+<!-- ::start:only vue/ark -->
+
+## International Calendars
+
+Ark UI's date picker draws any calendar system of `@internationalized/date`. Pass its `createCalendar` and a locale whose calendar it is, such as `fa-IR` for the Persian (Jalali) calendar, with the locale's direction. The weekdays' names come from `formatters.formatWeekdayName`, as React DayPicker's do.
+
+```vue
+<script setup lang="ts">
+import { createCalendar } from "@internationalized/date"
+
+const weekday = new Intl.DateTimeFormat("fa-IR", { weekday: "narrow" })
+const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
+</script>
+
+<template>
+  <DirectionProvider locale="fa-IR">
+    <Calendar
+      v-model:selected="date"
+      mode="single"
+      locale="fa-IR"
+      dir="rtl"
+      :create-calendar="createCalendar"
+      :formatters="formatters"
+    />
+  </DirectionProvider>
+</template>
+```
+
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark" -->
+
+<!-- ::end:only -->
+
 ## Basic
 
 <!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark" -->

@@ -89,7 +89,7 @@ const focusedNow = ref(false)
           second ? calendar.dayButtonSecond : calendar.dayButtonFirst,
         ]"
       >
-        <slot :date="date" :outside="state.outsideRange" />
+        <slot :date="date" :value="day" :outside="state.outsideRange" />
       </Button>
     </DatePickerTableCellTrigger>
   </td>

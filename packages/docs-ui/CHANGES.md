@@ -170,3 +170,6 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   border the same, small text, the kind's icon in the text's colour; every kind looks alike, where
   each had a tinted surface and hairline of its own, and a line naming no title shows none (the
   parser's default, the kind's name, was a heading on every note).
+- docs-core's `highlight.ts` registers TanStack Highlight's `html`, `vue` and `svelte` grammars,
+  and `markdown/component-code.tsx` maps `.vue`, `.svelte` and `.html` files to them, so the
+  other frameworks' code is highlighted like React's (a `.vue` demo was plain text).

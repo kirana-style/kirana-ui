@@ -588,8 +588,9 @@ export const ITEMS: Item[] = [
     "toast",
     "Toast",
     "A succinct message that is displayed temporarily.",
-    ["react"],
-    ["base"]
+    ["react", "vue"],
+    // React Aria has no toast: its pages use Sonner.
+    ["base", "ark"]
   ),
   component(
     "resizable",

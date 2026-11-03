@@ -12,7 +12,8 @@ import type { ChartItem } from "@workspace/registry/charts"
 import { breakpoint, space } from "@workspace/registry/core/scales"
 
 /** The bases a chart has: React's, as Ark UI has no Chart yet. */
-const COMBINATIONS = ["react/base", "react/aria"]
+// Every block and chart is on each of these (Vue since P6-11).
+const COMBINATIONS = ["react/base", "react/aria", "vue/ark"]
 
 const styles = {
   root: css({ display: "flex", flexDirection: "column", gap: space[6] }),

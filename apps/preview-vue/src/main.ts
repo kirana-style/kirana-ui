@@ -2,6 +2,8 @@ import "@fontsource-variable/inter"
 import "@fontsource-variable/geist"
 import "@kirana-style/core/stylesheet.css"
 import "@workspace/registry/styles/reset.css"
+// Code Block's typeset demo draws in the `typeset` layer, as React's preview loads it.
+import "@workspace/registry/styles/typeset.css"
 import { props } from "@kirana-style/core"
 import { axes } from "@workspace/registry/core/axes.ts"
 import { root } from "@workspace/registry/core/root.ts"
