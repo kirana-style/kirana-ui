@@ -18,7 +18,9 @@ import type { StateKeys } from "./states"
 
 /**
  * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
- * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); `@kirana-style/states` has no keys for it.
+ * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); Ark UI has no separator, so the Vue,
+ * Svelte and Solid parts write `data-orientation` as Base UI's does. `@kirana-style/states` has no
+ * keys for React Aria's or Ark UI's.
  * Here rather than in `states.ts`, which re-exports it, so the configuration imports no module of
  * its own: Node loads it, where a relative import needs its `.ts` extension, which a project's
  * type checker refuses without `allowImportingTsExtensions`.
@@ -27,10 +29,12 @@ export const orientation = {
   horizontal: {
     base: Base.Separator.orientation.horizontal,
     aria: '[aria-orientation="horizontal"]',
+    ark: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Separator.orientation.vertical,
     aria: '[aria-orientation="vertical"]',
+    ark: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -47,6 +51,13 @@ export const registryConfig = {
       // Upstream marks Base UI's invalid checkbox with `aria-invalid`, which no vocabulary names,
       // and React Aria's checkbox is a label that never carries it (`check`, in `states.ts`).
       ['[aria-invalid="true"]', Aria.Checkbox.focusVisible],
+      // Ark UI's popup placement (Zag's `data-placement`), one side at a time.
+      [
+        '[data-placement^="top"]',
+        '[data-placement^="bottom"]',
+        '[data-placement^="left"]',
+        '[data-placement^="right"]',
+      ],
       // A drawer's swipe axis, which the Drawer writes on its popup from its direction.
       ['[data-swipe-axis="x"]', '[data-swipe-axis="y"]'],
       // A calendar's day, as its markup marks it: one chosen day, or a range's start, middle or end

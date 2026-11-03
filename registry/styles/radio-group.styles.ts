@@ -42,6 +42,14 @@ export const radioGroup = {
     },
   }),
 
+  // Ark UI's root (Vue, Svelte, Solid): an item, the label around the radio and its hidden input, out of the
+  // layout. It writes the radio's states too, so it anchors the label that follows it as the radio does.
+  itemWrapper: css(controlPeer.anchor, {
+    display: "contents",
+    // A label's own `cursor: default` would reach the box, which inherits it.
+    cursor: "inherit",
+  }),
+
   // cn-radio-group-item, cn-radio-group-item-aria
   item: css(controlPeer.anchor, {
     position: "relative",

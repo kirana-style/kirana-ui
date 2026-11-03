@@ -10,11 +10,14 @@ const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <DialogDescription
-    data-slot="dialog-description"
-    v-bind="attrs"
-    :sx="[dialog.description, sx]"
-  >
-    <slot />
+  <!-- A paragraph, as Base UI's description. -->
+  <DialogDescription as-child>
+    <p
+      data-slot="dialog-description"
+      v-bind="attrs"
+      :sx="[dialog.description, sx]"
+    >
+      <slot />
+    </p>
   </DialogDescription>
 </template>

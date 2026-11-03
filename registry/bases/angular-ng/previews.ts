@@ -4,12 +4,10 @@
  */
 import type { Type } from "@angular/core"
 
-import type { PREVIEW_NAMES } from "./preview-names"
-
 import ButtonDemo from "./examples/button-demo"
 import SkeletonDemo from "./examples/skeleton-demo"
 
-export const previews: Record<(typeof PREVIEW_NAMES)[number], Type<unknown>> = {
+export const previews: Record<string, Type<unknown>> = {
   "button-demo": ButtonDemo,
   "skeleton-demo": SkeletonDemo,
 }

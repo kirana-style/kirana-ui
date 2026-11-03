@@ -1,7 +1,8 @@
 /**
  * The languages a right-to-left demo is read in, each with its direction and locale: what a page
  * framing one writes on `<html>` before the first paint (`?lang=`), with no React. The demos' side,
- * their strings and the provider, is `registry/lib/language.tsx`.
+ * their strings and the provider, is `registry/lib/language.tsx` (React) and
+ * `bases/vue-ark/components/language-selector` (Vue).
  */
 
 export type Language = "en" | "ar" | "he"
@@ -16,3 +17,8 @@ export const LANGUAGES: Record<Language, { dir: Direction; locale: string }> = {
 
 export const isLanguage = (value: unknown): value is Language =>
   value === "en" || value === "ar" || value === "he"
+
+/** A demo's strings in each language, with the direction and locale it is read in. */
+export type Translations<
+  T extends Record<string, string> = Record<string, string>,
+> = Record<Language, { dir: Direction; locale?: string; values: T }>

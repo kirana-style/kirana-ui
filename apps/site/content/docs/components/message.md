@@ -2,13 +2,13 @@
 title: Message
 description: Displays a message in a conversation, with optional avatar, header, footer, and alignment.
 section: components
-variants: [react/base, react/aria]
-keywords: [message, chat, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [message, chat, component, base, aria, ark, vue]
 ---
 
 # Message
 
-<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 The `Message` component lays out a single message in a conversation. It handles the avatar, alignment, header, and footer around the message surface.
 
@@ -16,7 +16,7 @@ For AI apps, you can render reasoning steps, tool calls and assistant messages u
 
 ## Installation
 
-<!-- ::installation name="message" combinations="react/base,react/aria" -->
+<!-- ::installation name="message" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -25,6 +25,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 ```
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 <Message>
@@ -41,6 +43,30 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
   </MessageContent>
 </Message>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Message>
+    <MessageAvatar>
+      <Avatar>
+        <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+    </MessageAvatar>
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>How can I help you today?</BubbleContent>
+      </Bubble>
+    </MessageContent>
+  </Message>
+</template>
+```
+
+<!-- ::end:only -->
 
 **Note:** `Message` owns the row layout—avatar, alignment, header, and footer.
 Render the visible message surface inside it with
@@ -81,7 +107,7 @@ MessageGroup
 
 Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` on the message to align the avatar to the end of the message.
 
-<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 | align   | Description                                         |
 | ------- | --------------------------------------------------- |
@@ -92,19 +118,19 @@ Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` o
 
 Use `MessageGroup` to stack consecutive messages from the same sender. Render an empty `MessageAvatar` on the earlier messages to keep them aligned with the avatar on the last one.
 
-<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Header and Footer
 
 Use `MessageHeader` for a sender name and `MessageFooter` for metadata such as a delivery or read status.
 
-<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Actions
 
 Place message-level actions in `MessageFooter`, such as copy, retry, or feedback buttons.
 
-<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Attachment
 

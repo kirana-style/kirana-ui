@@ -2,25 +2,27 @@
 title: Marker
 description: Displays an inline status, system note, bordered row, or labeled separator in a conversation.
 section: components
-variants: [react/base, react/aria]
-keywords: [marker, status, separator, note, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [marker, status, separator, note, component, base, aria, ark, vue]
 ---
 
 # Marker
 
-<!-- ::preview item="marker-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 The `Marker` component displays inline conversation markers such as status updates, system notes, bordered rows, and labeled separators. Compose it with `Message` in a conversation thread.
 
 ## Installation
 
-<!-- ::installation name="marker" combinations="react/base,react/aria" -->
+<!-- ::installation name="marker" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
 ```tsx
 import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
 ```
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 <Marker>
@@ -30,6 +32,23 @@ import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
   <MarkerContent>Explored 4 files</MarkerContent>
 </Marker>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Marker>
+    <MarkerIcon>
+      <CheckIcon />
+    </MarkerIcon>
+    <MarkerContent>Explored 4 files</MarkerContent>
+  </Marker>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -53,7 +72,7 @@ Marker
 
 Use `variant` to switch between an inline marker, bordered row, and labeled separator.
 
-<!-- ::preview item="marker-variants" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-variants" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 | Variant     | Description                                          |
 | ----------- | ---------------------------------------------------- |
@@ -65,13 +84,13 @@ Use `variant` to switch between an inline marker, bordered row, and labeled sepa
 
 Set `role="status"` and include a [`Spinner`](/docs/components/spinner) for streaming or in-progress markers so updates are announced.
 
-<!-- ::preview item="marker-status" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-status" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Shimmer
 
 Give `MarkerContent` the [shimmer](/docs/utils/shimmer), a highlight sweeping across the text, for an animated streaming-text effect.
 
-<!-- ::preview item="marker-shimmer" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-shimmer" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Separator
 
@@ -87,25 +106,25 @@ Use the `separator` variant for labeled dividers, such as dates or section break
 
 <!-- ::end:only -->
 
-<!-- ::preview item="marker-separator" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-separator" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Border
 
 Use the `border` variant for status rows that should keep the default marker alignment while separating the next row.
 
-<!-- ::preview item="marker-border" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-border" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## With Icon
 
 Use `MarkerIcon` to render an icon alongside the content. Use `flex-col` to stack the icon above the content.
 
-<!-- ::preview item="marker-icon" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-icon" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Links and Buttons
 
 Turn a marker into a link or button with the `render` prop on `Marker`.
 
-<!-- ::preview item="marker-link-button" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="marker-link-button" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 <!-- ::start:only react/base -->
 

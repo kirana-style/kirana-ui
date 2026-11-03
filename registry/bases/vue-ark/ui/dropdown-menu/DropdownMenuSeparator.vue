@@ -10,9 +10,12 @@ const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <MenuSeparator
-    data-slot="dropdown-menu-separator"
-    v-bind="attrs"
-    :sx="[menuSeparator, sx]"
-  />
+  <!-- A div, as Base UI's separator; Ark's is an `hr`. -->
+  <MenuSeparator as-child>
+    <div
+      data-slot="dropdown-menu-separator"
+      v-bind="attrs"
+      :sx="[menuSeparator, sx]"
+    />
+  </MenuSeparator>
 </template>

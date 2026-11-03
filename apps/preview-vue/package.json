@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vp dev --port 3003",
-    "build": "vp build"
+    "build": "vue-tsc --noEmit -p tsconfig.vue.json && vp build"
   },
   "dependencies": {
     "@ark-ui/vue": "catalog:",
@@ -14,14 +14,16 @@
     "@kirana-style/core": "catalog:",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-sonner": "catalog:"
   },
   "devDependencies": {
     "@kirana-style/vite": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@workspace/vite-config": "workspace:*",
-    "typescript": "catalog:",
+    "typescript": "~6.0.3",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vue-tsc": "~3.2.6"
   }
 }

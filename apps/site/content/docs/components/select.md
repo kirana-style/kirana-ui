@@ -3,16 +3,16 @@ title: Select
 description: Displays a list of options for the user to pick from—triggered by a button.
 section: components
 variants: [react/base, react/aria, vue/ark]
-keywords: [select, component, base, aria, ark]
+keywords: [select, component, base, aria, ark, ark, vue]
 ---
 
 # Select
 
-<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="select" combinations="react/base,react/aria" -->
+<!-- ::installation name="select" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -85,6 +85,35 @@ const items = [
 
 <!-- ::end:only -->
 
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+const items = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+]
+</script>
+
+<template>
+  <Select :items="items">
+    <SelectTrigger :sx="styles.trigger">
+      <SelectValue placeholder="Theme" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectGroup>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </SelectItem>
+      </SelectGroup>
+    </SelectContent>
+  </Select>
+</template>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Select`:
@@ -111,7 +140,7 @@ Select
 
 Use `alignItemWithTrigger` on `SelectContent` to control whether the selected item aligns with the trigger. When `true` (default), the popup positions so the selected item appears over the trigger. When `false`, the popup aligns to the trigger edge.
 
-<!-- ::preview item="select-align-item" height="360" combinations="react/base" -->
+<!-- ::preview item="select-align-item" height="360" combinations="react/base,vue/ark" -->
 
 <!-- ::end:only -->
 
@@ -119,17 +148,17 @@ Use `alignItemWithTrigger` on `SelectContent` to control whether the selected it
 
 Use `SelectGroup`, `SelectLabel`, and `SelectSeparator` to organize items.
 
-<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria,vue/ark" -->
 
 ## Scrollable
 
 A select with many items that scrolls.
 
-<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## Disabled
 
-<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Invalid
 
@@ -161,7 +190,7 @@ Add the `data-invalid` attribute to the `Field` component and the `isInvalid` pr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 <!-- ::start:only react/aria -->
 
@@ -173,13 +202,13 @@ Use the [Autocomplete](https://react-aria.adobe.com/Autocomplete) component from
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/base,react/aria,vue/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -194,6 +223,12 @@ See the [Base UI Select](https://base-ui.com/react/components/select#api-referen
 <!-- ::start:only react/aria -->
 
 See the [React Aria Select](https://react-aria.adobe.com/Select#api) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Select](https://ark-ui.com/vue/docs/components/select#api-reference) documentation.
 
 <!-- ::end:only -->
 

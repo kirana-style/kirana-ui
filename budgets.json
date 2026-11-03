@@ -66,9 +66,9 @@
     "measured": 35.2
   },
   "preview-vue.css": {
-    "budget": 40,
+    "budget": 50,
     "unit": "KB",
-    "why": "The Vue preview app's stylesheet, gzip, the same per framework.",
+    "why": "The Vue preview app's stylesheet, gzip, the same per framework. Raised to 50 KB with P6-01's 35 components and their 295 pages (Vue's 42 in every style and axis value): 41.4 measured, against React's 85.5 for its 64 with charts and blocks.",
     "measured": 22.2
   },
   "registry.files": {
@@ -90,9 +90,9 @@
     "measured": 743
   },
   "demos.bytes": {
-    "budget": 9000,
+    "budget": 12000,
     "unit": "KB",
-    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added. Raised to 7 MB with Message Scroller's nine missing demos, Trace's three and Code Block's Markdown (the chat demos are long, their scripted conversations in the code): 6.5 MB for 492 demos. Raised to 9 MB with AI Elements' 32 demos on both React bases (8.25 MB measured).",
+    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added. Raised to 7 MB with Message Scroller's nine missing demos, Trace's three and Code Block's Markdown (the chat demos are long, their scripted conversations in the code): 6.5 MB for 492 demos. Raised to 9 MB with AI Elements' 32 demos on both React bases (8.25 MB measured). Raised to 12 MB with Vue's code for 295 demos (P6-01), beside React's: 9.4 MB measured.",
     "measured": 8910.7
   },
   "static.files": {

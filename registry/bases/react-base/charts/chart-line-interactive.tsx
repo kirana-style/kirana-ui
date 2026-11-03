@@ -42,7 +42,7 @@ export const description = "An interactive line chart"
 
 const styles = {
   // Longhands: Card sets its padding as `paddingTop` and `paddingBottom`, which a
-  // `paddingBlock` written here loses to (KF-083, open on 0.3.6).
+  // `paddingBlock` written here loses to (KF-083; Kirana reports it since 0.3.7).
   card: css({
     paddingTop: { "*": null, base: space[4], [breakpoint.sm]: space["0"] },
     paddingBottom: { "*": null, base: space[4], [breakpoint.sm]: space["0"] },

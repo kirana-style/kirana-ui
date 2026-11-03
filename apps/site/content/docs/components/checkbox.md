@@ -2,17 +2,17 @@
 title: Checkbox
 description: A control that allows the user to toggle between checked and not checked.
 section: components
-variants: [react/base, react/aria]
-keywords: [checkbox, form, field, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [checkbox, form, field, component, base, aria, ark, vue]
 ---
 
 # Checkbox
 
-<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="checkbox" combinations="react/base,react/aria" -->
+<!-- ::installation name="checkbox" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -20,9 +20,23 @@ keywords: [checkbox, form, field, component, base, aria]
 import { Checkbox } from "@/components/ui/checkbox"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <Checkbox />
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Checkbox />
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Checked State
 
@@ -76,19 +90,19 @@ show the invalid styles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Basic
 
 Pair the checkbox with `Field` and `FieldLabel` for proper layout and labeling.
 
-<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Description
 
 Use `FieldContent` and `FieldDescription` for helper text.
 
-<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Disabled
 
@@ -104,23 +118,23 @@ Use the `isDisabled` prop to prevent interaction and add the `data-disabled` att
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Group
 
 Use multiple fields to create a checkbox list.
 
-<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Table
 
-<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -133,6 +147,12 @@ See the [Base UI](https://base-ui.com/react/components/checkbox#api-reference) d
 <!-- ::start:only react/aria -->
 
 See the [React Aria](https://react-aria.adobe.com/Checkbox#api) documentation for more information.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Checkbox](https://ark-ui.com/vue/docs/components/checkbox#api-reference) documentation.
 
 <!-- ::end:only -->
 

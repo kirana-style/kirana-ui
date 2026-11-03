@@ -67,10 +67,12 @@ const plainCardEdge = {
   base: theme.border,
   ":has([data-checked])": theme.border,
   ":has([data-selected])": theme.border,
+  ':has([data-state="checked"])': theme.border,
   ":has(:focus-visible)": {
     base: theme.ring,
     ":has([data-checked])": theme.ring,
     ":has([data-selected])": theme.ring,
+    ':has([data-state="checked"])': theme.ring,
   },
 }
 
@@ -184,7 +186,7 @@ export const field = {
     },
     // `has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px`: beside a
     // FieldContent, a checkbox or radio sits level with the first line. React Aria's are labels,
-    // which upstream's `role` does not reach.
+    // which upstream's `role` does not reach, nor Ark UI's box, the control inside its label.
     [select.child('[role="checkbox"]')]: { marginTop: BESIDE_CONTENT },
     [select.child('[role="radio"]')]: { marginTop: BESIDE_CONTENT },
     // `*:w-full`. The conditions are the field's: a target's own state goes in its selector.
@@ -246,9 +248,11 @@ export const field = {
           base: theme.ring,
           ":has([data-checked])": surface.checkedSoftBorder,
           ":has([data-selected])": surface.checkedSoftBorder,
+          ':has([data-state="checked"])': surface.checkedSoftBorder,
         },
         ":has([data-checked])": surface.checkedSoftBorder,
         ":has([data-selected])": surface.checkedSoftBorder,
+        ':has([data-state="checked"])': surface.checkedSoftBorder,
         // Mira, Luma and Rhea keep the plain edge when chosen, restated over the chosen one;
         // Sera's does not turn on focus.
         [mira]: plainCardEdge,
@@ -258,6 +262,7 @@ export const field = {
           base: theme.border,
           ":has([data-checked])": surface.checkedSoftBorder,
           ":has([data-selected])": surface.checkedSoftBorder,
+          ':has([data-state="checked"])': surface.checkedSoftBorder,
         },
       },
     },
@@ -272,26 +277,32 @@ export const field = {
           [rhea]: alpha.input40,
           ":has([data-checked])": surface.checkedSoft,
           ":has([data-selected])": surface.checkedSoft,
+          ':has([data-state="checked"])': surface.checkedSoft,
         },
         ":has([data-checked])": surface.checkedSoft,
         ":has([data-selected])": surface.checkedSoft,
+        ':has([data-state="checked"])': surface.checkedSoft,
         // Luma and Rhea tint a chosen card with `input/30`.
         [luma]: {
           ":has([data-checked])": alpha.input30,
           ":has([data-selected])": alpha.input30,
+          ':has([data-state="checked"])': alpha.input30,
           ":not(:has(:disabled, [data-disabled])):hover": {
             base: alpha.input40,
             ":has([data-checked])": alpha.input30,
             ":has([data-selected])": alpha.input30,
+            ':has([data-state="checked"])': alpha.input30,
           },
         },
         [rhea]: {
           ":has([data-checked])": alpha.input30,
           ":has([data-selected])": alpha.input30,
+          ':has([data-state="checked"])': alpha.input30,
           ":not(:has(:disabled, [data-disabled])):hover": {
             base: alpha.input40,
             ":has([data-checked])": alpha.input30,
             ":has([data-selected])": alpha.input30,
+            ':has([data-state="checked"])': alpha.input30,
           },
         },
       },

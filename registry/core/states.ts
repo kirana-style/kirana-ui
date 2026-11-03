@@ -130,13 +130,39 @@ export const disclosure = {
  * (whose native button is `disabled`, so it never matches) and `disabled:` on React Aria.
  */
 export const accordion = {
-  /** shadcn/ui's `data-open:`, which only Base UI's item writes. */
-  open: { base: Base.Accordion.Item.open },
+  /**
+   * shadcn/ui's `data-open:`, which Base UI's item writes, and Ark UI's as `data-state`; React
+   * Aria's never matches it.
+   */
+  open: { base: Base.Accordion.Item.open, ark: Ark.Accordion.Item.state.open },
   /** An open item on either base: `data-open:`, React Aria's `data-expanded:`. */
   expanded: { base: Base.Accordion.Item.open, aria: Aria.Disclosure.expanded },
   panelOpen: { base: Base.Accordion.Panel.open },
   panelClosed: { base: Base.Accordion.Panel.closed },
+  /** Ark UI's content, which moves over its own `--height` (`accordion.contentArk`). */
+  contentOpen: { ark: Ark.Accordion.ItemContent.state.open },
+  contentClosed: { ark: Ark.Accordion.ItemContent.state.closed },
   triggerDisabled: { base: '[aria-disabled="true"]', aria: ":disabled" },
+} as const satisfies Record<string, StateKeys>
+
+/**
+ * A resizable group and handle. `react-resizable-panels`, on both React bases, marks a group of
+ * stacked panels `aria-orientation="vertical"` and the handle between them, which lies across,
+ * `aria-orientation="horizontal"` (the line's own direction); Ark UI's Splitter gives both the
+ * group's `data-orientation`, and its handle the group's `aria-orientation` too, so the library's keys
+ * also ask for its own markers (`data-group`, `data-separator`): the site serves every base's keys.
+ */
+export const resizable = {
+  stacked: {
+    base: '[data-group][aria-orientation="vertical"]',
+    aria: '[data-group][aria-orientation="vertical"]',
+    ark: Ark.Splitter.Root.orientation.vertical,
+  },
+  across: {
+    base: '[data-separator][aria-orientation="horizontal"]',
+    aria: '[data-separator][aria-orientation="horizontal"]',
+    ark: Ark.Splitter.ResizeTrigger.orientation.vertical,
+  },
 } as const satisfies Record<string, StateKeys>
 
 /** A Base UI toast and its content. React Aria has no toast. */
@@ -165,14 +191,30 @@ export const collapsiblePanel = {
  * React Aria's root is the `label` around a hidden input, and Base UI's root writes
  * `data-disabled` too, so React Aria's key also asks for the `data-rac` every React Aria element
  * carries: the site serves every base's keys at once, and Base UI's checkbox must not read it.
+ * Ark UI's box is the root's Control, and its radio's and switch's write the same attributes
+ * (`data-state`, `data-focus-visible`, `data-invalid`), so one key reads all three.
  */
 export const check = {
-  checked: { base: Base.Checkbox.Root.checked, aria: Aria.Checkbox.selected },
-  focusVisible: { base: ":focus-visible", aria: Aria.Checkbox.focusVisible },
-  invalid: { base: '[aria-invalid="true"]', aria: Aria.Checkbox.invalid },
+  checked: {
+    base: Base.Checkbox.Root.checked,
+    aria: Aria.Checkbox.selected,
+    ark: Ark.Checkbox.Control.state.checked,
+  },
+  focusVisible: {
+    base: ":focus-visible",
+    aria: Aria.Checkbox.focusVisible,
+    ark: Ark.Checkbox.Control.focusVisible,
+  },
+  invalid: {
+    base: '[aria-invalid="true"]',
+    aria: Aria.Checkbox.invalid,
+    ark: Ark.Checkbox.Control.invalid,
+  },
   disabled: {
     base: ":disabled",
     aria: `[data-rac]${Aria.Checkbox.disabled}`,
+    // None on Ark UI, as none holds on Base UI (its box is never `:disabled`): a disabled one dims
+    // through its Field, whose hidden input is `:disabled`.
   },
 } as const satisfies Record<string, StateKeys>
 

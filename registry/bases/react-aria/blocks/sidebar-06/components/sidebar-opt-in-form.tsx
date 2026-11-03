@@ -16,7 +16,7 @@ const styles = {
   sidebarOptInFormCard: css({
     gap: { "*": null, base: space[2] },
     // Longhands: Card sets `paddingTop` and `paddingBottom`, which a `paddingBlock` loses to
-    // (KF-083, open on 0.3.6).
+    // (KF-083; Kirana reports it since 0.3.7).
     paddingTop: { "*": null, base: space[4] },
     paddingBottom: { "*": null, base: space[4] },
     // `shadow-none`, over the ring Card draws in Vega, Luma, Rhea and Sera.

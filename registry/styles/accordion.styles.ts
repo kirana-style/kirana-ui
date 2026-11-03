@@ -4,9 +4,10 @@
  * base look; the other styles override what differs. Maia, Mira, Luma and Rhea frame the accordion
  * and fill an open item; the others draw only the lines between items.
  *
- * The two bases open a panel differently: Base UI's panel runs `accordion-down` and `accordion-up`
+ * The bases open a panel differently: Base UI's panel runs `accordion-down` and `accordion-up`
  * over `--accordion-panel-height`, the inner part holding that height; React Aria's panel moves its
- * own height (`--disclosure-panel-height`), so each base's markup takes its own panel handles.
+ * own height (`--disclosure-panel-height`); Ark UI's content runs the same keyframes over the
+ * `--height` it sets. So each base's markup takes its own panel handles.
  */
 import { css, keyframes, relation, select } from "@kirana-style/core"
 
@@ -38,6 +39,16 @@ const accordionDown = keyframes({
 })
 const accordionUp = keyframes({
   from: { height: "var(--accordion-panel-height, auto)" },
+  to: { height: "0" },
+})
+
+/** The same, over Ark UI's `--height`. */
+const accordionDownArk = keyframes({
+  from: { height: "0" },
+  to: { height: "var(--height, auto)" },
+})
+const accordionUpArk = keyframes({
+  from: { height: "var(--height, auto)" },
   to: { height: "0" },
 })
 
@@ -183,6 +194,15 @@ export const accordion = {
     animationName: {
       ...when(accordionState.panelOpen, accordionDown),
       ...when(accordionState.panelClosed, accordionUp),
+    },
+    animationDuration: "0.2s",
+    animationTimingFunction: "ease-out",
+  }),
+  // Ark UI's content: Base UI's motion, over the `--height` Ark sets on it.
+  contentArk: css({
+    animationName: {
+      ...when(accordionState.contentOpen, accordionDownArk),
+      ...when(accordionState.contentClosed, accordionUpArk),
     },
     animationDuration: "0.2s",
     animationTimingFunction: "ease-out",

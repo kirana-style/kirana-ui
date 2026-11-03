@@ -26,9 +26,38 @@ const BUILT_ON: Record<string, string> = {
 function markupOf(name: string): string[] | undefined {
   const item = ITEMS.find((entry) => entry.name === (BUILT_ON[name] ?? name))
   if (!item) return undefined
-  return FRAMEWORK_BASES.filter((entry) =>
-    item.files({ ...entry, id: `${entry.bases}-nova`, style: "nova" })
+  return FRAMEWORK_BASES.filter(
+    (entry) =>
+      item.files({ ...entry, id: `${entry.bases}-nova`, style: "nova" }) &&
+      // A guide built on a component (`BUILT_ON`) goes where every demo it previews is.
+      (!BUILT_ON[name] || hasDemos(`components/${name}`, entry.bases))
   ).map((entry) => `${entry.framework}/${entry.base}`)
+}
+
+/** Each framework's examples' extension. */
+const EXTENSION: Record<string, string> = {
+  react: ".tsx",
+  solid: ".tsx",
+  vue: ".vue",
+  svelte: ".svelte",
+  angular: ".ts",
+}
+
+/** Whether a base's examples hold every demo a page previews. */
+function hasDemos(page: string, bases: string) {
+  const text = readFileSync(
+    new URL(`../content/docs/${page}.md`, import.meta.url),
+    "utf8"
+  )
+  const extension = EXTENSION[bases.split("-")[0]!]
+  return [...text.matchAll(/::preview item="([^"]+)"/g)].every(([, demo]) =>
+    existsSync(
+      new URL(
+        `../../../registry/bases/${bases}/examples/${demo}${extension}`,
+        import.meta.url
+      )
+    )
+  )
 }
 
 /**

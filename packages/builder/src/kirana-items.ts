@@ -411,15 +411,7 @@ export function buildKiranaRegistry(
       ...(Object.keys(builds).length > 0
         ? { flattened: { axis: "style", builds } }
         : kindOf(item) === "design-system"
-          ? // `axis` and an empty `builds` only because Kirana's schema requires them beside
-            // `axes` (KF-084, open on 0.3.6); the installer falls back to the item's own files.
-            {
-              flattened: {
-                axis: "style",
-                builds: {},
-                axes: colourBuilds(shared),
-              },
-            }
+          ? { flattened: { axes: colourBuilds(shared) } }
           : {}),
       ...(kindOf(item) === "design-system" ? { design: designOf() } : {}),
       ...(item.setup ? { setup: item.setup } : {}),

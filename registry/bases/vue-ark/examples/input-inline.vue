@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import { Button } from "../ui/button"
+import { Field } from "../ui/field"
+import { Input } from "../ui/input"
+import { page } from "../../../styles/page.styles"
+</script>
+
+<template>
+  <div :sx="page.example">
+    <Field orientation="horizontal">
+      <Input type="search" placeholder="Search..." />
+      <Button>Search</Button>
+    </Field>
+  </div>
+</template>

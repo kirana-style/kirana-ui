@@ -1,6 +1,11 @@
 import { spawn } from "node:child_process"
 import type { ChildProcess } from "node:child_process"
-import { createReadStream, existsSync, readFileSync } from "node:fs"
+import {
+  createReadStream,
+  existsSync,
+  readFileSync,
+  readdirSync,
+} from "node:fs"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -19,41 +24,59 @@ const TYPESET_PAGES = ["docs", "chat", "article", "changelog", "notes"].map(
   (item) => `/preview/typeset/${item}`
 )
 
-/** The React previews' names: `import names from "virtual:react-preview-names"`. */
-const PREVIEW_NAMES = "virtual:react-preview-names"
+/** The previews' names: `import names from "virtual:preview-names"`. */
+const PREVIEW_NAMES = "virtual:preview-names"
+
+/** Each framework's examples, by the extension of its files, beside React's two bases. */
+const EXAMPLES = {
+  "vue/ark": ["vue-ark", ".vue"],
+  "svelte/ark": ["svelte-ark", ".svelte"],
+  "solid/ark": ["solid-ark", ".tsx"],
+  "angular/ng": ["angular-ng", ".ts"],
+} as const
 
 /**
- * `virtual:react-preview-names`: the items `/preview/react/<base>/<item>` answers to, per base,
- * read from each base's `previews.ts` (its keys) at build time. `/create`'s explorer lists them;
- * importing the maps themselves would put every item, and so its styles, into the site's build
- * (KF-052).
+ * `virtual:preview-names`: the items `/preview/<framework>/<base>/<item>` answers to, per
+ * framework and base, read at build time: React's from each base's `previews.ts` (its keys), the
+ * other frameworks' from their `examples` folders, which their `previews.ts` maps whole. `/create`'s
+ * explorer lists them; importing the maps themselves would put every item, and so its styles, into
+ * the site's build (KF-052).
  */
-function reactPreviewNames(): Plugin {
+function previewNames(): Plugin {
   const files = {
     "react/base": `${REGISTRY}bases/react-base/previews.ts`,
     "react/aria": `${REGISTRY}bases/react-aria/previews.ts`,
   }
   return {
-    name: "react-preview-names",
+    name: "preview-names",
     resolveId(id) {
       if (id === PREVIEW_NAMES) return `\0${PREVIEW_NAMES}`
     },
     load(id) {
       if (id !== `\0${PREVIEW_NAMES}`) return
-      const names = Object.fromEntries(
-        Object.entries(files).map(([variant, file]) => {
-          this.addWatchFile(file)
-          const source = readFileSync(file, "utf8")
+      const react = Object.entries(files).map(([variant, file]) => {
+        this.addWatchFile(file)
+        const source = readFileSync(file, "utf8")
+        return [
+          variant,
+          // A key is quoted when it is not an identifier (`"preview-02"`, but `preview`).
+          [...source.matchAll(/^ {2}"?([\w-]+)"?:/gm)].map(([, name]) => name),
+        ]
+      })
+      const others = Object.entries(EXAMPLES).map(
+        ([variant, [bases, extension]]) => {
+          const folder = `${REGISTRY}bases/${bases}/examples`
+          this.addWatchFile(folder)
           return [
             variant,
-            // A key is quoted when it is not an identifier (`"preview-02"`, but `preview`).
-            [...source.matchAll(/^ {2}"?([\w-]+)"?:/gm)].map(
-              ([, name]) => name
-            ),
+            readdirSync(folder)
+              .filter((file) => file.endsWith(extension))
+              .map((file) => file.slice(0, -extension.length))
+              .sort(),
           ]
-        })
+        }
       )
-      return `export default ${JSON.stringify(names)}`
+      return `export default ${JSON.stringify(Object.fromEntries([...react, ...others]))}`
     },
   }
 }
@@ -188,7 +211,7 @@ export default defineAppConfig({
   ),
   plugins: [
     designScript(`${REGISTRY}core/design-script.ts`),
-    reactPreviewNames(),
+    previewNames(),
     registryInDev(),
     previewsInDev(),
   ],

@@ -6,14 +6,10 @@
  */
 import * as React from "react"
 
-import type { Direction, Language } from "../core/language"
+import type { Language, Translations } from "../core/language"
 
 export { LANGUAGES, isLanguage } from "../core/language"
-export type { Direction, Language } from "../core/language"
-
-export type Translations<
-  T extends Record<string, string> = Record<string, string>,
-> = Record<Language, { dir: Direction; locale?: string; values: T }>
+export type { Direction, Language, Translations } from "../core/language"
 
 export const languageOptions = [
   { value: "en", label: "English" },

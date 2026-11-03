@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { css } from "@kirana-style/core"
-import { Skeleton } from "../ui/skeleton"
 import { space } from "../../../core/scales"
 import { radius } from "../../../core/tokens"
 import { page } from "../../../styles/page.styles"
+import { Skeleton } from "../ui/skeleton"
 
 const styles = {
   row: css({ display: "flex", alignItems: "center", gap: space[4] }),

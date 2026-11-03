@@ -33,6 +33,14 @@ const lightOnly = (value: string, otherwise: string) => ({
 })
 
 export const switchStyles = {
+  // Ark UI's root (Vue, Svelte, Solid): the label around the switch and its hidden input, out of the
+  // layout. It writes the switch's states too, so it anchors the label that follows it as the switch does.
+  wrapper: css(controlPeer.anchor, {
+    display: "contents",
+    // A label's own `cursor: default` would reach the box, which inherits it.
+    cursor: "inherit",
+  }),
+
   // cn-switch, cn-switch-aria
   root: css(controlPeer.anchor, switchScope.anchor, {
     position: "relative",

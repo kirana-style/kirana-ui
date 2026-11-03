@@ -102,4 +102,21 @@ export const tooltip = {
       },
     },
   }),
+
+  // Ark UI's arrow (Vue, Svelte, Solid): a box half its size outside the content, which Ark places
+  // and sizes from these, and whose tip it turns to face the trigger.
+  arrowArk: css({
+    "--arrow-size": space["2.5"],
+    "--arrow-background": theme.foreground,
+  }),
+  // Its tip: Base UI's corner, drawn 2px inside the content's edge as Base UI's arrow is.
+  arrowTipArk: css({
+    borderRadius: { base: "2px", [lyra]: "0", [sera]: "0" },
+    translate: {
+      [tooltipScope.within('[data-placement^="top"]')]: "0 -2px",
+      [tooltipScope.within('[data-placement^="bottom"]')]: "0 2px",
+      [tooltipScope.within('[data-placement^="left"]')]: "-2px 0",
+      [tooltipScope.within('[data-placement^="right"]')]: "2px 0",
+    },
+  }),
 }

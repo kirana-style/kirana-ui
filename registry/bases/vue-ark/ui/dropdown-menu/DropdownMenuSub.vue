@@ -1,10 +1,34 @@
 <script setup lang="ts">
+import { MenuRoot, useLocaleContext } from "@ark-ui/vue"
+import type { MenuRootProps } from "@ark-ui/vue"
 // A submenu is a menu inside the menu: its trigger is an item of the outer one.
-import { MenuRoot } from "@ark-ui/vue"
+import { computed, provide, ref } from "vue"
+
+import { positioning as place } from "../../../../lib/placement"
+import type { PlacementProps } from "../../../../lib/placement"
+import { PLACEMENT } from "./placement"
+
+// It renders no element: what a caller passes (`v-model:open` …) goes to Ark's root.
+defineOptions({ inheritAttrs: false })
+
+const { positioning } = defineProps<{
+  /** Ark's own placement, over what the content asks for. */
+  positioning?: MenuRootProps["positioning"]
+}>()
+
+// The content's `side`, `align` and offsets (Base UI's), placed from here as Ark places a popup.
+const placement = ref<PlacementProps>({})
+provide(PLACEMENT, placement)
+const locale = useLocaleContext()
+const resolved = computed(() => ({
+  ...place(placement.value, { rtl: locale?.value?.dir === "rtl" }),
+  ...positioning,
+}))
 </script>
 
 <template>
-  <MenuRoot>
+  <!-- Closed, the popup leaves the page, as Base UI's does; Ark keeps it while its exit runs. -->
+  <MenuRoot lazy-mount unmount-on-exit :positioning="resolved" v-bind="$attrs">
     <slot />
   </MenuRoot>
 </template>

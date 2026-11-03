@@ -2,17 +2,17 @@
 title: Kbd
 description: Used to display textual user input from keyboard.
 section: components
-variants: [react/base, react/aria]
-keywords: [kbd, keyboard, shortcut, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [kbd, keyboard, shortcut, component, base, aria, ark, vue]
 ---
 
 # Kbd
 
-<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="kbd" combinations="react/base,react/aria" -->
+<!-- ::installation name="kbd" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -20,9 +20,23 @@ keywords: [kbd, keyboard, shortcut, component, base, aria]
 import { Kbd } from "@/components/ui/kbd"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <Kbd>Ctrl</Kbd>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Kbd>Ctrl</Kbd>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -39,13 +53,13 @@ KbdGroup
 
 Use the `KbdGroup` component to group keyboard keys together.
 
-<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Button
 
 Use the `Kbd` component inside a `Button` component to display a keyboard key inside a button.
 
-<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Tooltip
 
@@ -63,7 +77,7 @@ You can use the `Kbd` component inside a `InputGroupAddon` component to display 
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

@@ -42,12 +42,12 @@ const Labelled = () =>
 </script>
 
 <template>
+  <!-- `data-slot` before the caller's attributes, so a trigger rendering the button names it, as
+       React's Button. -->
   <ark.button
+    data-slot="button"
     v-bind="attrs"
     :sx="[button({ variant: props.variant, size: props.size }), sx]"
-    data-slot="button"
-    :data-variant="variant"
-    :data-size="size"
     :as-child="asChild"
   >
     <slot v-if="asChild" />

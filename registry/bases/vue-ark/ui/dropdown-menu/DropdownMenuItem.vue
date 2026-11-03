@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// Ark names every item with `value`, which its select events report.
 import { MenuItem } from "@ark-ui/vue"
 import { useSx } from "@kirana-style/core/vue"
+import { useId } from "vue"
 
 import {
   menuRowBase,
@@ -11,23 +11,24 @@ import {
 
 defineOptions({ inheritAttrs: false })
 
-// Ark's required `value` is declared here and passed on, so a project's type checker sees it.
+// Ark names every item with `value`, which its select events report; one without it gets its own.
 const {
   value,
   inset = false,
   variant = "default",
 } = defineProps<{
-  value: string
+  value?: string
   inset?: boolean
   variant?: "default" | "destructive"
 }>()
 const { sx, attrs } = useSx()
+const id = useId()
 </script>
 
 <template>
   <MenuItem
     data-slot="dropdown-menu-item"
-    :value="value"
+    :value="value ?? id"
     :data-inset="inset || undefined"
     :data-variant="variant"
     v-bind="attrs"

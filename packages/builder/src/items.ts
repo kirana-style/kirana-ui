@@ -234,6 +234,17 @@ export const ITEMS: Item[] = [
           : undefined,
   },
   {
+    name: "placement",
+    type: "registry:lib",
+    title: "Placement",
+    description:
+      "Base UI's side, align and offsets for a popup, as Ark UI's positioning.",
+    // Ark UI's frameworks: their popups take Base UI's placement on the content and place it
+    // from the root.
+    files: (combination) =>
+      combination.base === "ark" ? ["lib/placement.ts"] : undefined,
+  },
+  {
     name: "use-mobile",
     type: "registry:lib",
     title: "useIsMobile",
@@ -324,40 +335,42 @@ export const ITEMS: Item[] = [
   ),
   component("field", "Field", "Combines a label, a control and help text.", [
     "react",
+    "vue",
   ]),
-  component("input", "Input", "Displays a form input field.", ["react"]),
+  component("input", "Input", "Displays a form input field.", ["react", "vue"]),
   component(
     "checkbox",
     "Checkbox",
     "A control that allows the user to toggle between checked and not checked.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "radio-group",
     "Radio Group",
     "A set of checkable buttons, known as radio buttons, where no more than one can be checked at a time.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "switch",
     "Switch",
     "A control that allows the user to toggle between checked and not checked.",
-    ["react"]
+    ["react", "vue"]
   ),
   component("kbd", "Kbd", "Used to display textual user input from keyboard.", [
     "react",
+    "vue",
   ]),
   component(
     "spinner",
     "Spinner",
     "An indicator that can be used to show a loading state.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "toggle",
     "Toggle",
     "A two-state button that can be either on or off.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "toggle-group",
@@ -369,13 +382,13 @@ export const ITEMS: Item[] = [
     "native-select",
     "Native Select",
     "A styled native HTML select element with consistent design system integration.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "slider",
     "Slider",
     "An input where the user selects a value from within a given range.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "input-group",
@@ -387,35 +400,39 @@ export const ITEMS: Item[] = [
     "input-otp",
     "Input OTP",
     "Accessible one-time password component with copy-paste functionality.",
-    ["react"]
+    ["react", "vue"]
   ),
-  component("table", "Table", "A responsive table component.", ["react"]),
+  component("table", "Table", "A responsive table component.", [
+    "react",
+    "vue",
+  ]),
   component(
     "textarea",
     "Textarea",
     "Displays a form textarea or a component that looks like a textarea.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "badge",
     "Badge",
     "Displays a badge or a component that looks like a badge.",
-    ["react"]
+    ["react", "vue"]
   ),
   component("alert", "Alert", "Displays a callout for user attention.", [
     "react",
+    "vue",
   ]),
   component(
     "aspect-ratio",
     "Aspect Ratio",
     "Displays content within a desired ratio.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "empty",
     "Empty",
     "Use the Empty component to display an empty state.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "item",
@@ -427,13 +444,13 @@ export const ITEMS: Item[] = [
     "progress",
     "Progress",
     "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "marker",
     "Marker",
     "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "button-group",
@@ -445,19 +462,19 @@ export const ITEMS: Item[] = [
     "scroll-area",
     "Scroll Area",
     "Augments native scroll functionality for custom, cross-browser styling.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "popover",
     "Popover",
     "Displays rich content in a portal, triggered by a button.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "hover-card",
     "Hover Card",
     "For sighted users to preview content available behind a link.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "alert-dialog",
@@ -469,7 +486,7 @@ export const ITEMS: Item[] = [
     "context-menu",
     "Context Menu",
     "Displays a menu of actions triggered by a right click.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "combobox",
@@ -502,7 +519,7 @@ export const ITEMS: Item[] = [
     "accordion",
     "Accordion",
     "A vertically stacked set of interactive headings that each reveal a section of content.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "pagination",
@@ -518,12 +535,13 @@ export const ITEMS: Item[] = [
     description:
       "A provider component that sets the text direction for your application.",
     files: (combination) =>
-      combination.framework === "react"
+      combination.framework === "react" || combination.framework === "vue"
         ? [markupOf("direction", combination)]
         : undefined,
   },
   component("sonner", "Sonner", "An opinionated toast component for React.", [
     "react",
+    "vue",
   ]),
   component(
     "toast",
@@ -536,7 +554,7 @@ export const ITEMS: Item[] = [
     "resizable",
     "Resizable",
     "Accessible resizable panel groups and layouts with keyboard support.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "carousel",
@@ -560,13 +578,13 @@ export const ITEMS: Item[] = [
     "bubble",
     "Bubble",
     "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "message",
     "Message",
     "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "message-scroller",
@@ -596,31 +614,31 @@ export const ITEMS: Item[] = [
     "label",
     "Label",
     "Renders an accessible label associated with a control.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "separator",
     "Separator",
     "Visually or semantically separates content.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "avatar",
     "Avatar",
     "An image element with a fallback for representing the user.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "breadcrumb",
     "Breadcrumb",
     "Displays the path to the current resource using a hierarchy of links.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "collapsible",
     "Collapsible",
     "An interactive component which expands and collapses a panel.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "sheet",
@@ -653,7 +671,7 @@ export const ITEMS: Item[] = [
     "tooltip",
     "Tooltip",
     "A popup that displays information related to an element when it receives focus or is hovered.",
-    ["react"]
+    ["react", "vue"]
   ),
   // The blocks, upstream's `registry/bases/<base>/blocks`: each one's title and description
   // `registry/blocks.ts`'s, its files read from its folder, on both React bases.

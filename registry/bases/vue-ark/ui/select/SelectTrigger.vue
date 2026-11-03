@@ -16,7 +16,7 @@ const { sx, attrs } = useSx()
     data-slot="select-trigger"
     :data-size="size"
     v-bind="attrs"
-    :sx="[select.trigger, sx]"
+    :sx="[select.trigger, select.triggerArk, sx]"
   >
     <slot />
     <SelectIndicator as-child>
