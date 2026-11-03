@@ -97,13 +97,7 @@ const styles = {
 const { teams } = defineProps<{
   teams: {
     name: string
-    logo: {
-      lucide: string
-      tabler: string
-      hugeicons: string
-      phosphor: string
-      remixicon: string
-    }
+    logo: unknown
     plan: string
   }[]
 }>()
@@ -119,7 +113,7 @@ const activeTeam = ref(teams[0])
           <DropdownMenuTrigger as-child>
             <SidebarMenuButton size="lg" :sx="styles.trigger">
               <div :sx="styles.logo">
-                <IconPlaceholder v-bind="activeTeam.logo" />
+                {{ activeTeam.logo }}
               </div>
               <div :sx="styles.text">
                 <span :sx="styles.name">
@@ -154,7 +148,7 @@ const activeTeam = ref(teams[0])
                 :sx="styles.item"
               >
                 <div :sx="styles.badge">
-                  <IconPlaceholder v-bind="team.logo" />
+                  {{ team.logo }}
                 </div>
                 {{ team.name }}
                 <DropdownMenuShortcut> ⌘{{ index + 1 }} </DropdownMenuShortcut>
