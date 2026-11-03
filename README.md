@@ -26,8 +26,8 @@ The site is at [ui.kirana-style.workers.dev](https://ui.kirana-style.workers.dev
 
 kirana/ui is before its first release. React is complete on both bases and checked
 against shadcn/ui's own site, computed style by computed style. The other frameworks
-follow React's pages, checked against them the same way: Vue has 54 of the components
-with their demos and example pages, and Svelte, Solid and Angular have their first
+follow React's pages, checked against them the same way: Vue has 60 of the components
+with their demos and example pages, 28 of the 29 blocks and the 70 charts, and Svelte, Solid and Angular have their first
 (Button, Card, Skeleton).
 
 ## Using it

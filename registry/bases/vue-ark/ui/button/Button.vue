@@ -28,7 +28,9 @@ const label = styleProps(buttonLabel).className
 /**
  * Each run of text, trimmed to its capitals; icons and elements pass through. White space alone
  * stays bare text, which the flex container drops: a label of its own would add a gap. A slot a
- * part passes on (Input Group's button) arrives as a fragment, read through when `fragments`.
+ * part passes on (Input Group's button) arrives as a fragment keyed by its name (`_default`), read
+ * through when `fragments`; a `<template v-if>`'s fragment is not, as React labels no text inside
+ * a JSX fragment.
  */
 const labelled = (nodes: VNode[], fragments = false): VNode[] =>
   nodes.map((node: VNode) =>
@@ -38,7 +40,12 @@ const labelled = (nodes: VNode[], fragments = false): VNode[] =>
           { "data-slot": "button-label", class: label },
           node.children as string
         )
-      : fragments && node.type === Fragment && Array.isArray(node.children)
+      : fragments &&
+          node.type === Fragment &&
+          Array.isArray(node.children) &&
+          // A slot passed on (`_default`), not a template's own `v-if` or `v-for`.
+          typeof node.key === "string" &&
+          node.key.startsWith("_")
         ? h(Fragment, labelled(node.children as VNode[], true))
         : node
   )

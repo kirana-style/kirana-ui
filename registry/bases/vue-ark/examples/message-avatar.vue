@@ -24,7 +24,7 @@ const styles = {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/03.png" alt="@avatar" />
+            <AvatarImage :src="'/avatars/03.png'" alt="@avatar" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -39,7 +39,7 @@ const styles = {
       <Message align="end">
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/10.png" alt="@avatar" />
+            <AvatarImage :src="'/avatars/10.png'" alt="@avatar" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -52,7 +52,7 @@ const styles = {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/03.png" alt="@avatar" />
+            <AvatarImage :src="'/avatars/03.png'" alt="@avatar" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>

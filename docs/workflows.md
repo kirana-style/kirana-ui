@@ -481,6 +481,19 @@ Svelte and Solid after):
   (`pre-wrap` code), the text sits against its neighbours (`<Icon />Terminal`,
   `<CodeBlockContent>{{ code }}</CodeBlockContent>`), and a string holding line
   breaks stays an interpolation (`{{ "$ node --version\nv24.18.0" }}`).
+- **A library's model where Ark has none of its own.** Calendar draws
+  react-day-picker's elements and attributes (`data-selected`, `data-outside`,
+  `data-range-*` …) from Ark's date picker's cell state, so its style module is
+  React's; it takes `Date`s and day-picker's props. Combobox takes Base UI's
+  `items` and filters them for Ark's collection, its list and collections
+  drawing each match through a scoped slot (`v-slot="{ item }"`). Command is
+  cmdk's model on Ark's listbox: items register from the markup, what is typed
+  filters them, the first match is highlighted as cmdk's `data-selected`.
+  Navigation Menu teleports each panel into the viewport, which Zag measures
+  (`--viewport-*`).
+- **A prop given markup is a slot.** React's `tooltip={<ChartTooltipContent />}`
+  or a render function child is a named or scoped slot on Vue
+  (`<template #tooltip>`, `<ComboboxList v-slot="{ item }">`).
 - **Base UI's API where a page calls one.** Drawer takes Base UI's physical
   sides and `disablePointerDismissal`; a Button rendered as
   its child (`as-child`) labels the text written inside that child, as React's

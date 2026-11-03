@@ -38,7 +38,7 @@ const styles = {
         <Message>
           <MessageAvatar>
             <Avatar>
-              <AvatarImage src="/avatars/02.png" alt="@avatar" />
+              <AvatarImage :src="'/avatars/02.png'" alt="@avatar" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </MessageAvatar>

@@ -62,6 +62,9 @@ const FAINT_BORDER = {
 const ring = (width: string, color: string) => `0 0 0 ${width} ${color}`
 
 export const combobox = {
+  // Ark UI's root, an element where Base UI renders none: it leaves the layout, so its input and
+  // trigger are the page's own flex items, as Base UI's are.
+  rootArk: css({ display: "contents" }),
   // cn-combobox-content-logical: the logical sides' slide, in `popupMotion` (`overlay.styles.ts`).
   // cn-combobox-separator: `menuSeparator`; cn-combobox-group has no rules of its own.
   // cn-combobox-clear, cn-combobox-clear-icon, cn-combobox-item-indicator-icon,
@@ -79,6 +82,15 @@ export const combobox = {
     minWidth: {
       base: `calc(var(--anchor-width) + ${space[7]})`,
       '[data-chips="true"]': "var(--anchor-width)",
+    },
+  }),
+
+  // Ark UI's positioner names its anchor's width `--reference-width`, where Base UI's names it
+  // `--anchor-width`.
+  contentArk: css({
+    minWidth: {
+      base: `calc(var(--reference-width) + ${space[7]})`,
+      '[data-chips="true"]': "var(--reference-width)",
     },
   }),
 

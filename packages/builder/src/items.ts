@@ -6,7 +6,7 @@
  * Paths are relative to `registry/`. A file's place in an installed project follows from its source
  * path (`installedPath`).
  */
-import { readdirSync } from "node:fs"
+import { existsSync, readdirSync } from "node:fs"
 import { join } from "node:path"
 
 import { BLOCKS, blockInfo } from "../../../registry/blocks"
@@ -140,16 +140,27 @@ function blockFiles(bases: string, name: string): string[] {
     )
   return walk("")
     .sort((left, right) =>
-      left === "page.tsx"
+      left.startsWith("page.")
         ? -1
-        : right === "page.tsx"
+        : right.startsWith("page.")
           ? 1
           : left.localeCompare(right)
     )
     .map((file) => `bases/${bases}/blocks/${name}/${file}`)
 }
 
-/** A block, as an item: `registry/blocks.ts` names it, its folder holds it, React draws it. */
+/** A framework's components written for one chart or demo, `components/<name>/`, if any. */
+function localComponents(bases: string, name: string): string[] {
+  const folder = join(REGISTRY, "bases", bases, "components", name)
+  return existsSync(folder)
+    ? readdirSync(folder)
+        .sort()
+        .map((file) => `bases/${bases}/components/${name}/${file}`)
+    : []
+}
+
+/** A block, as an item: `registry/blocks.ts` names it, its folder holds it, React draws it, and
+ * each other framework whose base has its folder. */
 function blockItem(name: string): Item {
   return {
     name,
@@ -157,7 +168,10 @@ function blockItem(name: string): Item {
     title: blockInfo(name).title,
     description: blockInfo(name).description,
     files: (combination) =>
-      react(combination) ? blockFiles(combination.bases, name) : undefined,
+      react(combination) ||
+      existsSync(join(REGISTRY, "bases", combination.bases, "blocks", name))
+        ? blockFiles(combination.bases, name)
+        : undefined,
   }
 }
 
@@ -332,12 +346,23 @@ export const ITEMS: Item[] = [
     "Tabs",
     "A set of layered sections of content, displayed one at a time."
   ),
-  component(
-    "chart",
-    "Chart",
-    "Charts on TanStack Charts, each series in one of the design's chart colours.",
-    ["react"]
-  ),
+  {
+    ...component(
+      "chart",
+      "Chart",
+      "Charts on TanStack Charts, each series in one of the design's chart colours.",
+      ["react", "vue"]
+    ),
+    // The helpers no framework needs (`lib/chart.ts`) come with each framework's container.
+    files: (combination) =>
+      react(combination) || combination.framework === "vue"
+        ? [
+            markupOf("chart", combination),
+            "styles/chart.styles.ts",
+            "lib/chart.ts",
+          ]
+        : undefined,
+  },
   component(
     "card",
     "Card",
@@ -503,13 +528,13 @@ export const ITEMS: Item[] = [
     "combobox",
     "Combobox",
     "Autocomplete input with a list of suggestions.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "command",
     "Command",
     "Command menu for search and quick actions.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "drawer",
@@ -521,8 +546,8 @@ export const ITEMS: Item[] = [
     "navigation-menu",
     "Navigation Menu",
     "A collection of links for navigating websites.",
-    ["react"],
-    ["base"]
+    ["react", "vue"],
+    ["base", "ark"]
   ),
   component(
     "menubar",
@@ -582,7 +607,7 @@ export const ITEMS: Item[] = [
     "calendar",
     "Calendar",
     "A calendar component that allows users to select a date or a range of dates.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "attachment",
@@ -666,7 +691,7 @@ export const ITEMS: Item[] = [
     "sidebar",
     "Sidebar",
     "A composable, themeable and customizable sidebar component.",
-    ["react"]
+    ["react", "vue"]
   ),
   component(
     "skeleton",
@@ -693,7 +718,7 @@ export const ITEMS: Item[] = [
   // `registry/blocks.ts`'s, its files read from its folder, on both React bases.
   ...BLOCKS.map((entry): Item => blockItem(entry.name)),
   // The charts, upstream's `registry/new-york-v4/charts`: one file each, its title and description
-  // `registry/charts.ts`'s, on both React bases (Ark UI has no Chart yet).
+  // `registry/charts.ts`'s, on both React bases and on Vue.
   ...CHARTS.map((chart): Item => ({
     name: chart.name,
     type: "registry:block",
@@ -702,7 +727,13 @@ export const ITEMS: Item[] = [
     files: (combination) =>
       react(combination)
         ? [`bases/${combination.bases}/charts/${chart.name}.tsx`]
-        : undefined,
+        : combination.framework === "vue"
+          ? [
+              `bases/${combination.bases}/charts/${chart.name}.vue`,
+              // The chart's own parts, a file each on Vue (React's file declares them).
+              ...localComponents(combination.bases, chart.name),
+            ]
+          : undefined,
   })),
 ]
 

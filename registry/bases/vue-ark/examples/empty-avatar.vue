@@ -28,7 +28,7 @@ const styles = {
       <EmptyHeader>
         <EmptyMedia variant="default">
           <Avatar :sx="styles.size12">
-            <AvatarImage src="/avatars/kirana.png" :sx="styles.grayscale" />
+            <AvatarImage :src="'/avatars/kirana.png'" :sx="styles.grayscale" />
             <AvatarFallback>LR</AvatarFallback>
           </Avatar>
         </EmptyMedia>

@@ -314,9 +314,31 @@ function frameworkRoutes() {
       file.replace(/\.tsx$/, "")
     )
   )
-  return readdirSync(folder)
-    .filter((file) => file.endsWith(extension))
-    .map((file) => file.slice(0, -extension.length))
+  // Blocks too: a block the framework has (`blocks/<name>/page<extension>`) that React's base has.
+  const blocks = join(BASES, `${values.framework}-${base}`, "blocks")
+  const reactBlocks = join(BASES, "react-base", "blocks")
+  if (existsSync(reactBlocks))
+    for (const block of readdirSync(reactBlocks)) react.add(block)
+  const reactCharts = join(BASES, "react-base", "charts")
+  if (existsSync(reactCharts))
+    for (const file of readdirSync(reactCharts))
+      react.add(file.replace(/\.tsx$/, ""))
+  const charts = join(BASES, `${values.framework}-${base}`, "charts")
+  return [
+    ...readdirSync(folder)
+      .filter((file) => file.endsWith(extension))
+      .map((file) => file.slice(0, -extension.length)),
+    ...(existsSync(blocks)
+      ? readdirSync(blocks).filter((block) =>
+          existsSync(join(blocks, block, `page${extension}`))
+        )
+      : []),
+    ...(existsSync(charts)
+      ? readdirSync(charts)
+          .filter((file) => file.endsWith(extension))
+          .map((file) => file.slice(0, -extension.length))
+      : []),
+  ]
     .filter(
       (name) =>
         react.has(name) &&

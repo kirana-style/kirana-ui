@@ -79,7 +79,7 @@ const styles = {
         <ItemMedia>
           <div :sx="styles.flexSpaceX2DataSlotAvata">
             <Avatar :sx="styles.hiddenSmFlex">
-              <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+              <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
               <AvatarFallback> CN </AvatarFallback>
             </Avatar>
             <Avatar :sx="styles.hiddenSmFlex">

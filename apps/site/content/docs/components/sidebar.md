@@ -2,13 +2,13 @@
 title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 section: components
-variants: [react/base, react/aria]
-keywords: [sidebar, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [sidebar, component, base, aria, ark, vue]
 ---
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria" caption="A sidebar that collapses to icons." -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark" caption="A sidebar that collapses to icons." -->
 
 Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
@@ -19,9 +19,11 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/base,react/aria" -->
+<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 import {
@@ -45,6 +47,35 @@ export function Example() {
   )
 }
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+</script>
+
+<template>
+  <SidebarProvider>
+    <Sidebar collapsible="icon">
+      <SidebarContent><!-- groups and menus --></SidebarContent>
+    </Sidebar>
+    <SidebarInset>
+      <SidebarTrigger />
+    </SidebarInset>
+  </SidebarProvider>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -627,4 +658,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark" direction="rtl" -->

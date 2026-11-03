@@ -16,6 +16,7 @@ import { css, relation } from "@kirana-style/core"
 import * as State from "@kirana-style/states/base-ui"
 
 import { axes } from "../core/axes"
+import { navigationMenuState, when } from "../core/states"
 import { ctx } from "../core/context"
 import {
   duration,
@@ -36,6 +37,8 @@ import { ringAndShadow } from "./menu.styles"
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 const Nav = State.NavigationMenu
+/** Ark UI's open trigger, read from inside it (the chevron). */
+const ARK_TRIGGER_OPEN = navigationMenuState.triggerOpen.ark
 
 /** A panel, read by the links inside it (`in-data-[slot=navigation-menu-content]:`). */
 export const navigationMenuContentScope = relation("navigation-menu-content")
@@ -86,11 +89,11 @@ const TRIGGER_BOX = {
   backgroundColor: {
     ":hover": theme.muted,
     ":focus": theme.muted,
-    [Nav.Trigger.popupOpen]: {
+    ...when(navigationMenuState.triggerOpen, {
       base: alpha.muted50,
       ":hover": theme.muted,
       ":focus": theme.muted,
-    },
+    }),
   },
 } as const
 
@@ -172,6 +175,8 @@ export const navigationMenu = {
     transitionTimingFunction: easing.inOut,
     rotate: {
       [navigationMenuTriggerScope.within(Nav.Trigger.popupOpen)]: "180deg",
+      // Ark UI's open trigger.
+      [navigationMenuTriggerScope.within(ARK_TRIGGER_OPEN)]: "180deg",
     },
   }),
 
@@ -272,6 +277,22 @@ export const navigationMenu = {
     },
   }),
 
+  // Ark UI's positioner, under the menu in its flow (Zag measures the panel itself): where Base
+  // UI's floats, the open trigger's offset (`--viewport-x`) on the popup below.
+  positionerArk: css({
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    marginTop: space[2],
+  }),
+  // Ark UI's viewport, which is the popup: the panel's size and the open trigger's offset.
+  popupArk: css({
+    width: "var(--viewport-width)",
+    height: "var(--viewport-height)",
+    translate: "var(--viewport-x) 0",
+    transitionProperty: "width, height, translate",
+  }),
+
   // The viewport the panels are shown in.
   viewport: css({
     position: "relative",
@@ -364,18 +385,18 @@ export const navigationMenu = {
       ":hover": theme.muted,
       ":focus": theme.muted,
       [nova]: {
-        [Nav.Link.active]: {
+        ...when(navigationMenuState.linkActive, {
           base: alpha.muted50,
           ":hover": theme.muted,
           ":focus": theme.muted,
-        },
+        }),
       },
       [lyra]: {
-        [Nav.Link.active]: {
+        ...when(navigationMenuState.linkActive, {
           base: alpha.muted50,
           ":hover": theme.muted,
           ":focus": theme.muted,
-        },
+        }),
       },
     },
     // A panel's links draw no ring (`**:data-[slot=navigation-menu-link]:focus:ring-0`), in every

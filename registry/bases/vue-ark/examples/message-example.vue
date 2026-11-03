@@ -135,7 +135,7 @@ const styles = {
           <MessageAvatar>
             <Avatar>
               <AvatarImage
-                src="/avatars/kirana.png"
+                :src="'/avatars/kirana.png'"
                 alt="@kirana"
                 :sx="styles.grayscale"
               />
@@ -186,7 +186,7 @@ const styles = {
         <Message>
           <MessageAvatar>
             <Avatar>
-              <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+              <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
               <AvatarFallback> CN </AvatarFallback>
             </Avatar>
           </MessageAvatar>
@@ -273,7 +273,7 @@ const styles = {
           <Message align="end">
             <MessageAvatar>
               <Avatar>
-                <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+                <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
                 <AvatarFallback> CN </AvatarFallback>
               </Avatar>
             </MessageAvatar>
@@ -300,7 +300,7 @@ const styles = {
           <Message>
             <MessageAvatar>
               <Avatar>
-                <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+                <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
                 <AvatarFallback> CN </AvatarFallback>
               </Avatar>
             </MessageAvatar>

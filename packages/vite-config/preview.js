@@ -26,7 +26,9 @@ export function previewOutDir(framework) {
 
 /**
  * A page for every example under `registry/bases/<framework>-<base>/examples/` with `extension`,
- * and for `extra` names (`showcase`), copied from the built `index.html`.
+ * every block under `blocks/` with a `page` of that extension, every chart under `charts/`, and
+ * the `extra` names (`showcase`),
+ * copied from the built `index.html`.
  * @param {{ framework: string, base: string, extension: string, extra?: readonly string[] }} options
  * @returns {import("vite-plus").Plugin}
  */
@@ -35,6 +37,18 @@ export function previewPages({ framework, base, extension, extra = [] }) {
   const examples = fileURLToPath(
     new URL(
       `../../registry/bases/${framework}-${base}/examples/`,
+      import.meta.url
+    )
+  )
+  const charts = fileURLToPath(
+    new URL(
+      `../../registry/bases/${framework}-${base}/charts/`,
+      import.meta.url
+    )
+  )
+  const blocks = fileURLToPath(
+    new URL(
+      `../../registry/bases/${framework}-${base}/blocks/`,
       import.meta.url
     )
   )
@@ -49,6 +63,16 @@ export function previewPages({ framework, base, extension, extra = [] }) {
         ...readdirSync(examples)
           .filter((file) => file.endsWith(extension))
           .map((file) => file.slice(0, -extension.length)),
+        ...(existsSync(blocks)
+          ? readdirSync(blocks).filter((block) =>
+              existsSync(`${blocks}${block}/page${extension}`)
+            )
+          : []),
+        ...(existsSync(charts)
+          ? readdirSync(charts)
+              .filter((file) => file.endsWith(extension))
+              .map((file) => file.slice(0, -extension.length))
+          : []),
         ...extra,
       ]
       for (const name of names)

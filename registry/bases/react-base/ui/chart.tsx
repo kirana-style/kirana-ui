@@ -13,16 +13,19 @@
  */
 import * as React from "react"
 import { props as styleProps } from "@kirana-style/core"
-import type { ChartPoint, ChartTheme, ChartValue } from "@tanstack/charts"
+import type { ChartPoint, ChartValue } from "@tanstack/charts"
 import { motion } from "@tanstack/charts/motion"
 import { RendererChart } from "@tanstack/charts/react/tooltip"
 import type { RendererChartProps } from "@tanstack/charts/react/tooltip"
-import { scaleBand } from "@tanstack/charts/scales/band"
-import { tooltip } from "@tanstack/charts/tooltip"
 
+import {
+  categoryOf,
+  pointConfig,
+  seriesColors,
+  valueOf,
+} from "../../../lib/chart"
 import type { Sx } from "../../../lib/sx"
 import { chart as styles } from "../../../styles/chart.styles"
-import { alpha, theme } from "../../../core/tokens"
 
 const THEMES = ["light", "dark"] as const
 
@@ -51,92 +54,6 @@ function useChart() {
 }
 
 /**
- * The chart's own colours: ticks and axis titles in the muted foreground, the grid in the
- * half-strength border (upstream's `stroke-border/50`), the series in the five chart colours; no
- * ring on a focused mark, as upstream's charts draw none (`cursor={false}`). Give it to a
- * definition as `theme`.
- */
-export const chartTheme: ChartTheme = {
-  foreground: theme.mutedForeground,
-  muted: theme.mutedForeground,
-  grid: alpha.border50,
-  background: "transparent",
-  focusRing: false,
-  palette: [
-    theme.chart1,
-    theme.chart2,
-    theme.chart3,
-    theme.chart4,
-    theme.chart5,
-  ],
-}
-
-/**
- * A value axis rounded as Recharts rounds it: `count` evenly spaced ticks from zero (or the lowest
- * value, when it is negative) past the highest, with a step of one or two significant digits (80,
- * 150, 2.5). Upstream's charts hide that axis and draw their grid on its ticks; give `domain` to the
- * scale and `ticks` to the grid's axis (`hiddenAxis`), and the grid falls where upstream's does.
- */
-export function niceTicks(values: readonly number[], count = 5) {
-  const low = Math.min(0, ...values)
-  const high = Math.max(0, ...values)
-  const rough = (high - low) / (count - 1) || 1
-  const digits = Math.floor(Math.log10(rough)) + 1
-  const unit = 10 ** digits
-  const scale = digits === 1 ? 0.1 : 0.05
-  let step = Math.ceil(rough / unit / scale - 1e-9) * scale * unit
-  let start = low < 0 ? Math.floor(low / step) * step : 0
-  // A negative start can push the top past `count` steps: take the next step up.
-  while (start + step * (count - 1) < high) {
-    step = (Math.ceil(step / unit / scale + 1e-9) + 1) * scale * unit
-    start = low < 0 ? Math.floor(low / step) * step : 0
-  }
-  const ticks = Array.from(
-    { length: count },
-    (_, index) => +(start + step * index).toPrecision(12)
-  )
-  return { domain: [ticks[0]!, ticks[count - 1]!] as [number, number], ticks }
-}
-
-/** An axis that draws nothing but places the grid on `ticks`, as upstream's hidden `YAxis`. */
-export function hiddenAxis(ticks: readonly number[]) {
-  return {
-    line: false,
-    ticks: { values: ticks, size: 0 },
-    tickLabels: false,
-  } as const
-}
-
-/**
- * A radial chart's radius as Recharts lays out its bars between `innerRadius` and `outerRadius`:
- * a band for each category, its bar 10% of the band in from its start (`barCategoryGap`) and 80%
- * of it wide, in whole pixels. Give it to the polar container's `radius` scale.
- */
-export function radialBands<TValue extends string>(
-  domain: readonly TValue[],
-  innerRadius: number,
-  outerRadius: number
-) {
-  const band = (outerRadius - innerRadius) / domain.length
-  const gap = 1 - Math.floor(band * 0.8) / band
-  return {
-    scale: () =>
-      scaleBand<TValue>()
-        .domain(domain)
-        .paddingInner(gap)
-        .paddingOuter(gap / 2)
-        .align(0.1 / gap),
-    range: [innerRadius, outerRadius] as [number, number],
-  }
-}
-
-/**
- * The tooltip extension, for a definition's `tooltip`: `ChartContainer` draws its body. It moves
- * at once, out of the entrance's timing.
- */
-export const chartTooltip = { use: tooltip, motion: false } as const
-
-/**
  * Recharts' entrance (its `animationDuration` of 1.5s and `animationEasing` of `ease`): bars and
  * paths grow from their baseline, radial marks from the centre, arcs sweep round; still where the
  * reader asks for less motion. It plays when the chart mounts in the browser (`ChartContainer`
@@ -145,20 +62,6 @@ export const chartTooltip = { use: tooltip, motion: false } as const
 const entrance = motion({
   transition: { type: "tween", duration: 1500, easing: "ease" },
 })
-
-/** Each series' `--color-<key>`. */
-function seriesColors(config: ChartConfig): React.CSSProperties {
-  const vars: Record<string, string> = {}
-  for (const [key, item] of Object.entries(config)) {
-    if (item.theme) {
-      vars[`--color-${key}`] =
-        `light-dark(${item.theme.light}, ${item.theme.dark})`
-    } else if (item.color) {
-      vars[`--color-${key}`] = item.color
-    }
-  }
-  return vars as React.CSSProperties
-}
 
 type ChartContainerProps<
   TDatum,
@@ -247,7 +150,7 @@ function ChartContainer<
         data-slot="chart"
         data-entering={entering ? "" : undefined}
         className={className}
-        style={{ ...style, ...seriesColors(config) }}
+        style={{ ...style, ...(seriesColors(config) as React.CSSProperties) }}
       >
         {legend ? (
           // Recharts' wrapper: the plot and its legend in a column, inside the row the container is.
@@ -261,42 +164,6 @@ function ChartContainer<
       </div>
     </ChartContext.Provider>
   )
-}
-
-/** A point's number, and its category: on y and x for a vertical bar or a line, the other way for a horizontal bar. */
-function valueOf(point: ChartPoint): ChartValue {
-  // A pie's slice (`pie()` from the polar entry) holds its share as `value`, beside `fraction`;
-  // its point's own values are the arc's angle and radius, as Recharts' payload is the slice's.
-  const slice = point.datum as { value?: unknown; fraction?: unknown } | null
-  if (
-    slice &&
-    typeof slice.value === "number" &&
-    typeof slice.fraction === "number"
-  )
-    return slice.value
-  return typeof point.yValue === "number" ? point.yValue : point.xValue
-}
-function categoryOf(point: ChartPoint): ChartValue {
-  return typeof point.yValue === "number" ? point.xValue : point.yValue
-}
-
-/**
- * A focused point's config entry, as upstream finds it: by its datum's `nameKey` field when that is
- * a string (a key such as `"chrome"`), else `nameKey` itself when the config has it (upstream's
- * `nameKey="views"` or `"visitors"`), else its series, else its mark.
- */
-function pointConfig(config: ChartConfig, point: ChartPoint, nameKey?: string) {
-  const field =
-    nameKey && point.datum && typeof point.datum === "object"
-      ? (point.datum as Record<string, unknown>)[nameKey]
-      : undefined
-  const name = String(
-    (typeof field === "string" ? field : undefined) ??
-      (nameKey && nameKey in config ? nameKey : undefined) ??
-      point.group ??
-      point.markId
-  )
-  return { name, item: config[name] }
 }
 
 function ChartTooltipContent({
@@ -488,4 +355,11 @@ function ChartLegendContent({
   )
 }
 
+export {
+  chartTheme,
+  chartTooltip,
+  hiddenAxis,
+  niceTicks,
+  radialBands,
+} from "../../../lib/chart"
 export { ChartContainer, ChartTooltipContent, ChartLegendContent, useChart }

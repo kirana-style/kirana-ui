@@ -222,6 +222,21 @@ export const check = {
 } as const satisfies Record<string, StateKeys>
 
 /**
+ * A navigation menu's open trigger and current link: Base UI's `data-popup-open` and
+ * `data-active`, Ark UI's `data-state="open"` (on its own parts, `data-scope`) and `data-current`.
+ */
+export const navigationMenuState = {
+  triggerOpen: {
+    base: Base.NavigationMenu.Trigger.popupOpen,
+    ark: '[data-scope="navigation-menu"][data-part="trigger"][data-state="open"]',
+  },
+  linkActive: {
+    base: Base.NavigationMenu.Link.active,
+    ark: Ark.NavigationMenu.Link.current,
+  },
+} as const satisfies Record<string, StateKeys>
+
+/**
  * A pressed toggle, alone or in a group: Base UI's `aria-pressed`, React Aria's `data-selected`,
  * Ark UI's `data-state`, which a single-choice group's items write too (they are radios there,
  * `aria-checked`, where Base UI's stay `aria-pressed`).

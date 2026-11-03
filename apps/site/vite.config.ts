@@ -38,7 +38,7 @@ const EXAMPLES = {
 /**
  * `virtual:preview-names`: the items `/preview/<framework>/<base>/<item>` answers to, per
  * framework and base, read at build time: React's from each base's `previews.ts` (its keys), the
- * other frameworks' from their `examples` folders, which their `previews.ts` maps whole. `/create`'s
+ * other frameworks' from their `examples`, `blocks` and `charts` folders, which their `previews.ts` maps whole. `/create`'s
  * explorer lists them; importing the maps themselves would put every item, and so its styles, into
  * the site's build (KF-052).
  */
@@ -66,13 +66,26 @@ function previewNames(): Plugin {
       const others = Object.entries(EXAMPLES).map(
         ([variant, [bases, extension]]) => {
           const folder = `${REGISTRY}bases/${bases}/examples`
+          const blocks = `${REGISTRY}bases/${bases}/blocks`
+          const charts = `${REGISTRY}bases/${bases}/charts`
           this.addWatchFile(folder)
           return [
             variant,
-            readdirSync(folder)
-              .filter((file) => file.endsWith(extension))
-              .map((file) => file.slice(0, -extension.length))
-              .sort(),
+            [
+              ...readdirSync(folder)
+                .filter((file) => file.endsWith(extension))
+                .map((file) => file.slice(0, -extension.length)),
+              ...(existsSync(blocks)
+                ? readdirSync(blocks).filter((block) =>
+                    existsSync(`${blocks}/${block}/page${extension}`)
+                  )
+                : []),
+              ...(existsSync(charts)
+                ? readdirSync(charts)
+                    .filter((file) => file.endsWith(extension))
+                    .map((file) => file.slice(0, -extension.length))
+                : []),
+            ].sort(),
           ]
         }
       )

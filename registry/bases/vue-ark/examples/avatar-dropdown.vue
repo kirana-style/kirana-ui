@@ -30,7 +30,7 @@ const styles = {
       <DropdownMenuTrigger as-child>
         <Button variant="ghost" size="icon" :sx="styles.button">
           <Avatar>
-            <AvatarImage src="/avatars/kirana.png" alt="kirana" />
+            <AvatarImage :src="'/avatars/kirana.png'" alt="kirana" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </Button>

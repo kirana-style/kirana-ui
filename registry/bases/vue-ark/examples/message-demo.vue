@@ -37,7 +37,7 @@ const styles = {
       <Message align="end">
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/10.png" alt="@me" />
+            <AvatarImage :src="'/avatars/10.png'" alt="@me" />
             <AvatarFallback>ME</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -50,7 +50,7 @@ const styles = {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/02.png" alt="@rabbit" />
+            <AvatarImage :src="'/avatars/02.png'" alt="@rabbit" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -63,7 +63,7 @@ const styles = {
       <Message align="end">
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/10.png" alt="@me" />
+            <AvatarImage :src="'/avatars/10.png'" alt="@me" />
             <AvatarFallback>ME</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -77,7 +77,7 @@ const styles = {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/02.png" alt="@rabbit" />
+            <AvatarImage :src="'/avatars/02.png'" alt="@rabbit" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>

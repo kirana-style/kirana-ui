@@ -307,13 +307,13 @@
       "element": "",
       "property": "pointer-events",
       "reason": "a modal blocks the page behind it, and each library does so its own way: Base UI's dialog sets `pointer-events: none` on the page, its drawer leaves the page to its backdrop; Ark UI's sets `pointer-events: none` on `<body>`, which its backdrop inherits (a press outside closes it through a document listener), and clears it when its exit ends",
-      "route": "-example|(alert-dialog|dialog|drawer|sheet)-"
+      "route": "-example|(alert-dialog|dialog|drawer|sheet)-|sidebar-13"
     },
     {
       "element": "div[data-slot=\"dialog-overlay\"]",
       "property": "user-select",
       "reason": "Base UI writes `user-select: none` inline on its backdrop; Ark UI's takes the page's",
-      "route": "-example|(alert-dialog|dialog|drawer|sheet)-"
+      "route": "-example|(alert-dialog|dialog|drawer|sheet)-|sidebar-13"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
@@ -365,13 +365,13 @@
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "outline-width",
-      "route": "-example",
+      "route": "-example|sidebar-(demo|rtl)",
       "reason": "opening a menu, Base UI focuses its popup and Ark UI its first item, so the focus ring's width shows on another element"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-item\"]",
       "property": "outline-width",
-      "route": "-example",
+      "route": "-example|sidebar-(demo|rtl)",
       "reason": "as the content's: the item Ark UI focuses"
     },
     {
@@ -473,6 +473,36 @@
       "property": "(element)",
       "route": "(input-group|button-group)-example",
       "reason": "the comparison opens a tooltip by hovering the page's first `tooltip-trigger`: on Vue that is a button inside an input group or button group, which Ark's trigger names (`as-child`), where React's Base UI trigger leaves the button its own `data-slot`, so the two runs hover different elements; hovered by the pointer, Vue's tooltip opens (checked by hand)"
+    },
+    {
+      "element": "div[data-slot=\"dialog-content\"]",
+      "property": "outline-width",
+      "route": "sidebar-13",
+      "reason": "the dialog's outline style is `none` on both, so its width draws nothing; on some loads the harness reads Base UI's popup at 1px, Ark UI's at the initial 3px"
+    },
+    {
+      "element": "ul[data-slot=\"navigation-menu-list\"]",
+      "property": "pointer-events",
+      "route": "navigation-menu-",
+      "reason": "opened by hovering its trigger, Base UI's menu writes `pointer-events: none` inline on its list while the pointer travels to the popup (its safe triangle), which the list's parts inherit; Ark UI keeps the pointer on the popup by its own timing and writes none"
+    },
+    {
+      "element": "li[data-slot=\"navigation-menu-item\"]",
+      "property": "pointer-events",
+      "route": "navigation-menu-",
+      "reason": "opened by hovering its trigger, Base UI's menu writes `pointer-events: none` inline on its list while the pointer travels to the popup (its safe triangle), which the list's parts inherit; Ark UI keeps the pointer on the popup by its own timing and writes none"
+    },
+    {
+      "element": "button[data-slot=\"navigation-menu-trigger\"]",
+      "property": "pointer-events",
+      "route": "navigation-menu-",
+      "reason": "opened by hovering its trigger, Base UI's menu writes `pointer-events: none` inline on its list while the pointer travels to the popup (its safe triangle), which the list's parts inherit; Ark UI keeps the pointer on the popup by its own timing and writes none"
+    },
+    {
+      "element": "a[data-slot=\"navigation-menu-link\"]",
+      "property": "pointer-events",
+      "route": "navigation-menu-",
+      "reason": "opened by hovering its trigger, Base UI's menu writes `pointer-events: none` inline on its list while the pointer travels to the popup (its safe triangle), which the list's parts inherit; Ark UI keeps the pointer on the popup by its own timing and writes none"
     }
   ]
 }

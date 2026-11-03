@@ -19,15 +19,15 @@ const styles = {
   <div :sx="page.example">
     <div :sx="styles.exampleDiv">
       <Avatar size="sm">
-        <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+        <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <Avatar>
-        <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+        <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <Avatar size="lg">
-        <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+        <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
     </div>

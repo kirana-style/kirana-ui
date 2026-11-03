@@ -66,10 +66,10 @@
     "measured": 35.2
   },
   "preview-vue.css": {
-    "budget": 70,
+    "budget": 85,
     "unit": "KB",
-    "why": "The Vue preview app's stylesheet, gzip, the same per framework. Raised to 50 KB with P6-01's 35 components and their 295 pages (Vue's 42 in every style and axis value): 41.4 measured, against React's 85.5 for its 64 with charts and blocks. Raised to 70 KB with P6-02's 12 components and their 146 pages (54 of the 64 on Vue): 61.1 measured.",
-    "measured": 61.1
+    "why": "The Vue preview app's stylesheet, gzip, the same per framework. Raised to 50 KB with P6-01's 35 components and their 295 pages (Vue's 42 in every style and axis value): 41.4 measured, against React's 85.5 for its 64 with charts and blocks. Raised to 70 KB with P6-02's 12 components and their 146 pages (54 of the 64 on Vue): 61.1 measured. Raised to 85 KB with P6-03's six components (Calendar, Combobox, Command, Navigation Menu, Sidebar, Chart), the 70 charts and 28 blocks (60 of the 64 on Vue): 76.1 measured.",
+    "measured": 76.1
   },
   "registry.files": {
     "budget": 15000,
@@ -78,10 +78,10 @@
     "measured": 3484
   },
   "registry.bytes": {
-    "budget": 65000,
+    "budget": 75000,
     "unit": "KB",
-    "why": "The registry's JSON, total: it grows with items × combinations, about 19 MB expected at 64 components. Raised to 40 MB with P2-10's 70 charts, each an item for every React combination (8 styles × 2 bases): 1198 files, 8.0 MB in all; main measured 29.5 MB before the last 36. The Worker limits a file's size and the number of files (`registry.largest`, `registry.files`), not their total. Raised to 55 MB with P2-09's 25 blocks, each an item for every React combination (about 9.3 MB, `dashboard-01` 2.1 MB with its data), and their icons in `icon-placeholder`'s data for all 48 combinations; 49.2 MB measured. Raised to 65 MB with P6-02: the 12 components' Vue items in every style, and the highlighter's and `use-mobile`'s Vue files; 59.0 MB measured.",
-    "measured": 58995.3
+    "why": "The registry's JSON, total: it grows with items × combinations, about 19 MB expected at 64 components. Raised to 40 MB with P2-10's 70 charts, each an item for every React combination (8 styles × 2 bases): 1198 files, 8.0 MB in all; main measured 29.5 MB before the last 36. The Worker limits a file's size and the number of files (`registry.largest`, `registry.files`), not their total. Raised to 55 MB with P2-09's 25 blocks, each an item for every React combination (about 9.3 MB, `dashboard-01` 2.1 MB with its data), and their icons in `icon-placeholder`'s data for all 48 combinations; 49.2 MB measured. Raised to 65 MB with P6-02: the 12 components' Vue items in every style, and the highlighter's and `use-mobile`'s Vue files; 59.0 MB measured. Raised to 75 MB with P6-03: the six components' Vue items in every style, and Vue's 70 charts and 28 blocks, each an item in every style with its own parts; 68.9 MB measured.",
+    "measured": 68935.1
   },
   "registry.largest": {
     "budget": 25600,

@@ -63,7 +63,7 @@ const { dir, t, locale } = useTranslation(translations, "ar")
       <div :sx="styles.div" :dir="dir">
         <Avatar>
           <AvatarImage
-            src="/avatars/kirana.png"
+            :src="'/avatars/kirana.png'"
             alt="@kirana"
             :sx="styles.avatarImage"
           />
@@ -79,7 +79,7 @@ const { dir, t, locale } = useTranslation(translations, "ar")
         </Avatar>
         <AvatarGroup :sx="styles.avatarGroup">
           <Avatar>
-            <AvatarImage src="/avatars/kirana.png" alt="@kirana" />
+            <AvatarImage :src="'/avatars/kirana.png'" alt="@kirana" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <Avatar>

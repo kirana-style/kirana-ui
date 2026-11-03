@@ -2,17 +2,18 @@
 title: Combobox
 description: Autocomplete input with a list of suggestions.
 section: components
-variants: [react/base, react/aria]
-keywords: [combobox, autocomplete, select, search, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords:
+  [combobox, autocomplete, select, search, component, base, aria, ark, vue]
 ---
 
 # Combobox
 
-<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="combobox" combinations="react/base,react/aria" -->
+<!-- ::installation name="combobox" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -78,6 +79,37 @@ export function ExampleCombobox() {
     </Combobox>
   )
 }
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+</script>
+
+<template>
+  <Combobox :items="frameworks">
+    <ComboboxInput placeholder="Select a framework" />
+    <ComboboxContent>
+      <ComboboxEmpty>No items found.</ComboboxEmpty>
+      <ComboboxList v-slot="{ item }">
+        <ComboboxItem :key="item" :value="item">{{ item }}</ComboboxItem>
+      </ComboboxList>
+    </ComboboxContent>
+  </Combobox>
+</template>
 ```
 
 <!-- ::end:only -->
@@ -425,25 +457,25 @@ export function ExampleComboboxMultiple() {
 
 A simple combobox with a list of frameworks.
 
-<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria,vue/ark" -->
 
 ## Multiple
 
 A combobox with multiple selection using `multiple` and `ComboboxChips`.
 
-<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria,vue/ark" -->
 
 ## Clear Button
 
 Use the `showClear` prop to show a clear button.
 
-<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria,vue/ark" -->
 
 ## Groups
 
 Use `ComboboxGroup` and `ComboboxSeparator` to group items.
 
-<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## Custom Items
 
@@ -459,7 +491,7 @@ You can render custom component inside `ComboboxItem`.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## Invalid
 
@@ -475,7 +507,7 @@ Use the `isInvalid` prop to make the combobox invalid.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria,vue/ark" -->
 
 ## Disabled
 
@@ -491,7 +523,7 @@ Use the `isDisabled` prop to disable the combobox.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Auto Highlight
 
@@ -499,7 +531,7 @@ Use the `isDisabled` prop to disable the combobox.
 
 Use the `autoHighlight` prop to automatically highlight the first item on filter.
 
-<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base" -->
+<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,vue/ark" -->
 
 <!-- ::end:only -->
 
@@ -509,7 +541,7 @@ Use the `autoHighlight` prop to automatically highlight the first item on filter
 
 You can trigger the combobox from a button or any other component by using the `render` prop. Move the `ComboboxInput` inside the `ComboboxContent`.
 
-<!-- ::preview item="combobox-popup" height="700" combinations="react/base" -->
+<!-- ::preview item="combobox-popup" height="700" combinations="react/base,vue/ark" -->
 
 <!-- ::end:only -->
 
@@ -517,13 +549,13 @@ You can trigger the combobox from a button or any other component by using the `
 
 You can add an addon to the combobox by using the `InputGroupAddon` component inside the `ComboboxInput`.
 
-<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -536,6 +568,12 @@ See the [Base UI](https://base-ui.com/react/components/combobox#api-reference) d
 <!-- ::start:only react/aria -->
 
 See the [React Aria](https://react-aria.adobe.com/ComboBox#api) documentation for more information.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Combobox](https://ark-ui.com/vue/docs/components/combobox#api-reference) documentation.
 
 <!-- ::end:only -->
 
