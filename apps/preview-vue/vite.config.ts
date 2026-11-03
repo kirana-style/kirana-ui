@@ -18,7 +18,7 @@ export default defineConfig({
       framework: "vue",
       base: "ark",
       extension: ".vue",
-      extra: ["showcase"],
+      extra: ["showcase", "charts"],
     }),
   ]),
 })

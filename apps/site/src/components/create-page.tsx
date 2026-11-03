@@ -57,7 +57,8 @@ const PREVIEWS: Record<string, readonly string[]> = previewNames
 const PREVIEW_PAGES = [
   { label: "01", item: "preview-02" },
   { label: "02", item: "preview" },
-  // The registry's charts, a column per type (`apps/preview-react/src/charts-base.tsx`).
+  // The registry's charts, a column per type (`apps/preview-react/src/charts-base.tsx`, and
+  // `apps/preview-vue/src/Charts.vue`).
   { label: "03", item: "charts" },
 ] as const
 
@@ -302,8 +303,10 @@ export function CreatePage() {
 
   const combination = `${system.framework}/${system.base}`
   const items = PREVIEWS[combination] ?? []
-  // The charts are a page of the React preview app's own, not an item.
-  const own = preview === "charts" && combination.startsWith("react/")
+  // The charts are a page of the React and Vue preview apps' own, not an item.
+  const own =
+    preview === "charts" &&
+    (combination.startsWith("react/") || combination === "vue/ark")
   const shown = items.includes(preview) || own ? preview : (items[0] ?? "")
   const query = new URLSearchParams({
     ...(rtl ? { rtl: "true" } : {}),
