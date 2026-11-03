@@ -1,6 +1,7 @@
 <script lang="ts">
+  import type { Sx } from "@kirana-style/core"
+  import type { ClassValue,HTMLAttributes } from "svelte/elements"
   import type { Snippet } from "svelte"
-  import type { HTMLAttributes } from "svelte/elements"
 
   import { card } from "../../../../styles/card.styles"
 
@@ -9,11 +10,11 @@
     children,
     ...rest
   }: Omit<HTMLAttributes<HTMLDivElement>, "class"> & {
-    class?: string
+    class?: ClassValue | null
     children?: Snippet
   } = $props()
 </script>
 
-<div data-slot="card-title" {...rest} sx={[card.title, className]}>
+<div data-slot="card-title" {...rest} sx={[card.title, className as Sx]}>
   {@render children?.()}
 </div>

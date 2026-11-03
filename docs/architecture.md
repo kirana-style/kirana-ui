@@ -365,7 +365,12 @@ each Vue part turns attribute fallthrough off, takes the caller's classes with
 Kirana's `useSx()` (`@kirana-style/core/vue`) and puts them last in its root's
 own `:sx`, the same per-property merge `sx` gets. A Svelte component receives a
 caller's `sx` as its `class` prop, which it puts last in its root's `sx` the same
-way, with no helper. Solid's JSX takes `sx` as React's does, and a component
+way, with no helper: `sx={[own, className as Sx]}`. Not `class={className}` beside
+the `sx`: Kirana folds an element's own `class` in before its `sx`, so the part's
+styles would win. For the same reason an Ark `asChild` child that has an `sx`
+names the props' class and style (`<button {...props()} class={props().class}
+style={props().style} sx={…}>`): a class or style that arrives in a spread is
+replaced by the `sx`. Solid's JSX takes `sx` as React's does, and a component
 passes its `sx` prop on last (`splitProps` keeps the props reactive). An Angular
 template reaches only its component's members, so Kirana merges `sx` in the
 browser there: each Angular part is a directive on the element the caller writes
@@ -375,7 +380,7 @@ would match the same `[sx]`, so a template holding a part leaves it out and give
 its plain elements their classes as strings (`props(…).className`). Each
 framework's markup compiles in its preview app (`apps/preview-<framework>`),
 which is where its templates are checked. Icons are named once for every library (`IconPlaceholder`) and
-drawn from framework-neutral data, so one map serves React and Vue. In an installed
+drawn from framework-neutral data, so one map serves every framework. In an installed
 React project the placeholder is gone: shadcn/ui's CLI replaces each one with the
 project's icon library's component, keeping its other attributes, and drops the
 import of any module whose path holds `icon-placeholder` (hence

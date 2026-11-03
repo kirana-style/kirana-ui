@@ -2,17 +2,18 @@
 title: Popover
 description: Displays rich content in a portal, triggered by a button.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [popover, popup, floating, overlay, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords:
+  [popover, popup, floating, overlay, component, base, aria, ark, vue, svelte]
 ---
 
 # Popover
 
-<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -103,6 +104,38 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import { Button } from "@/components/ui/button"
+  import {
+    Popover,
+    PopoverContent,
+    PopoverDescription,
+    PopoverHeader,
+    PopoverTitle,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+</script>
+
+<Popover>
+  <PopoverTrigger>
+    {#snippet asChild(props)}
+      <Button {...props()} variant="outline">Open Popover</Button>
+    {/snippet}
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>
+      <PopoverTitle>Title</PopoverTitle>
+      <PopoverDescription>Description text here.</PopoverDescription>
+    </PopoverHeader>
+  </PopoverContent>
+</Popover>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Popover`:
@@ -131,7 +164,7 @@ PopoverTrigger
 
 A simple popover with a header, title, and description.
 
-<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Align
 
@@ -147,19 +180,19 @@ Use the `placement` prop on `Popover` to control the horizontal alignment.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## With Form
 
 A popover with form fields inside.
 
-<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="popover-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="popover-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -178,6 +211,12 @@ See the [React Aria Popover](https://react-aria.adobe.com/Popover#api) documenta
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Popover](https://ark-ui.com/vue/docs/components/popover#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Popover](https://ark-ui.com/svelte/docs/components/popover#api-reference) documentation.
 
 <!-- ::end:only -->
 

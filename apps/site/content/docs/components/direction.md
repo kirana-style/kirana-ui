@@ -2,8 +2,9 @@
 title: Direction
 description: A provider component that sets the text direction for your application.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [direction, rtl, ltr, provider, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords:
+  [direction, rtl, ltr, provider, component, base, aria, ark, vue, svelte]
 ---
 
 # Direction
@@ -15,11 +16,11 @@ Persian.
 Here's a preview of the component in RTL mode. Use the language selector to switch the language. To
 see more examples, look for the RTL section on components pages.
 
-<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## Installation
 
-<!-- ::installation name="direction" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="direction" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -50,6 +51,17 @@ import { DirectionProvider } from "@/components/ui/direction"
     <!-- Your app content -->
   </DirectionProvider>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<!-- Ark UI reads the direction from the locale. -->
+<DirectionProvider locale="ar">
+  <!-- Your app content -->
+</DirectionProvider>
 ```
 
 <!-- ::end:only -->
@@ -92,5 +104,11 @@ See the [React Aria I18nProvider](https://react-aria.adobe.com/I18nProvider#api)
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Locale](https://ark-ui.com/vue/docs/utilities/locale#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Locale](https://ark-ui.com/svelte/docs/utilities/locale#api-reference) documentation.
 
 <!-- ::end:only -->

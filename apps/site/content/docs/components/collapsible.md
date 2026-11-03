@@ -2,17 +2,17 @@
 title: Collapsible
 description: An interactive component which expands and collapses a panel.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [collapsible, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords: [collapsible, component, base, aria, ark, vue, svelte]
 ---
 
 # Collapsible
 
-<!-- ::preview item="collapsible-demo" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="collapsible-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="collapsible" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="collapsible" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -129,13 +129,13 @@ export function Example() {
 
 ## Basic
 
-<!-- ::preview item="collapsible-basic" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="collapsible-basic" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Settings Panel
 
 Use a trigger button to reveal additional settings.
 
-<!-- ::preview item="collapsible-settings" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="collapsible-settings" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## File Tree
 
@@ -147,7 +147,7 @@ Use nested collapsibles to build a file tree. In a conversation, this is the [Fi
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="collapsible-rtl" height="400" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="collapsible-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -166,5 +166,11 @@ See the [React Aria](https://react-aria.adobe.com/Disclosure#api) documentation 
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Collapsible](https://ark-ui.com/vue/docs/components/collapsible#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Collapsible](https://ark-ui.com/svelte/docs/components/collapsible#api-reference) documentation.
 
 <!-- ::end:only -->

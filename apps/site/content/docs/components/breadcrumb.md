@@ -2,17 +2,17 @@
 title: Breadcrumb
 description: Displays the path to the current resource using a hierarchy of links.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [breadcrumb, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords: [breadcrumb, component, base, aria, ark, vue, svelte]
 ---
 
 # Breadcrumb
 
-<!-- ::preview item="breadcrumb-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="breadcrumb-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="breadcrumb" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="breadcrumb" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -124,37 +124,37 @@ Breadcrumb
 
 A basic breadcrumb with a home link and a components link.
 
-<!-- ::preview item="breadcrumb-basic" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="breadcrumb-basic" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Custom separator
 
 Use a custom component as `children` for `<BreadcrumbSeparator />` to create a custom separator.
 
-<!-- ::preview item="breadcrumb-separator" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="breadcrumb-separator" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Dropdown
 
 You can compose `<BreadcrumbItem />` with a `<DropdownMenu />` to create a dropdown in the breadcrumb.
 
-<!-- ::preview item="breadcrumb-dropdown" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="breadcrumb-dropdown" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Collapsed
 
 We provide a `<BreadcrumbEllipsis />` component to show a collapsed state when the breadcrumb is too long.
 
-<!-- ::preview item="breadcrumb-ellipsis" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="breadcrumb-ellipsis" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Link component
 
 To use a custom link component from your routing library, you can use the `render` prop on `<BreadcrumbLink />`.
 
-<!-- ::preview item="breadcrumb-link" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="breadcrumb-link" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="breadcrumb-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="breadcrumb-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 

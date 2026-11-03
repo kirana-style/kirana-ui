@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vp dev --port 3004",
-    "build": "vp build"
+    "build": "svelte-check --tsconfig ./tsconfig.svelte.json --fail-on-warnings && vp build"
   },
   "dependencies": {
     "@fontsource-variable/geist": "catalog:",
@@ -19,7 +19,8 @@
     "@kirana-style/vite": "catalog:",
     "@sveltejs/vite-plugin-svelte": "catalog:",
     "@workspace/vite-config": "workspace:*",
-    "typescript": "catalog:",
+    "svelte-check": "4.7.7",
+    "typescript": "~6.0.3",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

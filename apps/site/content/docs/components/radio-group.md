@@ -2,17 +2,18 @@
 title: Radio Group
 description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [radio, radio group, form, field, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords:
+  [radio, radio group, form, field, component, base, aria, ark, vue, svelte]
 ---
 
 # Radio Group
 
-<!-- ::preview item="radio-group-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="radio-group-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="radio-group" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="radio-group" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -63,6 +64,23 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<RadioGroup defaultValue="option-one">
+  <div sx={styles.option}>
+    <RadioGroupItem value="option-one" id="option-one" />
+    <Label for="option-one">Option One</Label>
+  </div>
+  <div sx={styles.option}>
+    <RadioGroupItem value="option-two" id="option-two" />
+    <Label for="option-two">Option Two</Label>
+  </div>
+</RadioGroup>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `RadioGroup`:
@@ -77,19 +95,19 @@ RadioGroup
 
 Radio group items with a description using the `Field` component.
 
-<!-- ::preview item="radio-group-description" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="radio-group-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Choice Card
 
 Use `FieldLabel` to wrap the entire `Field` for a clickable card-style selection.
 
-<!-- ::preview item="radio-group-choice-card" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="radio-group-choice-card" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Fieldset
 
 Use `FieldSet` and `FieldLegend` to group radio items with a label and description.
 
-<!-- ::preview item="radio-group-fieldset" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="radio-group-fieldset" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Disabled
 
@@ -105,7 +123,7 @@ Use the `isDisabled` prop on `RadioGroup` to disable all items.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="radio-group-disabled" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="radio-group-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Invalid
 
@@ -121,13 +139,13 @@ Use `isInvalid` on `RadioGroupItem` and `data-invalid` on `Field` to show valida
 
 <!-- ::end:only -->
 
-<!-- ::preview item="radio-group-invalid" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="radio-group-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="radio-group-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="radio-group-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -146,6 +164,12 @@ See the [React Aria Radio Group](https://react-aria.adobe.com/RadioGroup#api) do
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Radio Group](https://ark-ui.com/vue/docs/components/radio-group#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Radio Group](https://ark-ui.com/svelte/docs/components/radio-group#api-reference) documentation.
 
 <!-- ::end:only -->
 

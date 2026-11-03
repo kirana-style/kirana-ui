@@ -51,8 +51,8 @@ const styles = {
     lineHeight: { [axes.style.lyra]: lineHeight.sm },
   }),
   sidebarMenuButton: css({
-    backgroundColor: { "[data-popup-open]": theme.sidebarAccent },
-    color: { "[data-popup-open]": theme.sidebarAccentForeground },
+    backgroundColor: { '[data-state="open"]': theme.sidebarAccent },
+    color: { '[data-state="open"]': theme.sidebarAccentForeground },
   }),
   iconPlaceholder: css({
     marginLeft: "auto",

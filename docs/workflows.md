@@ -428,8 +428,8 @@ that React's Base UI has too, docs demos and `-example` pages alike. Its
 reviewed differences are `conformance/framework-differences.json`.
 
 A component on another framework follows React's file of the same name, and
-keeps its parts' `data-slot`s, so the harness pairs them. On Ark UI (Vue now,
-Svelte and Solid after):
+keeps its parts' `data-slot`s, so the harness pairs them. On Ark UI (Vue and
+Svelte now, Solid after):
 
 - **Ark's own API, React's props where they carry over.** A part passes its
   caller's props to Ark's, so a Vue page writes Ark's names (`v-model:open`,
@@ -469,6 +469,18 @@ Svelte and Solid after):
   nothing; one that matches another base's part too gets that base's marker
   (`[data-rac]` for React Aria, `[data-scope]` for Ark, a library's own, as
   `[data-separator]`), since the site serves every base's keys at once.
+- **A demo's own selector names Ark's attribute** where React's element carries
+  Base UI's: Ark writes `data-state="open"` where Base UI writes `data-open` (a
+  collapsible's root), `data-panel-open` (its trigger) or `data-popup-open` (a
+  menu's trigger). Where upstream's selector matches nothing on React's element
+  (`data-open` on a trigger), the copy keeps it, so it draws nothing there
+  either.
+- **Svelte merges the caller's `class` last.** A Svelte part writes
+  `sx={[own, className as Sx]}`, never `class={className}` beside its `sx`
+  (Kirana folds an element's `class` in first, so the part would win), and an
+  `asChild` child with its own `sx` names the props' class and style
+  (`class={props().class} style={props().style}`), which a spread beside an
+  `sx` loses (`docs/architecture.md`).
 - **Ark's motion is keyframes.** Ark keeps a closing popup mounted only while
   an animation runs, so where Base UI's motion is a transition on its first
   frame and exit, Ark's is keyframes on its `data-state` (`presence`): Sheet's

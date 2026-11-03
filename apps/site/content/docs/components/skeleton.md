@@ -84,30 +84,30 @@ export class Example {
 
 ## Avatar
 
-<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Card
 
-<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Text
 
-<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Form
 
-<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Table
 
-<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
-<!-- ::start:only react/base,react/aria,vue/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 <!-- ::end:only -->

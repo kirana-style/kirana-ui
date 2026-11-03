@@ -2,17 +2,18 @@
 title: Alert
 description: Displays a callout for user attention.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [alert, callout, notice, banner, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords:
+  [alert, callout, notice, banner, component, base, aria, ark, vue, svelte]
 ---
 
 # Alert
 
-<!-- ::preview item="alert-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="alert" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="alert" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -61,6 +62,23 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Alert>
+  <InfoIcon />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components and dependencies to your app using the cli.
+  </AlertDescription>
+  <AlertAction>
+    <Button variant="outline">Enable</Button>
+  </AlertAction>
+</Alert>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `Alert`:
@@ -77,31 +95,31 @@ Alert
 
 A basic alert with an icon, title and description.
 
-<!-- ::preview item="alert-basic" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Destructive
 
 Use `variant="destructive"` to create a destructive alert.
 
-<!-- ::preview item="alert-destructive" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-destructive" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Action
 
 Use `AlertAction` to add a button or other action element to the alert.
 
-<!-- ::preview item="alert-action" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-action" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Custom Colors
 
 You can customize the alert colors by adding custom classes such as `bg-amber-50 dark:bg-amber-950` to the `Alert` component.
 
-<!-- ::preview item="alert-colors" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-colors" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="alert-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="alert-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 

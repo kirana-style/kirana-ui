@@ -2,17 +2,18 @@
 title: Progress
 description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [progress, progress bar, loading, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords:
+  [progress, progress bar, loading, component, base, aria, ark, vue, svelte]
 ---
 
 # Progress
 
-<!-- ::preview item="progress-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="progress-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="progress" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="progress" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -42,6 +43,14 @@ import { Progress } from "@/components/ui/progress"
 <template>
   <Progress :value="33" />
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Progress value={33} />
 ```
 
 <!-- ::end:only -->
@@ -83,19 +92,19 @@ Progress
 
 Use `ProgressLabel` and `ProgressValue` to add a label and value display.
 
-<!-- ::preview item="progress-label" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="progress-label" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Controlled
 
 A progress bar that can be controlled by a slider.
 
-<!-- ::preview item="progress-controlled" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="progress-controlled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="progress-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="progress-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -114,6 +123,12 @@ See the [React Aria ProgressBar](https://react-aria.adobe.com/ProgressBar#api) d
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Progress (Linear)](https://ark-ui.com/vue/docs/components/progress-linear#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Progress (Linear)](https://ark-ui.com/svelte/docs/components/progress-linear#api-reference) documentation.
 
 <!-- ::end:only -->
 

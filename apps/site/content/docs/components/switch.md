@@ -2,17 +2,17 @@
 title: Switch
 description: A control that allows the user to toggle between checked and not checked.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [switch, toggle, form, field, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords: [switch, toggle, form, field, component, base, aria, ark, vue, svelte]
 ---
 
 # Switch
 
-<!-- ::preview item="switch-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="switch-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="switch" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="switch" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -38,15 +38,23 @@ import { Switch } from "@/components/ui/switch"
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Switch />
+```
+
+<!-- ::end:only -->
+
 ## Description
 
-<!-- ::preview item="switch-description" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="switch-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Choice Card
 
 Card-style selection where `FieldLabel` wraps the entire `Field` for a clickable card pattern.
 
-<!-- ::preview item="switch-choice-card" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="switch-choice-card" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Disabled
 
@@ -62,7 +70,7 @@ Add the `isDisabled` prop to the `Switch` component to disable the switch. Add t
 
 <!-- ::end:only -->
 
-<!-- ::preview item="switch-disabled" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="switch-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Invalid
 
@@ -78,19 +86,19 @@ Add the `data-invalid` prop to the `Switch` component to indicate an invalid sta
 
 <!-- ::end:only -->
 
-<!-- ::preview item="switch-invalid" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="switch-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Size
 
 Use the `size` prop to change the size of the switch.
 
-<!-- ::preview item="switch-sizes" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="switch-sizes" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="switch-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="switch-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -109,6 +117,12 @@ See the [React Aria Switch](https://react-aria.adobe.com/Switch#api) documentati
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Switch](https://ark-ui.com/vue/docs/components/switch#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Switch](https://ark-ui.com/svelte/docs/components/switch#api-reference) documentation.
 
 <!-- ::end:only -->
 
