@@ -435,6 +435,38 @@ describe("writing a module", () => {
     )
   })
 
+  it("writes a state key two bases share once, and refuses it with two values", () => {
+    const names = { tokens: new Map(), axes: new Map(), relations: new Map() }
+    const options = {
+      flatten: (h: StyleHandle) => h,
+      flattenRecipe: (h: RecipeHandle) => h,
+      imports: (module: string) => `./${module}`,
+      header: "// test",
+      relationsFrom: (module: string) => ({
+        specifier: `./${module}`,
+        own: false,
+      }),
+    }
+    const handle = (aria: string, ark: string): StyleHandle => ({
+      kind: "style",
+      anchors: [],
+      styles: [
+        {
+          color: {
+            [state("aria", "[data-invalid]")]: aria,
+            [state("ark", "[data-invalid]")]: ark,
+          },
+        },
+      ],
+      site: { file: "", line: 0 },
+    })
+    const { code } = generate({ invalid: handle("red", "red") }, names, options)
+    expect(code.match(/"\[data-invalid\]"/g)).toHaveLength(1)
+    expect(() =>
+      generate({ invalid: handle("red", "blue") }, names, options)
+    ).toThrow(/written twice/)
+  })
+
   it("writes tokens, reads and targets back as code, with each css() line", () => {
     const handle: StyleHandle = {
       kind: "style",

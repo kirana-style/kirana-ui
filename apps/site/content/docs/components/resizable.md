@@ -2,13 +2,13 @@
 title: Resizable
 description: Accessible resizable panel groups and layouts with keyboard support.
 section: components
-variants: [react/base, react/aria]
-keywords: [resizable, panels, split, layout, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [resizable, panels, split, layout, component, base, aria, ark, vue]
 ---
 
 # Resizable
 
-<!-- ::preview item="resizable-demo" height="320" combinations="react/base,react/aria" -->
+<!-- ::preview item="resizable-demo" height="320" combinations="react/base,react/aria,vue/ark" -->
 
 ## About
 
@@ -18,7 +18,7 @@ The `Resizable` component is built on top of
 
 ## Installation
 
-<!-- ::installation name="resizable" combinations="react/base,react/aria" -->
+<!-- ::installation name="resizable" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -30,6 +30,8 @@ import {
 } from "@/components/ui/resizable"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <ResizablePanelGroup orientation="horizontal">
   <ResizablePanel>One</ResizablePanel>
@@ -37,6 +39,27 @@ import {
   <ResizablePanel>Two</ResizablePanel>
 </ResizablePanelGroup>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<!-- Ark's Splitter names the panels on the group, and each handle the two it sits between. -->
+<template>
+  <ResizablePanelGroup
+    :panels="[{ id: 'one' }, { id: 'two' }]"
+    :default-size="[50, 50]"
+    orientation="horizontal"
+  >
+    <ResizablePanel id="one">One</ResizablePanel>
+    <ResizableHandle id="one:two" />
+    <ResizablePanel id="two">Two</ResizablePanel>
+  </ResizablePanelGroup>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -53,19 +76,19 @@ ResizablePanelGroup
 
 Use `orientation="vertical"` for vertical resizing.
 
-<!-- ::preview item="resizable-vertical" height="320" combinations="react/base,react/aria" -->
+<!-- ::preview item="resizable-vertical" height="320" combinations="react/base,react/aria,vue/ark" -->
 
 ## Handle
 
 Use the `withHandle` prop on `ResizableHandle` to show a visible handle.
 
-<!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria" -->
+<!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="resizable-rtl" height="320" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="resizable-rtl" height="320" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

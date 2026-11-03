@@ -2,17 +2,17 @@
 title: Progress
 description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
 section: components
-variants: [react/base, react/aria]
-keywords: [progress, progress bar, loading, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [progress, progress bar, loading, component, base, aria, ark, vue]
 ---
 
 # Progress
 
-<!-- ::preview item="progress-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="progress-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="progress" combinations="react/base,react/aria" -->
+<!-- ::installation name="progress" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -32,6 +32,16 @@ import { Progress } from "@/components/ui/progress"
 
 ```tsx
 <Progress aria-label="Loading" value={33} />
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Progress :value="33" />
+</template>
 ```
 
 <!-- ::end:only -->
@@ -73,19 +83,19 @@ Progress
 
 Use `ProgressLabel` and `ProgressValue` to add a label and value display.
 
-<!-- ::preview item="progress-label" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="progress-label" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Controlled
 
 A progress bar that can be controlled by a slider.
 
-<!-- ::preview item="progress-controlled" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="progress-controlled" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="progress-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="progress-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -98,6 +108,12 @@ See the [Base UI Progress](https://base-ui.com/react/components/progress#api-ref
 <!-- ::start:only react/aria -->
 
 See the [React Aria ProgressBar](https://react-aria.adobe.com/ProgressBar#api) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Progress (Linear)](https://ark-ui.com/vue/docs/components/progress-linear#api-reference) documentation.
 
 <!-- ::end:only -->
 

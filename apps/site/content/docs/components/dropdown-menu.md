@@ -3,7 +3,7 @@ title: Dropdown Menu
 description: Displays a menu of actions or functions, triggered by a button.
 section: components
 variants: [react/base, react/aria, vue/ark]
-keywords: [dropdown menu, component, base, aria, ark]
+keywords: [dropdown menu, component, base, aria, ark, ark, vue]
 ---
 
 # Dropdown Menu
@@ -153,25 +153,25 @@ DropdownMenuTrigger
 
 A basic dropdown menu with labels and separators.
 
-<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria,vue/ark" -->
 
 ## Submenu
 
 Use `DropdownMenuSub` to nest secondary actions.
 
-<!-- ::preview item="dropdown-menu-submenu" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-submenu" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Shortcuts
 
 Add `DropdownMenuShortcut` to show keyboard hints.
 
-<!-- ::preview item="dropdown-menu-shortcuts" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-shortcuts" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Icons
 
 Combine icons with labels for quick scanning.
 
-<!-- ::preview item="dropdown-menu-icons" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Checkboxes
 
@@ -187,13 +187,13 @@ Use `selectionMode="multiple"` for toggles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="dropdown-menu-checkboxes" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-checkboxes" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Checkboxes Icons
 
 Add icons to checkbox items.
 
-<!-- ::preview item="dropdown-menu-checkboxes-icons" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-checkboxes-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Radio Group
 
@@ -209,39 +209,39 @@ Use `selectionMode="single"` for exclusive choices.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="dropdown-menu-radio-group" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-radio-group" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Radio Icons
 
 Show radio options with icons.
 
-<!-- ::preview item="dropdown-menu-radio-icons" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-radio-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Destructive
 
 Use `variant="destructive"` for irreversible actions.
 
-<!-- ::preview item="dropdown-menu-destructive" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-destructive" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Avatar
 
 An account switcher dropdown triggered by an avatar.
 
-<!-- ::preview item="dropdown-menu-avatar" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-avatar" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Complex
 
 A richer example combining groups, icons, and submenus.
 
-<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria,vue/ark" -->
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/base,react/aria,vue/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -256,5 +256,11 @@ See the [Base UI documentation](https://base-ui.com/react/components/menu) for t
 <!-- ::start:only react/aria -->
 
 See the [React Aria documentation](https://react-aria.adobe.com/Menu) for the full API reference.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Menu](https://ark-ui.com/vue/docs/components/menu#api-reference) documentation.
 
 <!-- ::end:only -->

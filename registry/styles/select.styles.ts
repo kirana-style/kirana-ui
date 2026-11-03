@@ -36,17 +36,25 @@ import { placeholder, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { ANCHOR_WIDTH } from "./overlay.styles"
 import {
+  GROUP_MD,
   controlIcons,
   controlShadow,
   controlTransition,
   laterRings,
 } from "./control"
 import { fillInField } from "./field-scope.styles"
+
 import {
   IN_OUTLINE_BUTTON_GROUP,
   FOCUSED_IN_BUTTON_GROUP,
   joinedInButtonGroup,
 } from "./scope.styles"
+
+/** Ark UI's trigger, its root a vertical or responsive field's child. */
+const ARK_IN_VERTICAL =
+  ':is([data-slot="field"][data-orientation="vertical"] > [data-scope="select"] > *)'
+const ARK_IN_RESPONSIVE =
+  ':is([data-slot="field"][data-orientation="responsive"] > [data-scope="select"] > *)'
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
@@ -56,6 +64,19 @@ export const selectList = relation("select-list")
 const SMALL = '[data-size="sm"]'
 
 export const select = {
+  // Ark UI's root (Vue, Svelte, Solid), an element Base UI's select does not draw: out of the
+  // layout, so the trigger sits in its caller's as Base UI's does.
+  rootArk: css({ display: "contents" }),
+  // Ark UI's trigger is its root's child, not the field's, so it fills a vertical or responsive
+  // field read through the root (`fillInField` asks for the field as the parent). Only Ark's
+  // parts write `data-scope`.
+  triggerArk: css({
+    width: {
+      [ARK_IN_VERTICAL]: "100%",
+      [ARK_IN_RESPONSIVE]: { base: "100%", [GROUP_MD]: "auto" },
+    },
+  }),
+
   // cn-select-trigger and the component's own classes.
   trigger: css({
     display: "flex",

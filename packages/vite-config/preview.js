@@ -6,7 +6,7 @@
  * (`<base>/<item>.html`), which Cloudflare serves at `/preview/<framework>/<base>/<item>` without
  * running the Worker.
  */
-import { copyFileSync, mkdirSync, readdirSync } from "node:fs"
+import { copyFileSync, existsSync, mkdirSync, readdirSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 
 import { build } from "vite-plus"
@@ -42,6 +42,8 @@ export function previewPages({ framework, base, extension, extra = [] }) {
     name: "preview-item-pages",
     apply: "build",
     closeBundle() {
+      // A failed build calls this too, with no page written: leave its error the one reported.
+      if (!existsSync(`${outDir}index.html`)) return
       mkdirSync(`${outDir}${base}`, { recursive: true })
       const names = [
         ...readdirSync(examples)

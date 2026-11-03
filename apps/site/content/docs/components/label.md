@@ -2,13 +2,13 @@
 title: Label
 description: Renders an accessible label associated with controls.
 section: components
-variants: [react/base, react/aria]
-keywords: [label, form, field, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [label, form, field, component, base, aria, ark, vue]
 ---
 
 # Label
 
-<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 > [!NOTE]
 > For form fields, use the [Field](/docs/components/field) component, which
@@ -16,7 +16,7 @@ keywords: [label, form, field, component, base, aria]
 
 ## Installation
 
-<!-- ::installation name="label" combinations="react/base,react/aria" -->
+<!-- ::installation name="label" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -24,9 +24,23 @@ keywords: [label, form, field, component, base, aria]
 import { Label } from "@/components/ui/label"
 ```
 
+<!-- ::start:only react/base,react/aria -->
+
 ```tsx
 <Label htmlFor="email">Your email address</Label>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Label for="email">Your email address</Label>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Label in Field
 
@@ -40,13 +54,13 @@ includes built-in `FieldLabel`, `FieldDescription`, and `FieldError` components.
 </Field>
 ```
 
-<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="label-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="label-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

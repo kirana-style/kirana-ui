@@ -2,17 +2,17 @@
 title: Popover
 description: Displays rich content in a portal, triggered by a button.
 section: components
-variants: [react/base, react/aria]
-keywords: [popover, popup, floating, overlay, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [popover, popup, floating, overlay, component, base, aria, ark, vue]
 ---
 
 # Popover
 
-<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria" -->
+<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="popover" combinations="react/base,react/aria" -->
+<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -71,6 +71,38 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only vue/ark -->
+
+```vue
+<script setup lang="ts">
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+</script>
+
+<template>
+  <Popover>
+    <PopoverTrigger as-child>
+      <Button variant="outline">Open Popover</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverHeader>
+        <PopoverTitle>Title</PopoverTitle>
+        <PopoverDescription>Description text here.</PopoverDescription>
+      </PopoverHeader>
+    </PopoverContent>
+  </Popover>
+</template>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Popover`:
@@ -99,7 +131,7 @@ PopoverTrigger
 
 A simple popover with a header, title, and description.
 
-<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Align
 
@@ -115,19 +147,19 @@ Use the `placement` prop on `Popover` to control the horizontal alignment.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## With Form
 
 A popover with form fields inside.
 
-<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria" -->
+<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="popover-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="popover-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -140,6 +172,12 @@ See the [Base UI Popover](https://base-ui.com/react/components/popover#api-refer
 <!-- ::start:only react/aria -->
 
 See the [React Aria Popover](https://react-aria.adobe.com/Popover#api) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Popover](https://ark-ui.com/vue/docs/components/popover#api-reference) documentation.
 
 <!-- ::end:only -->
 

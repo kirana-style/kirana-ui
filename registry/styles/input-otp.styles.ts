@@ -176,6 +176,18 @@ export const inputOtp = {
     transitionTimingFunction: easing.inOut,
   }),
 
+  // Ark UI's control around the groups (Vue, Svelte, Solid): out of the layout.
+  controlArk: css({ display: "contents" }),
+
+  // Ark UI's slot (Vue, Svelte, Solid) is its own input, with the browser's caret: its character
+  // centred where React's slot centres a text node.
+  slotArk: css({
+    minWidth: 0,
+    paddingInline: 0,
+    textAlign: "center",
+    color: theme.foreground,
+  }),
+
   // cn-input-otp-caret: the fake caret over the active, empty slot.
   caret: css({
     pointerEvents: "none",

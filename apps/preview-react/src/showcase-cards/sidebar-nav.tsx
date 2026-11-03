@@ -24,7 +24,7 @@ const styles = {
     overflow: { "*": null, base: "hidden" },
     borderRadius: { "*": null, base: radius["3xl"] },
     // Longhands: Card sets `paddingTop` and `paddingBottom`, which a `paddingBlock` loses to
-    // (KF-083, open on 0.3.6).
+    // (KF-083; Kirana reports it since 0.3.7).
     paddingTop: { "*": null, base: space["0"] },
     paddingBottom: { "*": null, base: space["0"] },
   }),

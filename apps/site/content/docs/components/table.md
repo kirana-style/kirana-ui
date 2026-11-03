@@ -2,17 +2,17 @@
 title: Table
 description: A responsive table component.
 section: components
-variants: [react/base, react/aria]
-keywords: [table, data, rows, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [table, data, rows, component, base, aria, ark, vue]
 ---
 
 # Table
 
-<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria" -->
+<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="table" combinations="react/base,react/aria" -->
+<!-- ::installation name="table" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -86,6 +86,34 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <Table>
+    <TableCaption>A list of your recent invoices.</TableCaption>
+    <TableHeader>
+      <TableRow>
+        <TableHead :sx="styles.invoice">Invoice</TableHead>
+        <TableHead>Status</TableHead>
+        <TableHead>Method</TableHead>
+        <TableHead :sx="styles.end">Amount</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell :sx="styles.medium">INV001</TableCell>
+        <TableCell>Paid</TableCell>
+        <TableCell>Credit Card</TableCell>
+        <TableCell :sx="styles.end">$250.00</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</template>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Table`:
@@ -117,13 +145,13 @@ Table
 
 Use the `<TableFooter />` component to add a footer to the table.
 
-<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Actions
 
 A table showing actions for each row using a `<DropdownMenu />` component.
 
-<!-- ::preview item="table-actions" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="table-actions" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Data Table
 
@@ -133,7 +161,7 @@ You can use the `<Table />` component to build more complex data tables. Combine
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="table-rtl" height="480" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="table-rtl" height="480" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

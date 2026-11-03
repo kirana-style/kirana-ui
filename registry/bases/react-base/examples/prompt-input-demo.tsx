@@ -52,7 +52,10 @@ const styles = {
     flexWrap: { "*": null, base: "wrap" },
   }),
   inputGroupTextarea: css({
-    padding: space[3],
+    // `p-3`, block sides logical: InputGroupTextarea sets `padding-block`, which a physical side
+    // would not replace.
+    paddingBlock: space[3],
+    paddingInline: space[3],
   }),
   inputGroupButton: css({
     borderRadius: { "*": null, base: radius.full },

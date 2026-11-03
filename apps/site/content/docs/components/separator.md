@@ -2,17 +2,17 @@
 title: Separator
 description: Visually or semantically separates content.
 section: components
-variants: [react/base, react/aria]
-keywords: [separator, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [separator, component, base, aria, ark, vue]
 ---
 
 # Separator
 
-<!-- ::preview item="separator-demo" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="separator-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="separator" combinations="react/base,react/aria" -->
+<!-- ::installation name="separator" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -33,25 +33,25 @@ export function Example() {
 
 Use `orientation="vertical"` for a vertical separator.
 
-<!-- ::preview item="separator-vertical" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="separator-vertical" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Menu
 
 Vertical separators between menu items with descriptions.
 
-<!-- ::preview item="separator-menu" height="400" wide="true" combinations="react/base,react/aria" -->
+<!-- ::preview item="separator-menu" height="400" wide="true" combinations="react/base,react/aria,vue/ark" -->
 
 ## List
 
 Horizontal separators between list items.
 
-<!-- ::preview item="separator-list" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="separator-list" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="separator-rtl" height="360" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="separator-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## API Reference
 

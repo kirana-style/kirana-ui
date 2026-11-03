@@ -417,6 +417,63 @@ upstream's `*:w-full` fills the field (the trigger, and React Aria's root, take
 `fillInField` now); and the shared menu separator ignored the pointer, which only
 upstream's select separator does.
 
+### Another framework against React
+
+Vue, Svelte, Solid and Angular are built against React's pages, not upstream's:
+React already matches upstream, and upstream has no copy of these bases to
+compare with. `vp run conformance -- --framework vue --pages button-example`
+loads each page from `/preview/vue/ark/` and from `/preview/react/base/` on the
+same site and compares them as above; `--all` takes every page the framework has
+that React's Base UI has too, docs demos and `-example` pages alike. Its
+reviewed differences are `conformance/framework-differences.json`.
+
+A component on another framework follows React's file of the same name, and
+keeps its parts' `data-slot`s, so the harness pairs them. On Ark UI (Vue now,
+Svelte and Solid after):
+
+- **Ark's own API, React's props where they carry over.** A part passes its
+  caller's props to Ark's, so a Vue page writes Ark's names (`v-model:open`,
+  `default-value`, a Splitter's `:panels`); where shadcn/ui's demos lean on Base
+  UI's, the part takes those too: a popup's content takes `side`, `align` and
+  their offsets and hands them to its root (`registry/lib/placement.ts`, as Ark
+  places a popup from its root), a Select takes `items` and value-named items,
+  one value or a list, and a control takes `aria-invalid`.
+- **Ark's required props are declared** in the part and passed on, so a
+  project's `vue-tsc` sees them; a menu item's `value` is optional, generated
+  when absent.
+- **Import Ark from its package root** (`@ark-ui/vue`), never a subpath: Vite
+  bundles each entry apart in development, and a context provided through one is
+  not found through another.
+- **A control is a label around its box and a hidden input** on Ark (Checkbox,
+  Switch, a radio item): the label leaves the layout (`display: contents`) and
+  anchors the relations the box anchors, the box takes the `data-slot` and the
+  style, and `id` names the hidden input so a `Label for` reaches it.
+- **The same elements as React's.** Where Ark draws another element than Base
+  UI (a `div` for a `span`, a `button` for a region), the part renders React's
+  through `as-child`; where Ark draws one Base UI does not (Select's root, a
+  control's label), it leaves the layout (`display: contents`). A popup or panel
+  leaves the page while closed (`lazy-mount`, `unmount-on-exit`), as Base UI's.
+  A part writes no attribute React's does not (Button writes no `data-variant`,
+  which a message reads to find a ghost bubble).
+- **A right-to-left demo gives Ark its locale.** Ark's parts write `dir` from
+  the locale, where Base UI's write none, so a demo's `dir="rtl"` container alone
+  is overridden: it wraps its content in `DirectionProvider :locale`, which
+  `useTranslation` returns.
+- **Write a boolean attribute's value.** React renders `aria-invalid` and
+  `data-invalid` as `"true"`, Vue as `""`; the styles read `"true"`. A native
+  input takes `value`, not `default-value`, which Vue writes as an attribute.
+- **State keys per base.** A style reading a state writes it through `when()`
+  with Ark's key beside Base UI's and React Aria's (`core/states.ts`), so the
+  build flattened for Ark keeps it. A plain attribute Ark writes the same way as
+  Base UI (`aria-pressed`, `data-orientation` on a part kirana-ui draws) needs
+  nothing; one that matches another base's part too gets that base's marker
+  (`[data-rac]` for React Aria, `[data-scope]` for Ark, a library's own, as
+  `[data-separator]`), since the site serves every base's keys at once.
+
+`vue-tsc` checks the registry's Vue markup and its demos before the Vue
+preview builds (`apps/preview-vue/tsconfig.vue.json`), as `vp check` checks
+React's.
+
 ### Following upstream
 
 `upstream/shadcn.json` records, for every item ported from shadcn/ui (its

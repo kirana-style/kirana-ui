@@ -2,17 +2,17 @@
 title: Field
 description: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 section: components
-variants: [react/base, react/aria]
-keywords: [field, form, label, component, base, aria]
+variants: [react/base, react/aria, vue/ark]
+keywords: [field, form, label, component, base, aria, ark, vue]
 ---
 
 # Field
 
-<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark" -->
 
 ## Installation
 
-<!-- ::installation name="field" combinations="react/base,react/aria" -->
+<!-- ::installation name="field" combinations="react/base,react/aria,vue/ark" -->
 
 ## Usage
 
@@ -30,6 +30,8 @@ import {
   FieldTitle,
 } from "@/components/ui/field"
 ```
+
+<!-- ::start:only react/base,react/aria -->
 
 ```tsx
 <FieldSet>
@@ -53,6 +55,39 @@ import {
   </FieldGroup>
 </FieldSet>
 ```
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+```vue
+<template>
+  <FieldSet>
+    <FieldLegend>Profile</FieldLegend>
+    <FieldDescription>This appears on invoices and emails.</FieldDescription>
+    <FieldGroup>
+      <Field>
+        <FieldLabel for="name">Full name</FieldLabel>
+        <Input id="name" autoComplete="off" placeholder="Evil Rabbit" />
+        <FieldDescription
+          >This appears on invoices and emails.</FieldDescription
+        >
+      </Field>
+      <Field>
+        <FieldLabel for="username">Username</FieldLabel>
+        <Input id="username" autoComplete="off" aria-invalid />
+        <FieldError>Choose another username.</FieldError>
+      </Field>
+      <Field orientation="horizontal">
+        <Switch id="newsletter" />
+        <FieldLabel for="newsletter">Subscribe to the newsletter</FieldLabel>
+      </Field>
+    </FieldGroup>
+  </FieldSet>
+</template>
+```
+
+<!-- ::end:only -->
 
 ## Composition
 
@@ -127,53 +162,53 @@ See the [Form](/docs/forms) documentation for building forms with the `Field` co
 
 ## Input
 
-<!-- ::preview item="field-input" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-input" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Textarea
 
-<!-- ::preview item="field-textarea" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-textarea" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Select
 
-<!-- ::preview item="field-select" height="584" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-select" height="584" combinations="react/base,react/aria,vue/ark" -->
 
 ## Slider
 
-<!-- ::preview item="field-slider" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-slider" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Fieldset
 
-<!-- ::preview item="field-fieldset" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-fieldset" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Checkbox
 
-<!-- ::preview item="field-checkbox" height="512" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-checkbox" height="512" combinations="react/base,react/aria,vue/ark" -->
 
 ## Radio
 
-<!-- ::preview item="field-radio" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-radio" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Switch
 
-<!-- ::preview item="field-switch" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-switch" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Choice Card
 
 Wrap `Field` components inside `FieldLabel` to create selectable field groups. This works with `RadioItem`, `Checkbox` and `Switch` components.
 
-<!-- ::preview item="field-choice-card" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-choice-card" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Field Group
 
 Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
-<!-- ::preview item="field-group" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-group" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="field-rtl" height="760" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="field-rtl" height="760" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 ## Responsive Layout
 
@@ -181,7 +216,7 @@ To set the direction, see [Right to left](/docs/design-system/rtl).
 - **Horizontal fields:** Set `orientation="horizontal"` on `Field` to align the label and control side-by-side. Pair with `FieldContent` to keep descriptions aligned.
 - **Responsive fields:** Set `orientation="responsive"` for automatic column layouts inside container-aware parents. Apply `@container/field-group` classes on `FieldGroup` to switch orientations at specific breakpoints.
 
-<!-- ::preview item="field-responsive" height="360" combinations="react/base,react/aria" -->
+<!-- ::preview item="field-responsive" height="360" combinations="react/base,react/aria,vue/ark" -->
 
 ## Validation and Errors
 

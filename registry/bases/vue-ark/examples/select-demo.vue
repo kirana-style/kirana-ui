@@ -7,24 +7,21 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-  createListCollection,
 } from "../ui/select"
 import { page } from "../../../styles/page.styles"
 
-const fruits = createListCollection({
-  items: [
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-    { label: "Blueberry", value: "blueberry" },
-    { label: "Grapes", value: "grapes" },
-    { label: "Pineapple", value: "pineapple" },
-  ],
-})
+const fruits = [
+  { label: "Apple", value: "apple" },
+  { label: "Banana", value: "banana" },
+  { label: "Blueberry", value: "blueberry" },
+  { label: "Grapes", value: "grapes" },
+  { label: "Pineapple", value: "pineapple" },
+]
 </script>
 
 <template>
   <div :sx="page.example">
-    <Select :collection="fruits">
+    <Select :items="fruits">
       <SelectTrigger>
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
@@ -32,12 +29,11 @@ const fruits = createListCollection({
         <SelectGroup>
           <SelectLabel>Fruits</SelectLabel>
           <SelectItem
-            v-for="fruit in fruits.items"
+            v-for="fruit in fruits"
             :key="fruit.value"
-            :item="fruit"
+            :value="fruit.value"
+            >{{ fruit.label }}</SelectItem
           >
-            {{ fruit.label }}
-          </SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

@@ -8,10 +8,19 @@ declare module "virtual:design-script" {
 }
 
 /**
- * The React previews' names per variant (`react/base`, `react/aria`), read from each base's
- * `previews.ts` (the `react-preview-names` plugin, vite.config.ts).
+ * The previews' names per framework and base (`react/base`, `vue/ark` …), read from React's
+ * `previews.ts` and the other frameworks' `examples` folders (the `preview-names` plugin,
+ * vite.config.ts).
  */
-declare module "virtual:react-preview-names" {
-  const names: Record<"react/base" | "react/aria", readonly string[]>
+declare module "virtual:preview-names" {
+  const names: Record<
+    | "react/base"
+    | "react/aria"
+    | "vue/ark"
+    | "svelte/ark"
+    | "solid/ark"
+    | "angular/ng",
+    readonly string[]
+  >
   export default names
 }

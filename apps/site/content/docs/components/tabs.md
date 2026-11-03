@@ -3,7 +3,7 @@ title: Tabs
 description: A set of layered sections of content, displayed one at a time.
 section: components
 variants: [react/base, react/aria, vue/ark]
-keywords: [tabs, component, base, aria, ark]
+keywords: [tabs, component, base, aria, ark, ark, vue]
 ---
 
 # Tabs
@@ -100,29 +100,29 @@ Tabs
 
 Use the `variant="line"` prop on `TabsList` for a line style.
 
-<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Vertical
 
 Use `orientation="vertical"` for vertical tabs.
 
-<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Disabled
 
-<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,vue/ark" -->
 
 ## Icons
 
-<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria" -->
+<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/base,react/aria,vue/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria" direction="rtl" -->
+<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -137,5 +137,11 @@ See the [Base UI Tabs](https://base-ui.com/react/components/tabs#api-reference) 
 <!-- ::start:only react/aria -->
 
 See the [React Aria Tabs](https://react-aria.adobe.com/Tabs#api) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/ark -->
+
+See the [Ark UI Tabs](https://ark-ui.com/vue/docs/components/tabs#api-reference) documentation.
 
 <!-- ::end:only -->

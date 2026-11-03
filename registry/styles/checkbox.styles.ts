@@ -20,6 +20,14 @@ import { controlPeer, fieldScope } from "./field-scope.styles"
 const { vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 export const checkbox = {
+  // Ark UI's root (Vue, Svelte, Solid): the label around the box and its hidden input, out of the
+  // layout. It writes the box's states too, so it anchors the label that follows it as the box does.
+  wrapper: css(controlPeer.anchor, {
+    display: "contents",
+    // A label's own `cursor: default` would reach the box, which inherits it.
+    cursor: "inherit",
+  }),
+
   // cn-checkbox, cn-checkbox-aria
   root: css(controlPeer.anchor, {
     position: "relative",

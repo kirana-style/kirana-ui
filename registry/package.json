@@ -54,6 +54,7 @@
     "svelte": "catalog:",
     "valibot": "catalog:",
     "vue": "catalog:",
+    "vue-sonner": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {

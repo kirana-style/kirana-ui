@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { SelectItem, SelectItemIndicator, SelectItemText } from "@ark-ui/vue"
+import {
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  useSelectContext,
+} from "@ark-ui/vue"
 import { useSx } from "@kirana-style/core/vue"
+import { computed, inject, useSlots } from "vue"
+import type { VNode } from "vue"
 
 import IconPlaceholder from "../../../../icons/IconPlaceholder.vue"
 import {
@@ -9,19 +16,46 @@ import {
   menuRowBase,
 } from "../../../../styles/menu.styles"
 import { select } from "../../../../styles/select.styles"
+import { REGISTER } from "./placeholder"
 
 defineOptions({ inheritAttrs: false })
 
-// Ark's required `item`, an entry of the select's collection, declared here and passed on, so a
-// project's type checker sees it. `unknown`: a caller's items are of its own type.
-const { item } = defineProps<{ item: unknown }>()
+// Its entry of the select's collection: `item`, or the one Base UI's `value` names. `unknown`: a
+// caller's items are of its own type.
+const { item, value } = defineProps<{ item?: unknown; value?: string | null }>()
 const { sx, attrs } = useSx()
+const context = useSelectContext()
+
+/** The text of what the item draws, which the select shows once it is chosen. */
+const textOf = (nodes: VNode[] = []): string =>
+  nodes
+    .map((node) =>
+      typeof node.children === "string"
+        ? node.children
+        : Array.isArray(node.children)
+          ? textOf(node.children as VNode[])
+          : ""
+    )
+    .join("")
+    .trim()
+const slots = useSlots()
+const own = {
+  value: value ?? null,
+  label: textOf(slots.default?.()),
+  disabled: attrs.value.disabled === true || attrs.value.disabled === "",
+}
+inject(REGISTER, undefined)?.(own)
+
+// Until its registration reaches the collection, an item read from the markup is its own entry.
+const entry = computed(
+  () => item ?? context.value.collection.find(value ?? "") ?? own
+)
 </script>
 
 <template>
   <SelectItem
     data-slot="select-item"
-    :item="item"
+    :item="entry"
     v-bind="attrs"
     :sx="[menuRowBase, menuCheckableRowPadding, select.item, sx]"
   >

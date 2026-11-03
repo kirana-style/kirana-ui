@@ -45,23 +45,13 @@ import {
   space,
 } from "@workspace/registry/core/scales"
 import { alpha, radius, theme } from "@workspace/registry/core/tokens"
-import reactPreviews from "virtual:react-preview-names"
-import { PREVIEW_NAMES as VUE_PREVIEWS } from "@workspace/registry/bases/vue-ark/preview-names"
-import { PREVIEW_NAMES as SVELTE_PREVIEWS } from "@workspace/registry/bases/svelte-ark/preview-names"
-import { PREVIEW_NAMES as SOLID_PREVIEWS } from "@workspace/registry/bases/solid-ark/preview-names"
-import { PREVIEW_NAMES as ANGULAR_PREVIEWS } from "@workspace/registry/bases/angular-ng/preview-names"
+import previewNames from "virtual:preview-names"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
 import { Icon } from "@workspace/shell/icon"
 import { useTheme } from "@workspace/shell/theme-provider"
 
 /** The items a preview can show, per framework and base. */
-const PREVIEWS: Record<string, readonly string[]> = {
-  ...reactPreviews,
-  "vue/ark": VUE_PREVIEWS,
-  "svelte/ark": SVELTE_PREVIEWS,
-  "solid/ark": SOLID_PREVIEWS,
-  "angular/ng": ANGULAR_PREVIEWS,
-}
+const PREVIEWS: Record<string, readonly string[]> = previewNames
 
 /** Upstream's two previews, in its switcher's order: the second is the first shown. */
 const PREVIEW_PAGES = [

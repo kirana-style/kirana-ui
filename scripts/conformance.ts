@@ -7,6 +7,7 @@
  *   bun scripts/conformance.ts --pages a,b [--styles nova,lyra|all] [--states] [--shard i/n] [--list]
  *   bun scripts/conformance.ts --changed [--since <ref>] [...]
  *   bun scripts/conformance.ts --all [...]
+ *   bun scripts/conformance.ts --framework vue --pages a,b|--all [...]
  *
  * A run compares only the pages it names: what a change concerns, never what an earlier run
  * already compared, unless that is what broke. By default in Nova and at rest; `--styles` adds the
@@ -17,6 +18,12 @@
  * depth, a file changed since `--since` (`origin/main` by default), and stops when more than
  * `MAX_CHANGED` do: name the pages the change concerns with `--pages` instead. `--all` is the
  * whole matrix, for a change that truly reaches every page. `--shard` is the harness's.
+ *
+ * `--framework vue` (or `svelte`, `solid`, `angular`) compares that framework's pages with React's
+ * on the same site instead: React is the benchmark the other frameworks are built against, and it
+ * already matches upstream. A page is any item in the framework's `examples` folder, `-example`
+ * pages and docs demos alike, against Base UI's of the same name; `--all` is every one React's Base
+ * UI also has. Their reviewed differences are `conformance/framework-differences.json`.
  *
  * Upstream's captures are cached between runs (`node_modules/.cache/kirana-ui-conformance`, by the
  * manifest's pin; `CONFORMANCE_CACHE` to move it): upstream needs serving only for a page not
@@ -34,6 +41,11 @@ import { parseArgs } from "node:util"
 const ROOT = join(import.meta.dirname, "..")
 const BASES = join(ROOT, "registry", "bases")
 const EXPECTED = join(ROOT, "conformance", "expected-differences.json")
+const FRAMEWORK_EXPECTED = join(
+  ROOT,
+  "conformance",
+  "framework-differences.json"
+)
 
 /**
  * Each style's code on upstream's site, which reads `?preset=` over any axis parameter: its own
@@ -61,6 +73,7 @@ const { values } = parseArgs({
     shard: { type: "string" },
     list: { type: "boolean", default: false },
     pages: { type: "string" },
+    framework: { type: "string" },
   },
 })
 const changedFrom = values.changed ? (values.since ?? "origin/main") : undefined
@@ -84,6 +97,23 @@ const styles = (
   console.error(`conformance: no upstream code for ${style}`)
   process.exit(2)
 })
+
+/** Each framework's base and its examples' extension, for `--framework`. */
+const FRAMEWORKS: Record<string, { base: string; extension: string }> = {
+  vue: { base: "ark", extension: ".vue" },
+  svelte: { base: "ark", extension: ".svelte" },
+  solid: { base: "ark", extension: ".tsx" },
+  angular: { base: "ng", extension: ".ts" },
+}
+const framework = values.framework ? FRAMEWORKS[values.framework] : undefined
+if (values.framework && !framework) {
+  console.error(`conformance: no framework ${values.framework}`)
+  process.exit(2)
+}
+if (framework && values.changed) {
+  console.error("conformance: --framework takes --pages or --all")
+  process.exit(2)
+}
 
 /** Example files upstream's site serves on no route (`component-example`: its registry only). */
 const NOT_ON_UPSTREAM = new Set(["component-example.tsx"])
@@ -210,6 +240,13 @@ const caching = readFileSync(
   "utf8"
 ).includes("--expected-cache")
 
+/** The site's URL under another name for the same server (`localhost` ⇄ `127.0.0.1`). */
+function sameSiteAgain(site: string) {
+  const url = new URL(site)
+  url.hostname = url.hostname === "localhost" ? "127.0.0.1" : "localhost"
+  return url.href.replace(/\/$/, "")
+}
+
 function compare(name: string, paths: string[], ...options: string[]) {
   if (paths.length === 0) return true
   console.log(`\n== ${name}: ${paths.length} route(s)`)
@@ -219,22 +256,38 @@ function compare(name: string, paths: string[], ...options: string[]) {
       "conformance/compare.ts",
       "--actual",
       process.env.SITE_URL ?? "http://localhost:8787",
-      "--expected",
-      process.env.UPSTREAM_URL ?? "http://localhost:4000",
-      "--label",
-      "upstream",
-      "--expected-path",
-      "/preview/react/=/preview/",
+      ...(framework
+        ? [
+            // The same site on both sides, React's Base UI page as the expected one; never
+            // cached, since React's side changes with the registry. Named differently: the
+            // harness rewrites the path only for a URL that is not the actual one.
+            "--expected",
+            sameSiteAgain(process.env.SITE_URL ?? "http://localhost:8787"),
+            "--label",
+            "react",
+            "--expected-path",
+            `/preview/${values.framework}/${framework.base}/=/preview/react/base/`,
+            "--expected-differences",
+            FRAMEWORK_EXPECTED,
+          ]
+        : [
+            "--expected",
+            process.env.UPSTREAM_URL ?? "http://localhost:4000",
+            "--label",
+            "upstream",
+            "--expected-path",
+            "/preview/react/=/preview/",
+            "--expected-differences",
+            EXPECTED,
+            ...(caching ? ["--expected-cache", cache] : []),
+          ]),
       "--group",
       '[data-slot="example"]',
-      "--expected-differences",
-      EXPECTED,
       "--paths",
       paths.join(","),
       "--out",
       join(out, `${name}.json`),
       ...(values.shard ? ["--shard", values.shard] : []),
-      ...(caching ? ["--expected-cache", cache] : []),
       ...options,
     ],
     {
@@ -247,6 +300,46 @@ function compare(name: string, paths: string[], ...options: string[]) {
     }
   )
   return result.status === 0
+}
+
+/**
+ * A framework's pages against React's on the same site: every item it has that React's Base UI has
+ * too, or the ones `--pages` names.
+ */
+function frameworkRoutes() {
+  const { base, extension } = framework!
+  const folder = join(BASES, `${values.framework}-${base}`, "examples")
+  const react = new Set(
+    readdirSync(join(BASES, "react-base", "examples")).map((file) =>
+      file.replace(/\.tsx$/, "")
+    )
+  )
+  return readdirSync(folder)
+    .filter((file) => file.endsWith(extension))
+    .map((file) => file.slice(0, -extension.length))
+    .filter(
+      (name) =>
+        react.has(name) &&
+        (!values.pages || values.pages.split(",").includes(name))
+    )
+    .flatMap((name) =>
+      styles.map(
+        (style) =>
+          `/preview/${values.framework}/${base}/${name}?preset=${PRESETS[style]}`
+      )
+    )
+}
+
+if (framework) {
+  const paths = frameworkRoutes()
+  if (values.list) {
+    console.log(paths.join("\n"))
+    process.exit(0)
+  }
+  const passes = [compare(`${values.framework}-rest`, paths)]
+  if (values.states)
+    passes.push(compare(`${values.framework}-states`, paths, "--states"))
+  process.exit(passes.every(Boolean) ? 0 : 1)
 }
 
 const all = routes(["base", "aria"])

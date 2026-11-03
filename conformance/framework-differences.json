@@ -1,0 +1,422 @@
+{
+  "react": [
+    {
+      "element": "div[data-slot=\"toast-",
+      "property": "(element)",
+      "reason": "React's Base UI preview mounts Base UI's toaster around every item; it is the page's, not the item's, and Vue's Toast comes with its layer-1 components"
+    },
+    {
+      "element": "span[data-slot=\"checkbox\"]",
+      "property": "margin-top",
+      "reason": "Field's `mt-px` beside a FieldContent reaches Base UI's box, the field's own child; Ark UI's box is the control inside its label, which the field's child selector cannot reach (a contextual target takes no combinator), as upstream's misses React Aria's"
+    },
+    {
+      "element": "span[data-slot=\"radio-group-item\"]",
+      "property": "margin-top",
+      "reason": "as the checkbox's: Ark UI's radio is the control inside its item's label"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "position",
+      "reason": "Ark UI writes `position: relative` inline on its radio group's root (for its moving indicator, unused here); nothing inside is placed against it"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "top",
+      "reason": "the inline `position: relative`'s offsets, all 0"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "right",
+      "reason": "as top"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "bottom",
+      "reason": "as top"
+    },
+    {
+      "element": "div[data-slot=\"radio-group\"]",
+      "property": "left",
+      "reason": "as top"
+    },
+    {
+      "element": "input[data-slot=\"input-otp-slot\"]",
+      "property": "(element)",
+      "reason": "Ark UI's PinInput is an input per slot under a plain root; input-otp is one hidden input under drawn slots, so the slot and the root are other elements"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-slot\"]",
+      "property": "(element)",
+      "reason": "Ark UI's PinInput is an input per slot under a plain root; input-otp is one hidden input under drawn slots, so the slot and the root are other elements"
+    },
+    {
+      "element": "input[data-slot=\"input-otp\"]",
+      "property": "(element)",
+      "reason": "Ark UI's PinInput is an input per slot under a plain root; input-otp is one hidden input under drawn slots, so the slot and the root are other elements"
+    },
+    {
+      "element": "div[data-slot=\"input-otp\"]",
+      "property": "(element)",
+      "reason": "Ark UI's PinInput is an input per slot under a plain root; input-otp is one hidden input under drawn slots, so the slot and the root are other elements"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-group\"]",
+      "property": "cursor",
+      "reason": "input-otp sets the container's cursor, pointer events and selection inline for its hidden input, which an input per slot does not need"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-group\"]",
+      "property": "pointer-events",
+      "reason": "input-otp sets the container's cursor, pointer events and selection inline for its hidden input, which an input per slot does not need"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-group\"]",
+      "property": "user-select",
+      "reason": "input-otp sets the container's cursor, pointer events and selection inline for its hidden input, which an input per slot does not need"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-separator\"]",
+      "property": "cursor",
+      "reason": "input-otp sets the container's cursor, pointer events and selection inline for its hidden input, which an input per slot does not need"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-separator\"]",
+      "property": "pointer-events",
+      "reason": "input-otp sets the container's cursor, pointer events and selection inline for its hidden input, which an input per slot does not need"
+    },
+    {
+      "element": "div[data-slot=\"input-otp-separator\"]",
+      "property": "user-select",
+      "reason": "input-otp sets the container's cursor, pointer events and selection inline for its hidden input, which an input per slot does not need"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "top",
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "bottom",
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "left",
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "right",
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "transform",
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "translate",
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "position",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "top",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "bottom",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "left",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "right",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "width",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "height",
+      "reason": "Ark UI's range runs to the values' share of the track, Base UI's to the thumbs' travel inside it (`edge`): at most half a thumb apart at an end"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "(element)",
+      "reason": "upstream's Slider draws a thumb for each of `[min, max]` when its value is one number (its `_values` default), Base UI two; Ark one for the one value"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "display",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "min-width",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "min-height",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "max-width",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "max-height",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "border-top-style",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "border-right-style",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "border-bottom-style",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "border-left-style",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "overflow-x",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-panel\"]",
+      "property": "overflow-y",
+      "reason": "Ark UI's Splitter and react-resizable-panels write their own inline layout on a panel (display, overflow, limits); the panels' boxes are the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-handle\"]",
+      "property": "cursor",
+      "reason": "Ark UI's resize trigger sets its cursor, selection and minimums inline, react-resizable-panels' separator its own; the handle's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-handle\"]",
+      "property": "user-select",
+      "reason": "Ark UI's resize trigger sets its cursor, selection and minimums inline, react-resizable-panels' separator its own; the handle's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-handle\"]",
+      "property": "min-width",
+      "reason": "Ark UI's resize trigger sets its cursor, selection and minimums inline, react-resizable-panels' separator its own; the handle's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"resizable-handle\"]",
+      "property": "min-height",
+      "reason": "Ark UI's resize trigger sets its cursor, selection and minimums inline, react-resizable-panels' separator its own; the handle's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"progress-indicator\"]",
+      "property": "left",
+      "reason": "Base UI writes the indicator's `left: 0` inline, Ark UI only its width; it starts at the track's start in both"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-viewport\"]",
+      "property": "overflow-x",
+      "reason": "Base UI's viewport scrolls with `overflow: scroll`, Ark UI's with `auto`; both hide the native scrollbar for their own"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-viewport\"]",
+      "property": "overflow-y",
+      "reason": "as overflow-x"
+    },
+    {
+      "element": "p[data-slot=\"field-description\"]",
+      "property": "margin-top",
+      "route": "(field|input-otp)-example",
+      "reason": "React's InputOTP renders a `noscript` beside its container, and Base UI's Select a hidden input beside its trigger, so upstream's `:nth-last-child(2)` rule for a description (`-mt-1`) misses there; Ark UI keeps both inside its root, so the rule holds on Vue, 4px higher"
+    },
+    {
+      "element": "div[data-slot=\"field\"]",
+      "property": "height",
+      "route": "(field|input-otp)-example",
+      "reason": "follows the description's offset above"
+    },
+    {
+      "element": "div[data-slot=\"field-group\"]",
+      "property": "height",
+      "route": "(field|input-otp)-example",
+      "reason": "follows the description's offset above"
+    },
+    {
+      "element": "div[data-slot=\"example\"]",
+      "property": "height",
+      "route": "(field|input-otp)-example",
+      "reason": "follows the description's offset above"
+    },
+    {
+      "element": "div[data-slot=\"example-content\"]",
+      "property": "height",
+      "route": "(field|input-otp)-example",
+      "reason": "follows the description's offset above"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "height",
+      "route": "(field|input-otp)-example",
+      "reason": "follows the description's offset above"
+    },
+    {
+      "element": "div[data-slot=\"example-wrapper\"]",
+      "property": "grid-template-rows",
+      "route": "(field|input-otp)-example",
+      "reason": "follows the description's offset above"
+    },
+    {
+      "element": "span[data-slot=\"button-label\"]",
+      "property": "(element)",
+      "route": "empty-(demo|rtl)",
+      "reason": "a Button rendered as its child (`as-child`, a link): React's Button still wraps the link's text in its label, Vue's hands the child over as written; the text is the same, its capitals untrimmed"
+    },
+    {
+      "element": "div[data-slot=\"progress-indicator\"]",
+      "property": "right",
+      "reason": "Base UI writes the indicator's `right: 0` inline in a right-to-left progress, as its `left: 0`; Ark UI only its width"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-thumb\"]",
+      "property": "width",
+      "route": "scroll-area-example",
+      "reason": "Base UI and Ark UI size a scroll area's thumb by their own formula from the same scroll ratio and track (107.8px against 132.4px in the horizontal example); the scrolling is the same"
+    },
+    {
+      "element": "",
+      "property": "pointer-events",
+      "reason": "Base UI's modal dialog sets `pointer-events: none` on the page behind it while open; Ark UI's traps focus and covers the page with its backdrop instead (the same at rest)",
+      "route": "-example"
+    },
+    {
+      "element": "div[data-slot=\"dialog-overlay\"]",
+      "property": "user-select",
+      "reason": "Base UI writes `user-select: none` inline on its backdrop; Ark UI's takes the page's",
+      "route": "-example"
+    },
+    {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "width",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
+      "route": "(select|field)-example"
+    },
+    {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "background-color",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
+      "route": "(select|field)-example"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "max-height",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
+      "route": "(select|field)-example"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "transition-property",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
+      "route": "(select|field|input|table)-example"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "(element)",
+      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0\u00d70); Ark UI mounts it when it opens",
+      "route": "select-example"
+    },
+    {
+      "element": "div[data-slot=\"select-group\"]",
+      "property": "(element)",
+      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0\u00d70); Ark UI mounts it when it opens",
+      "route": "select-example"
+    },
+    {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "(element)",
+      "reason": "Base UI mounts a closed Select's popup ahead of opening (at 0\u00d70); Ark UI mounts it when it opens",
+      "route": "select-example"
+    },
+    {
+      "element": "div[data-slot=\"dialog-portal\"]",
+      "property": "(element)",
+      "reason": "Base UI's dialog portal is an element of its own; Vue's content teleports itself to `<body>` with no wrapper (Ark's presence is on the positioner, inside it)"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "outline-width",
+      "route": "-example",
+      "reason": "opening a menu, Base UI focuses its popup and Ark UI its first item, so the focus ring's width shows on another element"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-item\"]",
+      "property": "outline-width",
+      "route": "-example",
+      "reason": "as the content's: the item Ark UI focuses"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "max-height",
+      "reason": "each positioner measures the space left in the viewport its own way (Base UI's `--available-height`, Ark's), a few pixels apart, on any popup"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "max-height",
+      "reason": "each positioner measures the space left in the viewport its own way (Base UI's `--available-height`, Ark's), a few pixels apart, on any popup"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "max-height",
+      "reason": "each positioner measures the space left in the viewport its own way (Base UI's `--available-height`, Ark's), a few pixels apart, on any popup"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-portal\"]",
+      "property": "(element)",
+      "reason": "as the dialog's portal: Vue's content teleports itself with no wrapper"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-content\"]",
+      "property": "(element)",
+      "route": "hover-card-example",
+      "reason": "opening the page's dialog from a hovered trigger, Base UI closes the hover card and Ark UI keeps it until the pointer leaves; the two libraries' hover timing"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "width",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
+      "route": "(select|field)-example"
+    },
+    {
+      "element": "div[data-slot=\"select-group\"]",
+      "property": "width",
+      "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
+      "route": "(select|field)-example"
+    }
+  ]
+}

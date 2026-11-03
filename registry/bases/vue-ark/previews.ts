@@ -1,23 +1,17 @@
+/// <reference types="vite/client" />
 /**
- * What `/preview/vue/ark/<item>` can show: each item by its registry name. The builder will
- * generate this from the registry's item list.
+ * What `/preview/vue/ark/<item>` can show: every example in `examples/`, by its file's name, each
+ * loaded only on its own page (a page that loaded the whole map would download every item). The
+ * site lists the same names from the folder (`virtual:preview-names`).
  */
 import type { Component } from "vue"
 
-import type { PREVIEW_NAMES } from "./preview-names"
+const modules = import.meta.glob<{ default: Component }>("./examples/*.vue")
 
-import ButtonDemo from "./examples/button-demo.vue"
-import DialogDemo from "./examples/dialog-demo.vue"
-import DropdownMenuDemo from "./examples/dropdown-menu-demo.vue"
-import SelectDemo from "./examples/select-demo.vue"
-import SkeletonDemo from "./examples/skeleton-demo.vue"
-import TabsDemo from "./examples/tabs-demo.vue"
-
-export const previews: Record<(typeof PREVIEW_NAMES)[number], Component> = {
-  "button-demo": ButtonDemo,
-  "dialog-demo": DialogDemo,
-  "dropdown-menu-demo": DropdownMenuDemo,
-  "select-demo": SelectDemo,
-  "skeleton-demo": SkeletonDemo,
-  "tabs-demo": TabsDemo,
-}
+export const previews: Record<string, () => Promise<{ default: Component }>> =
+  Object.fromEntries(
+    Object.entries(modules).map(([path, load]) => [
+      path.slice("./examples/".length, -".vue".length),
+      load,
+    ])
+  )

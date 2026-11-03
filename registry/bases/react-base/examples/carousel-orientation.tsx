@@ -26,7 +26,11 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: space[6],
+    // `p-6`, inline sides logical: CardContent sets `padding-inline`, which a physical side would
+    // not replace.
+    paddingInline: space[6],
+    paddingTop: space[6],
+    paddingBottom: space[6],
   }),
   number3xl: css({
     fontSize: fontSize["3xl"],

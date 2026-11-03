@@ -10,7 +10,14 @@ const { sx, attrs } = useSx()
 </script>
 
 <template>
-  <TabsRoot data-slot="tabs" v-bind="attrs" :sx="[tabs.root, sx]">
+  <!-- A hidden panel leaves the page, as Base UI's does. -->
+  <TabsRoot
+    data-slot="tabs"
+    lazy-mount
+    unmount-on-exit
+    v-bind="attrs"
+    :sx="[tabs.root, sx]"
+  >
     <slot />
   </TabsRoot>
 </template>

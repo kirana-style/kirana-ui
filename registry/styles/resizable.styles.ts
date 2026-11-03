@@ -4,19 +4,17 @@
  * `cn-resizable*` rules of its style files (MIT). Only the handle's grip differs by style: square in
  * Lyra and Sera.
  *
- * The library marks a vertical group `aria-orientation="vertical"`, and a handle between stacked
- * panels `aria-orientation="horizontal"`: the handle lies across, its wider hit area too.
+ * A group of stacked panels, and the handle between them, which lies across, its wider hit area
+ * too: each base marks them in its own way (`resizable`, in `core/states.ts`).
  */
 import { css, select } from "@kirana-style/core"
 
 import { axes } from "../core/axes"
 import { space } from "../core/scales"
+import { resizable as orientation, when } from "../core/states"
 import { radius, theme } from "../core/tokens"
 
 const { lyra, sera } = axes.style
-
-const VERTICAL = '[aria-orientation="vertical"]'
-const ACROSS = '[aria-orientation="horizontal"]'
 
 export const resizable = {
   // cn-resizable-panel-group
@@ -24,14 +22,14 @@ export const resizable = {
     display: "flex",
     height: "100%",
     width: "100%",
-    flexDirection: { [VERTICAL]: "column" },
+    flexDirection: when(orientation.stacked, "column"),
   }),
   // cn-resizable-handle
   handle: css({
     position: "relative",
     display: "flex",
-    width: { base: "1px", [ACROSS]: "100%" },
-    height: { [ACROSS]: "1px" },
+    width: { base: "1px", ...when(orientation.across, "100%") },
+    height: when(orientation.across, "1px"),
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.border,
@@ -43,13 +41,13 @@ export const resizable = {
       position: "absolute",
       top: "0",
       bottom: "0",
-      left: { base: "50%", [ACROSS]: "0" },
-      width: { base: space[1], [ACROSS]: "100%" },
-      height: { [ACROSS]: space[1] },
-      translate: { base: "-50% 0", [ACROSS]: "0 -50%" },
+      left: { base: "50%", ...when(orientation.across, "0") },
+      width: { base: space[1], ...when(orientation.across, "100%") },
+      height: when(orientation.across, space[1]),
+      translate: { base: "-50% 0", ...when(orientation.across, "0 -50%") },
     },
     // The grip turns with the handle.
-    [select.child("div")]: { rotate: { [ACROSS]: "90deg" } },
+    [select.child("div")]: { rotate: when(orientation.across, "90deg") },
   }),
   // cn-resizable-handle-icon
   grip: css({
