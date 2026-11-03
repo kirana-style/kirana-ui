@@ -13,16 +13,32 @@ import { createHighlighter } from "@tanstack/highlight/core"
 import { createTanStackMarkdownHighlighter } from "@tanstack/highlight/markdown"
 import { css } from "@tanstack/highlight/languages/css"
 import { diff } from "@tanstack/highlight/languages/diff"
+import { html as htmlLanguage } from "@tanstack/highlight/languages/html"
 import { json } from "@tanstack/highlight/languages/json"
 import { markdown } from "@tanstack/highlight/languages/markdown"
 import { plaintext } from "@tanstack/highlight/languages/plaintext"
 import { shell } from "@tanstack/highlight/languages/shell"
+import { svelte } from "@tanstack/highlight/languages/svelte"
 import { ts } from "@tanstack/highlight/languages/ts"
 import { tsx } from "@tanstack/highlight/languages/tsx"
+import { vue } from "@tanstack/highlight/languages/vue"
 
 export const highlighter = createHighlighter({
   fallbackLanguage: "plaintext",
-  languages: [plaintext, ts, tsx, css, json, shell, diff, markdown],
+  // Each framework's code: Vue's and Svelte's single-file components, and HTML for Angular's templates.
+  languages: [
+    plaintext,
+    ts,
+    tsx,
+    css,
+    json,
+    shell,
+    diff,
+    markdown,
+    htmlLanguage,
+    vue,
+    svelte,
+  ],
 })
 
 const highlight = createTanStackMarkdownHighlighter(highlighter)

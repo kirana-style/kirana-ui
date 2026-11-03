@@ -53,6 +53,9 @@ const LANGUAGES: Record<string, string> = {
   ts: "ts",
   css: "css",
   json: "json",
+  vue: "vue",
+  svelte: "svelte",
+  html: "html",
 }
 
 const styles = {

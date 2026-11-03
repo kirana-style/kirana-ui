@@ -3,6 +3,11 @@
  * rule of its style files (MIT). Every style draws it alike but for its corners. React Aria has no
  * toast (its pages use Sonner).
  *
+ * Ark UI's toasts (Vue, Svelte, Solid) are Zag's, which places each itself: it writes `--x`, `--y`,
+ * `--scale`, `--z-index`, `--height` and `--opacity` on the toast and its group's position inline,
+ * for the stylesheet to apply (`rootArk`); a toast behind the front one, while the stack is
+ * collapsed, is `data-sibling` and `data-overlap`.
+ *
  * The toasts stack by transforming each against its index, so the transform stays one composite
  * string: `translate` and `scale` as separate properties cannot interleave the way the formula
  * needs. The stack's variables are assigned on the toast, never as token defaults (`toastCtx`).
@@ -43,6 +48,13 @@ const STACKED = `translateX(${SWIPE_X}) translateY(calc(${SWIPE_Y} - (${INDEX} *
 const EXPANDED = `translateX(${SWIPE_X}) translateY(${toastCtx.offsetY})`
 /** Entering from below, and leaving downwards when it was not swiped. */
 const BELOW = "translateY(150%)"
+
+/** Inside an Ark UI toast behind the front one, the stack collapsed. */
+const ARK_BEHIND = ':is([data-scope="toast"][data-sibling][data-overlap] > *)'
+/** An Ark UI toast behind the front one, the stack collapsed. */
+const ARK_COLLAPSED = "[data-sibling][data-overlap]"
+/** Base UI's `--scale` over Zag's `--index`. */
+const ARK_SCALE = "calc(max(0, 1 - (var(--index) * 0.1)))"
 
 /** Leaving the way it was swiped (`data-ending-style:data-[swipe-direction=*]:`). */
 const swiped = {
@@ -139,6 +151,31 @@ export const toast = {
       width: "100%",
     },
   }),
+  // Ark UI's toast: Zag's placement, as Ark's own styling applies it, over the same motion.
+  rootArk: css({
+    // Behind the front toast of a collapsed stack, Base UI's peek and scale over Zag's `--index`
+    // and front height, where Zag's own peek by the gap and shrink by a twentieth.
+    translate: {
+      base: "var(--x) var(--y)",
+      [ARK_COLLAPSED]: `var(--x) calc(-1 * var(--index) * ${toastCtx.peek} - (1 - ${ARK_SCALE}) * var(--height))`,
+      // Entering and leaving from below, as Base UI's (`translateY(150%)`), where Zag's go 100%.
+      ":not([data-mounted])": "var(--x) 150%",
+      '[data-state="closed"]': "var(--x) 150%",
+    },
+    scale: { base: "var(--scale)", [ARK_COLLAPSED]: ARK_SCALE },
+    // Base UI's formula over Zag's `--index` (0 at the front), where Zag's own `--z-index` counts from 1.
+    zIndex: "calc(1000 - var(--index))",
+    height: "var(--height)",
+    // Base UI's slides in and out at full opacity; Zag's fades as it goes.
+    opacity: {
+      base: "var(--opacity)",
+      ":not([data-mounted])": 1,
+      '[data-state="closed"]': 1,
+    },
+    transitionProperty: "translate, scale, opacity, height, box-shadow",
+    transitionDuration: "500ms, 500ms, 500ms, 150ms, 150ms",
+    transitionTimingFunction: `${EASE}, ${EASE}, ease, ease, ease`,
+  }),
   content: css({
     display: "flex",
     height: "100%",
@@ -150,10 +187,14 @@ export const toast = {
     transitionDuration: "250ms",
     transitionTimingFunction: EASE,
     // Behind the front toast its content hides, unless the stack is expanded.
-    opacity: when(toastState.behind, {
-      base: 0,
-      ...when(toastState.contentExpanded, 1),
-    }),
+    opacity: {
+      ...when(toastState.behind, {
+        base: 0,
+        ...when(toastState.contentExpanded, 1),
+      }),
+      // Ark UI's: behind the front toast of a collapsed stack.
+      [ARK_BEHIND]: 0,
+    },
   }),
   // `flex min-w-0 flex-1 flex-col gap-1`, around the title and the description.
   body: css({

@@ -43,7 +43,8 @@ import { Icon } from "@workspace/shell/icon"
 import { frameQuery } from "@/lib/page-design"
 
 /** The bases a block has: React's, since no block is on Ark UI yet. */
-const COMBINATIONS = ["react/base", "react/aria"]
+// Every block and chart is on each of these (Vue since P6-11).
+const COMBINATIONS = ["react/base", "react/aria", "vue/ark"]
 
 /** Upstream's widths: desktop, tablet and phone, as shares of the frame's room. */
 const WIDTHS = [

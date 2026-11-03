@@ -38,6 +38,28 @@ describe("highlighting names the grammar leaves plain", () => {
     ).toEqual(["--dry-run", "-y"])
     expect(enrich("a { color: red }", "css")).toBe("a { color: red }")
   })
+
+  it("highlights a Vue or Svelte component, its script and its template", () => {
+    const vue = highlightSource(
+      '<script setup lang="ts">\nimport { css } from "@kirana-style/core"\n</script>\n\n<template>\n  <Alert v-if="open" :sx="styles.card" />\n</template>',
+      "vue"
+    )
+    expect(tokens(vue, "keyword")).toEqual(["import", "from"])
+    expect(tokens(vue, "tag")).toEqual([
+      "script",
+      "script",
+      "template",
+      "Alert",
+      "template",
+    ])
+    expect(tokens(vue, "attr")).toEqual(["lang", "v-if", ":sx"])
+    const svelte = highlightSource(
+      '<script lang="ts">\n  let open = $state(false)\n</script>\n\n<Alert sx={styles.card} />',
+      "svelte"
+    )
+    expect(tokens(svelte, "keyword")).toContain("let")
+    expect(tokens(svelte, "tag")).toContain("Alert")
+  })
 })
 
 describe("inline code", () => {
