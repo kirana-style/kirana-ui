@@ -9,9 +9,13 @@ import { space } from "@workspace/registry/core/scales.ts"
 import { computed, defineAsyncComponent, onMounted, provide, ref } from "vue"
 
 import { design } from "./design"
+import Charts from "./Charts.vue"
 import Showcase from "./Showcase.vue"
 
-/** One page per item, as `/preview/vue/ark/<item>`, and the showcase; anything else lists them. */
+/**
+ * One page per item, as `/preview/vue/ark/<item>`, the showcase and `/create`'s charts; anything
+ * else lists them.
+ */
 const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 const load = item ? previews[item] : undefined
 const current = load ? defineAsyncComponent(load) : undefined
@@ -51,6 +55,7 @@ const list = css({
 <template>
   <LocaleProvider :locale="locale">
     <Showcase v-if="item === 'showcase'" />
+    <Charts v-else-if="item === 'charts'" />
     <component :is="current" v-else-if="current" />
     <nav v-else :sx="list">
       <a

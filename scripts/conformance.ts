@@ -306,6 +306,18 @@ function compare(name: string, paths: string[], ...options: string[]) {
  * A framework's pages against React's on the same site: every item it has that React's Base UI has
  * too, or the ones `--pages` names.
  */
+/** Pages of a preview app's own, not items, which React's has too (`charts-base.tsx`). */
+const APP_PAGES = ["charts"]
+
+/** The app pages a framework's preview builds (its `previewPages` extras). */
+function frameworkAppPages(name: string) {
+  const config = join(ROOT, "apps", `preview-${name}`, "vite.config.ts")
+  if (!existsSync(config)) return []
+  const extra =
+    readFileSync(config, "utf8").match(/extra: \[([^\]]*)\]/)?.[1] ?? ""
+  return [...extra.matchAll(/"([\w-]+)"/g)].map(([, page]) => page)
+}
+
 function frameworkRoutes() {
   const { base, extension } = framework!
   const folder = join(BASES, `${values.framework}-${base}`, "examples")
@@ -338,10 +350,14 @@ function frameworkRoutes() {
           .filter((file) => file.endsWith(extension))
           .map((file) => file.slice(0, -extension.length))
       : []),
+    // The preview apps' own pages both have: `/create`'s charts.
+    ...APP_PAGES.filter((page) =>
+      frameworkAppPages(values.framework!).includes(page)
+    ),
   ]
     .filter(
       (name) =>
-        react.has(name) &&
+        (react.has(name) || APP_PAGES.includes(name)) &&
         (!values.pages || values.pages.split(",").includes(name))
     )
     .flatMap((name) =>

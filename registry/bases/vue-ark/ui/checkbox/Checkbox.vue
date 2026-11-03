@@ -35,11 +35,16 @@ const invalid = computed(() =>
     :ids="id ? { hiddenInput: id } : undefined"
     :sx="checkbox.wrapper"
   >
-    <!-- Spans, as Base UI's box and indicator, the indicator there only while checked. -->
+    <!-- Spans, as Base UI's box and indicator, the indicator there only while checked or
+         indeterminate, as Base UI mounts it. -->
     <CheckboxControl as-child>
       <span data-slot="checkbox" :sx="[checkbox.root, sx]">
         <CheckboxContext v-slot="state">
-          <CheckboxIndicator v-if="state.checked" as-child>
+          <CheckboxIndicator
+            v-if="state.checked || state.indeterminate"
+            :indeterminate="state.indeterminate"
+            as-child
+          >
             <span data-slot="checkbox-indicator" :sx="checkbox.indicator">
               <IconPlaceholder
                 lucide="CheckIcon"

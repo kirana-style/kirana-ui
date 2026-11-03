@@ -503,6 +503,18 @@
       "property": "pointer-events",
       "route": "navigation-menu-",
       "reason": "opened by hovering its trigger, Base UI's menu writes `pointer-events: none` inline on its list while the pointer travels to the popup (its safe triangle), which the list's parts inherit; Ark UI keeps the pointer on the popup by its own timing and writes none"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "visibility",
+      "route": "/preview$|/preview\\?",
+      "reason": "the page draws its UI Elements card twice, one copy in a column it hides at each width (`display: none`): Base UI keeps a slider's thumb and range `visibility: hidden` until it has measured the track, which a hidden slider never has; Ark UI places them from the value, so they stay visible inside the hidden column, which draws nothing"
+    },
+    {
+      "element": "div[data-slot=\"slider-range\"]",
+      "property": "visibility",
+      "route": "/preview$|/preview\\?",
+      "reason": "the page draws its UI Elements card twice, one copy in a column it hides at each width (`display: none`): Base UI keeps a slider's thumb and range `visibility: hidden` until it has measured the track, which a hidden slider never has; Ark UI places them from the value, so they stay visible inside the hidden column, which draws nothing"
     }
   ]
 }
