@@ -307,7 +307,7 @@
       "element": "",
       "property": "pointer-events",
       "reason": "a modal blocks the page behind it, and each library does so its own way: Base UI's dialog sets `pointer-events: none` on the page, its drawer leaves the page to its backdrop; Ark UI's sets `pointer-events: none` on `<body>`, which its backdrop inherits (a press outside closes it through a document listener), and clears it when its exit ends",
-      "route": "-example|(alert-dialog|dialog|drawer|sheet)-|sidebar-13"
+      "route": "-example|(alert-dialog|dialog|drawer|sheet)-|sidebar-13|dashboard-01"
     },
     {
       "element": "div[data-slot=\"dialog-overlay\"]",
@@ -319,25 +319,25 @@
       "element": "div[data-slot=\"select-item\"]",
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "background-color",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "max-height",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "transition-property",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
@@ -365,19 +365,38 @@
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "outline-width",
-      "route": "-example|sidebar-(demo|rtl)",
-      "reason": "opening a menu, Base UI focuses its popup and Ark UI its first item, so the focus ring's width shows on another element"
+      "reason": "opening a menu, Base UI focuses its popup without `:focus-visible` and moves focus to the row an arrow key highlights; Ark UI focuses its popup with `:focus-visible` and keeps it there, marking the row `data-highlighted`, so the ring's width (its style `none` on both: nothing is drawn) differs on the popup and the row"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-item\"]",
       "property": "outline-width",
-      "route": "-example|sidebar-(demo|rtl)",
-      "reason": "as the content's: the item Ark UI focuses"
+      "reason": "as the content's: the row Base UI focuses, which Ark UI only highlights"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-checkbox-item\"]",
+      "property": "outline-width",
+      "reason": "as the item's: the row Base UI focuses, which Ark UI only highlights"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-radio-item\"]",
+      "property": "outline-width",
+      "reason": "as the item's: the row Base UI focuses, which Ark UI only highlights"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-sub-trigger\"]",
+      "property": "outline-width",
+      "reason": "as the item's: the row Base UI focuses, which Ark UI only highlights"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "max-height",
       "reason": "each positioner measures the space left in the viewport its own way (Base UI's `--available-height`, Ark's), a few pixels apart, on any popup"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "height",
+      "route": "dropdown-menu-(complex|rtl)",
+      "reason": "a menu longer than the window fills the popup's maximum height, which each positioner measures its own way (Base UI's `--available-height`, Ark's), a few pixels apart"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
@@ -404,13 +423,13 @@
       "element": "div[data-slot=\"select-content\"]",
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-"
     },
     {
       "element": "div[data-slot=\"select-group\"]",
       "property": "width",
       "reason": "Base UI's Select lays its popup over the trigger with the chosen item level with it and highlighted (`alignItemWithTrigger`, the default), as wide as the trigger; Ark UI has no such placement, so its popup opens beside the trigger at its own width (documented on the Select page)",
-      "route": "(select|field|button-group|toggle-group|pagination|combobox)-"
+      "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-"
     },
     {
       "element": "With Text › label[data-slot=\"button-group-text\"]",
@@ -543,6 +562,11 @@
       "property": "top",
       "route": "select-scrollable",
       "reason": "a list that overflows fills the popup's maximum height, which each positioner measures its own way (Base UI's `--available-height`, Ark's), a few pixels apart; the bottom scroll arrow sits at that height"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "pointer-events",
+      "reason": "Zag writes `pointer-events: none` inline on a tooltip that is not interactive (Ark UI's default), so the pointer passes through it to the page; Base UI's popup takes the pointer"
     }
   ]
 }

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { css } from "@kirana-style/core"
-
   import { space } from "../../../core/scales"
   import { radius } from "../../../core/tokens"
   import { page } from "../../../styles/page.styles"

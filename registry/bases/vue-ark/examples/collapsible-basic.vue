@@ -25,7 +25,7 @@ const styles = {
   }),
   collapsible: css({
     borderRadius: { "*": null, base: radius.md },
-    backgroundColor: { "[data-open]": theme.muted },
+    backgroundColor: { '[data-state="open"]': theme.muted },
   }),
   button: css({
     width: { "*": null, base: "100%" },
@@ -33,7 +33,7 @@ const styles = {
   chevronDownIcon: css({
     marginLeft: "auto",
     // Upstream's `group-data-[panel-open]/button:rotate-180`: the trigger is the icon's parent.
-    rotate: { ":where([data-panel-open] > *)": "180deg" },
+    rotate: { ':where([data-state="open"] > *)': "180deg" },
   }),
   collapsibleContent: css({
     display: { "*": null, base: "flex" },

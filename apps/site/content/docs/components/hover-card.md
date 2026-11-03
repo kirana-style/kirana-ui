@@ -2,17 +2,18 @@
 title: Hover Card
 description: For sighted users to preview content available behind a link.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [hover card, preview, tooltip, link, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords:
+  [hover card, preview, tooltip, link, component, base, aria, ark, vue, svelte]
 ---
 
 # Hover Card
 
-<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="hover-card" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="hover-card" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -73,6 +74,27 @@ import {
     </HoverCardContent>
   </HoverCard>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+  } from "@/components/ui/hover-card"
+</script>
+
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent>
+    The React Framework – created and maintained by @vercel.
+  </HoverCardContent>
+</HoverCard>
 ```
 
 <!-- ::end:only -->
@@ -165,17 +187,17 @@ Use the `placement` prop on `HoverCard` to control placement.
 
 ## Basic
 
-<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Sides
 
-<!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="hover-card-rtl" height="320" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="hover-card-rtl" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -194,6 +216,12 @@ See the [React Aria](https://react-aria.adobe.com/PreviewTrigger#api) documentat
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Hover Card](https://ark-ui.com/vue/docs/components/hover-card#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Hover Card](https://ark-ui.com/svelte/docs/components/hover-card#api-reference) documentation.
 
 <!-- ::end:only -->
 

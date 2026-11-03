@@ -108,11 +108,28 @@ function component(
     title,
     description,
     files: (combination) => {
-      if (!frameworks.includes(combination.framework)) return undefined
+      if (
+        !frameworks.includes(combination.framework) &&
+        !(frameworks.includes("vue") && ported(name, combination))
+      )
+        return undefined
       if (bases && !bases.includes(combination.base)) return undefined
       return [markupOf(name, combination), `styles/${name}.styles.ts`]
     },
   }
+}
+
+/**
+ * The frameworks being ported after Vue, built against React's pages: each has a component Vue
+ * has once its markup is written.
+ */
+const PORTING: Framework[] = ["svelte"]
+
+function ported(name: string, combination: Combination): boolean {
+  return (
+    PORTING.includes(combination.framework) &&
+    existsSync(join(REGISTRY, "bases", combination.bases, "ui", name))
+  )
 }
 
 /** A style module more than one component reads. */
@@ -238,14 +255,16 @@ export const ITEMS: Item[] = [
     title: "Icon placeholder",
     description:
       "An icon named for every icon library, drawn in the one the project uses.",
-    // React's and Vue's for now; Svelte, Solid and Angular get theirs with their first icon. The
+    // React's, Vue's and Svelte's for now; Solid and Angular get theirs with their first icon. The
     // data: Lucide's and Hugeicons' in `data.ts`, each other library's in a file it loads on demand.
     files: (combination) =>
       react(combination)
         ? [...ICON_DATA, "icons/icon-placeholder.tsx"]
         : combination.framework === "vue"
           ? [...ICON_DATA, "icons/IconPlaceholder.vue", "icons/vue.ts"]
-          : undefined,
+          : combination.framework === "svelte"
+            ? [...ICON_DATA, "icons/IconPlaceholder.svelte", "icons/svelte.ts"]
+            : undefined,
   },
   {
     name: "placement",
@@ -576,7 +595,9 @@ export const ITEMS: Item[] = [
     description:
       "A provider component that sets the text direction for your application.",
     files: (combination) =>
-      combination.framework === "react" || combination.framework === "vue"
+      combination.framework === "react" ||
+      combination.framework === "vue" ||
+      ported("direction", combination)
         ? [markupOf("direction", combination)]
         : undefined,
   },

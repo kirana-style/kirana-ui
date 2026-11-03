@@ -2,17 +2,17 @@
 title: Dropdown Menu
 description: Displays a menu of actions or functions, triggered by a button.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [dropdown menu, component, base, aria, ark, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords: [dropdown menu, component, base, aria, ark, ark, vue, svelte]
 ---
 
 # Dropdown Menu
 
-<!-- ::preview item="dropdown-menu-demo" height="760" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="dropdown-menu" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="dropdown-menu" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -153,25 +153,25 @@ DropdownMenuTrigger
 
 A basic dropdown menu with labels and separators.
 
-<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Submenu
 
 Use `DropdownMenuSub` to nest secondary actions.
 
-<!-- ::preview item="dropdown-menu-submenu" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-submenu" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Shortcuts
 
 Add `DropdownMenuShortcut` to show keyboard hints.
 
-<!-- ::preview item="dropdown-menu-shortcuts" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-shortcuts" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Icons
 
 Combine icons with labels for quick scanning.
 
-<!-- ::preview item="dropdown-menu-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Checkboxes
 
@@ -187,13 +187,13 @@ Use `selectionMode="multiple"` for toggles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="dropdown-menu-checkboxes" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-checkboxes" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Checkboxes Icons
 
 Add icons to checkbox items.
 
-<!-- ::preview item="dropdown-menu-checkboxes-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-checkboxes-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Radio Group
 
@@ -209,39 +209,39 @@ Use `selectionMode="single"` for exclusive choices.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="dropdown-menu-radio-group" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-radio-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Radio Icons
 
 Show radio options with icons.
 
-<!-- ::preview item="dropdown-menu-radio-icons" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-radio-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Destructive
 
 Use `variant="destructive"` for irreversible actions.
 
-<!-- ::preview item="dropdown-menu-destructive" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-destructive" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Avatar
 
 An account switcher dropdown triggered by an avatar.
 
-<!-- ::preview item="dropdown-menu-avatar" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Complex
 
 A richer example combining groups, icons, and submenus.
 
-<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
-<!-- ::start:only react/base,react/aria,vue/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -262,5 +262,11 @@ See the [React Aria documentation](https://react-aria.adobe.com/Menu) for the fu
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Menu](https://ark-ui.com/vue/docs/components/menu#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Menu](https://ark-ui.com/svelte/docs/components/menu#api-reference) documentation.
 
 <!-- ::end:only -->

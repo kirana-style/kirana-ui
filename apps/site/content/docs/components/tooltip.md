@@ -2,17 +2,17 @@
 title: Tooltip
 description: A popup that displays information related to an element when it receives focus or is hovered.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [tooltip, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark]
+keywords: [tooltip, component, base, aria, ark, vue, svelte]
 ---
 
 # Tooltip
 
-<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Installation
 
-<!-- ::installation name="tooltip" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="tooltip" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Usage
 
@@ -98,23 +98,23 @@ Use the `placement` prop to change the position of the tooltip.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## With Keyboard Shortcut
 
-<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## Disabled Button
 
 Show a tooltip on a disabled button by wrapping it with a span.
 
-<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -133,5 +133,11 @@ See the [React Aria Tooltip](https://react-aria.adobe.com/Tooltip#api) documenta
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Tooltip](https://ark-ui.com/vue/docs/components/tooltip#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Tooltip](https://ark-ui.com/svelte/docs/components/tooltip#api-reference) documentation.
 
 <!-- ::end:only -->

@@ -3,12 +3,23 @@
   import { previews } from "@workspace/registry/bases/svelte-ark/previews.ts"
   import { space } from "@workspace/registry/core/scales.ts"
 
+  import { LANGUAGE } from "@workspace/registry/bases/svelte-ark/components/language-selector/index.ts"
+  import type { LanguageContext } from "@workspace/registry/bases/svelte-ark/components/language-selector/index.ts"
+  import { ICON_LIBRARY } from "@workspace/registry/icons/svelte.ts"
+  import type { IconLibraryContext } from "@workspace/registry/icons/svelte.ts"
+  import { setContext } from "svelte"
+
+  import { design } from "./design.svelte"
   import Showcase from "./Showcase.svelte"
+
+  setContext<IconLibraryContext>(ICON_LIBRARY, () => design.current.system.iconLibrary)
+  // A right-to-left demo's language, from \`?lang=\` and the docs page's selector.
+  setContext<LanguageContext>(LANGUAGE, () => design.current.options.language)
 
   /** One page per item, as `/preview/svelte/ark/<item>`, and the showcase; anything else lists them. */
   const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
-  const Current =
-    item && item in previews ? previews[item as keyof typeof previews] : undefined
+  // Loaded only on its own page, as the Vue preview's.
+  const load = item ? previews[item] : undefined
 
   const list = css({
     display: "flex",
@@ -20,8 +31,10 @@
 
 {#if item === "showcase"}
   <Showcase />
-{:else if Current}
-  <Current />
+{:else if load}
+  {#await load() then module}
+    <module.default />
+  {/await}
 {:else}
   <nav sx={list}>
     {#each Object.keys(previews) as name (name)}

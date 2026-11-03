@@ -32,7 +32,7 @@ const styles = {
     color: theme.mutedForeground,
   }),
   groupDataPanelOpenButton: css({
-    rotate: { ":is([data-panel-open] *)": "180deg" },
+    rotate: { ':is([data-state="open"] *)': "180deg" },
   }),
   flexWFullMaxWMdFlexColGa2: css({
     display: "flex",

@@ -1,36 +1,47 @@
 <script lang="ts">
+  import type { Sx } from "@kirana-style/core"
+  import type { ClassValue } from "svelte/elements"
+  import { Ark } from "@ark-ui/svelte"
+  import type { PropsFn } from "@ark-ui/svelte"
+  import { props as styleProps } from "@kirana-style/core"
   import type { Snippet } from "svelte"
-  import type { HTMLButtonAttributes } from "svelte/elements"
 
-  import { button } from "../../../../styles/button.styles"
+  import { textLabels } from "./text-labels"
+  import { button, buttonLabel } from "../../../../styles/button.styles"
 
   type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
   /**
-   * A caller's `sx` arrives as `class` (Kirana compiles it so on a component), and is merged last,
-   * so the caller's styles win. Upstream trims each run of text to its capitals; Svelte gives a
-   * component its children as one snippet, so a label is not wrapped here yet.
+   * Ark's element, so a caller can render it as its own (`asChild`, Ark's snippet, as Vue's
+   * `as-child`). Each run of text is wrapped in a label (`textLabels`), as React's and Vue's Button
+   * wrap theirs. A caller's `sx` arrives as `class`, merged after the button's own so it wins.
    */
   let {
     variant = "default",
     size = "default",
     class: className,
     children,
+    asChild,
     ...rest
-  }: Omit<HTMLButtonAttributes, "class"> & {
+  }: {
     variant?: ButtonVariants["variant"]
     size?: ButtonVariants["size"]
-    class?: string
+    class?: ClassValue | null
     children?: Snippet
+    asChild?: Snippet<[PropsFn<"button">]>
+    [attribute: string]: unknown
   } = $props()
+
+  const labels = textLabels("button-label", styleProps(buttonLabel).className ?? "")
 </script>
 
-<button
+<Ark
+  as="button"
   data-slot="button"
-  data-variant={variant}
-  data-size={size}
+  {asChild}
   {...rest}
-  sx={[button({ variant, size }), className]}
+  sx={[button({ variant, size }), className as Sx]}
+  {@attach labels}
 >
   {@render children?.()}
-</button>
+</Ark>
