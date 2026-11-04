@@ -10,13 +10,17 @@
   import { setContext } from "svelte"
 
   import { design } from "./design.svelte"
+  import Charts from "./Charts.svelte"
   import Showcase from "./Showcase.svelte"
 
   setContext<IconLibraryContext>(ICON_LIBRARY, () => design.current.system.iconLibrary)
   // A right-to-left demo's language, from \`?lang=\` and the docs page's selector.
   setContext<LanguageContext>(LANGUAGE, () => design.current.options.language)
 
-  /** One page per item, as `/preview/svelte/ark/<item>`, and the showcase; anything else lists them. */
+  /**
+   * One page per item, as `/preview/svelte/ark/<item>`, the showcase and `/create`'s charts;
+   * anything else lists them.
+   */
   const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
   // Loaded only on its own page, as the Vue preview's.
   const load = item ? previews[item] : undefined
@@ -31,6 +35,8 @@
 
 {#if item === "showcase"}
   <Showcase />
+{:else if item === "charts"}
+  <Charts />
 {:else if load}
   {#await load() then module}
     <module.default />

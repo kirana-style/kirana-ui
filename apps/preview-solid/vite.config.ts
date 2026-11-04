@@ -19,7 +19,7 @@ export default defineConfig({
       framework: "solid",
       base: "ark",
       extension: ".tsx",
-      extra: ["showcase"],
+      extra: ["showcase", "charts"],
     }),
   ]),
 })

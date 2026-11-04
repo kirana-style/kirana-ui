@@ -229,7 +229,7 @@ export default function ChartAreaInteractive() {
             y2: "y2",
             z: "series",
             curve,
-            fill: (layer) => `url(#chart()-area-interactive-${layer.series})`,
+            fill: (layer) => `url(#chart-area-interactive-${layer.series})`,
             fillOpacity: 1,
           }),
           // Each layer's top edge, Recharts' area stroke; the tooltip reads the areas.

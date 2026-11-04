@@ -29,7 +29,7 @@ against shadcn/ui's own site, computed style by computed style. The other framew
 follow React's pages, checked against them the same way: Vue has 61 of the components
 (all but the three no Vue library carries: Menubar, Message Scroller and Questionnaire) with
 their demos and example pages, the 29 blocks and the 70 charts; Svelte and Solid have the same
-61 with their demos and example pages, the 27 blocks of the blocks page and the 70 charts; and
+61 with their demos and example pages, the 29 blocks and the 70 charts; and
 Angular has its first (Button, Card, Skeleton).
 
 ## Using it
