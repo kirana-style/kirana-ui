@@ -9,7 +9,7 @@ keywords: [trace, chat, component, base, aria, ark, vue, svelte, solid]
 
 # Trace
 
-<!-- ::preview item="trace-demo" height="560" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-demo" height="560" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 `Trace` is a list of lines. Each line has an icon, a title, and an optional description and status. A line can expand to show more detail, link to a page, or open a dialog or sheet.
 
@@ -467,7 +467,7 @@ Three levels: the turn, a summary, and the rows. Text between steps sits between
 
 Render a `reasoning` part from the AI SDK. The row is a `TraceLine` until the first text arrives. See [Open State](#open-state).
 
-<!-- ::preview item="trace-thinking" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-thinking" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 See [Reasoning](/docs/ai-elements/reasoning) for more examples.
 
@@ -475,7 +475,7 @@ See [Reasoning](/docs/ai-elements/reasoning) for more examples.
 
 Render tool parts from the AI SDK. Map the tool part as in [Tool](/docs/ai-elements/tool#states).
 
-<!-- ::preview item="trace-tool-calls" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-tool-calls" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 See [Tool](/docs/ai-elements/tool) for more examples.
 

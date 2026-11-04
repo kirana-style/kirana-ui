@@ -2,17 +2,17 @@
 title: Toast
 description: A succinct message that is displayed temporarily.
 section: components
-variants: [react/base, vue/ark]
-keywords: [toast, notification, component, base, ark, vue]
+variants: [react/base, vue/ark, svelte/ark, solid/ark]
+keywords: [toast, notification, component, base, ark, vue, svelte, solid]
 ---
 
 # Toast
 
-<!-- ::preview item="toast-demo" height="300" combinations="react/base,vue/ark" -->
+<!-- ::preview item="toast-demo" height="300" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="toast" combinations="react/base,vue/ark" -->
+<!-- ::installation name="toast" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 Then add the `Toaster` component to your root layout:
 
@@ -50,6 +50,44 @@ import { Toaster } from "@/components/ui/toast"
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import type { Snippet } from "svelte"
+
+  import { Toaster } from "@/components/ui/toast"
+
+  let { children }: { children: Snippet } = $props()
+</script>
+
+<main>
+  {@render children()}
+</main>
+<Toaster />
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import type { JSX } from "solid-js"
+
+import { Toaster } from "@/components/ui/toast"
+
+export function Layout(props: { children?: JSX.Element }) {
+  return (
+    <>
+      <main>{props.children}</main>
+      <Toaster />
+    </>
+  )
+}
+```
+
+<!-- ::end:only -->
+
 ## Usage
 
 ```tsx
@@ -70,7 +108,7 @@ Set the `type` option to render a status icon. The built-in renderer recognizes
 shadcn/ui's keep the text's but the error's: green for `success`, sky for `info`, orange for
 `warning` and the destructive red for `error`.
 
-<!-- ::preview item="toast-types" height="300" combinations="react/base,vue/ark" -->
+<!-- ::preview item="toast-types" height="300" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 ## Action
 
@@ -93,7 +131,7 @@ const id = toast.add({
 Use `toast.promise` to update one toast as an asynchronous task moves through
 loading, success, and error states.
 
-<!-- ::preview item="toast-promise" height="300" combinations="react/base,vue/ark" -->
+<!-- ::preview item="toast-promise" height="300" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 ## API Reference
 
@@ -111,6 +149,26 @@ API.
 `description`, `type`, `timeout` and `actionProps`) and makes the toasts with Ark UI's toaster,
 which `toaster` is; it places them at the bottom end, three at most, as Base UI's are. See the
 [Ark UI Toast documentation](https://ark-ui.com/vue/docs/components/toast#api-reference) for the
+toaster's own options and the parts.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+`toast` takes Base UI's calls (`add`, `close`, `update` and `promise`, with `title`,
+`description`, `type`, `timeout` and `actionProps`) and makes the toasts with Ark UI's toaster,
+which `toaster` is; it places them at the bottom end, three at most, as Base UI's are. See the
+[Ark UI Toast documentation](https://ark-ui.com/svelte/docs/components/toast#api-reference) for the
+toaster's own options and the parts.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+`toast` takes Base UI's calls (`add`, `close`, `update` and `promise`, with `title`,
+`description`, `type`, `timeout` and `actionProps`) and makes the toasts with Ark UI's toaster,
+which `toaster` is; it places them at the bottom end, three at most, as Base UI's are. See the
+[Ark UI Toast documentation](https://ark-ui.com/solid/docs/components/toast#api-reference) for the
 toaster's own options and the parts.
 
 <!-- ::end:only -->

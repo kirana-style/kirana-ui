@@ -11,7 +11,7 @@ keywords: [code-block, chat, component, base, aria, ark, vue, svelte, solid]
 
 `CodeBlock` displays code, terminal output, logs and diffs. It has a header with a title and actions, line numbers, wrapping, diff and highlighted lines, and a small size for tool output in a [Trace](/docs/components/trace).
 
-<!-- ::preview item="code-block-demo" height="440" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="code-block-demo" height="440" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
@@ -354,19 +354,19 @@ Put a `CodeBlock` with `size="sm"` in `TraceCollapsibleContent` for tool and ter
 
 Show several files with [Tabs](/docs/components/tabs), one `CodeBlock` in each `TabsContent`.
 
-<!-- ::preview item="code-block-tabs" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="code-block-tabs" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Message
 
 Put a `CodeBlock` between paragraphs inside a [Message](/docs/components/message).
 
-<!-- ::preview item="code-block-chat" height="540" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="code-block-chat" height="540" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Typeset
 
 A `CodeBlock` inside a [`typeset`](/docs/design-system/typeset) container keeps its own styles and gets the same space above as a paragraph.
 
-<!-- ::preview item="code-block-typeset" height="520" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="code-block-typeset" height="520" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
@@ -438,13 +438,13 @@ export function ServerCode({ code }: { code: string }) {
 
 The hook highlights the code again each time it changes, so a block that streams in is coloured as it grows.
 
-<!-- ::preview item="code-block-streaming" height="1170" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="code-block-streaming" height="1170" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ### Markdown
 
 Render the message with [TanStack Markdown](https://tanstack.com/markdown) and route fenced code to a `CodeBlock`: its React renderer draws a fence as a `pre` naming its language in `data-lang`, around a `code` element holding the text, so `components.pre` draws the `CodeBlock` and `components.code` stays for inline code. (Upstream renders with Streamdown, whose `data-block` marks fenced code.)
 
-<!-- ::preview item="code-block-markdown" height="520" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="code-block-markdown" height="520" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 While the message streams, pass the streaming extension, which leaves out a half-written trailing block until its text arrives. To disable the copy button until the closing fence arrives (Streamdown's `useIsCodeFenceIncomplete`), count the fences in the streamed text: an odd count means the last one is still open.
 

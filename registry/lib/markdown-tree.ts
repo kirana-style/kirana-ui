@@ -1,0 +1,480 @@
+/**
+ * TanStack Markdown's document as a plain tree of elements and text, which Svelte's and Solid's
+ * `Markdown` draw: its React adapter's output (`@tanstack/markdown/react`, MIT) written once
+ * without a framework, since the package has an adapter for neither (LF-008). Vue's renderer
+ * (`lib/vue/markdown.ts`) builds the same elements with Vue's `h()`. An element's tag is looked up
+ * in the renderer's `components` first, so a page draws an element its own way, as React's does.
+ */
+import { parseMarkdown } from "@tanstack/markdown/parser"
+import type {
+  BlockNode,
+  InlineNode,
+  MarkdownInput,
+  RenderOptions,
+} from "@tanstack/markdown"
+
+export type MarkdownTreeOptions = RenderOptions
+
+type Node = BlockNode | InlineNode
+type Props = Record<string, unknown> | null
+
+/** `@tanstack/markdown`'s own, which its package does not export. */
+const footnoteReferenceId = (id: string, index = 1) =>
+  index > 1 ? `${id}-${index}` : id
+
+/** An element of the tree: its tag (an HTML element, or a name in `components`), props, children. */
+export type MarkdownElement = {
+  tag: string
+  props: Record<string, unknown>
+  children: MarkdownTree[]
+  /** Set by `innerHTML` (highlighted code, raw HTML when allowed). */
+  html?: string
+}
+export type MarkdownTree = MarkdownElement | string | null
+
+type Child = MarkdownTree | MarkdownTree[]
+
+function h(
+  _options: MarkdownTreeOptions,
+  tag: string,
+  props: Props,
+  ...children: Child[]
+): MarkdownElement {
+  const { innerHTML, key: _key, ...rest } = props ?? {}
+  return {
+    tag,
+    props: rest,
+    children: (children.flat(2) as MarkdownTree[]).filter(
+      (child) => child !== null && child !== undefined
+    ),
+    ...(typeof innerHTML === "string" && { html: innerHTML }),
+  }
+}
+
+/** The document as a tree of elements and text, for a framework's renderer to draw. */
+export function markdownTree(
+  input: MarkdownInput,
+  options: MarkdownTreeOptions = {}
+): MarkdownTree[] {
+  const document =
+    typeof input === "string" ? parseMarkdown(input, options) : input
+  return document.children.map((node, index) =>
+    renderBlock(node, options, `b:${index}`)
+  )
+}
+
+function renderBlock(
+  node: BlockNode,
+  options: MarkdownTreeOptions,
+  key: string
+): MarkdownTree {
+  switch (node.type) {
+    case "heading":
+      return h(
+        options,
+        `h${node.depth}`,
+        {
+          key,
+          ...(node.id && { id: node.id }),
+          ...(node.framework && { "data-framework": node.framework }),
+        },
+        renderInlines(node.children, options),
+        renderHeadingAnchor(node.id, options)
+      )
+    case "paragraph":
+      return h(options, "p", { key }, renderInlines(node.children, options))
+    case "code":
+      return renderCodeBlock(node, options, key)
+    case "list": {
+      const tag = node.ordered ? "ol" : "ul"
+      return h(
+        options,
+        tag,
+        {
+          key,
+          ...(node.ordered &&
+            node.start !== undefined &&
+            node.start !== 1 && { start: node.start }),
+        },
+        node.items.map((item, index) =>
+          h(
+            options,
+            "li",
+            { key: index },
+            renderListItemChildren(
+              item.children,
+              item.checked,
+              node.loose,
+              options,
+              `${index}`
+            )
+          )
+        )
+      )
+    }
+    case "blockquote":
+      return h(
+        options,
+        "blockquote",
+        { key },
+        node.children.map((child, index) =>
+          renderBlock(child, options, `${key}:${index}`)
+        )
+      )
+    case "table":
+      return h(
+        options,
+        "table",
+        { key },
+        h(
+          options,
+          "thead",
+          null,
+          h(
+            options,
+            "tr",
+            null,
+            node.header.map((cell, index) =>
+              renderTableCell("th", cell, node.align[index], options, index)
+            )
+          )
+        ),
+        node.rows.length
+          ? h(
+              options,
+              "tbody",
+              null,
+              node.rows.map((row, rowIndex) =>
+                h(
+                  options,
+                  "tr",
+                  { key: rowIndex },
+                  row.map((cell, index) =>
+                    renderTableCell(
+                      "td",
+                      cell,
+                      node.align[index],
+                      options,
+                      index
+                    )
+                  )
+                )
+              )
+            )
+          : null
+      )
+    case "footnotes":
+      return renderFootnotes(node.items, options, key)
+    case "thematicBreak":
+      return h(options, "hr", { key })
+    case "html":
+      return options.allowHtml
+        ? h(options, "div", { key, innerHTML: node.value })
+        : h(options, "p", { key }, node.value)
+    case "callout":
+      return h(
+        options,
+        "div",
+        {
+          key,
+          class: `markdown-alert markdown-alert-${node.kind.toLowerCase()}`,
+        },
+        h(options, "p", { class: "markdown-alert-title" }, node.title),
+        h(
+          options,
+          "div",
+          { class: "markdown-alert-content" },
+          node.children.map((child, index) =>
+            renderBlock(child, options, `${key}:${index}`)
+          )
+        )
+      )
+    case "component":
+      return renderComponent(node, options, key)
+  }
+}
+
+function renderInline(
+  node: InlineNode,
+  options: MarkdownTreeOptions,
+  key: string
+): MarkdownTree {
+  switch (node.type) {
+    case "text":
+      return node.value
+    case "inlineCode":
+      return h(options, "code", { key }, node.value)
+    case "strong":
+      return h(
+        options,
+        "strong",
+        { key },
+        renderInlines(node.children, options)
+      )
+    case "emphasis":
+      return h(options, "em", { key }, renderInlines(node.children, options))
+    case "strike":
+      return h(options, "del", { key }, renderInlines(node.children, options))
+    case "footnoteReference":
+      return h(
+        options,
+        "sup",
+        { key },
+        h(
+          options,
+          "a",
+          {
+            id: `user-content-fnref-${footnoteReferenceId(node.id, node.referenceIndex)}`,
+            "data-footnote-ref": "",
+            "aria-describedby": "footnote-label",
+            href: `#user-content-fn-${node.id}`,
+          },
+          String(node.number)
+        )
+      )
+    case "link":
+      return h(
+        options,
+        "a",
+        { key, href: node.href, ...(node.title && { title: node.title }) },
+        renderInlines(node.children, options)
+      )
+    case "image":
+      return h(options, "img", {
+        key,
+        src: node.src,
+        alt: node.alt,
+        ...(node.title && { title: node.title }),
+      })
+    case "break":
+      return h(options, "br", { key })
+    case "inlineHtml":
+      return options.allowHtml
+        ? h(options, "span", { key, innerHTML: node.value })
+        : node.value
+    case "inlineComponent":
+      return renderComponent(node, options, key)
+  }
+}
+
+function renderInlines(nodes: InlineNode[], options: MarkdownTreeOptions) {
+  return nodes.map((node, index) => renderInline(node, options, `i:${index}`))
+}
+
+function renderCodeBlock(
+  node: Extract<BlockNode, { type: "code" }>,
+  options: MarkdownTreeOptions,
+  key: string
+) {
+  const lang = node.lang ?? "plaintext"
+  const highlighter = options.highlighter
+  const code = highlighter
+    ? h(options, "code", {
+        class: `language-${lang}`,
+        innerHTML: highlighter(node.value, lang, {
+          ...(node.meta && { meta: node.meta }),
+          ...(node.highlightLines && { highlightLines: node.highlightLines }),
+          ...(options.codeLineNumbers !== undefined && {
+            lineNumbers: options.codeLineNumbers,
+          }),
+        }),
+      })
+    : h(options, "code", { class: `language-${lang}` }, node.value)
+  const pre = h(
+    options,
+    "pre",
+    {
+      key,
+      class: `tm-code${options.codeLineNumbers ? " tm-code--line-numbers" : ""}`,
+      "data-lang": lang,
+      ...(node.meta && { "data-meta": node.meta }),
+      ...(node.title && { "data-code-title": node.title }),
+      ...(node.file && { "data-filename": node.file }),
+      ...(node.framework && { "data-framework": node.framework }),
+    },
+    code
+  )
+  if (!node.title) return pre
+  return h(
+    options,
+    "figure",
+    { key, class: "tm-code-frame", "data-lang": lang },
+    h(options, "figcaption", null, node.title),
+    pre
+  )
+}
+
+function renderListItemChildren(
+  children: BlockNode[],
+  checked: boolean | undefined,
+  loose: boolean | undefined,
+  options: MarkdownTreeOptions,
+  key: string
+) {
+  let result: MarkdownTree[] =
+    checked === undefined
+      ? []
+      : [
+          h(options, "input", {
+            key: `${key}:checkbox`,
+            type: "checkbox",
+            disabled: true,
+            checked,
+            readonly: true,
+          }),
+          " ",
+        ]
+  for (let index = 0; index < children.length; index++) {
+    const child = children[index]
+    if (child.type === "paragraph" && (!loose || index === 0)) {
+      result.push(...renderInlines(child.children, options))
+      if (loose) result = [h(options, "p", { key: `${key}:paragraph` }, result)]
+    } else result.push(renderBlock(child, options, `${key}:${index}`))
+  }
+  return result
+}
+
+function renderTableCell(
+  tag: "th" | "td",
+  cell: { children: InlineNode[] },
+  align: string | null | undefined,
+  options: MarkdownTreeOptions,
+  key: number
+) {
+  return h(
+    options,
+    tag,
+    { key, ...(align && { style: { textAlign: align } }) },
+    renderInlines(cell.children, options)
+  )
+}
+
+type Footnote = Extract<BlockNode, { type: "footnotes" }>["items"][number]
+
+function renderFootnotes(
+  items: Footnote[],
+  options: MarkdownTreeOptions,
+  key: string
+) {
+  return h(
+    options,
+    "section",
+    { key, "data-footnotes": "", class: "footnotes" },
+    h(
+      options,
+      "h2",
+      { id: "footnote-label", class: "sr-only" },
+      "Footnotes",
+      renderHeadingAnchor("footnote-label", options)
+    ),
+    h(
+      options,
+      "ol",
+      null,
+      items.map((item) =>
+        h(
+          options,
+          "li",
+          { key: item.id, id: `user-content-fn-${item.id}` },
+          renderFootnoteItem(item, options)
+        )
+      )
+    )
+  )
+}
+
+function renderFootnoteItem(item: Footnote, options: MarkdownTreeOptions) {
+  const lastIndex = item.children.length - 1
+  const backrefs = renderFootnoteBackrefs(item, options)
+  const result: MarkdownTree[] = item.children.map((child, index) => {
+    if (index === lastIndex && child.type === "paragraph")
+      return h(
+        options,
+        "p",
+        { key: index },
+        renderInlines(child.children, options),
+        backrefs
+      )
+    return renderBlock(child, options, `${index}`)
+  })
+  if (item.children[lastIndex]?.type !== "paragraph")
+    result.push(h(options, "p", { key: "backref-wrapper" }, backrefs.slice(1)))
+  return result
+}
+
+function renderFootnoteBackrefs(item: Footnote, options: MarkdownTreeOptions) {
+  const result: MarkdownTree[] = []
+  for (let index = 1; index <= (item.referenceCount ?? 1); index++) {
+    const referenceId = footnoteReferenceId(item.id, index)
+    const label = index === 1 ? `${item.number}` : `${item.number}-${index}`
+    result.push(
+      " ",
+      h(
+        options,
+        "a",
+        {
+          key: index,
+          "data-footnote-backref": "",
+          "aria-label": `Back to reference ${label}`,
+          class: "data-footnote-backref",
+          href: `#user-content-fnref-${referenceId}`,
+        },
+        "↩"
+      )
+    )
+  }
+  return result
+}
+
+function renderComponent(
+  node: Extract<Node, { type: "component" | "inlineComponent" }>,
+  options: MarkdownTreeOptions,
+  key: string
+) {
+  const tag =
+    node.tagName ??
+    (node.type === "inlineComponent" ? "span" : "md-comment-component")
+  const props: Record<string, unknown> = { ...node.properties }
+  if (!node.tagName) {
+    props["data-component"] = node.name
+    if (!props["data-attributes"])
+      props["data-attributes"] = JSON.stringify(node.attributes)
+  }
+  return h(
+    options,
+    tag,
+    { key, ...props },
+    node.type === "inlineComponent"
+      ? renderInlines(node.children, options)
+      : node.children.map((child, index) =>
+          renderBlock(child, options, `${key}:${index}`)
+        )
+  )
+}
+
+function renderHeadingAnchor(
+  id: string | undefined,
+  options: MarkdownTreeOptions
+) {
+  if (!id || !options.headingAnchors) return null
+  const anchor =
+    typeof options.headingAnchors === "object" ? options.headingAnchors : {}
+  return h(
+    options,
+    "a",
+    {
+      href: `#${id}`,
+      "aria-hidden": anchor.ariaHidden ?? true,
+      class: anchor.className ?? "anchor-heading anchor-heading-link",
+      tabindex: anchor.tabIndex ?? -1,
+    },
+    anchor.content ?? "#"
+  )
+}
+
+/** A tree's text, its elements' text joined: a fence's code, as React's reads `children`. */
+export function textOf(tree: MarkdownTree | MarkdownTree[]): string {
+  if (Array.isArray(tree)) return tree.map(textOf).join("")
+  if (typeof tree === "string") return tree
+  return tree ? textOf(tree.children) : ""
+}
