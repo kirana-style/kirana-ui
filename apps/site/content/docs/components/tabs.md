@@ -2,19 +2,19 @@
 title: Tabs
 description: A set of layered sections of content, displayed one at a time.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid, angular]
 ---
 
 # Tabs
 
-<!-- ::preview item="tabs-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tabs-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 `TabsList` takes `variant="line"` for an underlined list, and `Tabs` an `orientation`.
 
 ## Installation
 
-<!-- ::installation name="tabs" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="tabs" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -113,6 +113,32 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 </Tabs>
 ```
 
+### Angular
+
+```ts
+import { Component } from "@angular/core"
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+@Component({
+  selector: "app-example",
+  imports: [Tabs, TabsContent, TabsList, TabsTrigger],
+  template: `
+    <div kuiTabs defaultValue="account">
+      <div kuiTabsList>
+        <button kuiTabsTrigger value="account">Account</button>
+        <button kuiTabsTrigger value="password">Password</button>
+      </div>
+      <div kuiTabsContent value="account">
+        Make changes to your account here.
+      </div>
+      <div kuiTabsContent value="password">Change your password here.</div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
 <!-- ::end:tabs -->
 
 ## Composition
@@ -132,21 +158,21 @@ Tabs
 
 Use the `variant="line"` prop on `TabsList` for a line style.
 
-<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Vertical
 
 Use `orientation="vertical"` for vertical tabs.
 
-<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Icons
 
-<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 
@@ -187,5 +213,11 @@ See the [Ark UI Tabs](https://ark-ui.com/svelte/docs/components/tabs#api-referen
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Tabs](https://ark-ui.com/solid/docs/components/tabs#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+See the [ng-primitives Tabs](https://angularprimitives.dev/primitives/tabs) documentation.
 
 <!-- ::end:only -->

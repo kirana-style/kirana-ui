@@ -289,6 +289,28 @@ export const ITEMS: Item[] = [
       combination.base === "ark" ? ["lib/placement.ts"] : undefined,
   },
   {
+    name: "control",
+    type: "registry:lib",
+    title: "Form control",
+    description:
+      "What Angular's form controls share: the caller's aria-invalid, kept where ng-primitives clears it.",
+    files: (combination) =>
+      combination.framework === "angular"
+        ? ["lib/angular/control.ts"]
+        : undefined,
+  },
+  {
+    name: "presence",
+    type: "registry:lib",
+    title: "Presence",
+    description:
+      "An Angular panel in the page only while it is open, with Base UI's motion attributes.",
+    files: (combination) =>
+      combination.framework === "angular"
+        ? ["lib/angular/presence.ts"]
+        : undefined,
+  },
+  {
     name: "use-mobile",
     type: "registry:lib",
     title: "useIsMobile",

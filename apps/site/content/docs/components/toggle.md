@@ -2,18 +2,18 @@
 title: Toggle
 description: A two-state button that can be either on or off.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [toggle, button, pressed, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Toggle
 
-<!-- ::preview item="toggle-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="toggle-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="toggle" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="toggle" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -55,25 +55,41 @@ import { Toggle } from "@/components/ui/toggle"
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { Toggle } from "@/components/ui/toggle"
+
+@Component({
+  selector: "app-example",
+  imports: [Toggle],
+  template: ` <button kuiToggle>Toggle</button> `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Outline
 
 Use `variant="outline"` for an outline style.
 
-<!-- ::preview item="toggle-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="toggle-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## With Text
 
-<!-- ::preview item="toggle-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="toggle-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Size
 
 Use the `size` prop to change the size of the toggle.
 
-<!-- ::preview item="toggle-sizes" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="toggle-sizes" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::preview item="toggle-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="toggle-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -110,6 +126,12 @@ See the [Ark UI Toggle](https://ark-ui.com/svelte/docs/components/toggle#api-ref
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Toggle](https://ark-ui.com/solid/docs/components/toggle#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+See the [ng-primitives Toggle](https://angularprimitives.dev/primitives/toggle) documentation.
 
 <!-- ::end:only -->
 
