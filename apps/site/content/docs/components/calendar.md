@@ -2,17 +2,30 @@
 title: Calendar
 description: A calendar component that allows users to select a date or a range of dates.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [calendar, date, range, day picker, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [
+    calendar,
+    date,
+    range,
+    day picker,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    solid,
+  ]
 ---
 
 # Calendar
 
-<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="calendar" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="calendar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -46,6 +59,45 @@ const date = ref<Date | undefined>(new Date())
 <template>
   <Calendar mode="single" v-model:selected="date" />
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import { Calendar } from "@/components/ui/calendar"
+
+  let date = $state<Date | undefined>(new Date())
+</script>
+
+<Calendar
+  mode="single"
+  selected={date}
+  onSelectedChange={(details) => (date = details.selected)}
+/>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import { createSignal } from "solid-js"
+import { Calendar } from "@/components/ui/calendar"
+
+export function Example() {
+  const [date, setDate] = createSignal<Date | undefined>(new Date())
+
+  return (
+    <Calendar
+      mode="single"
+      selected={date()}
+      onSelectedChange={(details) => setDate(details.selected)}
+    />
+  )
+}
 ```
 
 <!-- ::end:only -->
@@ -162,37 +214,104 @@ const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
 </template>
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,svelte/ark,solid/ark" -->
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+## International Calendars
+
+Ark UI's date picker draws any calendar system of `@internationalized/date`. Pass its `createCalendar` and a locale whose calendar it is, such as `fa-IR` for the Persian (Jalali) calendar, with the locale's direction. The weekdays' names come from `formatters.formatWeekdayName`, as React DayPicker's do.
+
+```svelte
+<script lang="ts">
+  import { createCalendar } from "@internationalized/date"
+
+  const weekday = new Intl.DateTimeFormat("fa-IR", { weekday: "narrow" })
+  const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
+</script>
+
+<DirectionProvider locale="fa-IR">
+  <Calendar
+    mode="single"
+    selected={date}
+    onSelectedChange={(details) => (date = details.selected)}
+    locale="fa-IR"
+    dir="rtl"
+    {createCalendar}
+    {formatters}
+  />
+</DirectionProvider>
+```
+
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,svelte/ark,solid/ark" -->
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+## International Calendars
+
+Ark UI's date picker draws any calendar system of `@internationalized/date`. Pass its `createCalendar` and a locale whose calendar it is, such as `fa-IR` for the Persian (Jalali) calendar, with the locale's direction. The weekdays' names come from `formatters.formatWeekdayName`, as React DayPicker's do.
+
+```tsx
+import { createSignal } from "solid-js"
+import { createCalendar } from "@internationalized/date"
+
+const weekday = new Intl.DateTimeFormat("fa-IR", { weekday: "narrow" })
+const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
+
+export function Example() {
+  const [date, setDate] = createSignal<Date | undefined>(new Date())
+
+  return (
+    <DirectionProvider locale="fa-IR">
+      <Calendar
+        mode="single"
+        selected={date()}
+        onSelectedChange={(details) => setDate(details.selected)}
+        locale="fa-IR"
+        dir="rtl"
+        createCalendar={createCalendar}
+        formatters={formatters}
+      />
+    </DirectionProvider>
+  )
+}
+```
+
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::end:only -->
 
 ## Basic
 
-<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Range Calendar
 
-<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Month and Year Selector
 
-<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Presets
 
-<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Date and Time Picker
 
-<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Booked dates
 
-<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Custom Cell Size
 
-<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 The calendar's cells are `calendarCtx.cellSize` (`--cell-size` upstream). Set it through `sx`, and
 make it responsive with breakpoint-specific values:
@@ -213,13 +332,13 @@ const cells = css({
 })
 ```
 
-<!-- ::start:only react/base,vue/ark -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark -->
 
 ## Week Numbers
 
 Use `showWeekNumber` (`show-week-number` on Vue) to show week numbers.
 
-<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark" -->
+<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::end:only -->
 
@@ -239,7 +358,7 @@ See also the [International Calendars Guide](#international-calendars) for enabl
 
 <!-- ::end:only -->
 
-<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 <!-- ::start:only react/base -->
 
@@ -271,6 +390,44 @@ When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's t
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's tag as `locale`, with `dir`. Ark UI takes the week's first day from the tag (Saturday in Arabic); `weekStartsOn` sets it, `0` for Sunday as react-day-picker's `arSA`:
+
+```svelte showLineNumbers
+<DirectionProvider locale="ar-SA">
+  <Calendar
+    mode="single"
+    selected={date}
+    onSelectedChange={(details) => (date = details.selected)}
+    locale="ar-SA"
+    dir="rtl"
+    weekStartsOn={0}
+  />
+</DirectionProvider>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's tag as `locale`, with `dir`. Ark UI takes the week's first day from the tag (Saturday in Arabic); `weekStartsOn` sets it, `0` for Sunday as react-day-picker's `arSA`:
+
+```tsx showLineNumbers
+<DirectionProvider locale="ar-SA">
+  <Calendar
+    mode="single"
+    selected={date()}
+    onSelectedChange={(details) => setDate(details.selected)}
+    locale="ar-SA"
+    dir="rtl"
+    weekStartsOn={0}
+  />
+</DirectionProvider>
+```
+
+<!-- ::end:only -->
+
 ## API Reference
 
 <!-- ::start:only react/base -->
@@ -288,6 +445,18 @@ See the [React Aria](https://react-aria.adobe.com/Calendar) documentation for mo
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Date Picker](https://ark-ui.com/vue/docs/components/date-picker#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Date Picker](https://ark-ui.com/svelte/docs/components/date-picker#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+See the [Ark UI Date Picker](https://ark-ui.com/solid/docs/components/date-picker#api-reference) documentation.
 
 <!-- ::end:only -->
 

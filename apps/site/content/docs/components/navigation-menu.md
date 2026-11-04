@@ -2,17 +2,18 @@
 title: Navigation Menu
 description: A collection of links for navigating websites.
 section: components
-variants: [react/base, vue/ark]
-keywords: [navigation, menu, links, nav, component, base, ark, vue]
+variants: [react/base, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [navigation, menu, links, nav, component, base, ark, vue, svelte, solid]
 ---
 
 # Navigation Menu
 
-<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark" -->
+<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark" -->
+<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -59,6 +60,40 @@ import {
     </NavigationMenuList>
   </NavigationMenu>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink>Link</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink>Link</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
 ```
 
 <!-- ::end:only -->
@@ -110,7 +145,7 @@ export function NavigationMenuDemo() {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark" direction="rtl" -->
+<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

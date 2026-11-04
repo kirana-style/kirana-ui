@@ -166,6 +166,15 @@ function blockFiles(bases: string, name: string): string[] {
     .map((file) => `bases/${bases}/blocks/${name}/${file}`)
 }
 
+/** A chart's file's extension, by framework. */
+const CHART_EXTENSIONS: Record<Framework, string> = {
+  react: "tsx",
+  vue: "vue",
+  svelte: "svelte",
+  solid: "tsx",
+  angular: "ts",
+}
+
 /** A framework's components written for one chart or demo, `components/<name>/`, if any. */
 function localComponents(bases: string, name: string): string[] {
   const folder = join(REGISTRY, "bases", bases, "components", name)
@@ -393,7 +402,9 @@ export const ITEMS: Item[] = [
     ),
     // The helpers no framework needs (`lib/chart.ts`) come with each framework's container.
     files: (combination) =>
-      react(combination) || combination.framework === "vue"
+      react(combination) ||
+      combination.framework === "vue" ||
+      ported("chart", combination)
         ? [
             markupOf("chart", combination),
             "styles/chart.styles.ts",
@@ -759,22 +770,25 @@ export const ITEMS: Item[] = [
   // `registry/blocks.ts`'s, its files read from its folder, on both React bases.
   ...BLOCKS.map((entry): Item => blockItem(entry.name)),
   // The charts, upstream's `registry/new-york-v4/charts`: one file each, its title and description
-  // `registry/charts.ts`'s, on both React bases and on Vue.
+  // `registry/charts.ts`'s, on both React bases and on each other framework whose base has it.
   ...CHARTS.map((chart): Item => ({
     name: chart.name,
     type: "registry:block",
     title: chart.title,
     description: chart.description,
-    files: (combination) =>
-      react(combination)
-        ? [`bases/${combination.bases}/charts/${chart.name}.tsx`]
-        : combination.framework === "vue"
-          ? [
-              `bases/${combination.bases}/charts/${chart.name}.vue`,
-              // The chart's own parts, a file each on Vue (React's file declares them).
-              ...localComponents(combination.bases, chart.name),
-            ]
-          : undefined,
+    files: (combination) => {
+      if (react(combination))
+        return [`bases/${combination.bases}/charts/${chart.name}.tsx`]
+      const file = `bases/${combination.bases}/charts/${chart.name}.${CHART_EXTENSIONS[combination.framework]}`
+      return existsSync(join(REGISTRY, file))
+        ? [
+            file,
+            // The chart's own parts, a file each on the other frameworks (React's file declares
+            // them).
+            ...localComponents(combination.bases, chart.name),
+          ]
+        : undefined
+    },
   })),
 ]
 

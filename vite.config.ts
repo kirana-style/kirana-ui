@@ -306,7 +306,8 @@ export default defineConfig({
       "vite-plus/prefer-vite-plus-imports": "error",
     },
     // Solid's markup is JSX that React's rules misread: a store's fields are written in place
-    // (`createMutable`), and `children` is a prop like any other.
+    // (`createMutable`), `children` is a prop like any other, and a component runs once, so a
+    // `new Date()` in it is read once, not on every render.
     overrides: [
       {
         files: [
@@ -317,6 +318,7 @@ export default defineConfig({
         rules: {
           "react/immutability": "off",
           "react/no-children-prop": "off",
+          "react/purity": "off",
           "react/refs": "off",
         },
       },

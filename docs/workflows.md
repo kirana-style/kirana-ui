@@ -443,7 +443,9 @@ Svelte and Solid):
   when absent.
 - **Import Ark from its package root** (`@ark-ui/vue`), never a subpath: Vite
   bundles each entry apart in development, and a context provided through one is
-  not found through another.
+  not found through another. The navigation menu is the exception: no package
+  root exports it, so every one of its parts imports the same subpath
+  (`@ark-ui/<framework>/navigation-menu`).
 - **A control is a label around its box and a hidden input** on Ark (Checkbox,
   Switch, a radio item): the label leaves the layout (`display: contents`) and
   anchors the relations the box anchors, the box takes the `data-slot` and the
@@ -505,12 +507,23 @@ Svelte and Solid):
   (`--viewport-*`).
 - **A prop given markup is a slot.** React's `tooltip={<ChartTooltipContent />}`
   or a render function child is a named or scoped slot on Vue
-  (`<template #tooltip>`, `<ComboboxList v-slot="{ item }">`).
+  (`<template #tooltip>`, `<ComboboxList v-slot="{ item }">`), a snippet on
+  Svelte (`{#snippet tooltip()}`, `{#snippet children({ item })}`), and React's
+  own prop or function child on Solid. A part whose own children go inside the
+  element given to it, as Base UI's `render` keeps them (Combobox's trigger and
+  its chevron), hands them to the caller's `asChild` as its second argument.
+- **A part's shared state is a context the caller's tree reads** on Svelte and
+  Solid (Command's items and query, Combobox's filter, the sidebar's open state,
+  a chart's focused points): getters over runes or signals, so every part
+  follows it.
 - **Base UI's API where a page calls one.** Drawer takes Base UI's physical
   sides and `disablePointerDismissal`; a Button rendered as
   its child (`as-child`) labels the text written inside that child, as React's
   labels its children inside the element it renders, while text a part passes
-  on through a slot of its own stays bare, as Pagination's links. A demo's
+  on through a slot of its own stays bare, as Pagination's links. Svelte's and
+  Solid's Button label the text nodes in the page, which cannot tell a
+  component's text or a fragment's from its own: a Button whose text React leaves
+  bare (a `ComboboxValue`, a date range in a fragment) takes `labelText={false}`. A demo's
   helpers have a Vue composable beside React's hook (`lib/vue/`).
 
 `vue-tsc` checks the registry's Vue markup and its demos before the Vue

@@ -2,13 +2,13 @@
 title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [sidebar, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords: [sidebar, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark" caption="A sidebar that collapses to icons." -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" caption="A sidebar that collapses to icons." -->
 
 Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
@@ -19,7 +19,7 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -73,6 +73,60 @@ import {
     </SidebarInset>
   </SidebarProvider>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import {
+    Sidebar,
+    SidebarContent,
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+  } from "@/components/ui/sidebar"
+</script>
+
+<SidebarProvider>
+  <Sidebar collapsible="icon">
+    <SidebarContent>
+      <!-- groups and menus -->
+    </SidebarContent>
+  </Sidebar>
+  <SidebarInset>
+    <SidebarTrigger />
+  </SidebarInset>
+</SidebarProvider>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+
+export function Example() {
+  return (
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarContent>{/* groups and menus */}</SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <SidebarTrigger />
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
 ```
 
 <!-- ::end:only -->
@@ -658,4 +712,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->

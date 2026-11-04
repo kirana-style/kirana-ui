@@ -28,8 +28,9 @@ kirana/ui is before its first release. React is complete on both bases and check
 against shadcn/ui's own site, computed style by computed style. The other frameworks
 follow React's pages, checked against them the same way: Vue has 61 of the components
 (all but the three no Vue library carries: Menubar, Message Scroller and Questionnaire) with
-their demos and example pages, the 29 blocks and the 70 charts, and Svelte, Solid and Angular have their first
-(Button, Card, Skeleton).
+their demos and example pages, the 29 blocks and the 70 charts; Svelte and Solid have 60 (all
+of Vue's but Toast) with their demos and example pages, the login, signup and sidebar blocks and
+the 70 charts; and Angular has its first (Button, Card, Skeleton).
 
 ## Using it
 

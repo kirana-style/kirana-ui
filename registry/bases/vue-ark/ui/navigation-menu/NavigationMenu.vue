@@ -3,8 +3,9 @@
  * Ark UI's navigation menu, drawn as Base UI's: the bar, and below it a positioner holding the
  * popup and its viewport, which the open item's content is shown in (each content teleports
  * there, as Base UI's moves into its viewport). Zag measures the panel and the open trigger's
- * offset (`--viewport-*`), which the popup reads (`navigationMenu.popupArk`). Ark's package root
- * does not export the navigation menu, so every part imports its subpath, the same one.
+ * offset (`--viewport-*`), which the popup reads (`navigationMenu.popupArk`). Ark's package
+ * root does not export the navigation menu (LF-010), so every part imports its subpath, the
+ * same one.
  */
 import {
   NavigationMenuRoot,
