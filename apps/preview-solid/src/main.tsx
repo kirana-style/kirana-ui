@@ -16,6 +16,7 @@ import { For, lazy, Show } from "solid-js"
 import { render } from "solid-js/web"
 
 import { design, followDesign } from "./design"
+import { Charts } from "./charts"
 import { Showcase } from "./showcase"
 
 // The design system lives on `<html>`: its tokens (`root`), the anchor the styles read the visual
@@ -34,7 +35,10 @@ const list = css({
   padding: space[6],
 })
 
-/** One page per item, as `/preview/solid/ark/<item>`, and the showcase; anything else lists them. */
+/**
+ * One page per item, as `/preview/solid/ark/<item>`, the showcase and `/create`'s charts; anything
+ * else lists them.
+ */
 const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 // Loaded only on its own page, as the Svelte preview's.
 const load = item ? previews[item] : undefined
@@ -61,7 +65,9 @@ render(
       {/* A right-to-left demo's language, from `?lang=` and the docs page's selector. */}
       <LanguageContext.Provider value={() => design().options.language}>
         <Show when={item !== "showcase"} fallback={<Showcase />}>
-          {Current ? (
+          {item === "charts" ? (
+            <Charts />
+          ) : Current ? (
             <>
               <Current />
               <Toaster position="top-center" />

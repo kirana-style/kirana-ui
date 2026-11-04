@@ -85,13 +85,13 @@ export async function POST(request: Request) {
   <!-- CodeBlockPlain -->
   <Example title="Plain">
     <CodeBlock>
-      <CodeBlockContent>{build}</CodeBlockContent>
+      <CodeBlockContent code={build} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockWrap -->
   <Example title="Wrap">
     <CodeBlock>
-      <CodeBlockContent wrap>{error}</CodeBlockContent>
+      <CodeBlockContent wrap code={error} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockWithHeader -->
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
           <CodeBlockCopyButton value={install} />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockContent>{install}</CodeBlockContent>
+      <CodeBlockContent code={install} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockDestructive -->
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
           <CodeBlockCopyButton value={error} />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockContent wrap>{error}</CodeBlockContent>
+      <CodeBlockContent wrap code={error} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockHeight -->
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
           <CodeBlockCopyButton value={log} />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockContent sx={styles.maxH48ScrollFadeY}>{log}</CodeBlockContent>
+      <CodeBlockContent sx={styles.maxH48ScrollFadeY} code={log} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockEmpty -->
@@ -145,13 +145,13 @@ export async function POST(request: Request) {
           <CodeBlockCopyButton value={install} />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockContent wrap>{install}</CodeBlockContent>
+      <CodeBlockContent wrap code={install} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockSmallDestructive -->
   <Example title="Small Destructive">
     <CodeBlock size="sm" variant="destructive">
-      <CodeBlockContent wrap>{error}</CodeBlockContent>
+      <CodeBlockContent wrap code={error} />
     </CodeBlock>
   </Example>
   <!-- CodeBlockTrace -->
@@ -170,7 +170,7 @@ export async function POST(request: Request) {
         </TraceCollapsibleTrigger>
         <TraceCollapsibleContent>
           <CodeBlock size="sm">
-            <CodeBlockContent wrap sx={styles.maxH64}>{install}</CodeBlockContent>
+            <CodeBlockContent wrap sx={styles.maxH64} code={install} />
           </CodeBlock>
         </TraceCollapsibleContent>
       </TraceCollapsible>
@@ -187,7 +187,7 @@ export async function POST(request: Request) {
         </TraceCollapsibleTrigger>
         <TraceCollapsibleContent>
           <CodeBlock size="sm" variant="destructive">
-            <CodeBlockContent wrap sx={styles.maxH64}>{error}</CodeBlockContent>
+            <CodeBlockContent wrap sx={styles.maxH64} code={error} />
           </CodeBlock>
         </TraceCollapsibleContent>
       </TraceCollapsible>
@@ -206,7 +206,7 @@ export async function POST(request: Request) {
         <CodeBlockActions>
           <CodeBlockCopyButton value={install} />
         </CodeBlockActions>
-        <CodeBlockContent>{install}</CodeBlockContent>
+        <CodeBlockContent code={install} />
       </CodeBlock>
       <CodeBlock>
         <CodeBlockHeader>

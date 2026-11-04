@@ -19,7 +19,7 @@ export default defineConfig({
       framework: "svelte",
       base: "ark",
       extension: ".svelte",
-      extra: ["showcase"],
+      extra: ["showcase", "charts"],
     }),
   ]),
 })
