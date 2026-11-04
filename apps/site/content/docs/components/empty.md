@@ -2,18 +2,18 @@
 title: Empty
 description: Use the Empty component to display an empty state.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [empty, empty state, placeholder, component, base, aria, ark, vue, svelte]
 ---
 
 # Empty
 
-<!-- ::preview item="empty-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="empty-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="empty" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="empty" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -106,6 +106,60 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { IconPlaceholder } from "@/lib/kirana/icons/angular"
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    IconPlaceholder,
+    Button,
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+  ],
+  template: `
+    <div kuiEmpty>
+      <div kuiEmptyHeader>
+        <div kuiEmptyMedia variant="icon">
+          <svg
+            iconPlaceholder
+            lucide="FolderCodeIcon"
+            tabler="IconFolderCode"
+            hugeicons="FolderCodeIcon"
+            phosphor="FolderIcon"
+            remixicon="RiFolderLine"
+          ></svg>
+        </div>
+        <div kuiEmptyTitle>No data</div>
+        <div kuiEmptyDescription>No data found</div>
+      </div>
+      <div kuiEmptyContent>
+        <button kuiButton>Add data</button>
+      </div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `Empty` state:
@@ -123,13 +177,13 @@ Empty
 
 Use the `border` utility class to create an outline empty state.
 
-<!-- ::preview item="empty-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="empty-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Background
 
 Use the `bg-*` and `bg-gradient-*` utilities to add a background to the empty state.
 
-<!-- ::preview item="empty-background" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="empty-background" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Avatar
 

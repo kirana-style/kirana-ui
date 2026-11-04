@@ -2,17 +2,18 @@
 title: Table
 description: A responsive table component.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [table, data, rows, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [table, data, rows, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Table
 
-<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="table" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="table" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -166,6 +167,65 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { SxDirective } from "@kirana-style/angular"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+    SxDirective,
+  ],
+  template: `
+    <div kuiTable>
+      <caption kuiTableCaption>
+        A list of your recent invoices.
+      </caption>
+      <thead kuiTableHeader>
+        <tr kuiTableRow>
+          <th kuiTableHead [sx]="styles.invoice">Invoice</th>
+          <th kuiTableHead>Status</th>
+          <th kuiTableHead>Method</th>
+          <th kuiTableHead [sx]="styles.end">Amount</th>
+        </tr>
+      </thead>
+      <tbody kuiTableBody>
+        <tr kuiTableRow>
+          <td kuiTableCell [sx]="styles.medium">INV001</td>
+          <td kuiTableCell>Paid</td>
+          <td kuiTableCell>Credit Card</td>
+          <td kuiTableCell [sx]="styles.end">$250.00</td>
+        </tr>
+      </tbody>
+    </div>
+  `,
+})
+// `styles`: the handles declared above.
+export class Example {
+  protected readonly styles = styles
+}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Table`:
@@ -197,7 +257,7 @@ Table
 
 Use the `<TableFooter />` component to add a footer to the table.
 
-<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Actions
 

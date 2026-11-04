@@ -2,20 +2,20 @@
 title: Marker
 description: Displays an inline status, system note, bordered row, or labeled separator in a conversation.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [marker, status, separator, note, component, base, aria, ark, vue, svelte]
 ---
 
 # Marker
 
-<!-- ::preview item="marker-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 The `Marker` component displays inline conversation markers such as status updates, system notes, bordered rows, and labeled separators. Compose it with `Message` in a conversation thread.
 
 ## Installation
 
-<!-- ::installation name="marker" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="marker" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -77,6 +77,37 @@ import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { IconPlaceholder } from "@/lib/kirana/icons/angular"
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+
+@Component({
+  selector: "app-example",
+  imports: [IconPlaceholder, Marker, MarkerContent, MarkerIcon],
+  template: `
+    <div kuiMarker>
+      <span kuiMarkerIcon>
+        <svg
+          iconPlaceholder
+          lucide="CheckIcon"
+          tabler="IconCheck"
+          hugeicons="Tick02Icon"
+          phosphor="CheckIcon"
+          remixicon="RiCheckLine"
+        ></svg>
+      </span>
+      <span kuiMarkerContent>Explored 4 files</span>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a marker:
@@ -99,7 +130,7 @@ Marker
 
 Use `variant` to switch between an inline marker, bordered row, and labeled separator.
 
-<!-- ::preview item="marker-variants" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-variants" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 | Variant     | Description                                          |
 | ----------- | ---------------------------------------------------- |
@@ -111,13 +142,13 @@ Use `variant` to switch between an inline marker, bordered row, and labeled sepa
 
 Set `role="status"` and include a [`Spinner`](/docs/components/spinner) for streaming or in-progress markers so updates are announced.
 
-<!-- ::preview item="marker-status" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-status" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Shimmer
 
 Give `MarkerContent` the [shimmer](/docs/utils/shimmer), a highlight sweeping across the text, for an animated streaming-text effect.
 
-<!-- ::preview item="marker-shimmer" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-shimmer" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Separator
 
@@ -133,25 +164,25 @@ Use the `separator` variant for labeled dividers, such as dates or section break
 
 <!-- ::end:only -->
 
-<!-- ::preview item="marker-separator" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-separator" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Border
 
 Use the `border` variant for status rows that should keep the default marker alignment while separating the next row.
 
-<!-- ::preview item="marker-border" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-border" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## With Icon
 
 Use `MarkerIcon` to render an icon alongside the content. Use `flex-col` to stack the icon above the content.
 
-<!-- ::preview item="marker-icon" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-icon" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Links and Buttons
 
 Turn a marker into a link or button with the `render` prop on `Marker`.
 
-<!-- ::preview item="marker-link-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="marker-link-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 

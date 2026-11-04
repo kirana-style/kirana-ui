@@ -379,9 +379,9 @@ component's own. An Angular
 template reaches only its component's members, so Kirana merges `sx` in the
 browser there: each Angular part is a directive on the element the caller writes
 (`<button kuiButton>`, `<div kuiCard>`), which merges its own styles with its `sx`
-input and binds the result to the host's `class`. Kirana's own `SxDirective`
-would match the same `[sx]`, so a template holding a part leaves it out and gives
-its plain elements their classes as strings (`props(…).className`). Each
+input (`partSx`) and binds the result to the host's `class` and `style`. Each part
+provides `provideSxPart()`, which keeps Kirana's own `SxDirective` off its element,
+so a template writes `[sx]` on parts and plain elements alike. Each
 framework's markup compiles in its preview app (`apps/preview-<framework>`),
 which is where its templates are checked. Icons are named once for every library (`IconPlaceholder`) and
 drawn from framework-neutral data, so one map serves every framework. In an installed

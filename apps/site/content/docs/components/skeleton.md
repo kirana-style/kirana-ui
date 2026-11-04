@@ -97,23 +97,23 @@ export class Example {
 
 ## Avatar
 
-<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Card
 
-<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Text
 
-<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Form
 
-<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Table
 
-<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 

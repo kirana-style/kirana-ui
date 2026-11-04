@@ -1,4 +1,5 @@
-import { Component } from "@angular/core"
+import { Component, signal } from "@angular/core"
+import type { Type } from "@angular/core"
 import { NgComponentOutlet } from "@angular/common"
 import { css, props } from "@kirana-style/core"
 import { previews } from "@workspace/registry/bases/angular-ng/previews"
@@ -22,8 +23,8 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
   template: `
     @if (item === "showcase") {
       <preview-showcase />
-    } @else if (current) {
-      <ng-container *ngComponentOutlet="current" />
+    } @else if (current()) {
+      <ng-container *ngComponentOutlet="current()" />
     } @else {
       <nav [class]="list">
         @for (name of names; track name) {
@@ -35,8 +36,13 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 })
 export class App {
   protected readonly item = item
-  protected readonly current =
-    item && item in previews ? previews[item as keyof typeof previews] : null
+  // Loaded only on its own page, as the other previews'.
+  protected readonly current = signal<Type<unknown> | null>(null)
   protected readonly names = [...Object.keys(previews), "showcase"]
   protected readonly list = props(list).className
+
+  constructor() {
+    const load = item ? previews[item] : undefined
+    void load?.().then((module) => this.current.set(module.default))
+  }
 }
