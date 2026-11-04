@@ -33,6 +33,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@workspace/registry/bases/react-base/ui/select"
@@ -118,6 +119,39 @@ const styles = {
 }
 
 /** The framework-and-base picker, over every embed of a page that shows one. */
+/** A framework's name and a base's, from a combination's id (`react/base`). */
+const FRAMEWORK_NAMES: Record<string, string> = {
+  react: "React",
+  vue: "Vue",
+  svelte: "Svelte",
+  solid: "Solid",
+  angular: "Angular",
+}
+const BASE_NAMES: Record<string, string> = {
+  base: "Base UI",
+  aria: "React Aria",
+  ark: "Ark UI",
+  ng: "ng-primitives",
+}
+
+/** The combinations by framework, in the order given: each framework a group of its bases. */
+function byFramework(available: readonly DocsCombination[]) {
+  const groups = new Map<string, DocsCombination[]>()
+  for (const combination of available) {
+    const framework = combination.id.split("/")[0]!
+    groups.set(framework, [...(groups.get(framework) ?? []), combination])
+  }
+  return [...groups]
+}
+
+const nameOf = (combination: DocsCombination) => {
+  const [framework, base] = combination.id.split("/")
+  return {
+    framework: FRAMEWORK_NAMES[framework!] ?? combination.label,
+    base: BASE_NAMES[base!] ?? combination.label,
+  }
+}
+
 export function CombinationPicker({
   available,
   current,
@@ -125,11 +159,13 @@ export function CombinationPicker({
 }: {
   available: readonly DocsCombination[]
   current: DocsCombination | undefined
-  /** Where a page sets the picker in a row of its own (the charts' types). */
+  /** Where a page sets the picker in a row of its own (the charts' types, the blocks' categories). */
   sx?: Sx
 }) {
   if (available.length < 2 || !current) return null
-  // A menu, not a row of tabs: there are more frameworks and bases than a toolbar has room for.
+  const shown = nameOf(current)
+  // A menu, each framework a group of its bases: there are more frameworks and bases than a
+  // toolbar has room for.
   return (
     <Select
       value={current.id}
@@ -137,20 +173,23 @@ export function CombinationPicker({
     >
       <SelectTrigger
         size="sm"
-        aria-label="Framework"
+        aria-label="Framework and base"
         data-slot="combination-picker"
         sx={[styles.picker, sx]}
       >
-        <SelectValue>{() => current.label}</SelectValue>
+        <SelectValue>{() => `${shown.framework} · ${shown.base}`}</SelectValue>
       </SelectTrigger>
       <SelectContent align="end">
-        <SelectGroup>
-          {available.map((combination) => (
-            <SelectItem key={combination.id} value={combination.id}>
-              {combination.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
+        {byFramework(available).map(([framework, combinations]) => (
+          <SelectGroup key={framework}>
+            <SelectLabel>{FRAMEWORK_NAMES[framework] ?? framework}</SelectLabel>
+            {combinations.map((combination) => (
+              <SelectItem key={combination.id} value={combination.id}>
+                {nameOf(combination).base}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        ))}
       </SelectContent>
     </Select>
   )

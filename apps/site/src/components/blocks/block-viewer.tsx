@@ -1,7 +1,7 @@
 /**
  * One block on the blocks page, as upstream's `BlockViewer`: a toolbar (Preview or Code, the
- * block's description, the framework and base, the frame's width, open in a new tab, reload, the
- * install command), then the block live in a frame the reader can resize, or its code. The frame
+ * block's description, the frame's width, open in a new tab, reload, the install command; the
+ * framework and base are the page's, `BlocksCombination`), then the block live in a frame the reader can resize, or its code. The frame
  * is the block's own preview page (`/preview/<framework>/<base>/<name>`, the block alone at one
  * combination, in the reader's design, which `setDesign` messages to it), created once the page has
  * hydrated so it loads once, and lazily, below the fold. Below `lg` the toolbar keeps the title and
@@ -23,6 +23,7 @@ import { BlockCode } from "@/components/blocks/block-code"
 import { useCombination } from "@workspace/docs-ui/combination.ts"
 import { CombinationPicker } from "@workspace/docs-ui/markdown/preview.tsx"
 import type { Block } from "@workspace/registry/blocks"
+import type { Sx } from "@workspace/registry/lib/sx"
 import {
   breakpoint,
   fontFamily,
@@ -42,8 +43,7 @@ import { Icon } from "@workspace/shell/icon"
 
 import { frameQuery } from "@/lib/page-design"
 
-/** The bases a block has: React's, since no block is on Ark UI yet. */
-// Every block and chart is on each of these (Vue since P6-11).
+/** The frameworks and bases every block is on (Vue since P6-11). */
 const COMBINATIONS = ["react/base", "react/aria", "vue/ark"]
 
 /** Upstream's widths: desktop, tablet and phone, as shares of the frame's room. */
@@ -186,8 +186,17 @@ function CopyCommand({ name }: { name: string }) {
   )
 }
 
-export function BlockViewer({ block }: { block: Block }) {
+/**
+ * The framework and base every block shows, at the end of the categories' row, as the charts page
+ * has it in its types' row.
+ */
+export function BlocksCombination({ sx }: { sx?: Sx }) {
   const { available, current } = useCombination(COMBINATIONS)
+  return <CombinationPicker available={available} current={current} sx={sx} />
+}
+
+export function BlockViewer({ block }: { block: Block }) {
+  const { current } = useCombination(COMBINATIONS)
   const combination = current?.id ?? COMBINATIONS[0]!
   const hydrated = React.useSyncExternalStore(
     subscribeNever,
@@ -247,7 +256,6 @@ export function BlockViewer({ block }: { block: Block }) {
         </a>
         <span sx={styles.name}>{block.name}</span>
         <div sx={styles.end}>
-          <CombinationPicker available={available} current={current} />
           <div sx={styles.group}>
             {WIDTHS.map((option) => (
               <Button
