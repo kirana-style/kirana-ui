@@ -37,6 +37,15 @@ const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 // Loaded only on its own page, as the Svelte preview's.
 const load = item ? previews[item] : undefined
 const Current = load ? lazy(load) : undefined
+// Sonner's toaster, as upstream's site mounts it on every page (`top-center`): loaded after the
+// page, since only the items that call `toast()` need it.
+const Toaster = lazy(() =>
+  import("@workspace/registry/bases/solid-ark/ui/sonner.tsx").then(
+    (module) => ({
+      default: module.Toaster,
+    })
+  )
+)
 
 render(
   () => (
@@ -45,7 +54,10 @@ render(
       <LanguageContext.Provider value={() => design().options.language}>
         <Show when={item !== "showcase"} fallback={<Showcase />}>
           {Current ? (
-            <Current />
+            <>
+              <Current />
+              <Toaster position="top-center" />
+            </>
           ) : (
             <nav sx={list}>
               <For each={[...Object.keys(previews), "showcase"]}>

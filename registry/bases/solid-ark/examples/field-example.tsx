@@ -1006,7 +1006,7 @@ export default function FieldExample() {
           <Field orientation="horizontal">
             <FieldContent>
               <FieldLabel for="horizontal-slider">Volume</FieldLabel>
-              <FieldDescription>Adjust the volume() level.</FieldDescription>
+              <FieldDescription>Adjust the volume level.</FieldDescription>
             </FieldContent>
             <Slider id="horizontal-slider" defaultValue={[50]} max={100} />
           </Field>

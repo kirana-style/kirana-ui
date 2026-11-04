@@ -2,17 +2,17 @@
 title: Dialog
 description: A window overlaid on the page.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [dialog, component, base, aria, ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords: [dialog, component, base, aria, ark, svelte, solid]
 ---
 
 # Dialog
 
-<!-- ::preview item="dialog-demo" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dialog-demo" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="dialog" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="dialog" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -103,6 +103,66 @@ import {
 </template>
 ```
 
+### Svelte
+
+```svelte
+<script lang="ts">
+  import { Button } from "@/components/ui/button"
+  import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+</script>
+
+<Dialog>
+  <DialogTrigger>
+    {#snippet asChild(props)}
+      <Button {...props()} variant="outline">Open</Button>
+    {/snippet}
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>This action cannot be undone.</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+### Solid
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+;<Dialog>
+  <DialogTrigger
+    asChild={(props) => (
+      <Button {...props()} variant="outline">
+        Open
+      </Button>
+    )}
+  />
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>This action cannot be undone.</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
 <!-- ::end:tabs -->
 
 <!-- ::start:only react/aria -->
@@ -149,33 +209,33 @@ DialogTrigger
 
 Replace the default close control with your own button.
 
-<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## No Close Button
 
 Use `showCloseButton={false}` to hide the close button.
 
-<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Sticky Footer
 
 Keep actions visible while the content scrolls.
 
-<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Scrollable Content
 
 Long content can scroll while the header stays in view.
 
-<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
-<!-- ::start:only react/base,react/aria,vue/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 

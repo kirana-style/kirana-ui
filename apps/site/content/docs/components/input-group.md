@@ -2,19 +2,32 @@
 title: Input Group
 description: Add addons, buttons, and helper content to inputs.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [input group, input, addon, form, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [
+    input group,
+    input,
+    addon,
+    form,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    solid,
+  ]
 ---
 
 # Input Group
 
 import { IconInfoCircle } from "@tabler/icons-react"
 
-<!-- ::preview item="input-group-demo" height="416" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-demo" height="416" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="input-group" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="input-group" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -57,6 +70,32 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+</InputGroup>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+</InputGroup>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `InputGroup`:
@@ -82,53 +121,53 @@ Use the `align` prop on `InputGroupAddon` to position the addon relative to the 
 
 Use `align="inline-start"` to position the addon at the start of the input. This is the default.
 
-<!-- ::preview item="input-group-inline-start" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-inline-start" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ### inline-end
 
 Use `align="inline-end"` to position the addon at the end of the input.
 
-<!-- ::preview item="input-group-inline-end" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-inline-end" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ### block-start
 
 Use `align="block-start"` to position the addon above the input.
 
-<!-- ::preview item="input-group-block-start" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-block-start" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ### block-end
 
 Use `align="block-end"` to position the addon below the input.
 
-<!-- ::preview item="input-group-block-end" height="416" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-block-end" height="416" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Icon
 
-<!-- ::preview item="input-group-icon" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-icon" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Text
 
-<!-- ::preview item="input-group-text" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Button
 
-<!-- ::preview item="input-group-button" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Kbd
 
-<!-- ::preview item="input-group-kbd" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-kbd" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Dropdown
 
-<!-- ::preview item="input-group-dropdown" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-dropdown" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Spinner
 
-<!-- ::preview item="input-group-spinner" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-spinner" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Textarea
 
-<!-- ::preview item="input-group-textarea" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-textarea" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Custom Input
 
@@ -136,13 +175,13 @@ Add the `data-slot="input-group-control"` attribute to your custom input for aut
 
 Here's an example of a custom resizable textarea from a third-party library.
 
-<!-- ::preview item="input-group-custom" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-group-custom" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="input-group-rtl" height="480" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="input-group-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

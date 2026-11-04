@@ -2,17 +2,30 @@
 title: Drawer
 description: A drawer component for React.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [drawer, bottom sheet, panel, swipe, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [
+    drawer,
+    bottom sheet,
+    panel,
+    swipe,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    solid,
+  ]
 ---
 
 # Drawer
 
-<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="drawer" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="drawer" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 On iOS Safari, the drawer's overlay is absolutely positioned, and covers the viewport after the page
 is scrolled only inside a positioned `body`. Add it to your global styles (see the
@@ -89,6 +102,70 @@ const styles = {
     </DrawerContent>
   </Drawer>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Drawer>
+  <DrawerTrigger>
+    {#snippet asChild(props)}
+      <Button {...props()} variant="outline">Open</Button>
+    {/snippet}
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+    </DrawerHeader>
+    <div sx={styles.body}>
+      <!-- Content here -->
+    </div>
+    <DrawerFooter>
+      <Button>Submit</Button>
+      <DrawerClose>
+        {#snippet asChild(props)}
+          <Button {...props()} variant="outline">Cancel</Button>
+        {/snippet}
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Drawer>
+  <DrawerTrigger
+    asChild={(props) => (
+      <Button {...props()} variant="outline">
+        Open
+      </Button>
+    )}
+  />
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+    </DrawerHeader>
+    <div sx={styles.body} />
+    <DrawerFooter>
+      <Button>Submit</Button>
+      <DrawerClose
+        asChild={(props) => (
+          <Button {...props()} variant="outline">
+            Cancel
+          </Button>
+        )}
+      />
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
 ```
 
 <!-- ::end:only -->
@@ -187,13 +264,29 @@ side it names.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::start:only svelte/ark -->
+
+Vue's `Drawer` takes the same sides and hands Ark UI its own, which are logical (`start` and `end`
+for left and right, read with the page's direction), so a right-to-left page keeps a drawer on the
+side it names.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+Vue's `Drawer` takes the same sides and hands Ark UI its own, which are logical (`start` and `end`
+for left and right, read with the page's direction), so a right-to-left page keeps a drawer on the
+side it names.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Swipe Handle
 
 Use `showSwipeHandle` on `Drawer` to render a swipe handle.
 
-<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Nested
 
@@ -206,7 +299,21 @@ behind the frontmost one where Base UI's shrinks into the stack.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::start:only svelte/ark -->
+
+Ark UI places each drawer itself, from its swipe and snap point, so a parent drawer stays full size
+behind the frontmost one where Base UI's shrinks into the stack.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+Ark UI places each drawer itself, from its swipe and snap point, so a parent drawer stays full size
+behind the frontmost one where Base UI's shrinks into the stack.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Non Modal
 
@@ -218,7 +325,19 @@ On Vue, `modal` is `true` or `false`: Ark UI's drawer has no focus-only mode.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::start:only svelte/ark -->
+
+On Vue, `modal` is `true` or `false`: Ark UI's drawer has no focus-only mode.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+On Vue, `modal` is `true` or `false`: Ark UI's drawer has no focus-only mode.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Snap Points
 
@@ -226,13 +345,13 @@ Use `snapPoints` to snap a drawer to preset heights. Numbers between `0` and `1`
 
 Track the active snap point with the controlled `snapPoint` and `onSnapPointChange` props. At the full snap point, the drawer gets a `data-expanded` attribute you can style with the `data-expanded:` variant.
 
-<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Responsive
 
 You can combine the `Dialog` and `Drawer` components to create a responsive dialog. This renders a `Dialog` component on desktop and a `Drawer` on mobile.
 
-<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## API Reference
 

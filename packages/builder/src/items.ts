@@ -289,7 +289,11 @@ export const ITEMS: Item[] = [
         ? ["lib/use-mobile.ts"]
         : combination.framework === "vue"
           ? ["lib/vue/use-mobile.ts"]
-          : undefined,
+          : combination.framework === "svelte"
+            ? ["lib/svelte/use-mobile.svelte.ts"]
+            : combination.framework === "solid"
+              ? ["lib/solid/use-mobile.ts"]
+              : undefined,
   },
   {
     name: "use-highlighted-code",
@@ -311,7 +315,20 @@ export const ITEMS: Item[] = [
               "lib/highlight-tokens.ts",
               "styles/highlight.styles.ts",
             ]
-          : undefined,
+          : combination.framework === "svelte"
+            ? [
+                "lib/svelte/use-highlighted-code.ts",
+                "lib/svelte/HighlightedLine.svelte",
+                "lib/highlight-tokens.ts",
+                "styles/highlight.styles.ts",
+              ]
+            : combination.framework === "solid"
+              ? [
+                  "lib/solid/use-highlighted-code.tsx",
+                  "lib/highlight-tokens.ts",
+                  "styles/highlight.styles.ts",
+                ]
+              : undefined,
   },
   sharedStyles("overlay", "How popups, modals and backdrops come and go."),
   sharedStyles(

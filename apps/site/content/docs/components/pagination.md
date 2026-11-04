@@ -2,17 +2,29 @@
 title: Pagination
 description: Pagination with page navigation, next and previous links.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [pagination, pages, navigation, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [
+    pagination,
+    pages,
+    navigation,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    solid,
+  ]
 ---
 
 # Pagination
 
-<!-- ::preview item="pagination-demo" height="300" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="pagination-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="pagination" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="pagination" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -90,6 +102,66 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>
+        2
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Pagination`:
@@ -111,19 +183,19 @@ Pagination
 
 A simple pagination with only page numbers.
 
-<!-- ::preview item="pagination-simple" height="300" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="pagination-simple" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Icons Only
 
 Use just the previous and next buttons without page numbers. This is useful for data tables with a rows per page selector.
 
-<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 
