@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar07Icon from "./Sidebar07Icon.vue"
 import { css } from "@kirana-style/core"
 import { duration, easing } from "../../../../../core/scales"
 import IconPlaceholder from "../../../../../icons/IconPlaceholder.vue"
@@ -39,7 +40,13 @@ const { items } = defineProps<{
   items: {
     title: string
     url: string
-    icon?: unknown
+    icon?: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
     isActive?: boolean
     items?: {
       title: string
@@ -63,7 +70,7 @@ const { items } = defineProps<{
         <SidebarMenuItem>
           <CollapsibleTrigger as-child>
             <SidebarMenuButton :tooltip="item.title">
-              {{ item.icon }}
+              <Sidebar07Icon v-if="item.icon" :icon="item.icon" />
               <span>
                 {{ item.title }}
               </span>

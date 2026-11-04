@@ -21,12 +21,6 @@ import type { Sx } from "@workspace/registry/lib/sx"
 import { css } from "@kirana-style/core"
 
 import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/registry/bases/react-base/ui/tabs"
-
-import {
   chooseCombination,
   combinationList,
   useCombination,
@@ -34,6 +28,14 @@ import {
 import type { DocsCombination } from "../provider.tsx"
 import { useDocs } from "../provider.tsx"
 import { Button } from "@workspace/registry/bases/react-base/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/registry/bases/react-base/ui/select"
 import { LanguageSelector } from "@workspace/registry/bases/react-base/components/language-selector"
 import type { Language } from "@workspace/registry/bases/react-base/components/language-selector"
 import {
@@ -108,8 +110,6 @@ const styles = {
   }),
   picker: css({
     marginBlockEnd: spacing[2],
-    overflowX: "auto",
-    scrollbarWidth: "none",
   }),
   missing: css({
     marginBlockEnd: spacing[5],
@@ -129,21 +129,30 @@ export function CombinationPicker({
   sx?: Sx
 }) {
   if (available.length < 2 || !current) return null
+  // A menu, not a row of tabs: there are more frameworks and bases than a toolbar has room for.
   return (
-    <Tabs
+    <Select
       value={current.id}
       onValueChange={(value) => chooseCombination(String(value))}
-      sx={[styles.picker, sx]}
-      data-slot="combination-picker"
     >
-      <TabsList variant="line">
-        {available.map((combination) => (
-          <TabsTrigger key={combination.id} value={combination.id}>
-            {combination.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      <SelectTrigger
+        size="sm"
+        aria-label="Framework"
+        data-slot="combination-picker"
+        sx={[styles.picker, sx]}
+      >
+        <SelectValue>{() => current.label}</SelectValue>
+      </SelectTrigger>
+      <SelectContent align="end">
+        <SelectGroup>
+          {available.map((combination) => (
+            <SelectItem key={combination.id} value={combination.id}>
+              {combination.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
 

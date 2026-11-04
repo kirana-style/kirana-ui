@@ -16,6 +16,7 @@
     "jsxImportSource": "solid-js",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "paths": { "@workspace/registry/*": ["../../registry/*"] },
     "verbatimModuleSyntax": true,
     "noEmit": true,
     "skipLibCheck": true,

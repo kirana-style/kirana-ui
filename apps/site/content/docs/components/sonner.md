@@ -2,13 +2,14 @@
 title: Sonner
 description: An opinionated toast component for React.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [sonner, toast, notification, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [sonner, toast, notification, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Sonner
 
-<!-- ::preview item="sonner-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="sonner-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## About
 
@@ -16,7 +17,7 @@ Sonner is built and maintained by [emilkowalski](https://twitter.com/emilkowalsk
 
 ## Installation
 
-<!-- ::installation name="sonner" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="sonner" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 Then add the `Toaster` to your root layout:
 
@@ -50,17 +51,17 @@ toast("Event has been created.")
 
 ## Types
 
-<!-- ::preview item="sonner-types" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="sonner-types" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Description
 
-<!-- ::preview item="sonner-description" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="sonner-description" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Position
 
 Use the `position` prop to change the position of the toast.
 
-<!-- ::preview item="sonner-position" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="sonner-position" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## API Reference
 

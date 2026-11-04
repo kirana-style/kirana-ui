@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar16Icon from "./Sidebar16Icon.vue"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -11,7 +12,13 @@ const { items } = defineProps<{
   items: {
     title: string
     url: string
-    icon: unknown
+    icon: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
   }[]
 }>()
 </script>
@@ -23,7 +30,7 @@ const { items } = defineProps<{
         <SidebarMenuItem v-for="item in items" :key="item.title">
           <SidebarMenuButton size="sm" as-child>
             <a :href="item.url">
-              {{ item.icon }}
+              <Sidebar16Icon v-if="item.icon" :icon="item.icon" />
               <span>
                 {{ item.title }}
               </span>

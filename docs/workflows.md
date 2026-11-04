@@ -428,8 +428,8 @@ that React's Base UI has too, docs demos and `-example` pages alike. Its
 reviewed differences are `conformance/framework-differences.json`.
 
 A component on another framework follows React's file of the same name, and
-keeps its parts' `data-slot`s, so the harness pairs them. On Ark UI (Vue and
-Svelte now, Solid after):
+keeps its parts' `data-slot`s, so the harness pairs them. On Ark UI (Vue,
+Svelte and Solid):
 
 - **Ark's own API, React's props where they carry over.** A part passes its
   caller's props to Ark's, so a Vue page writes Ark's names (`v-model:open`,

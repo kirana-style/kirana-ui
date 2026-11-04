@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar10Icon from "./Sidebar10Icon.vue"
 import { ref } from "vue"
 import {
   DropdownMenu,
@@ -105,7 +106,13 @@ const styles = {
 const { teams } = defineProps<{
   teams: {
     name: string
-    logo: unknown
+    logo: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
     plan: string
   }[]
 }>()
@@ -120,7 +127,7 @@ const activeTeam = ref(teams[0])
           <DropdownMenuTrigger as-child>
             <SidebarMenuButton :sx="styles.sidebarMenuButton">
               <div :sx="styles.teamSwitcherDiv">
-                {{ activeTeam.logo }}
+                <Sidebar10Icon v-if="activeTeam.logo" :icon="activeTeam.logo" />
               </div>
               <span :sx="styles.teamSwitcherSpan">
                 {{ activeTeam.name }}
@@ -152,7 +159,7 @@ const activeTeam = ref(teams[0])
                 :sx="styles.dropdownMenuItem"
               >
                 <div :sx="styles.div2">
-                  {{ team.logo }}
+                  <Sidebar10Icon v-if="team.logo" :icon="team.logo" />
                 </div>
                 {{ team.name }}
                 <DropdownMenuShortcut> ⌘{{ index + 1 }} </DropdownMenuShortcut>

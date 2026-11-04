@@ -2,17 +2,18 @@
 title: Kbd
 description: Used to display textual user input from keyboard.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [kbd, keyboard, shortcut, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [kbd, keyboard, shortcut, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Kbd
 
-<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="kbd" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="kbd" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -46,6 +47,14 @@ import { Kbd } from "@/components/ui/kbd"
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Kbd>Ctrl</Kbd>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build `Kbd` and `KbdGroup`:
@@ -61,13 +70,13 @@ KbdGroup
 
 Use the `KbdGroup` component to group keyboard keys together.
 
-<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Button
 
 Use the `Kbd` component inside a `Button` component to display a keyboard key inside a button.
 
-<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Tooltip
 
@@ -85,7 +94,7 @@ You can use the `Kbd` component inside a `InputGroupAddon` component to display 
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

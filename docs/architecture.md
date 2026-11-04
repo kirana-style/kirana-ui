@@ -371,7 +371,11 @@ styles would win. For the same reason an Ark `asChild` child that has an `sx`
 names the props' class and style (`<button {...props()} class={props().class}
 style={props().style} sx={…}>`): a class or style that arrives in a spread is
 replaced by the `sx`. Solid's JSX takes `sx` as React's does, and a component
-passes its `sx` prop on last (`splitProps` keeps the props reactive). An Angular
+passes its `sx` prop on last (`splitProps` keeps the props reactive). On a component `sx` is an
+ordinary prop, so a part on an Ark UI part spreads `{...styleProps(local.class, own, local.sx)}`:
+a class an `asChild` parent hands it first, its own styles, the caller's last. A part whose root
+is one of the registry's own components passes the caller's on as `sx`, merged after that
+component's own. An Angular
 template reaches only its component's members, so Kirana merges `sx` in the
 browser there: each Angular part is a directive on the element the caller writes
 (`<button kuiButton>`, `<div kuiCard>`), which merges its own styles with its `sx`

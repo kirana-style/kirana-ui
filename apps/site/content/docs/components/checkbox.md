@@ -2,17 +2,18 @@
 title: Checkbox
 description: A control that allows the user to toggle between checked and not checked.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [checkbox, form, field, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [checkbox, form, field, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Checkbox
 
-<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="checkbox" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="checkbox" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -41,6 +42,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 <!-- ::start:only svelte/ark -->
 
 ```svelte
+<Checkbox />
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
 <Checkbox />
 ```
 
@@ -98,19 +107,19 @@ show the invalid styles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Basic
 
 Pair the checkbox with `Field` and `FieldLabel` for proper layout and labeling.
 
-<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Description
 
 Use `FieldContent` and `FieldDescription` for helper text.
 
-<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Disabled
 
@@ -126,23 +135,23 @@ Use the `isDisabled` prop to prevent interaction and add the `data-disabled` att
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Group
 
 Use multiple fields to create a checkbox list.
 
-<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Table
 
-<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -167,6 +176,12 @@ See the [Ark UI Checkbox](https://ark-ui.com/vue/docs/components/checkbox#api-re
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Checkbox](https://ark-ui.com/svelte/docs/components/checkbox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+See the [Ark UI Checkbox](https://ark-ui.com/solid/docs/components/checkbox#api-reference) documentation.
 
 <!-- ::end:only -->
 

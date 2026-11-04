@@ -62,6 +62,19 @@ const line = css({ height: "1rem", width: "250px" })
 <Skeleton sx={line} />
 ```
 
+### Solid
+
+```tsx
+import { css } from "@kirana-style/core"
+import { Skeleton } from "@/components/ui/skeleton"
+
+export function Example() {
+  const line = css({ height: "1rem", width: "250px" })
+
+  return <Skeleton sx={line} />
+}
+```
+
 ### Angular
 
 ```ts
@@ -84,30 +97,30 @@ export class Example {
 
 ## Avatar
 
-<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="skeleton-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Card
 
-<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="skeleton-card" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Text
 
-<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="skeleton-text" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Form
 
-<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="skeleton-form" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Table
 
-<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="skeleton-table" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
-<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 <!-- ::end:only -->

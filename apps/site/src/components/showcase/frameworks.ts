@@ -17,6 +17,8 @@ export type ShowcaseFramework = {
   /** The combination it shows, as the docs name them. */
   combination: string
   icon: SvglIcon
+  /** Upstream's whole home, its rails beside the grid: framed across the band, as React's. */
+  full?: true
 }
 
 export const SHOWCASE_FRAMEWORKS: readonly ShowcaseFramework[] = [
@@ -24,6 +26,7 @@ export const SHOWCASE_FRAMEWORKS: readonly ShowcaseFramework[] = [
     id: "react",
     label: "React",
     combination: "react/base",
+    full: true,
     icon: {
       title: "React",
       url: "https://react.dev",
@@ -34,6 +37,7 @@ export const SHOWCASE_FRAMEWORKS: readonly ShowcaseFramework[] = [
     id: "vue",
     label: "Vue",
     combination: "vue/ark",
+    full: true,
     icon: { title: "Vue", url: "https://vuejs.org", route: vueLogo },
   },
   {

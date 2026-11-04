@@ -2,17 +2,18 @@
 title: Toggle
 description: A two-state button that can be either on or off.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [toggle, button, pressed, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [toggle, button, pressed, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Toggle
 
-<!-- ::preview item="toggle-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="toggle-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="toggle" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="toggle" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -46,31 +47,39 @@ import { Toggle } from "@/components/ui/toggle"
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Toggle>Toggle</Toggle>
+```
+
+<!-- ::end:only -->
+
 ## Outline
 
 Use `variant="outline"` for an outline style.
 
-<!-- ::preview item="toggle-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="toggle-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## With Text
 
-<!-- ::preview item="toggle-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="toggle-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Size
 
 Use the `size` prop to change the size of the toggle.
 
-<!-- ::preview item="toggle-sizes" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="toggle-sizes" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Disabled
 
-<!-- ::preview item="toggle-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="toggle-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="toggle-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="toggle-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -95,6 +104,12 @@ See the [Ark UI Toggle](https://ark-ui.com/vue/docs/components/toggle#api-refere
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Toggle](https://ark-ui.com/svelte/docs/components/toggle#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+See the [Ark UI Toggle](https://ark-ui.com/solid/docs/components/toggle#api-reference) documentation.
 
 <!-- ::end:only -->
 

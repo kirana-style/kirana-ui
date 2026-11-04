@@ -2,17 +2,18 @@
 title: Aspect Ratio
 description: Displays content within a desired ratio.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [aspect ratio, image, ratio, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [aspect ratio, image, ratio, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Aspect Ratio
 
-<!-- ::preview item="aspect-ratio-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="aspect-ratio-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="aspect-ratio" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="aspect-ratio" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -58,23 +59,33 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="..." alt="Image" sx={styles.image} />
+</AspectRatio>
+```
+
+<!-- ::end:only -->
+
 ## Square
 
 A square aspect ratio component using the `ratio={1 / 1}` prop. This is useful for displaying images in a square format.
 
-<!-- ::preview item="aspect-ratio-square" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="aspect-ratio-square" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Portrait
 
 A portrait aspect ratio component using the `ratio={9 / 16}` prop. This is useful for displaying images in a portrait format.
 
-<!-- ::preview item="aspect-ratio-portrait" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="aspect-ratio-portrait" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="aspect-ratio-rtl" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="aspect-ratio-rtl" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

@@ -1,23 +1,22 @@
 import { css } from "@kirana-style/core"
-
 import { space } from "../../../core/scales"
 import { radius } from "../../../core/tokens"
 import { page } from "../../../styles/page.styles"
 import { Skeleton } from "../ui/skeleton"
 
-const styles = {
-  row: css({ display: "flex", alignItems: "center", gap: space[4] }),
-  lines: css({ display: "flex", flexDirection: "column", gap: space[2] }),
-  avatar: css({
-    width: space[12],
-    height: space[12],
-    borderRadius: radius.full,
-  }),
-  wide: css({ height: space[4], width: "250px" }),
-  narrow: css({ height: space[4], width: "200px" }),
-}
-
 export default function SkeletonDemo() {
+  const styles = {
+    row: css({ display: "flex", alignItems: "center", gap: space[4] }),
+    lines: css({ display: "flex", flexDirection: "column", gap: space[2] }),
+    avatar: css({
+      width: space[12],
+      height: space[12],
+      borderRadius: radius.full,
+    }),
+    wide: css({ height: space[4], width: "250px" }),
+    narrow: css({ height: space[4], width: "200px" }),
+  }
+
   return (
     <div sx={page.example}>
       <div sx={styles.row}>

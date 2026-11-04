@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar16Icon from "./Sidebar16Icon.vue"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,7 +58,13 @@ const { projects } = defineProps<{
   projects: {
     name: string
     url: string
-    icon: unknown
+    icon: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
   }[]
 }>()
 const { isMobile } = useSidebar()
@@ -70,7 +77,7 @@ const { isMobile } = useSidebar()
       <SidebarMenuItem v-for="item in projects" :key="item.name">
         <SidebarMenuButton as-child>
           <a :href="item.url">
-            {{ item.icon }}
+            <Sidebar16Icon v-if="item.icon" :icon="item.icon" />
             <span>
               {{ item.name }}
             </span>

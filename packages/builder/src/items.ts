@@ -123,12 +123,12 @@ function component(
  * The frameworks being ported after Vue, built against React's pages: each has a component Vue
  * has once its markup is written.
  */
-const PORTING: Framework[] = ["svelte"]
+const PORTING: Framework[] = ["svelte", "solid"]
 
 function ported(name: string, combination: Combination): boolean {
   return (
     PORTING.includes(combination.framework) &&
-    existsSync(join(REGISTRY, "bases", combination.bases, "ui", name))
+    existsSync(join(REGISTRY, markupOf(name, combination).replace(/\/\*$/, "")))
   )
 }
 
@@ -255,7 +255,7 @@ export const ITEMS: Item[] = [
     title: "Icon placeholder",
     description:
       "An icon named for every icon library, drawn in the one the project uses.",
-    // React's, Vue's and Svelte's for now; Solid and Angular get theirs with their first icon. The
+    // React's, Vue's, Svelte's and Solid's for now; Angular gets its own with its first icon. The
     // data: Lucide's and Hugeicons' in `data.ts`, each other library's in a file it loads on demand.
     files: (combination) =>
       react(combination)
@@ -264,7 +264,9 @@ export const ITEMS: Item[] = [
           ? [...ICON_DATA, "icons/IconPlaceholder.vue", "icons/vue.ts"]
           : combination.framework === "svelte"
             ? [...ICON_DATA, "icons/IconPlaceholder.svelte", "icons/svelte.ts"]
-            : undefined,
+            : combination.framework === "solid"
+              ? [...ICON_DATA, "bases/solid-ark/ui/icon-placeholder.tsx"]
+              : undefined,
   },
   {
     name: "placement",

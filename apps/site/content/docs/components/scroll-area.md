@@ -2,18 +2,18 @@
 title: Scroll Area
 description: Augments native scroll functionality for custom, cross-browser styling.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
 keywords:
   [scroll area, scrollbar, overflow, component, base, aria, ark, vue, svelte]
 ---
 
 # Scroll Area
 
-<!-- ::preview item="scroll-area-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="scroll-area-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="scroll-area" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="scroll-area" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -83,6 +83,29 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+import { css } from "@kirana-style/core"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+export function Example() {
+  const styles = {
+    area: css({
+      width: "350px",
+      height: "200px",
+      padding: "1rem",
+      border: "1px solid",
+      borderRadius: "0.375rem",
+    }),
+  }
+
+  return <ScrollArea sx={styles.area}>Your scrollable content here.</ScrollArea>
+}
+```
+
+<!-- ::end:only -->
+
 <!-- ::start:only react/base,react/aria -->
 
 ```tsx
@@ -122,13 +145,13 @@ Use `ScrollBar` with `orientation="horizontal"` for horizontal scrolling.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -147,6 +170,12 @@ See the [Ark UI Scroll Area](https://ark-ui.com/vue/docs/components/scroll-area#
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Scroll Area](https://ark-ui.com/svelte/docs/components/scroll-area#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+See the [Ark UI Scroll Area](https://ark-ui.com/solid/docs/components/scroll-area#api-reference) documentation.
 
 <!-- ::end:only -->
 
