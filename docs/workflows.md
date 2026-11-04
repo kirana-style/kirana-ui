@@ -531,6 +531,38 @@ Svelte and Solid):
   SDK's current major has no Solid adapter either: `lib/solid/chat.ts` is its
   `AbstractChat` over signals, with Svelte's `Chat` API.
 
+On Angular (ng-primitives):
+
+- **A part is a directive on the element the caller writes** (`<div kuiAlert>`,
+  `<button kuiButton variant="outline">`), so the page keeps React's elements
+  and no wrapper element enters the layout. Its inputs are React's props, its
+  `sx` input merged after its own styles (`partSx`) and bound to the host's
+  `class` and `style`; `provideSxPart()` keeps Kirana's `SxDirective` off it, so
+  a template writes `[sx]` on parts and plain elements alike. A part that draws
+  markup of its own (Native Select's `<select>` and chevron, Breadcrumb's
+  ellipsis, Field's separator, Table's scroll container) is a component on an
+  attribute selector, the caller's content its `<ng-content>`, with a fallback
+  where React's part has default children (Breadcrumb's chevron).
+- **An attribute the caller writes stays on the element.** Angular sets a static
+  attribute even when an input of the same name reads it, so a part whose input
+  shares a name with an HTML attribute that styles (`align`, which is
+  `text-align`) removes it (`"[attr.align]": "null"`), and a part writes no
+  `data-*` attribute React's does not (a message reads `[data-variant]` to find
+  a ghost bubble, which a Button's would match).
+- **Write ARIA and `data-*` attributes as React does** (`aria-invalid="true"`,
+  `data-icon="inline-start"`): they are attributes, not inputs.
+- **An icon is a directive on its `<svg>`** (`<svg iconPlaceholder lucide="…"
+  tabler="…" …>`, `registry/icons/angular.ts`), so it is the flex item a Button
+  lays out and an `[sx]` styles it; a part that is an icon of its own (Spinner)
+  extends the same `IconDrawing`. The library is one signal the preview provides
+  under `ICON_LIBRARY`, following the design.
+- **Button labels its text after it renders**, as Svelte's and Solid's do: each
+  run of text is wrapped once the page is drawn and again as it changes;
+  `labelText` false leaves it bare.
+
+Each framework's preview loads an example only when its page asks for it
+(`import.meta.glob`), so a page fetches its own chunk and no other.
+
 `vue-tsc` checks the registry's Vue markup and its demos before the Vue
 preview builds (`apps/preview-vue/tsconfig.vue.json`), as `vp check` checks
 React's.

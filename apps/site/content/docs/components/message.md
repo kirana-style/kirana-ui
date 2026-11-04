@@ -2,8 +2,9 @@
 title: Message
 description: Displays a message in a conversation, with optional avatar, header, footer, and alignment.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [message, chat, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [message, chat, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Message
@@ -16,7 +17,7 @@ For AI apps, you can render reasoning steps, tool calls and assistant messages u
 
 ## Installation
 
-<!-- ::installation name="message" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="message" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -108,6 +109,31 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Message, MessageContent } from "@/components/ui/message"
+
+@Component({
+  selector: "app-example",
+  imports: [Bubble, BubbleContent, Message, MessageContent],
+  template: `
+    <div kuiMessage>
+      <div kuiMessageContent>
+        <div kuiBubble>
+          <div kuiBubbleContent>How can I help you today?</div>
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 **Note:** `Message` owns the row layout—avatar, alignment, header, and footer.
 Render the visible message surface inside it with
 [`Bubble`](/docs/components/bubble). For the scroll container around a
@@ -164,13 +190,13 @@ Use `MessageGroup` to stack consecutive messages from the same sender. Render an
 
 Use `MessageHeader` for a sender name and `MessageFooter` for metadata such as a delivery or read status.
 
-<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Actions
 
 Place message-level actions in `MessageFooter`, such as copy, retry, or feedback buttons.
 
-<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Attachment
 

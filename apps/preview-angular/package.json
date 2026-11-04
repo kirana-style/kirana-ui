@@ -8,15 +8,19 @@
     "build": "ngc -p tsconfig.app.json --noEmit && vp build"
   },
   "dependencies": {
+    "@angular/cdk": "catalog:",
     "@angular/common": "catalog:",
     "@angular/compiler": "catalog:",
     "@angular/core": "catalog:",
+    "@angular/forms": "catalog:",
     "@angular/platform-browser": "catalog:",
+    "@floating-ui/dom": "catalog:",
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
+    "ng-primitives": "catalog:",
     "rxjs": "catalog:"
   },
   "devDependencies": {

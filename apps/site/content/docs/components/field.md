@@ -2,8 +2,9 @@
 title: Field
 description: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [field, form, label, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [field, form, label, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Field
@@ -12,7 +13,7 @@ keywords: [field, form, label, component, base, aria, ark, vue, svelte, solid]
 
 ## Installation
 
-<!-- ::installation name="field" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="field" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -143,6 +144,67 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+    FieldLegend,
+    FieldSet,
+    Input,
+  ],
+  template: `
+    <fieldset kuiFieldSet>
+      <legend kuiFieldLegend>Profile</legend>
+      <p kuiFieldDescription>This appears on invoices and emails.</p>
+      <div kuiFieldGroup>
+        <div kuiField>
+          <label kuiFieldLabel for="name">Full name</label>
+          <input
+            kuiInput
+            id="name"
+            autocomplete="off"
+            placeholder="Evil Rabbit"
+          />
+          <p kuiFieldDescription>This appears on invoices and emails.</p>
+        </div>
+        <div kuiField>
+          <label kuiFieldLabel for="username">Username</label>
+          <input
+            kuiInput
+            id="username"
+            autocomplete="off"
+            aria-invalid="true"
+          />
+          <div kuiFieldError>Choose another username.</div>
+        </div>
+      </div>
+    </fieldset>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 ### Field
@@ -216,11 +278,11 @@ See the [Form](/docs/forms) documentation for building forms with the `Field` co
 
 ## Input
 
-<!-- ::preview item="field-input" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-input" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Textarea
 
-<!-- ::preview item="field-textarea" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-textarea" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Select
 
@@ -232,7 +294,7 @@ See the [Form](/docs/forms) documentation for building forms with the `Field` co
 
 ## Fieldset
 
-<!-- ::preview item="field-fieldset" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-fieldset" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Checkbox
 
@@ -270,7 +332,7 @@ To set the direction, see [Right to left](/docs/design-system/rtl).
 - **Horizontal fields:** Set `orientation="horizontal"` on `Field` to align the label and control side-by-side. Pair with `FieldContent` to keep descriptions aligned.
 - **Responsive fields:** Set `orientation="responsive"` for automatic column layouts inside container-aware parents. Apply `@container/field-group` classes on `FieldGroup` to switch orientations at specific breakpoints.
 
-<!-- ::preview item="field-responsive" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-responsive" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Validation and Errors
 

@@ -1,13 +1,19 @@
+/// <reference types="vite/client" />
 /**
- * What `/preview/angular/ng/<item>` can show: each item by its registry name, as Vue's
- * `previews.ts`.
+ * What `/preview/angular/ng/<item>` can show: every example in `examples/`, by its file's name, each
+ * loaded only on its own page (a page that loaded the whole map would download every item), as
+ * Vue's `previews.ts`. The site lists the same names from the folder (`virtual:preview-names`).
  */
 import type { Type } from "@angular/core"
 
-import ButtonDemo from "./examples/button-demo"
-import SkeletonDemo from "./examples/skeleton-demo"
+const examples = import.meta.glob<{ default: Type<unknown> }>("./examples/*.ts")
 
-export const previews: Record<string, Type<unknown>> = {
-  "button-demo": ButtonDemo,
-  "skeleton-demo": SkeletonDemo,
-}
+export const previews: Record<
+  string,
+  () => Promise<{ default: Type<unknown> }>
+> = Object.fromEntries(
+  Object.entries(examples).map(([path, load]) => [
+    path.slice("./examples/".length, -".ts".length),
+    load,
+  ])
+)

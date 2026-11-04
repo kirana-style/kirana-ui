@@ -2,8 +2,9 @@
 title: Label
 description: Renders an accessible label associated with controls.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [label, form, field, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [label, form, field, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Label
@@ -16,7 +17,7 @@ keywords: [label, form, field, component, base, aria, ark, vue, svelte, solid]
 
 ## Installation
 
-<!-- ::installation name="label" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="label" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -54,6 +55,22 @@ import { Label } from "@/components/ui/label"
 
 ```tsx
 <Label for="email">Your email address</Label>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { Label } from "@/components/ui/label"
+
+@Component({
+  selector: "app-example",
+  imports: [Label],
+  template: ` <label kuiLabel for="email">Your email address</label> `,
+})
+export class Example {}
 ```
 
 <!-- ::end:only -->
