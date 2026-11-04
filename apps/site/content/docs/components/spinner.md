@@ -2,8 +2,9 @@
 title: Spinner
 description: An indicator that can be used to show a loading state.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [spinner, loading, loader, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [spinner, loading, loader, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Spinner
@@ -12,7 +13,7 @@ keywords: [spinner, loading, loader, component, base, aria, ark, vue, svelte]
 
 ## Installation
 
-<!-- ::installation name="spinner" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="spinner" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -46,11 +47,19 @@ import { Spinner } from "@/components/ui/spinner"
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Spinner />
+```
+
+<!-- ::end:only -->
+
 ## Customization
 
 You can replace the default spinner icon with any other icon by editing the `Spinner` component.
 
-<!-- ::preview item="spinner-custom" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="spinner-custom" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ```tsx
 import { props } from "@kirana-style/core"
@@ -83,19 +92,19 @@ read `sx`.
 
 Use the `size-*` utility class to change the size of the spinner.
 
-<!-- ::preview item="spinner-size" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="spinner-size" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Button
 
 Add a spinner to a button to indicate a loading state. Place the `<Spinner />` before the label with `data-icon="inline-start"` for a start position, or after the label with `data-icon="inline-end"` for an end position.
 
-<!-- ::preview item="spinner-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="spinner-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Badge
 
 Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` before the label with `data-icon="inline-start"` for a start position, or after the label with `data-icon="inline-end"` for an end position.
 
-<!-- ::preview item="spinner-badge" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="spinner-badge" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Input Group
 
@@ -103,7 +112,7 @@ Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` be
 
 ## Empty
 
-<!-- ::preview item="spinner-empty" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="spinner-empty" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 

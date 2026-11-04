@@ -2,13 +2,13 @@
 title: Bubble
 description: Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [bubble, chat, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords: [bubble, chat, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Bubble
 
-<!-- ::preview item="bubble-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 The `Bubble` component displays framed conversational content. Use it for chat text, short structured output, quoted replies, suggestions, and reactions.
 
@@ -16,7 +16,7 @@ For full-featured chat interfaces, use the [`Message`](/docs/components/message)
 
 ## Installation
 
-<!-- ::installation name="bubble" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="bubble" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -71,6 +71,21 @@ import { Bubble, BubbleContent, BubbleReactions } from "@/components/ui/bubble"
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Bubble>
+  <BubbleContent>
+    I checked the registry output and removed the stale route.
+  </BubbleContent>
+  <BubbleReactions>
+    <span>👍</span>
+  </BubbleReactions>
+</Bubble>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a bubble:
@@ -104,7 +119,7 @@ BubbleGroup
 
 Use `variant` to change the visual treatment of the bubble.
 
-<!-- ::preview item="bubble-variants" height="960" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-variants" height="960" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 | Variant       | Description                                            |
 | ------------- | ------------------------------------------------------ |
@@ -122,7 +137,7 @@ A bubble sizes to its content, up to 80% of the container width. The `ghost` var
 
 Use `align` on `Bubble` to align the bubble to the start or end of the conversation.
 
-<!-- ::preview item="bubble-alignment" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-alignment" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 | align   | Description                                        |
 | ------- | -------------------------------------------------- |
@@ -143,13 +158,13 @@ BubbleGroup
     └── BubbleContent
 ```
 
-<!-- ::preview item="bubble-group-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-group-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Links and Buttons
 
 You can turn a bubble into a link or button by using the `render` prop on `BubbleContent`.
 
-<!-- ::preview item="bubble-link-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-link-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::start:only react/base -->
 
@@ -189,25 +204,25 @@ export function BubbleLinkDemo() {
 
 Use `BubbleReactions` for bubble reactions. You can use it to display reactions or quick action buttons. Use `side` and `align` to position the row — `side="top"` anchors it to the upper edge. Reactions overlap the bubble edge, so leave vertical space between rows — the examples below use a larger `gap` for this reason.
 
-<!-- ::preview item="bubble-reactions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-reactions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Show More / Collapsible
 
 Long bubble content can be composed with [`Collapsible`](/docs/components/collapsible) to allow for a show more or show less interaction. Use the `CollapsibleTrigger` component to trigger the collapsible content.
 
-<!-- ::preview item="bubble-collapsible" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-collapsible" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Tooltip
 
 Wrap a bubble in a [`Tooltip`](/docs/components/tooltip) to reveal metadata on hover, such as when a message was read.
 
-<!-- ::preview item="bubble-tooltip" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-tooltip" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Popover
 
 Pair a bubble with a [`Popover`](/docs/components/popover) to surface more information on demand, such as the full error message for a failed action.
 
-<!-- ::preview item="bubble-popover" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="bubble-popover" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Accessibility
 

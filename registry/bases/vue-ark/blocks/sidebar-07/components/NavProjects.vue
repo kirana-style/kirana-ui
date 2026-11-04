@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar07Icon from "./Sidebar07Icon.vue"
 import { css } from "@kirana-style/core"
 import { alpha, theme } from "../../../../../core/tokens"
 import IconPlaceholder from "../../../../../icons/IconPlaceholder.vue"
@@ -34,7 +35,13 @@ const { projects } = defineProps<{
   projects: {
     name: string
     url: string
-    icon: unknown
+    icon: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
   }[]
 }>()
 const { isMobile } = useSidebar()
@@ -47,7 +54,7 @@ const { isMobile } = useSidebar()
       <SidebarMenuItem v-for="item in projects" :key="item.name">
         <SidebarMenuButton as-child>
           <a :href="item.url">
-            {{ item.icon }}
+            <Sidebar07Icon v-if="item.icon" :icon="item.icon" />
             <span>
               {{ item.name }}
             </span>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Dashboard01Icon from "./Dashboard01Icon.vue"
 import { Button } from "../../../ui/button"
 import {
   SidebarGroup,
@@ -61,7 +62,13 @@ const { items } = defineProps<{
   items: {
     title: string
     url: string
-    icon?: unknown
+    icon?: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
   }[]
 }>()
 </script>
@@ -99,7 +106,7 @@ const { items } = defineProps<{
       <SidebarMenu>
         <SidebarMenuItem v-for="item in items" :key="item.title">
           <SidebarMenuButton :tooltip="item.title">
-            {{ item.icon }}
+            <Dashboard01Icon v-if="item.icon" :icon="item.icon" />
             <span>
               {{ item.title }}
             </span>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Dashboard01Icon from "./Dashboard01Icon.vue"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,7 +55,13 @@ const { items } = defineProps<{
   items: {
     name: string
     url: string
-    icon: unknown
+    icon: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
   }[]
 }>()
 const { isMobile } = useSidebar()
@@ -67,7 +74,7 @@ const { isMobile } = useSidebar()
       <SidebarMenuItem v-for="item in items" :key="item.name">
         <SidebarMenuButton as-child>
           <a :href="item.url">
-            {{ item.icon }}
+            <Dashboard01Icon v-if="item.icon" :icon="item.icon" />
             <span>
               {{ item.name }}
             </span>

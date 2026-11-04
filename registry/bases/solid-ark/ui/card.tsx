@@ -1,59 +1,145 @@
-import { splitProps } from "solid-js"
+import { mergeProps, splitProps } from "solid-js"
+import { props as styleProps } from "@kirana-style/core"
+import { card } from "../../../styles/card.styles"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 
-import { card } from "../../../styles/card.styles"
-
-type El = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & { sx?: Sx }
-
-function Card(props: El & { size?: "default" | "sm" }) {
-  const [local, rest] = splitProps(props, ["sx", "size"])
+function Card(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    size?: "default" | "sm"
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(
+    mergeProps({ size: "default" } as const, props),
+    ["size", "class", "sx", "children"]
+  )
   return (
     <div
       data-slot="card"
-      data-size={local.size ?? "default"}
+      data-size={local.size}
       {...rest}
-      sx={[card.root, local.sx]}
-    />
+      {...styleProps(local.class, card.root, local.sx)}
+    >
+      {local.children}
+    </div>
   )
 }
 
-function CardHeader(props: El) {
-  const [local, rest] = splitProps(props, ["sx"])
-  return <div data-slot="card-header" {...rest} sx={[card.header, local.sx]} />
+function CardAction(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  return (
+    <div
+      data-slot="card-action"
+      {...rest}
+      {...styleProps(local.class, card.action, local.sx)}
+    >
+      {local.children}
+    </div>
+  )
 }
 
-function CardTitle(props: El) {
-  const [local, rest] = splitProps(props, ["sx"])
-  return <div data-slot="card-title" {...rest} sx={[card.title, local.sx]} />
+function CardContent(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  return (
+    <div
+      data-slot="card-content"
+      {...rest}
+      {...styleProps(local.class, card.content, local.sx)}
+    >
+      {local.children}
+    </div>
+  )
 }
 
-function CardDescription(props: El) {
-  const [local, rest] = splitProps(props, ["sx"])
+function CardDescription(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(props, ["class", "sx", "children"])
   return (
     <div
       data-slot="card-description"
       {...rest}
-      sx={[card.description, local.sx]}
-    />
+      {...styleProps(local.class, card.description, local.sx)}
+    >
+      {local.children}
+    </div>
   )
 }
 
-function CardAction(props: El) {
-  const [local, rest] = splitProps(props, ["sx"])
-  return <div data-slot="card-action" {...rest} sx={[card.action, local.sx]} />
-}
-
-function CardContent(props: El) {
-  const [local, rest] = splitProps(props, ["sx"])
+function CardFooter(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(props, ["class", "sx", "children"])
   return (
-    <div data-slot="card-content" {...rest} sx={[card.content, local.sx]} />
+    <div
+      data-slot="card-footer"
+      {...rest}
+      {...styleProps(local.class, card.footer, local.sx)}
+    >
+      {local.children}
+    </div>
   )
 }
 
-function CardFooter(props: El) {
-  const [local, rest] = splitProps(props, ["sx"])
-  return <div data-slot="card-footer" {...rest} sx={[card.footer, local.sx]} />
+function CardHeader(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  return (
+    <div
+      data-slot="card-header"
+      {...rest}
+      {...styleProps(local.class, card.header, local.sx)}
+    >
+      {local.children}
+    </div>
+  )
+}
+
+function CardTitle(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+    class?: string
+    sx?: Sx
+    children?: JSX.Element
+  }
+) {
+  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  return (
+    <div
+      data-slot="card-title"
+      {...rest}
+      {...styleProps(local.class, card.title, local.sx)}
+    >
+      {local.children}
+    </div>
+  )
 }
 
 export {

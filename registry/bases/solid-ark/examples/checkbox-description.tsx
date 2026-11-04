@@ -1,0 +1,39 @@
+import { css } from "@kirana-style/core"
+import { Checkbox } from "../ui/checkbox"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "../ui/field"
+import { space } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+
+export default function CheckboxDescription() {
+  const styles = {
+    w72: css({ marginInline: "auto", width: { "*": null, base: space[72] } }),
+  }
+
+  return (
+    <div sx={page.example}>
+      <FieldGroup sx={styles.w72}>
+        <Field orientation="horizontal">
+          <Checkbox
+            id="terms-checkbox-desc"
+            name="terms-checkbox-desc"
+            defaultChecked
+          />
+          <FieldContent>
+            <FieldLabel for="terms-checkbox-desc">
+              Accept terms and conditions
+            </FieldLabel>
+            <FieldDescription>
+              By clicking this checkbox, you agree to the terms and conditions.
+            </FieldDescription>
+          </FieldContent>
+        </Field>
+      </FieldGroup>
+    </div>
+  )
+}

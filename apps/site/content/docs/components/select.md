@@ -2,17 +2,17 @@
 title: Select
 description: Displays a list of options for the user to pick from—triggered by a button.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [select, component, base, aria, ark, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords: [select, component, base, aria, ark, ark, vue, svelte, solid]
 ---
 
 # Select
 
-<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="select" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="select" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -143,6 +143,37 @@ const items = [
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+import { For } from "solid-js"
+
+export function Example() {
+  const items = [
+    { label: "Light", value: "light" },
+    { label: "Dark", value: "dark" },
+    { label: "System", value: "system" },
+  ]
+
+  return (
+    <Select items={items}>
+      <SelectTrigger sx={styles.trigger}>
+        <SelectValue placeholder="Theme" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <For each={items}>
+            {(item) => <SelectItem value={item.value}>{item.label}</SelectItem>}
+          </For>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Select`:
@@ -169,7 +200,7 @@ Select
 
 Use `alignItemWithTrigger` on `SelectContent` to control whether the selected item aligns with the trigger. When `true` (default), the popup positions so the selected item appears over the trigger. When `false`, the popup aligns to the trigger edge.
 
-<!-- ::preview item="select-align-item" height="360" combinations="react/base,vue/ark,svelte/ark" -->
+<!-- ::preview item="select-align-item" height="360" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::end:only -->
 
@@ -177,17 +208,17 @@ Use `alignItemWithTrigger` on `SelectContent` to control whether the selected it
 
 Use `SelectGroup`, `SelectLabel`, and `SelectSeparator` to organize items.
 
-<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Scrollable
 
 A select with many items that scrolls.
 
-<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Disabled
 
-<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Invalid
 
@@ -219,7 +250,7 @@ Add the `data-invalid` attribute to the `Field` component and the `isInvalid` pr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::start:only react/aria -->
 
@@ -231,13 +262,13 @@ Use the [Autocomplete](https://react-aria.adobe.com/Autocomplete) component from
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -264,6 +295,12 @@ See the [Ark UI Select](https://ark-ui.com/vue/docs/components/select#api-refere
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Select](https://ark-ui.com/svelte/docs/components/select#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+See the [Ark UI Select](https://ark-ui.com/solid/docs/components/select#api-reference) documentation.
 
 <!-- ::end:only -->
 

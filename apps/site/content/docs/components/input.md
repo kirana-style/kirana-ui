@@ -2,17 +2,17 @@
 title: Input
 description: A text input component for forms and user data entry with built-in styling and accessibility features.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [input, form, field, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords: [input, form, field, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Input
 
-<!-- ::preview item="input-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="input" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="input" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -46,65 +46,73 @@ import { Input } from "@/components/ui/input"
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Input />
+```
+
+<!-- ::end:only -->
+
 ## Basic
 
-<!-- ::preview item="input-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Field
 
 Use `Field`, `FieldLabel`, and `FieldDescription` to create an input with a
 label and description.
 
-<!-- ::preview item="input-field" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-field" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Field Group
 
 Use `FieldGroup` to show multiple `Field` blocks and to build forms.
 
-<!-- ::preview item="input-fieldgroup" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-fieldgroup" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Disabled
 
 Use the `disabled` prop to disable the input. To style the disabled state, add the `data-disabled` attribute to the `Field` component.
 
-<!-- ::preview item="input-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Invalid
 
 Use the `aria-invalid` prop to mark the input as invalid. To style the invalid state, add the `data-invalid` attribute to the `Field` component.
 
-<!-- ::preview item="input-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## File
 
 Use the `type="file"` prop to create a file input.
 
-<!-- ::preview item="input-file" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-file" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Inline
 
 Use `Field` with `orientation="horizontal"` to create an inline input.
 Pair with `Button` to create a search input with a button.
 
-<!-- ::preview item="input-inline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-inline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Grid
 
 Use a grid layout to place multiple inputs side by side.
 
-<!-- ::preview item="input-grid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-grid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Required
 
 Use the `required` attribute to indicate required inputs.
 
-<!-- ::preview item="input-required" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-required" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Badge
 
 Use `Badge` in the label to highlight a recommended field.
 
-<!-- ::preview item="input-badge" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-badge" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Input Group
 
@@ -122,10 +130,10 @@ To add buttons to an input, use the `ButtonGroup` component. See the [Button Gro
 
 A full form example with multiple inputs, a select, and a button.
 
-<!-- ::preview item="input-form" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="input-form" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="input-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="input-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->

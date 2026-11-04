@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar08Icon from "./Sidebar08Icon.vue"
 import {
   Collapsible,
   CollapsibleContent,
@@ -39,7 +40,13 @@ const { items } = defineProps<{
   items: {
     title: string
     url: string
-    icon: unknown
+    icon: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
     isActive?: boolean
     items?: {
       title: string
@@ -62,7 +69,7 @@ const { items } = defineProps<{
         <SidebarMenuItem>
           <SidebarMenuButton :tooltip="item.title" as-child>
             <a :href="item.url">
-              {{ item.icon }}
+              <Sidebar08Icon v-if="item.icon" :icon="item.icon" />
               <span>
                 {{ item.title }}
               </span>

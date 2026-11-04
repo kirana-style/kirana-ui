@@ -2,8 +2,9 @@
 title: Native Select
 description: A styled native HTML select element with consistent design system integration.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
-keywords: [native select, select, form, component, base, aria, ark, vue, svelte]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [native select, select, form, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Native Select
@@ -14,11 +15,11 @@ keywords: [native select, select, form, component, base, aria, ark, vue, svelte]
 
 import { InfoIcon } from "lucide-react"
 
-<!-- ::preview item="native-select-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="native-select-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="native-select" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="native-select" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -74,6 +75,20 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<NativeSelect>
+  <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+  <NativeSelectOption value="apple">Apple</NativeSelectOption>
+  <NativeSelectOption value="banana">Banana</NativeSelectOption>
+  <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+  <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+</NativeSelect>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 ### Simple
@@ -106,19 +121,19 @@ NativeSelect
 
 Use `NativeSelectOptGroup` to organize options into categories.
 
-<!-- ::preview item="native-select-groups" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="native-select-groups" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Disabled
 
 Add the `disabled` prop to the `NativeSelect` component to disable the select.
 
-<!-- ::preview item="native-select-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="native-select-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Invalid
 
 Use `aria-invalid` to show validation errors and the `data-invalid` attribute to the `Field` component for styling.
 
-<!-- ::preview item="native-select-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="native-select-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Native Select vs Select
 
@@ -129,7 +144,7 @@ Use `aria-invalid` to show validation errors and the `data-invalid` attribute to
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="native-select-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="native-select-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

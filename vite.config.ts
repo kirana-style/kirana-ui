@@ -305,6 +305,17 @@ export default defineConfig({
       "typescript/triple-slash-reference": "error",
       "vite-plus/prefer-vite-plus-imports": "error",
     },
+    // Solid's markup is JSX that React's rules misread: a store's fields are written in place
+    // (`createMutable`), and `children` is a prop like any other.
+    overrides: [
+      {
+        files: ["registry/bases/solid-ark/**", "apps/preview-solid/**"],
+        rules: {
+          "react/immutability": "off",
+          "react/no-children-prop": "off",
+        },
+      },
+    ],
     options: {
       typeAware: true,
       typeCheck: true,

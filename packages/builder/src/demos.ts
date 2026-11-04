@@ -34,6 +34,9 @@ const EXTENSIONS: Record<string, string> = {
   angular: ".ts",
 }
 
+/** The frameworks whose icons Kirana's installer resolves (`resolveIcons`). */
+const ICON_FRAMEWORKS: readonly string[] = ["react", "vue"]
+
 /** The frame's handles, as each framework's markup binds a style. */
 const FRAME = String.raw`page\.(?:example|narrow)`
 
@@ -153,7 +156,13 @@ export function demoCode(
     combination,
     "@/registry"
   )
-  if (!code.includes("icon-placeholder")) return atDefaultAliases(code)
+  // Kirana's installer draws icons on React and Vue so far: on the others a demo's code keeps its
+  // placeholders until its icon tables come.
+  if (
+    !code.includes("icon-placeholder") ||
+    !ICON_FRAMEWORKS.includes(combination.framework)
+  )
+    return atDefaultAliases(code)
   return Object.fromEntries(
     ICON_LIBRARIES.map((library) => [
       library,

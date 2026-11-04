@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Sidebar07Icon from "./Sidebar07Icon.vue"
 import { ref } from "vue"
 import { css } from "@kirana-style/core"
 import {
@@ -97,7 +98,13 @@ const styles = {
 const { teams } = defineProps<{
   teams: {
     name: string
-    logo: unknown
+    logo: {
+      lucide: string
+      tabler: string
+      hugeicons: string
+      phosphor: string
+      remixicon: string
+    }
     plan: string
   }[]
 }>()
@@ -113,7 +120,7 @@ const activeTeam = ref(teams[0])
           <DropdownMenuTrigger as-child>
             <SidebarMenuButton size="lg" :sx="styles.trigger">
               <div :sx="styles.logo">
-                {{ activeTeam.logo }}
+                <Sidebar07Icon v-if="activeTeam.logo" :icon="activeTeam.logo" />
               </div>
               <div :sx="styles.text">
                 <span :sx="styles.name">
@@ -148,7 +155,7 @@ const activeTeam = ref(teams[0])
                 :sx="styles.item"
               >
                 <div :sx="styles.badge">
-                  {{ team.logo }}
+                  <Sidebar07Icon v-if="team.logo" :icon="team.logo" />
                 </div>
                 {{ team.name }}
                 <DropdownMenuShortcut> ⌘{{ index + 1 }} </DropdownMenuShortcut>

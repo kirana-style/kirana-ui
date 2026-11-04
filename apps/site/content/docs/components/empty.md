@@ -2,18 +2,18 @@
 title: Empty
 description: Use the Empty component to display an empty state.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
 keywords:
   [empty, empty state, placeholder, component, base, aria, ark, vue, svelte]
 ---
 
 # Empty
 
-<!-- ::preview item="empty-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="empty-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="empty" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::installation name="empty" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -87,6 +87,25 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <Icon />
+    </EmptyMedia>
+    <EmptyTitle>No data</EmptyTitle>
+    <EmptyDescription>No data found</EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent>
+    <Button>Add data</Button>
+  </EmptyContent>
+</Empty>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `Empty` state:
@@ -104,25 +123,25 @@ Empty
 
 Use the `border` utility class to create an outline empty state.
 
-<!-- ::preview item="empty-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="empty-outline" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Background
 
 Use the `bg-*` and `bg-gradient-*` utilities to add a background to the empty state.
 
-<!-- ::preview item="empty-background" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="empty-background" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Avatar
 
 Use the `EmptyMedia` component to display an avatar in the empty state.
 
-<!-- ::preview item="empty-avatar" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="empty-avatar" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Avatar Group
 
 Use the `EmptyMedia` component to display an avatar group in the empty state.
 
-<!-- ::preview item="empty-avatar-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" -->
+<!-- ::preview item="empty-avatar-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## InputGroup
 
@@ -134,7 +153,7 @@ You can add an `InputGroup` component to the `EmptyContent` component.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="empty-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark" direction="rtl" -->
+<!-- ::preview item="empty-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 
