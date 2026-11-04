@@ -373,6 +373,16 @@
       "reason": "as the content's: the row Base UI focuses, which Ark UI only highlights"
     },
     {
+      "element": "a[data-slot=\"dropdown-menu-item\"]",
+      "property": "outline-width",
+      "reason": "as the item's, on a row rendered as a link: the row Base UI focuses, which Ark UI only highlights"
+    },
+    {
+      "element": "a[data-slot=\"dropdown-menu-item\"]",
+      "property": "outline-offset",
+      "reason": "as its outline's width: Base UI's focused row takes the focus ring's offset, Ark UI's highlighted row keeps none"
+    },
+    {
       "element": "div[data-slot=\"dropdown-menu-checkbox-item\"]",
       "property": "outline-width",
       "reason": "as the item's: the row Base UI focuses, which Ark UI only highlights"
@@ -522,6 +532,18 @@
       "property": "pointer-events",
       "route": "navigation-menu-",
       "reason": "opened by hovering its trigger, Base UI's menu writes `pointer-events: none` inline on its list while the pointer travels to the popup (its safe triangle), which the list's parts inherit; Ark UI keeps the pointer on the popup by its own timing and writes none"
+    },
+    {
+      "element": "div[data-slot=\"navigation-menu-content\"]",
+      "property": "(element)",
+      "route": "navigation-menu-example",
+      "reason": "Base UI portals the open panel to `<body>`, outside the example's section, where Ark UI's viewport sits inside the menu, so the harness pairs the same panel and its links under two section paths, one side's copy reading as missing (both open, the same three links: checked by hand)"
+    },
+    {
+      "element": "a[data-slot=\"navigation-menu-link\"]",
+      "property": "(element)",
+      "route": "navigation-menu-example",
+      "reason": "Base UI portals the open panel to `<body>`, outside the example's section, where Ark UI's viewport sits inside the menu, so the harness pairs the same panel and its links under two section paths, one side's copy reading as missing (both open, the same three links: checked by hand)"
     },
     {
       "element": "div[data-slot=\"slider-thumb\"]",

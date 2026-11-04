@@ -2,18 +2,30 @@
 title: Combobox
 description: Autocomplete input with a list of suggestions.
 section: components
-variants: [react/base, react/aria, vue/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
 keywords:
-  [combobox, autocomplete, select, search, component, base, aria, ark, vue]
+  [
+    combobox,
+    autocomplete,
+    select,
+    search,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    solid,
+  ]
 ---
 
 # Combobox
 
-<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="combobox" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="combobox" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -110,6 +122,70 @@ const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
     </ComboboxContent>
   </Combobox>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import {
+    Combobox,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxInput,
+    ComboboxItem,
+    ComboboxList,
+  } from "@/components/ui/combobox"
+
+  const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+</script>
+
+<Combobox items={frameworks}>
+  <ComboboxInput placeholder="Select a framework" />
+  <ComboboxContent>
+    <ComboboxEmpty>No items found.</ComboboxEmpty>
+    <ComboboxList>
+      {#snippet children({ item })}
+        <ComboboxItem value={item}>
+          {item}
+        </ComboboxItem>
+      {/snippet}
+    </ComboboxList>
+  </ComboboxContent>
+</Combobox>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+export function Example() {
+  const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {({ item }) => <ComboboxItem value={item}>{item}</ComboboxItem>}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
 ```
 
 <!-- ::end:only -->
@@ -457,25 +533,25 @@ export function ExampleComboboxMultiple() {
 
 A simple combobox with a list of frameworks.
 
-<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Multiple
 
 A combobox with multiple selection using `multiple` and `ComboboxChips`.
 
-<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Clear Button
 
 Use the `showClear` prop to show a clear button.
 
-<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Groups
 
 Use `ComboboxGroup` and `ComboboxSeparator` to group items.
 
-<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Custom Items
 
@@ -491,7 +567,7 @@ You can render custom component inside `ComboboxItem`.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Invalid
 
@@ -507,7 +583,7 @@ Use the `isInvalid` prop to make the combobox invalid.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Disabled
 
@@ -523,11 +599,11 @@ Use the `isDisabled` prop to disable the combobox.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Auto Highlight
 
-<!-- ::start:only react/base,vue/ark -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark -->
 
 <!-- ::start:only react/base -->
 
@@ -541,13 +617,25 @@ Use the `auto-highlight` prop to automatically highlight the first item on filte
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,vue/ark" -->
+<!-- ::start:only svelte/ark -->
+
+Use the `autoHighlight` prop to automatically highlight the first item on filter.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+Use the `autoHighlight` prop to automatically highlight the first item on filter.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::end:only -->
 
 ## Popup
 
-<!-- ::start:only react/base,vue/ark -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark -->
 
 <!-- ::start:only react/base -->
 
@@ -561,7 +649,19 @@ You can trigger the combobox from a button or any other component by giving `Com
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-popup" height="700" combinations="react/base,vue/ark" -->
+<!-- ::start:only svelte/ark -->
+
+You can trigger the combobox from a button or any other component by giving `ComboboxTrigger` the element (its `asChild` snippet, whose second argument is the chevron to render inside it). Move the `ComboboxInput` inside the `ComboboxContent`.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+You can trigger the combobox from a button or any other component by giving `ComboboxTrigger` the element (its `asChild` function, whose second argument draws the chevron inside it). Move the `ComboboxInput` inside the `ComboboxContent`.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="combobox-popup" height="700" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::end:only -->
 
@@ -569,13 +669,13 @@ You can trigger the combobox from a button or any other component by giving `Com
 
 You can add an addon to the combobox by using the `InputGroupAddon` component inside the `ComboboxInput`.
 
-<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 
@@ -594,6 +694,18 @@ See the [React Aria](https://react-aria.adobe.com/ComboBox#api) documentation fo
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Combobox](https://ark-ui.com/vue/docs/components/combobox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+See the [Ark UI Combobox](https://ark-ui.com/svelte/docs/components/combobox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+See the [Ark UI Combobox](https://ark-ui.com/solid/docs/components/combobox#api-reference) documentation.
 
 <!-- ::end:only -->
 

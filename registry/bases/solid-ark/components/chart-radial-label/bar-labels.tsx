@@ -1,0 +1,102 @@
+import { For, createUniqueId, splitProps } from "solid-js"
+import { css, props as styleProps } from "@kirana-style/core"
+import { theme } from "../../../../core/tokens"
+import { radialBands } from "../../ui/chart"
+import type { Sx } from "@kirana-style/core"
+import type { ChartConfig } from "../../ui/chart"
+
+export function BarLabels(props: {
+  class?: string
+  sx?: Sx
+  [attribute: string]: unknown
+}) {
+  const [local, rest] = splitProps(props, ["class", "sx"])
+  const styles = {
+    labels: css({
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      overflow: "visible",
+      pointerEvents: "none",
+      // `capitalize mix-blend-luminosity`: the labels are the config's, capitalised; white keeps
+      // its lightness over any bar.
+      mixBlendMode: "luminosity",
+    }),
+  }
+
+  const chartData = [
+    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+    { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
+    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+    { browser: "other", visitors: 90, fill: "var(--color-other)" },
+  ]
+
+  const chartConfig = {
+    visitors: {
+      label: "Visitors",
+    },
+    chrome: {
+      label: "Chrome",
+      color: theme.chart1,
+    },
+    safari: {
+      label: "Safari",
+      color: theme.chart2,
+    },
+    firefox: {
+      label: "Firefox",
+      color: theme.chart3,
+    },
+    edge: {
+      label: "Edge",
+      color: theme.chart4,
+    },
+    other: {
+      label: "Other",
+      color: theme.chart5,
+    },
+  } satisfies ChartConfig
+
+  const BROWSERS = chartData.map((row) => row.browser)
+
+  const radius = radialBands(BROWSERS, 30, 110)
+
+  function point(distance: number, degrees: number) {
+    const radians = (degrees * Math.PI) / 180
+    return `${distance * Math.cos(radians)},${-distance * Math.sin(radians)}`
+  }
+
+  const bands = radius.scale().range(radius.range)
+  const id = createUniqueId()
+  // Each band's middle, the radius its label's arc is drawn at.
+  const middles = chartData.map(
+    (row) => bands(row.browser)! + bands.bandwidth() / 2
+  )
+
+  return (
+    <svg
+      aria-hidden="true"
+      {...styleProps(local.class, styles.labels, local.sx)}
+      {...rest}
+    >
+      <svg x="50%" y="50%" overflow="visible">
+        <For each={chartData}>
+          {(row, i) => (
+            <text fill="white" font-size="11" dominant-baseline="central">
+              <path
+                id={`${id}-${row.browser}`}
+                d={`M${point(middles[i()]!, -85)}A${middles[i()]},${middles[i()]},0,1,0,${point(middles[i()]!, -86)}`}
+                fill="none"
+              />
+              <textPath href={`#${id}-${row.browser}`}>
+                {chartConfig[row.browser as keyof typeof chartConfig].label}
+              </textPath>
+            </text>
+          )}
+        </For>
+      </svg>
+    </svg>
+  )
+}

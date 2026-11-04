@@ -46,7 +46,8 @@ export default defineConfig({
   build: {
     outDir: OUT,
     emptyOutDir: true,
-    sourcemap: true,
+    // No source maps, as the other frameworks' previews: the Worker serves at most 20,000 static
+    // files per version, and these were 1,895 of them. The site's own pages keep theirs.
     // Kirana's browser floor, as the site's (`@workspace/vite-config`): an older target would
     // rewrite `light-dark()` in plain stylesheets.
     cssTarget: ["chrome123", "safari17.5", "firefox120"],
