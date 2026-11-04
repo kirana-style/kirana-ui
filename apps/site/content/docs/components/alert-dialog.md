@@ -2,18 +2,18 @@
 title: Alert Dialog
 description: A modal dialog that interrupts the user with important content and expects a response.
 section: components
-variants: [react/base, react/aria, vue/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
 keywords:
   [alert dialog, confirm, modal, dialog, component, base, aria, ark, vue]
 ---
 
 # Alert Dialog
 
-<!-- ::preview item="alert-dialog-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-dialog-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Installation
 
-<!-- ::installation name="alert-dialog" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="alert-dialog" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -134,6 +134,89 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import { Button } from "@/components/ui/button"
+  import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
+</script>
+
+<AlertDialog>
+  <AlertDialogTrigger>
+    {#snippet asChild(props)}
+      <Button {...props()} variant="outline">Show Dialog</Button>
+    {/snippet}
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+;<AlertDialog>
+  <AlertDialogTrigger
+    asChild={(props) => (
+      <Button {...props()} variant="outline">
+        Show Dialog
+      </Button>
+    )}
+  />
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `AlertDialog`:
@@ -176,37 +259,37 @@ AlertDialogTrigger
 
 A basic alert dialog with a title, description, and cancel and continue buttons.
 
-<!-- ::preview item="alert-dialog-basic" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-dialog-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Small
 
 Use the `size="sm"` prop to make the alert dialog smaller.
 
-<!-- ::preview item="alert-dialog-small" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-dialog-small" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Media
 
 Use the `AlertDialogMedia` component to add a media element such as an icon or image to the alert dialog.
 
-<!-- ::preview item="alert-dialog-media" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-dialog-media" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Small with Media
 
 Use the `size="sm"` prop to make the alert dialog smaller and the `AlertDialogMedia` component to add a media element such as an icon or image to the alert dialog.
 
-<!-- ::preview item="alert-dialog-small-media" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-dialog-small-media" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Destructive
 
 Use the `AlertDialogAction` component to add a destructive action button to the alert dialog.
 
-<!-- ::preview item="alert-dialog-destructive" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="alert-dialog-destructive" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="alert-dialog-rtl" height="224" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="alert-dialog-rtl" height="224" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

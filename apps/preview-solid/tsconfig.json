@@ -4,6 +4,8 @@
     "src/**/*.tsx",
     "../../registry/bases/solid-ark/**/*.ts",
     "../../registry/bases/solid-ark/**/*.tsx",
+    "../../registry/lib/solid/**/*.ts",
+    "../../registry/lib/solid/**/*.tsx",
     "vite.config.ts",
     "kirana.config.ts"
   ],

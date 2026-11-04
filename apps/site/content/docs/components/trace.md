@@ -3,8 +3,8 @@ title: Trace
 description: The building block for reasoning, tool calls, sources and more.
 section: components
 new: true
-variants: [react/base, react/aria, vue/ark]
-keywords: [trace, chat, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords: [trace, chat, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Trace
@@ -37,7 +37,7 @@ Every pattern below is a composition of `Trace` parts. See [AI Elements](/docs/a
 
 ## Installation
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="trace" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -75,6 +75,36 @@ import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace"
     </TraceLine>
   </Trace>
 </template>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Trace>
+  <TraceLine>
+    <TraceIcon>
+      <SearchIcon />
+    </TraceIcon>
+    <TraceTitle>Searched for minimumReleaseAge</TraceTitle>
+  </TraceLine>
+</Trace>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Trace>
+  <TraceLine>
+    <TraceIcon>
+      <SearchIcon />
+    </TraceIcon>
+    <TraceTitle>Searched for minimumReleaseAge</TraceTitle>
+  </TraceLine>
+</Trace>
 ```
 
 <!-- ::end:only -->
@@ -135,6 +165,46 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <TerminalIcon />
+        </TraceIcon>
+        <TraceTitle>Ran node --version</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>v24.18.0</TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <TerminalIcon />
+        </TraceIcon>
+        <TraceTitle>Ran node --version</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>v24.18.0</TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a trace line:
@@ -174,13 +244,13 @@ Trace
 
 Use a `TraceLine` on its own for a step with no detail to show. It reads as plain text.
 
-<!-- ::preview item="trace-static" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-static" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Status
 
 Set `status` on `TraceLine` when a step is running, has failed or hasn't started yet.
 
-<!-- ::preview item="trace-status" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-status" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 | Status      | Use for                                                                       |
 | ----------- | ----------------------------------------------------------------------------- |
@@ -193,13 +263,13 @@ Set `status` on `TraceLine` when a step is running, has failed or hasn't started
 
 Put secondary text such as a diff stat, a duration or a count in a `TraceDescription` after the `TraceTitle`. It does not truncate.
 
-<!-- ::preview item="trace-description" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-description" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Collapsible
 
 Wrap the line in a `TraceCollapsible` to show more detail when it expands. Put the `TraceLine` inside `TraceCollapsibleTrigger` and the detail in `TraceCollapsibleContent`.
 
-<!-- ::preview item="trace-collapsible" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-collapsible" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Open State
 
@@ -215,7 +285,7 @@ Rows start closed. Use `defaultExpanded` on `TraceCollapsible` to start open, or
 
 <!-- ::end:only -->
 
-<!-- ::preview item="trace-open" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-open" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 To open a row while it streams and let the reader's click win, pass `open ?? running`.
 
@@ -259,7 +329,7 @@ const [open, setOpen] = React.useState<boolean>()
 
 Wrap the `TraceLine` in an anchor. For a new tab, use an arrow-up-right icon and sr-only "(opens in a new tab)".
 
-<!-- ::preview item="trace-link" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-link" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ```tsx
 <a href="https://docs.astro.build" target="_blank" rel="noreferrer">
@@ -279,7 +349,7 @@ Wrap the `TraceLine` in an anchor. For a new tab, use an arrow-up-right icon and
 
 Wrap the `TraceLine` in the dialog's trigger. The dialog owns its open state, Escape and focus return.
 
-<!-- ::preview item="trace-dialog" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-dialog" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::start:only react/base -->
 
@@ -337,19 +407,19 @@ The same shape as the dialog. Popover works the same way. Drawer is a Base UI dr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="trace-sheet" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-sheet" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Group
 
 Put rows that sit next to each other in a `Trace`. It also styles any trigger or link that wraps a `TraceLine`.
 
-<!-- ::preview item="trace-group" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Sources
 
 A collapsible row whose detail is a `Trace` of link rows.
 
-<!-- ::preview item="trace-sources" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-sources" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::start:only react/base -->
 
@@ -367,7 +437,7 @@ See [Sources](/docs/ai-elements/sources) for more examples.
 
 A chain of thought is a collapsible row with step rows inside. Set the parent's status and title from its children.
 
-<!-- ::preview item="trace-steps" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-steps" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::start:only react/base -->
 
@@ -385,13 +455,13 @@ See [Chain of Thought](/docs/ai-elements/chain-of-thought) and [Task](/docs/ai-e
 
 A commit is a collapsible row with a line for each changed file. Say what changed in the title, Added, Edited or Deleted, and put the line counts in the description. Each file opens its diff in a [Sheet](#sheet).
 
-<!-- ::preview item="trace-commit" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-commit" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Whole Turn
 
 Three levels: the turn, a summary, and the rows. Text between steps sits between two `Trace` lists.
 
-<!-- ::preview item="trace-turn" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="trace-turn" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Reasoning
 

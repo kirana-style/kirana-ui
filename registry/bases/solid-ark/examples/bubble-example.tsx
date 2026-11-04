@@ -57,11 +57,11 @@ export default function BubbleExample() {
 
   const text = `The accessibility review found two focus states that were visually too subtle in dark mode.
 
-    I checked the dialog, menu, and drawer paths because each one renders focusable controls inside a layered surface.
+  I checked the dialog, menu, and drawer paths because each one renders focusable controls inside a layered surface.
 
-    The dialog and drawer are fine. The menu needs the hover and focus tokens split so keyboard focus stays visible when the pointer is not involved.
+  The dialog and drawer are fine. The menu needs the hover and focus tokens split so keyboard focus stays visible when the pointer is not involved.
 
-    I also recommend keeping the change in the style file instead of the primitive so the other themes can choose their own focus treatment later.`
+  I also recommend keeping the change in the style file instead of the primitive so the other themes can choose their own focus treatment later.`
 
   const previewLength = 180
 

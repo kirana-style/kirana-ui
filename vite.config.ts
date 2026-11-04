@@ -309,10 +309,15 @@ export default defineConfig({
     // (`createMutable`), and `children` is a prop like any other.
     overrides: [
       {
-        files: ["registry/bases/solid-ark/**", "apps/preview-solid/**"],
+        files: [
+          "registry/bases/solid-ark/**",
+          "registry/lib/solid/**",
+          "apps/preview-solid/**",
+        ],
         rules: {
           "react/immutability": "off",
           "react/no-children-prop": "off",
+          "react/refs": "off",
         },
       },
     ],

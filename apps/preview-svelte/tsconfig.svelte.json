@@ -8,6 +8,8 @@
     "src/**/*.svelte",
     "../../registry/bases/svelte-ark/**/*.ts",
     "../../registry/bases/svelte-ark/**/*.svelte",
-    "../../registry/icons/IconPlaceholder.svelte"
+    "../../registry/icons/IconPlaceholder.svelte",
+    "../../registry/lib/svelte/**/*.ts",
+    "../../registry/lib/svelte/**/*.svelte"
   ]
 }

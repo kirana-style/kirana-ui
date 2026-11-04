@@ -35,6 +35,11 @@
   {#await load() then module}
     <module.default />
   {/await}
+  <!-- Sonner's toaster, as upstream's site mounts it on every page (`top-center`): loaded after
+       the page, since only the items that call `toast()` need it. -->
+  {#await import("@workspace/registry/bases/svelte-ark/ui/sonner/Toaster.svelte") then toaster}
+    <toaster.default position="top-center" />
+  {/await}
 {:else}
   <nav sx={list}>
     {#each Object.keys(previews) as name (name)}

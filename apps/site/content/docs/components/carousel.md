@@ -2,13 +2,26 @@
 title: Carousel
 description: A carousel with motion and swipe built using Embla.
 section: components
-variants: [react/base, react/aria, vue/ark]
-keywords: [carousel, slider, slides, embla, component, base, aria, ark, vue]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+keywords:
+  [
+    carousel,
+    slider,
+    slides,
+    embla,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    solid,
+  ]
 ---
 
 # Carousel
 
-<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## About
 
@@ -16,7 +29,7 @@ The carousel component is built using the [Embla Carousel](https://www.embla-car
 
 ## Installation
 
-<!-- ::installation name="carousel" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::installation name="carousel" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## Usage
 
@@ -64,6 +77,38 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Carousel>
+  <CarouselContent>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Carousel>
+  <CarouselContent>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Carousel`:
@@ -81,7 +126,7 @@ Carousel
 
 To set the size of the items, give the `<CarouselItem />` a `flexBasis` through `sx`.
 
-<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ```tsx
 // 33% of the carousel width.
@@ -108,7 +153,7 @@ const item = css({
 To set the spacing between the items, give the `<CarouselItem />` a `paddingLeft` and the
 `<CarouselContent />` the same negative `marginLeft`.
 
-<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ```tsx
 const content = css({ marginLeft: `calc(${space[2]} * -1)` })
@@ -127,7 +172,7 @@ const item = css({ paddingLeft: space[2] })
 
 Use the `orientation` prop to set the orientation of the carousel.
 
-<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ```tsx
 <Carousel orientation="vertical | horizontal">
@@ -179,11 +224,39 @@ You can pass options to the carousel using the `opts` prop. See the
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<Carousel opts={{ align: 'start', loop: true }}>
+  <CarouselContent>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+  </CarouselContent>
+</Carousel>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+<Carousel opts={{ align: "start", loop: true }}>
+  <CarouselContent>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+  </CarouselContent>
+</Carousel>
+```
+
+<!-- ::end:only -->
+
 ## API
 
 Use a state and the `setApi` prop to get an instance of the carousel API.
 
-<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 <!-- ::start:only react/base,react/aria -->
 
@@ -255,6 +328,67 @@ function setApi(api: CarouselApi) {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import { type CarouselApi } from "@/components/ui/carousel"
+
+  let current = $state(0)
+  let count = $state(0)
+
+  function setApi(api: CarouselApi) {
+    count = api.scrollSnapList().length
+    current = api.selectedScrollSnap() + 1
+    api.on("select", () => {
+      current = api.selectedScrollSnap() + 1
+    })
+  }
+</script>
+
+<Carousel setApi={setApi}>
+  <CarouselContent>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+  </CarouselContent>
+</Carousel>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import { createSignal } from "solid-js"
+import { CarouselApi } from "@/components/ui/carousel"
+
+export function Example() {
+  const [current, setCurrent] = createSignal(0)
+  const [count, setCount] = createSignal(0)
+
+  function setApi(api: CarouselApi) {
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1)
+    })
+  }
+
+  return (
+    <Carousel setApi={setApi}>
+      <CarouselContent>
+        <CarouselItem>...</CarouselItem>
+        <CarouselItem>...</CarouselItem>
+        <CarouselItem>...</CarouselItem>
+      </CarouselContent>
+    </Carousel>
+  )
+}
+```
+
+<!-- ::end:only -->
+
 ## Events
 
 You can listen to events using the api instance from `setApi`.
@@ -317,6 +451,56 @@ function setApi(api: CarouselApi) {
 
 <!-- ::end:only -->
 
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import { type CarouselApi } from "@/components/ui/carousel"
+
+  function setApi(api: CarouselApi) {
+    api.on("select", () => {
+      // Do something on select.
+    })
+  }
+</script>
+
+<Carousel setApi={setApi}>
+  <CarouselContent>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+    <CarouselItem>...</CarouselItem>
+  </CarouselContent>
+</Carousel>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import { CarouselApi } from "@/components/ui/carousel"
+
+export function Example() {
+  function setApi(api: CarouselApi) {
+    api.on("select", () => {
+      // Do something on select.
+    })
+  }
+
+  return (
+    <Carousel setApi={setApi}>
+      <CarouselContent>
+        <CarouselItem>...</CarouselItem>
+        <CarouselItem>...</CarouselItem>
+        <CarouselItem>...</CarouselItem>
+      </CarouselContent>
+    </Carousel>
+  )
+}
+```
+
+<!-- ::end:only -->
+
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/events/) for more information on using events.
 
 ## Plugins
@@ -363,13 +547,43 @@ const plugin = Autoplay({ delay: 2000 })
 
 <!-- ::end:only -->
 
-<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::start:only svelte/ark -->
+
+```svelte
+<script lang="ts">
+  import Autoplay from "embla-carousel-autoplay"
+
+  const plugin = Autoplay({ delay: 2000 })
+</script>
+
+<Carousel plugins={[plugin]}>
+  <!-- ... -->
+</Carousel>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only solid/ark -->
+
+```tsx
+import Autoplay from "embla-carousel-autoplay"
+
+export function Example() {
+  const plugin = Autoplay({ delay: 2000 })
+
+  return <Carousel plugins={[plugin]} />
+}
+```
+
+<!-- ::end:only -->
+
+<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
 
 ## API Reference
 

@@ -22,6 +22,7 @@
     class: className,
     children,
     asChild,
+    labelText = true,
     ...rest
   }: {
     variant?: ButtonVariants["variant"]
@@ -29,6 +30,11 @@
     class?: ClassValue | null
     children?: Snippet
     asChild?: Snippet<[PropsFn<"button">]>
+    /**
+     * `false` where a part renders the button as an element whose content its own caller writes
+     * (Pagination's link): React's renders that content outside the Button, so it has no label.
+     */
+    labelText?: boolean
     [attribute: string]: unknown
   } = $props()
 
@@ -41,7 +47,7 @@
   {asChild}
   {...rest}
   sx={[button({ variant, size }), className as Sx]}
-  {@attach labels}
+  {@attach labelText ? labels : undefined}
 >
   {@render children?.()}
 </Ark>
