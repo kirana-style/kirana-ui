@@ -408,6 +408,28 @@ sources (Ark UI 5.39, Reka UI 2.11, Bits UI 2.20):
 Every component Ark UI and Reka UI need here has a state vocabulary in
 `@kirana-style/states`. Bits UI's Command and ScrollArea do not yet.
 
+**Angular is on ng-primitives, and it carries 59 of the 64; four more come from
+the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,
+`@angular/cdk` 22.2.6 and `@angular/aria` 22.2.6: 34 items sit on ng-primitives'
+directives, 21 are plain markup, the direction is the CDK's `Directionality`
+(which ng-primitives reads), and three use a package: embla's Angular binding,
+TanStack Charts' Angular adapter and `ngx-sonner`. What ng-primitives does not
+carry, and what fills it:
+
+| Item             | On ng-primitives                             | Filled by                                                     |
+| ---------------- | -------------------------------------------- | ------------------------------------------------------------- |
+| drawer           | no drawer                                    | its dialog, with the swipe on the CDK's drag and drop         |
+| menubar          | menus, but no bar                            | the CDK's `CdkMenuBar` (or `@angular/aria`'s `MenuBar`)       |
+| resizable        | no splitter                                  | `angular-split`                                               |
+| scroll-area      | no scroll area                               | `ngx-scrollbar`                                               |
+| questionnaire    | no                                           | nothing: its logic is upstream's React package, on every base |
+| message-scroller | its thread viewport follows the last message | the rest of upstream's React logic, ported                    |
+
+So Angular can carry 63, where Ark UI carries 61: the CDK's menubar is the item
+Ark UI lacks, and the message scroller's thread is one more. ng-primitives'
+Combobox and Toast write states that `@kirana-style/states` has no vocabulary
+for yet; every other component it uses here has one.
+
 **What a project installs is the same module, flattened, and Kirana checks it.**
 `packages/builder` writes the registry (`vp run registry`): for each combination of
 framework, base and style, every style module with the other styles' entries and
