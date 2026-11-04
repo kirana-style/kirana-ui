@@ -11,11 +11,13 @@
 import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
+import * as NgPrimitives from "@kirana-style/states/ng-primitives"
 
 /**
- * Each base's key for a state. `ng` is ng-primitives, Angular's base: no style reads one of its
- * states yet, since the components Angular has so far (Button, Card, Skeleton) write none a style
- * keys on; its keys come from `@kirana-style/states/ng-primitives` with the first that does.
+ * Each base's key for a state. `ng` is ng-primitives, Angular's base, which writes Base UI's
+ * attribute names nearly everywhere (`data-checked`, `data-open`, `data-active`, `aria-pressed`), so
+ * Base UI's keys already match it; a state gets an `ng` key only where they differ (an accordion's
+ * disabled trigger).
  */
 export type StateKeys = {
   base?: string
@@ -102,17 +104,21 @@ export const tab = {
   },
 } as const satisfies Record<string, StateKeys>
 
-/** A Tabs root's direction, which every base writes with the same two values. */
+/** A Tabs root's direction, which every base writes with the same two values (ng-primitives too). */
 export const tabOrientation = {
   horizontal: {
     base: Base.Tabs.Root.orientation.horizontal,
     aria: Aria.Tabs.orientation.horizontal,
     ark: Ark.Tabs.Root.orientation.horizontal,
+    // ng-primitives' vocabulary names the attribute without its values (KF-100, Kirana 0.3.7).
+    ng: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Tabs.Root.orientation.vertical,
     aria: Aria.Tabs.orientation.vertical,
     ark: Ark.Tabs.Root.orientation.vertical,
+    // ng-primitives' vocabulary names the attribute without its values (KF-100, Kirana 0.3.7).
+    ng: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -122,6 +128,7 @@ export const disclosure = {
     base: Base.Collapsible.Root.open,
     aria: Aria.Disclosure.expanded,
     ark: Ark.Collapsible.Root.state.open,
+    ng: NgPrimitives.Collapsible.Root.open,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -142,7 +149,11 @@ export const accordion = {
   /** Ark UI's content, which moves over its own `--height` (`accordion.contentArk`). */
   contentOpen: { ark: Ark.Accordion.ItemContent.state.open },
   contentClosed: { ark: Ark.Accordion.ItemContent.state.closed },
-  triggerDisabled: { base: '[aria-disabled="true"]', aria: ":disabled" },
+  triggerDisabled: {
+    base: '[aria-disabled="true"]',
+    aria: ":disabled",
+    ng: "[data-disabled]",
+  },
 } as const satisfies Record<string, StateKeys>
 
 /**

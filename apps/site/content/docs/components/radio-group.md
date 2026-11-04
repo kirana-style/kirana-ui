@@ -2,18 +2,18 @@
 title: Radio Group
 description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [radio, radio group, form, field, component, base, aria, ark, vue, svelte]
 ---
 
 # Radio Group
 
-<!-- ::preview item="radio-group-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="radio-group-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="radio-group" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="radio-group" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -98,6 +98,35 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { SxDirective } from "@kirana-style/angular"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
+@Component({
+  selector: "app-example",
+  imports: [Label, RadioGroup, RadioGroupItem, SxDirective],
+  template: `
+    <div kuiRadioGroup defaultValue="option-one">
+      <div [sx]="styles.option">
+        <span kuiRadioGroupItem value="option-one" id="option-one"></span>
+        <label kuiLabel for="option-one">Option One</label>
+      </div>
+      <div [sx]="styles.option">
+        <span kuiRadioGroupItem value="option-two" id="option-two"></span>
+        <label kuiLabel for="option-two">Option Two</label>
+      </div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `RadioGroup`:
@@ -112,19 +141,19 @@ RadioGroup
 
 Radio group items with a description using the `Field` component.
 
-<!-- ::preview item="radio-group-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="radio-group-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Choice Card
 
 Use `FieldLabel` to wrap the entire `Field` for a clickable card-style selection.
 
-<!-- ::preview item="radio-group-choice-card" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="radio-group-choice-card" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Fieldset
 
 Use `FieldSet` and `FieldLegend` to group radio items with a label and description.
 
-<!-- ::preview item="radio-group-fieldset" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="radio-group-fieldset" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
@@ -140,7 +169,7 @@ Use the `isDisabled` prop on `RadioGroup` to disable all items.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="radio-group-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="radio-group-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Invalid
 
@@ -156,7 +185,7 @@ Use `isInvalid` on `RadioGroupItem` and `data-invalid` on `Field` to show valida
 
 <!-- ::end:only -->
 
-<!-- ::preview item="radio-group-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="radio-group-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -193,6 +222,12 @@ See the [Ark UI Radio Group](https://ark-ui.com/svelte/docs/components/radio-gro
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Radio Group](https://ark-ui.com/solid/docs/components/radio-group#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+See the [ng-primitives Radio Group](https://angularprimitives.dev/primitives/radio-group) documentation.
 
 <!-- ::end:only -->
 

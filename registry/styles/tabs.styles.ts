@@ -42,11 +42,13 @@ const IN_HORIZONTAL = {
   base: tabsScope.within(tabOrientation.horizontal.base),
   aria: tabsScope.within(tabOrientation.horizontal.aria),
   ark: tabsScope.within(tabOrientation.horizontal.ark),
+  ng: tabsScope.within(tabOrientation.horizontal.ng),
 }
 const IN_VERTICAL = {
   base: tabsScope.within(tabOrientation.vertical.base),
   aria: tabsScope.within(tabOrientation.vertical.aria),
   ark: tabsScope.within(tabOrientation.vertical.ark),
+  ng: tabsScope.within(tabOrientation.vertical.ng),
 }
 const IN_DEFAULT_LIST = tabsList.within('[data-variant="default"]')
 const IN_LINE_LIST = tabsList.within('[data-variant="line"]')

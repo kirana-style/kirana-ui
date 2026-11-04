@@ -2,18 +2,18 @@
 title: Progress
 description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [progress, progress bar, loading, component, base, aria, ark, vue, svelte]
 ---
 
 # Progress
 
-<!-- ::preview item="progress-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="progress-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="progress" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="progress" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -63,6 +63,22 @@ import { Progress } from "@/components/ui/progress"
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { Progress } from "@/components/ui/progress"
+
+@Component({
+  selector: "app-example",
+  imports: [Progress],
+  template: ` <div kuiProgress [value]="33"></div> `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 ### With label and value
@@ -100,13 +116,13 @@ Progress
 
 Use `ProgressLabel` and `ProgressValue` to add a label and value display.
 
-<!-- ::preview item="progress-label" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="progress-label" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Controlled
 
 A progress bar that can be controlled by a slider.
 
-<!-- ::preview item="progress-controlled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="progress-controlled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -143,6 +159,12 @@ See the [Ark UI Progress (Linear)](https://ark-ui.com/svelte/docs/components/pro
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Progress (Linear)](https://ark-ui.com/solid/docs/components/progress-linear#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+See the [ng-primitives Progress](https://angularprimitives.dev/primitives/progress) documentation.
 
 <!-- ::end:only -->
 

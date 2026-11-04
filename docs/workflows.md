@@ -560,6 +560,27 @@ On Angular (ng-primitives):
   run of text is wrapped once the page is drawn and again as it changes;
   `labelText` false leaves it bare.
 
+- **A component on ng-primitives puts its primitive on the part's host**
+  (`hostDirectives: [{ directive: NgpSwitch, inputs: ["ngpSwitchChecked: checked"] }]`),
+  Base UI's names as the inputs' aliases, and reads its state through ng-primitives'
+  `inject…State()`. ng-primitives writes Base UI's attribute names nearly everywhere
+  (`data-checked`, `data-open`, `data-active`, `aria-pressed`), so the styles' Base UI keys
+  match it; a state takes an `ng` key in `core/states.ts` only where they differ.
+- **Base UI's elements, not the primitive's defaults.** Switch, Checkbox and a radio are
+  `span`s, as Base UI's, with a hidden input inside that takes the `id`, so a `<label for>`
+  reaches it and its click bubbles to the control. ng-primitives' form-control binding clears
+  an `aria-invalid` the template writes, so these parts read it as an input and write it again
+  (`lib/angular/control.ts`).
+- **A closed panel leaves the page**, as Base UI's do (Collapsible's, Accordion's, an
+  inactive tab's, an avatar's fallback once its picture loads): `lib/angular/presence.ts`
+  takes the element out and puts it back before a comment it leaves in its place, with Base
+  UI's `data-starting-style` and `data-ending-style` and the height variable the motion reads,
+  waiting for the exit's animations before it goes.
+- **Where ng-primitives has no match, the part is the registry's own:** Slider (one list of
+  values, any number of thumbs, Base UI's edge-aligned geometry), since ng-primitives' sliders
+  take one thumb or two. An accordion's `multiple` sets ng-primitives' `type` through its
+  config, read from the host's attribute.
+
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 

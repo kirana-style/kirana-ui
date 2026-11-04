@@ -2,17 +2,17 @@
 title: Collapsible
 description: An interactive component which expands and collapses a panel.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [collapsible, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords: [collapsible, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Collapsible
 
-<!-- ::preview item="collapsible-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="collapsible-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="collapsible" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="collapsible" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -129,13 +129,13 @@ export function Example() {
 
 ## Basic
 
-<!-- ::preview item="collapsible-basic" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="collapsible-basic" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Settings Panel
 
 Use a trigger button to reveal additional settings.
 
-<!-- ::preview item="collapsible-settings" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="collapsible-settings" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## File Tree
 
@@ -178,5 +178,11 @@ See the [Ark UI Collapsible](https://ark-ui.com/svelte/docs/components/collapsib
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Collapsible](https://ark-ui.com/solid/docs/components/collapsible#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+See the [ng-primitives Collapsible](https://angularprimitives.dev/primitives/collapsible) documentation.
 
 <!-- ::end:only -->

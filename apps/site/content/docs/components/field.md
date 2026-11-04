@@ -290,7 +290,7 @@ See the [Form](/docs/forms) documentation for building forms with the `Field` co
 
 ## Slider
 
-<!-- ::preview item="field-slider" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-slider" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Fieldset
 
