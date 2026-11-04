@@ -1,6 +1,7 @@
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router"
 import { css } from "@kirana-style/core"
 
+import { BlocksCombination } from "@/components/blocks/block-viewer"
 import { LISTED_CATEGORIES, BlocksNav } from "@/components/blocks/blocks-nav"
 import { Customizer } from "@/components/customizer"
 import { SiteDocsProvider } from "@/components/docs-config"
@@ -63,9 +64,16 @@ const styles = {
       backdropFilter: "blur(14px) saturate(1.5)",
     },
   }),
+  // The framework and base, then Browse all blocks, at the row's end, as the charts' picker.
+  picker: css({
+    display: "flex",
+    flexShrink: 0,
+    marginInlineStart: "auto",
+    marginBlockEnd: { "*": null, base: 0 },
+  }),
   all: css({
     display: { base: "none", [breakpoint.lg]: "inline-flex" },
-    marginInlineStart: "auto",
+    marginInlineStart: space[2],
   }),
   // `section-soft md:py-12`: the blocks on the muted ground, under the navigation.
   section: css({
@@ -109,6 +117,7 @@ function Blocks() {
         <div id="blocks" sx={styles.band}>
           <Rail sx={styles.nav}>
             <BlocksNav />
+            <BlocksCombination sx={styles.picker} />
             {first ? (
               <Button
                 variant="secondary"

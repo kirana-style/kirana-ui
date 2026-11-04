@@ -175,4 +175,5 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   other frameworks' code is highlighted like React's (a `.vue` demo was plain text).
 - `CombinationPicker` (`markdown/preview.tsx`) is the registry's Select, where Kirana's is a row
   of tabs: a component page, a block and the charts offer six frameworks and bases, more than a
-  toolbar has room for.
+  toolbar has room for. Its menu groups each framework's bases (React: Base UI, React Aria; Vue:
+  Ark UI …), and its trigger names both (`React · Base UI`).
