@@ -524,7 +524,12 @@ Svelte and Solid):
   Solid's Button label the text nodes in the page, which cannot tell a
   component's text or a fragment's from its own: a Button whose text React leaves
   bare (a `ComboboxValue`, a date range in a fragment) takes `labelText={false}`. A demo's
-  helpers have a Vue composable beside React's hook (`lib/vue/`).
+  helpers have a Vue composable beside React's hook (`lib/vue/`), and Svelte's
+  and Solid's their own (`lib/svelte/`, `lib/solid/`). TanStack Markdown has no
+  Vue, Svelte or Solid adapter: Vue's renderer builds Vue's nodes, and Svelte's
+  and Solid's draw one framework-free tree (`lib/markdown-tree.ts`). The AI
+  SDK's current major has no Solid adapter either: `lib/solid/chat.ts` is its
+  `AbstractChat` over signals, with Svelte's `Chat` API.
 
 `vue-tsc` checks the registry's Vue markup and its demos before the Vue
 preview builds (`apps/preview-vue/tsconfig.vue.json`), as `vp check` checks

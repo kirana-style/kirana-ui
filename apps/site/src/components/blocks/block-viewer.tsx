@@ -43,8 +43,14 @@ import { Icon } from "@workspace/shell/icon"
 
 import { frameQuery } from "@/lib/page-design"
 
-/** The frameworks and bases every block is on (Svelte and Solid once `dashboard-01` is theirs). */
-const COMBINATIONS = ["react/base", "react/aria", "vue/ark"]
+/** The frameworks and bases every block is on. */
+const COMBINATIONS = [
+  "react/base",
+  "react/aria",
+  "vue/ark",
+  "svelte/ark",
+  "solid/ark",
+]
 
 /** Upstream's widths: desktop, tablet and phone, as shares of the frame's room. */
 const WIDTHS = [

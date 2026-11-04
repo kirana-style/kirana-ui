@@ -1,6 +1,6 @@
 import { createSignal } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
-import { useCopyToClipboard } from "../../../lib/vue/use-copy-to-clipboard"
+import { useCopyToClipboard } from "../../../lib/solid/use-copy-to-clipboard"
 import { IconPlaceholder } from "../ui/icon-placeholder"
 import {
   InputGroup,
@@ -67,7 +67,7 @@ export default function InputGroupButtonExample() {
                 void copyToClipboard("https://x.com/shadcn")
               }}
             >
-              {isCopied ? (
+              {isCopied() ? (
                 <IconPlaceholder
                   lucide="CheckIcon"
                   tabler="IconCheck"

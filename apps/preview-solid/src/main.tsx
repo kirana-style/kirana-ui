@@ -2,6 +2,8 @@ import "@fontsource-variable/inter"
 import "@fontsource-variable/geist"
 import "@kirana-style/core/stylesheet.css"
 import "@workspace/registry/styles/reset.css"
+// Code Block's typeset demo draws in the `typeset` layer, as React's preview loads it.
+import "@workspace/registry/styles/typeset.css"
 import { css, props } from "@kirana-style/core"
 import { LanguageContext } from "@workspace/registry/bases/solid-ark/components/language-selector.tsx"
 import { previews } from "@workspace/registry/bases/solid-ark/previews.ts"
@@ -46,6 +48,12 @@ const Toaster = lazy(() =>
     })
   )
 )
+// The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item.
+const ToastToaster = lazy(() =>
+  import("@workspace/registry/bases/solid-ark/ui/toast.tsx").then((module) => ({
+    default: module.Toaster,
+  }))
+)
 
 render(
   () => (
@@ -57,6 +65,7 @@ render(
             <>
               <Current />
               <Toaster position="top-center" />
+              <ToastToaster />
             </>
           ) : (
             <nav sx={list}>

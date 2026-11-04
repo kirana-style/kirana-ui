@@ -40,6 +40,10 @@
   {#await import("@workspace/registry/bases/svelte-ark/ui/sonner/Toaster.svelte") then toaster}
     <toaster.default position="top-center" />
   {/await}
+  <!-- The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item. -->
+  {#await import("@workspace/registry/bases/svelte-ark/ui/toast/Toaster.svelte") then toaster}
+    <toaster.default />
+  {/await}
 {:else}
   <nav sx={list}>
     {#each Object.keys(previews) as name (name)}

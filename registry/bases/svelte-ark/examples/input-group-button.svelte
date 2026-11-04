@@ -1,6 +1,6 @@
 <script lang="ts">
 
-  import { useCopyToClipboard } from "../../../lib/vue/use-copy-to-clipboard"
+  import { useCopyToClipboard } from "../../../lib/svelte/use-copy-to-clipboard.svelte"
   import IconPlaceholder from "../../../icons/IconPlaceholder.svelte"
   import { css } from "@kirana-style/core"
   import {
@@ -49,7 +49,7 @@
     }),
   }
 
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
+  const clipboard = useCopyToClipboard()
 
   let isFavorite = $state(false)
 </script>
@@ -59,8 +59,8 @@
     <InputGroup>
       <InputGroupInput placeholder="https://x.com/shadcn" readonly />
       <InputGroupAddon align="inline-end">
-        <InputGroupButton aria-label="Copy" title="Copy" size="icon-xs" onclick={() => { copyToClipboard('https://x.com/shadcn') }}>
-          {#if isCopied}
+        <InputGroupButton aria-label="Copy" title="Copy" size="icon-xs" onclick={() => { clipboard.copyToClipboard('https://x.com/shadcn') }}>
+          {#if clipboard.isCopied}
             <IconPlaceholder lucide="CheckIcon" tabler="IconCheck" hugeicons="Tick02Icon" phosphor="CheckIcon" remixicon="RiCheckLine" />
           {:else}
             <IconPlaceholder lucide="CopyIcon" tabler="IconCopy" hugeicons="Copy01Icon" phosphor="CopyIcon" remixicon="RiFileCopyLine" />
