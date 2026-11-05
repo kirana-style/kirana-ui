@@ -647,6 +647,12 @@ On Angular (ng-primitives):
   itself (`<ng-template kuiComboboxCollection let-item>`). Combobox and Navigation Menu are the
   registry's own, on the popup layer, which re-places a popup whose anchor changes while it is
   open (the navigation menu's next trigger).
+- **Calendar is the registry's own on `@internationalized/date`**, drawn as react-day-picker
+  draws React's (its months, weeks and any calendar system, a Persian one through
+  `createCalendar`), with react-day-picker's range rule (`addToRange`). A Button labels only the
+  text that is its direct child, as React's does: text React writes inside a fragment (a range
+  picker's "Jan 20, 2026 - Feb 09, 2026") sits in a `display: contents` span, which no label
+  reaches.
 - **A trigger says what Base UI's says**: ng-primitives' collapsible trigger writes `data-open`,
   which Collapsible's takes off for Base UI's `data-panel-open`, so a style written against
   React's trigger reads the same.
