@@ -8,6 +8,7 @@
     "build": "svelte-check --tsconfig ./tsconfig.svelte.json --fail-on-warnings && vp build"
   },
   "dependencies": {
+    "@ai-sdk/svelte": "catalog:",
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",

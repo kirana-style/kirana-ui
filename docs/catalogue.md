@@ -470,8 +470,11 @@ from 1900 px), and from 2200 px, where upstream's skeleton rails go on to the pa
 same cards themselves at half strength, out of reach. Vue's is the same, card for card
 (`apps/preview-vue/src/Showcase.vue`, its cards converted into `apps/preview-vue/src/showcase-cards/`),
 the chat Message Scroller's demo on Vue (`ChatCard.vue`: Message Scroller has no Vue version, so
-its messages sit in a list that keeps to its bottom). Svelte's, Solid's and Angular's have the cards
-they can draw with the components they have, laid out by `registry/styles/showcase.styles.ts`.
+its messages sit in a list that keeps to its bottom). Svelte's and Solid's are the same again,
+Svelte's converted from Vue's (`apps/preview-svelte/src/Showcase.svelte`, `showcase-cards/`, the chat
+on `@ai-sdk/svelte`) and Solid's from Svelte's (`apps/preview-solid/src/showcase.tsx`,
+`showcase-cards/`, the chat on `lib/solid/chat.ts`). Angular's has the cards it can draw so far,
+laid out by `registry/styles/showcase.styles.ts`, until it has Sidebar.
 Above it, the framework switch (`components/showcase/frameworks.ts`): React, Vue, Svelte, Solid
 and Angular. The choice is the docs' combination (docs-ui's `combination.ts`), so a
 component page opens on the framework chosen here.
@@ -581,14 +584,14 @@ Each item alone on a page, in the design its URL names, as upstream's
 `/preview/<base>/<item>?preset=…` (so the conformance harness can open the same
 item and preset on both sites):
 
-| Route                                  | Served by                                                                                       |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `/preview/react/base/<item>`, `aria/…` | `apps/preview-react`, prerendered per item and base into `<base>/<item>.html`; port 3007 in dev |
-| `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev  |
-| `/preview/svelte/ark/<item>`           | `apps/preview-svelte`, the same way; port 3004 in dev                                           |
-| `/preview/solid/ark/<item>`            | `apps/preview-solid`, the same way; port 3005 in dev                                            |
-| `/preview/angular/ng/<item>`           | `apps/preview-angular` (Analog's Vite plugin, Angular's compiler run first); port 3006 in dev   |
-| `/preview/<framework>/<base>/showcase` | each preview app's showcase: React's is upstream's home; the others the cards each draws so far |
+| Route                                  | Served by                                                                                        |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `/preview/react/base/<item>`, `aria/…` | `apps/preview-react`, prerendered per item and base into `<base>/<item>.html`; port 3007 in dev  |
+| `/preview/vue/ark/<item>`              | `apps/preview-vue`, built into the Worker's static files (`ark/<item>.html`); port 3003 in dev   |
+| `/preview/svelte/ark/<item>`           | `apps/preview-svelte`, the same way; port 3004 in dev                                            |
+| `/preview/solid/ark/<item>`            | `apps/preview-solid`, the same way; port 3005 in dev                                             |
+| `/preview/angular/ng/<item>`           | `apps/preview-angular` (Analog's Vite plugin, Angular's compiler run first); port 3006 in dev    |
+| `/preview/<framework>/<base>/showcase` | each preview app's showcase: upstream's home, card for card; Angular's the cards it draws so far |
 
 - **The design** is `?preset=` (a `k` code or shadcn/ui's `a` and `b` codes),
   upstream's axis parameters (`style`, `theme` …), and `rtl` and `pointer`;

@@ -1,0 +1,75 @@
+import { Button } from "@workspace/registry/bases/solid-ark/ui/button.tsx"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@workspace/registry/bases/solid-ark/ui/card.tsx"
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+} from "@workspace/registry/bases/solid-ark/ui/field.tsx"
+import { Input } from "@workspace/registry/bases/solid-ark/ui/input.tsx"
+import { css } from "@kirana-style/core"
+import { space } from "@workspace/registry/core/scales"
+
+export default function NewMilestone() {
+  const styles = {
+    div: css({
+      display: "grid",
+      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      gap: space[3],
+    }),
+    cardFooter: css({
+      flexDirection: { "*": null, base: "column" },
+      gap: { "*": null, base: space[2] },
+    }),
+    button: css({
+      width: { "*": null, base: "100%" },
+    }),
+    button2: css({
+      width: { "*": null, base: "100%" },
+    }),
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Set a new milestone</CardTitle>
+        <CardDescription>
+          Define your financial target and we'll help you pace your savings.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <FieldGroup>
+          <Field>
+            <FieldLabel for="goal-name">Goal Name</FieldLabel>
+            <Input
+              id="goal-name"
+              placeholder="e.g. New Car, Home Downpayment"
+            />
+          </Field>
+          <div sx={styles.div}>
+            <Field>
+              <FieldLabel for="target-amount">Target Amount</FieldLabel>
+              <Input id="target-amount" value="$15,000" />
+            </Field>
+            <Field>
+              <FieldLabel for="target-date">Target Date</FieldLabel>
+              <Input id="target-date" value="Dec 2025" />
+            </Field>
+          </div>
+        </FieldGroup>
+      </CardContent>
+      <CardFooter sx={styles.cardFooter}>
+        <Button sx={styles.button}>Create Goal</Button>
+        <Button variant="outline" sx={styles.button2}>
+          Cancel
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}

@@ -44,12 +44,14 @@ export const SHOWCASE_FRAMEWORKS: readonly ShowcaseFramework[] = [
     id: "svelte",
     label: "Svelte",
     combination: "svelte/ark",
+    full: true,
     icon: { title: "Svelte", url: "https://svelte.dev", route: svelteLogo },
   },
   {
     id: "solid",
     label: "Solid",
     combination: "solid/ark",
+    full: true,
     icon: { title: "Solid", url: "https://www.solidjs.com", route: solidLogo },
   },
   {
