@@ -355,7 +355,7 @@ export const ITEMS: Item[] = [
             ? ["lib/svelte/use-mobile.svelte.ts"]
             : combination.framework === "solid"
               ? ["lib/solid/use-mobile.ts"]
-              : undefined,
+              : ["lib/angular/use-mobile.ts"],
   },
   {
     name: "use-highlighted-code",

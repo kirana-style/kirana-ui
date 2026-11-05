@@ -2,7 +2,7 @@
 title: Drawer
 description: A drawer component for React.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     drawer,
@@ -21,11 +21,11 @@ keywords:
 
 # Drawer
 
-<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="drawer" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="drawer" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 On iOS Safari, the drawer's overlay is absolutely positioned, and covers the viewport after the page
 is scrolled only inside a positioned `body`. Add it to your global styles (see the
@@ -170,6 +170,64 @@ const styles = {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { SxDirective } from "@kirana-style/angular"
+import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Button,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+    SxDirective,
+  ],
+  template: `
+    <ng-container kuiDrawer>
+      <button kuiButton kuiDrawerTrigger variant="outline">Open</button>
+      <div kuiDrawerContent>
+        <div kuiDrawerHeader>
+          <h2 kuiDrawerTitle>Are you absolutely sure?</h2>
+          <p kuiDrawerDescription>This action cannot be undone.</p>
+        </div>
+        <div [sx]="styles.body">
+          <!-- Content here -->
+        </div>
+        <div kuiDrawerFooter>
+          <button kuiButton>Submit</button>
+          <button kuiButton kuiDrawerClose variant="outline">Cancel</button>
+        </div>
+      </div>
+    </ng-container>
+  `,
+})
+// `styles`: the handles declared above.
+export class Example {
+  protected readonly styles = styles
+}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Drawer`:
@@ -280,13 +338,13 @@ side it names.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Swipe Handle
 
 Use `showSwipeHandle` on `Drawer` to render a swipe handle.
 
-<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Nested
 
@@ -313,7 +371,7 @@ behind the frontmost one where Base UI's shrinks into the stack.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Non Modal
 
@@ -337,7 +395,7 @@ On Vue, `modal` is `true` or `false`: Ark UI's drawer has no focus-only mode.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Snap Points
 
@@ -345,16 +403,22 @@ Use `snapPoints` to snap a drawer to preset heights. Numbers between `0` and `1`
 
 Track the active snap point with the controlled `snapPoint` and `onSnapPointChange` props. At the full snap point, the drawer gets a `data-expanded` attribute you can style with the `data-expanded:` variant.
 
-<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Responsive
 
 You can combine the `Dialog` and `Drawer` components to create a responsive dialog. This renders a `Dialog` component on desktop and a `Drawer` on mobile.
 
-<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## API Reference
 
 See the [Base UI documentation](https://base-ui.com/react/components/drawer) for the full API reference.
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, on its modal (`lib/angular/modal.ts`), in Base UI's markup: `swipeDirection`, `snapPoints`, `modal`, `showSwipeHandle`, `[(open)]` or `defaultOpen`. A swipe toward its edge moves it and closes it, or moves it between its snap points, through the custom properties Base UI's drawer hands its styles.
+
+<!-- ::end:only -->
