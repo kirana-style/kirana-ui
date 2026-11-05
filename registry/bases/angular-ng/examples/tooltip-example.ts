@@ -111,7 +111,7 @@ const styles = {
               >
                 {{ side.replace("-", " ") }}
               </button>
-              <div kuiTooltipContent [side]="side">
+              <div kuiTooltipContent [side]="$any(side)">
                 <p>Add to library</p>
               </div>
             </ng-container>

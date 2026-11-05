@@ -42,7 +42,7 @@ const HOVER_CARD_SIDES = ["left", "top", "bottom", "right"] as const
             >
               {{ side }}
             </button>
-            <div kuiHoverCardContent [side]="side">
+            <div kuiHoverCardContent [side]="$any(side)">
               <div [sx]="styles.flexFlexColGap1">
                 <h4 [sx]="styles.medium">Hover Card</h4>
                 <p>

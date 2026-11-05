@@ -2,17 +2,17 @@
 title: Dialog
 description: A window overlaid on the page.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [dialog, component, base, aria, ark, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords: [dialog, component, base, aria, ark, svelte, solid, angular]
 ---
 
 # Dialog
 
-<!-- ::preview item="dialog-demo" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dialog-demo" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="dialog" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="dialog" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -163,6 +163,50 @@ import {
 </Dialog>
 ```
 
+### Angular
+
+```ts
+import { Component } from "@angular/core"
+
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Button,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  ],
+  template: `
+    <ng-container kuiDialog>
+      <button kuiButton kuiDialogTrigger variant="outline">Open</button>
+      <div kuiDialogContent>
+        <div kuiDialogHeader>
+          <h2 kuiDialogTitle>Are you absolutely sure?</h2>
+          <p kuiDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  `,
+})
+export class Example {}
+```
+
 <!-- ::end:tabs -->
 
 <!-- ::start:only react/aria -->
@@ -209,25 +253,25 @@ DialogTrigger
 
 Replace the default close control with your own button.
 
-<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## No Close Button
 
 Use `showCloseButton={false}` to hide the close button.
 
-<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Sticky Footer
 
 Keep actions visible while the content scrolls.
 
-<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Scrollable Content
 
 Long content can scroll while the header stays in view.
 
-<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 
@@ -235,7 +279,7 @@ Long content can scroll while the header stays in view.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -250,5 +294,11 @@ See the [Base UI](https://base-ui.com/react/components/dialog#api-reference) doc
 <!-- ::start:only react/aria -->
 
 See the [React Aria](https://react-aria.adobe.com/Modal#api) documentation for more information.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own modal (`lib/angular/modal.ts`) in Base UI's markup: `[(open)]` or `defaultOpen`; focus moves inside and stays there, the page behind is locked, and Escape and a press on the backdrop closes it.
 
 <!-- ::end:only -->

@@ -91,7 +91,7 @@ const logicalSides = ["inline-start", "inline-end"] as const
                 <button kuiButton kuiTooltipTrigger variant="outline">
                   {{ t()[side] }}
                 </button>
-                <div kuiTooltipContent [side]="side" [attr.dir]="dir()">
+                <div kuiTooltipContent [side]="$any(side)" [attr.dir]="dir()">
                   {{ t().content }}
                 </div>
               </ng-container>
@@ -103,7 +103,7 @@ const logicalSides = ["inline-start", "inline-end"] as const
                 <button kuiButton kuiTooltipTrigger variant="outline">
                   {{ t()[side] }}
                 </button>
-                <div kuiTooltipContent [side]="side" [attr.dir]="dir()">
+                <div kuiTooltipContent [side]="$any(side)" [attr.dir]="dir()">
                   {{ t().content }}
                 </div>
               </ng-container>

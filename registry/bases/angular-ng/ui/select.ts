@@ -53,13 +53,34 @@ class SelectState {
   /** The labels its items gave, where it has no `items`. */
   readonly labels = signal<ReadonlyMap<unknown, string>>(new Map())
   readonly disabled = signal(false)
+  /** Several values at once (`multiple`): the value is a list, and choosing leaves the list open. */
+  readonly multiple = signal(false)
   #changed?: (value: unknown) => void
+
+  /** Whether a value is chosen. */
+  isChosen(value: unknown) {
+    const current = this.value()
+    return this.multiple() && Array.isArray(current)
+      ? current.includes(value)
+      : current === value
+  }
 
   onChange(listener: (value: unknown) => void) {
     this.#changed = listener
   }
 
   choose(value: unknown) {
+    if (this.multiple()) {
+      const current = Array.isArray(this.value())
+        ? (this.value() as unknown[])
+        : []
+      const chosen = current.includes(value)
+        ? current.filter((entry) => entry !== value)
+        : [...current, value]
+      this.value.set(chosen)
+      this.#changed?.(chosen)
+      return
+    }
     if (this.value() !== value) {
       this.value.set(value)
       this.#changed?.(value)
@@ -77,6 +98,17 @@ class SelectState {
   readonly label = computed(() => {
     const value = this.value()
     if (value === null || value === undefined) return null
+    if (Array.isArray(value)) {
+      if (!value.length) return null
+      return value
+        .map(
+          (entry) =>
+            this.items()?.find((item) => item.value === entry)?.label ??
+            this.labels().get(entry) ??
+            String(entry)
+        )
+        .join(", ")
+    }
     const entry = this.items()?.find((item) => item.value === value)
     return entry?.label ?? this.labels().get(value) ?? String(value)
   })
@@ -107,6 +139,7 @@ class Select {
   readonly value = input<unknown>(undefined)
   readonly defaultValue = input<unknown>(undefined)
   readonly disabled = input(false, { transform: booleanAttribute })
+  readonly multiple = input(false, { transform: booleanAttribute })
   readonly valueChange = output<unknown>()
 
   constructor() {
@@ -117,9 +150,11 @@ class Select {
       const value = this.value()
       const initial = this.defaultValue()
       const disabled = this.disabled()
+      const multiple = this.multiple()
       untracked(() => {
         state.items.set(items)
         state.disabled.set(disabled)
+        state.multiple.set(multiple)
         if (value !== undefined) state.value.set(value)
         else if (first && initial !== undefined) state.value.set(initial)
         first = false
@@ -207,9 +242,15 @@ class SelectTrigger {
   }
 }
 
-/** The chosen value's label, or the placeholder: `<span kuiSelectValue placeholder="Pick one">`. */
+/**
+ * The chosen value's label, or the placeholder: `<span kuiSelectValue placeholder="Pick one">`. Its
+ * own content takes the label's place, reading the chosen entry (`#value="kuiSelectValue"`,
+ * `value.selected()`) or the chosen values (`value.values()`), as React's takes a function of the
+ * value.
+ */
 @Component({
   selector: "span[kuiSelectValue]",
+  exportAs: "kuiSelectValue",
   providers: [provideSxPart()],
   host: {
     "data-slot": "select-value",
@@ -217,12 +258,29 @@ class SelectTrigger {
     "[class]": "part().class",
     "[style]": "part().style",
   },
-  template: `{{ state.label() ?? placeholder() ?? state.placeholder() ?? "" }}`,
+  template: `<ng-content>{{
+    state.label() ?? placeholder() ?? state.placeholder() ?? ""
+  }}</ng-content>`,
 })
 class SelectValue {
   readonly placeholder = input<string>()
   readonly sx = input<SxInput>()
   protected readonly state = inject(SELECT)
+  /** The chosen values, a list (one or none, or a `multiple` select's). */
+  readonly values = computed(() => {
+    const value = this.state.value()
+    return Array.isArray(value)
+      ? value
+      : value === null || value === undefined
+        ? []
+        : [value]
+  })
+  /** The chosen entry of the select's `items`, or `null`. */
+  readonly selected = computed(
+    () =>
+      this.state.items()?.find((item) => item.value === this.state.value()) ??
+      null
+  )
   protected readonly part = computed(() => partSx(select.value, this.sx()))
 }
 

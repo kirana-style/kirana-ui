@@ -619,6 +619,11 @@ On Angular (ng-primitives):
   kuiDropdownMenuTrigger>`), the outer one's `data-slot` wins, as Base UI keeps a trigger's on
   the element it renders: the parts that can be outer bind theirs (`"[attr.data-slot]"`).
 
+- **Modals are the popup layer's state drawn as Base UI draws a modal** (`lib/angular/modal.ts`):
+  a portal holding the backdrop and the content, focus moved inside and kept there, the body's
+  scroll locked, Escape and the backdrop closing it (not an alert dialog's), focus back to the
+  trigger, the content labelled by its title and described by its description.
+
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 

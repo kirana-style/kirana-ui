@@ -61,6 +61,8 @@ export function buttonLabels(enabled: () => boolean = () => true) {
   providers: [provideSxPart()],
   host: {
     "data-slot": "button",
+    // A button that submits nothing unless told (`type="submit"`), as React's.
+    "[attr.type]": "isButton ? type() : null",
     "[class]": "part().class",
     "[style]": "part().style",
   },
@@ -69,6 +71,10 @@ export class Button {
   readonly variant = input<ButtonVariants["variant"]>("default")
   readonly size = input<ButtonVariants["size"]>("default")
   readonly labelText = input(true, { transform: booleanAttribute })
+  readonly type = input<"button" | "submit" | "reset">("button")
+  protected readonly isButton =
+    inject<ElementRef<HTMLElement>>(ElementRef).nativeElement.tagName ===
+    "BUTTON"
   readonly sx = input<SxInput>()
   protected readonly part = computed(() =>
     partSx(button({ variant: this.variant(), size: this.size() }), this.sx())

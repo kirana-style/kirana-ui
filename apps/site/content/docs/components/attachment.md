@@ -240,7 +240,7 @@ Wrap attachments in `AttachmentGroup` to lay them out in a horizontally scrollab
 
 Add an `AttachmentTrigger` to make the whole card open a link or dialog. It fills the card behind the actions, so the actions stay clickable.
 
-<!-- ::preview item="attachment-trigger" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" surface="true" -->
+<!-- ::preview item="attachment-trigger" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" surface="true" -->
 
 <!-- ::start:only react/base -->
 

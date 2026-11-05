@@ -331,6 +331,17 @@ export const ITEMS: Item[] = [
       combination.framework === "angular" ? ["lib/angular/menu.ts"] : undefined,
   },
   {
+    name: "modal",
+    type: "registry:lib",
+    title: "Modal",
+    description:
+      "Angular's modals in Base UI's markup: the backdrop, focus kept inside, the page locked, the labels.",
+    files: (combination) =>
+      combination.framework === "angular"
+        ? ["lib/angular/modal.ts"]
+        : undefined,
+  },
+  {
     name: "use-mobile",
     type: "registry:lib",
     title: "useIsMobile",
