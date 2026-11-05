@@ -1,0 +1,290 @@
+import SidebarSection from "./sidebar-section"
+import { IconPlaceholder } from "@workspace/registry/bases/solid-ark/ui/icon-placeholder.tsx"
+import {
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@workspace/registry/bases/solid-ark/ui/sidebar.tsx"
+import { css } from "@kirana-style/core"
+import { breakpoint, space } from "@workspace/registry/core/scales"
+
+export default function SidebarNav() {
+  const styles = {
+    div: css({
+      display: "grid",
+      width: "100%",
+      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      gap: { base: space[4], [breakpoint.xl]: space[6] },
+    }),
+    sidebarSection: css({
+      gridColumnStart: { [breakpoint.xl]: "1" },
+      gridRowStart: { [breakpoint.xl]: "2" },
+    }),
+    sidebarSection2: css({
+      gridColumnStart: { [breakpoint.xl]: "1" },
+      gridRowStart: { [breakpoint.xl]: "1" },
+    }),
+    sidebarSection3: css({
+      display: "flex",
+      gridColumnStart: { [breakpoint.xl]: "2" },
+      gridRowStart: { [breakpoint.xl]: "1" },
+    }),
+    sidebarSection4: css({
+      display: "flex",
+      gridColumnStart: { [breakpoint.xl]: "2" },
+      gridRowStart: { [breakpoint.xl]: "2" },
+    }),
+  }
+
+  return (
+    <div sx={styles.div}>
+      <SidebarSection label="Overview" sx={styles.sidebarSection}>
+        <SidebarMenuItem>
+          <SidebarMenuButton isActive>
+            <IconPlaceholder
+              lucide="FileChartColumnIcon"
+              tabler="IconReport"
+              hugeicons="Analytics01Icon"
+              phosphor="ChartLineIcon"
+              remixicon="RiFileChartLine"
+            />{" "}
+            Analytics
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="ArrowLeftRightIcon"
+              tabler="IconArrowsLeftRight"
+              hugeicons="ArrowDataTransferHorizontalIcon"
+              phosphor="ArrowsLeftRightIcon"
+              remixicon="RiArrowLeftRightLine"
+            />{" "}
+            Transactions
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="TrendingUpIcon"
+              tabler="IconTrendingUp"
+              hugeicons="AnalyticsUpIcon"
+              phosphor="TrendUpIcon"
+              remixicon="RiLineChartLine"
+            />{" "}
+            Investments
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="Building2Icon"
+              tabler="IconBuildingBank"
+              hugeicons="BankIcon"
+              phosphor="BankIcon"
+              remixicon="RiBankLine"
+            />{" "}
+            Accounts
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="PieChartIcon"
+              tabler="IconChartPie"
+              hugeicons="PieChartIcon"
+              phosphor="ChartPieIcon"
+              remixicon="RiPieChartLine"
+            />{" "}
+            Spending
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarSection>
+      <SidebarSection label="Planning" sx={styles.sidebarSection2}>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="FileTextIcon"
+              tabler="IconFileText"
+              hugeicons="File02Icon"
+              phosphor="FileTextIcon"
+              remixicon="RiFileTextLine"
+            />{" "}
+            Documents
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="WalletIcon"
+              tabler="IconWallet"
+              hugeicons="Wallet01Icon"
+              phosphor="WalletIcon"
+              remixicon="RiWalletLine"
+            />{" "}
+            Budget
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="FileBarChartIcon"
+              tabler="IconReportAnalytics"
+              hugeicons="ChartBarLineIcon"
+              phosphor="ChartBarIcon"
+              remixicon="RiBarChartLine"
+            />{" "}
+            Reports
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="TargetIcon"
+              tabler="IconTarget"
+              hugeicons="Target02Icon"
+              phosphor="TargetIcon"
+              remixicon="RiFocus3Line"
+            />{" "}
+            Goals
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="CalendarIcon"
+              tabler="IconCalendar"
+              hugeicons="Calendar03Icon"
+              phosphor="CalendarIcon"
+              remixicon="RiCalendarLine"
+            />{" "}
+            Calendar
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarSection>
+      <SidebarSection label="Support" sx={styles.sidebarSection3}>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="CircleHelpIcon"
+              tabler="IconHelp"
+              hugeicons="HelpCircleIcon"
+              phosphor="QuestionIcon"
+              remixicon="RiQuestionLine"
+            />{" "}
+            Help Center
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="BookOpenIcon"
+              tabler="IconBook"
+              hugeicons="BookOpen02Icon"
+              phosphor="BookOpenIcon"
+              remixicon="RiBookOpenLine"
+            />{" "}
+            Docs
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="MessageSquareIcon"
+              tabler="IconMessage"
+              hugeicons="Message01Icon"
+              phosphor="ChatIcon"
+              remixicon="RiChat1Line"
+            />{" "}
+            Contact Us
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="ActivityIcon"
+              tabler="IconActivity"
+              hugeicons="ActivityIcon"
+              phosphor="ActivityIcon"
+              remixicon="RiPulseLine"
+            />{" "}
+            Status
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="GlobeIcon"
+              tabler="IconWorld"
+              hugeicons="Globe02Icon"
+              phosphor="GlobeIcon"
+              remixicon="RiGlobalLine"
+            />{" "}
+            Community
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarSection>
+      <SidebarSection label="Account" sx={styles.sidebarSection4}>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="UserIcon"
+              tabler="IconUser"
+              hugeicons="UserIcon"
+              phosphor="UserIcon"
+              remixicon="RiUserLine"
+            />{" "}
+            Profile
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton isActive>
+            <IconPlaceholder
+              lucide="CreditCardIcon"
+              tabler="IconCreditCard"
+              hugeicons="CreditCardIcon"
+              phosphor="CreditCardIcon"
+              remixicon="RiBankCardLine"
+            />{" "}
+            Billing
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="BellIcon"
+              tabler="IconBell"
+              hugeicons="Notification03Icon"
+              phosphor="BellIcon"
+              remixicon="RiBellLine"
+            />{" "}
+            Notifications
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="ShieldIcon"
+              tabler="IconShield"
+              hugeicons="ShieldIcon"
+              phosphor="ShieldIcon"
+              remixicon="RiShieldLine"
+            />{" "}
+            Security
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <IconPlaceholder
+              lucide="PaintbrushIcon"
+              tabler="IconPalette"
+              hugeicons="PaintBoardIcon"
+              phosphor="PaletteIcon"
+              remixicon="RiPaletteLine"
+            />{" "}
+            Appearance
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarSection>
+    </div>
+  )
+}

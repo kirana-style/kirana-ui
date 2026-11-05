@@ -1,5 +1,5 @@
 import { ThinkingTrace } from "../components/trace-thinking/thinking-trace"
-import { For, Show, createMemo } from "solid-js"
+import { For, Index, Show, createMemo } from "solid-js"
 import { Chat } from "../../../lib/solid/chat"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
@@ -112,12 +112,12 @@ export default function TraceThinking() {
               ) : (
                 <Message>
                   <MessageContent sx={styles.messageContent}>
-                    <For each={groupParts(message.parts)}>
+                    <Index each={groupParts(message.parts)}>
                       {(run) => (
                         <>
-                          {run.trace ? (
+                          {run().trace ? (
                             <Trace>
-                              <For each={run.parts}>
+                              <For each={run().parts}>
                                 {(part) => (
                                   <Show
                                     when={part.type === "reasoning" && part}
@@ -136,7 +136,7 @@ export default function TraceThinking() {
                               </For>
                             </Trace>
                           ) : (
-                            <For each={run.parts}>
+                            <For each={run().parts}>
                               {(part) => (
                                 <Show when={part.type === "text" && part}>
                                   {(text) => <p>{text().text}</p>}
@@ -146,7 +146,7 @@ export default function TraceThinking() {
                           )}
                         </>
                       )}
-                    </For>
+                    </Index>
                   </MessageContent>
                 </Message>
               )}

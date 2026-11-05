@@ -95,6 +95,7 @@
       "name": "preview-svelte",
       "version": "0.0.1",
       "dependencies": {
+        "@ai-sdk/svelte": "catalog:",
         "@fontsource-variable/geist": "catalog:",
         "@fontsource-variable/inter": "catalog:",
         "@kirana-style/core": "catalog:",

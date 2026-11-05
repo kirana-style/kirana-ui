@@ -1,44 +1,40 @@
 /**
  * The AI SDK's `Chat` on Solid, as `@ai-sdk/svelte` and `@ai-sdk/vue` build theirs: the SDK's
- * `AbstractChat` over a state held in signals, so `chat.messages` and `chat.status` are reactive
- * where a component reads them. The SDK has no Solid adapter for its current major (`@ai-sdk/solid`
+ * `AbstractChat` over a state Solid follows, so `chat.messages` and `chat.status` are reactive where
+ * a component reads them. The SDK has no Solid adapter for its current major (`@ai-sdk/solid`
  * stops at 1.x), so the chat demos use this one: `new Chat({ messages, transport })`, as Svelte's.
+ *
+ * The messages are a store. The SDK writes a streaming message in place and hands the same object
+ * back on every update, so each update is reconciled into the store: a part's new state or text
+ * reaches whatever reads it, and each message and part keeps its identity, so a `For` over them
+ * keeps its rows (a row opened while it streams stays open).
  */
 import { AbstractChat } from "ai"
 import type { ChatInit, ChatState, ChatStatus, UIMessage } from "ai"
 import { createSignal } from "solid-js"
+import { createStore, reconcile, unwrap } from "solid-js/store"
 
-/**
- * A copy of a message with its parts copied: the SDK writes a streaming message in place, and
- * Solid follows a value only when it is a new one.
- */
-function snapshot<T>(value: T): T {
-  if (
-    value === null ||
-    typeof value !== "object" ||
-    !("parts" in value) ||
-    !Array.isArray(value.parts)
-  )
-    return value
-  return { ...value, parts: value.parts.map((part: object) => ({ ...part })) }
-}
+/** A plain copy of a value, out of the store if it is in it. */
+const snapshot = <T>(value: T): T => structuredClone(unwrap(value))
 
 class SolidChatState<M extends UIMessage> implements ChatState<M> {
-  #messages
+  #store
   #status
   #error
 
   constructor(messages: M[] = []) {
-    this.#messages = createSignal<M[]>(messages)
+    this.#store = createStore<{ messages: M[] }>({
+      messages: snapshot(messages),
+    })
     this.#status = createSignal<ChatStatus>("ready")
     this.#error = createSignal<Error | undefined>(undefined)
   }
 
   get messages() {
-    return this.#messages[0]()
+    return this.#store[0].messages
   }
   set messages(messages: M[]) {
-    this.#messages[1](messages)
+    this.#store[1]("messages", snapshot(messages))
   }
   get status() {
     return this.#status[0]()
@@ -53,11 +49,14 @@ class SolidChatState<M extends UIMessage> implements ChatState<M> {
     this.#error[1](() => error)
   }
 
-  pushMessage = (message: M) => this.#messages[1]((all) => [...all, message])
-  popMessage = () => this.#messages[1]((all) => all.slice(0, -1))
+  pushMessage = (message: M) =>
+    this.#store[1]("messages", (all) => [...all, snapshot(message)])
+  popMessage = () => this.#store[1]("messages", (all) => all.slice(0, -1))
   replaceMessage = (index: number, message: M) =>
-    this.#messages[1]((all) =>
-      all.map((current, at) => (at === index ? message : current))
+    this.#store[1](
+      "messages",
+      index,
+      reconcile(snapshot(message), { merge: true })
     )
   snapshot = snapshot
 }
