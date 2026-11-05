@@ -9,7 +9,7 @@ keywords:
 
 # Message
 
-<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 The `Message` component lays out a single message in a conversation. It handles the avatar, alignment, header, and footer around the message surface.
 
@@ -173,7 +173,7 @@ MessageGroup
 
 Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` on the message to align the avatar to the end of the message.
 
-<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 | align   | Description                                         |
 | ------- | --------------------------------------------------- |
@@ -184,7 +184,7 @@ Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` o
 
 Use `MessageGroup` to stack consecutive messages from the same sender. Render an empty `MessageAvatar` on the earlier messages to keep them aligned with the avatar on the last one.
 
-<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Header and Footer
 

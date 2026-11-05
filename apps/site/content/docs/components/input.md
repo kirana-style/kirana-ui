@@ -135,19 +135,19 @@ Use `Badge` in the label to highlight a recommended field.
 
 To add icons, text, or buttons inside an input, use the `InputGroup` component. See the [Input Group](/docs/components/input-group) component for more examples.
 
-<!-- ::preview item="input-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-input-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Button Group
 
 To add buttons to an input, use the `ButtonGroup` component. See the [Button Group](/docs/components/button-group) component for more examples.
 
-<!-- ::preview item="input-button-group" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="input-button-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Form
 
 A full form example with multiple inputs, a select, and a button.
 
-<!-- ::preview item="input-form" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-form" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 

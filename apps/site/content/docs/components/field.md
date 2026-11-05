@@ -9,7 +9,7 @@ keywords:
 
 # Field
 
-<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
@@ -286,7 +286,7 @@ See the [Form](/docs/forms) documentation for building forms with the `Field` co
 
 ## Select
 
-<!-- ::preview item="field-select" height="584" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-select" height="584" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Slider
 
@@ -298,27 +298,27 @@ See the [Form](/docs/forms) documentation for building forms with the `Field` co
 
 ## Checkbox
 
-<!-- ::preview item="field-checkbox" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-checkbox" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Radio
 
-<!-- ::preview item="field-radio" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-radio" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Switch
 
-<!-- ::preview item="field-switch" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-switch" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Choice Card
 
 Wrap `Field` components inside `FieldLabel` to create selectable field groups. This works with `RadioItem`, `Checkbox` and `Switch` components.
 
-<!-- ::preview item="field-choice-card" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-choice-card" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Field Group
 
 Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
-<!-- ::preview item="field-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
