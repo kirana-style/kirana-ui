@@ -18,6 +18,7 @@ const COMBINATIONS = [
   "vue/ark",
   "svelte/ark",
   "solid/ark",
+  "angular/ng",
 ]
 
 const styles = {
