@@ -430,6 +430,15 @@ Ark UI lacks, and the message scroller's thread is one more. ng-primitives'
 Combobox and Toast write states that `@kirana-style/states` has no vocabulary
 for yet; every other component it uses here has one.
 
+Built, the popups took another way: Popover, Tooltip, Hover Card, the menus and
+Select are the registry's own layer on Floating UI (`lib/angular/popup.ts`,
+`lib/angular/menu.ts`), not ng-primitives' overlays. Those render a template the
+trigger is bound to in the caller's template, which a part cannot set from its
+code, and their single element carries the position where Base UI draws a
+positioner and a popup; the registry's layer keeps shadcn/ui's composition and
+Base UI's markup. Slider is the registry's own too, ng-primitives' sliders taking
+one thumb or two.
+
 **What a project installs is the same module, flattened, and Kirana checks it.**
 `packages/builder` writes the registry (`vp run registry`): for each combination of
 framework, base and style, every style module with the other styles' entries and

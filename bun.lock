@@ -303,6 +303,7 @@
         "@ai-sdk/svelte": "catalog:",
         "@ai-sdk/vue": "catalog:",
         "@angular/cdk": "catalog:",
+        "@angular/common": "catalog:",
         "@angular/core": "catalog:",
         "@angular/forms": "catalog:",
         "@ark-ui/solid": "catalog:",

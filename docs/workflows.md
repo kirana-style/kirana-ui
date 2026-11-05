@@ -581,6 +581,19 @@ On Angular (ng-primitives):
   take one thumb or two. An accordion's `multiple` sets ng-primitives' `type` through its
   config, read from the host's attribute.
 
+- **Popups are the registry's own layer** (`lib/angular/popup.ts`, on Floating UI):
+  ng-primitives' overlays render a template the trigger is bound to in the caller's template,
+  which a part cannot set from its code, and write `data-placement` where Base UI writes
+  `data-side` and `data-align`. A root (`<ng-container kuiPopover>`, drawing no element, as
+  Base UI's) provides the popup's state; its trigger writes `aria-expanded` and
+  `data-popup-open`; its content, written in place beside the trigger, is moved into a portal
+  and a positioner when it opens, with Base UI's attributes, variables
+  (`--transform-origin`, `--anchor-width`, `--available-*`) and first and last frames, and
+  out of the page while closed. The menus and Select add `lib/angular/menu.ts`: the highlight
+  moving with focus, the keys, typeahead, checkbox and radio items and submenus. Select places
+  its list over its trigger, the chosen item over the value (`alignItemWithTrigger`), as Base
+  UI's.
+
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 

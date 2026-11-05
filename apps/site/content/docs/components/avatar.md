@@ -118,7 +118,7 @@ Use the `size` prop to change the size of the avatar.
 
 You can use the `Avatar` component as a trigger for a dropdown menu.
 
-<!-- ::preview item="avatar-dropdown" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="avatar-dropdown" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
