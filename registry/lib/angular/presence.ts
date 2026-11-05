@@ -56,7 +56,7 @@ export function presence(
       if (isOpen) {
         element.style.removeProperty("animation-name")
         element.removeAttribute("data-ending-style")
-        if (!element.isConnected) marker.after(element)
+        if (!element.parentNode) marker.after(element)
         element.setAttribute("data-starting-style", "")
         size(
           (axis) =>
@@ -69,7 +69,12 @@ export function presence(
           if (run === closing) size(() => "auto")
         })
       } else {
-        if (!element.isConnected) return
+        // Inside a part that is itself out of the page (a closed menu's content), nothing runs:
+        // it simply leaves its parent.
+        if (!element.isConnected) {
+          element.remove()
+          return
+        }
         size(
           (axis) =>
             `${axis === "height" ? element.scrollHeight : element.scrollWidth}px`

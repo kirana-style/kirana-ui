@@ -75,7 +75,9 @@ class Tooltip {
   selector: "[kuiTooltipTrigger]",
   providers: [provideSxPart()],
   host: {
-    "data-slot": "tooltip-trigger",
+    // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
+    // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
+    "[attr.data-slot]": "'tooltip-trigger'",
     "[class]": "part().class",
     "[style]": "part().style",
   },

@@ -611,6 +611,14 @@ On Angular (ng-primitives):
   (`?lang=`, the docs' selector) or its own. Direction (`<ng-container kuiDirectionProvider>`)
   draws no element, as Base UI's, and provides the CDK's `Directionality`.
 
+- **A part React draws as another part merges both looks itself** (Input Group's button and
+  input, Attachment's action, Pagination's links): two parts on one element would each bind
+  their own classes, where Kirana merges per property. It applies the other part's handle
+  (`button({ variant, size })`) before its own, and Button's labels through `buttonLabels()`.
+- **Where two parts share an element**, as an `as-child` writes them (`<button kuiButton
+  kuiDropdownMenuTrigger>`), the outer one's `data-slot` wins, as Base UI keeps a trigger's on
+  the element it renders: the parts that can be outer bind theirs (`"[attr.data-slot]"`).
+
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 

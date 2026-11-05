@@ -2,7 +2,7 @@
 title: Input Group
 description: Add addons, buttons, and helper content to inputs.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     input group,
@@ -23,11 +23,11 @@ keywords:
 
 import { IconInfoCircle } from "@tabler/icons-react"
 
-<!-- ::preview item="input-group-demo" height="416" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-demo" height="416" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="input-group" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="input-group" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -96,6 +96,41 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { IconPlaceholder } from "@/lib/kirana/icons/angular"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+@Component({
+  selector: "app-example",
+  imports: [IconPlaceholder, InputGroup, InputGroupAddon, InputGroupInput],
+  template: `
+    <div kuiInputGroup>
+      <input kuiInputGroupInput placeholder="Search..." />
+      <div kuiInputGroupAddon>
+        <svg
+          iconPlaceholder
+          lucide="SearchIcon"
+          tabler="IconSearch"
+          hugeicons="SearchIcon"
+          phosphor="MagnifyingGlassIcon"
+          remixicon="RiSearchLine"
+        ></svg>
+      </div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `InputGroup`:
@@ -121,53 +156,53 @@ Use the `align` prop on `InputGroupAddon` to position the addon relative to the 
 
 Use `align="inline-start"` to position the addon at the start of the input. This is the default.
 
-<!-- ::preview item="input-group-inline-start" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-inline-start" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ### inline-end
 
 Use `align="inline-end"` to position the addon at the end of the input.
 
-<!-- ::preview item="input-group-inline-end" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-inline-end" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ### block-start
 
 Use `align="block-start"` to position the addon above the input.
 
-<!-- ::preview item="input-group-block-start" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-block-start" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ### block-end
 
 Use `align="block-end"` to position the addon below the input.
 
-<!-- ::preview item="input-group-block-end" height="416" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-block-end" height="416" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Icon
 
-<!-- ::preview item="input-group-icon" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-icon" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Text
 
-<!-- ::preview item="input-group-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-text" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Button
 
-<!-- ::preview item="input-group-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-button" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Kbd
 
-<!-- ::preview item="input-group-kbd" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-kbd" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Dropdown
 
-<!-- ::preview item="input-group-dropdown" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-dropdown" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Spinner
 
-<!-- ::preview item="input-group-spinner" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-spinner" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Textarea
 
-<!-- ::preview item="input-group-textarea" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-textarea" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Custom Input
 
@@ -175,13 +210,13 @@ Add the `data-slot="input-group-control"` attribute to your custom input for aut
 
 Here's an example of a custom resizable textarea from a third-party library.
 
-<!-- ::preview item="input-group-custom" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="input-group-custom" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="input-group-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="input-group-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

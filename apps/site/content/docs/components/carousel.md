@@ -2,7 +2,7 @@
 title: Carousel
 description: A carousel with motion and swipe built using Embla.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     carousel,
@@ -21,7 +21,7 @@ keywords:
 
 # Carousel
 
-<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## About
 
@@ -29,7 +29,7 @@ The carousel component is built using the [Embla Carousel](https://www.embla-car
 
 ## Installation
 
-<!-- ::installation name="carousel" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="carousel" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -109,6 +109,44 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+  ],
+  template: `
+    <div kuiCarousel>
+      <div kuiCarouselContent>
+        <div kuiCarouselItem>...</div>
+        <div kuiCarouselItem>...</div>
+        <div kuiCarouselItem>...</div>
+      </div>
+      <button kuiCarouselPrevious></button>
+      <button kuiCarouselNext></button>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Carousel`:
@@ -126,7 +164,7 @@ Carousel
 
 To set the size of the items, give the `<CarouselItem />` a `flexBasis` through `sx`.
 
-<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ```tsx
 // 33% of the carousel width.
@@ -153,7 +191,7 @@ const item = css({
 To set the spacing between the items, give the `<CarouselItem />` a `paddingLeft` and the
 `<CarouselContent />` the same negative `marginLeft`.
 
-<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ```tsx
 const content = css({ marginLeft: `calc(${space[2]} * -1)` })
@@ -172,7 +210,7 @@ const item = css({ paddingLeft: space[2] })
 
 Use the `orientation` prop to set the orientation of the carousel.
 
-<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ```tsx
 <Carousel orientation="vertical | horizontal">
@@ -256,7 +294,7 @@ You can pass options to the carousel using the `opts` prop. See the
 
 Use a state and the `setApi` prop to get an instance of the carousel API.
 
-<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria -->
 
@@ -577,16 +615,22 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="carousel-rtl" height="512" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/) for more information on props and plugins.
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
+
+<!-- ::start:only angular/ng -->
+
+Angular's is on Embla's core (`embla-carousel`), as React's is on its binding: `opts`, `plugins`, `orientation`, and `setApi`, which gives the Embla instance.
+
+<!-- ::end:only -->
