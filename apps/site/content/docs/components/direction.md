@@ -2,9 +2,21 @@
 title: Direction
 description: A provider component that sets the text direction for your application.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
-  [direction, rtl, ltr, provider, component, base, aria, ark, vue, svelte]
+  [
+    direction,
+    rtl,
+    ltr,
+    provider,
+    component,
+    base,
+    aria,
+    ark,
+    vue,
+    svelte,
+    angular,
+  ]
 ---
 
 # Direction
@@ -16,11 +28,11 @@ Persian.
 Here's a preview of the component in RTL mode. Use the language selector to switch the language. To
 see more examples, look for the RTL section on components pages.
 
-<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## Installation
 
-<!-- ::installation name="direction" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="direction" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -77,6 +89,28 @@ import { DirectionProvider } from "@/components/ui/direction"
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { DirectionProvider } from "@/components/ui/direction"
+
+@Component({
+  selector: "app-example",
+  imports: [DirectionProvider],
+  template: `
+    <div dir="rtl">
+      <ng-container kuiDirectionProvider direction="rtl">
+        <!-- Your app content -->
+      </ng-container>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 <!-- ::start:only react/aria -->
 
 React Aria reads the direction from the locale: given only a `direction`, the provider keeps the
@@ -127,5 +161,11 @@ See the [Ark UI Locale](https://ark-ui.com/svelte/docs/utilities/locale#api-refe
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Locale](https://ark-ui.com/solid/docs/utilities/locale#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's provides the Angular CDK's [`Directionality`](https://material.angular.dev/cdk/bidi/overview), which a part reads with `inject(Directionality)`; the registry's own parts read the page's direction where they place things, as Base UI's do.
 
 <!-- ::end:only -->

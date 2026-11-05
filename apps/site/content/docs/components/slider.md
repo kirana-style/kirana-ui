@@ -105,7 +105,7 @@ Use the `disabled` prop to disable the slider.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

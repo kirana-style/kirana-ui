@@ -324,7 +324,7 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="field-rtl" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="field-rtl" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## Responsive Layout
 

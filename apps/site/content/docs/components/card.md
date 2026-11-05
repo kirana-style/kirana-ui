@@ -229,7 +229,7 @@ Add an image before the card header to create a card with an image.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 

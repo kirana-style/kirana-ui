@@ -207,7 +207,7 @@ You can add an `InputGroup` component to the `EmptyContent` component.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="empty-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="empty-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

@@ -180,7 +180,7 @@ Use `orientation="vertical"` for vertical tabs.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 

@@ -139,7 +139,7 @@ Show a tooltip on a disabled button by wrapping it with a span.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

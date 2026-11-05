@@ -291,7 +291,7 @@ A richer example combining groups, icons, and submenus.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="dropdown-menu-rtl" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 
