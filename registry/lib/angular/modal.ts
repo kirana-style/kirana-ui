@@ -22,6 +22,7 @@ import { props } from "@kirana-style/core"
 import type { StyleHandle } from "@kirana-style/core"
 
 import type { Popup } from "./popup"
+import { exitFinished } from "./presence"
 
 const TABBABLE =
   'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -197,11 +198,7 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
     for (const node of [overlay, element])
       node.setAttribute("data-ending-style", "")
     flush()
-    void Promise.all(
-      [overlay, element]
-        .flatMap((node) => node.getAnimations({ subtree: true }))
-        .map((animation) => animation.finished.catch(() => undefined))
-    ).then(done)
+    void exitFinished(overlay, element).then(done)
   }
 
   effect(() => {

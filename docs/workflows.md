@@ -575,7 +575,9 @@ On Angular (ng-primitives):
   inactive tab's, an avatar's fallback once its picture loads): `lib/angular/presence.ts`
   takes the element out and puts it back before a comment it leaves in its place, with Base
   UI's `data-starting-style` and `data-ending-style` and the height variable the motion reads,
-  waiting for the exit's animations before it goes.
+  waiting for the exit's animations before it goes (`exitFinished`, which the popups and
+  modals share): only those that end on the page's clock, since a scroll-driven one (a scroll
+  fade's) or an endless one (a spinner's) never finishes.
 - **Where ng-primitives has no match, the part is the registry's own:** Slider (one list of
   values, any number of thumbs, Base UI's edge-aligned geometry), since ng-primitives' sliders
   take one thumb or two. An accordion's `multiple` sets ng-primitives' `type` through its
@@ -626,6 +628,19 @@ On Angular (ng-primitives):
   Base UI's viewport and, unless `modal` is false, its backdrop; its swipe and snap points are the
   custom properties Base UI's drawer hands its styles (`--drawer-swipe-movement-*`,
   `--drawer-snap-point-offset` …), written by `ui/drawer.ts`.
+
+- **Inside a `<pre>`, every space in the template shows**: Angular keeps a `<pre>`'s
+  whitespace, so Code Block's demos write a block's lines on one line, and a part drawn inside
+  one (`HighlightedLine`) keeps its template on one line under `// prettier-ignore`, since the
+  formatter breaks Angular templates over lines. A part React's renders as either of two
+  elements, or none (Trace's demo rows), is a component drawing no box of its own
+  (`display: contents`).
+- **The AI SDK's chat is `lib/angular/chat.ts`**, the SDK's `AbstractChat` over signals, as
+  `@ai-sdk/angular` builds its own, but copying each message it is handed, as React's does: the
+  SDK writes a streaming message in place, and `@ai-sdk/angular` 3.0.158 keeps that object, so
+  a part read through a signal input never shows its later states (a tool row stays "running"). TanStack Markdown draws
+  through `lib/angular/markdown.ts`, a directive filling the element it is on from the
+  framework-free tree, creating a page's own components (`components.pre`) in place.
 
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
