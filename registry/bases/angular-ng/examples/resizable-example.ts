@@ -161,8 +161,7 @@ const styles = {
           <div kuiResizablePanel [defaultSize]="30">
             <div [sx]="styles.stack">
               <span [sx]="styles.fontSemibold">
-                {{ Math.round(sizes()[0] ?? 30) }}
-                %
+                {{ Math.round(sizes()[0] ?? 30) }}%
               </span>
             </div>
           </div>
@@ -170,8 +169,7 @@ const styles = {
           <div kuiResizablePanel [defaultSize]="70">
             <div [sx]="styles.stack">
               <span [sx]="styles.fontSemibold">
-                {{ Math.round(sizes()[1] ?? 70) }}
-                %
+                {{ Math.round(sizes()[1] ?? 70) }}%
               </span>
             </div>
           </div>

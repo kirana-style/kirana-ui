@@ -185,7 +185,7 @@ Use `ScrollBar` with `orientation="horizontal"` for horizontal scrolling.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

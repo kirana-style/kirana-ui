@@ -605,6 +605,12 @@ On Angular (ng-primitives):
   background tab, a headless comparison): read it after render too (`afterNextRender`,
   `afterRenderEffect`), and on the events that change it (`load` inside a scroll area).
 
+- **A right-to-left demo reads its language from the page**, as on Vue:
+  `useTranslation(translations, "ar")` (`components/language-selector.ts`) gives its strings
+  and direction as signals (`t().title`, `dir()`), in the language the preview provides
+  (`?lang=`, the docs' selector) or its own. Direction (`<ng-container kuiDirectionProvider>`)
+  draws no element, as Base UI's, and provides the CDK's `Directionality`.
+
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 

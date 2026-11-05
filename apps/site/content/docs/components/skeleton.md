@@ -121,6 +121,6 @@ export class Example {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="skeleton-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->

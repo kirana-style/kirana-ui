@@ -329,7 +329,7 @@ Control submenu placement with side and align props.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="context-menu-rtl" height="564" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="context-menu-rtl" height="564" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
