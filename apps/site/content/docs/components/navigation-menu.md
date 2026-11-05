@@ -2,18 +2,18 @@
 title: Navigation Menu
 description: A collection of links for navigating websites.
 section: components
-variants: [react/base, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [navigation, menu, links, nav, component, base, ark, vue, svelte, solid]
 ---
 
 # Navigation Menu
 
-<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -98,6 +98,47 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+  ],
+  template: `
+    <nav kuiNavigationMenu>
+      <ul kuiNavigationMenuList>
+        <li kuiNavigationMenuItem>
+          <button kuiNavigationMenuTrigger>Item One</button>
+          <div kuiNavigationMenuContent>
+            <a kuiNavigationMenuLink href="#">Link</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `NavigationMenu`:
@@ -145,10 +186,16 @@ export function NavigationMenuDemo() {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
 See the [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu#api-reference) documentation for more information.
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, in Base UI's markup: `<nav kuiNavigationMenu>`, its `<ul kuiNavigationMenuList>` of `<li kuiNavigationMenuItem>`s, each with a `<button kuiNavigationMenuTrigger>` and its `<div kuiNavigationMenuContent>`, or an `<a kuiNavigationMenuLink>`. A trigger opens its panel on hover (after 50ms) or press; the open panel shows in one popup that follows its trigger and takes the panel's size.
+
+<!-- ::end:only -->

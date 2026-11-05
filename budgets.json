@@ -90,9 +90,9 @@
     "measured": 743
   },
   "demos.bytes": {
-    "budget": 13000,
+    "budget": 15000,
     "unit": "KB",
-    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added. Raised to 7 MB with Message Scroller's nine missing demos, Trace's three and Code Block's Markdown (the chat demos are long, their scripted conversations in the code): 6.5 MB for 492 demos. Raised to 9 MB with AI Elements' 32 demos on both React bases (8.25 MB measured). Raised to 12 MB with Vue's code for 295 demos (P6-01), beside React's: 9.4 MB measured. Raised to 13 MB with Angular's code for 106 demos (P6-08), its components' templates written out in each: 12.03 MB measured.",
+    "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added. Raised to 7 MB with Message Scroller's nine missing demos, Trace's three and Code Block's Markdown (the chat demos are long, their scripted conversations in the code): 6.5 MB for 492 demos. Raised to 9 MB with AI Elements' 32 demos on both React bases (8.25 MB measured). Raised to 12 MB with Vue's code for 295 demos (P6-01), beside React's: 9.4 MB measured. Raised to 13 MB with Angular's code for 106 demos (P6-08), its components' templates written out in each: 12.03 MB measured. Raised to 15 MB for Angular's remaining components (P6-10: Combobox, Navigation Menu, Calendar, Chart and the charts, the blocks), agreed with the maintainer: 12.9 MB measured with Sidebar and Command, at 13 MB's edge.",
     "measured": 8910.7
   },
   "static.files": {

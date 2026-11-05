@@ -2,7 +2,7 @@
 title: Combobox
 description: Autocomplete input with a list of suggestions.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     combobox,
@@ -21,11 +21,11 @@ keywords:
 
 # Combobox
 
-<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="combobox" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="combobox" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -185,6 +185,52 @@ export function Example() {
       </ComboboxContent>
     </Combobox>
   )
+}
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Combobox,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxInput,
+    ComboboxItem,
+    ComboboxList,
+  ],
+  template: `
+    <ng-container kuiCombobox [items]="frameworks">
+      <div kuiComboboxInput placeholder="Select a framework"></div>
+      <div kuiComboboxContent>
+        <div kuiComboboxEmpty>No items found.</div>
+        <div kuiComboboxList>
+          <ng-template let-item>
+            <div kuiComboboxItem [value]="item">{{ item }}</div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+  `,
+})
+export class Example {
+  protected readonly frameworks = frameworks
 }
 ```
 
@@ -533,25 +579,25 @@ export function ExampleComboboxMultiple() {
 
 A simple combobox with a list of frameworks.
 
-<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Multiple
 
 A combobox with multiple selection using `multiple` and `ComboboxChips`.
 
-<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Clear Button
 
 Use the `showClear` prop to show a clear button.
 
-<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Groups
 
 Use `ComboboxGroup` and `ComboboxSeparator` to group items.
 
-<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Custom Items
 
@@ -567,7 +613,7 @@ You can render custom component inside `ComboboxItem`.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Invalid
 
@@ -583,7 +629,7 @@ Use the `isInvalid` prop to make the combobox invalid.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
@@ -599,11 +645,11 @@ Use the `isDisabled` prop to disable the combobox.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Auto Highlight
 
-<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark,angular/ng -->
 
 <!-- ::start:only react/base -->
 
@@ -629,13 +675,19 @@ Use the `autoHighlight` prop to automatically highlight the first item on filter
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::start:only angular/ng -->
+
+Add `autoHighlight` to the combobox (`<ng-container kuiCombobox autoHighlight>`) to highlight the first item on filter.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
 ## Popup
 
-<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark,angular/ng -->
 
 <!-- ::start:only react/base -->
 
@@ -661,7 +713,13 @@ You can trigger the combobox from a button or any other component by giving `Com
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-popup" height="700" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::start:only angular/ng -->
+
+You can trigger the combobox from a button or any other component by putting `kuiComboboxTrigger` on it (`<button kuiButton kuiComboboxTrigger>`), which draws the chevron inside it. Move the `kuiComboboxInput` inside the `kuiComboboxContent`.
+
+<!-- ::end:only -->
+
+<!-- ::preview item="combobox-popup" height="700" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -669,13 +727,13 @@ You can trigger the combobox from a button or any other component by giving `Com
 
 You can add an addon to the combobox by using the `InputGroupAddon` component inside the `ComboboxInput`.
 
-<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -706,6 +764,12 @@ See the [Ark UI Combobox](https://ark-ui.com/svelte/docs/components/combobox#api
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Combobox](https://ark-ui.com/solid/docs/components/combobox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, with Base UI's API: `<ng-container kuiCombobox [items]="…">` takes `defaultValue` or `[(value)]`, `multiple`, `autoHighlight`, `disabled`, `itemToStringLabel` and `itemToStringValue`. `kuiComboboxList` and `kuiComboboxCollection` draw each match through your `<ng-template let-item>`, as React's take a function; `#combo="kuiCombobox"` reads the chosen items (`combo.selected()`) for chips.
 
 <!-- ::end:only -->
 
