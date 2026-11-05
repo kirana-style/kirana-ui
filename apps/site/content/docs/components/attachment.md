@@ -2,19 +2,20 @@
 title: Attachment
 description: Displays a file or image attachment with media, metadata, upload state, and actions.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [attachment, chat, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [attachment, chat, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Attachment
 
-<!-- ::preview item="attachment-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" surface="true" -->
+<!-- ::preview item="attachment-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" surface="true" -->
 
 The `Attachment` component displays a file or image attachment, its media, name, and metadata, with optional actions and upload state. Use it for files and images in chat composers, message threads, and upload lists.
 
 ## Installation
 
-<!-- ::installation name="attachment" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="attachment" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -116,6 +117,69 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { IconPlaceholder } from "@/lib/kirana/icons/angular"
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    IconPlaceholder,
+    Attachment,
+    AttachmentAction,
+    AttachmentActions,
+    AttachmentContent,
+    AttachmentDescription,
+    AttachmentMedia,
+    AttachmentTitle,
+  ],
+  template: `
+    <div kuiAttachment>
+      <div kuiAttachmentMedia>
+        <svg
+          iconPlaceholder
+          lucide="FileTextIcon"
+          tabler="IconFileText"
+          hugeicons="FileIcon"
+          phosphor="FileTextIcon"
+          remixicon="RiFileTextLine"
+        ></svg>
+      </div>
+      <div kuiAttachmentContent>
+        <span kuiAttachmentTitle>sales-dashboard.pdf</span>
+        <span kuiAttachmentDescription>PDF · 2.4 MB</span>
+      </div>
+      <div kuiAttachmentActions>
+        <button kuiAttachmentAction aria-label="Remove sales-dashboard.pdf">
+          <svg
+            iconPlaceholder
+            lucide="XIcon"
+            tabler="IconX"
+            hugeicons="Cancel01Icon"
+            phosphor="XIcon"
+            remixicon="RiCloseLine"
+          ></svg>
+        </button>
+      </div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an attachment:
@@ -152,25 +216,25 @@ AttachmentGroup
 
 Set `variant="image"` on `AttachmentMedia` and render an `<img>` inside it. Use `orientation="vertical"` to stack the media above the content.
 
-<!-- ::preview item="attachment-image" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" surface="true" -->
+<!-- ::preview item="attachment-image" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" surface="true" -->
 
 ## States
 
 Set `state` to reflect the upload lifecycle. `uploading` and `processing` shimmer the title, and `error` switches to a destructive treatment.
 
-<!-- ::preview item="attachment-states" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" surface="true" -->
+<!-- ::preview item="attachment-states" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" surface="true" -->
 
 ## Sizes
 
 Use `size` to switch between `default`, `sm`, and `xs`.
 
-<!-- ::preview item="attachment-sizes" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" surface="true" -->
+<!-- ::preview item="attachment-sizes" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" surface="true" -->
 
 ## Group
 
 Wrap attachments in `AttachmentGroup` to lay them out in a horizontally scrollable, snapping row with an edge fade.
 
-<!-- ::preview item="attachment-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" surface="true" -->
+<!-- ::preview item="attachment-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" surface="true" -->
 
 ## Trigger
 

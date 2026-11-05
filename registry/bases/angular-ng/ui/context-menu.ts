@@ -82,7 +82,9 @@ class ContextMenuPortal {}
   selector: "[kuiContextMenuTrigger]",
   providers: [provideSxPart()],
   host: {
-    "data-slot": "context-menu-trigger",
+    // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
+    // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
+    "[attr.data-slot]": "'context-menu-trigger'",
     style: "-webkit-touch-callout: none",
     "[attr.data-popup-open]": "menu.popup.open() ? '' : null",
     "[class]": "part().class",

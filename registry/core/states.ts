@@ -257,6 +257,8 @@ export const toggleState = {
     base: '[aria-pressed="true"]',
     aria: Aria.ToggleButton.selected,
     ark: Ark.Toggle.Root.state.on,
+    // ng-primitives' toggle and a single-choice group's items (radios, `aria-checked`).
+    ng: NgPrimitives.Toggle.Root.selected,
   },
 } as const satisfies Record<string, StateKeys>
 
