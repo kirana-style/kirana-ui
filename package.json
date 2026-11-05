@@ -137,6 +137,7 @@
       "lucide": "^1.61.0",
       "motion": "^14.6.0",
       "ng-primitives": "0.131.4",
+      "ngx-sonner": "^3.1.0",
       "react": "^19.3.1",
       "react-aria-components": "^1.22.1",
       "react-day-picker": "^10.0.2",

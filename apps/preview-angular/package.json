@@ -21,6 +21,7 @@
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "ng-primitives": "catalog:",
+    "ngx-sonner": "catalog:",
     "rxjs": "catalog:"
   },
   "devDependencies": {

@@ -30,6 +30,7 @@
         "@workspace/fonts": "workspace:*",
         "@workspace/registry": "workspace:*",
         "ng-primitives": "catalog:",
+        "ngx-sonner": "catalog:",
         "rxjs": "catalog:",
       },
       "devDependencies": {
@@ -353,6 +354,7 @@
         "input-otp": "catalog:",
         "lucide": "catalog:",
         "ng-primitives": "catalog:",
+        "ngx-sonner": "catalog:",
         "qrcode-generator": "catalog:",
         "react": "catalog:",
         "react-aria-components": "catalog:",
@@ -491,6 +493,7 @@
     "lucide": "^1.61.0",
     "motion": "^14.6.0",
     "ng-primitives": "0.131.4",
+    "ngx-sonner": "^3.1.0",
     "qrcode-generator": "^2.0.4",
     "react": "^19.3.1",
     "react-aria-components": "^1.22.1",
@@ -2174,6 +2177,8 @@
     "nanoid": ["nanoid@3.3.20", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ=="],
 
     "ng-primitives": ["ng-primitives@0.131.4", "", { "dependencies": { "@phenomnomnominal/tsquery": "6.2.0", "tslib": "^2.3.0" }, "peerDependencies": { "@angular/cdk": "^21.0.0 || ^22.0.0", "@angular/common": "^21.0.0 || ^22.0.0", "@angular/core": "^21.0.0 || ^22.0.0", "@angular/forms": "^21.0.0 || ^22.0.0", "@floating-ui/dom": ">=1.6.0", "date-fns": "*", "luxon": "*", "rxjs": ">=6.6.0" }, "optionalPeers": ["date-fns", "luxon"] }, "sha512-e7syT7rX3CzwKW63QnI5+EeoLbQ7JcvjH5QQ8FLv7XVxS09VzYzfjjVpl8/Eu7bVCctvXNOD0XR9EvqVb+fnVA=="],
+
+    "ngx-sonner": ["ngx-sonner@3.1.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@angular/common": ">=19.0.0", "@angular/core": ">=19.0.0" } }, "sha512-hN5GolhBeVs0gzPNZi2VPnbv/sM+3+aMGCvIjH33MC8LHz+QIiOUWGw3AbnCH/hQxy08AGwkWHVYy1acvXByQQ=="],
 
     "node-addon-api": ["node-addon-api@6.1.0", "", {}, "sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA=="],
 

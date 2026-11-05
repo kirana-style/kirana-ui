@@ -2,14 +2,14 @@
 title: Resizable
 description: Accessible resizable panel groups and layouts with keyboard support.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [resizable, panels, split, layout, component, base, aria, ark, vue, svelte]
 ---
 
 # Resizable
 
-<!-- ::preview item="resizable-demo" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="resizable-demo" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## About
 
@@ -19,7 +19,7 @@ The `Resizable` component is built on top of
 
 ## Installation
 
-<!-- ::installation name="resizable" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="resizable" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -94,6 +94,32 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+@Component({
+  selector: "app-example",
+  imports: [ResizableHandle, ResizablePanel, ResizablePanelGroup],
+  template: `
+    <div kuiResizablePanelGroup orientation="horizontal">
+      <div kuiResizablePanel [defaultSize]="50">One</div>
+      <div kuiResizableHandle></div>
+      <div kuiResizablePanel [defaultSize]="50">Two</div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `ResizablePanelGroup`:
@@ -109,13 +135,13 @@ ResizablePanelGroup
 
 Use `orientation="vertical"` for vertical resizing.
 
-<!-- ::preview item="resizable-vertical" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="resizable-vertical" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Handle
 
 Use the `withHandle` prop on `ResizableHandle` to show a visible handle.
 
-<!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -128,3 +154,9 @@ To set the direction, see [Right to left](/docs/design-system/rtl).
 See the [react-resizable-panels](https://github.com/bvaughn/react-resizable-panels/tree/main/packages/react-resizable-panels) documentation.
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, drawing `react-resizable-panels`' markup: the group's `orientation` and `layoutChange` (every panel's size, in percent), each panel's `defaultSize`, `minSize` and `maxSize`, and the handle's `withHandle`.
+
+<!-- ::end:only -->

@@ -2,18 +2,18 @@
 title: Scroll Area
 description: Augments native scroll functionality for custom, cross-browser styling.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [scroll area, scrollbar, overflow, component, base, aria, ark, vue, svelte]
 ---
 
 # Scroll Area
 
-<!-- ::preview item="scroll-area-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="scroll-area-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="scroll-area" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="scroll-area" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -106,6 +106,40 @@ export function Example() {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { SxDirective } from "@kirana-style/angular"
+import { css } from "@kirana-style/core"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+const styles = {
+  area: css({
+    width: "350px",
+    height: "200px",
+    padding: "1rem",
+    border: "1px solid",
+    borderRadius: "0.375rem",
+  }),
+}
+
+@Component({
+  selector: "app-example",
+  imports: [ScrollArea, SxDirective],
+  template: `
+    <div kuiScrollArea [sx]="styles.area">Your scrollable content here.</div>
+  `,
+})
+// `styles`: the handles declared above.
+export class Example {
+  protected readonly styles = styles
+}
+```
+
+<!-- ::end:only -->
+
 <!-- ::start:only react/base,react/aria -->
 
 ```tsx
@@ -145,7 +179,7 @@ Use `ScrollBar` with `orientation="horizontal"` for horizontal scrolling.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -176,6 +210,12 @@ See the [Ark UI Scroll Area](https://ark-ui.com/svelte/docs/components/scroll-ar
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Scroll Area](https://ark-ui.com/solid/docs/components/scroll-area#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, drawing Base UI's markup: the area scrolls natively with its own thin scrollbars, a vertical one built in and a horizontal one where `<div kuiScrollBar orientation="horizontal">` is written inside it.
 
 <!-- ::end:only -->
 

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
-import { toast } from "vue-sonner"
+import { toast } from "ngx-sonner"
 import { containerSize, duration, easing, space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 import { theme } from "../../../core/tokens"
@@ -48,7 +48,7 @@ const styles = {
           kuiMarker
           type="button"
           [sx]="styles.transitionColorsHoverTex"
-          (click)="() => toast('You clicked the revert button')"
+          (click)="toast('You clicked the revert button')"
         >
           <span kuiMarkerIcon>
             <svg

@@ -191,7 +191,7 @@ const styles = {
             kuiTooltipTrigger
             href="#"
             [sx]="styles.tooltipOnLinkA"
-            (click)="(e) => e.preventDefault()"
+            (click)="$event.preventDefault()"
             >Learn more</a
           >
           <div kuiTooltipContent>

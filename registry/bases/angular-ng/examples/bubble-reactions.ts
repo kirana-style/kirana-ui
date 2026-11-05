@@ -1,7 +1,7 @@
 import { Component } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
-import { toast } from "vue-sonner"
+import { toast } from "ngx-sonner"
 import { containerSize, space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 import { Bubble, BubbleContent, BubbleReactions } from "../ui/bubble"
@@ -72,9 +72,7 @@ const styles = {
               kuiButton
               variant="ghost"
               size="xs"
-              (click)="
-                () => toast.success('You clicked yes, running command...')
-              "
+              (click)="toast.success('You clicked yes, running command...')"
             >
               Yes, run it
             </button>
