@@ -15,7 +15,10 @@ const list = css({
   padding: space[6],
 })
 
-/** One page per item, as `/preview/angular/ng/<item>`, and the showcase; anything else lists them. */
+/**
+ * One page per item, as `/preview/angular/ng/<item>`, and the showcase; the root lists them. An
+ * item that is not there, or fails to load, says so rather than showing the list.
+ */
 const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 
 @Component({
@@ -24,6 +27,8 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
   template: `
     @if (item === "showcase") {
       <preview-showcase />
+    } @else if (failure()) {
+      <p [class]="list">{{ failure() }}</p>
     } @else if (current()) {
       <ng-container *ngComponentOutlet="current()" />
       <!-- Sonner's toaster, as upstream's site mounts it on every page (\`top-center\`), loaded
@@ -31,7 +36,7 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
       @defer (on idle) {
         <kui-toaster position="top-center" />
       }
-    } @else {
+    } @else if (!item) {
       <nav [class]="list">
         @for (name of names; track name) {
           <a [href]="'/preview/angular/ng/' + name">{{ name }}</a>
@@ -44,11 +49,43 @@ export class App {
   protected readonly item = item
   // Loaded only on its own page, as the other previews'.
   protected readonly current = signal<Type<unknown> | null>(null)
+  protected readonly failure = signal<string | null>(null)
   protected readonly names = [...Object.keys(previews), "showcase"]
   protected readonly list = props(list).className
 
   constructor() {
-    const load = item ? previews[item] : undefined
-    void load?.().then((module) => this.current.set(module.default))
+    if (!item || item === "showcase") return
+    const load = previews[item]
+    if (!load) {
+      this.failure.set(`There is no Angular preview named “${item}”.`)
+      return
+    }
+    // A development server that has just re-bundled its dependencies answers the module after a
+    // reload: one reload, then the error.
+    const key = `kui-preview-reload:${item}`
+    const storage = (() => {
+      try {
+        return sessionStorage
+      } catch {
+        return null
+      }
+    })()
+    load()
+      .then((module) => {
+        storage?.removeItem(key)
+        this.current.set(module.default)
+      })
+      .catch((error: unknown) => {
+        if (storage && !storage.getItem(key)) {
+          storage.setItem(key, "1")
+          location.reload()
+          return
+        }
+        storage?.removeItem(key)
+        console.error(error)
+        this.failure.set(
+          `The Angular preview “${item}” failed to load: ${String(error)}`
+        )
+      })
   }
 }

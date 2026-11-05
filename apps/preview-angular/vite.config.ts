@@ -38,6 +38,12 @@ export default defineConfig({
     target: ["es2022"],
   },
   resolve: { mainFields: ["module"] },
+  // The examples load lazily, one per page: scanned up front, their dependencies are bundled before
+  // the first page asks for one, rather than found then, when Vite re-bundles and the lazy import
+  // fails until the page reloads.
+  optimizeDeps: {
+    entries: ["index.html", "../../registry/bases/angular-ng/**/*.ts"],
+  },
   plugins: [
     angular({ tsconfig: "tsconfig.app.json" }),
     kiranaAngular(),

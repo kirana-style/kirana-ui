@@ -2,7 +2,7 @@
 title: Command
 description: Command menu for search and quick actions.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     command,
@@ -21,7 +21,7 @@ keywords:
 
 # Command
 
-<!-- ::preview item="command-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="command-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## About
 
@@ -33,7 +33,7 @@ The `<Command />` component uses the [`cmdk`](https://github.com/dip/cmdk) compo
 
 ## Installation
 
-<!-- ::installation name="command" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="command" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -185,6 +185,56 @@ const framed = css({
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+  ],
+  template: `
+    <div kuiCommand>
+      <div kuiCommandInput placeholder="Type a command or search..."></div>
+      <div kuiCommandList>
+        <div kuiCommandEmpty>No results found.</div>
+        <div kuiCommandGroup heading="Suggestions">
+          <div kuiCommandItem>Calendar</div>
+          <div kuiCommandItem>Search Emoji</div>
+          <div kuiCommandItem>Calculator</div>
+        </div>
+        <div kuiCommandSeparator></div>
+        <div kuiCommandGroup heading="Settings">
+          <div kuiCommandItem>Profile</div>
+          <div kuiCommandItem>Billing</div>
+          <div kuiCommandItem>Settings</div>
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Command`:
@@ -228,29 +278,29 @@ Command
 
 A simple command menu in a dialog.
 
-<!-- ::preview item="command-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="command-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Shortcuts
 
-<!-- ::preview item="command-shortcuts" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="command-shortcuts" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Groups
 
 A command menu with groups, icons and separators.
 
-<!-- ::preview item="command-groups" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="command-groups" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Scrollable
 
 Scrollable command menu with multiple items.
 
-<!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -281,6 +331,12 @@ See the [Ark UI Listbox](https://ark-ui.com/svelte/docs/components/listbox#api-r
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Listbox](https://ark-ui.com/solid/docs/components/listbox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, as cmdk's: `<div kuiCommand>` holding `<div kuiCommandInput placeholder="…">` and `<div kuiCommandList>`, each item `<div kuiCommandItem (select)="…">` matched by its `value` (its text when not given) and `keywords`. `shouldFilter` false leaves the filtering to you. `<kui-command-dialog [(open)]>` holds the command's state itself, so its input and list go straight inside it.
 
 <!-- ::end:only -->
 

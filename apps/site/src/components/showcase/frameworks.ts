@@ -58,6 +58,7 @@ export const SHOWCASE_FRAMEWORKS: readonly ShowcaseFramework[] = [
     id: "angular",
     label: "Angular",
     combination: "angular/ng",
+    full: true,
     icon: { title: "Angular", url: "https://angular.dev", route: angularLogo },
   },
 ]
