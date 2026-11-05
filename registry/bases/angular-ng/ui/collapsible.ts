@@ -1,4 +1,12 @@
-import { Directive, computed, input } from "@angular/core"
+import {
+  DestroyRef,
+  Directive,
+  ElementRef,
+  afterNextRender,
+  computed,
+  inject,
+  input,
+} from "@angular/core"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 import {
@@ -31,7 +39,9 @@ let next = 0
   ],
   providers: [provideSxPart()],
   host: {
-    "data-slot": "collapsible",
+    // Bound, so it wins over the slot of a part on the same element (`<li kuiSidebarMenuItem
+    // kuiCollapsible>`), as Base UI keeps the root's on the element it renders.
+    "[attr.data-slot]": "'collapsible'",
     "[class]": "part().class",
     "[style]": "part().style",
   },
@@ -50,12 +60,26 @@ class Collapsible {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
     // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
     "[attr.data-slot]": "'collapsible-trigger'",
+    // Base UI's trigger says its panel is open (`data-panel-open`); ng-primitives' writes
+    // `data-open` too, taken off below, so a style written for React's trigger reads the same here.
+    "[attr.data-panel-open]": "state().open() ? '' : null",
     "[class]": "part().class",
     "[style]": "part().style",
   },
 })
 class CollapsibleTrigger {
   readonly sx = input<SxInput>()
+  protected readonly state = injectCollapsibleState()
+
+  constructor() {
+    // ng-primitives writes its `data-open` itself, not through a binding this part could override.
+    const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
+    const strip = () => element.removeAttribute("data-open")
+    const observer = new MutationObserver(strip)
+    observer.observe(element, { attributeFilter: ["data-open"] })
+    afterNextRender(strip)
+    inject(DestroyRef).onDestroy(() => observer.disconnect())
+  }
   protected readonly part = computed(() => partSx(undefined, this.sx()))
 }
 

@@ -636,6 +636,14 @@ On Angular (ng-primitives):
   formatter breaks Angular templates over lines. A part React's renders as either of two
   elements, or none (Trace's demo rows), is a component drawing no box of its own
   (`display: contents`).
+- **A demo's own component is an element drawing no box** (`<kui-nav-main [items]>`,
+  `display: contents`, its props signal inputs), so the parts inside it lay out as React's do.
+  Angular resolves a part's context through the template that declares it, not the one it is
+  projected into: a part that can sit in another component's provider (a sidebar's menu button
+  in a card's section) finds it around its element once drawn, as `useSidebar` does.
+- **A trigger says what Base UI's says**: ng-primitives' collapsible trigger writes `data-open`,
+  which Collapsible's takes off for Base UI's `data-panel-open`, so a style written against
+  React's trigger reads the same.
 - **The AI SDK's chat is `lib/angular/chat.ts`**, the SDK's `AbstractChat` over signals, as
   `@ai-sdk/angular` builds its own, but copying each message it is handed, as React's does: the
   SDK writes a streaming message in place, and `@ai-sdk/angular` 3.0.158 keeps that object, so

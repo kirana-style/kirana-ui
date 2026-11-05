@@ -97,7 +97,7 @@ const styles = {
     borderWidth: 0,
     backgroundColor: "transparent",
   }),
-  // Upstream's home (every framework's but Angular's, until it has Sidebar): across the band, to the page's edges, where its rails go on.
+  // Upstream's home, every framework's: across the band, to the page's edges, where its rails go on.
   fullFrame: css({
     maxWidth: { "*": null, base: "none" },
     width: {

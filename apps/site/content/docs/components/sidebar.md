@@ -2,13 +2,13 @@
 title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [sidebar, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords: [sidebar, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" caption="A sidebar that collapses to icons." -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" caption="A sidebar that collapses to icons." -->
 
 Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
@@ -19,7 +19,7 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -127,6 +127,45 @@ export function Example() {
     </SidebarProvider>
   )
 }
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Sidebar,
+    SidebarContent,
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+  ],
+  template: `
+    <div kuiSidebarProvider>
+      <div kuiSidebar collapsible="icon">
+        <div kuiSidebarContent>
+          <!-- groups and menus -->
+        </div>
+      </div>
+      <main kuiSidebarInset>
+        <button kuiSidebarTrigger></button>
+      </main>
+    </div>
+  `,
+})
+export class Example {}
 ```
 
 <!-- ::end:only -->
@@ -290,6 +329,12 @@ export function AppSidebar() {
 | `setOpenMobile` | `(open: boolean) => void` | Sets the open state of the sidebar on mobile. |
 | `isMobile`      | `boolean`                 | Whether the sidebar is on mobile.             |
 | `toggleSidebar` | `() => void`              | Toggles the sidebar. Desktop and mobile.      |
+
+<!-- ::start:only angular/ng -->
+
+On Angular, `useSidebar()` is called in a component or directive's constructor (or a field), and its values are signals: `state()`, `open()`, `openMobile()`, `isMobile()`. A part written in one template and projected into a `SidebarProvider` in another still finds it, around its element once drawn. `SidebarMenuButton` takes its tooltip as a string, `<button kuiSidebarMenuButton tooltip="Home">`.
+
+<!-- ::end:only -->
 
 ## SidebarHeader
 
@@ -712,4 +757,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
