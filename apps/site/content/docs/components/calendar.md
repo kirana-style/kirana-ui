@@ -2,7 +2,7 @@
 title: Calendar
 description: A calendar component that allows users to select a date or a range of dates.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     calendar,
@@ -21,11 +21,11 @@ keywords:
 
 # Calendar
 
-<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="calendar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="calendar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -97,6 +97,24 @@ export function Example() {
       onSelectedChange={(details) => setDate(details.selected)}
     />
   )
+}
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component, signal } from "@angular/core"
+import { Calendar } from "@/components/ui/calendar"
+
+@Component({
+  selector: "app-example",
+  imports: [Calendar],
+  template: ` <div kuiCalendar mode="single" [(selected)]="date"></div> `,
+})
+export class Example {
+  protected readonly date = signal<Date | undefined>(new Date())
 }
 ```
 
@@ -285,33 +303,62 @@ export function Example() {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+## International Calendars
+
+Angular's calendar is drawn on `@internationalized/date`, so it draws any of its calendar systems. Pass its `createCalendar` and a locale whose calendar it is, such as `fa-IR` for the Persian (Jalali) calendar, with the locale's direction. The weekdays' names come from `formatters.formatWeekdayName`, as React DayPicker's do.
+
+```ts
+import { createCalendar } from "@internationalized/date"
+
+const weekday = new Intl.DateTimeFormat("fa-IR", { weekday: "narrow" })
+const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
+```
+
+```html
+<div
+  kuiCalendar
+  mode="single"
+  [(selected)]="date"
+  locale="fa-IR"
+  dir="rtl"
+  [createCalendar]="createCalendar"
+  [formatters]="formatters"
+></div>
+```
+
+<!-- ::preview item="calendar-hijri" height="400" combinations="angular/ng" -->
+
+<!-- ::end:only -->
+
 ## Basic
 
-<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Range Calendar
 
-<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Month and Year Selector
 
-<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Presets
 
-<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Date and Time Picker
 
-<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Booked dates
 
-<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Custom Cell Size
 
-<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 The calendar's cells are `calendarCtx.cellSize` (`--cell-size` upstream). Set it through `sx`, and
 make it responsive with breakpoint-specific values:
@@ -332,13 +379,13 @@ const cells = css({
 })
 ```
 
-<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark,angular/ng -->
 
 ## Week Numbers
 
 Use `showWeekNumber` (`show-week-number` on Vue) to show week numbers.
 
-<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -358,7 +405,7 @@ See also the [International Calendars Guide](#international-calendars) for enabl
 
 <!-- ::end:only -->
 
-<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::start:only react/base -->
 
@@ -386,6 +433,23 @@ When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's t
 <DirectionProvider locale="ar-SA">
   <Calendar v-model:selected="date" mode="single" locale="ar-SA" dir="rtl" :week-starts-on="0" />
 </DirectionProvider>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+When using RTL, pass the locale's tag as `locale`, with `dir`. The week's first day is the locale's (Saturday in Arabic); `weekStartsOn` sets it, `0` for Sunday as react-day-picker's `arSA`:
+
+```html showLineNumbers
+<div
+  kuiCalendar
+  mode="single"
+  [(selected)]="date"
+  locale="ar-SA"
+  dir="rtl"
+  [weekStartsOn]="0"
+></div>
 ```
 
 <!-- ::end:only -->
@@ -461,3 +525,9 @@ See the [Ark UI Date Picker](https://ark-ui.com/solid/docs/components/date-picke
 <!-- ::end:only -->
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own, drawn as react-day-picker draws React's, with its API in `Date`s: `mode`, `[(selected)]`, `defaultMonth`, `[(month)]`, `numberOfMonths`, `captionLayout`, `disabled`, `modifiers` and `modifiersClassNames`, `showOutsideDays`, `showWeekNumber`, `fixedWeeks`, `locale` (a BCP 47 tag), `weekStartsOn`, `createCalendar` and `formatters`. `<ng-template kuiCalendarDay let-date let-outside="outside">` draws a day's content.
+
+<!-- ::end:only -->
