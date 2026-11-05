@@ -8,9 +8,10 @@
  *   `<out>/demos/<item>.json` (`demos.ts`);
  * - for shadcn/ui's CLI, every combination flattened, checked against the live styles with Kirana
  *   (one session, `session.ts`), each handle and each composition of handles in the markup
- *   (`compose.ts`), and validated against shadcn/ui's schema:
- *   `<out>/shadcn/<combination>/<item>.json`, `<out>/shadcn/<combination>/registry.json` and
- *   `<out>/shadcn/index.json`.
+ *   (`compose.ts`), and validated against shadcn/ui's schema; written for React's combinations
+ *   alone, which its CLI installs (the other frameworks install with `kirana-style ui`, and the
+ *   Worker serves at most 20,000 static files): `<out>/shadcn/<combination>/<item>.json`,
+ *   `<out>/shadcn/<combination>/registry.json` and `<out>/shadcn/index.json`.
  */
 import { spawnSync } from "node:child_process"
 import {
@@ -256,6 +257,9 @@ for (const combination of COMBINATIONS) {
   }
   const built = buildCombination(REGISTRY, combination, contentOf, versions)
   problems.push(...built.problems)
+  itemCount += built.items.length
+  // Built and checked for every combination; written for React's, which shadcn/ui's CLI installs.
+  if (combination.framework !== "react") continue
   const folder = join(values.out!, "shadcn", combination.id)
   mkdirSync(folder, { recursive: true })
   for (const item of built.items) {
@@ -268,7 +272,6 @@ for (const combination of COMBINATIONS) {
     join(folder, "registry.json"),
     `${JSON.stringify(built.index, null, 2)}\n`
   )
-  itemCount += built.items.length
   index.combinations.push({
     id: combination.id,
     framework: combination.framework,
@@ -360,5 +363,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; for shadcn/ui, ${COMBINATIONS.length} combinations, ${itemCount} items; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; for shadcn/ui, ${COMBINATIONS.length} combinations and ${itemCount} items checked, React's ${COMBINATIONS.filter((combination) => combination.framework === "react").length} written; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )
