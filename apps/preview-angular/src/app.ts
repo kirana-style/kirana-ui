@@ -2,6 +2,7 @@ import { Component, signal } from "@angular/core"
 import type { Type } from "@angular/core"
 import { NgComponentOutlet } from "@angular/common"
 import { css, props } from "@kirana-style/core"
+import { Toaster } from "@workspace/registry/bases/angular-ng/ui/sonner"
 import { previews } from "@workspace/registry/bases/angular-ng/previews"
 import { space } from "@workspace/registry/core/scales"
 
@@ -19,12 +20,17 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 
 @Component({
   selector: "preview-root",
-  imports: [NgComponentOutlet, Showcase],
+  imports: [NgComponentOutlet, Showcase, Toaster],
   template: `
     @if (item === "showcase") {
       <preview-showcase />
     } @else if (current()) {
       <ng-container *ngComponentOutlet="current()" />
+      <!-- Sonner's toaster, as upstream's site mounts it on every page (\`top-center\`), loaded
+           after the page, since only the items that call \`toast()\` need it. -->
+      @defer (on idle) {
+        <kui-toaster position="top-center" />
+      }
     } @else {
       <nav [class]="list">
         @for (name of names; track name) {

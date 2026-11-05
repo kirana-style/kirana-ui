@@ -437,7 +437,9 @@ trigger is bound to in the caller's template, which a part cannot set from its
 code, and their single element carries the position where Base UI draws a
 positioner and a popup; the registry's layer keeps shadcn/ui's composition and
 Base UI's markup. Slider is the registry's own too, ng-primitives' sliders taking
-one thumb or two.
+one thumb or two, and so are Input OTP, Resizable and Scroll Area, which draw the
+markup React's libraries draw where `angular-split` and `ngx-scrollbar` draw
+elements of their own. Sonner is `ngx-sonner`.
 
 **What a project installs is the same module, flattened, and Kirana checks it.**
 `packages/builder` writes the registry (`vp run registry`): for each combination of

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
-import { toast } from "vue-sonner"
+import { toast } from "ngx-sonner"
 import { containerSize, space } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 import { Bubble, BubbleContent, BubbleGroup } from "../ui/bubble"
@@ -30,7 +30,7 @@ const styles = {
           <div kuiBubble variant="tinted" align="end">
             <button
               kuiBubbleContent
-              (click)="() => toast('You clicked forgot password')"
+              (click)="toast('You clicked forgot password')"
             >
               I forgot my password
             </button>
@@ -38,7 +38,7 @@ const styles = {
           <div kuiBubble variant="tinted" align="end">
             <button
               kuiBubbleContent
-              (click)="() => toast('You clicked help with subscription')"
+              (click)="toast('You clicked help with subscription')"
             >
               I need help with my subscription
             </button>
@@ -46,9 +46,7 @@ const styles = {
           <div kuiBubble variant="tinted" align="end">
             <button
               kuiBubbleContent
-              (click)="
-                () => toast('You clicked something else. Talk to a human.')
-              "
+              (click)="toast('You clicked something else. Talk to a human.')"
             >
               Something else. Talk to a human.
             </button>

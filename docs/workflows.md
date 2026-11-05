@@ -594,6 +594,17 @@ On Angular (ng-primitives):
   its list over its trigger, the chosen item over the value (`alignItemWithTrigger`), as Base
   UI's.
 
+- **Where a package's markup is not React's, the part is the registry's own too**, drawing the
+  markup React's library draws: Input OTP (`input-otp`'s one input over the slots, the slot at
+  the cursor `data-active` with its caret), Resizable (`react-resizable-panels`' group, panels
+  and separators with their values) and Scroll Area (Base UI's viewport and scrollbars, the
+  thumb through its variables); `angular-split` and `ngx-scrollbar` draw elements of their own.
+  Sonner is `ngx-sonner`, Sonner's Angular port, whose toaster the preview mounts once.
+- **Measure once rendered, not at the next frame.** A size read by a `ResizeObserver` or a
+  `requestAnimationFrame` arrives late, or never, in a page the browser does not draw (a
+  background tab, a headless comparison): read it after render too (`afterNextRender`,
+  `afterRenderEffect`), and on the events that change it (`load` inside a scroll area).
+
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 

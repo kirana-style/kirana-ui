@@ -30,8 +30,8 @@ follow React's pages, checked against them the same way: Vue has 61 of the compo
 (all but the three no Vue library carries: Menubar, Message Scroller and Questionnaire) with
 their demos and example pages, the 29 blocks and the 70 charts; Svelte and Solid have the same
 61 with their demos and example pages, the 29 blocks and the 70 charts; and
-Angular has 36 (the plain ones, the controls and disclosures on ng-primitives, and the
-popups, menus and select on its own layer) with their demos and example pages.
+Angular has 40 (the plain ones, the controls and disclosures on ng-primitives, and the
+popups, menus, select and the rest on its own layer) with their demos and example pages.
 
 ## Using it
 
