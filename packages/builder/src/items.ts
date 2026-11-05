@@ -390,7 +390,11 @@ export const ITEMS: Item[] = [
                   "lib/highlight-tokens.ts",
                   "styles/highlight.styles.ts",
                 ]
-              : undefined,
+              : [
+                  "lib/angular/use-highlighted-code.ts",
+                  "lib/highlight-tokens.ts",
+                  "styles/highlight.styles.ts",
+                ],
   },
   sharedStyles("overlay", "How popups, modals and backdrops come and go."),
   sharedStyles(

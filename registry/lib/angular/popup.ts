@@ -37,6 +37,8 @@ import type { Placement } from "@floating-ui/dom"
 import { props } from "@kirana-style/core"
 import type { StyleHandle } from "@kirana-style/core"
 
+import { exitFinished } from "./presence"
+
 let next = 0
 
 const TABBABLE =
@@ -449,11 +451,7 @@ export function popupSurface(popup: Popup, options: SurfaceOptions) {
     if (!animate) return done()
     element.setAttribute("data-ending-style", "")
     flush()
-    void Promise.all(
-      element
-        .getAnimations({ subtree: true })
-        .map((animation) => animation.finished.catch(() => undefined))
-    ).then(done)
+    void exitFinished(element).then(done)
   }
 
   effect(() => {

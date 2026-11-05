@@ -16,6 +16,24 @@ import {
   untracked,
 } from "@angular/core"
 
+/**
+ * When the exit motion of `elements` and what they hold has run: the animations and transitions
+ * that end, on the page's clock. A scroll-driven one (a scroll fade's) and an endless one (a
+ * spinner's) never finish, so they are not waited for.
+ */
+export function exitFinished(...elements: Element[]) {
+  return Promise.all(
+    elements
+      .flatMap((element) => element.getAnimations({ subtree: true }))
+      .filter(
+        (animation) =>
+          animation.timeline === document.timeline &&
+          animation.effect?.getComputedTiming().endTime !== Infinity
+      )
+      .map((animation) => animation.finished.catch(() => undefined))
+  )
+}
+
 export function presence(
   open: () => boolean,
   options: { heightVar?: string; widthVar?: string } = {}
@@ -33,12 +51,7 @@ export function presence(
   // Styles computed now, not at the next frame: a page in the background, or a headless browser,
   // may not draw one for a while.
   const flush = () => void getComputedStyle(element).getPropertyValue("height")
-  const finished = () =>
-    Promise.all(
-      element
-        .getAnimations({ subtree: true })
-        .map((animation) => animation.finished.catch(() => undefined))
-    )
+  const finished = () => exitFinished(element)
 
   effect(() => {
     const isOpen = open()

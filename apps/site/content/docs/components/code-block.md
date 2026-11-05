@@ -3,27 +3,28 @@ title: Code Block
 description: Displays code, terminal output and diffs with an optional header, line numbers and a copy button.
 section: components
 new: true
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [code-block, chat, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [code-block, chat, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Code Block
 
 `CodeBlock` displays code, terminal output, logs and diffs. It has a header with a title and actions, line numbers, wrapping, diff and highlighted lines, and a small size for tool output in a [Trace](/docs/components/trace).
 
-<!-- ::preview item="code-block-demo" height="440" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-demo" height="440" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
 <!-- ::start:only react/base -->
 
-<!-- ::installation name="code-block" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="code-block" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-<!-- ::installation name="code-block" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="code-block" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -110,6 +111,48 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
+  CodeBlockTitle,
+} from "@/components/ui/code-block"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    CodeBlock,
+    CodeBlockActions,
+    CodeBlockContent,
+    CodeBlockCopyButton,
+    CodeBlockHeader,
+    CodeBlockTitle,
+  ],
+  template: `
+    <div kuiCodeBlock>
+      <div kuiCodeBlockHeader>
+        <div kuiCodeBlockTitle>Terminal</div>
+        <div kuiCodeBlockActions>
+          <button kuiCodeBlockCopyButton [value]="output"></button>
+        </div>
+      </div>
+      <pre kuiCodeBlockContent>{{ output }}</pre>
+    </div>
+  `,
+})
+export class Example {
+  protected readonly output = "$ pnpm test"
+}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 ```text
@@ -138,13 +181,13 @@ CodeBlock
 
 Pass a string to `CodeBlockContent`. It renders as one text node, so it stays cheap while output streams.
 
-<!-- ::preview item="code-block-basic" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-basic" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Header
 
 `CodeBlockHeader` holds a `CodeBlockTitle` and `CodeBlockActions`. `CodeBlockCopyButton` copies its `value`.
 
-<!-- ::preview item="code-block-header" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-header" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 A long title truncates. To link the title to a file, wrap `CodeBlockTitle` in an anchor.
 
@@ -160,7 +203,7 @@ A long title truncates. To link the title to a file, wrap `CodeBlockTitle` in an
 
 `CodeBlockActions` holds any number of buttons. For a wrap toggle, keep the state yourself and pass it to `wrap`.
 
-<!-- ::preview item="code-block-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -210,43 +253,43 @@ const [wrap, setWrap] = React.useState(false)
 
 Without a header, put `CodeBlockActions` directly inside `CodeBlock`. The actions float at the top end and stay hidden until the block is hovered or focused. They always show on touch screens.
 
-<!-- ::preview item="code-block-floating-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-floating-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Line Numbers
 
 Add `lineNumbers` to `CodeBlockContent`. A string child is split into lines, and the numbers are not copied with a selection.
 
-<!-- ::preview item="code-block-line-numbers" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-line-numbers" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Start Line
 
 Set `startLine` to number lines from a given line, for a snippet from the middle of a file. The gutter grows to fit the widest number.
 
-<!-- ::preview item="code-block-start-line" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-start-line" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Wrap
 
 Long lines scroll by default. Add `wrap` to wrap them, which suits tool output and error messages. To let the reader toggle it, see [Actions](#actions).
 
-<!-- ::preview item="code-block-wrap" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-wrap" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Highlighted Lines
 
 Render each line as a `CodeBlockLine` and set `variant="highlighted"` on the lines to call out.
 
-<!-- ::preview item="code-block-highlighted-lines" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-highlighted-lines" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Diff
 
 Set `variant="added"` or `variant="removed"` on a `CodeBlockLine`. Each one adds a `+` or `−` marker.
 
-<!-- ::preview item="code-block-diff" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-diff" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Height
 
 Cap the height with a `maxHeight` in `CodeBlockContent`'s `sx`. The content scrolls inside the block.
 
-<!-- ::preview item="code-block-height" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-height" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 `CodeBlockContent` fades its edges with the [scroll fade](/docs/utils/scroll-fade) as it scrolls: left and right by default, top and bottom when it wraps. Add `scrollFade` to the `sx` of a capped block that does not wrap.
 
@@ -254,7 +297,7 @@ Cap the height with a `maxHeight` in `CodeBlockContent`'s `sx`. The content scro
 
 `CodeBlockFooter` is a slot below the content. For Show More, cap the content while it is collapsed and put a ghost `xs` `Button` in the footer.
 
-<!-- ::preview item="code-block-show-more" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-show-more" height="420" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -330,57 +373,57 @@ const id = React.useId()
 
 To keep a long block from taking over the page, raise the cap instead of removing it. The expanded content scrolls, and the edges fade as you scroll.
 
-<!-- ::preview item="code-block-show-more-scroll" height="560" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-show-more-scroll" height="560" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Size
 
 Use `size="sm"` for tool and [Trace](#trace) output. It has tighter padding and `text-xs` text.
 
-<!-- ::preview item="code-block-size" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-size" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Destructive
 
 Use `variant="destructive"` for errors and failed output.
 
-<!-- ::preview item="code-block-destructive" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-destructive" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Trace
 
 Put a `CodeBlock` with `size="sm"` in `TraceCollapsibleContent` for tool and terminal output. Add `wrap` and a `maxHeight` in `sx` to `CodeBlockContent` so long output wraps and scrolls inside the trace. The block sets its own text color, so `TraceCollapsibleContent` does not mute it.
 
-<!-- ::preview item="code-block-trace" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-trace" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Tabs
 
 Show several files with [Tabs](/docs/components/tabs), one `CodeBlock` in each `TabsContent`.
 
-<!-- ::preview item="code-block-tabs" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-tabs" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Message
 
 Put a `CodeBlock` between paragraphs inside a [Message](/docs/components/message).
 
-<!-- ::preview item="code-block-chat" height="540" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-chat" height="540" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Typeset
 
 A `CodeBlock` inside a [`typeset`](/docs/design-system/typeset) container keeps its own styles and gets the same space above as a paragraph.
 
-<!-- ::preview item="code-block-typeset" height="520" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-typeset" height="520" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl). Code always reads left to right. The header follows the page direction.
 
-<!-- ::preview item="code-block-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="code-block-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## Syntax Highlighting
 
 `useHighlightedCode` highlights with [TanStack Highlight](https://tanstack.com/highlight) (MIT), in place of upstream's Shiki, and returns one React node per line for `CodeBlockLine`. Add it beside the code block:
 
-<!-- ::installation name="use-highlighted-code" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="use-highlighted-code" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
-<!-- ::preview item="code-block-highlighting" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-highlighting" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ```tsx showLineNumbers
 const lines = useHighlightedCode(code, "json")
@@ -400,7 +443,7 @@ The highlighter is synchronous, so the first render is already coloured, on the 
 
 Edit the list in `lib/highlighter.tsx`: each language is a module of TanStack Highlight's, imported there. A language that is not in the list renders as plain text.
 
-<!-- ::preview item="code-block-languages" height="470" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-languages" height="470" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 The list ships with `bash`, `css`, `diff`, `html`, `javascript`, `json`, `jsx`, `markdown`, `python`, `sql`, `tsx`, `typescript` and `yaml`, plus aliases such as `ts`, `js`, `sh` and `yml`.
 
@@ -408,7 +451,7 @@ The list ships with `bash`, `css`, `diff`, `html`, `javascript`, `json`, `jsx`, 
 
 Pass `"ansi"` as the language to render the colors in terminal output. Without it, escape codes show as text.
 
-<!-- ::preview item="code-block-ansi" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-ansi" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 The colours are the code's nearest token colours (red as a deletion, green as an insertion, dimmed text as a comment), and a colour runs on to the next line until a code resets it, as in a terminal.
 
@@ -438,13 +481,13 @@ export function ServerCode({ code }: { code: string }) {
 
 The hook highlights the code again each time it changes, so a block that streams in is coloured as it grows.
 
-<!-- ::preview item="code-block-streaming" height="1170" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-streaming" height="1170" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ### Markdown
 
 Render the message with [TanStack Markdown](https://tanstack.com/markdown) and route fenced code to a `CodeBlock`: its React renderer draws a fence as a `pre` naming its language in `data-lang`, around a `code` element holding the text, so `components.pre` draws the `CodeBlock` and `components.code` stays for inline code. (Upstream renders with Streamdown, whose `data-block` marks fenced code.)
 
-<!-- ::preview item="code-block-markdown" height="520" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="code-block-markdown" height="520" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 While the message streams, pass the streaming extension, which leaves out a half-written trailing block until its text arrives. To disable the copy button until the closing fence arrives (Streamdown's `useIsCodeFenceIncomplete`), count the fences in the streamed text: an odd count means the last one is still open.
 
@@ -545,6 +588,12 @@ A row below the content, such as for a Show More button.
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
 
+<!-- ::start:only angular/ng -->
+
+Angular's parts sit on the elements they draw: `<div kuiCodeBlock>`, `<pre kuiCodeBlockContent>`, `<span kuiCodeBlockLine>`, `<button kuiCodeBlockCopyButton>`. A template cannot split its content into lines, so a numbered block takes its text as `code` (`<pre kuiCodeBlockContent lineNumbers [code]="output">`), or draws its own `CodeBlockLine`s. A `<pre>` keeps every space in its template, so write its lines on one line, as the examples do.
+
+<!-- ::end:only -->
+
 ### useHighlightedCode
 
 ```tsx
@@ -557,3 +606,19 @@ Returns one React node per line, highlighted from the first render. A language t
 | ---------- | -------- | ------------------------------------------------------------ |
 | `code`     | `string` | The code to highlight. A trailing newline is ignored.        |
 | `language` | `string` | A language or alias from `lib/highlighter.tsx`, or `"ansi"`. |
+
+<!-- ::start:only angular/ng -->
+
+Angular's takes both as functions, so a signal works, and returns a signal of each line's tokens, which `HighlightedLine` draws (`lib/angular/use-highlighted-code.ts`):
+
+```ts
+protected readonly lines = useHighlightedCode(() => this.code(), () => "ts")
+```
+
+```html
+<pre
+  kuiCodeBlockContent
+>@for (line of lines(); track $index) {<span kuiCodeBlockLine><kui-highlighted-line [tokens]="line" /></span>}</pre>
+```
+
+<!-- ::end:only -->
