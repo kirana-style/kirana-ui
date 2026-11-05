@@ -646,9 +646,12 @@ item and preset on both sites):
     it: `@/registry/<type>/<path>` (`@/registry/component/login-form`), which
     installation rewrites to the project's alias for the type.
 - **shadcn/ui's**, for its CLI: `r/shadcn/<combination>/<item>.json`,
-  `<combination>/registry.json` and `r/shadcn/index.json`, for every combination of
-  `react-base`, `react-aria`, `vue-ark`, `svelte-ark`, `solid-ark`, `angular-ng`
-  and the eight styles, each style module flattened. A combination is checked on
+  `<combination>/registry.json` and `r/shadcn/index.json`, for React's
+  combinations (`react-base`, `react-aria` and the eight styles), each style
+  module flattened. Every combination is built and checked, `vue-ark`,
+  `svelte-ark`, `solid-ark` and `angular-ng` too, but only React's are written:
+  shadcn/ui's CLI installs React, the other frameworks install with
+  `kirana-style ui`, and the Worker serves at most 20,000 static files. A combination is checked on
   the style modules its items install, and a composition on the bases whose
   markup writes it.
 

@@ -98,8 +98,8 @@
   "static.files": {
     "budget": 20000,
     "unit": "files",
-    "why": "Every static file the Worker serves: its limit is 20,000 per version. 20,214 with P6-06 before the React preview stopped publishing source maps (1,895 files; the other previews never had them); 18,319 measured after. Each framework's items and preview pages add to it: the shadcn/ui export alone is about 1,400 files per framework and base (one per item in each of the eight styles).",
-    "measured": 18319
+    "why": "Every static file the Worker serves: its limit is 20,000 per version. 20,214 with P6-06 before the React preview stopped publishing source maps (1,895 files; the other previews never had them); 18,319 measured after. Each framework's items and preview pages add to it. 19,550 with P6-19, before the shadcn/ui export was written for React's combinations alone (its CLI installs React; about 4,600 files for Vue, Svelte, Solid and Angular, which install with `kirana-style ui`); 14,942 measured after.",
+    "measured": 14942
   },
   "style.nova": {
     "budget": 39,
