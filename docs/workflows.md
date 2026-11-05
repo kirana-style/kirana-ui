@@ -662,6 +662,16 @@ On Angular (ng-primitives):
   a part read through a signal input never shows its later states (a tool row stays "running"). TanStack Markdown draws
   through `lib/angular/markdown.ts`, a directive filling the element it is on from the
   framework-free tree, creating a page's own components (`components.pre`) in place.
+- **A chart is TanStack Charts' Angular adapter** (`<tanstack-chart>`) inside the container
+  (`ui/chart.ts`). React's `tooltip` and `legend` props are an `<ng-template kuiChartTooltip>`
+  and a `<div kuiChartLegendContent>` inside it, and `formatter` in markup is an
+  `<ng-template kuiChartTooltipRow>`. Import the directive with the template that uses it, or the
+  container never finds it and the chart has no tooltip, with no error. A config's `icon` names
+  the icon in each library, as an `iconPlaceholder` takes them, since a template can't draw a
+  component held in data. The container measures its box once the page's fonts have loaded, and
+  the marks wait for it (`data-entering`), so the first draw is at the box's width. A chart's state (the
+  interactive ones' series, range or month) is a signal on the component, its definition a
+  `computed` of it.
 
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
