@@ -9,7 +9,7 @@ keywords:
 
 # Spinner
 
-<!-- ::preview item="spinner-demo" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="spinner-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
@@ -124,7 +124,7 @@ Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` be
 
 ## Input Group
 
-<!-- ::preview item="spinner-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="spinner-input-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Empty
 
@@ -134,4 +134,4 @@ Add a spinner to a badge to indicate a loading state. Place the `<Spinner />` be
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="spinner-rtl" height="360" combinations="react/base,react/aria,vue/ark" direction="rtl" -->
+<!-- ::preview item="spinner-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->

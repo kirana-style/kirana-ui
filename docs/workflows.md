@@ -593,8 +593,9 @@ On Angular (ng-primitives):
   (`--transform-origin`, `--anchor-width`, `--available-*`) and first and last frames, and
   out of the page while closed. The menus and Select add `lib/angular/menu.ts`: the highlight
   moving with focus, the keys, typeahead, checkbox and radio items and submenus. Select places
-  its list over its trigger, the chosen item over the value (`alignItemWithTrigger`), as Base
-  UI's.
+  its list over its trigger, the chosen item over the value (`alignItemWithTrigger`), and beside
+  it where there is no room (the trigger near the viewport's edge, or under 100px for the list),
+  as Base UI's.
 
 - **Where a package's markup is not React's, the part is the registry's own too**, drawing the
   markup React's library draws: Input OTP (`input-otp`'s one input over the slots, the slot at

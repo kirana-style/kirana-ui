@@ -9,7 +9,7 @@ keywords:
 
 # Label
 
-<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 > [!NOTE]
 > For form fields, use the [Field](/docs/components/field) component, which
@@ -87,7 +87,7 @@ includes built-in `FieldLabel`, `FieldDescription`, and `FieldError` components.
 </Field>
 ```
 
-<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 

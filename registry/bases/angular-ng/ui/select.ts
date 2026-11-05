@@ -469,6 +469,15 @@ class SelectContent {
     // list scrolling, as Base UI's.
     const overflows = top + height > viewport - margin
     const placed = overflows ? viewport - top - margin : height
+    // Where the trigger is near the viewport's top or bottom, or the list would be shorter than
+    // Base UI's minimum (100px, or its whole height), it opens beside the trigger instead.
+    const threshold = 20
+    if (
+      triggerBox.top < threshold ||
+      triggerBox.bottom > viewport - 2 * margin - threshold ||
+      Math.ceil(placed) + 1 < Math.min(height, 100)
+    )
+      return false
     style.cssText = [
       "position: fixed",
       `--available-width: ${document.documentElement.clientWidth - margin}px`,

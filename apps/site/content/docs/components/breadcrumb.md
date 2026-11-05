@@ -8,7 +8,7 @@ keywords: [breadcrumb, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Breadcrumb
 
-<!-- ::preview item="breadcrumb-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="breadcrumb-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
@@ -136,7 +136,7 @@ Use a custom component as `children` for `<BreadcrumbSeparator />` to create a c
 
 You can compose `<BreadcrumbItem />` with a `<DropdownMenu />` to create a dropdown in the breadcrumb.
 
-<!-- ::preview item="breadcrumb-dropdown" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="breadcrumb-dropdown" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Collapsed
 

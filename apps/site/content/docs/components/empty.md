@@ -189,19 +189,19 @@ Use the `bg-*` and `bg-gradient-*` utilities to add a background to the empty st
 
 Use the `EmptyMedia` component to display an avatar in the empty state.
 
-<!-- ::preview item="empty-avatar" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="empty-avatar" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Avatar Group
 
 Use the `EmptyMedia` component to display an avatar group in the empty state.
 
-<!-- ::preview item="empty-avatar-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="empty-avatar-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## InputGroup
 
 You can add an `InputGroup` component to the `EmptyContent` component.
 
-<!-- ::preview item="empty-input-group" height="360" combinations="react/base,react/aria,vue/ark" -->
+<!-- ::preview item="empty-input-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 

@@ -263,7 +263,7 @@ Use the `<TableFooter />` component to add a footer to the table.
 
 A table showing actions for each row using a `<DropdownMenu />` component.
 
-<!-- ::preview item="table-actions" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="table-actions" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Data Table
 
