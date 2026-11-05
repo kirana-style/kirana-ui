@@ -622,7 +622,10 @@ On Angular (ng-primitives):
 - **Modals are the popup layer's state drawn as Base UI draws a modal** (`lib/angular/modal.ts`):
   a portal holding the backdrop and the content, focus moved inside and kept there, the body's
   scroll locked, Escape and the backdrop closing it (not an alert dialog's), focus back to the
-  trigger, the content labelled by its title and described by its description.
+  trigger, the content labelled by its title and described by its description. A drawer adds
+  Base UI's viewport and, unless `modal` is false, its backdrop; its swipe and snap points are the
+  custom properties Base UI's drawer hands its styles (`--drawer-swipe-movement-*`,
+  `--drawer-snap-point-offset` …), written by `ui/drawer.ts`.
 
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.

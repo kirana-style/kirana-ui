@@ -1,5 +1,5 @@
 /**
- * Angular's modals (Dialog, Alert Dialog, Sheet): the popup layer's state (`Popup`, `popup.ts`) drawn
+ * Angular's modals (Dialog, Alert Dialog, Sheet, Drawer): the popup layer's state (`Popup`, `popup.ts`) drawn
  * as Base UI draws a modal. Opening puts the content in a portal at the end of the body, after its
  * backdrop, both with `data-open`/`data-closed` and their first frame and exit
  * (`data-starting-style`, `data-ending-style`, held until their animations end); focus moves to the
@@ -51,6 +51,20 @@ export type ModalOptions = {
   role?: "dialog" | "alertdialog"
   /** Whether a press on the backdrop closes it (an alert dialog's does not). */
   dismissible?: boolean
+  /**
+   * A viewport the content sits in, after the backdrop (a drawer's, `drawer-viewport`), with its
+   * own look and attributes.
+   */
+  viewport?: {
+    slot: string
+    look: StyleHandle[]
+    attributes?: () => Record<string, string>
+  }
+  /**
+   * Whether it is modal (`true`): a non-modal one has no backdrop, keeps no focus inside and leaves
+   * the page scrolling, as a non-modal drawer.
+   */
+  modal?: () => boolean
 }
 
 export function modalSurface(popup: Popup, options: ModalOptions) {
@@ -65,6 +79,16 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
   overlay.setAttribute("aria-hidden", "true")
   overlay.className = props(...options.overlay).className ?? ""
   portal.append(overlay)
+  const modal = options.modal ?? (() => true)
+  // The content's container in the portal: the viewport when it has one.
+  let holder: HTMLElement = portal
+  if (options.viewport) {
+    holder = document.createElement("div")
+    holder.setAttribute("role", "presentation")
+    holder.setAttribute("data-slot", options.viewport.slot)
+    holder.className = props(...options.viewport.look).className ?? ""
+    portal.append(holder)
+  }
   element.id = popup.id
   element.tabIndex = -1
   element.setAttribute("role", options.role ?? "dialog")
@@ -78,7 +102,11 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
     })
 
   const both = (name: string, value: string | null) => {
-    for (const node of [overlay, element])
+    for (const node of [
+      overlay,
+      element,
+      ...(holder === portal ? [] : [holder]),
+    ])
       if (value === null) node.removeAttribute(name)
       else node.setAttribute(name, value)
   }
@@ -93,7 +121,7 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
       popup.setOpen(false, "escape")
       return
     }
-    if (event.key !== "Tab") return
+    if (event.key !== "Tab" || !modal()) return
     // Tab stays inside the content.
     const stops = [...element.querySelectorAll<HTMLElement>(TABBABLE)]
     if (!stops.length) {
@@ -118,13 +146,21 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
   const show = () => {
     run++
     if (!portal.isConnected) document.body.append(portal)
-    portal.append(element)
+    holder.append(element)
+    for (const [name, value] of Object.entries(
+      options.viewport?.attributes?.() ?? {}
+    ))
+      holder.setAttribute(name, value)
+    // A non-modal one draws no backdrop and leaves the page scrolling.
+    if (modal()) {
+      if (!overlay.isConnected) portal.prepend(overlay)
+    } else overlay.remove()
     both("data-closed", null)
     both("data-open", "")
     for (const node of [overlay, element])
       node.removeAttribute("data-ending-style")
     overflow = document.body.style.overflow
-    document.body.style.overflow = "hidden"
+    if (modal()) document.body.style.overflow = "hidden"
     document.addEventListener("keydown", keydown, true)
     if (!first) {
       for (const node of [overlay, element])
