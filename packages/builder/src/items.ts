@@ -653,7 +653,8 @@ export const ITEMS: Item[] = [
     "Navigation Menu",
     "A collection of links for navigating websites.",
     ["react", "vue"],
-    ["base", "ark"]
+    // React Aria has none; Angular's is the registry's own.
+    ["base", "ark", "ng"]
   ),
   component(
     "menubar",
@@ -697,8 +698,8 @@ export const ITEMS: Item[] = [
     "Toast",
     "A succinct message that is displayed temporarily.",
     ["react", "vue"],
-    // React Aria has no toast: its pages use Sonner.
-    ["base", "ark"]
+    // React Aria has no toast: its pages use Sonner. Angular's comes with its own (P6).
+    ["base", "ark", "ng"]
   ),
   component(
     "resizable",

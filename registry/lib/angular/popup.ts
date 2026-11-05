@@ -464,6 +464,16 @@ export function popupSurface(popup: Popup, options: SurfaceOptions) {
       }
     })
   })
+  // Moved to another anchor while open (a navigation menu's next trigger): placed against it.
+  effect(() => {
+    const anchor = popup.anchor() ?? popup.trigger()
+    untracked(() => {
+      if (!popup.open() || !portal.isConnected || !(anchor instanceof Element))
+        return
+      stop?.()
+      stop = autoUpdate(anchor, positioner, () => void place())
+    })
+  })
   destroy.onDestroy(() => {
     stop?.()
     document.removeEventListener("pointerdown", outside, true)

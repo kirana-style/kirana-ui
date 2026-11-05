@@ -641,6 +641,12 @@ On Angular (ng-primitives):
   Angular resolves a part's context through the template that declares it, not the one it is
   projected into: a part that can sit in another component's provider (a sidebar's menu button
   in a card's section) finds it around its element once drawn, as `useSidebar` does.
+- **A part that renders through the caller's function takes an `ng-template`**: Combobox's list
+  and a group's collection draw each match through `<ng-template let-item>`, as React's take
+  `(item) => …` and Vue's a scoped slot; a part drawing no element of its own is the template
+  itself (`<ng-template kuiComboboxCollection let-item>`). Combobox and Navigation Menu are the
+  registry's own, on the popup layer, which re-places a popup whose anchor changes while it is
+  open (the navigation menu's next trigger).
 - **A trigger says what Base UI's says**: ng-primitives' collapsible trigger writes `data-open`,
   which Collapsible's takes off for Base UI's `data-panel-open`, so a style written against
   React's trigger reads the same.
