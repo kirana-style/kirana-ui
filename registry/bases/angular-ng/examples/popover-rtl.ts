@@ -104,7 +104,7 @@ const logicalSides = ["inline-start", "inline-end"] as const
                 <button kuiButton kuiPopoverTrigger variant="outline">
                   {{ t()[side] }}
                 </button>
-                <div kuiPopoverContent [side]="side" [attr.dir]="dir()">
+                <div kuiPopoverContent [side]="$any(side)" [attr.dir]="dir()">
                   <div kuiPopoverHeader>
                     <h2 kuiPopoverTitle>{{ t().title }}</h2>
                     <p kuiPopoverDescription>{{ t().description }}</p>
@@ -119,7 +119,7 @@ const logicalSides = ["inline-start", "inline-end"] as const
                 <button kuiButton kuiPopoverTrigger variant="outline">
                   {{ t()[side] }}
                 </button>
-                <div kuiPopoverContent [side]="side" [attr.dir]="dir()">
+                <div kuiPopoverContent [side]="$any(side)" [attr.dir]="dir()">
                   <div kuiPopoverHeader>
                     <h2 kuiPopoverTitle>{{ t().title }}</h2>
                     <p kuiPopoverDescription>{{ t().description }}</p>

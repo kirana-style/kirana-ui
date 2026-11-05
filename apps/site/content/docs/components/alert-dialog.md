@@ -2,18 +2,18 @@
 title: Alert Dialog
 description: A modal dialog that interrupts the user with important content and expects a response.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [alert dialog, confirm, modal, dialog, component, base, aria, ark, vue]
 ---
 
 # Alert Dialog
 
-<!-- ::preview item="alert-dialog-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="alert-dialog-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="alert-dialog" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="alert-dialog" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -217,6 +217,75 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Button,
+  ],
+  template: `
+    <ng-container kuiAlertDialog>
+      <button kuiButton kuiAlertDialogTrigger variant="outline">
+        Show Dialog
+      </button>
+      <div kuiAlertDialogContent>
+        <div kuiAlertDialogHeader>
+          <h2 kuiAlertDialogTitle>Are you absolutely sure?</h2>
+          <p kuiAlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account from our servers.
+          </p>
+        </div>
+        <div kuiAlertDialogFooter>
+          <button kuiAlertDialogCancel>Cancel</button>
+          <button kuiAlertDialogAction>Continue</button>
+        </div>
+      </div>
+    </ng-container>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build an `AlertDialog`:
@@ -259,37 +328,37 @@ AlertDialogTrigger
 
 A basic alert dialog with a title, description, and cancel and continue buttons.
 
-<!-- ::preview item="alert-dialog-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="alert-dialog-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Small
 
 Use the `size="sm"` prop to make the alert dialog smaller.
 
-<!-- ::preview item="alert-dialog-small" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="alert-dialog-small" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Media
 
 Use the `AlertDialogMedia` component to add a media element such as an icon or image to the alert dialog.
 
-<!-- ::preview item="alert-dialog-media" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="alert-dialog-media" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Small with Media
 
 Use the `size="sm"` prop to make the alert dialog smaller and the `AlertDialogMedia` component to add a media element such as an icon or image to the alert dialog.
 
-<!-- ::preview item="alert-dialog-small-media" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="alert-dialog-small-media" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Destructive
 
 Use the `AlertDialogAction` component to add a destructive action button to the alert dialog.
 
-<!-- ::preview item="alert-dialog-destructive" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="alert-dialog-destructive" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="alert-dialog-rtl" height="224" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" direction="rtl" -->
+<!-- ::preview item="alert-dialog-rtl" height="224" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -320,6 +389,12 @@ For more information about the other components and their props, see the [Base U
 <!-- ::start:only react/aria -->
 
 For more information about the other components and their props, see the [React Aria documentation](https://react-aria.adobe.com/Modal#api).
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's is the registry's own modal (`lib/angular/modal.ts`) in Base UI's markup: `[(open)]` or `defaultOpen`; focus moves inside and stays there, the page behind is locked, and Escape closes it.
 
 <!-- ::end:only -->
 
