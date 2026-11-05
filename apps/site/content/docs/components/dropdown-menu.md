@@ -2,17 +2,18 @@
 title: Dropdown Menu
 description: Displays a menu of actions or functions, triggered by a button.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [dropdown menu, component, base, aria, ark, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords:
+  [dropdown menu, component, base, aria, ark, ark, vue, svelte, solid, angular]
 ---
 
 # Dropdown Menu
 
-<!-- ::preview item="dropdown-menu-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-demo" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="dropdown-menu" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="dropdown-menu" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -75,6 +76,55 @@ export function Example() {
     </DropdownMenuTrigger>
   )
 }
+```
+
+### Angular
+
+```ts
+import { Component } from "@angular/core"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  ],
+  template: `
+    <ng-container kuiDropdownMenu>
+      <button kuiButton kuiDropdownMenuTrigger variant="outline">Open</button>
+      <div kuiDropdownMenuContent>
+        <div kuiDropdownMenuGroup>
+          <div kuiDropdownMenuLabel>My Account</div>
+          <div kuiDropdownMenuItem>Profile</div>
+          <div kuiDropdownMenuItem>Billing</div>
+        </div>
+        <div kuiDropdownMenuSeparator></div>
+        <div kuiDropdownMenuGroup>
+          <div kuiDropdownMenuItem>Team</div>
+          <div kuiDropdownMenuItem>Subscription</div>
+        </div>
+      </div>
+    </ng-container>
+  `,
+})
+export class Example {}
 ```
 
 <!-- ::end:tabs -->
@@ -153,25 +203,25 @@ DropdownMenuTrigger
 
 A basic dropdown menu with labels and separators.
 
-<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-basic" height="540" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Submenu
 
 Use `DropdownMenuSub` to nest secondary actions.
 
-<!-- ::preview item="dropdown-menu-submenu" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-submenu" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Shortcuts
 
 Add `DropdownMenuShortcut` to show keyboard hints.
 
-<!-- ::preview item="dropdown-menu-shortcuts" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-shortcuts" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Icons
 
 Combine icons with labels for quick scanning.
 
-<!-- ::preview item="dropdown-menu-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Checkboxes
 
@@ -187,13 +237,13 @@ Use `selectionMode="multiple"` for toggles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="dropdown-menu-checkboxes" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-checkboxes" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Checkboxes Icons
 
 Add icons to checkbox items.
 
-<!-- ::preview item="dropdown-menu-checkboxes-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-checkboxes-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Radio Group
 
@@ -209,31 +259,31 @@ Use `selectionMode="single"` for exclusive choices.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="dropdown-menu-radio-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-radio-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Radio Icons
 
 Show radio options with icons.
 
-<!-- ::preview item="dropdown-menu-radio-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-radio-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Destructive
 
 Use `variant="destructive"` for irreversible actions.
 
-<!-- ::preview item="dropdown-menu-destructive" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-destructive" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Avatar
 
 An account switcher dropdown triggered by an avatar.
 
-<!-- ::preview item="dropdown-menu-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Complex
 
 A richer example combining groups, icons, and submenus.
 
-<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="dropdown-menu-complex" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
 
@@ -274,5 +324,11 @@ See the [Ark UI Menu](https://ark-ui.com/svelte/docs/components/menu#api-referen
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Menu](https://ark-ui.com/solid/docs/components/menu#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's popups are the registry's own layer on Floating UI (`lib/angular/popup.ts`), in Base UI's markup: it takes Base UI's props (`side`, `align`, `sideOffset`, `alignOffset`, `[(open)]`, `defaultOpen`).
 
 <!-- ::end:only -->

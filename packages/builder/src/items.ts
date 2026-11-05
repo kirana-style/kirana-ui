@@ -311,6 +311,26 @@ export const ITEMS: Item[] = [
         : undefined,
   },
   {
+    name: "popup",
+    type: "registry:lib",
+    title: "Popup",
+    description:
+      "Angular's popups on Floating UI, in Base UI's markup: their state, trigger, placement and motion.",
+    files: (combination) =>
+      combination.framework === "angular"
+        ? ["lib/angular/popup.ts"]
+        : undefined,
+  },
+  {
+    name: "menu",
+    type: "registry:lib",
+    title: "Menu",
+    description:
+      "Angular's menus and select lists: the highlight, the keyboard, items and submenus, as Base UI's.",
+    files: (combination) =>
+      combination.framework === "angular" ? ["lib/angular/menu.ts"] : undefined,
+  },
+  {
     name: "use-mobile",
     type: "registry:lib",
     title: "useIsMobile",

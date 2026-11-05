@@ -2,18 +2,18 @@
 title: Hover Card
 description: For sighted users to preview content available behind a link.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [hover card, preview, tooltip, link, component, base, aria, ark, vue, svelte]
 ---
 
 # Hover Card
 
-<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="hover-card" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="hover-card" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -118,6 +118,38 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+@Component({
+  selector: "app-example",
+  imports: [HoverCard, HoverCardContent, HoverCardTrigger],
+  template: `
+    <ng-container kuiHoverCard>
+      <a kuiHoverCardTrigger href="#">Hover</a>
+      <div kuiHoverCardContent>
+        The React Framework – created and maintained by {{ "@" }}vercel.
+      </div>
+    </ng-container>
+  `,
+})
+export class Example {}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `HoverCard`:
@@ -206,11 +238,11 @@ Use the `placement` prop on `HoverCard` to control placement.
 
 ## Basic
 
-<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Sides
 
-<!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -247,6 +279,12 @@ See the [Ark UI Hover Card](https://ark-ui.com/svelte/docs/components/hover-card
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Hover Card](https://ark-ui.com/solid/docs/components/hover-card#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's popups are the registry's own layer on Floating UI (`lib/angular/popup.ts`), in Base UI's markup: it takes Base UI's props (`side`, `align`, `sideOffset`, `alignOffset`, `[(open)]`, `defaultOpen`).
 
 <!-- ::end:only -->
 

@@ -2,18 +2,18 @@
 title: Popover
 description: Displays rich content in a portal, triggered by a button.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords:
   [popover, popup, floating, overlay, component, base, aria, ark, vue, svelte]
 ---
 
 # Popover
 
-<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -168,6 +168,61 @@ import {
 
 <!-- ::end:only -->
 
+<!-- ::start:only angular/ng -->
+
+```ts
+import { Component } from "@angular/core"
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+@Component({
+  selector: "app-example",
+  imports: [
+    Button,
+    Popover,
+    PopoverContent,
+    PopoverDescription,
+    PopoverHeader,
+    PopoverTitle,
+    PopoverTrigger,
+  ],
+  template: `
+    <ng-container kuiPopover>
+      <button kuiButton kuiPopoverTrigger variant="outline">
+        Open Popover
+      </button>
+      <div kuiPopoverContent>
+        <div kuiPopoverHeader>
+          <h2 kuiPopoverTitle>Title</h2>
+          <p kuiPopoverDescription>Description text here.</p>
+        </div>
+      </div>
+    </ng-container>
+  `,
+})
+export class Example {
+  protected readonly Popover = Popover
+}
+```
+
+<!-- ::end:only -->
+
 ## Composition
 
 Use the following composition to build a `Popover`:
@@ -196,7 +251,7 @@ PopoverTrigger
 
 A simple popover with a header, title, and description.
 
-<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Align
 
@@ -212,13 +267,13 @@ Use the `placement` prop on `Popover` to control the horizontal alignment.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## With Form
 
 A popover with form fields inside.
 
-<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -255,6 +310,12 @@ See the [Ark UI Popover](https://ark-ui.com/svelte/docs/components/popover#api-r
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Popover](https://ark-ui.com/solid/docs/components/popover#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's popups are the registry's own layer on Floating UI (`lib/angular/popup.ts`), in Base UI's markup: it takes Base UI's props (`side`, `align`, `sideOffset`, `alignOffset`, `[(open)]`, `defaultOpen`).
 
 <!-- ::end:only -->
 

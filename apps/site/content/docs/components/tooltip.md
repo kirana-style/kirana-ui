@@ -2,17 +2,17 @@
 title: Tooltip
 description: A popup that displays information related to an element when it receives focus or is hovered.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark]
-keywords: [tooltip, component, base, aria, ark, vue, svelte, solid]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+keywords: [tooltip, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Tooltip
 
-<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="tooltip" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::installation name="tooltip" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -54,6 +54,31 @@ export function Example() {
     </TooltipTrigger>
   )
 }
+```
+
+### Angular
+
+```ts
+import { Component } from "@angular/core"
+
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+@Component({
+  selector: "app-example",
+  imports: [Button, Tooltip, TooltipContent, TooltipTrigger],
+  template: `
+    <ng-container kuiTooltip>
+      <button kuiButton kuiTooltipTrigger variant="outline">Hover</button>
+      <div kuiTooltipContent><p>Add to library</p></div>
+    </ng-container>
+  `,
+})
+export class Example {}
 ```
 
 <!-- ::end:tabs -->
@@ -98,17 +123,17 @@ Use the `placement` prop to change the position of the tooltip.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## With Keyboard Shortcut
 
-<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled Button
 
 Show a tooltip on a disabled button by wrapping it with a span.
 
-<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark" -->
+<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
@@ -145,5 +170,11 @@ See the [Ark UI Tooltip](https://ark-ui.com/svelte/docs/components/tooltip#api-r
 <!-- ::start:only solid/ark -->
 
 See the [Ark UI Tooltip](https://ark-ui.com/solid/docs/components/tooltip#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only angular/ng -->
+
+Angular's popups are the registry's own layer on Floating UI (`lib/angular/popup.ts`), in Base UI's markup: it takes Base UI's props (`side`, `align`, `sideOffset`, `alignOffset`, `[(open)]`, `defaultOpen`).
 
 <!-- ::end:only -->
