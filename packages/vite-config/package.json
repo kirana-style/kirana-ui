@@ -14,11 +14,11 @@
     }
   },
   "dependencies": {
-    "@cloudflare/vite-plugin": "^1.65.0",
+    "@cloudflare/vite-plugin": "^1.67.0",
     "@kirana-style/vite": "catalog:",
-    "@tanstack/devtools-vite": "^0.8.5",
+    "@tanstack/devtools-vite": "^0.8.6",
     "@tanstack/react-start": "catalog:",
-    "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-react": "^6.2.1",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },
