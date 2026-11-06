@@ -126,9 +126,7 @@ const maxUsage = Math.max(...chartData.map((item) => item.usage))
             <div [sx]="styles.div2">
               <div
                 [sx]="styles.div3"
-                [attr.style]="{
-                  height: \`\${(item.usage / maxUsage) * 100}%\`,
-                }"
+                [style.height.%]="(item.usage / maxUsage) * 100"
               ></div>
               <span [sx]="styles.span">{{ item.hour }}</span>
             </div>

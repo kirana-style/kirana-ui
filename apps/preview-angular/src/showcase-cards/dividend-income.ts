@@ -149,9 +149,7 @@ const HOLDINGS = [
                 @for (item of holding.data; track item.q) {
                   <div
                     [sx]="styles.div2"
-                    [attr.style]="{
-                      height: \`\${(item.value / Math.max(...holding.data.map((point) => point.value))) * 100}%\`,
-                    }"
+                    [style.height.%]="(item.value / peak(holding.data)) * 100"
                   ></div>
                 }
               </div>
@@ -163,7 +161,10 @@ const HOLDINGS = [
   `,
 })
 export class DividendIncome {
+  /** A holding's highest payout, its tallest bar. */
+  protected peak(data: readonly { value: number }[]) {
+    return Math.max(...data.map((point) => point.value))
+  }
   protected readonly styles = styles
   protected readonly HOLDINGS = HOLDINGS
-  protected readonly Math = Math
 }
