@@ -41,6 +41,8 @@ import {
 } from "@workspace/registry/bases/react-base/ui/tabs"
 import { Icon } from "@workspace/shell/icon"
 
+import blockNames from "virtual:block-names"
+
 import { frameQuery } from "@/lib/page-design"
 
 /** The frameworks and bases every block is on. */
@@ -50,6 +52,7 @@ const COMBINATIONS = [
   "vue/ark",
   "svelte/ark",
   "solid/ark",
+  "angular/ng",
 ]
 
 /** Upstream's widths: desktop, tablet and phone, as shares of the frame's room. */
@@ -203,7 +206,11 @@ export function BlocksCombination({ sx }: { sx?: Sx }) {
 
 export function BlockViewer({ block }: { block: Block }) {
   const { current } = useCombination(COMBINATIONS)
-  const combination = current?.id ?? COMBINATIONS[0]!
+  const chosen = current?.id ?? COMBINATIONS[0]!
+  // A block a framework doesn't have yet shows on React's first base.
+  const combination = blockNames[chosen]?.includes(block.name)
+    ? chosen
+    : COMBINATIONS[0]!
   const hydrated = React.useSyncExternalStore(
     subscribeNever,
     isClient,

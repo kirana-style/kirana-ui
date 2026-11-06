@@ -662,6 +662,18 @@ On Angular (ng-primitives):
   a part read through a signal input never shows its later states (a tool row stays "running"). TanStack Markdown draws
   through `lib/angular/markdown.ts`, a directive filling the element it is on from the
   framework-free tree, creating a page's own components (`components.pre`) in place.
+- **A component of a block's own has a host element where Vue's has none**, so what Vue hands
+  its root falls through no further: a block's `AppSidebar` takes `side` as an input and gives it
+  to its `kuiSidebar`, and a component given `[sx]` (`NavSecondary`'s `mt-auto`) takes `sx` and
+  puts it on its root. The host also stands between the sidebar and the inset beside it, which
+  reads the sidebar as a sibling (`peer-data-[variant=inset]:`): `Sidebar` gives a
+  `display: contents` host its scope and state as well, so an inset's margins follow it.
+- **Which part's slot an element shows follows React's nesting.** A trigger rendered into another
+  part (`<SidebarGroupLabel render={<CollapsibleTrigger />}>`) shows that part's slot, and one
+  rendering the part (`<CollapsibleTrigger render={<SidebarMenuAction />}>`) its own. A trigger's
+  slot is bound, so it wins on a shared element; for the first case, the trigger takes the
+  part's slot (`<button kuiCollapsibleTrigger kuiSidebarGroupLabel
+  dataSlot="sidebar-group-label">`).
 - **A chart is TanStack Charts' Angular adapter** (`<tanstack-chart>`) inside the container
   (`ui/chart.ts`). React's `tooltip` and `legend` props are an `<ng-template kuiChartTooltip>`
   and a `<div kuiChartLegendContent>` inside it, and `formatter` in markup is an

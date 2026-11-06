@@ -32,7 +32,8 @@ their demos and example pages, the 29 blocks and the 70 charts; Svelte and Solid
 61 with their demos and example pages, the 29 blocks and the 70 charts; and
 Angular has 60: layer 0 complete (the plain ones, the controls and disclosures on
 ng-primitives, and the popups, menus, select and the rest on its own layer) and the first of
-layer 1, with their demos, example pages and right-to-left demos, and the 70 charts.
+layer 1, with their demos, example pages and right-to-left demos, the login, signup
+and sidebar blocks (26 of the 29) and the 70 charts.
 
 ## Using it
 

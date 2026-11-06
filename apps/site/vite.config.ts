@@ -26,6 +26,8 @@ const TYPESET_PAGES = ["docs", "chat", "article", "changelog", "notes"].map(
 
 /** The previews' names: `import names from "virtual:preview-names"`. */
 const PREVIEW_NAMES = "virtual:preview-names"
+/** Each framework and base's blocks alone, for the blocks page: `virtual:block-names`. */
+const BLOCK_NAMES = "virtual:block-names"
 
 /** Each framework's examples, by the extension of its files, beside React's two bases. */
 const EXAMPLES = {
@@ -51,8 +53,34 @@ function previewNames(): Plugin {
     name: "preview-names",
     resolveId(id) {
       if (id === PREVIEW_NAMES) return `\0${PREVIEW_NAMES}`
+      if (id === BLOCK_NAMES) return `\0${BLOCK_NAMES}`
     },
     load(id) {
+      if (id === `\0${BLOCK_NAMES}`) {
+        const bases = {
+          "react/base": ["react-base", ".tsx"],
+          "react/aria": ["react-aria", ".tsx"],
+          ...EXAMPLES,
+        }
+        return `export default ${JSON.stringify(
+          Object.fromEntries(
+            Object.entries(bases).map(([variant, [base, extension]]) => {
+              const blocks = `${REGISTRY}bases/${base}/blocks`
+              this.addWatchFile(blocks)
+              return [
+                variant,
+                existsSync(blocks)
+                  ? readdirSync(blocks)
+                      .filter((block) =>
+                        existsSync(`${blocks}/${block}/page${extension}`)
+                      )
+                      .sort()
+                  : [],
+              ]
+            })
+          )
+        )}`
+      }
       if (id !== `\0${PREVIEW_NAMES}`) return
       const react = Object.entries(files).map(([variant, file]) => {
         this.addWatchFile(file)

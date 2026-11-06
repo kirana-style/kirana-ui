@@ -24,3 +24,9 @@ declare module "virtual:preview-names" {
   >
   export default names
 }
+
+/** Each framework and base's blocks (the `preview-names` plugin, vite.config.ts). */
+declare module "virtual:block-names" {
+  const names: Record<string, readonly string[]>
+  export default names
+}
