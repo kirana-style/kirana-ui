@@ -683,11 +683,19 @@ On Angular (ng-primitives):
   TanStack cell is a component given its inputs and outputs
   (`flexRenderComponent(SelectCell, { inputs, outputs })`), drawn by
   `*flexRenderCell`; one it draws inside a row can `inject()` that row.
+- **A primitive's state is held when its part is made** (`lib/angular/own-state.ts`):
+  ng-primitives shares one state signal between a primitive and others of its kind nested inside
+  it unless it provides its state with `inherit: false`, the last made setting it, so a tab panel
+  holding a tabset read its nested tabset's last panel's state and never opened. A part reading a
+  primitive's state later takes `ownState(inject…State())`.
 - **A chart is TanStack Charts' Angular adapter** (`<tanstack-chart>`) inside the container
   (`ui/chart.ts`). React's `tooltip` and `legend` props are an `<ng-template kuiChartTooltip>`
   and a `<div kuiChartLegendContent>` inside it, and `formatter` in markup is an
   `<ng-template kuiChartTooltipRow>`. Import the directive with the template that uses it, or the
-  container never finds it and the chart has no tooltip, with no error. A config's `icon` names
+  container never finds it and the chart has no tooltip, with no error. The adapter's element
+  draws no box (`display: contents`): its own surface is the flex item, filling the container's
+  width and, with a legend, the height the legend leaves; as a box of its own it kept the width the
+  chart was first drawn at and pushed a legend out of the container. A config's `icon` names
   the icon in each library, as an `iconPlaceholder` takes them, since a template can't draw a
   component held in data. The container measures its box once the page's fonts have loaded, and
   the marks wait for it (`data-entering`), so the first draw is at the box's width. A chart's state (the

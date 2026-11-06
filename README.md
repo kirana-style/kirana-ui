@@ -30,9 +30,9 @@ follow React's pages, checked against them the same way: Vue has 61 of the compo
 (all but the three no Vue library carries: Menubar, Message Scroller and Questionnaire) with
 their demos and example pages, the 29 blocks and the 70 charts; Svelte and Solid have the same
 61 with their demos and example pages, the 29 blocks and the 70 charts; and
-Angular has the same 61, on ng-primitives and the registry's own parts, with their demos,
-example pages and right-to-left demos, 27 of the 29 blocks (all but `/create`'s two
-previews) and the 70 charts.
+Angular has 62, Vue's 61 and Menubar (no Ark UI one exists; Angular's is the registry's own),
+on ng-primitives and the registry's own parts, with their demos, example pages and right-to-left
+demos, the 29 blocks and the 70 charts.
 
 ## Using it
 

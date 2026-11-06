@@ -21,6 +21,7 @@ import {
 } from "ng-primitives/accordion"
 
 import { IconPlaceholder } from "../../../icons/angular"
+import { ownState } from "../../../lib/angular/own-state"
 import { presence } from "../../../lib/angular/presence"
 import { accordion } from "../../../styles/accordion.styles"
 
@@ -79,7 +80,7 @@ class Accordion {
   protected readonly part = computed(() => partSx(accordion.root, this.sx()))
 
   constructor() {
-    const state = injectAccordionState()
+    const state = ownState(injectAccordionState())
     let applied = false
     effect(() => {
       const values = this.defaultValue()
@@ -115,7 +116,7 @@ class Accordion {
 })
 class AccordionItem {
   readonly sx = input<SxInput>()
-  protected readonly state = injectAccordionItemState()
+  protected readonly state = ownState(injectAccordionItemState())
   protected readonly part = computed(() => partSx(accordion.item, this.sx()))
 }
 
@@ -167,7 +168,7 @@ class AccordionItem {
 })
 class AccordionTrigger {
   readonly sx = input<SxInput>()
-  protected readonly state = injectAccordionItemState()
+  protected readonly state = ownState(injectAccordionItemState())
   protected readonly iconClosed = accordion.iconClosed
   protected readonly iconOpen = accordion.iconOpen
   protected readonly part = computed(() => partSx(accordion.header, undefined))
@@ -199,7 +200,7 @@ class AccordionTrigger {
 class AccordionContent {
   readonly sx = input<SxInput>()
   protected readonly id = `kui-accordion-content-${next++}`
-  protected readonly state = injectAccordionItemState()
+  protected readonly state = ownState(injectAccordionItemState())
   protected readonly part = computed(() =>
     partSx([accordion.content, accordion.contentBase], undefined)
   )

@@ -7,6 +7,7 @@ import { Toaster as ToastToaster } from "@workspace/registry/bases/angular-ng/ui
 import { previews } from "@workspace/registry/bases/angular-ng/previews"
 import { space } from "@workspace/registry/core/scales"
 
+import { Charts } from "./charts"
 import { Showcase } from "./showcase"
 
 const list = css({
@@ -24,10 +25,12 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 
 @Component({
   selector: "preview-root",
-  imports: [NgComponentOutlet, Showcase, Toaster, ToastToaster],
+  imports: [Charts, NgComponentOutlet, Showcase, Toaster, ToastToaster],
   template: `
     @if (item === "showcase") {
       <preview-showcase />
+    } @else if (item === "charts") {
+      <preview-charts />
     } @else if (failure()) {
       <p [class]="list">{{ failure() }}</p>
     } @else if (current()) {
@@ -53,11 +56,11 @@ export class App {
   // Loaded only on its own page, as the other previews'.
   protected readonly current = signal<Type<unknown> | null>(null)
   protected readonly failure = signal<string | null>(null)
-  protected readonly names = [...Object.keys(previews), "showcase"]
+  protected readonly names = [...Object.keys(previews), "showcase", "charts"]
   protected readonly list = props(list).className
 
   constructor() {
-    if (!item || item === "showcase") return
+    if (!item || item === "showcase" || item === "charts") return
     const load = previews[item]
     if (!load) {
       this.failure.set(`There is no Angular preview named “${item}”.`)
