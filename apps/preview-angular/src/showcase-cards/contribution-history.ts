@@ -184,9 +184,7 @@ const maxAmount = Math.max(...chartData.map((item) => item.amount))
               <div
                 [attr.data-index]="index"
                 [sx]="styles.div3"
-                [attr.style]="{
-                  height: \`\${(item.amount / maxAmount) * 100}%\`,
-                }"
+                [style.height.%]="(item.amount / maxAmount) * 100"
               ></div>
               <span [sx]="styles.span">{{ item.month }}</span>
             </div>

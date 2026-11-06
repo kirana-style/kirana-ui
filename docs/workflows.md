@@ -674,6 +674,15 @@ On Angular (ng-primitives):
   slot is bound, so it wins on a shared element; for the first case, the trigger takes the
   part's slot (`<button kuiCollapsibleTrigger kuiSidebarGroupLabel
   dataSlot="sidebar-group-label">`).
+- **A table row a component draws goes on the `tr`** (`<tr kuiTableRow
+  [kuiDraggableRow]="row">`, `dashboard-01`), never inside a `display: contents`
+  host: a host around each row makes every row its host's last child, and the
+  body's `tr:last-child` rule takes every row's border. A component reads a
+  required input only once Angular has set it, in an `effect` or later, never in
+  its constructor (`NG0950`, which stops the rest of the view from updating). A
+  TanStack cell is a component given its inputs and outputs
+  (`flexRenderComponent(SelectCell, { inputs, outputs })`), drawn by
+  `*flexRenderCell`; one it draws inside a row can `inject()` that row.
 - **A chart is TanStack Charts' Angular adapter** (`<tanstack-chart>`) inside the container
   (`ui/chart.ts`). React's `tooltip` and `legend` props are an `<ng-template kuiChartTooltip>`
   and a `<div kuiChartLegendContent>` inside it, and `formatter` in markup is an

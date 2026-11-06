@@ -3,6 +3,7 @@ import type { Type } from "@angular/core"
 import { NgComponentOutlet } from "@angular/common"
 import { css, props } from "@kirana-style/core"
 import { Toaster } from "@workspace/registry/bases/angular-ng/ui/sonner"
+import { Toaster as ToastToaster } from "@workspace/registry/bases/angular-ng/ui/toast"
 import { previews } from "@workspace/registry/bases/angular-ng/previews"
 import { space } from "@workspace/registry/core/scales"
 
@@ -23,7 +24,7 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 
 @Component({
   selector: "preview-root",
-  imports: [NgComponentOutlet, Showcase, Toaster],
+  imports: [NgComponentOutlet, Showcase, Toaster, ToastToaster],
   template: `
     @if (item === "showcase") {
       <preview-showcase />
@@ -31,10 +32,12 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
       <p [class]="list">{{ failure() }}</p>
     } @else if (current()) {
       <ng-container *ngComponentOutlet="current()" />
-      <!-- Sonner's toaster, as upstream's site mounts it on every page (\`top-center\`), loaded
-           after the page, since only the items that call \`toast()\` need it. -->
+      <!-- Sonner's toaster, as upstream's site mounts it on every page (\`top-center\`), and
+           Toast's, as React's Base UI pages do; loaded after the page, since only the items that
+           show a toast need them. -->
       @defer (on idle) {
         <kui-toaster position="top-center" />
+        <kui-toast-toaster />
       }
     } @else if (!item) {
       <nav [class]="list">
