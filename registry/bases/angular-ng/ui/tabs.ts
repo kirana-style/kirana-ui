@@ -10,6 +10,7 @@ import {
   injectTabsetState,
 } from "ng-primitives/tabs"
 
+import { ownState } from "../../../lib/angular/own-state"
 import { presence } from "../../../lib/angular/presence"
 import { tabs } from "../../../styles/tabs.styles"
 
@@ -114,7 +115,8 @@ class TabsContent {
   protected readonly part = computed(() => partSx(tabs.content, this.sx()))
 
   constructor() {
-    const state = injectTabPanelState()
+    // Its own state: a tabset nested in the panel would otherwise take it over (`ownState`).
+    const state = ownState(injectTabPanelState())
     presence(() => state().active())
   }
 }

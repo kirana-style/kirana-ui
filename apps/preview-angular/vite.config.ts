@@ -51,7 +51,7 @@ export default defineConfig({
       framework: "angular",
       base: "ng",
       extension: ".ts",
-      extra: ["showcase"],
+      extra: ["showcase", "charts"],
     }),
   ],
 })

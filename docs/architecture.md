@@ -445,6 +445,8 @@ well: Base UI's toast, its store and its markup, written for Angular
 on React. `dashboard-01`'s table is TanStack Table's Angular adapter, and its
 rows sort with dnd-kit's own engine, `@dnd-kit/dom`, which the Vue, Svelte and
 Solid adapters wrap.
+Menubar, which Ark UI lacks, is the registry's own too, on the menus Dropdown
+Menu uses, with Base UI's bar around them: Angular carries 62 of the 64.
 
 **What a project installs is the same module, flattened, and Kirana checks it.**
 `packages/builder` writes the registry (`vp run registry`): for each combination of

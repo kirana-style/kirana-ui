@@ -303,11 +303,8 @@ export function CreatePage() {
 
   const combination = `${system.framework}/${system.base}`
   const items = PREVIEWS[combination] ?? []
-  // The charts are a page of the React, Vue, Svelte and Solid preview apps' own, not an item.
-  const own =
-    preview === "charts" &&
-    (combination.startsWith("react/") ||
-      ["vue/ark", "svelte/ark", "solid/ark"].includes(combination))
+  // The charts are a page of every preview app's own, not an item.
+  const own = preview === "charts"
   const shown = items.includes(preview) || own ? preview : (items[0] ?? "")
   const query = new URLSearchParams({
     ...(rtl ? { rtl: "true" } : {}),

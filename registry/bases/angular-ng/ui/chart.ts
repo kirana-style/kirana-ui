@@ -368,8 +368,10 @@ class ChartTooltipContent {
     "[style]": "style()",
   },
   template: `
+    <!-- The adapter's element draws no box: its own surface is the flex item React's is, which
+         fills the box's width and, with a legend, takes the height the legend leaves. -->
     <ng-template #plot>
-      <tanstack-chart [options]="options()">
+      <tanstack-chart [options]="options()" style="display: contents">
         @if (tooltip(); as body) {
           <ng-template [tanstackChartTooltipBody]="definition()" let-context>
             <ng-container [kuiChartPoints]="context.points" />

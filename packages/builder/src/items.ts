@@ -311,6 +311,17 @@ export const ITEMS: Item[] = [
         : undefined,
   },
   {
+    name: "own-state",
+    type: "registry:lib",
+    title: "Own State",
+    description:
+      "An ng-primitives part's own state, held as it is made, where a nested primitive of its kind would take it over.",
+    files: (combination) =>
+      combination.framework === "angular"
+        ? ["lib/angular/own-state.ts"]
+        : undefined,
+  },
+  {
     name: "popup",
     type: "registry:lib",
     title: "Popup",
@@ -660,8 +671,9 @@ export const ITEMS: Item[] = [
     "menubar",
     "Menubar",
     "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
-    ["react"],
-    ["base"]
+    // No Ark UI menubar; Angular's is the registry's own, on its menus.
+    ["react", "angular"],
+    ["base", "ng"]
   ),
   component(
     "accordion",
