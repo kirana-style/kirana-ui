@@ -92,7 +92,7 @@ jobs:
 
       # The registry installed with Kirana's own installer, as a project would: Kirana's example
       # app per framework, `kirana-style ui init --preset` and `add`, built, the lockfile validated,
-      # for React on both bases and Vue.
+      # for React on both bases, Vue, Svelte, Solid and Angular.
       - name: Installs with kirana-style ui
         run: bun scripts/install-smoke.ts
 

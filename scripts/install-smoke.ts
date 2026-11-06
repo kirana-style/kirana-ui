@@ -33,11 +33,33 @@ import { encodePreset, readDesignSystem } from "../registry/core/preset"
 const ROOT = join(import.meta.dirname, "..")
 const STATIC = join(ROOT, "apps", "site", "dist", "client")
 
-/** What CI installs: the default, a flattened style on the second React base, and Vue. */
-const DEFAULT = ["react-base-nova", "react-aria-lyra", "vue-ark-vega"]
+/**
+ * What CI installs: the default, a flattened style on the second React base, and Vue, Svelte,
+ * Solid and Angular, each in another style.
+ */
+const DEFAULT = [
+  "react-base-nova",
+  "react-aria-lyra",
+  "vue-ark-vega",
+  "svelte-ark-maia",
+  "solid-ark-mira",
+  "angular-ng-luma",
+]
 
-/** The slice, per framework: Vue has every component it has so far. */
-const ITEMS = {
+/** Kirana's example each framework starts from (`init --template`). */
+const TEMPLATES: Record<string, string> = {
+  react: "vite-react",
+  vue: "vite-vue",
+  svelte: "vite-svelte",
+  solid: "vite-solid",
+  angular: "analog-angular",
+}
+
+/**
+ * The slice, per framework: React's a cross-section, every other framework's every component,
+ * block and the typeset in Vue's list that the registry's index gives it on its base.
+ */
+const SLICES = {
   react: [
     "button",
     "dialog",
@@ -121,6 +143,21 @@ const ITEMS = {
     "typeset",
   ],
 } as const
+
+const INDEX = JSON.parse(
+  readFileSync(join(STATIC, "r", "index.json"), "utf8")
+) as { items: { name: string; frameworks?: Record<string, string[]> }[] }
+
+function itemsOf(framework: string, base: string): string[] {
+  if (framework === "react") return [...SLICES.react]
+  const has = new Set(
+    INDEX.items
+      .filter((item) => item.frameworks?.[framework]?.includes(base))
+      .map((item) => item.name)
+  )
+  // `typeset` is plain CSS, the same for every framework.
+  return SLICES.vue.filter((name) => name === "typeset" || has.has(name))
+}
 
 const version = (
   JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")) as {
@@ -220,11 +257,11 @@ async function run(cwd: string, command: string, ...args: string[]) {
 const combinations = process.argv.slice(2)
 for (const combination of combinations.length ? combinations : DEFAULT) {
   const [framework, base, style] = combination.split("-") as [
-    keyof typeof ITEMS,
+    string,
     string,
     string,
   ]
-  if (!(framework in ITEMS) || !base || !style) {
+  if (!(framework in TEMPLATES) || !base || !style) {
     console.error(`install: not a combination: ${combination}`)
     process.exit(2)
   }
@@ -243,7 +280,7 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     `@kirana-style/registry@${version}`,
     "init",
     "--template",
-    `vite-${framework}`,
+    TEMPLATES[framework]!,
     "app",
     "--framework",
     framework,
@@ -275,7 +312,7 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
   if (
     !sources.some(
       (file) =>
-        /\.(ts|tsx|js|vue)$/.test(file) &&
+        /\.(ts|tsx|js|vue|svelte)$/.test(file) &&
         readFileSync(join(app, "src", file), "utf8").includes(
           '"@fontsource-variable/inter"'
         )
@@ -284,7 +321,9 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     console.error(`install: init did not import the preset's font in ${app}`)
     process.exit(1)
   }
-  await run(app, "bunx", "kirana-style", "ui", "add", ...ITEMS[framework])
+  const items = itemsOf(framework, base)
+  console.log(`install: ${items.length} items for ${framework} on ${base}`)
+  await run(app, "bunx", "kirana-style", "ui", "add", ...items)
   // The style's preset has the default colours, whose values are the tokens' own: no entries,
   // and Neutral alone in each palette.
   expectColours(app, ["palette=neutral"], "installed")

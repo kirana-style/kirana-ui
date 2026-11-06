@@ -478,11 +478,11 @@ Svelte and Solid):
   (`data-open` on a trigger), the copy keeps it, so it draws nothing there
   either.
 - **Svelte merges the caller's `class` last.** A Svelte part writes
-  `sx={[own, className as Sx]}`, never `class={className}` beside its `sx`
-  (Kirana folds an element's `class` in first, so the part would win), and an
-  `asChild` child with its own `sx` names the props' class and style
-  (`class={props().class} style={props().style}`), which a spread beside an
-  `sx` loses (`docs/architecture.md`).
+  `sx={[own, className as Sx]}`. Since Kirana 0.4.0 `class={className}` beside
+  its `sx` merges after it too, and a spread's class and style reach an `sx`
+  beside them; the registry keeps the first form, and its `asChild` children
+  still name `class={props().class} style={props().style}`, which is harmless
+  (`docs/architecture.md`).
 - **Ark's motion is keyframes.** Ark keeps a closing popup mounted only while
   an animation runs, so where Base UI's motion is a transition on its first
   frame and exit, Ark's is keyframes on its `data-state` (`presence`): Sheet's
