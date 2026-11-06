@@ -24,10 +24,6 @@ const bookedDates = Array.from(
   (_, i) => new Date(new Date().getFullYear(), 1, 12 + i)
 )
 
-// The class in the script: Kirana compiles `props()` here and drops its import, so a template
-// calling it fails at run time (KF-096, Kirana 0.3.7).
-const bookedClass = styleProps(styles.booked).className ?? ""
-
 @Component({
   selector: "kui-calendar-booked-dates",
   imports: [Calendar, Card, CardContent, Example, SxDirective],
@@ -60,5 +56,5 @@ export class CalendarBookedDates {
   )
   protected readonly styles = styles
   protected readonly bookedDates = bookedDates
-  protected readonly bookedClass = bookedClass
+  protected readonly bookedClass = styleProps(styles.booked).className ?? ""
 }

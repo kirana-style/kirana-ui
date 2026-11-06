@@ -24,9 +24,6 @@
     (_, i) => new Date(new Date().getFullYear(), 0, 12 + i)
   )
 
-  // The class in the script: Kirana compiles `props()` here and drops its import, so a template
-  // calling it fails at run time (KF-096, Kirana 0.3.7).
-  const bookedClass = styleProps(styles.booked).className ?? ""
 </script>
 
 <div sx={page.example}>
@@ -35,7 +32,7 @@
       <Calendar mode="single" defaultMonth={date} selected={date} onSelectedChange={(details: { selected: typeof date }) => (date = details.selected)} disabled={bookedDates} modifiers={{
             booked: bookedDates,
           }} modifiersClassNames={{
-            booked: bookedClass,
+            booked: styleProps(styles.booked).className ?? "",
           }} />
     </CardContent>
   </Card>

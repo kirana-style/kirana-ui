@@ -12,6 +12,11 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { join, posix } from "node:path"
 
+import {
+  importsOf,
+  packageOf,
+  versionsFrom as kiranaVersionsFrom,
+} from "@kirana-style/registry"
 import { registryItemSchema, registrySchema } from "@shadcn/registry/schema"
 
 import type { Combination, Item } from "./items"
@@ -39,26 +44,8 @@ const FRAMEWORK_PACKAGES = new Set([
  */
 const RESOLVED_AT_INSTALL = "lib/kirana/icons/icon-placeholder"
 
-const IMPORT =
-  /(?:import|export)\s[^'"]*?from\s*["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)|import\s+["']([^"']+)["']/g
-
-/** Block comments, and line comments that are not a URL's `://`. */
-const COMMENTS = /\/\*[\s\S]*?\*\/|(^|[^:])\/\/.*$/gm
-
-/**
- * Every module a file's source imports. Comments go first: an apostrophe in one, inside an
- * `export { … } from` list, would otherwise read as a string and hide the statement.
- */
-export function importsOf(code: string): string[] {
-  return [...code.replace(COMMENTS, "$1").matchAll(IMPORT)].map(
-    (match) => match[1] ?? match[2] ?? match[3]
-  )
-}
-
-export const packageOf = (specifier: string) =>
-  specifier.startsWith("@")
-    ? specifier.split("/").slice(0, 2).join("/")
-    : specifier.split("/")[0]
+// Reading a file's imports and naming their packages are Kirana's own (`ui build`, KRN-DX-034).
+export { importsOf, packageOf } from "@kirana-style/registry"
 
 const EXTENSIONS = ["", ".ts", ".tsx", ".vue", ".svelte", "/index.ts"]
 
@@ -323,16 +310,15 @@ export function buildCombination(
   return { items, index, problems }
 }
 
-/** Each package's version range: the workspace catalog's, else the registry package's own. */
+/**
+ * Each package's version range as the registry package declares it, a `catalog:` read from the
+ * workspace's catalog: Kirana's `versionsFrom` (`ui build`), on `registry/`. A package the registry
+ * does not declare (a font's, which only `packages/fonts` lists) takes the catalog's range.
+ */
 export function versionsFrom(root: string) {
-  const workspace = JSON.parse(readFileSync(join(root, "package.json"), "utf8"))
-  const catalog: Record<string, string> = workspace.workspaces?.catalog ?? {}
-  const registry = JSON.parse(
-    readFileSync(join(root, "registry", "package.json"), "utf8")
-  )
-  return (name: string) => {
-    const declared: string | undefined = registry.dependencies?.[name]
-    if (declared && declared !== "catalog:") return declared
-    return catalog[name]
-  }
+  const declared = kiranaVersionsFrom(join(root, "registry"))
+  const catalog: Record<string, string> =
+    JSON.parse(readFileSync(join(root, "package.json"), "utf8")).workspaces
+      ?.catalog ?? {}
+  return (name: string) => declared(name) ?? catalog[name]
 }

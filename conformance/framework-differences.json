@@ -454,12 +454,6 @@
       "route": "(select|field|button-group|toggle-group|pagination|combobox|input|table)-|/(preview|preview-02|charts)\\?"
     },
     {
-      "element": "With Text › label[data-slot=\"button-group-text\"]",
-      "property": "line-height",
-      "route": "button-group-example",
-      "reason": "the group's text rendered as a Label: React joins the text's classes with the Label's own, and the later atom in the stylesheet wins (the Label's); Vue merges them per entry, the text's last, as the registry means (KF-091)"
-    },
-    {
       "element": "div[data-slot=\"alert-dialog-overlay\"]",
       "property": "user-select",
       "reason": "as the dialog's backdrop: Base UI writes `user-select: none` inline on it; Ark UI's takes the page's"

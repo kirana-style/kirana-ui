@@ -365,12 +365,13 @@ each Vue part turns attribute fallthrough off, takes the caller's classes with
 Kirana's `useSx()` (`@kirana-style/core/vue`) and puts them last in its root's
 own `:sx`, the same per-property merge `sx` gets. A Svelte component receives a
 caller's `sx` as its `class` prop, which it puts last in its root's `sx` the same
-way, with no helper: `sx={[own, className as Sx]}`. Not `class={className}` beside
-the `sx`: Kirana folds an element's own `class` in before its `sx`, so the part's
-styles would win. For the same reason an Ark `asChild` child that has an `sx`
+way, with no helper: `sx={[own, className as Sx]}`. Since Kirana 0.4.0 a `class`
+given beside an element's `sx` merges after it, entry by entry, so
+`class={className} sx={own}` puts the caller last too, without the cast; the
+registry's parts keep the first form. An Ark `asChild` child that has an `sx`
 names the props' class and style (`<button {...props()} class={props().class}
-style={props().style} sx={…}>`): a class or style that arrives in a spread is
-replaced by the `sx`. Solid's JSX takes `sx` as React's does, and a component
+style={props().style} sx={…}>`), which was needed before 0.4.0, when a class or
+style that arrived in a spread was replaced by the `sx`; now a spread's reach it. Solid's JSX takes `sx` as React's does, and a component
 passes its `sx` prop on last (`splitProps` keeps the props reactive). On a component `sx` is an
 ordinary prop, so a part on an Ark UI part spreads `{...styleProps(local.class, own, local.sx)}`:
 a class an `asChild` parent hands it first, its own styles, the caller's last. A part whose root

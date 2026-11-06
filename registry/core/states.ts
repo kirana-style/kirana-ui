@@ -110,15 +110,13 @@ export const tabOrientation = {
     base: Base.Tabs.Root.orientation.horizontal,
     aria: Aria.Tabs.orientation.horizontal,
     ark: Ark.Tabs.Root.orientation.horizontal,
-    // ng-primitives' vocabulary names the attribute without its values (KF-100, Kirana 0.3.7).
-    ng: '[data-orientation="horizontal"]',
+    ng: NgPrimitives.Tabs.Tabset.orientation.horizontal,
   },
   vertical: {
     base: Base.Tabs.Root.orientation.vertical,
     aria: Aria.Tabs.orientation.vertical,
     ark: Ark.Tabs.Root.orientation.vertical,
-    // ng-primitives' vocabulary names the attribute without its values (KF-100, Kirana 0.3.7).
-    ng: '[data-orientation="vertical"]',
+    ng: NgPrimitives.Tabs.Tabset.orientation.vertical,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -152,6 +150,7 @@ export const accordion = {
   triggerDisabled: {
     base: '[aria-disabled="true"]',
     aria: ":disabled",
+    // ng-primitives' vocabulary has no Accordion trigger: it composes the collapsible's (KF-102, 0.4.0).
     ng: "[data-disabled]",
   },
 } as const satisfies Record<string, StateKeys>
