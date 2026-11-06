@@ -51,7 +51,11 @@ class Collapsible {
   protected readonly part = computed(() => partSx(undefined, this.sx()))
 }
 
-/** The button that opens and closes it (`aria-expanded`). */
+/**
+ * The button that opens and closes it (`aria-expanded`). Its slot is the element's, unless another
+ * part is the one React renders it into (`<button kuiCollapsibleTrigger kuiSidebarGroupLabel
+ * dataSlot="sidebar-group-label">`, where React's label renders the trigger): that part's.
+ */
 @Directive({
   selector: "[kuiCollapsibleTrigger]",
   hostDirectives: [NgpCollapsibleTrigger],
@@ -59,7 +63,7 @@ class Collapsible {
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
     // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
-    "[attr.data-slot]": "'collapsible-trigger'",
+    "[attr.data-slot]": "dataSlot()",
     // Base UI's trigger says its panel is open (`data-panel-open`); ng-primitives' writes
     // `data-open` too, taken off below, so a style written for React's trigger reads the same here.
     "[attr.data-panel-open]": "state().open() ? '' : null",
@@ -68,6 +72,7 @@ class Collapsible {
   },
 })
 class CollapsibleTrigger {
+  readonly dataSlot = input("collapsible-trigger")
   readonly sx = input<SxInput>()
   protected readonly state = injectCollapsibleState()
 

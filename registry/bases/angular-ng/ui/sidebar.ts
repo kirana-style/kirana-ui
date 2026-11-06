@@ -7,6 +7,7 @@ import {
   InjectionToken,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   output,
@@ -14,6 +15,7 @@ import {
 } from "@angular/core"
 import type { Signal } from "@angular/core"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
+import { css } from "@kirana-style/core"
 import type { SxInput } from "@kirana-style/angular"
 
 import { IconPlaceholder } from "../../../icons/angular"
@@ -22,7 +24,7 @@ import { useIsMobile } from "../../../lib/angular/use-mobile"
 import { button } from "../../../styles/button.styles"
 import { input as inputStyle } from "../../../styles/input.styles"
 import { separator } from "../../../styles/separator.styles"
-import { sidebar } from "../../../styles/sidebar.styles"
+import { sidebar, sidebarScope } from "../../../styles/sidebar.styles"
 import { skeleton } from "../../../styles/skeleton.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import {
@@ -170,6 +172,9 @@ class SidebarProvider {
   }
 }
 
+/** The sidebar's scope alone, for a host that stands between it and the inset. */
+const scopeMarker = css(sidebarScope.anchor)
+
 /**
  * The sidebar: `<div kuiSidebar>`. Drawn as React's: fixed beside the page, with the gap that holds
  * its room, its container and inner panel; in a Sheet on a narrow screen; or in place when
@@ -291,6 +296,36 @@ class Sidebar {
     if (mode === "mobile") return { class: "", style: "display: contents" }
     return partSx(sidebar.root, undefined)
   })
+
+  constructor() {
+    // A sidebar a page's own component draws (`<kui-app-sidebar>`, `display: contents`) has that
+    // host between it and the inset, which reads the sidebar as its sibling
+    // (`peer-data-[variant=inset]:`): the host carries the sidebar's scope and state too.
+    const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
+    const marker = partSx(scopeMarker, undefined)
+      .class.split(" ")
+      .filter(Boolean)
+    effect(() => {
+      const host = element.parentElement
+      if (!host?.localName.includes("-") || host.style.display !== "contents")
+        return
+      const fixed = this.mode() === "fixed"
+      const state = {
+        "data-state": fixed ? this.context.state() : null,
+        "data-collapsible": fixed
+          ? this.context.state() === "collapsed"
+            ? this.collapsible()
+            : ""
+          : null,
+        "data-variant": fixed ? this.variant() : null,
+        "data-side": fixed ? this.side() : null,
+      }
+      for (const [name, value] of Object.entries(state))
+        if (value === null) host.removeAttribute(name)
+        else host.setAttribute(name, value)
+      for (const name of marker) host.classList.toggle(name, fixed)
+    })
+  }
 }
 
 /** The button that opens and closes it, a ghost `icon-sm` Button. */
@@ -619,14 +654,18 @@ const MENU_BUTTON_SIZES = {
   },
   template: `
     <ng-content />
-    @if (tooltip()) {
+    @if (label(); as label) {
       <div
         kuiTooltipContent
         side="right"
         align="center"
-        [hidden]="context.state() !== 'collapsed' || context.isMobile()"
+        [hidden]="
+          context.state() !== 'collapsed' ||
+          context.isMobile() ||
+          !!label.hidden
+        "
       >
-        {{ tooltip() }}
+        {{ label.children }}
       </div>
     }
   `,
@@ -635,9 +674,13 @@ class SidebarMenuButton {
   readonly isActive = input(false, { transform: booleanAttribute })
   readonly variant = input<keyof typeof MENU_BUTTON_VARIANTS>("default")
   readonly size = input<keyof typeof MENU_BUTTON_SIZES>("default")
-  readonly tooltip = input<string>()
+  readonly tooltip = input<string | { children: string; hidden?: boolean }>()
   readonly sx = input<SxInput>()
   protected readonly context = useSidebar()
+  protected readonly label = computed(() => {
+    const tooltip = this.tooltip()
+    return typeof tooltip === "string" ? { children: tooltip } : tooltip
+  })
   protected readonly part = computed(() =>
     partSx(
       [

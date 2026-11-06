@@ -484,7 +484,7 @@ colours pages open with it too), the categories that have a block (Featured, the
 Preview or Code, its description, the framework and base (docs-ui's shared choice), the frame's
 width (desktop, tablet, phone, or dragged by its handle), open in a new tab, reload, and
 `kirana-style ui add`. The frame is the block's preview page, `/preview/<framework>/<base>/<name>`,
-the block alone at one combination, so the blocks page needs no `/view` route of its own; the code
+the block alone at one combination (a block the chosen framework doesn't have yet shows on React's Base UI), so the blocks page needs no `/view` route of its own; the code
 is the block's registry document in the docs' code frame (the muted frame, its caption row with the path and copy, the inset panel holding the tree, folders first, beside the code); `/blocks` loads `docs.css`, which carries the code colours. The code panels read `/r`,
 which `vp run registry` writes into the build; in development the site's dev server serves the same
 folder (`registryInDev` in `apps/site/vite.config.ts`), writing it on the first request when it is

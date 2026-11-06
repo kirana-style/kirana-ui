@@ -601,6 +601,36 @@
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "pointer-events",
       "reason": "Zag writes `pointer-events: none` inline on a tooltip that is not interactive (Ark UI's default), so the pointer passes through it to the page; Base UI's popup takes the pointer"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "opacity",
+      "route": "sidebar-10\\?",
+      "reason": "sidebar-10 opens its popover once the page is shown (upstream's effect): React's opens a render later than Angular's, so a capture at load meets it in its first frame (unfocused, opacity 0, no transition yet) where Angular's has opened and focused its first row; settled, both have that row focused with its ring, value for value"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "transition-property",
+      "route": "sidebar-10\\?",
+      "reason": "sidebar-10 opens its popover once the page is shown (upstream's effect): React's opens a render later than Angular's, so a capture at load meets it in its first frame (unfocused, opacity 0, no transition yet) where Angular's has opened and focused its first row; settled, both have that row focused with its ring, value for value"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "translate",
+      "route": "sidebar-10\\?",
+      "reason": "sidebar-10 opens its popover once the page is shown (upstream's effect): React's opens a render later than Angular's, so a capture at load meets it in its first frame (unfocused, opacity 0, no transition yet) where Angular's has opened and focused its first row; settled, both have that row focused with its ring, value for value"
+    },
+    {
+      "element": "button[data-slot=\"sidebar-menu-button\"]",
+      "property": "outline-width",
+      "route": "sidebar-10\\?",
+      "reason": "sidebar-10 opens its popover once the page is shown (upstream's effect): React's opens a render later than Angular's, so a capture at load meets it in its first frame (unfocused, opacity 0, no transition yet) where Angular's has opened and focused its first row; settled, both have that row focused with its ring, value for value"
+    },
+    {
+      "element": "button[data-slot=\"sidebar-menu-button\"]",
+      "property": "box-shadow",
+      "route": "sidebar-10\\?",
+      "reason": "sidebar-10 opens its popover once the page is shown (upstream's effect): React's opens a render later than Angular's, so a capture at load meets it in its first frame (unfocused, opacity 0, no transition yet) where Angular's has opened and focused its first row; settled, both have that row focused with its ring, value for value"
     }
   ]
 }
