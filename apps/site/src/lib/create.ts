@@ -92,10 +92,17 @@ export function openPreset(text: string): DesignSystem | null {
   }
 }
 
-/** The templates checked with the registry, per framework (the docs' Installation page). */
+/**
+ * The templates checked with the registry, per framework (the docs' Installation page): Kirana's
+ * examples that `init --template` starts from, each installed by CI's install check but
+ * TanStack Start.
+ */
 export const TEMPLATES = {
   react: ["vite-react", "tanstack-start"],
   vue: ["vite-vue"],
+  svelte: ["vite-svelte"],
+  solid: ["vite-solid"],
+  angular: ["analog-angular"],
 } as const
 
 /** Where the registry is served until `ui.kirana.style` is attached (CLI-10). */

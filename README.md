@@ -16,8 +16,9 @@ stylesheet at build time: there is no Tailwind, no `cn` and no runtime styling.
   (shadcn/ui's codes are read too).
 - **One design, installed as yours.** A project receives each component flattened for its
   style and its design's colours alone, and changes design with one command.
-- **More frameworks on the way**: Vue, Svelte and Solid on [Ark UI](https://ark-ui.com),
-  and Angular, each starting from the same style modules.
+- **Every framework from the same style modules**: Vue, Svelte and Solid on
+  [Ark UI](https://ark-ui.com), and Angular on [ng-primitives](https://angularprimitives.dev),
+  each installed with `kirana-style ui`.
 
 The site is at [ui.kirana-style.workers.dev](https://ui.kirana-style.workers.dev) until
 `ui.kirana.style` is attached.
@@ -32,7 +33,8 @@ their demos and example pages, the 29 blocks and the 70 charts; Svelte and Solid
 61 with their demos and example pages, the 29 blocks and the 70 charts; and
 Angular has 62, Vue's 61 and Menubar (no Ark UI one exists; Angular's is the registry's own),
 on ng-primitives and the registry's own parts, with their demos, example pages and right-to-left
-demos, the 29 blocks and the 70 charts.
+demos, the 29 blocks and the 70 charts. Every framework installs with `kirana-style ui`, checked
+from an empty folder on every change.
 
 ## Using it
 
@@ -46,6 +48,8 @@ cd my-app
 npx kirana-style ui add button dialog sidebar-07
 ```
 
+On Vue, Svelte, Solid or Angular, start from `vite-vue`, `vite-svelte`, `vite-solid` or
+`analog-angular` with `--framework` and `--base` (`ark`, or `ng` for Angular).
 `kirana-style ui preset <code>` changes the design later, and `update`, `diff` and
 `remove` keep the components in step with the registry. The `--registry` flag is needed
 only until `ui.kirana.style` is live. Installation, every command and shadcn/ui's own

@@ -3,7 +3,21 @@ title: Installation
 description: Start a project with kirana/ui's design system, or add it to one you have, with kirana-style ui.
 section: start
 order: 2
-keywords: [install, init, template, vite, tanstack start, next.js, vue, setup]
+keywords:
+  [
+    install,
+    init,
+    template,
+    vite,
+    tanstack start,
+    next.js,
+    vue,
+    svelte,
+    solid,
+    angular,
+    analog,
+    setup,
+  ]
 ---
 
 # Installation
@@ -69,19 +83,29 @@ Each component comes with the ones it needs, and its files land under
 
 ## Frameworks and templates
 
-| Framework | Base                  | Templates checked                 |
-| --------- | --------------------- | --------------------------------- |
-| React     | Base UI or React Aria | `vite-react`, `tanstack-start`    |
-| Vue       | Ark UI                | `vite-vue` (its seven components) |
+| Framework | Base                  | Template                       | Components |
+| --------- | --------------------- | ------------------------------ | ---------- |
+| React     | Base UI or React Aria | `vite-react`, `tanstack-start` | 64, 61     |
+| Vue       | Ark UI                | `vite-vue`                     | 61         |
+| Svelte    | Ark UI                | `vite-svelte`                  | 61         |
+| Solid     | Ark UI                | `vite-solid`                   | 61         |
+| Angular   | ng-primitives         | `analog-angular`               | 62         |
 
-Each combination is installed from an empty folder, built and checked on every
-change to this repository; `tanstack-start` was checked by hand. Next.js's
-template (`next-turbopack`) does not install yet: it has no `tsconfig.json` until
-Next.js first runs, and `init` stops where it would add the alias.
+Every framework has the blocks and the charts too. Give `init` the template for
+your framework, and `--framework` and `--base` where the template does not say:
 
-Svelte and Solid (on Ark UI) and Angular (on ng-primitives) have their first
-components in the registry: Button, Card and Skeleton, each drawn on the site as
-it draws on React. Installing into those frameworks is not checked yet.
+<!-- ::install run="@kirana-style/registry init --template vite-svelte my-app --framework svelte --base ark --preset k0" -->
+
+Each framework is installed from an empty folder with every component it has,
+built, moved to another design with `ui preset` and back, and checked, on every
+change to this repository; `tanstack-start` was checked by hand. Next.js's template
+(`next-turbopack`) is set up by `init`, which gives it the `tsconfig.json` Next.js
+writes only on its first run; kirana/ui's components are not checked there yet.
+
+An icon is your icon library's own component where the library has a package for
+your framework. Where it has none, and on Angular for every library, `ui add`
+writes the icon into the file as an inline `<svg>`, read from the library's
+published data, with the library's licence notice in a comment.
 
 ## The fonts
 
