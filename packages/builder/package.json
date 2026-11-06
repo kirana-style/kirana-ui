@@ -11,7 +11,7 @@
     "@kirana-style/compiler": "catalog:",
     "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/registry": "catalog:",
-    "@shadcn/registry": "^0.2.0",
+    "@shadcn/registry": "^0.2.1",
     "@workspace/registry": "workspace:*"
   },
   "devDependencies": {
