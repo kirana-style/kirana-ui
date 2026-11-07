@@ -20,7 +20,7 @@
     "@kirana-style/vite": "catalog:",
     "@sveltejs/vite-plugin-svelte": "catalog:",
     "@workspace/vite-config": "workspace:*",
-    "svelte-check": "4.7.7",
+    "svelte-check": "4.7.8",
     "typescript": "~6.0.3",
     "vite": "catalog:",
     "vite-plus": "catalog:"

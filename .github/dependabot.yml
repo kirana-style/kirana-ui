@@ -22,6 +22,11 @@ updates:
       # `vite-plus`, through its own upgrade (`vp migrate`), never one by one.
       - dependency-name: "vite-plus"
       - dependency-name: "vite"
+      # vue-tsc 3.3 reads some of the Vue blocks' and examples' template bindings as refs (TS2339
+      # "Property 'value' does not exist" on a `styles` object, 96 errors); `apps/preview-vue`
+      # keeps 3.2 until that is reduced and reported upstream.
+      - dependency-name: "vue-tsc"
+        versions: [">=3.3.0"]
     groups:
       # Every Kirana package at one version, the one scripts/use-kirana.ts pins.
       kirana:

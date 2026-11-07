@@ -125,6 +125,9 @@ function ChartContainer<
         setWidth(box.current?.getBoundingClientRect().width || undefined)
     })
     return () => {
+      // A `let` of this effect, set by its own closure: a false positive of oxlint 1.91's
+      // react/immutability (oxc-project/oxc issue 28401, fixed after that release).
+      // oxlint-disable-next-line react/immutability
       live = false
     }
   }, [])
