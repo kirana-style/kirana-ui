@@ -58,6 +58,9 @@ import tanstackDark from "@workspace/docs-ui/brands/tanstack_dark.svg?url"
 import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
 import viteLogo from "@workspace/docs-ui/brands/vite.svg?url"
 import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
+import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
+import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
+import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"
 import { visuallyHidden } from "@workspace/registry/styles/visually-hidden.styles"
 import { Icon } from "@workspace/shell/icon"
 
@@ -67,6 +70,21 @@ const VITE: SvglIcon = {
   route: viteLogo,
 }
 const VUE: SvglIcon = { title: "Vue", url: "https://vuejs.org", route: vueLogo }
+const SVELTE: SvglIcon = {
+  title: "Svelte",
+  url: "https://svelte.dev",
+  route: svelteLogo,
+}
+const SOLID: SvglIcon = {
+  title: "Solid",
+  url: "https://www.solidjs.com",
+  route: solidLogo,
+}
+const ANGULAR: SvglIcon = {
+  title: "Angular",
+  url: "https://angular.dev",
+  route: angularLogo,
+}
 const TANSTACK: SvglIcon = {
   title: "TanStack",
   url: "https://tanstack.com",
@@ -341,7 +359,23 @@ const TEMPLATE_CARDS = [
     icon: TANSTACK,
   },
   { value: "vite-vue", label: "Vue", framework: "vue", icon: VUE },
+  { value: "vite-svelte", label: "Svelte", framework: "svelte", icon: SVELTE },
+  { value: "vite-solid", label: "Solid", framework: "solid", icon: SOLID },
+  {
+    value: "analog-angular",
+    label: "Angular",
+    framework: "angular",
+    icon: ANGULAR,
+  },
 ] as const
+
+/** What gives each base its reading direction, besides `<html>`'s `dir`. */
+const RTL_PROVIDERS: Record<Base, string> = {
+  base: "Base UI's DirectionProvider",
+  aria: "React Aria's I18nProvider",
+  ark: "Ark UI's LocaleProvider (the registry's DirectionProvider, locale=\"ar\")",
+  ng: "the Angular CDK's Directionality (the registry's kuiDirectionProvider)",
+}
 
 const BASE_ICONS: Record<Base, typeof Layers01Icon> = {
   base: Layers01Icon,
@@ -441,8 +475,7 @@ export function GetCodeDialog({
               {rtl ? (
                 <p sx={styles.message}>
                   --rtl sets dir=&quot;rtl&quot; on &lt;html&gt;. Give your base
-                  its direction too: Base UI&apos;s DirectionProvider, React
-                  Aria&apos;s I18nProvider.
+                  its direction too: {RTL_PROVIDERS[system.base]}.
                 </p>
               ) : null}
             </div>

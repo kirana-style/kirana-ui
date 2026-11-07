@@ -24,8 +24,9 @@ component's source into your project, and from then on it is yours to change.
   same design as on shadcn/ui's site.
 - **Every design axis.** Base colour, theme, chart colours, fonts, radius, the
   icon library and menus, chosen once and carried in a short preset code.
-- **More than React.** Components on Base UI and React Aria for React, and on
-  Ark UI for Vue, from one style module per component.
+- **More than React.** Components on Base UI and React Aria for React, on Ark UI
+  for Vue, Svelte and Solid, and on ng-primitives for Angular, from one style
+  module per component.
 - **Two ways to install.** Kirana's own `kirana-style ui`, which installs into
   every framework, and shadcn/ui's CLI, from an export of the same registry.
 

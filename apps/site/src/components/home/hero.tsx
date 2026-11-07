@@ -29,9 +29,8 @@ import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import { hue } from "@/components/page/hue"
 
 /**
- * The frameworks, wired from the engine: React, on Base UI and React Aria, and Vue, on Ark UI;
- * Svelte and Solid (Ark UI) and Angular (ng-primitives), with their first components (Button, Card,
- * Skeleton). Frameworks only: a meta-framework is its framework's (Next.js and TanStack Start are
+ * The frameworks, wired from the engine: React, on Base UI and React Aria; Vue, Svelte and Solid,
+ * on Ark UI; Angular, on ng-primitives. Frameworks only: a meta-framework is its framework's (Next.js and TanStack Start are
  * React, Nuxt is Vue), and a build tool (Vite) belongs to none.
  */
 const FRAMEWORKS = [
@@ -42,17 +41,17 @@ const FRAMEWORKS = [
   },
   { title: "Vue: Ark UI", url: "https://vuejs.org", route: vueLogo },
   {
-    title: "Svelte: Ark UI, its first components",
+    title: "Svelte: Ark UI",
     url: "https://svelte.dev",
     route: svelteLogo,
   },
   {
-    title: "Solid: Ark UI, its first components",
+    title: "Solid: Ark UI",
     url: "https://www.solidjs.com",
     route: solidLogo,
   },
   {
-    title: "Angular: ng-primitives, its first components",
+    title: "Angular: ng-primitives",
     url: "https://angular.dev",
     route: angularLogo,
   },
@@ -206,8 +205,8 @@ export function Hero() {
             </h1>
             <p sx={styles.lede}>
               Every component, block and style of shadcn/ui, rebuilt on
-              Kirana&apos;s compiled styles: React and Vue today, Svelte, Solid
-              and Angular next.
+              Kirana&apos;s compiled styles, for React, Vue, Svelte, Solid and
+              Angular.
             </p>
             <div sx={styles.actions}>
               <CreateCta />

@@ -3,7 +3,19 @@ title: kirana-style ui
 description: The commands that install, update and remove kirana/ui's components, and change a project's design.
 section: start
 order: 3
-keywords: [cli, kirana-style ui, add, update, diff, remove, preset, lockfile]
+keywords:
+  [
+    cli,
+    kirana-style ui,
+    add,
+    update,
+    diff,
+    remove,
+    preset,
+    lockfile,
+    build,
+    mcp,
+  ]
 ---
 
 # kirana-style ui
@@ -31,6 +43,8 @@ commands under another name.
 | `kirana-style ui remove <item…>`  | Deletes an item's files you left as installed                                                  |
 | `kirana-style ui preset <code>`   | Changes the project's design                                                                   |
 | `kirana-style ui validate <doc…>` | Checks registry items, indexes and lockfiles against their schemas                             |
+| `kirana-style ui build`           | Builds a registry of your own from its sources                                                 |
+| `kirana-style ui mcp`             | Serves your registries to an AI assistant (Model Context Protocol)                             |
 
 Every command that writes takes `--dry-run`; `add`, `update` and `preset` take
 `--overwrite` to replace a file you changed.
@@ -40,8 +54,10 @@ Every command that writes takes `--dry-run`; `add`, `update` and `preset` take
 <!-- ::install exec="kirana-style ui add select" -->
 
 Each component's files land under your alias for their type, `@/components/ui` by
-default, and its icons are drawn with your icon library. Its packages are installed
-with your package manager, and Kirana checks what was written. `add` never changes
+default, and its icons are drawn with your icon library: its own component where
+the library has a package for your framework, an inline `<svg>` otherwise (on
+Angular, always). Its packages are installed with your package manager, and Kirana
+checks what was written. `add` never changes
 a file you already have unless you pass `--overwrite`.
 
 ## The lockfile
