@@ -415,7 +415,7 @@ const data = {
                         kuiSidebarMenuButton
                         [tooltip]="{ children: item.title, hidden: false }"
                         (click)="select(item)"
-                        [isActive]="activeItem()?.title === item.title"
+                        [isActive]="activeItem().title === item.title"
                         [sx]="styles.sidebarMenuButton2"
                       >
                         @if (item.icon) {
@@ -445,7 +445,7 @@ const data = {
         <div kuiSidebar collapsible="none" [sx]="styles.sidebar3">
           <div kuiSidebarHeader [sx]="styles.sidebarHeader">
             <div [sx]="styles.div3">
-              <div [sx]="styles.div4">{{ activeItem()?.title }}</div>
+              <div [sx]="styles.div4">{{ activeItem().title }}</div>
               <label kuiLabel [sx]="styles.appSidebarLabel">
                 <span>Unreads</span>
                 <span kuiSwitch [sx]="styles.appSidebarSwitch"></span>
