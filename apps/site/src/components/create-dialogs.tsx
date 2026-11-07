@@ -1,8 +1,8 @@
 /**
  * `/create`'s two dialogs, as shadcn/ui's (`open-preset.tsx`, `project-form.tsx`): Open Preset, a
- * code or a link pasted in; and Get Code, the project to start in this design (its framework,
- * template, which sets the framework, and base as cards, the pointer and right-to-left as
- * switches, the command for each package manager) or the command that brings an existing project to it. Dark, as upstream's are.
+ * code or a link pasted in; and Get Code, the project to start in this design (its framework, then
+ * that framework's templates and bases, as cards: shadcn/ui's dialog with the framework above it;
+ * the pointer and right-to-left as switches, the command for each package manager) or the command that brings an existing project to it. Dark, as upstream's are.
  */
 import * as React from "react"
 import { css } from "@kirana-style/core"
@@ -56,6 +56,8 @@ import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import type { SvglIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import tanstackDark from "@workspace/docs-ui/brands/tanstack_dark.svg?url"
 import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
+import reactDark from "@workspace/docs-ui/brands/react_dark.svg?url"
+import reactLight from "@workspace/docs-ui/brands/react_light.svg?url"
 import viteLogo from "@workspace/docs-ui/brands/vite.svg?url"
 import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
@@ -68,6 +70,11 @@ const VITE: SvglIcon = {
   title: "Vite",
   url: "https://vitejs.dev",
   route: viteLogo,
+}
+const REACT: SvglIcon = {
+  title: "React",
+  url: "https://react.dev",
+  route: { light: reactLight, dark: reactDark },
 }
 const VUE: SvglIcon = { title: "Vue", url: "https://vuejs.org", route: vueLogo }
 const SVELTE: SvglIcon = {
@@ -349,25 +356,34 @@ function Command({ run, exec }: { run?: string; exec?: string }) {
   )
 }
 
-/** The templates the registry was checked with, each with the framework it sets and its logo. */
-const TEMPLATE_CARDS = [
-  { value: "vite-react", label: "Vite", framework: "react", icon: VITE },
-  {
-    value: "tanstack-start",
-    label: "TanStack Start",
-    framework: "react",
-    icon: TANSTACK,
-  },
-  { value: "vite-vue", label: "Vue", framework: "vue", icon: VUE },
-  { value: "vite-svelte", label: "Svelte", framework: "svelte", icon: SVELTE },
-  { value: "vite-solid", label: "Solid", framework: "solid", icon: SOLID },
-  {
-    value: "analog-angular",
-    label: "Angular",
-    framework: "angular",
-    icon: ANGULAR,
-  },
-] as const
+/** The frameworks the registry installs into, first: each has its own templates and bases. */
+const FRAMEWORK_CARDS: readonly {
+  value: Framework
+  label: string
+  icon: SvglIcon
+}[] = [
+  { value: "react", label: "React", icon: REACT },
+  { value: "vue", label: "Vue", icon: VUE },
+  { value: "svelte", label: "Svelte", icon: SVELTE },
+  { value: "solid", label: "Solid", icon: SOLID },
+  { value: "angular", label: "Angular", icon: ANGULAR },
+]
+
+/**
+ * Each template's name and logo; which templates a framework has is `TEMPLATES`, the examples the
+ * install check starts from. Analog is Angular's Vite app, drawn with Angular's mark.
+ */
+const TEMPLATE_LOOKS: Record<
+  (typeof TEMPLATES)[Framework][number],
+  { label: string; icon: SvglIcon }
+> = {
+  "vite-react": { label: "Vite", icon: VITE },
+  "tanstack-start": { label: "TanStack Start", icon: TANSTACK },
+  "vite-vue": { label: "Vite", icon: VITE },
+  "vite-svelte": { label: "Vite", icon: VITE },
+  "vite-solid": { label: "Vite", icon: VITE },
+  "analog-angular": { label: "Analog", icon: ANGULAR },
+}
 
 /** What gives each base its reading direction, besides `<html>`'s `dir`. */
 const RTL_PROVIDERS: Record<Base, string> = {
@@ -401,25 +417,18 @@ export function GetCodeDialog({
   onPointer: (on: boolean) => void
   trigger: React.ReactElement
 }) {
-  const [template, setTemplate] = React.useState<string>(
-    TEMPLATES[system.framework as keyof typeof TEMPLATES]?.[0] ?? "vite-react"
-  )
-  // A template that is not the framework's is the framework's first: the framework can change
-  // elsewhere (the shared design).
-  const card =
-    TEMPLATE_CARDS.find(
-      (entry) =>
-        entry.value === template && entry.framework === system.framework
-    ) ?? TEMPLATE_CARDS.find((entry) => entry.framework === system.framework)!
-  const chooseTemplate = (value: string) => {
-    const next = TEMPLATE_CARDS.find((entry) => entry.value === value)!
-    setTemplate(value)
-    if (next.framework !== system.framework)
-      onChange({
-        ...system,
-        framework: next.framework as Framework,
-        base: FRAMEWORK_BASES[next.framework as Framework][0]!,
-      })
+  // The template chosen per framework, the framework's first until one is picked: the framework
+  // can change elsewhere too (the shared design).
+  const [templates, setTemplates] = React.useState<
+    Partial<Record<Framework, string>>
+  >({})
+  const choices: readonly string[] = TEMPLATES[system.framework]
+  const template = choices.includes(templates[system.framework] ?? "")
+    ? templates[system.framework]!
+    : choices[0]!
+  const chooseFramework = (framework: Framework) => {
+    if (framework !== system.framework)
+      onChange({ ...system, framework, base: FRAMEWORK_BASES[framework][0]! })
   }
   return (
     <Dialog>
@@ -436,14 +445,35 @@ export function GetCodeDialog({
           <TabsContent value="new">
             <div sx={styles.body}>
               <Cards
-                legend="Template"
-                value={card.value}
-                options={TEMPLATE_CARDS.map((entry) => ({
+                legend="Framework"
+                value={system.framework}
+                options={FRAMEWORK_CARDS.map((entry) => ({
                   value: entry.value,
                   label: entry.label,
                   icon: <BrandIcon icon={entry.icon} scheme="dark" />,
                 }))}
-                onChange={chooseTemplate}
+                onChange={chooseFramework}
+              />
+              <div sx={styles.rule} />
+              <Cards
+                legend="Template"
+                value={template}
+                options={TEMPLATES[system.framework].map((value) => ({
+                  value,
+                  label: TEMPLATE_LOOKS[value].label,
+                  icon: (
+                    <BrandIcon
+                      icon={TEMPLATE_LOOKS[value].icon}
+                      scheme="dark"
+                    />
+                  ),
+                }))}
+                onChange={(value) =>
+                  setTemplates((chosen) => ({
+                    ...chosen,
+                    [system.framework]: value,
+                  }))
+                }
               />
               <div sx={styles.rule} />
               <Cards
@@ -480,7 +510,7 @@ export function GetCodeDialog({
               ) : null}
             </div>
             <div sx={styles.footer}>
-              <Command run={initRun(system, card.value, { pointer, rtl })} />
+              <Command run={initRun(system, template, { pointer, rtl })} />
             </div>
           </TabsContent>
           <TabsContent value="existing">

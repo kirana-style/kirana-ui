@@ -151,5 +151,6 @@ export function pointConfig<Item>(
       point.group ??
       point.markId
   )
-  return { name, item: config[name] }
+  // A name the config does not list (a series it leaves out) has no entry.
+  return { name, item: config[name] as Item | undefined }
 }

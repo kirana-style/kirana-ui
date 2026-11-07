@@ -196,7 +196,7 @@ const data = {
                     [sx]="styles.appSidebarA"
                     >{{ item.title }}</a
                   >
-                  @if (item.items?.length) {
+                  @if (item.items.length) {
                     <ul kuiSidebarMenuSub>
                       @for (subItem of item.items; track subItem.title) {
                         <li kuiSidebarMenuSubItem>

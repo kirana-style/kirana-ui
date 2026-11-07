@@ -336,7 +336,7 @@ const data = {
                         [sx]="styles.iconPlaceholder"
                       ></svg>
                     </button>
-                    @if (item.items?.length) {
+                    @if (item.items.length) {
                       <div kuiDropdownMenuContent side="right" align="start">
                         <div kuiDropdownMenuGroup>
                           @for (subItem of item.items; track subItem.title) {

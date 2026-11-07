@@ -288,7 +288,7 @@ const data = {
                       [sx]="styles.iconPlaceholder3"
                     ></svg>
                   </button>
-                  @if (item.items?.length) {
+                  @if (item.items.length) {
                     <div kuiCollapsibleContent>
                       <ul kuiSidebarMenuSub>
                         @for (subItem of item.items; track subItem.title) {
