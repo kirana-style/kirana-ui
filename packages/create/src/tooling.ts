@@ -368,7 +368,7 @@ export function vitePlusOptions(ignores: readonly string[]): string[] {
     `fmt: ${JSON.stringify({ ...PRETTIER })
       .replace(/"(\w+)":/g, "$1: ")
       .replace(/,/g, ", ")
-      .replace(/\{/, "{ ")
+      .replace(/^\{/, "{ ")
       .replace(/\}$/, " }")}`,
     `lint: {
     jsPlugins: [{ name: "kirana", specifier: "@kirana-style/eslint-plugin" }],
