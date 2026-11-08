@@ -4,7 +4,8 @@
  * remembered, and every install block on the site follows it.
  *
  * `run="kirana-style@latest init"` shows how each one runs a package it has not installed, and
- * `exec="kirana-style check"` how it runs one the project has; the commands are in
+ * `exec="kirana-style check"` how it runs one the project has, and `create="vite-plus …"` how it
+ * scaffolds with a `create-` package; the commands are in
  * `@workspace/docs-core/package-managers.ts`, which the markdown twin reads too.
  */
 import { useSyncExternalStore } from "react"
@@ -86,11 +87,13 @@ export function InstallTabs({
   dev = "",
   run = "",
   exec = "",
+  create = "",
 }: {
   packages?: string
   dev?: string
   run?: string
   exec?: string
+  create?: string
 }) {
   // npm on the server; the saved choice after hydration, followed across blocks.
   const manager = useSyncExternalStore<Manager>(subscribe, stored, () => "npm")
@@ -102,7 +105,13 @@ export function InstallTabs({
     window.dispatchEvent(new Event(EVENT))
   }
 
-  const command = installLines(manager, { packages, dev, run, exec }).join("\n")
+  const command = installLines(manager, {
+    packages,
+    dev,
+    run,
+    exec,
+    create,
+  }).join("\n")
 
   return (
     <div sx={styles.root} data-slot="install-tabs">

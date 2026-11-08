@@ -7,7 +7,7 @@
   import type { ChartPoint, ChartValue } from "@tanstack/charts"
 
   import { chart as styles } from "../../../../styles/chart.styles"
-  import { CHART, POINTS, categoryOf, pointConfig, valueOf } from "./chart"
+  import { CHART, POINTS, categoryOf, pointConfig, pointValue } from "./chart"
   import type { ChartContext, PointsContext } from "./chart"
 
   let {
@@ -82,7 +82,7 @@
           : item?.color || item?.theme
             ? `var(--color-${name})`
             : point.color)
-      const value = valueOf(point)
+      const value = pointValue(point)
       return {
         key: point.key,
         point,

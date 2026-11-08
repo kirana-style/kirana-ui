@@ -416,9 +416,12 @@ The preview opens on upstream's second dashboard (`preview-02`), with its switch
 for the registry's charts, a page of each preview app's own: `apps/preview-react/src/charts-base.tsx`,
 `apps/preview-vue/src/Charts.vue`) over them, on React and Vue alike; on any other item, the item's name sits there and opens Navigate (`create-navigate.tsx`,
 its own chunk, loaded when first opened): upstream's action menu on Command, the blocks then the
-components, each by its title (the docs page's), filtered as you type. Get Code has New Project (framework, template and
-base cards, the pointer and right-to-left switches, `kirana-style ui init` for each package
-manager) and Existing Project (`kirana-style ui preset`). A framed preview is created once the page
+components, each by its title (the docs page's), filtered as you type. Get Code has New Project (cards from `packages/create`'s catalog: the framework, its
+templates and bases, the monorepo (single app, Turborepo, Vite+) and the tooling (ESLint + Prettier,
+Oxlint + Oxfmt, Biome, Vite+), a card the others rule out dimmed with the reason; the pointer and
+right-to-left switches; the three commands for npm, pnpm, Yarn, Bun or `vp`, a Vite+ project locked
+to `vp`) and Existing Project (`kirana-style ui preset`). The bases' official marks are docs-ui's
+`base-logos.tsx`, shared with the docs' frameworks row. A framed preview is created once the page
 has hydrated, so it loads once; it follows the colour mode through the theme provider's channel.
 `?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
 colour theme otherwise. The site's chrome is the Kirana site's, at the maintainer's call. The header: the petal K and

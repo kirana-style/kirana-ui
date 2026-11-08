@@ -154,6 +154,7 @@
         "@tanstack/markdown": "^1.2.0",
         "@tanstack/react-router": "catalog:",
         "@tanstack/react-start": "catalog:",
+        "@workspace/create": "workspace:*",
         "@workspace/docs-core": "workspace:*",
         "@workspace/docs-ui": "workspace:*",
         "@workspace/fonts": "workspace:*",
@@ -185,6 +186,19 @@
       },
       "devDependencies": {
         "@types/bun": "^1.4.4",
+        "@types/node": "catalog:",
+        "typescript": "catalog:",
+        "vite-plus": "catalog:",
+      },
+    },
+    "packages/create": {
+      "name": "@workspace/create",
+      "version": "0.0.0",
+      "dependencies": {
+        "@workspace/docs-core": "workspace:*",
+        "@workspace/registry": "workspace:*",
+      },
+      "devDependencies": {
         "@types/node": "catalog:",
         "typescript": "catalog:",
         "vite-plus": "catalog:",
@@ -1518,6 +1532,8 @@
     "@workflow/serde": ["@workflow/serde@4.1.0", "", {}, "sha512-pav4F2BoirECWR7Nf1TKt+2eETcBj7jj4cBefQ8VXQCA6NPkaKeLfj/zMgi+3zYV5ZIBT4GuUiphsj0/b9hPQQ=="],
 
     "@workspace/builder": ["@workspace/builder@workspace:packages/builder"],
+
+    "@workspace/create": ["@workspace/create@workspace:packages/create"],
 
     "@workspace/docs-core": ["@workspace/docs-core@workspace:packages/docs-core"],
 

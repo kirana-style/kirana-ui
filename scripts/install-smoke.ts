@@ -1,59 +1,60 @@
 /**
- * The registry installed as a project installs it, with Kirana's own installer: for each
- * combination, a new project from Kirana's example for its framework, started from an empty folder
- * (`npx @kirana-style/registry init --template`, which reads the release's source from GitHub), set
- * to that style's preset code (which installs its font), the slice added with `kirana-style ui add`
- * from the registry this checkout built, then built (and type-checked with `vue-tsc` for Vue), and
- * its lockfile validated. The colour axes are checked to hold the design's values only (the
- * `kirana` item's per-value builds), and again after `ui preset` to another design and back. Exits
- * non-zero on the first failure.
+ * A project started as Get Code has a reader start it, with Kirana's own installer: for each
+ * combination, a skeleton composed from `packages/create` (the app, its tooling, its workspace)
+ * written to an empty folder, its packages installed, set to that style's preset with
+ * `kirana-style ui init` (which installs the design system and its font), the slice added with
+ * `kirana-style ui add` from the registry this checkout built, then formatted, linted,
+ * type-checked and built with the skeleton's own scripts, and its lockfile validated. The colour
+ * axes are checked to hold the design's values only (the `kirana` item's per-value builds), and
+ * again after `ui preset` to another design and back. Exits non-zero on the first failure.
  *
- *   bun scripts/install-smoke.ts [<framework>-<base>-<style> …]   # what `vp run install` runs
+ *   bun scripts/install-smoke.ts [<framework>-<base>-<style>[@<skeleton>] …]   # what `vp run install` runs
+ *   bun scripts/install-smoke.ts react-base-nova@next-turbopack--turbo--biome    # one skeleton
  *
- * Needs the site and its registry built (`vp run registry`); serves `apps/site/dist/client` itself.
- * The computed-style comparison of installed against live stays a browser run, outside CI.
+ * A skeleton is `<template>--<monorepo>--<tooling>` (`templates/index.json` lists them); without
+ * one, the framework's Vite app alone with ESLint. Needs the site and its registry built
+ * (`vp run registry`); serves `apps/site/dist/client` itself. The computed-style comparison of
+ * installed against live stays a browser run, outside CI.
  */
 import { spawn } from "node:child_process"
 import {
   existsSync,
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   readdirSync,
   rmSync,
   statSync,
+  writeFileSync,
 } from "node:fs"
 import { createServer } from "node:http"
-import { gzipSync } from "node:zlib"
 import type { AddressInfo } from "node:net"
 import { tmpdir } from "node:os"
-import { join } from "node:path"
+import { dirname, join } from "node:path"
+import { gzipSync } from "node:zlib"
 
+import { APPS } from "../packages/create/src/apps/index"
+import { PROJECT, TEMPLATES } from "../packages/create/src/catalog"
+import type { Framework } from "../packages/create/src/catalog"
+import { parseSkeletonId, skeletonId } from "../packages/create/src/choices"
+import { composeProject } from "../packages/create/src/compose"
 import { encodePreset, readDesignSystem } from "../registry/core/preset"
 
 const ROOT = join(import.meta.dirname, "..")
 const STATIC = join(ROOT, "apps", "site", "dist", "client")
 
 /**
- * What CI installs: the default, a flattened style on the second React base, and Vue, Svelte,
- * Solid and Angular, each in another style.
+ * What CI installs: each framework once, React on both bases, across the toolings and the
+ * workspaces (a Turborepo, a Vite+ monorepo), each in another style.
  */
 const DEFAULT = [
-  "react-base-nova",
-  "react-aria-lyra",
-  "vue-ark-vega",
-  "svelte-ark-maia",
-  "solid-ark-mira",
-  "angular-ng-luma",
+  "react-base-nova@vite-react--none--eslint",
+  "react-aria-lyra@tanstack-start--turbo--oxlint",
+  "vue-ark-vega@vite-vue--none--biome",
+  "svelte-ark-maia@vite-svelte--vite-plus--vite-plus",
+  "solid-ark-mira@vite-solid--none--oxlint",
+  "angular-ng-luma@analog-angular--none--eslint",
 ]
-
-/** Kirana's example each framework starts from (`init --template`). */
-const TEMPLATES: Record<string, string> = {
-  react: "vite-react",
-  vue: "vite-vue",
-  svelte: "vite-svelte",
-  solid: "vite-solid",
-  angular: "analog-angular",
-}
 
 /**
  * The slice, per framework: React's a cross-section, every other framework's every component,
@@ -159,11 +160,15 @@ function itemsOf(framework: string, base: string): string[] {
   return SLICES.vue.filter((name) => name === "typeset" || has.has(name))
 }
 
-const version = (
+const catalog = (
   JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")) as {
     workspaces: { catalog: Record<string, string> }
   }
-).workspaces.catalog["@kirana-style/core"]
+).workspaces.catalog
+const versions = {
+  kirana: catalog["@kirana-style/core"]!,
+  vitePlus: catalog["vite-plus"]!,
+}
 
 const server = createServer((request, response) => {
   const file = join(STATIC, new URL(request.url ?? "/", "http://x").pathname)
@@ -177,6 +182,34 @@ const server = createServer((request, response) => {
 await new Promise<void>((resolve) => server.listen(0, resolve))
 const { port } = server.address() as AddressInfo
 const registry = `@kirana=http://localhost:${port}/r/{name}.json`
+
+/** What a project's tree holds besides its own files. */
+const GENERATED = new Set([
+  "node_modules",
+  "dist",
+  "build",
+  ".next",
+  ".output",
+  ".nuxt",
+  ".svelte-kit",
+  ".angular",
+  ".kirana",
+  ".vinxi",
+  ".tanstack",
+  ".nitro",
+  ".turbo",
+  "out-tsc",
+])
+
+/** Every file under `root`, relative, outside the generated folders: the app's own files. */
+function filesOf(root: string): string[] {
+  return readdirSync(root, { recursive: true, encoding: "utf8" }).filter(
+    (file) => {
+      if (file.split("/").some((part) => GENERATED.has(part))) return false
+      return statSync(join(root, file)).isFile()
+    }
+  )
+}
 
 /** The colour axes' modules a project installs, one value each (KF-080). */
 const COLOUR_FILES = [
@@ -193,10 +226,9 @@ const COLOUR_FILES = [
  * palettes' values (`palette=cyan`).
  */
 function colourValues(app: string): string[] {
-  const files = readdirSync(join(app, "src"), {
-    recursive: true,
-    encoding: "utf8",
-  }).filter((file) => COLOUR_FILES.some((name) => file.endsWith(`/${name}`)))
+  const files = filesOf(app).filter((file) =>
+    COLOUR_FILES.some((name) => file.endsWith(`/${name}`))
+  )
   if (files.length !== COLOUR_FILES.length) {
     console.error(
       `install: ${COLOUR_FILES.join(", ")} not all installed in ${app}`
@@ -205,7 +237,7 @@ function colourValues(app: string): string[] {
   }
   const found = new Set<string>()
   for (const file of files) {
-    const text = readFileSync(join(app, "src", file), "utf8")
+    const text = readFileSync(join(app, file), "utf8")
     for (const match of text.matchAll(
       /data-(base-color|theme|chart-color)="([^"]+)"/g
     ))
@@ -230,13 +262,18 @@ function expectColours(app: string, expected: string[], when: string) {
 }
 
 /** The built stylesheets' size, gzip, for the log. */
-function stylesheetSize(app: string) {
-  const dist = join(app, "dist")
-  const css = readdirSync(dist, { recursive: true, encoding: "utf8" }).filter(
-    (file) => file.endsWith(".css")
-  )
+function stylesheetSize(app: string, output: string) {
+  const folder = join(app, output)
+  if (!existsSync(folder)) {
+    console.error(`install: no build output at ${folder}`)
+    process.exit(1)
+  }
+  const css = readdirSync(folder, {
+    recursive: true,
+    encoding: "utf8",
+  }).filter((file) => file.endsWith(".css"))
   const bytes = css.reduce(
-    (sum, file) => sum + gzipSync(readFileSync(join(dist, file))).length,
+    (sum, file) => sum + gzipSync(readFileSync(join(folder, file))).length,
     0
   )
   return `${(bytes / 1024).toFixed(1)} KB gzip`
@@ -255,67 +292,83 @@ async function run(cwd: string, command: string, ...args: string[]) {
 }
 
 const combinations = process.argv.slice(2)
-for (const combination of combinations.length ? combinations : DEFAULT) {
+for (const asked of combinations.length ? combinations : DEFAULT) {
+  const [combination = "", named] = asked.split("@")
   const [framework, base, style] = combination.split("-") as [
-    string,
+    Framework,
     string,
     string,
   ]
   if (!(framework in TEMPLATES) || !base || !style) {
-    console.error(`install: not a combination: ${combination}`)
+    console.error(`install: not a combination: ${asked}`)
     process.exit(2)
   }
+  const skeleton = parseSkeletonId(
+    named ??
+      skeletonId({
+        template: TEMPLATES[framework][0],
+        monorepo: "none",
+        tooling: "eslint",
+      })
+  )
+  if (!skeleton || skeleton.framework !== framework) {
+    console.error(`install: not a skeleton for ${framework}: ${named}`)
+    process.exit(2)
+  }
+  const id = skeletonId(skeleton)
   // The code the site's customizer gives this combination, with the rules between axes applied.
   const preset = encodePreset(
     readDesignSystem(new URLSearchParams({ framework, base, style })).system
   )
-  console.log(`\n== ${combination} (${preset})`)
+  console.log(`\n== ${combination} ${id} (${preset})`)
 
   const folder = mkdtempSync(join(tmpdir(), `kirana-ui-${combination}-`))
-  // From an empty folder, as a new user starts: the registry package runs on its own, and the
-  // project it writes has the registry at this exact version, so `ui` runs there.
+  // The skeleton, as `giget` unpacks the site's tarball.
+  const root = join(folder, PROJECT.directory)
+  for (const [path, content] of composeProject(skeleton, versions, {
+    packageManager: "bun",
+  })) {
+    mkdirSync(dirname(join(root, path)), { recursive: true })
+    writeFileSync(join(root, path), content)
+  }
+  const workspace = skeleton.monorepo !== "none"
+  const app = workspace ? join(root, "apps", PROJECT.app) : root
+  const example = APPS[skeleton.template]
+  await run(root, "bun", "install")
+  // Get Code's command: the design system installed with the preset, `data-pointer` on `<html>`.
   await run(
-    folder,
+    app,
     "bunx",
-    `@kirana-style/registry@${version}`,
+    "kirana-style",
+    "ui",
     "init",
-    "--template",
-    TEMPLATES[framework]!,
-    "app",
     "--framework",
     framework,
     "--base",
     base,
     "--preset",
     preset,
-    // Get Code's "Use pointer on buttons": `data-pointer` on `<html>`, which the reset reads.
     "--pointer",
     "--registry",
     registry
   )
-  const app = join(folder, "app")
   if (
     !/<html[^>]*\bdata-pointer\b/.test(
-      readFileSync(join(app, "index.html"), "utf8")
+      readFileSync(join(app, example.document), "utf8")
     )
   ) {
     console.error(
-      `install: init --pointer did not set data-pointer on <html> in ${app}`
+      `install: init --pointer did not set data-pointer on <html> in ${example.document}`
     )
     process.exit(1)
   }
   // The preset's font is Inter: `init` installs its item, which imports the family's stylesheet.
-  const sources = readdirSync(join(app, "src"), {
-    recursive: true,
-    encoding: "utf8",
-  })
+  const sources = filesOf(app)
   if (
-    !sources.some(
-      (file) =>
-        /\.(ts|tsx|js|vue|svelte)$/.test(file) &&
-        readFileSync(join(app, "src", file), "utf8").includes(
-          '"@fontsource-variable/inter"'
-        )
+    !sources.some((file) =>
+      readFileSync(join(app, file), "utf8").includes(
+        '"@fontsource-variable/inter"'
+      )
     )
   ) {
     console.error(`install: init did not import the preset's font in ${app}`)
@@ -327,9 +380,10 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
   // The style's preset has the default colours, whose values are the tokens' own: no entries,
   // and Neutral alone in each palette.
   expectColours(app, ["palette=neutral"], "installed")
-  await run(app, "bun", "run", "build")
-  console.log(`install: stylesheets ${stylesheetSize(app)}`)
-  // Another design's colours replace the modules, and coming back leaves none of them.
+  await run(root, "bun", "run", "build")
+  console.log(`install: stylesheets ${stylesheetSize(app, example.output)}`)
+  // Another design's colours replace the modules, and coming back leaves none of them. Before the
+  // formatter runs: `ui preset` stops at a file the reader changed, and a formatter's pass counts.
   const colours = encodePreset(
     readDesignSystem(
       new URLSearchParams({
@@ -355,12 +409,21 @@ for (const combination of combinations.length ? combinations : DEFAULT) {
     ],
     `after ui preset ${colours}`
   )
-  await run(app, "bun", "run", "build")
+  await run(root, "bun", "run", "build")
   await run(app, "bunx", "kirana-style", "ui", "preset", preset)
   expectColours(app, ["palette=neutral"], `back at ${preset}`)
-  await run(app, "bun", "run", "build")
-  // Vue templates are type-checked in the project only: Ark's required props show there (CLI-06).
-  if (framework === "vue") await run(app, "bun", "run", "typecheck")
+  // The skeleton's own scripts, from the workspace's root where there is one: the installed files
+  // formatted (so `lint` and `typecheck` read them as the reader would commit them), linted,
+  // type-checked and built again.
+  const scripts = (
+    JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as {
+      scripts: Record<string, string>
+    }
+  ).scripts
+  for (const script of ["format", "lint", "typecheck"])
+    if (scripts[script]) await run(root, "bun", "run", script)
+  if (scripts.check) await run(root, "bun", "run", "check")
+  await run(root, "bun", "run", "build")
   await run(
     app,
     "bunx",

@@ -499,8 +499,24 @@ design's attributes there; `kirana-style ui add` installs the components with
 the build for that design, and `kirana-style ui preset <code>` changes it later.
 Every item is checked with Kirana's own reading of the format
 (`@kirana-style/registry`) as the builder writes it, and CI installs the slice
-this way into Kirana's example apps, React on both bases and Vue, builds them and
-validates their lockfiles (`vp run install`). Installed so, each combination
+this way into the project skeletons Get Code offers (`vp run install`: one per
+framework, across the toolings and the workspaces; by hand, any skeleton,
+`bun scripts/install-smoke.ts <combination>@<skeleton>`), builds, lints and
+type-checks them with the skeleton's own scripts, and validates their lockfiles.
+
+**A project starts from a composed skeleton.** `packages/create` is the catalog
+of what a project can be (frameworks and bases, templates, monorepos, toolings,
+runners), each app skeleton as data (its files, manifest and Vite config, built
+from Kirana's example of the same name), the tooling and workspace layers, and a
+composer that merges them into one project's files; `vp run templates`
+(`scripts/templates.ts`) packs every combination the rules allow into
+`templates/<id>.tgz` beside the registry, a Turborepo once per package manager
+(turbo wants `packageManager`), with `templates/index.json`. Get Code writes
+`giget` for the tarball, the install, and `kirana-style ui init` in the app; one
+command for all of it is `init --template` reading a registry's templates, on
+Kirana's list. Adding a template, a tool or a workspace kind is an entry in the
+catalog and its layer: the dialog, the build and the install check read the
+catalog. Installed so, each combination
 renders the site's preview pages, value for value. A style module imports only
 what every framework installs: a control's width inside a Field is in
 `control.ts`, not in Field's own module, since Vue has no Field yet.

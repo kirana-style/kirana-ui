@@ -28,12 +28,12 @@ import {
   categoryOf,
   pointConfig,
   seriesColors,
-  valueOf,
+  pointValue,
 } from "../../../lib/chart"
 
 export * from "../../../lib/chart"
 
-const THEMES = ["light", "dark"] as const
+type Theme = "light" | "dark"
 
 export type ChartConfig = Record<
   string,
@@ -42,7 +42,7 @@ export type ChartConfig = Record<
     icon?: Component
   } & (
     | { color?: string; theme?: never }
-    | { color?: never; theme: Record<(typeof THEMES)[number], string> }
+    | { color?: never; theme: Record<Theme, string> }
   )
 >
 
@@ -304,7 +304,7 @@ function ChartTooltipContent(props: {
           : item?.color || item?.theme
             ? `var(--color-${name})`
             : point.color)
-      const value = valueOf(point)
+      const value = pointValue(point)
       return {
         key: point.key,
         point,

@@ -38,13 +38,14 @@ from an empty folder on every change.
 
 ## Using it
 
-Start a project from one of Kirana's templates, with the design you chose on the site
-(its preset code), then add components:
+Start a project from a skeleton the site serves (Get Code on the Create page writes the
+commands for your framework, template, base, monorepo and tooling), set it to the design
+you chose (its preset code), then add components:
 
 ```bash
-npx @kirana-style/registry init --template vite-react my-app --base base --preset k0 \
+npx giget@3.3.1 https://ui.kirana-style.workers.dev/templates/vite-react--none--eslint.tgz my-app
+cd my-app && npm install && npx kirana-style ui init --framework react --base base --preset k0 \
   --registry @kirana=https://ui.kirana-style.workers.dev/r/{name}.json
-cd my-app
 npx kirana-style ui add button dialog sidebar-07
 ```
 

@@ -235,9 +235,10 @@ class Slider {
         index = i
     this.#set(index, value)
     event.preventDefault()
-    control
-      .querySelectorAll<HTMLInputElement>('input[type="range"]')
-      [index]?.focus({ preventScroll: true })
+    const inputs = control.querySelectorAll<HTMLInputElement>(
+      'input[type="range"]'
+    )
+    inputs[index]?.focus({ preventScroll: true })
     control.setPointerCapture(event.pointerId)
     const move = (next: PointerEvent) => this.#set(index, valueAt(next))
     const end = () => {

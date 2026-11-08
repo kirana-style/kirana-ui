@@ -30,6 +30,11 @@ it was, names included.
   `kirana-style ui`, …" read "With , …"), and inline runs join without the space blocks get.
 - `search.ts`: on a title match, the page's own record (before its first heading) ranks before its
   sections.
+- `package-managers.ts`, `generate.ts`: two more kinds of command, `create="vite-plus …"` (how
+  each package manager scaffolds with a `create-` package: `npm create vite-plus@latest -- …`,
+  `deno run -A npm:create-vite-plus …`) and `install` (the project's packages, `pnpm install`);
+  and a sixth manager, `vp`, Vite+'s runner (`vp install`, `vpx` for a package to run), which the
+  install tabs and the twin list with the others. Candidates for the Kirana copy.
 
 ## docs-ui
 
@@ -81,6 +86,11 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   `RegistryItem` for it. `name` may list several items (`name="trace code-block"`), as an AI
   Elements pattern built from components does: the command adds them all, and Manual copies the
   first and lists the others among the components to add.
+- `markdown/install-tabs.tsx`: the `create` attribute, with `packages`, `dev`, `run` and `exec`.
+- `base-logos.tsx` (new): the bases' official marks, Base UI's and React Aria's inline as upstream's
+  `registry/bases.ts` has them (moved out of `markdown/frameworks.tsx`), Ark UI's and ng-primitives'
+  as images from `brands/` (`ark-ui.svg`, their site's icon; `ng-primitives.svg`, their
+  documentation's favicon); `/create`'s Get Code draws them too.
 - `markdown/section-cards.tsx` (new), registered as `section-cards`: `<!-- ::section-cards
   section="…" -->`, a section's pages but its index as cards, each its title and description, as
   shadcn/ui's AI Elements page lists its patterns (`LinkedCard`). It reads the navigation.

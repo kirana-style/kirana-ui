@@ -39,7 +39,8 @@
   {@render children?.()}
   <SelectIndicator>
     {#snippet asChild(props)}
-      <IconPlaceholder {...props()} class={props().class} style={props().style} lucide="ChevronDownIcon" tabler="IconSelector" hugeicons="UnfoldMoreIcon" phosphor="CaretDownIcon" remixicon="RiArrowDownSLine" sx={select.triggerIcon} />
+      <!-- Ark's props as a record: an installed icon's own prop types (lucide's `color`) refuse Ark's nullable attributes. -->
+      <IconPlaceholder {...(props() as Record<string, unknown>)} class={props().class} style={props().style} lucide="ChevronDownIcon" tabler="IconSelector" hugeicons="UnfoldMoreIcon" phosphor="CaretDownIcon" remixicon="RiArrowDownSLine" sx={select.triggerIcon} />
     {/snippet}
   </SelectIndicator>
 </SelectTrigger>

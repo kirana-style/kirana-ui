@@ -237,6 +237,8 @@ describe("plainInstall", () => {
         "yarn dlx tool@latest init",
         "# bun",
         "bunx --bun tool@latest init",
+        "# vp",
+        "vpx tool@latest init",
         "# deno",
         "deno run -A npm:tool@latest init",
         "```",
@@ -255,6 +257,21 @@ describe("installLines", () => {
       "deno add -D npm:z",
     ])
     expect(installLines("bun", { dev: "z" })).toEqual(["bun add -d z"])
+  })
+  it("names a create- package as each manager scaffolds with it", () => {
+    const create = "vite-plus vite:monorepo --directory my-app"
+    expect(installLines("npm", { create })).toEqual([
+      "npm create vite-plus@latest -- vite:monorepo --directory my-app",
+    ])
+    expect(installLines("pnpm", { create })).toEqual([
+      "pnpm create vite-plus vite:monorepo --directory my-app",
+    ])
+    expect(installLines("bun", { create })).toEqual([
+      "bun create vite-plus vite:monorepo --directory my-app",
+    ])
+    expect(installLines("deno", { create })).toEqual([
+      "deno run -A npm:create-vite-plus vite:monorepo --directory my-app",
+    ])
   })
 })
 

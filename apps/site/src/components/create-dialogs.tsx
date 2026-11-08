@@ -1,34 +1,59 @@
 /**
  * `/create`'s two dialogs, as shadcn/ui's (`open-preset.tsx`, `project-form.tsx`): Open Preset, a
- * code or a link pasted in; and Get Code, the project to start in this design (its framework, then
- * that framework's templates and bases, as cards: shadcn/ui's dialog with the framework above it;
- * the pointer and right-to-left as switches, the command for each package manager) or the command that brings an existing project to it. Dark, as upstream's are.
+ * code or a link pasted in; and Get Code, the project to start in this design, every choice a card
+ * from `@workspace/create`'s catalog (the framework, then its templates and bases, where the app
+ * sits: alone, in a Turborepo or a Vite+ monorepo, and what lints, formats and type-checks it:
+ * ESLint + Prettier, Oxlint + Oxfmt, Biome or Vite+), the pointer and right-to-left as switches,
+ * and the commands for each runner (npm, pnpm, Yarn, Bun, and Vite+'s `vp`, which a Vite+ project
+ * is locked to); or the command that brings an existing project to the design. Dark, as upstream's
+ * are, and wider than its other dialogs, for the cards.
  */
 import * as React from "react"
 import { css } from "@kirana-style/core"
 import {
-  AccessIcon,
   Copy01Icon,
   CursorPointer01Icon,
+  File01Icon,
   Globe02Icon,
-  Layers01Icon,
-  PackageIcon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 
-import { TEMPLATES, initRun, openPreset, presetRun } from "@/lib/create"
 import {
-  PACKAGE_MANAGERS,
-  installLines,
-} from "@workspace/docs-core/package-managers.ts"
-import type { PackageManager } from "@workspace/docs-core/package-managers.ts"
-import { FRAMEWORK_BASES } from "@workspace/registry/core/config"
+  BASE_LABELS,
+  FRAMEWORKS,
+  FRAMEWORK_BASES,
+  FRAMEWORK_LABELS,
+  MONOREPOS,
+  MONOREPO_LABELS,
+  RUNNERS,
+  TEMPLATES,
+  TEMPLATE_LABELS,
+  TOOLINGS,
+  TOOLING_LABELS,
+} from "@workspace/create/catalog.ts"
 import type {
   Base,
-  DesignSystem,
   Framework,
-} from "@workspace/registry/core/config"
+  Monorepo,
+  Runner,
+  Template,
+  Tooling,
+} from "@workspace/create/catalog.ts"
 import {
+  monoreposFor,
+  resolveChoices,
+  toolingsFor,
+} from "@workspace/create/choices.ts"
+import {
+  commandLines,
+  presetCommand,
+  projectSteps,
+} from "@workspace/create/commands.ts"
+import type { Step } from "@workspace/create/commands.ts"
+import { openPreset } from "@/lib/create"
+import type { DesignSystem } from "@workspace/registry/core/config"
+import {
+  breakpoint,
   fontFamily,
   fontSize,
   fontWeight,
@@ -52,17 +77,22 @@ import {
   TabsList,
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
+import { BaseLogo } from "@workspace/docs-ui/base-logos.tsx"
 import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import type { SvglIcon } from "@workspace/docs-ui/brand-icon.tsx"
-import tanstackDark from "@workspace/docs-ui/brands/tanstack_dark.svg?url"
-import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
+import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"
+import biomeLogo from "@workspace/docs-ui/brands/biomejs.svg?url"
+import eslintLogo from "@workspace/docs-ui/brands/eslint-icon-dark.svg?url"
+import nextLogo from "@workspace/docs-ui/brands/nextjs_icon_dark.svg?url"
+import oxcLogo from "@workspace/docs-ui/brands/oxc.svg?url"
 import reactDark from "@workspace/docs-ui/brands/react_dark.svg?url"
 import reactLight from "@workspace/docs-ui/brands/react_light.svg?url"
+import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
+import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
+import tanstackDark from "@workspace/docs-ui/brands/tanstack_dark.svg?url"
+import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
 import viteLogo from "@workspace/docs-ui/brands/vite.svg?url"
 import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
-import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
-import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
-import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"
 import { visuallyHidden } from "@workspace/registry/styles/visually-hidden.styles"
 import { Icon } from "@workspace/shell/icon"
 
@@ -97,24 +127,102 @@ const TANSTACK: SvglIcon = {
   url: "https://tanstack.com",
   route: { light: tanstackLight, dark: tanstackDark },
 }
+const NEXT: SvglIcon = {
+  title: "Next.js",
+  url: "https://nextjs.org",
+  route: nextLogo,
+}
+const ESLINT: SvglIcon = {
+  title: "ESLint",
+  url: "https://eslint.org",
+  route: eslintLogo,
+}
+const OXC: SvglIcon = { title: "Oxc", url: "https://oxc.rs", route: oxcLogo }
+const BIOME: SvglIcon = {
+  title: "Biome",
+  url: "https://biomejs.dev",
+  route: biomeLogo,
+}
 
-const BASE_TITLES: Record<Base, string> = {
-  base: "Base UI",
-  aria: "React Aria",
-  ark: "Ark UI",
-  ng: "ng-primitives",
+const FRAMEWORK_ICONS: Record<Framework, SvglIcon> = {
+  react: REACT,
+  vue: VUE,
+  svelte: SVELTE,
+  solid: SOLID,
+  angular: ANGULAR,
+}
+
+/** Each template's logo: its meta-framework's, or Vite's. Analog and the CLI are Angular's. */
+const TEMPLATE_ICONS: Record<Template, SvglIcon> = {
+  "vite-react": VITE,
+  "tanstack-start": TANSTACK,
+  "next-turbopack": NEXT,
+  "vite-vue": VITE,
+  "vite-svelte": VITE,
+  "vite-solid": VITE,
+  "solid-start": SOLID,
+  "analog-angular": ANGULAR,
+  "angular-cli": ANGULAR,
+}
+
+const TOOLING_ICONS: Record<Tooling, SvglIcon> = {
+  eslint: ESLINT,
+  oxlint: OXC,
+  biome: BIOME,
+  "vite-plus": VITE,
+}
+
+/** Turborepo's mark, as shadcn/ui's project form draws it (Simple Icons). */
+function TurborepoIcon() {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      width="1rem"
+      height="1rem"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path d="M11.9906 4.1957c-4.2998 0-7.7981 3.501-7.7981 7.8043s3.4983 7.8043 7.7981 7.8043c4.2999 0 7.7982-3.501 7.7982-7.8043s-3.4983-7.8043-7.7982-7.8043m0 11.843c-2.229 0-4.0356-1.8079-4.0356-4.0387s1.8065-4.0387 4.0356-4.0387S16.0262 9.7692 16.0262 12s-1.8065 4.0388-4.0356 4.0388m.6534-13.1249V0C18.9726.3386 24 5.5822 24 12s-5.0274 11.66-11.356 12v-2.9139c4.7167-.3372 8.4516-4.2814 8.4516-9.0861s-3.735-8.749-8.4516-9.0861M5.113 17.9586c-1.2502-1.4446-2.0562-3.2845-2.2-5.3046H0c.151 2.8266 1.2808 5.3917 3.051 7.3668l2.0606-2.0622zM11.3372 24v-2.9139c-2.02-.1439-3.8584-.949-5.3019-2.2018l-2.0606 2.0623c1.975 1.773 4.538 2.9022 7.361 3.0534z" />
+    </svg>
+  )
+}
+
+/** What gives each base its reading direction, besides `<html>`'s `dir`. */
+const RTL_PROVIDERS: Record<Base, string> = {
+  base: "Base UI's DirectionProvider",
+  aria: "React Aria's I18nProvider",
+  ark: "Ark UI's LocaleProvider (the registry's DirectionProvider, locale=\"ar\")",
+  ng: "the Angular CDK's Directionality (the registry's kuiDirectionProvider)",
+}
+
+/** Why a card cannot be chosen with the rest. */
+const REASONS = {
+  vitePlusBuild: "Vite+ builds with Vite: not this template.",
+  vitePlusChecks: "A Vite+ monorepo is checked by Vite+.",
+  turbo: "A Turborepo runs ESLint, Oxlint or Biome.",
 }
 
 const styles = {
   // upstream's `dark … rounded-2xl p-0`: the dialog in the dark scheme whatever the page's mode.
   dark: css({ colorScheme: "dark", color: theme.foreground }),
-  content: css({ padding: 0, gap: 0, overflow: "hidden" }),
+  // Wider than the registry's dialog, for four cards a row: the component's own widths dropped.
+  content: css({
+    padding: 0,
+    gap: 0,
+    overflow: "hidden",
+    maxWidth: {
+      "*": null,
+      base: "calc(100% - 2rem)",
+      [breakpoint.sm]: "46rem",
+    },
+  }),
   body: css({
     display: "grid",
     gap: space[4],
     paddingInline: space[6],
     paddingBlock: space[4],
-    maxHeight: "50svh",
+    maxHeight: "min(58svh, 44rem)",
     overflowY: "auto",
   }),
   legend: css({
@@ -124,10 +232,11 @@ const styles = {
   }),
   cards: css({
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(9rem, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(9.5rem, 1fr))",
     gap: space[2],
   }),
-  // A choice drawn as a card, checked by its ring and fill, as upstream's template and base cards.
+  // A choice drawn as a card, checked by its ring and fill, as upstream's template and base cards;
+  // one the other choices rule out stays visible, dimmed, with the reason as its title.
   card: css({
     display: "flex",
     alignItems: "center",
@@ -146,11 +255,19 @@ const styles = {
       '[aria-checked="true"]': `0 0 0 1px color-mix(in oklab, ${theme.foreground} 30%, transparent)`,
     },
     color: theme.foreground,
+    opacity: { base: 1, '[aria-disabled="true"]': 0.45 },
     fontSize: fontSize.sm,
     lineHeight: lineHeight.sm,
     fontWeight: fontWeight.medium,
     textAlign: "start",
-    cursor: "pointer",
+    cursor: { base: "pointer", '[aria-disabled="true"]': "not-allowed" },
+  }),
+  // A base's inline mark, 1rem square like the brand images.
+  mark: css({
+    display: "inline-grid",
+    width: "1rem",
+    height: "1rem",
+    flexShrink: 0,
   }),
   switchRow: css({
     display: "flex",
@@ -226,12 +343,20 @@ const styles = {
   commandBar: css({
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     gap: space[2],
     paddingInline: space[1],
     paddingBlock: space[1],
   }),
   managers: css({ fontFamily: fontFamily.mono }),
+  locked: css({
+    paddingInline: space[2],
+    fontSize: fontSize.xs,
+    lineHeight: lineHeight.xs,
+    color: theme.mutedForeground,
+  }),
   code: css({
+    margin: 0,
     overflowX: "auto",
     borderTopWidth: "1px",
     borderTopStyle: "solid",
@@ -240,8 +365,8 @@ const styles = {
     padding: space[3],
     fontFamily: fontFamily.mono,
     fontSize: fontSize.sm,
-    lineHeight: lineHeight.sm,
-    whiteSpace: "nowrap",
+    lineHeight: "1.7",
+    whiteSpace: "pre",
     scrollbarWidth: "none",
   }),
   full: css({ width: "100%" }),
@@ -253,6 +378,14 @@ const styles = {
   }),
 }
 
+type Option<Value extends string> = {
+  value: Value
+  label: string
+  icon?: React.ReactNode
+  /** Why the card cannot be chosen now; the card stays, dimmed. */
+  disabled?: string
+}
+
 /** A labelled group of cards, one of which is chosen, each with its logo or icon. */
 function Cards<Value extends string>({
   legend,
@@ -262,7 +395,7 @@ function Cards<Value extends string>({
 }: {
   legend: string
   value: Value
-  options: readonly { value: Value; label: string; icon?: React.ReactNode }[]
+  options: readonly Option<Value>[]
   onChange: (value: Value) => void
 }) {
   return (
@@ -275,7 +408,11 @@ function Cards<Value extends string>({
             type="button"
             role="radio"
             aria-checked={option.value === value}
-            onClick={() => onChange(option.value)}
+            aria-disabled={option.disabled ? true : undefined}
+            title={option.disabled}
+            onClick={() => {
+              if (!option.disabled) onChange(option.value)
+            }}
             sx={styles.card}
           >
             {option.icon}
@@ -317,11 +454,22 @@ function Switch({
   )
 }
 
-/** A command for each package manager, with a copy button and a full-width Copy Command. */
-function Command({ run, exec }: { run?: string; exec?: string }) {
-  const [manager, setManager] = React.useState<PackageManager>("npm")
+/**
+ * The commands for each runner, one line per step, with a copy button and a full-width Copy
+ * Command. `runners` are the tabs offered: a Vite+ project is locked to `vp`.
+ */
+function Command({
+  steps,
+  runners = RUNNERS,
+}: {
+  /** The steps, for the runner: a Turborepo's skeleton carries the runner's package manager. */
+  steps: (runner: Runner) => readonly Step[]
+  runners?: readonly Runner[]
+}) {
+  const [chosen, setChosen] = React.useState<Runner>("npm")
   const [copied, setCopied] = React.useState(false)
-  const command = installLines(manager, { run, exec }).join("\n")
+  const runner = runners.includes(chosen) ? chosen : runners[0]!
+  const command = commandLines(steps(runner), runner).join("\n")
   const copy = () =>
     void navigator.clipboard.writeText(command).then(() => {
       setCopied(true)
@@ -332,21 +480,22 @@ function Command({ run, exec }: { run?: string; exec?: string }) {
       <div sx={styles.command}>
         <div sx={styles.commandBar}>
           <Tabs
-            value={manager}
-            onValueChange={(next) => setManager(next as PackageManager)}
+            value={runner}
+            onValueChange={(next) => setChosen(next as Runner)}
           >
             <TabsList sx={styles.managers}>
-              {PACKAGE_MANAGERS.filter((name) => name !== "deno").map(
-                (name) => (
-                  <TabsTrigger key={name} value={name}>
-                    {name}
-                  </TabsTrigger>
-                )
-              )}
+              {runners.map((name) => (
+                <TabsTrigger key={name} value={name}>
+                  {name}
+                </TabsTrigger>
+              ))}
             </TabsList>
           </Tabs>
+          {runners.length === 1 ? (
+            <span sx={styles.locked}>A Vite+ project runs with vp.</span>
+          ) : null}
         </div>
-        <div sx={styles.code}>{command}</div>
+        <pre sx={styles.code}>{command}</pre>
       </div>
       <Button onClick={copy} sx={styles.full}>
         <Icon icon={copied ? Tick02Icon : Copy01Icon} />
@@ -354,50 +503,6 @@ function Command({ run, exec }: { run?: string; exec?: string }) {
       </Button>
     </>
   )
-}
-
-/** The frameworks the registry installs into, first: each has its own templates and bases. */
-const FRAMEWORK_CARDS: readonly {
-  value: Framework
-  label: string
-  icon: SvglIcon
-}[] = [
-  { value: "react", label: "React", icon: REACT },
-  { value: "vue", label: "Vue", icon: VUE },
-  { value: "svelte", label: "Svelte", icon: SVELTE },
-  { value: "solid", label: "Solid", icon: SOLID },
-  { value: "angular", label: "Angular", icon: ANGULAR },
-]
-
-/**
- * Each template's name and logo; which templates a framework has is `TEMPLATES`, the examples the
- * install check starts from. Analog is Angular's Vite app, drawn with Angular's mark.
- */
-const TEMPLATE_LOOKS: Record<
-  (typeof TEMPLATES)[Framework][number],
-  { label: string; icon: SvglIcon }
-> = {
-  "vite-react": { label: "Vite", icon: VITE },
-  "tanstack-start": { label: "TanStack Start", icon: TANSTACK },
-  "vite-vue": { label: "Vite", icon: VITE },
-  "vite-svelte": { label: "Vite", icon: VITE },
-  "vite-solid": { label: "Vite", icon: VITE },
-  "analog-angular": { label: "Analog", icon: ANGULAR },
-}
-
-/** What gives each base its reading direction, besides `<html>`'s `dir`. */
-const RTL_PROVIDERS: Record<Base, string> = {
-  base: "Base UI's DirectionProvider",
-  aria: "React Aria's I18nProvider",
-  ark: "Ark UI's LocaleProvider (the registry's DirectionProvider, locale=\"ar\")",
-  ng: "the Angular CDK's Directionality (the registry's kuiDirectionProvider)",
-}
-
-const BASE_ICONS: Record<Base, typeof Layers01Icon> = {
-  base: Layers01Icon,
-  aria: AccessIcon,
-  ark: PackageIcon,
-  ng: PackageIcon,
 }
 
 export function GetCodeDialog({
@@ -417,19 +522,31 @@ export function GetCodeDialog({
   onPointer: (on: boolean) => void
   trigger: React.ReactElement
 }) {
-  // The template chosen per framework, the framework's first until one is picked: the framework
-  // can change elsewhere too (the shared design).
+  // The framework and base are the design's, shared with the page; the template (kept per
+  // framework), the workspace and the tooling are the project's alone. `resolveChoices` settles
+  // what no longer fits when one changes.
   const [templates, setTemplates] = React.useState<
-    Partial<Record<Framework, string>>
+    Partial<Record<Framework, Template>>
   >({})
-  const choices: readonly string[] = TEMPLATES[system.framework]
-  const template = choices.includes(templates[system.framework] ?? "")
-    ? templates[system.framework]!
-    : choices[0]!
+  const [monorepo, setMonorepo] = React.useState<Monorepo>("none")
+  const [tooling, setTooling] = React.useState<Tooling>("eslint")
+  const choices = resolveChoices({
+    framework: system.framework,
+    base: system.base,
+    template: templates[system.framework],
+    monorepo,
+    tooling,
+    pointer,
+    rtl,
+  })
   const chooseFramework = (framework: Framework) => {
     if (framework !== system.framework)
       onChange({ ...system, framework, base: FRAMEWORK_BASES[framework][0]! })
   }
+  const monorepos = monoreposFor(choices.template)
+  const toolings = toolingsFor(choices.template, choices.monorepo)
+  const runners: readonly Runner[] =
+    choices.tooling === "vite-plus" ? ["vp"] : RUNNERS
   return (
     <Dialog>
       <DialogTrigger render={trigger}>Get Code</DialogTrigger>
@@ -447,31 +564,33 @@ export function GetCodeDialog({
               <Cards
                 legend="Framework"
                 value={system.framework}
-                options={FRAMEWORK_CARDS.map((entry) => ({
-                  value: entry.value,
-                  label: entry.label,
-                  icon: <BrandIcon icon={entry.icon} scheme="dark" />,
+                options={FRAMEWORKS.map((framework) => ({
+                  value: framework,
+                  label: FRAMEWORK_LABELS[framework],
+                  icon: (
+                    <BrandIcon
+                      icon={FRAMEWORK_ICONS[framework]}
+                      scheme="dark"
+                    />
+                  ),
                 }))}
                 onChange={chooseFramework}
               />
               <div sx={styles.rule} />
               <Cards
                 legend="Template"
-                value={template}
-                options={TEMPLATES[system.framework].map((value) => ({
-                  value,
-                  label: TEMPLATE_LOOKS[value].label,
+                value={choices.template}
+                options={TEMPLATES[system.framework].map((template) => ({
+                  value: template,
+                  label: TEMPLATE_LABELS[template],
                   icon: (
-                    <BrandIcon
-                      icon={TEMPLATE_LOOKS[value].icon}
-                      scheme="dark"
-                    />
+                    <BrandIcon icon={TEMPLATE_ICONS[template]} scheme="dark" />
                   ),
                 }))}
-                onChange={(value) =>
+                onChange={(template) =>
                   setTemplates((chosen) => ({
                     ...chosen,
-                    [system.framework]: value,
+                    [system.framework]: template,
                   }))
                 }
               />
@@ -481,13 +600,63 @@ export function GetCodeDialog({
                 value={system.base}
                 options={FRAMEWORK_BASES[system.framework].map((base) => ({
                   value: base,
-                  label: BASE_TITLES[base],
-                  icon: <Icon icon={BASE_ICONS[base]} />,
+                  label: BASE_LABELS[base],
+                  icon: (
+                    <span sx={styles.mark}>
+                      <BaseLogo base={base} scheme="dark" />
+                    </span>
+                  ),
                 }))}
-                onChange={(value) =>
-                  onChange({ ...system, base: value as Base })
-                }
+                onChange={(base) => onChange({ ...system, base })}
               />
+              <div sx={styles.rule} />
+              <Cards
+                legend="Monorepo"
+                value={choices.monorepo}
+                options={MONOREPOS.map((option) => ({
+                  value: option,
+                  label: MONOREPO_LABELS[option],
+                  icon:
+                    option === "none" ? (
+                      <Icon icon={File01Icon} />
+                    ) : option === "turbo" ? (
+                      <TurborepoIcon />
+                    ) : (
+                      <BrandIcon icon={VITE} scheme="dark" />
+                    ),
+                  disabled: monorepos.includes(option)
+                    ? undefined
+                    : REASONS.vitePlusBuild,
+                }))}
+                onChange={setMonorepo}
+              />
+              <div sx={styles.rule} />
+              <Cards
+                legend="Lint, format and types"
+                value={choices.tooling}
+                options={TOOLINGS.map((option) => ({
+                  value: option,
+                  label: TOOLING_LABELS[option],
+                  icon: (
+                    <BrandIcon icon={TOOLING_ICONS[option]} scheme="dark" />
+                  ),
+                  disabled: toolings.includes(option)
+                    ? undefined
+                    : choices.monorepo === "vite-plus"
+                      ? REASONS.vitePlusChecks
+                      : choices.monorepo === "turbo"
+                        ? REASONS.turbo
+                        : REASONS.vitePlusBuild,
+                }))}
+                onChange={setTooling}
+              />
+              <p sx={styles.message}>
+                Each comes with Kirana&apos;s rules: the compiler&apos;s
+                diagnostics as you type, sx last, no className beside sx.
+                {choices.monorepo !== "none"
+                  ? ` The app is apps/web; components install into it until kirana-style ui reads a workspace.`
+                  : ""}
+              </p>
               <div sx={styles.rule} />
               <Switch
                 label="Use pointer on buttons"
@@ -510,7 +679,10 @@ export function GetCodeDialog({
               ) : null}
             </div>
             <div sx={styles.footer}>
-              <Command run={initRun(system, template, { pointer, rtl })} />
+              <Command
+                steps={(runner) => projectSteps(choices, system, runner)}
+                runners={runners}
+              />
             </div>
           </TabsContent>
           <TabsContent value="existing">
@@ -523,7 +695,9 @@ export function GetCodeDialog({
               </p>
             </div>
             <div sx={styles.footer}>
-              <Command exec={presetRun(system, { pointer, rtl })} />
+              <Command
+                steps={() => [{ exec: presetCommand(choices, system) }]}
+              />
             </div>
           </TabsContent>
         </Tabs>
