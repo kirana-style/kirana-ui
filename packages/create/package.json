@@ -1,0 +1,19 @@
+{
+  "name": "@workspace/create",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "description": "What Get Code starts a project from: the catalog of frameworks, templates, bases, monorepos and tooling, each app skeleton as data, the layers composed into a project's files, and the commands that fetch and set it up.",
+  "dependencies": {
+    "@workspace/docs-core": "workspace:*",
+    "@workspace/registry": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "exports": {
+    "./*": "./src/*"
+  }
+}

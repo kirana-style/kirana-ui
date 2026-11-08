@@ -8,9 +8,18 @@ keywords:
     install,
     init,
     template,
+    turborepo,
+    monorepo,
+    eslint,
+    oxlint,
+    biome,
+    prettier,
     vite,
     tanstack start,
     next.js,
+    solidstart,
+    angular cli,
+    vite+,
     vue,
     svelte,
     solid,
@@ -28,26 +37,38 @@ copies each component you add into your project.
 
 ## A new project
 
-Start from one of Kirana's example apps. In an empty folder, the registry package
-runs on its own:
+[Get Code](/create), on the Create page, writes the commands for the project you choose:
+the framework, its template, the base, whether the app stands alone or in a Turborepo or
+a Vite+ monorepo, and what lints, formats and type-checks it. Three steps, for npm, pnpm,
+Yarn, Bun or Vite+'s `vp`:
 
-<!-- ::install run="@kirana-style/registry init --template vite-react my-app" -->
+```sh
+npx giget@3.3.1 https://ui.kirana-style.workers.dev/templates/vite-react--none--eslint.tgz my-app
+cd my-app && npm install && npx kirana-style ui init --framework react --base base --preset k0 --registry @kirana=https://ui.kirana-style.workers.dev/r/{name}.json
+```
 
-`--template` takes the example's name, and the folder to create after it. The
-project it writes has `@kirana-style/registry` beside Kirana's other packages, each
-at the release you ran, so `kirana-style ui` works there from then on.
+The first unpacks a skeleton: the app as Kirana's own example for that framework has it
+(its Vite, Next.js or Angular configuration, Kirana's plugin, a welcome page), with the
+`@/*` alias mapped, `dev`, `build` and `preview` scripts, and the tooling you chose with
+its `lint`, `format` and `typecheck` scripts, Kirana's rules included. The second installs
+its packages and runs `init`, which installs the design system in your design and wires it
+in. In a monorepo the app is `apps/web`, and `init` runs there.
 
-Give the design you chose with its preset code, and the base for React:
-
-<!-- ::install run="@kirana-style/registry init --template vite-react my-app --base base --preset k0" -->
-
-`k0` is the default design. A [preset code](/docs/presets) holds every axis of a
-design in a few characters. `--pointer` gives the buttons a pointer cursor and `--rtl`
-sets the page right to left: each writes its attribute on `<html>`
-([Button](/docs/components/button#cursor), [Right to left](/docs/design-system/rtl)).
-The project gets that design alone, its style's values and its colours;
-`--all-designs` keeps every design, for a design picker of your own
+`k0` is the default design. A [preset code](/docs/presets) holds every axis of a design in
+a few characters. `--pointer` gives the buttons a pointer cursor and `--rtl` sets the page
+right to left: each writes its attribute on `<html>`
+([Button](/docs/components/button#cursor), [Right to left](/docs/design-system/rtl)). The
+project gets that design alone, its style's values and its colours; `--all-designs` keeps
+every design, for a design picker of your own
 ([Colours and theming](/docs/design-system/theming#in-your-project)).
+
+Every skeleton is listed at
+[`templates/index.json`](https://ui.kirana-style.workers.dev/templates/index.json), by its
+name: `<template>--<monorepo>--<tooling>`. `init --template <example>` still starts from
+one of [Kirana's examples](https://github.com/kirana-style/kirana/tree/main/packages/kirana/examples)
+as they are, with their `build` script alone:
+
+<!-- ::install run="@kirana-style/registry init --template vite-react my-app --preset k0" -->
 
 > [!NOTE] Before the launch
 > `kirana-style ui` looks for kirana/ui's registry at `ui.kirana.style`, which is
@@ -83,24 +104,60 @@ Each component comes with the ones it needs, and its files land under
 
 ## Frameworks and templates
 
-| Framework | Base                  | Template                       | Components |
-| --------- | --------------------- | ------------------------------ | ---------- |
-| React     | Base UI or React Aria | `vite-react`, `tanstack-start` | 64, 61     |
-| Vue       | Ark UI                | `vite-vue`                     | 61         |
-| Svelte    | Ark UI                | `vite-svelte`                  | 61         |
-| Solid     | Ark UI                | `vite-solid`                   | 61         |
-| Angular   | ng-primitives         | `analog-angular`               | 62         |
+| Framework | Base                  | Template                                         | Components |
+| --------- | --------------------- | ------------------------------------------------ | ---------- |
+| React     | Base UI or React Aria | `vite-react`, `tanstack-start`, `next-turbopack` | 64, 61     |
+| Vue       | Ark UI                | `vite-vue`                                       | 61         |
+| Svelte    | Ark UI                | `vite-svelte`                                    | 61         |
+| Solid     | Ark UI                | `vite-solid`, `solid-start`                      | 61         |
+| Angular   | ng-primitives         | `analog-angular`, `angular-cli`                  | 62         |
 
-Every framework has the blocks and the charts too. Give `init` the template for
-your framework, and `--framework` and `--base` where the template does not say:
+Every framework has the blocks and the charts too. Each template is named after Kirana's
+example it was built from; `--framework` and `--base` tell `init` which components to
+install where the project does not say.
 
-<!-- ::install run="@kirana-style/registry init --template vite-svelte my-app --framework svelte --base ark --preset k0" -->
+## Monorepos
 
-Each framework is installed from an empty folder with every component it has,
-built, moved to another design with `ui preset` and back, and checked, on every
-change to this repository; `tanstack-start` was checked by hand. Next.js's template
-(`next-turbopack`) is set up by `init`, which gives it the `tsconfig.json` Next.js
-writes only on its first run; kirana/ui's components are not checked there yet.
+A skeleton can put the app in a workspace, as `apps/web`, with `packages/*` beside it:
+
+- **Turborepo**: `turbo.json` with `build`, `dev`, `lint`, `format` and `typecheck`
+  tasks, which the root's scripts run across the workspace. Turborepo reads the package
+  manager from the root's `packageManager`, so the skeleton is packed once per package
+  manager and the runner you pick in Get Code chooses the file.
+- **Vite+ monorepo**: the root's `vite.config.ts` holds the format and lint settings,
+  `vp run -r build` builds every package and `vp check` formats, lints and type-checks the
+  workspace. A Vite+ project runs with `vp`, and Get Code locks its commands to it.
+
+Components install into the app, under its `@/` alias: `kirana-style ui` reads one project
+at a time. A shared `packages/ui`, as shadcn/ui's monorepo has, waits on a workspace-aware
+installer on Kirana's list.
+
+## Lint, format and types
+
+Each skeleton comes with one of four toolings, each carrying Kirana's rules (the compiler's
+diagnostics where the code is written, `sx` last, no `className` beside `sx`, nothing
+unused):
+
+| Tooling           | Lint                                                            | Format   | Types                            |
+| ----------------- | --------------------------------------------------------------- | -------- | -------------------------------- |
+| ESLint + Prettier | ESLint with `@kirana-style/eslint-plugin`                       | Prettier | `tsc`, `vue-tsc`, `svelte-check` |
+| Oxlint + Oxfmt    | Oxlint with the same plugin                                     | Oxfmt    | the same                         |
+| Biome             | Biome with `@kirana-style/biome-plugin`                         | Biome    | the same                         |
+| Vite+             | `vp check`: Oxlint with the plugin, Oxfmt and TypeScript in one |          |                                  |
+
+Vite+, as a tooling or a monorepo, goes with Vite's build: not with Next.js's or the
+Angular CLI's. A Vite+ monorepo is checked by Vite+ alone, and a Turborepo runs one of the
+other three. The rules are set as this repository runs them on the registry, which the
+installed components pass: `no-dark-variant` off (a few ports keep upstream's
+`prefers-color-scheme` on purpose) and the compiler's `relation-unused` ignored (a relation
+one component anchors is read by another you may not have installed).
+
+Each skeleton CI installs from an empty folder gets every component its framework has,
+then its `format`, `lint`, `typecheck` and `build` scripts run, it moves to another design
+with `ui preset` and back, and its lockfile is checked: React on Vite with ESLint and
+TanStack Start in a Turborepo with Oxlint, Vue with Biome, Svelte in a Vite+ monorepo,
+Solid with Oxlint and Analog with ESLint, on every change to this repository. Next.js,
+SolidStart and the Angular CLI were installed and built by hand when they were added.
 
 An icon is your icon library's own component where the library has a package for
 your framework. Where it has none, and on Angular for every library, `ui add`

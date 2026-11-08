@@ -27,6 +27,7 @@
     "@tanstack/markdown": "^1.2.0",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
+    "@workspace/create": "workspace:*",
     "@workspace/docs-core": "workspace:*",
     "@workspace/docs-ui": "workspace:*",
     "@workspace/fonts": "workspace:*",

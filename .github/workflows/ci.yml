@@ -86,13 +86,18 @@ jobs:
       - name: Registry
         run: vp run registry
 
+      # The project skeletons Get Code offers: every combination composed and packed.
+      - name: Templates
+        run: vp run templates
+
       # Each page's JavaScript and stylesheet, and the registry's files, against `budgets.json`.
       - name: Budgets
         run: vp run budgets
 
-      # The registry installed with Kirana's own installer, as a project would: Kirana's example
-      # app per framework, `kirana-style ui init --preset` and `add`, built, the lockfile validated,
-      # for React on both bases, Vue, Svelte, Solid and Angular.
+      # The registry installed with Kirana's own installer, as Get Code has a reader do it: a
+      # skeleton per framework, its packages installed, `kirana-style ui init --preset` and `add`,
+      # built, linted, type-checked, the lockfile validated, for React on both bases, Vue, Svelte,
+      # Solid and Angular.
       - name: Installs with kirana-style ui
         run: bun scripts/install-smoke.ts
 

@@ -1,7 +1,8 @@
 /**
  * `/create`'s logic, apart from its page: the history of designs (undo and redo), shuffling the
- * axes that are not locked, opening a preset from a code or a link, and the project's commands.
- * The design itself is the site's (`setDesign`), so every other page follows what `/create` makes.
+ * axes that are not locked, opening a preset from a code or a link, and shadcn/ui's
+ * `components.json` for a React project. The design itself is the site's (`setDesign`), so every
+ * other page follows what `/create` makes. What starts a project is `@workspace/create`.
  */
 import { useState } from "react"
 
@@ -13,6 +14,7 @@ import {
   readDesignSystem,
 } from "@workspace/registry/core/preset"
 import { namesDesign, readPageDesign } from "@workspace/registry/core/preview"
+import { REGISTRY } from "@workspace/create/catalog.ts"
 
 import { designChoices } from "./design-choices"
 import type { DesignAxis } from "./design-choices"
@@ -90,65 +92,6 @@ export function openPreset(text: string): DesignSystem | null {
   } catch {
     return null
   }
-}
-
-/**
- * The templates checked with the registry, per framework (the docs' Installation page): Kirana's
- * examples that `init --template` starts from, each installed by CI's install check but
- * TanStack Start.
- */
-export const TEMPLATES = {
-  react: ["vite-react", "tanstack-start"],
-  vue: ["vite-vue"],
-  svelte: ["vite-svelte"],
-  solid: ["vite-solid"],
-  angular: ["analog-angular"],
-} as const
-
-/** Where the registry is served until `ui.kirana.style` is attached (CLI-10). */
-const REGISTRY = "https://ui.kirana-style.workers.dev/r"
-
-/** Get Code's switches: `data-pointer` and `dir="rtl"` on `<html>`, which `--pointer` and `--rtl` write. */
-export type HtmlOptions = { pointer?: boolean; rtl?: boolean }
-
-const htmlFlags = ({ pointer, rtl }: HtmlOptions = {}) =>
-  [pointer ? "--pointer" : null, rtl ? "--rtl" : null].filter(Boolean)
-
-/**
- * What starts a project in this design, after the package manager's runner (`npx`, `pnpm dlx` …):
- * `@kirana-style/registry init` with the template, the framework and base, the preset, the
- * pointer and right-to-left options, and the registry where it is served until `ui.kirana.style`
- * is attached.
- */
-export function initRun(
-  system: DesignSystem,
-  template: string,
-  options?: HtmlOptions
-) {
-  return [
-    `@kirana-style/registry init --template ${template} my-app`,
-    `--framework ${system.framework} --base ${system.base}`,
-    `--preset ${encodePreset(system)}`,
-    ...htmlFlags(options),
-    `--registry @kirana=${REGISTRY}/{name}.json`,
-  ].join(" ")
-}
-
-/** The same with npm's runner. */
-export function initCommand(
-  system: DesignSystem,
-  template: string,
-  options?: HtmlOptions
-) {
-  return `npx ${initRun(system, template, options)}`
-}
-
-/** What changes an existing project's design to this one: `kirana-style ui preset`. */
-export function presetRun(system: DesignSystem, options?: HtmlOptions) {
-  return [
-    `kirana-style ui preset ${encodePreset(system)}`,
-    ...htmlFlags(options),
-  ].join(" ")
 }
 
 /**

@@ -22,12 +22,12 @@ import {
   categoryOf,
   pointConfig,
   seriesColors,
-  valueOf,
+  pointValue,
 } from "../../../lib/chart"
 import type { Sx } from "../../../lib/sx"
 import { chart as styles } from "../../../styles/chart.styles"
 
-const THEMES = ["light", "dark"] as const
+type Theme = "light" | "dark"
 
 export type ChartConfig = Record<
   string,
@@ -36,7 +36,7 @@ export type ChartConfig = Record<
     icon?: React.ComponentType
   } & (
     | { color?: string; theme?: never }
-    | { color?: never; theme: Record<(typeof THEMES)[number], string> }
+    | { color?: never; theme: Record<Theme, string> }
   )
 >
 
@@ -247,7 +247,7 @@ function ChartTooltipContent({
               : item?.color || item?.theme
                 ? `var(--color-${name})`
                 : point.color)
-          const value = valueOf(point)
+          const value = pointValue(point)
           return (
             <div
               key={point.key}

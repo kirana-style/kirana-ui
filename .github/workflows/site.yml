@@ -49,6 +49,10 @@ jobs:
       - name: Registry
         run: bun packages/builder/src/cli.ts --skip-check
 
+      # The project skeletons Get Code offers, into the static files too.
+      - name: Templates
+        run: bun scripts/templates.ts
+
       - name: Deploy
         id: deploy
         working-directory: apps/site
@@ -86,6 +90,10 @@ jobs:
       # on these sources, so it is written without the check here.
       - name: Registry
         run: bun packages/builder/src/cli.ts --skip-check
+
+      # The project skeletons Get Code offers, into the static files too.
+      - name: Templates
+        run: bun scripts/templates.ts
 
       # A new version of the Worker that production does not serve, reachable at
       # https://pr-<number>-ui.<subdomain>.workers.dev while the alias points at it.

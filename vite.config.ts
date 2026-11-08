@@ -64,6 +64,16 @@ export default defineConfig({
         dependsOn: ["build"],
         cache: { input: SOURCES, output: ["apps/site/dist/client/r/**"] },
       },
+      // The project skeletons Get Code offers (`packages/create`, `scripts/templates.ts`): every
+      // combination composed and packed into the site's static files, beside the registry.
+      templates: {
+        command: "bun scripts/templates.ts",
+        dependsOn: ["build"],
+        cache: {
+          input: SOURCES,
+          output: ["apps/site/dist/client/templates/**"],
+        },
+      },
       // The built site against `budgets.json` (`scripts/budgets.ts`): each page's JavaScript and
       // stylesheet, the registry's files and the Worker's static file limits, gzip as Kirana
       // measures.
@@ -150,6 +160,7 @@ export default defineConfig({
           "licenses",
           "build",
           "registry",
+          "templates",
           "budgets",
         ],
         cache: false,

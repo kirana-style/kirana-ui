@@ -8,6 +8,7 @@
     "types": ["vite/client"],
     "paths": {
       "@/*": ["./src/*"],
+      "@workspace/create/*": ["../../packages/create/src/*"],
       "@workspace/registry/*": ["../../registry/*"],
       "@workspace/shell/*": ["../../packages/shell/src/*"]
     },

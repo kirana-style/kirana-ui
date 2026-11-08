@@ -5,7 +5,7 @@ import type { StyleHandle } from "@kirana-style/core"
 import { computed, inject } from "vue"
 
 import { chart as styles } from "../../../../styles/chart.styles"
-import { CHART, POINTS, categoryOf, pointConfig, valueOf } from "./chart"
+import { CHART, POINTS, categoryOf, pointConfig, pointValue } from "./chart"
 
 defineOptions({ inheritAttrs: false })
 
@@ -75,7 +75,7 @@ const rows = computed(() =>
         : item?.color || item?.theme
           ? `var(--color-${name})`
           : point.color)
-    const value = valueOf(point)
+    const value = pointValue(point)
     return {
       key: point.key,
       point,

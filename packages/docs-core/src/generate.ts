@@ -771,11 +771,12 @@ export function plainInstall(markdown: string): string {
         dev: value("dev"),
         run: value("run"),
         exec: value("exec"),
+        create: value("create"),
       }
       // An install is npm's command; a command to run differs by package manager, so the twin
       // writes each one.
       const lines =
-        request.run || request.exec
+        request.run || request.exec || request.create
           ? PACKAGE_MANAGERS.flatMap((manager) => [
               `# ${manager}`,
               ...installLines(manager, request),
