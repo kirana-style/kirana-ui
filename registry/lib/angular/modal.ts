@@ -5,7 +5,8 @@
  * (`data-starting-style`, `data-ending-style`, held until their animations end); focus moves to the
  * content's first tabbable element (a drawer's to the content itself) and Tab stays inside it; the page behind does not scroll (`overflow:
  * hidden` on the body, as Base UI locks it); Escape
- * closes it, and a press on the backdrop too unless `dismissible` is false (an alert dialog); focus
+ * closes it, and a press on the backdrop or beside the content in a viewport too unless `dismissible`
+ * is false (an alert dialog); focus
  * returns to the trigger. The content is labelled by its title and described by its description
  * (`ModalLabels`).
  */
@@ -149,6 +150,21 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
     if (options.dismissible !== false) popup.setOpen(false, "outside")
   }
   overlay.addEventListener("click", press)
+  // A viewport (a drawer's) covers the backdrop, so a press beside the content lands on it: one
+  // that both starts and ends there closes, as on the backdrop. A swipe that began on the content
+  // and ended beside it (its click lands on the viewport) does not.
+  let downOnViewport = false
+  const viewportDown = (event: PointerEvent) => {
+    downOnViewport = event.target === holder
+  }
+  const viewportClick = (event: MouseEvent) => {
+    if (event.target === holder && downOnViewport) press()
+    downOnViewport = false
+  }
+  if (holder !== portal) {
+    holder.addEventListener("pointerdown", viewportDown)
+    holder.addEventListener("click", viewportClick)
+  }
 
   const show = () => {
     run++
@@ -220,6 +236,8 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
   inject(DestroyRef).onDestroy(() => {
     document.removeEventListener("keydown", keydown, true)
     overlay.removeEventListener("click", press)
+    holder.removeEventListener("pointerdown", viewportDown)
+    holder.removeEventListener("click", viewportClick)
     if (portal.isConnected) document.body.style.overflow = overflow
     portal.remove()
   })
