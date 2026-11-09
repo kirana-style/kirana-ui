@@ -1,7 +1,8 @@
 /**
  * `<!-- ::install packages="@kirana-style/core" dev="@kirana-style/vite" -->`: the install
- * command for npm, pnpm, Yarn, Bun and Deno, as tabs. The chosen package manager is
- * remembered, and every install block on the site follows it.
+ * command for npm, pnpm, Yarn, Bun, Vite+ and Deno, as pills rounded as the code (their logos
+ * alone on a phone). The
+ * chosen package manager is remembered, and every install block on the site follows it.
  *
  * `run="kirana-style@latest init"` shows how each one runs a package it has not installed, and
  * `exec="kirana-style check"` how it runs one the project has, and `create="vite-plus …"` how it
@@ -21,7 +22,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
-import { alpha, fontFamily, spacing, theme } from "../tokens.ts"
+import { tab, when } from "@workspace/registry/core/states"
+import { alpha, breakpoint, fontFamily, spacing, theme } from "../tokens.ts"
 
 import { BrandIcon, PACKAGE_MANAGER_ICONS } from "../brand-icon.tsx"
 import { CopyButton } from "./code-block.tsx"
@@ -29,33 +31,80 @@ import { CopyButton } from "./code-block.tsx"
 const KEY = "docs-ui:package-manager"
 const EVENT = "docs-ui:package-manager"
 
+/**
+ * The card's corner, and inside its 3px the code panel's and the pills' track's, and inside the
+ * track's 3px the pills': each nested corner the one around it less the space between.
+ */
+const CARD_RADIUS = "1.125rem"
+const PANEL_RADIUS = `calc(${CARD_RADIUS} - 3px)`
+
 const styles = {
   root: css({
     marginBlockEnd: spacing[5],
-    borderRadius: "1.125rem",
+    borderRadius: CARD_RADIUS,
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
     backgroundColor: alpha.muted50,
     padding: "3px",
   }),
+  // The pills' track sits on the card's 3px inset, as the code panel does, with the same 3px
+  // between them: their edges line up.
   bar: css({
     display: "flex",
     alignItems: "center",
     gap: spacing[2],
-    paddingInline: spacing[2],
-    paddingBlock: spacing[1],
+    marginBlockEnd: "3px",
   }),
-  // Five tabs outgrow a phone: they scroll, and the copy button stays put.
+  // Six managers outgrow a phone: below `sm` each pill is its logo alone (named for assistive
+  // technology and on hover), and if even that does not fit, the row scrolls; the copy button
+  // stays put.
   tabs: css({
     minWidth: 0,
     overflowX: "auto",
     scrollbarWidth: "none",
   }),
-  copy: css({ marginInlineStart: "auto", flexShrink: 0 }),
+  // The choice as pills, as the home page's framework switch: a track on the page's ground with a
+  // hairline, the chosen manager a muted pill in it. Rounded as the code beneath (the panel's
+  // radius, and inside its 3px the pills'), where the home page's switch is round.
+  pills: css({
+    borderRadius: { "*": null, base: PANEL_RADIUS },
+    backgroundColor: { "*": null, base: theme.background },
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.border,
+    height: { "*": null, base: "auto" },
+    padding: { "*": null, base: "3px" },
+    gap: { "*": null, base: "2px" },
+  }),
+  pill: css({
+    flex: { "*": null, base: "none" },
+    borderRadius: { "*": null, base: `calc(${PANEL_RADIUS} - 3px)` },
+    paddingInline: {
+      "*": null,
+      base: spacing["2"],
+      [breakpoint.sm]: spacing["2.5"],
+    },
+    paddingBlock: { "*": null, base: spacing["1"] },
+    fontSize: { "*": null, base: "0.8125rem" },
+    boxShadow: { "*": null, base: "none" },
+    borderColor: { "*": null, base: "transparent" },
+    backgroundColor: {
+      "*": null,
+      base: "transparent",
+      ":hover": `color-mix(in oklab, ${theme.muted} 60%, transparent)`,
+      ...when(tab.active, theme.muted),
+    },
+  }),
+  label: css({ display: { base: "none", [breakpoint.sm]: "inline" } }),
+  copy: css({
+    marginInlineStart: "auto",
+    marginInlineEnd: spacing[2],
+    flexShrink: 0,
+  }),
   panel: css({
     overflowX: "auto",
-    borderRadius: "0.875rem",
+    borderRadius: PANEL_RADIUS,
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: theme.border,
@@ -121,11 +170,17 @@ export function InstallTabs({
           onValueChange={(value) => choose(value as Manager)}
           sx={styles.tabs}
         >
-          <TabsList variant="line">
+          <TabsList aria-label="Package manager" sx={styles.pills}>
             {PACKAGE_MANAGERS.map((name) => (
-              <TabsTrigger key={name} value={name}>
+              <TabsTrigger
+                key={name}
+                value={name}
+                aria-label={name}
+                title={PACKAGE_MANAGER_ICONS[name].title}
+                sx={styles.pill}
+              >
                 <BrandIcon icon={PACKAGE_MANAGER_ICONS[name]} size="0.875rem" />
-                {name}
+                <span sx={styles.label}>{name}</span>
               </TabsTrigger>
             ))}
           </TabsList>

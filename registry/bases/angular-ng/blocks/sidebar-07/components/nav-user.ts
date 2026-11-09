@@ -8,7 +8,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
-import { theme } from "../../../../../core/tokens"
+import { radius, theme } from "../../../../../core/tokens"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -28,6 +28,9 @@ import {
 } from "../../../ui/dropdown-menu"
 
 const styles = {
+  // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
+
+  avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),
   trigger: css({ backgroundColor: { '[aria-expanded="true"]': theme.muted } }),
   // The name over the address, each cut short to the room there is.
   text: css({
@@ -107,7 +110,7 @@ const styles = {
             size="lg"
             [sx]="styles.trigger"
           >
-            <span kuiAvatar>
+            <span kuiAvatar [sx]="styles.avatarSquare">
               <img
                 kuiAvatarImage
                 [attr.src]="user().avatar"
@@ -139,7 +142,7 @@ const styles = {
             <div kuiDropdownMenuGroup>
               <div kuiDropdownMenuLabel [sx]="styles.label">
                 <div [sx]="styles.account">
-                  <span kuiAvatar>
+                  <span kuiAvatar [sx]="styles.avatarSquare">
                     <img
                       kuiAvatarImage
                       [attr.src]="user().avatar"

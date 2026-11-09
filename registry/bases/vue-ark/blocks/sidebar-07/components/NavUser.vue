@@ -7,7 +7,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
-import { theme } from "../../../../../core/tokens"
+import { radius, theme } from "../../../../../core/tokens"
 import IconPlaceholder from "../../../../../icons/IconPlaceholder.vue"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
 import {
@@ -27,6 +27,9 @@ import {
 } from "../../../ui/sidebar"
 
 const styles = {
+  // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
+
+  avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),
   trigger: css({ backgroundColor: { '[aria-expanded="true"]': theme.muted } }),
   // The name over the address, each cut short to the room there is.
   text: css({
@@ -92,7 +95,7 @@ const { isMobile } = useSidebar()
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <SidebarMenuButton size="lg" :sx="styles.trigger">
-            <Avatar>
+            <Avatar :sx="styles.avatarSquare">
               <AvatarImage :src="user.avatar" :alt="user.name" />
               <AvatarFallback> CN </AvatarFallback>
             </Avatar>
@@ -123,7 +126,7 @@ const { isMobile } = useSidebar()
           <DropdownMenuGroup>
             <DropdownMenuLabel :sx="styles.label">
               <div :sx="styles.account">
-                <Avatar>
+                <Avatar :sx="styles.avatarSquare">
                   <AvatarImage :src="user.avatar" :alt="user.name" />
                   <AvatarFallback> CN </AvatarFallback>
                 </Avatar>

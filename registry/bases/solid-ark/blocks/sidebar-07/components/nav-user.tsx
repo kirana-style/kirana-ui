@@ -7,7 +7,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
-import { theme } from "../../../../../core/tokens"
+import { radius, theme } from "../../../../../core/tokens"
 import { IconPlaceholder } from "../../../ui/icon-placeholder"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
 import {
@@ -39,6 +39,8 @@ export function NavUser(props: {
 }) {
   const [local, rest] = splitProps(props, ["user", "class", "sx"])
   const styles = {
+    // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
+    avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),
     trigger: css({
       backgroundColor: { '[aria-expanded="true"]': theme.muted },
     }),
@@ -103,7 +105,7 @@ export function NavUser(props: {
                 size="lg"
                 sx={styles.trigger}
               >
-                <Avatar>
+                <Avatar sx={styles.avatarSquare}>
                   <AvatarImage src={local.user.avatar} alt={local.user.name} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
@@ -131,7 +133,7 @@ export function NavUser(props: {
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.label}>
                 <div sx={styles.account}>
-                  <Avatar>
+                  <Avatar sx={styles.avatarSquare}>
                     <AvatarImage
                       src={local.user.avatar}
                       alt={local.user.name}

@@ -191,3 +191,7 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   Vite+ (`vp`, with Vite's mark): the install tabs offered `vp` with no logo, and every page with
   an install block threw when it hydrated ("Cannot read properties of undefined (reading
   'route')").
+- `markdown/install-tabs.tsx`: the package managers are pills, as the home page's framework switch
+  (a track with a hairline, the chosen one a muted pill), rounded as the code panel beneath them
+  rather than round, where Kirana's are line tabs;
+  below `sm` each pill is its logo alone, named by `aria-label` and `title`.

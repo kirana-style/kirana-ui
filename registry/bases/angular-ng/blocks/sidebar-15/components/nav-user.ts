@@ -28,6 +28,9 @@ import {
 } from "../../../ui/dropdown-menu"
 
 const styles = {
+  // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
+
+  avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),
   sidebarMenuButton: css({
     backgroundColor: { '[aria-expanded="true"]': theme.muted },
   }),
@@ -126,7 +129,7 @@ const styles = {
             size="lg"
             [sx]="styles.sidebarMenuButton"
           >
-            <span kuiAvatar>
+            <span kuiAvatar [sx]="styles.avatarSquare">
               <img
                 kuiAvatarImage
                 [attr.src]="user().avatar"
@@ -158,7 +161,7 @@ const styles = {
             <div kuiDropdownMenuGroup>
               <div kuiDropdownMenuLabel [sx]="styles.dropdownMenuLabel">
                 <div [sx]="styles.div2">
-                  <span kuiAvatar>
+                  <span kuiAvatar [sx]="styles.avatarSquare">
                     <img
                       kuiAvatarImage
                       [attr.src]="user().avatar"
