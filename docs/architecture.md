@@ -510,13 +510,17 @@ runners), each app skeleton as data (its files, manifest and Vite config, built
 from Kirana's example of the same name), the tooling and workspace layers, and a
 composer that merges them into one project's files; `vp run templates`
 (`scripts/templates.ts`) packs every combination the rules allow into
-`templates/<id>.tgz` beside the registry, a Turborepo once per package manager
-(turbo wants `packageManager`), with `templates/index.json`. Get Code writes
-`giget` for the tarball, the install, and `kirana-style ui init` in the app; one
-command for all of it is `init --template` reading a registry's templates, on
-Kirana's list. Adding a template, a tool or a workspace kind is an entry in the
-catalog and its layer: the dialog, the build and the install check read the
-catalog. Installed so, each combination
+`r/templates/<id>.tgz` beside the registry's index, listed in
+`r/templates/index.json` in Kirana's registry-templates schema, which
+`kirana-style ui init --template @kirana/<id>` reads: it unpacks the archive,
+installs it with the package manager running it (a Turborepo's root asks for it
+as `{packageManager}`, since turbo needs the field) and goes on in the app the
+root's `kirana-template.project` names. Get Code writes that one command. In a
+workspace the components live in `packages/ui` (`init --workspace`), the app
+imports them as `@workspace/ui/*`, and the tooling's configuration sits at the
+root over every package. Adding a template, a tool or a workspace kind is an
+entry in the catalog and its layer: the dialog, the build and the install check
+read the catalog. Installed so, each combination
 renders the site's preview pages, value for value. A style module imports only
 what every framework installs: a control's width inside a Field is in
 `control.ts`, not in Field's own module, since Vue has no Field yet.

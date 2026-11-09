@@ -1,7 +1,8 @@
 /**
  * A tar archive (ustar) from files in memory, as the site serves a skeleton: paths under one top
- * folder, which `giget` strips, every file mode 644 and dated at the epoch, so the same files give
- * the same bytes. Gzip is the caller's (`node:zlib` in the build script).
+ * folder, which `init --template` strips as `giget` would, every file mode 644 and dated at the
+ * epoch, so the same files give the same bytes. Gzip is the caller's (`node:zlib` in the build
+ * script).
  */
 const BLOCK = 512
 

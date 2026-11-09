@@ -62,32 +62,42 @@ export default defineConfig({
       registry: {
         command: "bun packages/builder/src/cli.ts",
         dependsOn: ["build"],
-        cache: { input: SOURCES, output: ["apps/site/dist/client/r/**"] },
-      },
-      // The project skeletons Get Code offers (`packages/create`, `scripts/templates.ts`): every
-      // combination composed and packed into the site's static files, beside the registry.
-      templates: {
-        command: "bun scripts/templates.ts",
-        dependsOn: ["build"],
         cache: {
           input: SOURCES,
-          output: ["apps/site/dist/client/templates/**"],
+          output: [
+            "apps/site/dist/client/r/**",
+            "!apps/site/dist/client/r/templates/**",
+          ],
+        },
+      },
+      // The project skeletons Get Code offers (`packages/create`, `scripts/templates.ts`): every
+      // combination composed and packed into the site's static files, in `r/templates` beside
+      // the registry's index, where `kirana-style ui init --template @kirana/<id>` reads them.
+      templates: {
+        command: "bun scripts/templates.ts",
+        dependsOn: ["build", "registry"],
+        cache: {
+          input: SOURCES,
+          output: ["apps/site/dist/client/r/templates/**"],
         },
       },
       // The built site against `budgets.json` (`scripts/budgets.ts`): each page's JavaScript and
       // stylesheet, the registry's files and the Worker's static file limits, gzip as Kirana
       // measures.
+      // After `templates` too: a replay of `registry` restores `r/**`, which takes the templates
+      // out of it until theirs is restored in turn.
       budgets: {
         command: "bun scripts/budgets.ts",
-        dependsOn: ["build", "registry"],
+        dependsOn: ["build", "registry", "templates"],
         cache: false,
       },
-      // The registry installed as a project installs it: a project from Kirana's example per
-      // framework, `kirana-style ui init --preset` and `add`, built, its lockfile validated
-      // (`scripts/install-smoke.ts`). Reads Kirana's release from GitHub, so it is not in prepush.
+      // The registry installed as a reader installs it: Get Code's command per framework,
+      // `kirana-style ui init --template` from the skeletons the site serves, then `add`, the
+      // skeleton's own scripts and the lockfile validated (`scripts/install-smoke.ts`). Installs
+      // from npm, so it is not in prepush.
       install: {
         command: "bun scripts/install-smoke.ts",
-        dependsOn: ["registry"],
+        dependsOn: ["registry", "templates"],
         cache: false,
       },
       // The provenance manifest against shadcn/ui (`packages/builder/src/upstream-cli.ts`):

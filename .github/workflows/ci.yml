@@ -95,11 +95,13 @@ jobs:
         run: vp run budgets
 
       # The registry installed with Kirana's own installer, as Get Code has a reader do it: a
-      # skeleton per framework, its packages installed, `kirana-style ui init --preset` and `add`,
-      # built, linted, type-checked, the lockfile validated, for React on both bases, Vue, Svelte,
-      # Solid and Angular.
+      # skeleton per framework started with Get Code's own command (`kirana-style ui init
+      # --template` from the templates built above), `add`, built, linted, type-checked, the
+      # lockfile validated, for React on both bases, Vue, Svelte, Solid and Angular.
+      # Through the task, so the registry and the templates are restored first: a step's `vp run`
+      # replays the registry's cached output, `r/**`, over what the Templates step wrote.
       - name: Installs with kirana-style ui
-        run: bun scripts/install-smoke.ts
+        run: vp run install
 
       # The apps ship `light-dark()` as written. A CSS minifier aiming below Kirana's browser floor
       # rewrites it into `--lightningcss-light/dark` switches that nothing sets, and the colours

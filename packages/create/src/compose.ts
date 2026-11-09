@@ -1,12 +1,13 @@
 /**
- * A project's files from its choices: the app skeleton, the tooling's layer over it, and the
- * workspace around it. The result is what the site serves as `templates/<id>.tgz` and what the
- * install check writes to disk; `kirana-style ui init` then installs the design system into it,
- * and `ui add` the components. Pure: the same choices and versions give the same files.
+ * A project's files from its choices: the app skeleton, the tooling's layer over it (at the app's
+ * root alone, at the workspace's root otherwise), and the workspace around it. The result is what
+ * the site serves as `templates/<id>.tgz`, which `kirana-style ui init --template` unpacks and
+ * installs before it installs the design system; `ui add` then adds the components. Pure: the
+ * same choices and versions give the same files.
  */
 import type { AppSkeleton, Dependency, ViteConfig } from "./app.ts"
 import { APPS } from "./apps/index.ts"
-import { PROJECT } from "./catalog.ts"
+import { PROJECT, WORKSPACE } from "./catalog.ts"
 import type { Monorepo, Tooling } from "./catalog.ts"
 import { skeletonId } from "./choices.ts"
 import type { ProjectChoices } from "./choices.ts"
@@ -15,11 +16,11 @@ import {
   kiranaPackages,
   renderJson,
   renderManifest,
+  withKiranaRelease,
 } from "./manifest.ts"
 import type { Manifest } from "./manifest.ts"
 import { gitignore, workspaceLayer } from "./monorepo.ts"
 import { ignored, toolingLayer, vitePlusOptions } from "./tooling.ts"
-import type { PackageManagerName } from "./versions.ts"
 
 export type Versions = {
   /** Kirana's release: `@kirana-style/*`, `kirana-style` and the lint plugins. */
@@ -30,20 +31,18 @@ export type Versions = {
 
 export type Skeleton = Pick<ProjectChoices, "template" | "monorepo" | "tooling">
 
-/** What a skeleton's files depend on besides its choices. */
-export type ComposeOptions = {
-  /** The package manager a Turborepo names in `packageManager` (turbo refuses to run without one); Bun unless the command's runner says. */
-  packageManager?: PackageManagerName
-}
-
-/** `vite.config.ts`: Vite's or Vite+'s `defineConfig`, the plugins, and under Vite+ alone the format and lint settings. */
+/**
+ * `vite.config.ts`: the plugins, and for a single Vite+ app the format and lint settings with
+ * Vite+'s `defineConfig`; every other app, a Vite+ monorepo's included, uses Vite's, which a type
+ * checker reading the config (svelte-check) can load.
+ */
 export function renderVite(
   config: ViteConfig,
   app: AppSkeleton,
   tooling: Tooling,
   monorepo: Monorepo
 ): string {
-  const vitePlus = tooling === "vite-plus"
+  const vitePlus = tooling === "vite-plus" && monorepo === "none"
   const imports = [
     'import kirana from "@kirana-style/vite"',
     ...config.imports,
@@ -74,7 +73,7 @@ export function renderVite(
       : ["resolve: { tsconfigPaths: true }"]),
     `plugins: [${config.plugins.join(", ")}]`,
     // A single Vite+ app checks itself here; in a Vite+ monorepo the root config does.
-    ...(vitePlus && monorepo === "none" ? vitePlusOptions(ignored(app)) : []),
+    ...(vitePlus ? vitePlusOptions(ignored(app)) : []),
   ]
   return `${lines.join("\n")}
 
@@ -82,6 +81,18 @@ ${config.note ? `// ${config.note}\n` : ""}export default defineConfig({
   ${options.join(",\n  ")},
 })
 `
+}
+
+/**
+ * A skeleton file's imports of what `init` installs, written for a single app (`@/components/ui/…`,
+ * `@/lib/…`), as the workspace's package exports them (`@workspace/ui/components/…`): the aliases
+ * `init --workspace` sets, `ui`, `lib` and `hook`.
+ */
+function workspaceAliases(content: string): string {
+  return content
+    .replaceAll('"@/components/ui/', `"${WORKSPACE.ui}/components/`)
+    .replaceAll('"@/lib/', `"${WORKSPACE.ui}/lib/`)
+    .replaceAll('"@/hooks/', `"${WORKSPACE.ui}/hooks/`)
 }
 
 /** The app's scripts under Vite+: `vp` in place of `vite`. */
@@ -103,38 +114,41 @@ function appFiles(
   prefix: string
 ): Map<string, string> {
   const app = APPS[skeleton.template]
-  const tooling = toolingLayer(skeleton.tooling, app)
+  const alone = skeleton.monorepo === "none"
+  // A single app carries its tooling; a workspace's root does (`workspaceLayer`).
+  const tooling = alone
+    ? toolingLayer(skeleton.tooling, app)
+    : { files: {}, scripts: {}, devDependencies: [] }
   const vitePlus = skeleton.tooling === "vite-plus"
   const files = new Map<string, string>()
   for (const [path, content] of Object.entries(app.files))
-    files.set(prefix + path, content)
+    files.set(prefix + path, alone ? content : workspaceAliases(content))
   for (const [path, content] of Object.entries(tooling.files))
     files.set(prefix + path, content)
-  // The alias every installed file imports by, and Vite told to read it.
-  const source = app.source === "." ? "./*" : `./${app.source}/*`
+  // The alias every installed file imports by, and Vite told to read it; a framework that maps it
+  // itself keeps its generated tsconfig's paths.
   files.set(
     `${prefix}tsconfig.json`,
-    renderJson({
-      ...app.tsconfig,
-      compilerOptions: {
-        ...app.tsconfig.compilerOptions,
-        paths: { "@/*": [source] },
-      },
-    })
+    renderJson(
+      app.source === null
+        ? app.tsconfig
+        : {
+            ...app.tsconfig,
+            compilerOptions: {
+              ...app.tsconfig.compilerOptions,
+              paths: {
+                "@/*": [app.source === "." ? "./*" : `./${app.source}/*`],
+              },
+            },
+          }
+    )
   )
   if (app.vite)
     files.set(
       `${prefix}vite.config.ts`,
       renderVite(app.vite, app, skeleton.tooling, skeleton.monorepo)
     )
-  if (skeleton.monorepo === "none")
-    files.set(`${prefix}.gitignore`, gitignore(app))
-  const kiranaRelease = (list: Dependency[]) =>
-    list.map((entry) =>
-      typeof entry !== "string" && entry.version === "kirana"
-        ? { ...entry, version: versions.kirana }
-        : entry
-    )
+  if (alone) files.set(`${prefix}.gitignore`, gitignore(app))
   const dependencies: Dependency[] = [
     ...app.dependencies,
     ...kiranaPackages(
@@ -162,14 +176,15 @@ function appFiles(
       ],
       versions.kirana
     ),
-    ...kiranaRelease(tooling.devDependencies),
+    ...withKiranaRelease(tooling.devDependencies, versions.kirana),
   ]
+  const scripts = { ...app.scripts, typecheck: app.typecheck }
   const manifest: Manifest = {
-    name: skeleton.monorepo === "none" ? PROJECT.directory : PROJECT.app,
+    name: alone ? PROJECT.directory : PROJECT.app,
     private: true,
     type: "module",
     scripts: {
-      ...(vitePlus ? vitePlusScripts(app.scripts) : app.scripts),
+      ...(vitePlus ? vitePlusScripts(scripts) : scripts),
       ...tooling.scripts,
     },
     dependencies: dependencyMap(dependencies),
@@ -182,17 +197,14 @@ function appFiles(
 /** Every file of the project, by path, sorted. */
 export function composeProject(
   skeleton: Skeleton,
-  versions: Versions,
-  options: ComposeOptions = {}
+  versions: Versions
 ): Map<string, string> {
   const app = APPS[skeleton.template]
   const prefix = skeleton.monorepo === "none" ? "" : `apps/${PROJECT.app}/`
   const files = new Map<string, string>([
     ...appFiles(skeleton, versions, prefix),
     ...Object.entries(
-      workspaceLayer(skeleton.monorepo, skeleton.tooling, app, versions, {
-        packageManager: options.packageManager ?? "bun",
-      })
+      workspaceLayer(skeleton.monorepo, skeleton.tooling, app, versions)
     ),
   ])
   return new Map([...files].sort(([a], [b]) => a.localeCompare(b)))

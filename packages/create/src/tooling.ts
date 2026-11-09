@@ -1,6 +1,8 @@
 /**
- * The tooling layers: what each adds to an app (or a workspace root) to lint, format and type-check
- * it, Kirana's rules included. ESLint and Oxlint run `@kirana-style/eslint-plugin` (the compiler's
+ * The tooling layers: what each adds to a project to lint and format it, Kirana's rules included,
+ * at the root of a single app or of a workspace (where one configuration reads `apps/*` and
+ * `packages/*` alike, so every pattern is `**\/`-prefixed); the type check is each package's own
+ * script. ESLint and Oxlint run `@kirana-style/eslint-plugin` (the compiler's
  * diagnostics in the editor, `sx` last, no `className` beside `sx` …), Biome the GritQL rules of
  * `@kirana-style/biome-plugin`; Vite+ runs Oxlint and Oxfmt itself (`vp check`), with the ESLint
  * plugin's rules through `lint.jsPlugins` in `vite.config.ts`.
@@ -52,14 +54,23 @@ const ESLINT_REACT_RULES = `rules: {
       "react-refresh/only-export-components": "off",
     },`
 
-/** What no linter or formatter should read: builds, caches, generated files. */
+/**
+ * What no linter or formatter should read: builds, caches, generated files, each a folder or file
+ * name that matches at any depth (`dist`, `src/routeTree.gen.ts`).
+ */
 export function ignored(app: AppSkeleton): string[] {
   return [
     "node_modules",
     "dist",
+    // turbo's cache in a workspace: JSON a formatter would otherwise reflow.
+    ".turbo",
     ...(app.ignore ?? []).map((entry) => entry.replace(/\/$/, "")),
   ]
 }
+
+/** The names as globs matching at any depth, for a tool that takes globs. */
+const anywhere = (names: readonly string[], suffix = "") =>
+  names.map((entry) => `**/${entry}${suffix}`)
 
 const PRETTIER = {
   endOfLine: "lf",
@@ -74,7 +85,7 @@ const PRETTIER = {
 function eslintConfig(framework: Framework, app: AppSkeleton): string {
   // eslint-disable-next-line typescript/switch-exhaustiveness-check -- every framework returns.
   const ignores = JSON.stringify(
-    ignored(app).filter((e) => e !== "node_modules")
+    anywhere(ignored(app).filter((e) => e !== "node_modules"))
   )
   const head = [
     'import js from "@eslint/js"',
@@ -238,8 +249,8 @@ function oxlintPlugins(framework: Framework): string[] {
 }
 
 /**
- * The tooling's layer for an app: its files at the app's root, the scripts it adds beside the
- * app's `dev` and `build`, and its packages.
+ * The tooling's layer for a project holding `app`: its files at the project's root, the scripts it
+ * adds beside `dev`, `build` and `typecheck`, and its packages.
  */
 export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
   const ignores = ignored(app)
@@ -253,13 +264,15 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
               ? { ...PRETTIER, plugins: ["prettier-plugin-svelte"] }
               : PRETTIER
           ),
-          ".prettierignore": `${ignores.join("\n")}\n`,
+          // Gitignore syntax: a name matches at any depth, a path is anchored unless prefixed.
+          ".prettierignore": `${ignores
+            .map((entry) => (entry.includes("/") ? `**/${entry}` : entry))
+            .join("\n")}\n`,
         },
         scripts: {
           lint: "eslint .",
           format: "prettier --write .",
           "format:check": "prettier --check .",
-          typecheck: app.typecheck,
         },
         devDependencies: [
           ...eslintPackages(app.framework),
@@ -277,20 +290,19 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
             ],
             categories: { correctness: "error" },
             env: { builtin: true, browser: true },
-            ignorePatterns: ignores.map((entry) => `${entry}/**`),
+            ignorePatterns: anywhere(ignores, "/**"),
             rules: KIRANA_RULES,
           }),
           ".oxfmtrc.json": renderJson({
             $schema: "./node_modules/oxfmt/configuration_schema.json",
             ...PRETTIER,
-            ignorePatterns: ignores.map((entry) => `${entry}/**`),
+            ignorePatterns: anywhere(ignores, "/**"),
           }),
         },
         scripts: {
           lint: "oxlint",
           format: "oxfmt",
           "format:check": "oxfmt --check",
-          typecheck: app.typecheck,
         },
         devDependencies: [
           "oxlint",
@@ -301,9 +313,9 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
     case "biome":
       return {
         files: {
-          // The plugin's rule files named one by one, not its `recommended` preset: the preset
-          // pins Biome 2.5's schema, which 2.6 refuses as a configuration error (KF-110), and this
-          // repository leaves `no-dark-variant` out. Biome's recommended lint rules are its default.
+          // The plugin's rule files named one by one, not its `recommended` preset, which carries
+          // `no-dark-variant` too: this repository leaves that rule out, and a Biome plugin cannot
+          // be turned off once a preset lists it. Biome's recommended lint rules are its default.
           "biome.json": renderJson({
             $schema: BIOME_SCHEMA,
             plugins: ["sx-last", "no-conflicting-props"].map(
@@ -315,11 +327,33 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
             files: {
               includes: [
                 "**",
-                ...ignores.map((entry) => `!${entry}`),
+                ...anywhere(ignores).map((entry) => `!${entry}`),
                 ...(app.framework === "vue" || app.framework === "svelte"
                   ? [`!**/*.${app.framework}`]
                   : []),
               ],
+            },
+            // Biome's recommended rules, less what the registry's ports keep as upstream has it:
+            // a breadcrumb's span with role="link", a field's role on a div, an index key for its
+            // error list, a label part without a control, a block's `href="#"`, the sidebar's
+            // cookie, `import * as React` read for types alone, a non-null assertion at a
+            // library's boundary, the reset's `!important`, and the quoted keys of the generated
+            // colour modules.
+            linter: {
+              rules: {
+                a11y: {
+                  useFocusableInteractive: "off",
+                  useSemanticElements: "off",
+                  noLabelWithoutControl: "off",
+                  useValidAnchor: "off",
+                },
+                suspicious: { noArrayIndexKey: "off", noDocumentCookie: "off" },
+                style: { useImportType: "off", noNonNullAssertion: "off" },
+                complexity: {
+                  noImportantStyles: "off",
+                  useLiteralKeys: "off",
+                },
+              },
             },
             formatter: { indentStyle: "space" },
             javascript: {
@@ -336,7 +370,6 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
           lint: "biome lint .",
           format: "biome format --write .",
           check: "biome check .",
-          typecheck: app.typecheck,
         },
         devDependencies: [
           { name: "@biomejs/biome", version: BIOME_VERSION },
@@ -351,7 +384,6 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
           check: "vp check",
           lint: "vp lint",
           format: "vp fmt",
-          typecheck: app.typecheck,
         },
         devDependencies: [
           "vite-plus",
@@ -363,7 +395,7 @@ export function toolingLayer(tooling: Tooling, app: AppSkeleton): Layer {
 
 /** Vite+'s `fmt` and `lint` options, as `defineConfig` from `vite-plus` takes them. */
 export function vitePlusOptions(ignores: readonly string[]): string[] {
-  const patterns = JSON.stringify(ignores.map((entry) => `**/${entry}/**`))
+  const patterns = JSON.stringify(anywhere(ignores, "/**"))
   return [
     `fmt: ${JSON.stringify({ ...PRETTIER })
       .replace(/"(\w+)":/g, "$1: ")

@@ -40,6 +40,7 @@ import type {
   Tooling,
 } from "@workspace/create/catalog.ts"
 import {
+  checkerReadsViteConfig,
   monoreposFor,
   resolveChoices,
   toolingsFor,
@@ -81,10 +82,15 @@ import { BaseLogo } from "@workspace/docs-ui/base-logos.tsx"
 import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import type { SvglIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"
+import astroDark from "@workspace/docs-ui/brands/astro-icon-dark.svg?url"
+import astroLight from "@workspace/docs-ui/brands/astro-icon-light.svg?url"
 import biomeLogo from "@workspace/docs-ui/brands/biomejs.svg?url"
 import eslintLogo from "@workspace/docs-ui/brands/eslint-icon-dark.svg?url"
+import laravelLogo from "@workspace/docs-ui/brands/laravel.svg?url"
 import nextLogo from "@workspace/docs-ui/brands/nextjs_icon_dark.svg?url"
+import nuxtLogo from "@workspace/docs-ui/brands/nuxt.svg?url"
 import oxcLogo from "@workspace/docs-ui/brands/oxc.svg?url"
+import reactRouterLogo from "@workspace/docs-ui/brands/reactrouter.svg?url"
 import reactDark from "@workspace/docs-ui/brands/react_dark.svg?url"
 import reactLight from "@workspace/docs-ui/brands/react_light.svg?url"
 import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
@@ -132,6 +138,26 @@ const NEXT: SvglIcon = {
   url: "https://nextjs.org",
   route: nextLogo,
 }
+const REACT_ROUTER: SvglIcon = {
+  title: "React Router",
+  url: "https://reactrouter.com",
+  route: reactRouterLogo,
+}
+const ASTRO: SvglIcon = {
+  title: "Astro",
+  url: "https://astro.build",
+  route: { light: astroLight, dark: astroDark },
+}
+const LARAVEL: SvglIcon = {
+  title: "Laravel",
+  url: "https://laravel.com",
+  route: laravelLogo,
+}
+const NUXT: SvglIcon = {
+  title: "Nuxt",
+  url: "https://nuxt.com",
+  route: nuxtLogo,
+}
 const ESLINT: SvglIcon = {
   title: "ESLint",
   url: "https://eslint.org",
@@ -152,15 +178,24 @@ const FRAMEWORK_ICONS: Record<Framework, SvglIcon> = {
   angular: ANGULAR,
 }
 
-/** Each template's logo: its meta-framework's, or Vite's. Analog and the CLI are Angular's. */
+/**
+ * Each template's logo: its meta-framework's, or Vite's. SvelteKit's is Svelte's, SolidStart's
+ * Solid's, Analog's and the CLI's Angular's.
+ */
 const TEMPLATE_ICONS: Record<Template, SvglIcon> = {
   "vite-react": VITE,
   "tanstack-start": TANSTACK,
+  "react-router": REACT_ROUTER,
   "next-turbopack": NEXT,
+  "astro-react": ASTRO,
+  "laravel-inertia": LARAVEL,
   "vite-vue": VITE,
+  nuxt: NUXT,
   "vite-svelte": VITE,
+  sveltekit: SVELTE,
   "vite-solid": VITE,
   "solid-start": SOLID,
+  "tanstack-start-solid": TANSTACK,
   "analog-angular": ANGULAR,
   "angular-cli": ANGULAR,
 }
@@ -201,6 +236,8 @@ const REASONS = {
   vitePlusBuild: "Vite+ builds with Vite: not this template.",
   vitePlusChecks: "A Vite+ monorepo is checked by Vite+.",
   turbo: "A Turborepo runs ESLint, Oxlint or Biome.",
+  checker:
+    "This template's type checker reads the Vite config and cannot load Vite+'s: choose the Vite+ monorepo.",
 }
 
 const styles = {
@@ -462,7 +499,7 @@ function Command({
   steps,
   runners = RUNNERS,
 }: {
-  /** The steps, for the runner: a Turborepo's skeleton carries the runner's package manager. */
+  /** The steps, for the runner. */
   steps: (runner: Runner) => readonly Step[]
   runners?: readonly Runner[]
 }) {
@@ -646,7 +683,9 @@ export function GetCodeDialog({
                       ? REASONS.vitePlusChecks
                       : choices.monorepo === "turbo"
                         ? REASONS.turbo
-                        : REASONS.vitePlusBuild,
+                        : checkerReadsViteConfig(choices.template)
+                          ? REASONS.checker
+                          : REASONS.vitePlusBuild,
                 }))}
                 onChange={setTooling}
               />
@@ -654,7 +693,7 @@ export function GetCodeDialog({
                 Each comes with Kirana&apos;s rules: the compiler&apos;s
                 diagnostics as you type, sx last, no className beside sx.
                 {choices.monorepo !== "none"
-                  ? ` The app is apps/web; components install into it until kirana-style ui reads a workspace.`
+                  ? ` The app is apps/web; components install into packages/ui, which it imports as @workspace/ui.`
                   : ""}
               </p>
               <div sx={styles.rule} />
@@ -680,7 +719,7 @@ export function GetCodeDialog({
             </div>
             <div sx={styles.footer}>
               <Command
-                steps={(runner) => projectSteps(choices, system, runner)}
+                steps={() => projectSteps(choices, system)}
                 runners={runners}
               />
             </div>

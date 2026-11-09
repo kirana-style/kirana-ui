@@ -32,6 +32,18 @@ export function kiranaPackages(
   return names.map((name) => ({ name, version: release }))
 }
 
+/** The list with each `"kirana"` placeholder version (a tooling's Kirana plugin) at the release. */
+export function withKiranaRelease(
+  list: readonly Dependency[],
+  release: string
+): Dependency[] {
+  return list.map((entry) =>
+    typeof entry !== "string" && entry.version === "kirana"
+      ? { ...entry, version: release }
+      : entry
+  )
+}
+
 export function dependencyMap(
   dependencies: readonly Dependency[]
 ): Record<string, string> {

@@ -43,14 +43,17 @@ commands for your framework, template, base, monorepo and tooling), set it to th
 you chose (its preset code), then add components:
 
 ```bash
-npx giget@3.3.1 https://ui.kirana-style.workers.dev/templates/vite-react--none--eslint.tgz my-app
-cd my-app && npm install && npx kirana-style ui init --framework react --base base --preset k0 \
+npx @kirana-style/registry init --template @kirana/vite-react--none--eslint my-app \
+  --framework react --base base --preset k0 \
   --registry @kirana=https://ui.kirana-style.workers.dev/r/{name}.json
-npx kirana-style ui add button dialog sidebar-07
+cd my-app && npx kirana-style ui add button dialog sidebar-07
 ```
 
-On Vue, Svelte, Solid or Angular, start from `vite-vue`, `vite-svelte`, `vite-solid` or
-`analog-angular` with `--framework` and `--base` (`ark`, or `ng` for Angular).
+The template is one of the skeletons the site serves (`<template>--<monorepo>--<tooling>`:
+Vite, TanStack Start, React Router, Next.js, Astro or Laravel on React; Vite or Nuxt on Vue;
+Vite or SvelteKit on Svelte; Vite, SolidStart or TanStack Start on Solid; Analog or the
+Angular CLI; alone, in a Turborepo or in a Vite+ monorepo; with ESLint + Prettier, Oxlint +
+Oxfmt, Biome or Vite+), with `--framework` and `--base` (`ark`, or `ng` for Angular).
 `kirana-style ui preset <code>` changes the design later, and `update`, `diff` and
 `remove` keep the components in step with the registry. The `--registry` flag is needed
 only until `ui.kirana.style` is live. Installation, every command and shadcn/ui's own

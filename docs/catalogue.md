@@ -417,10 +417,13 @@ for the registry's charts, a page of each preview app's own: `apps/preview-react
 `apps/preview-vue/src/Charts.vue`) over them, on React and Vue alike; on any other item, the item's name sits there and opens Navigate (`create-navigate.tsx`,
 its own chunk, loaded when first opened): upstream's action menu on Command, the blocks then the
 components, each by its title (the docs page's), filtered as you type. Get Code has New Project (cards from `packages/create`'s catalog: the framework, its
-templates and bases, the monorepo (single app, Turborepo, Vite+) and the tooling (ESLint + Prettier,
+templates (Vite, TanStack Start, React Router, Next.js, Astro, Laravel; Vite, Nuxt; Vite, SvelteKit;
+Vite, SolidStart, TanStack Start; Analog, Angular CLI) and bases, the monorepo (single app, Turborepo,
+Vite+, the components in `packages/ui`) and the tooling (ESLint + Prettier,
 Oxlint + Oxfmt, Biome, Vite+), a card the others rule out dimmed with the reason; the pointer and
-right-to-left switches; the three commands for npm, pnpm, Yarn, Bun or `vp`, a Vite+ project locked
-to `vp`) and Existing Project (`kirana-style ui preset`). The bases' official marks are docs-ui's
+right-to-left switches; the one command, `kirana-style ui init --template @kirana/<id>` from the
+registry package, for npm, pnpm, Yarn, Bun or `vp`, a Vite+ project locked to `vp`) and Existing
+Project (`kirana-style ui preset`). The bases' official marks are docs-ui's
 `base-logos.tsx`, shared with the docs' frameworks row. A framed preview is created once the page
 has hydrated, so it loads once; it follows the colour mode through the theme provider's channel.
 `?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
