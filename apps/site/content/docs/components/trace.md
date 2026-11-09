@@ -631,7 +631,7 @@ The button that opens and closes the row. Put a `TraceLine` inside it. It adds a
 
 The detail of a row that expands.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/base,vue/ark,svelte/ark,solid/ark,angular/ng -->
 
 | Prop          | Type      | Default | Description                                                                 |
 | ------------- | --------- | ------- | --------------------------------------------------------------------------- |
@@ -652,6 +652,6 @@ Every part takes Kirana's `sx` in place of `className`: a style, or an array of 
 
 <!-- ::start:only angular/ng -->
 
-Angular's parts sit on the elements they draw (`<div kuiTrace>`, `<span kuiTraceLine>`, `<button kuiTraceCollapsibleTrigger>`). `TraceCollapsible` is ng-primitives' collapsible, with Base UI's API: `[(open)]` or `defaultOpen`, and `disabled`; its content leaves the page while closed, as Base UI's panel.
+Angular's parts sit on the elements they draw (`<div kuiTrace>`, `<span kuiTraceLine>`, `<button kuiTraceCollapsibleTrigger>`). `TraceCollapsible` is ng-primitives' collapsible, with Base UI's API: `[(open)]` or `defaultOpen`, and `disabled`; its content leaves the page while closed, as Base UI's panel, or stays in it hidden with `keepMounted`.
 
 <!-- ::end:only -->

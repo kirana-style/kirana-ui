@@ -291,7 +291,7 @@ v24.18.0</pre>
               <span kuiTraceTitle>Looking into the slow deploy</span>
             </span>
           </button>
-          <div kuiTraceCollapsibleContent keep-mounted>
+          <div kuiTraceCollapsibleContent keepMounted>
             <div kuiTrace>
               <div kuiTraceCollapsible>
                 <button kuiTraceCollapsibleTrigger>
@@ -376,7 +376,7 @@ cache key image optimization</pre>
               <span kuiTraceTitle>Found the project files</span>
             </span>
           </button>
-          <div kuiTraceCollapsibleContent keep-mounted>
+          <div kuiTraceCollapsibleContent keepMounted>
             <div kuiTrace>
               <span kuiTraceLine>
                 <span kuiTraceIcon>
@@ -524,7 +524,7 @@ cache key image optimization</pre>
           </button>
           <div
             kuiTraceCollapsibleContent
-            keep-mounted
+            keepMounted
             [sx]="styles.flexFlexColGap2"
           >
             <div kuiTrace>
@@ -566,7 +566,7 @@ cache key image optimization</pre>
                     <span kuiTraceTitle>Ran 3 commands, 1 failed</span>
                   </span>
                 </button>
-                <div kuiTraceCollapsibleContent keep-mounted>
+                <div kuiTraceCollapsibleContent keepMounted>
                   <div kuiTrace>
                     <div kuiTraceCollapsible>
                       <button kuiTraceCollapsibleTrigger>

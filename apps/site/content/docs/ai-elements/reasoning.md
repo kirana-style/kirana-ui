@@ -2,7 +2,7 @@
 title: Reasoning
 description: Displays the agent's thinking as it streams.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [reasoning, ai elements, agent, chat]
 ---
 

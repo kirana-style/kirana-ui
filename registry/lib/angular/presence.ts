@@ -6,7 +6,8 @@
  * Its motion is Base UI's: opening, the panel takes `data-starting-style` for its first frame and the
  * height variable a style reads (`--accordion-panel-height`) its content's height; closing, it takes
  * `data-ending-style` and stays until its animations and transitions have run. A panel open when the
- * page is drawn does not animate (`animation-name: none`, as Base UI writes it).
+ * page is drawn does not animate (`animation-name: none`, as Base UI writes it). With `keepMounted`,
+ * a closed panel stays in the page, `hidden`, as Base UI keeps a panel whose `keepMounted` is set.
  */
 import {
   DestroyRef,
@@ -36,7 +37,11 @@ export function exitFinished(...elements: Element[]) {
 
 export function presence(
   open: () => boolean,
-  options: { heightVar?: string; widthVar?: string } = {}
+  options: {
+    heightVar?: string
+    widthVar?: string
+    keepMounted?: () => boolean
+  } = {}
 ) {
   const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
   const marker = document.createComment("closed")
@@ -52,6 +57,11 @@ export function presence(
   // may not draw one for a while.
   const flush = () => void getComputedStyle(element).getPropertyValue("height")
   const finished = () => exitFinished(element)
+  // Out of the page, or only hidden when it is kept.
+  const leave = () => {
+    if (options.keepMounted?.()) element.hidden = true
+    else element.remove()
+  }
 
   effect(() => {
     const isOpen = open()
@@ -62,7 +72,7 @@ export function presence(
         if (isOpen) {
           size(() => "auto")
           element.style.animationName = "none"
-        } else element.remove()
+        } else leave()
         return
       }
       const run = ++closing
@@ -70,6 +80,7 @@ export function presence(
         element.style.removeProperty("animation-name")
         element.removeAttribute("data-ending-style")
         if (!element.parentNode) marker.after(element)
+        element.hidden = false
         element.setAttribute("data-starting-style", "")
         size(
           (axis) =>
@@ -85,7 +96,7 @@ export function presence(
         // Inside a part that is itself out of the page (a closed menu's content), nothing runs:
         // it simply leaves its parent.
         if (!element.isConnected) {
-          element.remove()
+          leave()
           return
         }
         size(
@@ -99,7 +110,7 @@ export function presence(
         void finished().then(() => {
           if (run !== closing) return
           element.removeAttribute("data-ending-style")
-          element.remove()
+          leave()
         })
       }
     })

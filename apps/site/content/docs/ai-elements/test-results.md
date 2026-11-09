@@ -2,7 +2,7 @@
 title: Test Results
 description: Displays a test run by the agent, with its suites and failures.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [test results, ai elements, agent, chat]
 ---
 

@@ -51,7 +51,7 @@ const styles = {
               <span kuiTraceTitle>Looking into the slow deploy</span>
             </span>
           </button>
-          <div kuiTraceCollapsibleContent keep-mounted>
+          <div kuiTraceCollapsibleContent keepMounted>
             <div kuiTrace>
               <div kuiTraceCollapsible>
                 <button kuiTraceCollapsibleTrigger>

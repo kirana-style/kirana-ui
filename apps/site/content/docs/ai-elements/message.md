@@ -2,7 +2,7 @@
 title: Message
 description: One turn. The person's message, and the agent's reply with its actions.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [message, ai elements, agent, chat]
 ---
 

@@ -2,7 +2,7 @@
 title: Plan
 description: Displays the steps the agent plans to take, and how far it has got.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [plan, ai elements, agent, chat]
 ---
 

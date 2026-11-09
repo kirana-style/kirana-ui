@@ -224,6 +224,16 @@ function DropdownMenuContent(props: {
   )
 }
 
+/**
+ * The radio group a group sits in: Base UI's radio items read the nearest radio group through any
+ * group between them, Ark's read the nearest group, so a group inside a radio group passes its
+ * value on.
+ */
+const RadioGroup = createContext<{
+  value: () => string | undefined
+  onValueChange: () => ((details: { value: string }) => void) | undefined
+}>()
+
 function DropdownMenuGroup(props: {
   asChild?: MenuItemGroupProps["asChild"]
   class?: string
@@ -237,6 +247,21 @@ function DropdownMenuGroup(props: {
     "sx",
     "children",
   ])
+  // Inside a radio group, its items still answer to that group's value.
+  const radio = useContext(RadioGroup)
+  if (radio)
+    return (
+      <MenuRadioItemGroup
+        asChild={local.asChild}
+        data-slot="dropdown-menu-group"
+        value={radio.value()}
+        onValueChange={radio.onValueChange()}
+        {...rest}
+        {...styleProps(local.class, local.sx)}
+      >
+        {local.children}
+      </MenuRadioItemGroup>
+    )
   return (
     <MenuItemGroup
       asChild={local.asChild}
@@ -343,7 +368,17 @@ function DropdownMenuRadioGroup(props: {
       {...rest}
       {...styleProps(local.class, local.sx)}
     >
-      {local.children}
+      <RadioGroup.Provider
+        value={{
+          value: () => rest.value as string | undefined,
+          onValueChange: () =>
+            rest.onValueChange as
+              | ((details: { value: string }) => void)
+              | undefined,
+        }}
+      >
+        {local.children}
+      </RadioGroup.Provider>
     </MenuRadioItemGroup>
   )
 }

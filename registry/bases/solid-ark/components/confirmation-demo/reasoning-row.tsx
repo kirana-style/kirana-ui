@@ -1,0 +1,73 @@
+import { createSignal, splitProps } from "solid-js"
+import { css, keyframes, props as styleProps } from "@kirana-style/core"
+import { IconPlaceholder } from "../../ui/icon-placeholder"
+import {
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "../../ui/trace"
+import type { Sx } from "@kirana-style/core"
+
+export function ReasoningRow(props: {
+  text: string
+  running: boolean
+  sx?: Sx
+  class?: string
+}) {
+  const [local] = splitProps(props, ["text", "running", "sx", "class"])
+  const spin = keyframes({ to: { transform: "rotate(360deg)" } })
+
+  const styles = {
+    reasoningRowIconPlaceholder: css({
+      animationDuration: "1s",
+      animationIterationCount: "infinite",
+      animationName: spin,
+      animationTimingFunction: "linear",
+    }),
+    reasoningRowTraceCollapsibleContent: css({
+      whiteSpace: { "*": null, base: "pre-wrap" },
+    }),
+  }
+
+  // Open while it runs, until the reader opens or closes it.
+  const [open, setOpen] = createSignal<boolean>()
+
+  return (
+    <TraceCollapsible
+      open={open() ?? local.running}
+      onOpenChange={(details: { open: boolean }) => setOpen(details.open)}
+    >
+      <TraceCollapsibleTrigger>
+        <TraceLine status={local.running ? "running" : undefined}>
+          <TraceIcon>
+            {local.running ? (
+              <IconPlaceholder
+                lucide="LoaderCircleIcon"
+                tabler="IconLoader2"
+                hugeicons="Loading03Icon"
+                phosphor="CircleNotchIcon"
+                remixicon="RiLoader4Line"
+                {...styleProps(styles.reasoningRowIconPlaceholder)}
+              />
+            ) : (
+              <IconPlaceholder
+                lucide="CircleCheckIcon"
+                tabler="IconCircleCheckFilled"
+                hugeicons="CheckmarkCircle01Icon"
+                phosphor="CheckCircleIcon"
+                remixicon="RiCheckboxCircleFill"
+              />
+            )}
+          </TraceIcon>
+          <TraceTitle>{local.running ? "Thinking" : "Thought"}</TraceTitle>
+        </TraceLine>
+      </TraceCollapsibleTrigger>
+      <TraceCollapsibleContent sx={styles.reasoningRowTraceCollapsibleContent}>
+        {local.text}
+      </TraceCollapsibleContent>
+    </TraceCollapsible>
+  )
+}

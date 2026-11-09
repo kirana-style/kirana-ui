@@ -4,7 +4,9 @@
   import type { Snippet } from "svelte"
   import type { MenuItemGroupProps } from "@ark-ui/svelte"
 
-  import { MenuItemGroup } from "@ark-ui/svelte"
+  import { MenuItemGroup, MenuRadioItemGroup } from "@ark-ui/svelte"
+
+  import { getRadioGroup } from "./radio-group"
 
   let {
     asChild,
@@ -17,8 +19,17 @@
     children?: Snippet
     [attribute: string]: unknown
   } = $props()
+
+  // Inside a radio group, its items still answer to that group's value.
+  const radio = getRadioGroup()
 </script>
 
-<MenuItemGroup {asChild} data-slot="dropdown-menu-group" {...rest} sx={className as Sx}>
-  {@render children?.()}
-</MenuItemGroup>
+{#if radio}
+  <MenuRadioItemGroup {asChild} data-slot="dropdown-menu-group" value={radio.value} onValueChange={radio.onValueChange} {...rest} sx={className as Sx}>
+    {@render children?.()}
+  </MenuRadioItemGroup>
+{:else}
+  <MenuItemGroup {asChild} data-slot="dropdown-menu-group" {...rest} sx={className as Sx}>
+    {@render children?.()}
+  </MenuItemGroup>
+{/if}
