@@ -84,9 +84,11 @@ export default defineConfig({
       // The built site against `budgets.json` (`scripts/budgets.ts`): each page's JavaScript and
       // stylesheet, the registry's files and the Worker's static file limits, gzip as Kirana
       // measures.
+      // After `templates` too: a replay of `registry` restores `r/**`, which takes the templates
+      // out of it until theirs is restored in turn.
       budgets: {
         command: "bun scripts/budgets.ts",
-        dependsOn: ["build", "registry"],
+        dependsOn: ["build", "registry", "templates"],
         cache: false,
       },
       // The registry installed as a reader installs it: Get Code's command per framework,
