@@ -1,4 +1,10 @@
-import { splitProps } from "solid-js"
+import {
+  createContext,
+  createSignal,
+  splitProps,
+  untrack,
+  useContext,
+} from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { trace } from "../../../styles/trace.styles"
 import {
@@ -28,6 +34,9 @@ function Trace(props: {
   )
 }
 
+/** Whether a Trace collapsible's content stays in the page while closed (its `keepMounted`). */
+const KeepMounted = createContext<(keep: boolean) => void>()
+
 function TraceCollapsible(props: {
   class?: string
   sx?: Sx
@@ -35,25 +44,41 @@ function TraceCollapsible(props: {
   [attribute: string]: unknown
 }) {
   const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  // Its content asks to stay in the page while closed (`keepMounted`, Base UI's panel's): Ark
+  // mounts from the root, so the root lets it.
+  const [keepMounted, setKeepMounted] = createSignal(false)
   return (
     <Collapsible
       data-slot="trace-collapsible"
+      lazyMount={!keepMounted()}
+      unmountOnExit={!keepMounted()}
       {...rest}
       class={local.class}
       sx={[trace.collapsible, local.sx]}
     >
-      {local.children}
+      <KeepMounted.Provider value={setKeepMounted}>
+        {local.children}
+      </KeepMounted.Provider>
     </Collapsible>
   )
 }
 
 function TraceCollapsibleContent(props: {
+  /** In the page while closed, `hidden`, as Base UI's panel with its `keepMounted`. */
+  keepMounted?: boolean
   class?: string
   sx?: Sx
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const [local, rest] = splitProps(props, [
+    "keepMounted",
+    "class",
+    "sx",
+    "children",
+  ])
+  // Read once, as the root mounts from it.
+  if (untrack(() => local.keepMounted)) useContext(KeepMounted)?.(true)
   return (
     <CollapsibleContent
       data-slot="trace-collapsible-content"

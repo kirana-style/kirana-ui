@@ -12,7 +12,7 @@ AI Elements are patterns for building agentic interfaces. Each one is a composit
 
 A [Chat](/docs/ai-elements/chat) is a list of [Message](/docs/ai-elements/message) turns inside a [Message Scroller](/docs/components/message-scroller). The steps an agent takes inside a turn, like [Reasoning](/docs/ai-elements/reasoning), [Tool](/docs/ai-elements/tool) and [Plan](/docs/ai-elements/plan), are built on [Trace](/docs/components/trace), so every step has the same shape.
 
-They are shadcn/ui's AI Elements, on Base UI and React Aria, in every style. Each page renders its pattern from AI SDK message parts, and its demos stream a scripted conversation with the AI SDK, with no model and no network.
+They are shadcn/ui's AI Elements, in every style, on every framework: React on Base UI and React Aria, Vue, Svelte and Solid on Ark UI, and Angular on ng-primitives. Chat is React's only, as the [Message Scroller](/docs/components/message-scroller) it is built with is. Each page renders its pattern from AI SDK message parts, and its demos stream a scripted conversation with the AI SDK, with no model and no network: Vue's and Svelte's through the SDK's own bindings, Solid's and Angular's through a `Chat` built on the SDK's `AbstractChat`, as their code shows.
 
 **Coming from [elements.ai-sdk.dev](https://elements.ai-sdk.dev)?** See [Migrating from AI SDK Elements](#migrating-from-ai-sdk-elements).
 
@@ -22,7 +22,7 @@ They are shadcn/ui's AI Elements, on Base UI and React Aria, in every style. Eac
 
 ## Migrating from AI SDK Elements
 
-If you used AI SDK Elements from [elements.ai-sdk.dev](https://elements.ai-sdk.dev), here is what changes.
+If you used AI SDK Elements from [elements.ai-sdk.dev](https://elements.ai-sdk.dev), which is React's, here is what changes.
 
 ### Existing projects
 

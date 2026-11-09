@@ -61,27 +61,20 @@ function hasDemos(page: string, bases: string) {
 }
 
 /**
- * The variants an AI Elements page or a Forms guide can have: React's bases with every demo it
- * previews, since a pattern or a form is a composition of components and has no item of its own.
+ * The variants an AI Elements page or a Forms guide can have: the frameworks and bases with every
+ * demo it previews, since a pattern or a form is a composition of components and has no item of
+ * its own.
  */
 function patternMarkup(section: string, name: string): string[] | undefined {
-  const page = new URL(`../content/docs/${section}/${name}.md`, import.meta.url)
-  if (!existsSync(page)) return undefined
-  const demos = [
-    ...readFileSync(page, "utf8").matchAll(/::preview item="([^"]+)"/g),
-  ].map((match) => match[1])
-  return ["base", "aria"]
-    .filter((base) =>
-      demos.every((demo) =>
-        existsSync(
-          new URL(
-            `../../../registry/bases/react-${base}/examples/${demo}.tsx`,
-            import.meta.url
-          )
-        )
-      )
+  if (
+    !existsSync(
+      new URL(`../content/docs/${section}/${name}.md`, import.meta.url)
     )
-    .map((base) => `react/${base}`)
+  )
+    return undefined
+  return FRAMEWORK_BASES.filter((entry) =>
+    hasDemos(`${section}/${name}`, entry.bases)
+  ).map((entry) => `${entry.framework}/${entry.base}`)
 }
 
 /** A section's pages but its index, in the nav's order (`content/docs/<section>/`). */

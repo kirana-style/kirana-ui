@@ -2,7 +2,7 @@
 title: Prompt Input
 description: A message field with attachments and a send button.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [prompt input, ai elements, agent, chat]
 ---
 

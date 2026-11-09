@@ -2,7 +2,7 @@
 title: Inline Citation
 description: A source in the sentence that opens on hover.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [inline citation, ai elements, agent, chat]
 ---
 

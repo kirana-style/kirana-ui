@@ -2,7 +2,7 @@
 title: Tool
 description: Displays a tool call the agent makes, from input to output.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [tool, ai elements, agent, chat]
 ---
 

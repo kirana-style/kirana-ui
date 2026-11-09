@@ -1,4 +1,10 @@
-import { Component, Directive, computed, input } from "@angular/core"
+import {
+  Component,
+  Directive,
+  booleanAttribute,
+  computed,
+  input,
+} from "@angular/core"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 import {
@@ -53,7 +59,10 @@ class TraceCollapsible {
   protected readonly part = computed(() => partSx(trace.collapsible, this.sx()))
 }
 
-/** Its details, out of the page while closed, as Base UI's panel (`presence`). */
+/**
+ * Its details, out of the page while closed, as Base UI's panel (`presence`), or in it and hidden
+ * with `keepMounted`, as Base UI's panel with its `keepMounted`.
+ */
 @Component({
   selector: "[kuiTraceCollapsibleContent]",
   imports: [SxDirective],
@@ -71,6 +80,7 @@ class TraceCollapsible {
 })
 class TraceCollapsibleContent {
   readonly sx = input<SxInput>()
+  readonly keepMounted = input(false, { transform: booleanAttribute })
   protected readonly id = `kui-trace-content-${next++}`
   protected readonly state = injectCollapsibleState()
   protected readonly part = partSx(trace.content, undefined).class
@@ -83,6 +93,7 @@ class TraceCollapsibleContent {
     presence(() => this.state().open(), {
       heightVar: "--collapsible-panel-height",
       widthVar: "--collapsible-panel-width",
+      keepMounted: this.keepMounted,
     })
   }
 }

@@ -54,7 +54,7 @@ const styles = {
           </button>
           <div
             kuiTraceCollapsibleContent
-            keep-mounted
+            keepMounted
             [sx]="styles.flexFlexColGap2"
           >
             <div kuiTrace>
@@ -96,7 +96,7 @@ const styles = {
                     <span kuiTraceTitle>Ran 2 commands, 1 failed</span>
                   </span>
                 </button>
-                <div kuiTraceCollapsibleContent keep-mounted>
+                <div kuiTraceCollapsibleContent keepMounted>
                   <div kuiTrace>
                     <span kuiTraceLine>
                       <span kuiTraceIcon>

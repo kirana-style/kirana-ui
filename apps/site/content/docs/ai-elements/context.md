@@ -2,7 +2,7 @@
 title: Context
 description: How much of the context window the conversation has used.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [context, ai elements, agent, chat]
 ---
 

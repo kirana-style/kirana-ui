@@ -6,6 +6,8 @@
 
   import { MenuRadioItemGroup } from "@ark-ui/svelte"
 
+  import { setRadioGroup } from "./radio-group"
+
   let {
     asChild,
     class: className,
@@ -17,6 +19,17 @@
     children?: Snippet
     [attribute: string]: unknown
   } = $props()
+
+  setRadioGroup({
+    get value() {
+      return rest.value as string | undefined
+    },
+    get onValueChange() {
+      return rest.onValueChange as
+        | ((details: { value: string }) => void)
+        | undefined
+    },
+  })
 </script>
 
 <MenuRadioItemGroup {asChild} data-slot="dropdown-menu-radio-group" {...rest} sx={className as Sx}>

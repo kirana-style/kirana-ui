@@ -625,6 +625,12 @@
       "property": "box-shadow",
       "route": "sidebar-10\\?",
       "reason": "sidebar-10 opens its popover once the page is shown (upstream's effect): React's opens a render later than Angular's, so a capture at load meets it in its first frame (unfocused, opacity 0, no transition yet) where Angular's has opened and focused its first row; settled, both have that row focused with its ring, value for value"
+    },
+    {
+      "element": "span[data-slot=\"trace-",
+      "property": "text-align",
+      "route": "/angular/ng/(queue-demo|queue-descriptions|test-results-demo|test-results-suites)",
+      "reason": "Angular's row component (`<kui-todo-line>`, `display: contents`) is the Trace child that holds the line, so Trace's rule for such a child (upstream's `[&>*:has(>[data-slot=trace-line])]`, `text-left`) reaches its host and the line inherits `left`; React's line is Trace's own child and keeps `start`, the same side left to right"
     }
   ]
 }

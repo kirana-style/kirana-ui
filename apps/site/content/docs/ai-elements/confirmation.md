@@ -2,7 +2,7 @@
 title: Confirmation
 description: Asks for approval before a tool runs.
 section: ai-elements
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
 keywords: [confirmation, ai elements, agent, chat]
 ---
 
