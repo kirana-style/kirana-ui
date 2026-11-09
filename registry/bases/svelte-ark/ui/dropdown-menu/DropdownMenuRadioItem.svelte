@@ -30,7 +30,7 @@
   // Ark's required `value` is declared here and passed on, so a project's type checker sees it.
 </script>
 
-<MenuRadioItem {asChild} data-slot="dropdown-menu-radio-item" value={value} data-inset={inset || undefined} {...rest} sx={[menuRowBase, menuCheckableRowPadding, className as Sx]}>
+<MenuRadioItem {asChild} data-slot="dropdown-menu-radio-item" closeOnSelect={false} value={value} data-inset={inset || undefined} {...rest} sx={[menuRowBase, menuCheckableRowPadding, className as Sx]}>
   <span data-slot="dropdown-menu-radio-item-indicator" sx={menuIndicator}>
     <MenuItemIndicator>
       <IconPlaceholder lucide="CheckIcon" tabler="IconCheck" hugeicons="Tick02Icon" phosphor="CheckIcon" remixicon="RiCheckLine" />

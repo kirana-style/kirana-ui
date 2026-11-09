@@ -22,6 +22,7 @@ const { sx, attrs } = useSx()
 <template>
   <MenuRadioItem
     data-slot="context-menu-radio-item"
+    :close-on-select="false"
     :value="value"
     :data-inset="inset || undefined"
     v-bind="attrs"

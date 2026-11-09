@@ -133,6 +133,7 @@ function DropdownMenuCheckboxItem(props: {
     <MenuCheckboxItem
       asChild={local.asChild}
       data-slot="dropdown-menu-checkbox-item"
+      closeOnSelect={false}
       value={local.value ?? id}
       checked={local.checked ?? own()}
       onCheckedChange={(next: boolean) => (
@@ -365,6 +366,7 @@ function DropdownMenuRadioItem(props: {
     <MenuRadioItem
       asChild={local.asChild}
       data-slot="dropdown-menu-radio-item"
+      closeOnSelect={false}
       value={local.value}
       data-inset={local.inset || undefined}
       {...rest}
