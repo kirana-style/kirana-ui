@@ -1671,6 +1671,126 @@
       "property": "height",
       "route": "sidebar-07|sidebar-icon-example",
       "reason": "follows the sub-list upstream leaves drawn when collapsed to icons"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "::after border-top-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "::after border-top-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "::after border-bottom-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "span[data-slot=\"avatar",
+      "property": "::after border-bottom-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "::after border-top-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "::after border-top-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "::after border-bottom-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "div[data-slot=\"avatar",
+      "property": "::after border-bottom-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-top-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-top-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-bottom-right-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
+    },
+    {
+      "element": "img[data-slot=\"avatar-image\"]",
+      "property": "border-bottom-left-radius",
+      "route": "sidebar-(07|08|09|12|15|16)|dashboard-01",
+      "reason": "the user's avatar is the team logo's rounded square (`rounded-lg`) in the sidebar and its account menu, on every block; upstream mixes a circle (sidebar-07, 08, 12, 15, 16), a square (sidebar-09, dashboard-01's sidebar) and a circle around a square fallback (dashboard-01's menu), and kirana/ui draws them one way (the maintainer's call)"
     }
   ]
 }

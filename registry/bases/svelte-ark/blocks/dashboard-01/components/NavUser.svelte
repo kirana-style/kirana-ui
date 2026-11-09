@@ -44,7 +44,6 @@
   } = $props()
 
   const styles = {
-    // `rounded-lg` on the sidebar's avatar, as upstream's bases draw it; the menu's stays round.
     avatarSquare: css({
       borderRadius: { "*": null, base: radius.lg },
     }),
@@ -164,7 +163,7 @@
         <DropdownMenuGroup>
           <DropdownMenuLabel sx={styles.dropdownMenuLabel}>
             <div sx={styles.div2}>
-              <Avatar sx={styles.avatar2}>
+              <Avatar sx={[styles.avatar2, styles.avatarSquare]}>
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback sx={styles.avatarFallback2}>
                   CN

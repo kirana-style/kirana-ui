@@ -39,6 +39,8 @@ export function NavUser(props: {
 }) {
   const [local, rest] = splitProps(props, ["user", "class", "sx"])
   const styles = {
+    // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
+    avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),
     sidebarMenuButton: css({
       backgroundColor: { '[aria-expanded="true"]': theme.muted },
     }),
@@ -120,7 +122,7 @@ export function NavUser(props: {
                 size="lg"
                 sx={styles.sidebarMenuButton}
               >
-                <Avatar>
+                <Avatar sx={styles.avatarSquare}>
                   <AvatarImage src={local.user.avatar} alt={local.user.name} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
@@ -148,7 +150,7 @@ export function NavUser(props: {
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.dropdownMenuLabel}>
                 <div sx={styles.div2}>
-                  <Avatar>
+                  <Avatar sx={styles.avatarSquare}>
                     <AvatarImage
                       src={local.user.avatar}
                       alt={local.user.name}

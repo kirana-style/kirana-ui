@@ -28,7 +28,6 @@ import {
 } from "../../../ui/dropdown-menu"
 
 const styles = {
-  // `rounded-lg` on the sidebar's avatar, as upstream's bases draw it; the menu's stays round.
   avatarSquare: css({
     borderRadius: { "*": null, base: radius.lg },
   }),
@@ -179,7 +178,7 @@ const styles = {
             <div kuiDropdownMenuGroup>
               <div kuiDropdownMenuLabel [sx]="styles.dropdownMenuLabel">
                 <div [sx]="styles.div2">
-                  <span kuiAvatar [sx]="styles.avatar2">
+                  <span kuiAvatar [sx]="[styles.avatar2, styles.avatarSquare]">
                     <img
                       kuiAvatarImage
                       [attr.src]="user().avatar"

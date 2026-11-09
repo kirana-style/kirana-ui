@@ -28,6 +28,9 @@ import {
 } from "../../../../../core/scales"
 
 const styles = {
+  // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
+
+  avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),
   sidebarMenuButton: css({
     backgroundColor: { '[aria-expanded="true"]': theme.muted },
     color: { '[aria-expanded="true"]': theme.foreground },
@@ -116,7 +119,7 @@ export function NavUser({
               <SidebarMenuButton size="lg" sx={styles.sidebarMenuButton} />
             }
           >
-            <Avatar>
+            <Avatar sx={styles.avatarSquare}>
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -142,7 +145,7 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuLabel sx={styles.dropdownMenuLabel}>
                 <div sx={styles.div2}>
-                  <Avatar>
+                  <Avatar sx={styles.avatarSquare}>
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
