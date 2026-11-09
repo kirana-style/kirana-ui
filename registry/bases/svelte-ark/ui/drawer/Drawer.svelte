@@ -33,6 +33,11 @@
     return (swipeDirection === "left") !== rtl ? "start" : "end"
   })
 
+  // Base UI focuses a drawer's popup when it opens, not its first tabbable element (a dialog's):
+  // a chart or a field inside would take the focus, and with it its focus ring or keyboard tooltip.
+  const contentId = $props.id()
+  const focusContent = () => document.getElementById(contentId)
+
   setContext<DrawerContext>(DRAWER, {
     get hasSnapPoints() {
       return (snapPoints?.length ?? 0) > 0
@@ -55,6 +60,8 @@
   {snapPoints}
   swipeDirection={logicalDirection}
   closeOnInteractOutside={!disablePointerDismissal}
+  ids={{ content: contentId }}
+  initialFocusEl={focusContent}
   lazyMount
   unmountOnExit
   {...rest}

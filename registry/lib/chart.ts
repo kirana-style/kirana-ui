@@ -154,3 +154,36 @@ export function pointConfig<Item>(
   // A name the config does not list (a series it leaves out) has no entry.
   return { name, item: config[name] as Item | undefined }
 }
+
+/**
+ * Calls `measured` with the element's width once the page's fonts have come and the element has a
+ * box. A chart mounted before it is laid out (in a drawer still opening, a closed tab) measures 0
+ * at first: it waits for a width, which a chart's marks wait for in turn (`data-entering`), instead
+ * of keeping them hidden. Returns what stops waiting, for the component's cleanup.
+ */
+export function measureWhenLaidOut(
+  element: HTMLElement,
+  measured: (width: number) => void
+): () => void {
+  let stopped = false
+  let observer: ResizeObserver | undefined
+  void document.fonts.ready.then(() => {
+    if (stopped) return
+    const width = element.getBoundingClientRect().width
+    if (width) {
+      measured(width)
+      return
+    }
+    observer = new ResizeObserver(() => {
+      const laidOut = element.getBoundingClientRect().width
+      if (!laidOut) return
+      observer?.disconnect()
+      measured(laidOut)
+    })
+    observer.observe(element)
+  })
+  return () => {
+    stopped = true
+    observer?.disconnect()
+  }
+}

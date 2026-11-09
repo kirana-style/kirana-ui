@@ -14,7 +14,7 @@
   import type { ClassValue } from "svelte/elements"
 
   import { chart as styles } from "../../../../styles/chart.styles"
-  import { CHART, seriesColors } from "./chart"
+  import { CHART, measureWhenLaidOut, seriesColors } from "./chart"
   import type { ChartConfig, ChartContext } from "./chart"
   import ChartPoints from "./ChartPoints.svelte"
 
@@ -64,11 +64,14 @@
   // width (the marks wait meanwhile: `data-entering`, `chart.container`).
   let box = $state<HTMLDivElement>()
   let width = $state<number>()
-  onMount(() => {
-    void document.fonts.ready.then(() => {
-      width = box?.getBoundingClientRect().width || undefined
-    })
-  })
+  // Measured once laid out: a chart mounted in a drawer still opening measures 0 at first.
+  onMount(() =>
+    box
+      ? measureWhenLaidOut(box, (measured) => {
+          width = measured
+        })
+      : undefined
+  )
   const plot = $derived(styleProps(styles.plot, fill && styles.plotWithLegend))
   const colors = $derived(css(seriesColors(config) as Record<string, string>))
 </script>

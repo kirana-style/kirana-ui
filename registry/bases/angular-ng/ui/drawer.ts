@@ -215,6 +215,8 @@ class DrawerContent {
       overlaySlot: "drawer-overlay",
       overlay: [drawer.overlay],
       modal: state.modal,
+      // Base UI focuses a drawer's popup when it opens, not its first tabbable element.
+      initialFocus: "content",
       viewport: {
         slot: "drawer-viewport",
         look: [drawer.viewport],

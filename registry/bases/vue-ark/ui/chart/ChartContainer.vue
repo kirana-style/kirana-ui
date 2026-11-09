@@ -10,10 +10,17 @@ import type { DomChartDefinition } from "@tanstack/charts"
 import { Chart } from "@tanstack/charts/vue"
 import { props as styleProps } from "@kirana-style/core"
 import { useSx } from "@kirana-style/core/vue"
-import { computed, onMounted, provide, ref, useSlots } from "vue"
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  useSlots,
+} from "vue"
 
 import { chart as styles } from "../../../../styles/chart.styles"
-import { CHART, seriesColors } from "./chart"
+import { CHART, measureWhenLaidOut, seriesColors } from "./chart"
 import type { ChartConfig } from "./chart"
 import ChartPoints from "./ChartPoints.vue"
 
@@ -49,11 +56,15 @@ const fill = computed(() => !!slots.legend && height === undefined)
 // width (the marks wait meanwhile: `data-entering`, `chart.container`).
 const box = ref<HTMLDivElement>()
 const width = ref<number>()
+// Measured once laid out: a chart mounted in a drawer still opening measures 0 at first.
+let stop: (() => void) | undefined
 onMounted(() => {
-  void document.fonts.ready.then(() => {
-    width.value = box.value?.getBoundingClientRect().width || undefined
-  })
+  if (box.value)
+    stop = measureWhenLaidOut(box.value, (measured) => {
+      width.value = measured
+    })
 })
+onBeforeUnmount(() => stop?.())
 const plot = computed(() =>
   styleProps(styles.plot, fill.value && styles.plotWithLegend)
 )
