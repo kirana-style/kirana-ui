@@ -41,7 +41,7 @@
   const id = $props.id()
 </script>
 
-<MenuCheckboxItem {asChild} data-slot="dropdown-menu-checkbox-item" value={value ?? id} checked={checked ?? own} onCheckedChange={(next: boolean) => ((own = next), (checked = next))} data-inset={inset || undefined} {...rest} sx={[menuRowBase, menuCheckableRowPadding, className as Sx]}>
+<MenuCheckboxItem {asChild} data-slot="dropdown-menu-checkbox-item" closeOnSelect={false} value={value ?? id} checked={checked ?? own} onCheckedChange={(next: boolean) => ((own = next), (checked = next))} data-inset={inset || undefined} {...rest} sx={[menuRowBase, menuCheckableRowPadding, className as Sx]}>
   <span data-slot="dropdown-menu-checkbox-item-indicator" sx={menuIndicator}>
     <MenuItemIndicator>
       <IconPlaceholder lucide="CheckIcon" tabler="IconCheck" hugeicons="Tick02Icon" phosphor="CheckIcon" remixicon="RiCheckLine" />

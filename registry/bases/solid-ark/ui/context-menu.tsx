@@ -131,6 +131,7 @@ function ContextMenuCheckboxItem(props: {
     <MenuCheckboxItem
       asChild={local.asChild}
       data-slot="context-menu-checkbox-item"
+      closeOnSelect={false}
       value={local.value ?? id}
       checked={local.checked ?? own()}
       onCheckedChange={(next: boolean) => (
@@ -356,6 +357,7 @@ function ContextMenuRadioItem(props: {
     <MenuRadioItem
       asChild={local.asChild}
       data-slot="context-menu-radio-item"
+      closeOnSelect={false}
       value={local.value}
       data-inset={local.inset || undefined}
       {...rest}

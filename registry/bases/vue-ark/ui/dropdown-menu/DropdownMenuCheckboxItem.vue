@@ -29,9 +29,10 @@ const id = useId()
 <template>
   <MenuCheckboxItem
     data-slot="dropdown-menu-checkbox-item"
+    :close-on-select="false"
     :value="value ?? id"
     :checked="checked ?? own"
-    @checked-change="(next: boolean) => ((own = next), (checked = next))"
+    @update:checked="(next: boolean) => ((own = next), (checked = next))"
     :data-inset="inset || undefined"
     v-bind="attrs"
     :sx="[menuRowBase, menuCheckableRowPadding, sx]"
