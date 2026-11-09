@@ -150,8 +150,7 @@ export const accordion = {
   triggerDisabled: {
     base: '[aria-disabled="true"]',
     aria: ":disabled",
-    // ng-primitives' vocabulary has no Accordion trigger: it composes the collapsible's (KF-102, 0.4.0).
-    ng: "[data-disabled]",
+    ng: NgPrimitives.Accordion.Trigger.disabled,
   },
 } as const satisfies Record<string, StateKeys>
 

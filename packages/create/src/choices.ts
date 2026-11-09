@@ -1,6 +1,7 @@
 /**
  * A project's choices and the rules between them: Vite+'s monorepo and tooling go with Vite's
- * build (not Next.js's or the Angular CLI's), a Vite+ monorepo is checked by Vite+ itself, and
+ * build (not Next.js's, React Router's, Nuxt's, Astro's or the Angular CLI's, each with a CLI of
+ * its own over Vite or none), a Vite+ monorepo is checked by Vite+ itself, and
  * Turborepo runs one of the other three. `resolveChoices` applies them the way the design's
  * `resolveDesignSystem` applies the rules between axes: a choice that no longer fits moves to the
  * first one that does, and the dialog shows what it offers from `allowed`.
@@ -30,10 +31,13 @@ export type ProjectChoices = {
 const VITE_TEMPLATES: readonly Template[] = [
   "vite-react",
   "tanstack-start",
+  "laravel-inertia",
   "vite-vue",
   "vite-svelte",
+  "sveltekit",
   "vite-solid",
   "solid-start",
+  "tanstack-start-solid",
   "analog-angular",
 ]
 
@@ -41,11 +45,23 @@ export function isViteTemplate(template: Template): boolean {
   return VITE_TEMPLATES.includes(template)
 }
 
+/**
+ * Templates whose type checker reads `vite.config.ts` for the framework's plugin (svelte-check on
+ * SvelteKit 3, which refuses a `svelte.config.js`) and cannot load Vite+'s configuration: Vite+
+ * checks them from a monorepo's root, not as the app's own tooling.
+ */
+const CHECKER_READS_VITE_CONFIG: readonly Template[] = ["sveltekit"]
+
 /** The monorepos a template can sit in. */
 export function monoreposFor(template: Template): readonly Monorepo[] {
   return MONOREPOS.filter(
     (monorepo) => monorepo !== "vite-plus" || isViteTemplate(template)
   )
+}
+
+/** Whether Vite+ as the app's own tooling is ruled out by the template's type checker alone. */
+export function checkerReadsViteConfig(template: Template): boolean {
+  return CHECKER_READS_VITE_CONFIG.includes(template)
 }
 
 /** The tooling a template in a monorepo can take. */
@@ -56,7 +72,9 @@ export function toolingsFor(
   if (monorepo === "vite-plus") return ["vite-plus"]
   return TOOLINGS.filter((tooling) =>
     tooling === "vite-plus"
-      ? monorepo === "none" && isViteTemplate(template)
+      ? monorepo === "none" &&
+        isViteTemplate(template) &&
+        !CHECKER_READS_VITE_CONFIG.includes(template)
       : true
   )
 }

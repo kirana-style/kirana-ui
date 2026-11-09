@@ -40,10 +40,17 @@ export const BASE_LABELS: Record<Base, string> = {
  * same names), in the order the dialog shows them: the framework's Vite app first.
  */
 export const TEMPLATES = {
-  react: ["vite-react", "tanstack-start", "next-turbopack"],
-  vue: ["vite-vue"],
-  svelte: ["vite-svelte"],
-  solid: ["vite-solid", "solid-start"],
+  react: [
+    "vite-react",
+    "tanstack-start",
+    "react-router",
+    "next-turbopack",
+    "astro-react",
+    "laravel-inertia",
+  ],
+  vue: ["vite-vue", "nuxt"],
+  svelte: ["vite-svelte", "sveltekit"],
+  solid: ["vite-solid", "solid-start", "tanstack-start-solid"],
   angular: ["analog-angular", "angular-cli"],
 } as const satisfies Record<Framework, readonly string[]>
 
@@ -52,11 +59,17 @@ export type Template = (typeof TEMPLATES)[Framework][number]
 export const TEMPLATE_LABELS: Record<Template, string> = {
   "vite-react": "Vite",
   "tanstack-start": "TanStack Start",
+  "react-router": "React Router",
   "next-turbopack": "Next.js",
+  "astro-react": "Astro",
+  "laravel-inertia": "Laravel",
   "vite-vue": "Vite",
+  nuxt: "Nuxt",
   "vite-svelte": "Vite",
+  sveltekit: "SvelteKit",
   "vite-solid": "Vite",
   "solid-start": "SolidStart",
+  "tanstack-start-solid": "TanStack Start",
   "analog-angular": "Analog",
   "angular-cli": "Angular CLI",
 }
@@ -94,14 +107,25 @@ export const TOOLING_LABELS: Record<Tooling, string> = {
   "vite-plus": "Vite+",
 }
 
-/** The command lines are written for one of these; `vp` is Vite+'s, which drives the project's package manager. */
+/**
+ * The command lines are written for one of these; `vp` is Vite+'s, whose `vpx` runs a package
+ * through pnpm, so a template it starts names pnpm as its package manager.
+ */
 export const RUNNERS = ["npm", "pnpm", "yarn", "bun", "vp"] as const
 export type Runner = (typeof RUNNERS)[number]
 
 /** The folder a new project is written to, and the app's name inside a workspace. */
 export const PROJECT = { directory: "my-app", app: "web" } as const
 
-/** Where the site serves the composed templates and the registry (CLI-10 attaches the domain). */
+/** In a workspace, the package the components install into (`init --workspace`), and its name. */
+export const WORKSPACE = { uiPath: "packages/ui", ui: "@workspace/ui" } as const
+
+/**
+ * Where the site serves the registry (CLI-10 attaches the domain), and beside it the composed
+ * templates: `templates/index.json` next to the registry's index, where `kirana-style ui init
+ * --template @kirana/<name>` looks for them, each archive relative to it.
+ */
 export const SITE = "https://ui.kirana-style.workers.dev"
 export const REGISTRY = `${SITE}/r`
-export const TEMPLATES_PATH = "templates"
+export const REGISTRY_NAMESPACE = "@kirana"
+export const TEMPLATES_PATH = "r/templates"

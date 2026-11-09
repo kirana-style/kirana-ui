@@ -1,5 +1,5 @@
 /**
- * The packages a skeleton names and their ranges, looked up on 2026-11-08 (`npm view <name>
+ * The packages a skeleton names and their ranges, looked up on 2026-11-08 and 2026-11-09 (`npm view <name>
  * version`); Kirana's own come from this repository's catalog at build (`compose`'s `kirana`).
  * One table, so a bump is one line and every skeleton moves together.
  */
@@ -13,12 +13,25 @@ export const VERSIONS = {
   "@vitejs/plugin-react": "^6.1.2",
   "@tanstack/react-router": "^1.170.45",
   "@tanstack/react-start": "^1.169.3",
+  "@tanstack/solid-router": "^1.170.43",
+  "@tanstack/solid-start": "^1.169.5",
+  "react-router": "^8.5.1",
+  "@react-router/dev": "^8.5.1",
+  "@react-router/node": "^8.5.1",
+  isbot: "^5.2.2",
+  astro: "^7.4.7",
+  "@astrojs/react": "^7.1.4",
+  "@inertiajs/react": "^3.11.0",
+  "laravel-vite-plugin": "^3.2.1",
   next: "^16.3.6",
   postcss: "^8.5.28",
   vue: "^3.5.43",
+  nuxt: "^4.6.4",
   "@vitejs/plugin-vue": "^6.0.9",
   "vue-tsc": "^3.2.0",
   svelte: "^5.57.1",
+  "@sveltejs/kit": "^3.1.1",
+  "@sveltejs/adapter-static": "^4.0.1",
   "@sveltejs/vite-plugin-svelte": "^7.3.0",
   "svelte-check": "^4.7.8",
   "solid-js": "^1.9.17",
@@ -64,20 +77,15 @@ export const VERSIONS = {
   turbo: "^2.11.10",
   "vite-plus": "1.5.0",
   "@voidzero-dev/vite-plus-core": "1.5.0",
-  giget: "3.3.1",
 } as const
 
 export type Versioned = keyof typeof VERSIONS
 
-/** The package managers a Turborepo names in `packageManager`, at their releases (turbo needs the field). */
-export const PACKAGE_MANAGERS = {
-  npm: "npm@12.2.2",
-  pnpm: "pnpm@12.18.0",
-  yarn: "yarn@4.18.1",
-  bun: "bun@1.4.4",
-} as const
-
-export type PackageManagerName = keyof typeof PACKAGE_MANAGERS
+/**
+ * What a Turborepo's root writes for `packageManager`, which turbo needs: `kirana-style ui init
+ * --template` fills it with the package manager running it, at its version.
+ */
+export const PACKAGE_MANAGER = "{packageManager}"
 
 /** Biome's schema is per release, so the package is pinned to the schema `biome.json` names. */
 export const BIOME_VERSION = "2.6.6"

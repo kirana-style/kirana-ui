@@ -27,8 +27,12 @@ export type AppSkeleton = {
   framework: Framework
   /** The page's title. */
   title: string
-  /** The folder the `@/*` alias maps to (`src`, or the root for Next.js's `app/`). */
-  source: "src" | "."
+  /**
+   * The folder the `@/*` alias maps to (`src`; `.` for Next.js's `app/`; `app` for React Router;
+   * `resources/js` for Laravel), written to `tsconfig.json`'s `paths`; `null` where the framework
+   * maps it itself (Nuxt), so the generated tsconfig's own `paths` stay.
+   */
+  source: string | null
   /** The file `init` writes `<html>`'s attributes and styles into. */
   document: string
   /** Where the build lands, for the install check. */
@@ -46,9 +50,13 @@ export type AppSkeleton = {
   typecheck: string
   /** Rendered as `vite.config.ts`; none for Next.js and the Angular CLI. */
   vite?: ViteConfig
-  /** `tsconfig.json`'s compiler options and `include`, the alias paths added by the composer. */
+  /**
+   * `tsconfig.json` as the template writes it, the alias paths added by the composer; a starter
+   * that extends what the framework generates (Nuxt, SvelteKit) has `extends` and may have no
+   * compiler options of its own.
+   */
   tsconfig: {
-    compilerOptions: Readonly<Record<string, unknown>>
+    compilerOptions?: Readonly<Record<string, unknown>>
     include?: readonly string[]
     [key: string]: unknown
   }

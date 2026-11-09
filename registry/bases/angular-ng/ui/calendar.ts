@@ -148,9 +148,6 @@ type Day = {
 @Directive({ selector: "ng-template[kuiCalendarDay]" })
 class CalendarDayTemplate {}
 
-// Each caption's chevron ends its line, so the formatter keeps `</svg>` whole: Kirana 0.4.0's
-// `ui add` reads `</svg>` only, not the `</svg\n>` it writes for an `<svg>` a `<span>` hugs (KF-103).
-// The whitespace between it and `</span>` is dropped by Angular's compiler.
 @Component({
   selector: "[kuiCalendar]",
   imports: [IconPlaceholder, NgTemplateOutlet, SxDirective],
@@ -234,8 +231,8 @@ class CalendarDayTemplate {}
                       phosphor="CaretDownIcon"
                       remixicon="RiArrowDownSLine"
                       [sx]="styles.chevronDown"
-                    ></svg>
-                  </span>
+                    ></svg
+                  ></span>
                 </span>
                 <span data-disabled="false" [sx]="styles.dropdownRoot">
                   <select
@@ -263,8 +260,8 @@ class CalendarDayTemplate {}
                       phosphor="CaretDownIcon"
                       remixicon="RiArrowDownSLine"
                       [sx]="styles.chevronDown"
-                    ></svg>
-                  </span>
+                    ></svg
+                  ></span>
                 </span>
                 <span
                   role="status"

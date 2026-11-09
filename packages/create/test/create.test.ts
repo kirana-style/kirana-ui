@@ -15,7 +15,7 @@ import { commandLines, projectSteps } from "../src/commands.ts"
 import { composeProject } from "../src/compose.ts"
 import { tar, untar } from "../src/tar.ts"
 
-const versions = { kirana: "0.4.0", vitePlus: "1.5.0" }
+const versions = { kirana: "0.4.1", vitePlus: "1.5.0" }
 
 describe("choices", () => {
   it("keeps the rules between them", () => {
@@ -49,8 +49,11 @@ describe("choices", () => {
     const all = everySkeleton()
     const ids = all.map(skeletonId)
     expect(new Set(ids).size).toBe(ids.length)
-    // 9 templates: 7 on Vite (3 monorepos; none takes 4 toolings, turbo 3, vite-plus 1), 2 not (2 × 3).
-    expect(all).toHaveLength(7 * (4 + 3 + 1) + 2 * (3 + 3))
+    // 15 templates: 10 on Vite (3 monorepos; none takes 4 toolings, turbo 3, vite-plus 1), 5 not
+    // (2 monorepos × 3 toolings); SvelteKit alone takes no Vite+ tooling (svelte-check).
+    expect(all).toHaveLength(10 * (4 + 3 + 1) - 1 + 5 * (3 + 3))
+    expect(parseSkeletonId("sveltekit--none--vite-plus")).toBeUndefined()
+    expect(parseSkeletonId("sveltekit--vite-plus--vite-plus")).toBeDefined()
     for (const skeleton of all) {
       const parsed = parseSkeletonId(skeletonId(skeleton))
       expect(parsed).toEqual(skeleton)
@@ -72,16 +75,16 @@ describe("compose", () => {
       "dev",
       "build",
       "preview",
+      "typecheck",
       "lint",
       "format",
       "format:check",
-      "typecheck",
     ])
-    expect(manifest.dependencies["@kirana-style/core"]).toBe("0.4.0")
-    expect(manifest.devDependencies["kirana-style"]).toBe("0.4.0")
-    expect(manifest.devDependencies["@kirana-style/registry"]).toBe("0.4.0")
+    expect(manifest.dependencies["@kirana-style/core"]).toBe("0.4.1")
+    expect(manifest.devDependencies["kirana-style"]).toBe("0.4.1")
+    expect(manifest.devDependencies["@kirana-style/registry"]).toBe("0.4.1")
     expect(manifest.devDependencies["@kirana-style/eslint-plugin"]).toBe(
-      "0.4.0"
+      "0.4.1"
     )
     expect(
       JSON.parse(files.get("tsconfig.json")!).compilerOptions.paths
@@ -131,30 +134,47 @@ describe("compose", () => {
     expect(vitePlus.get("vite.config.ts")).toContain("kirana/diagnostics")
   })
 
-  it("puts the app in a workspace's apps/web", () => {
+  it("puts the app in a workspace's apps/web, the components in packages/ui", () => {
     const turbo = composeProject(
       { template: "tanstack-start", monorepo: "turbo", tooling: "biome" },
       versions
     )
     expect(turbo.has("turbo.json")).toBe(true)
     expect(turbo.has("pnpm-workspace.yaml")).toBe(true)
-    expect(JSON.parse(turbo.get("package.json")!).scripts.build).toBe(
-      "turbo build"
-    )
-    expect(JSON.parse(turbo.get("apps/web/package.json")!).name).toBe("web")
-    expect(turbo.has("apps/web/biome.json")).toBe(true)
+    const root = JSON.parse(turbo.get("package.json")!)
+    expect(root.scripts).toMatchObject({
+      build: "turbo build",
+      typecheck: "turbo typecheck",
+      lint: "biome lint .",
+    })
+    // `init --template` fills the package manager and goes on in the app.
+    expect(root.packageManager).toBe("{packageManager}")
+    expect(root["kirana-template"]).toEqual({ project: "apps/web" })
+    expect(root.devDependencies["@kirana-style/biome-plugin"]).toBe("0.4.1")
+    // The tooling at the root, over every package; the app keeps dev, build and its type check.
+    expect(turbo.has("biome.json")).toBe(true)
+    expect(turbo.has("apps/web/biome.json")).toBe(false)
+    const app = JSON.parse(turbo.get("apps/web/package.json")!)
+    expect(app.name).toBe("web")
+    expect(app.scripts.typecheck).toBe("tsc --noEmit")
+    expect(app.scripts.lint).toBeUndefined()
+    const ui = JSON.parse(turbo.get("packages/ui/package.json")!)
+    expect(ui.name).toBe("@workspace/ui")
+    expect(ui.scripts.typecheck).toBe("tsc --noEmit")
+    expect(ui.dependencies.react).toBeDefined()
+    expect(
+      JSON.parse(turbo.get("packages/ui/tsconfig.json")!).compilerOptions.paths
+    ).toEqual({ "@workspace/ui/*": ["./src/*"] })
     const vitePlus = composeProject(
       { template: "vite-svelte", monorepo: "vite-plus", tooling: "vite-plus" },
       versions
     )
     expect(vitePlus.get("vite.config.ts")).toContain("kirana/diagnostics")
-    // The app's config holds the plugins; the root's the checks.
+    // The app's config holds the plugins, with Vite's defineConfig; the root's the checks.
     expect(vitePlus.get("apps/web/vite.config.ts")).not.toContain(
       "kirana/diagnostics"
     )
-    expect(vitePlus.get("apps/web/vite.config.ts")).toContain(
-      'from "vite-plus"'
-    )
+    expect(vitePlus.get("apps/web/vite.config.ts")).toContain('from "vite"')
     expect(JSON.parse(vitePlus.get("package.json")!).scripts.check).toBe(
       "vp check"
     )
@@ -187,47 +207,32 @@ describe("tar", () => {
 })
 
 describe("commands", () => {
-  it("writes the steps for each runner", () => {
+  it("writes the one step for each runner", () => {
     const design = { ...DEFAULT_DESIGN_SYSTEM, base: "aria" } as const
     const alone = projectSteps(
       resolveChoices({ base: "aria", tooling: "oxlint", pointer: true }),
-      design,
-      "npm"
+      design
     )
     const npm = commandLines(alone, "npm")
-    expect(npm).toHaveLength(2)
+    expect(npm).toHaveLength(1)
     expect(npm[0]).toMatch(
-      /^npx giget@[\d.]+ https:\/\/.*\/templates\/vite-react--none--oxlint\.tgz my-app$/
+      /^npx @kirana-style\/registry init --template @kirana\/vite-react--none--oxlint my-app --framework react --base aria --preset \S+ --pointer --registry @kirana=https:\/\/\S+\/r\/\{name\}\.json$/
     )
-    expect(npm[1]).toContain(
-      "cd my-app && npm install && npx kirana-style ui init --framework react --base aria --preset "
-    )
-    expect(npm[1]).toContain(" --pointer --registry @kirana=")
+    expect(npm[0]).not.toContain("--workspace")
+    // A workspace: `init` goes on in the app and installs into the package.
     const workspace = projectSteps(
       resolveChoices({ monorepo: "vite-plus" }),
-      DEFAULT_DESIGN_SYSTEM,
-      "vp"
+      DEFAULT_DESIGN_SYSTEM
     )
     const vp = commandLines(workspace, "vp")
-    expect(vp[0]).toMatch(/^vpx giget@/)
-    expect(vp[1]).toBe("cd my-app && vp install")
-    expect(vp[2]).toMatch(/^cd apps\/web && vpx kirana-style ui init /)
-    expect(commandLines(workspace, "pnpm")[1]).toBe("cd my-app && pnpm install")
-    // A Turborepo's skeleton is the runner's: it names the package manager turbo runs with.
-    const turbo = resolveChoices({ monorepo: "turbo" })
-    expect(
-      commandLines(projectSteps(turbo, design, "pnpm"), "pnpm")[0]
-    ).toContain("vite-react--turbo--eslint.pnpm.tgz")
-    expect(commandLines(projectSteps(turbo, design, "vp"), "vp")[0]).toContain(
-      "vite-react--turbo--eslint.bun.tgz"
+    expect(vp).toHaveLength(1)
+    expect(vp[0]).toMatch(
+      /^vpx @kirana-style\/registry init --template @kirana\/vite-react--vite-plus--vite-plus my-app /
     )
-    expect(
-      JSON.parse(
-        composeProject(turbo, versions, { packageManager: "pnpm" }).get(
-          "package.json"
-        )!
-      ).packageManager
-    ).toMatch(/^pnpm@/)
+    expect(vp[0]).toContain(" --workspace packages/ui ")
+    expect(commandLines(workspace, "pnpm")[0]).toMatch(/^pnpm dlx /)
+    expect(commandLines(workspace, "bun")[0]).toMatch(/^bunx /)
+    expect(commandLines(workspace, "yarn")[0]).toMatch(/^yarn dlx /)
   })
 
   it("offers every template of the catalog a skeleton", () => {
