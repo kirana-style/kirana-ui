@@ -9,6 +9,7 @@
 import { NgTemplateOutlet } from "@angular/common"
 import {
   Component,
+  DestroyRef,
   Directive,
   ElementRef,
   InjectionToken,
@@ -39,6 +40,7 @@ import {
 import { IconPlaceholder } from "../../../icons/angular"
 import {
   categoryOf,
+  measureWhenLaidOut,
   pointConfig,
   seriesColors,
   pointValue,
@@ -441,11 +443,13 @@ class ChartContainer {
 
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
-    afterNextRender(() => {
-      void document.fonts.ready.then(() =>
-        this.width.set(element.getBoundingClientRect().width || undefined)
+    // Measured once laid out: a chart mounted in a drawer still opening measures 0 at first.
+    const destroyRef = inject(DestroyRef)
+    afterNextRender(() =>
+      destroyRef.onDestroy(
+        measureWhenLaidOut(element, (measured) => this.width.set(measured))
       )
-    })
+    )
   }
 }
 

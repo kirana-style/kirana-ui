@@ -9,6 +9,7 @@ import {
   createContext,
   createSignal,
   mergeProps,
+  onCleanup,
   onMount,
   splitProps,
   useContext,
@@ -26,6 +27,7 @@ import type {
 import { chart as styles } from "../../../styles/chart.styles"
 import {
   categoryOf,
+  measureWhenLaidOut,
   pointConfig,
   seriesColors,
   pointValue,
@@ -96,10 +98,10 @@ function ChartContainer(props: {
   // width (the marks wait meanwhile: `data-entering`, `chart.container`).
   let box: HTMLDivElement | undefined
   const [width, setWidth] = createSignal<number>()
+  // Measured once laid out: a chart mounted in a drawer still opening measures 0 at first.
   onMount(() => {
-    void document.fonts.ready.then(() => {
-      setWidth(box?.getBoundingClientRect().width || undefined)
-    })
+    if (box)
+      onCleanup(measureWhenLaidOut(box, (measured) => setWidth(measured)))
   })
   const own = () => styleProps(local.class, styles.container, local.sx)
   const plot = () => styleProps(styles.plot, fill() && styles.plotWithLegend)

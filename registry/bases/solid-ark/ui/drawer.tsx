@@ -23,6 +23,7 @@ import type {
 import {
   createContext,
   createMemo,
+  createUniqueId,
   mergeProps,
   Show,
   splitProps,
@@ -70,6 +71,10 @@ function Drawer(props: {
       "children",
     ]
   )
+  // Base UI focuses a drawer's popup when it opens, not its first tabbable element (a dialog's):
+  // a chart or a field inside would take the focus, and with it its focus ring or keyboard tooltip.
+  const contentId = createUniqueId()
+  const focusContent = () => document.getElementById(contentId)
   // Zag's sides are logical (`start`, `end`) and it writes the physical one; Base UI's are physical.
   const locale = useLocaleContext()
   const logicalDirection = createMemo(() => {
@@ -101,6 +106,8 @@ function Drawer(props: {
         snapPoints={local.snapPoints}
         swipeDirection={logicalDirection()}
         closeOnInteractOutside={!local.disablePointerDismissal}
+        ids={{ content: contentId }}
+        initialFocusEl={focusContent}
         lazyMount
         unmountOnExit
         {...rest}

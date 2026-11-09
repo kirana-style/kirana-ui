@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DrawerRoot, useLocaleContext } from "@ark-ui/vue"
-import { computed, provide, reactive } from "vue"
+import { computed, provide, reactive, useId } from "vue"
 
 import { DRAWER } from "./context"
 import type { SwipeDirection } from "./context"
@@ -18,6 +18,11 @@ const props = withDefaults(
 )
 
 // Zag's sides are logical (`start`, `end`) and it writes the physical one; Base UI's are physical.
+// Base UI focuses a drawer's popup when it opens, not its first tabbable element (a dialog's):
+// a chart or a field inside would take the focus, and with it its focus ring or keyboard tooltip.
+const contentId = useId()
+const focusContent = () => document.getElementById(contentId)
+
 const locale = useLocaleContext()
 const logicalDirection = computed(() => {
   const { swipeDirection } = props
@@ -46,6 +51,8 @@ provide(
     :snap-points="snapPoints"
     :swipe-direction="logicalDirection"
     :close-on-interact-outside="!disablePointerDismissal"
+    :ids="{ content: contentId }"
+    :initial-focus-el="focusContent"
     lazy-mount
     unmount-on-exit
   >

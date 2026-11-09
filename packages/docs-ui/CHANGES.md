@@ -187,3 +187,7 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   of tabs: a component page, a block and the charts offer six frameworks and bases, more than a
   toolbar has room for. Its menu groups each framework's bases (React: Base UI, React Aria; Vue:
   Ark UI …), and its trigger names both (`React · Base UI`).
+- `brand-icon.tsx`'s `PACKAGE_MANAGER_ICONS` is keyed by docs-core's `PackageManager`, and has
+  Vite+ (`vp`, with Vite's mark): the install tabs offered `vp` with no logo, and every page with
+  an install block threw when it hydrated ("Cannot read properties of undefined (reading
+  'route')").

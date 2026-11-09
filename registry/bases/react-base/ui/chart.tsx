@@ -23,6 +23,7 @@ import {
   pointConfig,
   seriesColors,
   pointValue,
+  measureWhenLaidOut,
 } from "../../../lib/chart"
 import type { Sx } from "../../../lib/sx"
 import { chart as styles } from "../../../styles/chart.styles"
@@ -118,19 +119,14 @@ function ChartContainer<
   // (`data-entering`, `chart.container`).
   const box = React.useRef<HTMLDivElement>(null)
   const [width, setWidth] = React.useState<number>()
-  React.useEffect(() => {
-    let live = true
-    void document.fonts.ready.then(() => {
-      if (live)
-        setWidth(box.current?.getBoundingClientRect().width || undefined)
-    })
-    return () => {
-      // A `let` of this effect, set by its own closure: a false positive of oxlint 1.91's
-      // react/immutability (oxc-project/oxc issue 28401, fixed after that release).
-      // oxlint-disable-next-line react/immutability
-      live = false
-    }
-  }, [])
+  // Measured once laid out: a chart mounted in a drawer still opening measures 0 at first.
+  React.useEffect(
+    () =>
+      box.current
+        ? measureWhenLaidOut(box.current, (measured) => setWidth(measured))
+        : undefined,
+    []
+  )
   const entering = width === undefined
   const plotProps = styleProps(styles.plot, fill && styles.plotWithLegend)
   const plot = (

@@ -3,7 +3,7 @@
  * as Base UI draws a modal. Opening puts the content in a portal at the end of the body, after its
  * backdrop, both with `data-open`/`data-closed` and their first frame and exit
  * (`data-starting-style`, `data-ending-style`, held until their animations end); focus moves to the
- * content's first tabbable element and Tab stays inside it; the page behind does not scroll (`overflow:
+ * content's first tabbable element (a drawer's to the content itself) and Tab stays inside it; the page behind does not scroll (`overflow:
  * hidden` on the body, as Base UI locks it); Escape
  * closes it, and a press on the backdrop too unless `dismissible` is false (an alert dialog); focus
  * returns to the trigger. The content is labelled by its title and described by its description
@@ -66,6 +66,12 @@ export type ModalOptions = {
    * the page scrolling, as a non-modal drawer.
    */
   modal?: () => boolean
+  /**
+   * What takes the focus when it opens: its first tabbable element (`tabbable`, a dialog's, the
+   * default), or the content itself (`content`, as Base UI's drawer, so a chart or a field inside
+   * does not open focused).
+   */
+  initialFocus?: "tabbable" | "content"
 }
 
 export function modalSurface(popup: Popup, options: ModalOptions) {
@@ -171,9 +177,11 @@ export function modalSurface(popup: Popup, options: ModalOptions) {
         node.removeAttribute("data-starting-style")
     }
     queueMicrotask(() =>
-      (element.querySelector<HTMLElement>(TABBABLE) ?? element).focus({
-        preventScroll: true,
-      })
+      (
+        (options.initialFocus === "content"
+          ? null
+          : element.querySelector<HTMLElement>(TABBABLE)) ?? element
+      ).focus({ preventScroll: true })
     )
   }
 
