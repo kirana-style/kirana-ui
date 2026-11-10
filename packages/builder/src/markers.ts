@@ -22,7 +22,11 @@ export type Marker =
   | { kind: "keyframes"; id: string }
   /** `fallback(token, …, value)`: each argument a token's marker, the last maybe a value. */
   | { kind: "fallback"; args: string[] }
-  | { kind: "state"; base: "base" | "aria" | "ark" | "ng"; key: string }
+  | {
+      kind: "state"
+      base: "base" | "aria" | "ark" | "ng" | "reka"
+      key: string
+    }
 
 export function marker(value: Marker): string {
   return `${OPEN}${JSON.stringify(value)}${CLOSE}`

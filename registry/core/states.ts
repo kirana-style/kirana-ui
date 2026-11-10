@@ -12,18 +12,21 @@ import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 import * as NgPrimitives from "@kirana-style/states/ng-primitives"
+import * as Reka from "@kirana-style/states/reka-ui"
 
 /**
  * Each base's key for a state. `ng` is ng-primitives, Angular's base, which writes Base UI's
  * attribute names nearly everywhere (`data-checked`, `data-open`, `data-active`, `aria-pressed`), so
  * Base UI's keys already match it; a state gets an `ng` key only where they differ (an accordion's
- * disabled trigger).
+ * disabled trigger). `reka` is Reka UI, Vue's second base, which writes Radix's attributes
+ * (`data-state`, `data-highlighted`): often Ark UI's selectors too.
  */
 export type StateKeys = {
   base?: string
   aria?: string
   ark?: string
   ng?: string
+  reka?: string
 }
 
 /** `value` under every base's key for `state`. */
@@ -33,6 +36,7 @@ export function when<Value>(state: StateKeys, value: Value) {
     ...(state.aria ? { [state.aria]: value } : {}),
     ...(state.ark ? { [state.ark]: value } : {}),
     ...(state.ng ? { [state.ng]: value } : {}),
+    ...(state.reka ? { [state.reka]: value } : {}),
   }
 }
 
@@ -50,8 +54,12 @@ export const overlay = {
  * animation runs, so their motion is keyframes on these rather than a transition (`overlay.styles`).
  */
 export const presence = {
-  open: { ark: Ark.Dialog.Content.state.open },
-  closed: { ark: Ark.Dialog.Content.state.closed },
+  // Reka UI's tooltip is `delayed-open` or `instant-open`, its other popups `open`.
+  open: { ark: Ark.Dialog.Content.state.open, reka: '[data-state$="open"]' },
+  closed: {
+    ark: Ark.Dialog.Content.state.closed,
+    reka: Reka.Popover.Content.state.closed,
+  },
 } as const satisfies Record<string, StateKeys>
 
 /** The side a popup opened on, against its trigger. React Aria has no logical sides. */
@@ -76,17 +84,20 @@ export const item = {
     base: Base.Menu.Item.highlighted,
     aria: Aria.MenuItem.focused,
     ark: Ark.Menu.Item.highlighted,
+    reka: Reka.DropdownMenu.Item.highlighted,
   },
   disabled: {
     base: Base.Menu.Item.disabled,
     aria: Aria.MenuItem.disabled,
     ark: Ark.Menu.Item.disabled,
+    reka: Reka.DropdownMenu.Item.disabled,
   },
   /** A submenu trigger whose submenu is open. */
   open: {
     base: Base.Menu.SubmenuTrigger.popupOpen,
     aria: Aria.MenuItem.open,
     ark: Ark.Menu.Trigger.state.open,
+    reka: Reka.DropdownMenu.SubTrigger.state.open,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -96,11 +107,13 @@ export const tab = {
     base: Base.Tabs.Tab.active,
     aria: Aria.Tab.selected,
     ark: Ark.Tabs.Trigger.selected,
+    reka: Reka.Tabs.Trigger.state.active,
   },
   disabled: {
     base: Base.Tabs.Tab.disabled,
     aria: Aria.Tab.disabled,
     ark: Ark.Tabs.Trigger.disabled,
+    reka: Reka.Tabs.Trigger.disabled,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -111,12 +124,14 @@ export const tabOrientation = {
     aria: Aria.Tabs.orientation.horizontal,
     ark: Ark.Tabs.Root.orientation.horizontal,
     ng: NgPrimitives.Tabs.Tabset.orientation.horizontal,
+    reka: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Tabs.Root.orientation.vertical,
     aria: Aria.Tabs.orientation.vertical,
     ark: Ark.Tabs.Root.orientation.vertical,
     ng: NgPrimitives.Tabs.Tabset.orientation.vertical,
+    reka: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -127,6 +142,7 @@ export const disclosure = {
     aria: Aria.Disclosure.expanded,
     ark: Ark.Collapsible.Root.state.open,
     ng: NgPrimitives.Collapsible.Root.open,
+    reka: Reka.Collapsible.Root.state.open,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -139,14 +155,24 @@ export const accordion = {
    * shadcn/ui's `data-open:`, which Base UI's item writes, and Ark UI's as `data-state`; React
    * Aria's never matches it.
    */
-  open: { base: Base.Accordion.Item.open, ark: Ark.Accordion.Item.state.open },
+  open: {
+    base: Base.Accordion.Item.open,
+    ark: Ark.Accordion.Item.state.open,
+    reka: Reka.Accordion.Item.state.open,
+  },
   /** An open item on either base: `data-open:`, React Aria's `data-expanded:`. */
   expanded: { base: Base.Accordion.Item.open, aria: Aria.Disclosure.expanded },
   panelOpen: { base: Base.Accordion.Panel.open },
   panelClosed: { base: Base.Accordion.Panel.closed },
   /** Ark UI's content, which moves over its own `--height` (`accordion.contentArk`). */
-  contentOpen: { ark: Ark.Accordion.ItemContent.state.open },
-  contentClosed: { ark: Ark.Accordion.ItemContent.state.closed },
+  contentOpen: {
+    ark: Ark.Accordion.ItemContent.state.open,
+    reka: Reka.Accordion.Content.state.open,
+  },
+  contentClosed: {
+    ark: Ark.Accordion.ItemContent.state.closed,
+    reka: Reka.Accordion.Content.state.closed,
+  },
   triggerDisabled: {
     base: '[aria-disabled="true"]',
     aria: ":disabled",
@@ -166,11 +192,14 @@ export const resizable = {
     base: '[data-group][aria-orientation="vertical"]',
     aria: '[data-group][aria-orientation="vertical"]',
     ark: Ark.Splitter.Root.orientation.vertical,
+    // Reka UI's Splitter gives its group and its handles the group's `data-orientation`, as Ark's.
+    reka: '[data-orientation="vertical"]',
   },
   across: {
     base: '[data-separator][aria-orientation="horizontal"]',
     aria: '[data-separator][aria-orientation="horizontal"]',
     ark: Ark.Splitter.ResizeTrigger.orientation.vertical,
+    reka: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -193,8 +222,14 @@ export const collapsiblePanel = {
   starting: { base: Base.Collapsible.Panel.startingStyle },
   ending: { base: Base.Collapsible.Panel.endingStyle },
   // Ark UI's content, opening or leaving: its motion is keyframes over the `--height` it sets.
-  open: { ark: Ark.Collapsible.Content.state.open },
-  closed: { ark: Ark.Collapsible.Content.state.closed },
+  open: {
+    ark: Ark.Collapsible.Content.state.open,
+    reka: Reka.Collapsible.Content.state.open,
+  },
+  closed: {
+    ark: Ark.Collapsible.Content.state.closed,
+    reka: Reka.Collapsible.Content.state.closed,
+  },
 } as const satisfies Record<string, StateKeys>
 
 /**
@@ -204,29 +239,35 @@ export const collapsiblePanel = {
  * `data-disabled` too, so React Aria's key also asks for the `data-rac` every React Aria element
  * carries: the site serves every base's keys at once, and Base UI's checkbox must not read it.
  * Ark UI's box is the root's Control, and its radio's and switch's write the same attributes
- * (`data-state`, `data-focus-visible`, `data-invalid`), so one key reads all three.
+ * (`data-state`, `data-focus-visible`, `data-invalid`), so one key reads all three. Reka UI's
+ * checkbox, radio and switch are buttons: its checkbox's `data-state` reads all three, and focus,
+ * invalidity and disabling are the button's own, as on Base UI.
  */
 export const check = {
   checked: {
     base: Base.Checkbox.Root.checked,
     aria: Aria.Checkbox.selected,
     ark: Ark.Checkbox.Control.state.checked,
+    reka: Reka.Checkbox.Root.state.checked,
   },
   focusVisible: {
     base: ":focus-visible",
     aria: Aria.Checkbox.focusVisible,
     ark: Ark.Checkbox.Control.focusVisible,
+    reka: ":focus-visible",
   },
   invalid: {
     base: '[aria-invalid="true"]',
     aria: Aria.Checkbox.invalid,
     ark: Ark.Checkbox.Control.invalid,
+    reka: '[aria-invalid="true"]',
   },
   disabled: {
     base: ":disabled",
     aria: `[data-rac]${Aria.Checkbox.disabled}`,
     // None on Ark UI, as none holds on Base UI (its box is never `:disabled`): a disabled one dims
     // through its Field, whose hidden input is `:disabled`.
+    reka: ":disabled",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -238,10 +279,12 @@ export const navigationMenuState = {
   triggerOpen: {
     base: Base.NavigationMenu.Trigger.popupOpen,
     ark: '[data-scope="navigation-menu"][data-part="trigger"][data-state="open"]',
+    reka: `${Reka.NavigationMenu.Trigger.navigationMenuTrigger}${Reka.NavigationMenu.Trigger.state.open}`,
   },
   linkActive: {
     base: Base.NavigationMenu.Link.active,
     ark: Ark.NavigationMenu.Link.current,
+    reka: Reka.NavigationMenu.Link.active,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -255,6 +298,7 @@ export const toggleState = {
     base: '[aria-pressed="true"]',
     aria: Aria.ToggleButton.selected,
     ark: Ark.Toggle.Root.state.on,
+    reka: Reka.Toggle.Root.state.on,
     // ng-primitives' toggle and a single-choice group's items (radios, `aria-checked`).
     ng: NgPrimitives.Toggle.Root.selected,
   },
@@ -265,6 +309,7 @@ export const placeholder = {
   trigger: {
     base: Base.Select.Trigger.placeholder,
     ark: Ark.Select.Trigger.placeholderShown,
+    reka: Reka.Select.Trigger.placeholder,
   },
   value: { aria: Aria.SelectValue.placeholder },
 } as const satisfies Record<string, StateKeys>

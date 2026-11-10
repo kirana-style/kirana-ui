@@ -2,7 +2,8 @@
 title: Checkpoint
 description: Marks a point in the conversation you can return to.
 section: ai-elements
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [checkpoint, ai elements, agent, chat]
 ---
 

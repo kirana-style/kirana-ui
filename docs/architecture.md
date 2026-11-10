@@ -409,6 +409,13 @@ sources (Ark UI 5.39, Reka UI 2.11, Bits UI 2.20):
 Every component Ark UI and Reka UI need here has a state vocabulary in
 `@kirana-style/states`. Bits UI's Command and ScrollArea do not yet.
 
+**Vue has a second base, Reka UI** (`registry/bases/vue-reka`, at
+`/preview/vue/reka/`), with 49 of Vue's 61 components so far, the others to
+follow. Its parts take the same props as the Ark UI ones and turn them into
+Reka's, so Vue's examples, blocks and charts are the same files on both bases,
+and both are checked against React's pages. A base is one more key per state
+(`reka:` in `core/states.ts`), not another set of styles.
+
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,
 `@angular/cdk` 22.2.6 and `@angular/aria` 22.2.6: 34 items sit on ng-primitives'

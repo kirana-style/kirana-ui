@@ -16,6 +16,7 @@ import { combinationList, useCombination } from "../combination.ts"
 import { useDocs } from "../provider.tsx"
 import { spacing, theme } from "../tokens.ts"
 import { CodeBlock } from "./code-block.tsx"
+import { withShared } from "./shared-code.ts"
 
 type Source = string | Record<string, string>
 type DemoSources = Record<string, Source>
@@ -64,7 +65,15 @@ export function DemoSource({
           ? (response.json() as Promise<DemoSources | DemoParts>)
           : null
       )
-      .then((value) => live && setSources(value ?? {}))
+      .then(
+        (value) =>
+          live &&
+          setSources(
+            withShared<Source | Record<string, Source>>(value ?? {}) as
+              | DemoSources
+              | DemoParts
+          )
+      )
       .catch(() => live && setSources({}))
     // The highlighter is the build's, loaded only where the code is shown.
     void import("@workspace/docs-core/highlight.ts").then(

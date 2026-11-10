@@ -2,7 +2,8 @@
 title: Task
 description: Displays the steps the agent takes, as it takes them.
 section: ai-elements
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [task, ai elements, agent, chat]
 ---
 

@@ -2,7 +2,8 @@
 title: Data Table
 description: Powerful table and datagrids built using TanStack Table.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     data table,

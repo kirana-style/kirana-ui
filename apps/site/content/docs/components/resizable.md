@@ -2,14 +2,15 @@
 title: Resizable
 description: Accessible resizable panel groups and layouts with keyboard support.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [resizable, panels, split, layout, component, base, aria, ark, vue, svelte]
 ---
 
 # Resizable
 
-<!-- ::preview item="resizable-demo" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="resizable-demo" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## About
 
@@ -19,7 +20,7 @@ The `Resizable` component is built on top of
 
 ## Installation
 
-<!-- ::installation name="resizable" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="resizable" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -43,10 +44,10 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
-<!-- Ark's Splitter names the panels on the group, and each handle the two it sits between. -->
+<!-- The group names the panels, and each handle the two it sits between. -->
 <template>
   <ResizablePanelGroup
     :panels="[{ id: 'one' }, { id: 'two' }]"
@@ -135,19 +136,19 @@ ResizablePanelGroup
 
 Use `orientation="vertical"` for vertical resizing.
 
-<!-- ::preview item="resizable-vertical" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="resizable-vertical" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Handle
 
 Use the `withHandle` prop on `ResizableHandle` to show a visible handle.
 
-<!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="resizable-handle" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="resizable-rtl" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="resizable-rtl" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

@@ -73,7 +73,7 @@ export function Example() {
 }
 ```
 
-### Vue
+### Vue · Ark UI
 
 ```vue
 <script setup lang="ts">

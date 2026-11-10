@@ -32,7 +32,7 @@ import {
   space,
   zIndex,
 } from "../core/scales"
-import { placeholder, when } from "../core/states"
+import { placeholder, presence, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { ANCHOR_WIDTH } from "./overlay.styles"
 import {
@@ -276,6 +276,13 @@ export const select = {
     width: ANCHOR_WIDTH,
     minWidth: { base: space[36], [mira]: space[32] },
     transitionProperty: { '[data-align-trigger="true"]': "none" },
+    // And without Ark UI's or Reka UI's keyframes (`popupMotion`'s, on their presence).
+    animationName: {
+      '[data-align-trigger="true"]': {
+        ...when(presence.open, "none"),
+        ...when(presence.closed, "none"),
+      },
+    },
   }),
 
   // React Aria's popup does not scroll: its list box does.

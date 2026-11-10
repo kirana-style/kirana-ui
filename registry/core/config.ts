@@ -20,15 +20,16 @@ export type Framework = (typeof FRAMEWORKS)[number]
 
 /**
  * The headless library under the components: Base UI, React Aria, Ark UI, ng-primitives (Ark UI
- * has no Angular port; ng-primitives is the library `@kirana-style/states` has Angular's keys for).
+ * has no Angular port; ng-primitives is the library `@kirana-style/states` has Angular's keys for),
+ * Reka UI (Vue's second). A value is added at the end: preset codes index this list.
  */
-export const BASES = ["base", "aria", "ark", "ng"] as const
+export const BASES = ["base", "aria", "ark", "ng", "reka"] as const
 export type Base = (typeof BASES)[number]
 
 /** Which bases each framework offers; the first is its default. */
 export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
   react: ["base", "aria"],
-  vue: ["ark"],
+  vue: ["ark", "reka"],
   svelte: ["ark"],
   solid: ["ark"],
   angular: ["ng"],

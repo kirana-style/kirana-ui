@@ -12,12 +12,13 @@ import { disclosure } from "../core/states"
 export const collapsibleScope = relation("collapsible")
 
 /**
- * Inside an open section, on Base UI (`data-open`), React Aria (`data-expanded`), Ark UI
- * (`data-state="open"`) or ng-primitives (`data-open`).
+ * Inside an open section, on Base UI (`data-open`), React Aria (`data-expanded`), Ark UI and Reka
+ * UI (`data-state="open"`) or ng-primitives (`data-open`).
  */
 export const OPEN = {
   base: collapsibleScope.within(disclosure.open.base),
   aria: collapsibleScope.within(disclosure.open.aria),
   ark: collapsibleScope.within(disclosure.open.ark),
   ng: collapsibleScope.within(disclosure.open.ng),
+  reka: collapsibleScope.within(disclosure.open.reka),
 }

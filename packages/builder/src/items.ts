@@ -40,6 +40,7 @@ export const FRAMEWORK_BASES = [
   { framework: "react", base: "base", bases: "react-base" },
   { framework: "react", base: "aria", bases: "react-aria" },
   { framework: "vue", base: "ark", bases: "vue-ark" },
+  { framework: "vue", base: "reka", bases: "vue-reka" },
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
@@ -114,6 +115,14 @@ function component(
       )
         return undefined
       if (bases && !bases.includes(combination.base)) return undefined
+      // A base being ported has a component once its markup is written.
+      if (
+        PORTING_BASES.includes(combination.bases) &&
+        !existsSync(
+          join(REGISTRY, markupOf(name, combination).replace(/\/\*$/, ""))
+        )
+      )
+        return undefined
       return [markupOf(name, combination), `styles/${name}.styles.ts`]
     },
   }
@@ -124,6 +133,9 @@ function component(
  * has once its markup is written.
  */
 const PORTING: Framework[] = ["svelte", "solid", "angular"]
+
+/** A framework's second base, being ported against React's pages (P8): Vue on Reka UI. */
+const PORTING_BASES: string[] = ["vue-reka"]
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -282,11 +294,13 @@ export const ITEMS: Item[] = [
     type: "registry:lib",
     title: "Placement",
     description:
-      "Base UI's side, align and offsets for a popup, as Ark UI's positioning.",
+      "Base UI's side, align and offsets for a popup, as Ark UI's positioning or Reka UI's sides.",
     // Ark UI's frameworks: their popups take Base UI's placement on the content and place it
-    // from the root.
+    // from the root. Reka UI's take Radix's physical sides, turned from Base UI's logical ones.
     files: (combination) =>
-      combination.base === "ark" ? ["lib/placement.ts"] : undefined,
+      combination.base === "ark" || combination.base === "reka"
+        ? ["lib/placement.ts"]
+        : undefined,
   },
   {
     name: "control",
@@ -665,7 +679,7 @@ export const ITEMS: Item[] = [
     "A collection of links for navigating websites.",
     ["react", "vue"],
     // React Aria has none; Angular's is the registry's own.
-    ["base", "ark", "ng"]
+    ["base", "ark", "ng", "reka"]
   ),
   component(
     "menubar",

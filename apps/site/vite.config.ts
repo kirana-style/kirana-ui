@@ -33,6 +33,7 @@ const BLOCK_NAMES = "virtual:block-names"
 /** Each framework's examples, by the extension of its files, beside React's two bases. */
 const EXAMPLES = {
   "vue/ark": ["vue-ark", ".vue"],
+  "vue/reka": ["vue-reka", ".vue"],
   "svelte/ark": ["svelte-ark", ".svelte"],
   "solid/ark": ["solid-ark", ".tsx"],
   "angular/ng": ["angular-ng", ".ts"],

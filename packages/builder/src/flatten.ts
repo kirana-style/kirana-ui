@@ -28,7 +28,7 @@ import {
 } from "./styles"
 import type { Entry } from "./styles"
 
-export type Base = "base" | "aria" | "ark" | "ng"
+export type Base = "base" | "aria" | "ark" | "ng" | "reka"
 
 export type Target = { style: string; base: Base }
 

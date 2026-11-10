@@ -30,7 +30,11 @@ import {
 } from "../core/scales"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlIcons, focusRing, laterRings } from "./control"
-import { ANCHOR_WIDTH } from "./overlay.styles"
+import {
+  ANCHOR_WIDTH,
+  AVAILABLE_HEIGHT,
+  AVAILABLE_WIDTH,
+} from "./overlay.styles"
 import { inputGroupScope } from "./scope.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
@@ -78,7 +82,7 @@ export const combobox = {
     zIndex: "auto",
     overflowY: "hidden",
     width: ANCHOR_WIDTH,
-    maxWidth: "var(--available-width)",
+    maxWidth: AVAILABLE_WIDTH,
     minWidth: {
       base: `calc(var(--anchor-width) + ${space[7]})`,
       '[data-chips="true"]': "var(--anchor-width)",
@@ -106,7 +110,7 @@ export const combobox = {
   // cn-combobox-list and the component's own classes: it scrolls without a bar, short of the
   // popup's height by an input's.
   list: css({
-    maxHeight: `min(calc(${space[72]} - ${space[9]}), calc(var(--available-height) - ${space[9]}))`,
+    maxHeight: `min(calc(${space[72]} - ${space[9]}), calc(${AVAILABLE_HEIGHT} - ${space[9]}))`,
     scrollPaddingBlock: {
       base: space[1],
       [luma]: space["1.5"],

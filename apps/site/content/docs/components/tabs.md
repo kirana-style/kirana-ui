@@ -2,19 +2,20 @@
 title: Tabs
 description: A set of layered sections of content, displayed one at a time.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid, angular]
 ---
 
 # Tabs
 
-<!-- ::preview item="tabs-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-demo" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 `TabsList` takes `variant="line"` for an underlined list, and `Tabs` an `orientation`.
 
 ## Installation
 
-<!-- ::installation name="tabs" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="tabs" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -60,7 +61,7 @@ export function Example() {
 }
 ```
 
-### Vue
+### Vue · Ark UI, Vue · Reka UI
 
 ```vue
 <script setup lang="ts">
@@ -158,29 +159,29 @@ Tabs
 
 Use the `variant="line"` prop on `TabsList` for a line style.
 
-<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Vertical
 
 Use `orientation="vertical"` for vertical tabs.
 
-<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Icons
 
-<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
-<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -201,6 +202,12 @@ See the [React Aria Tabs](https://react-aria.adobe.com/Tabs#api) documentation.
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Tabs](https://ark-ui.com/vue/docs/components/tabs#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+See the [Reka UI Tabs](https://reka-ui.com/docs/components/tabs#api-reference) documentation.
 
 <!-- ::end:only -->
 

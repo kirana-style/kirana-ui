@@ -28,6 +28,7 @@ import {
 import { item, when } from "../core/states"
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlIcons } from "./control"
+import { AVAILABLE_HEIGHT } from "./overlay.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 const { inverted, translucent } = axes.menuColor
@@ -78,7 +79,7 @@ export const menuPositioner = css({
 /** The popup itself: solid, inverted or glass by the menu colour. Padding is the menu's own. */
 export const menuSurface = css({
   zIndex: zIndex.popover,
-  maxHeight: "var(--available-height)",
+  maxHeight: AVAILABLE_HEIGHT,
   overflowX: "hidden",
   overflowY: "auto",
   outlineStyle: "none",

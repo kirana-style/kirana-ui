@@ -2,7 +2,8 @@
 title: Subagent
 description: Displays a subagent run, with its tool calls and result.
 section: ai-elements
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [subagent, ai elements, agent, chat]
 ---
 

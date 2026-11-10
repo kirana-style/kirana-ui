@@ -131,6 +131,7 @@ const BASE_NAMES: Record<string, string> = {
   base: "Base UI",
   aria: "React Aria",
   ark: "Ark UI",
+  reka: "Reka UI",
   ng: "ng-primitives",
 }
 

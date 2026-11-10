@@ -97,6 +97,7 @@ const BASE_NAMES = {
   aria: "React Aria",
   ark: "Ark UI",
   ng: "ng-primitives",
+  reka: "Reka UI",
 } as const
 
 const started = performance.now()
@@ -346,6 +347,17 @@ for (const item of demos) {
       if (Object.keys(files).length) parts[`${framework}/${base}`] = files
     } catch (error) {
       problems.push(`demo ${item} (${framework}/${base}): ${String(error)}`)
+    }
+  }
+  // A combination whose code is an earlier one's, byte for byte (Vue's two bases share their demos'
+  // files), names it instead of repeating it (`same`, read by docs-ui's `withShared`).
+  for (const record of [code, parts] as Record<string, unknown>[]) {
+    const seen = new Map<string, string>()
+    for (const [id, entry] of Object.entries(record)) {
+      const text = JSON.stringify(entry)
+      const earlier = seen.get(text)
+      if (earlier) record[id] = { same: earlier }
+      else seen.set(text, id)
     }
   }
   if (Object.keys(parts).length)

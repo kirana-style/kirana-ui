@@ -90,7 +90,9 @@ export const checkbox = {
     cursor: when(check.disabled, "not-allowed"),
     opacity: {
       ...when(check.disabled, 0.5),
-      [fieldScope.within(":has(:disabled)")]: 0.5,
+      // Base UI's, React Aria's and Ark UI's hidden input is `:disabled`; Reka UI's box, a `span`,
+      // is only marked, and its input is there only in a form.
+      [fieldScope.within(":has(:disabled, [data-disabled])")]: 0.5,
     },
     // A larger target than the box: `after:-inset-x-3 after:-inset-y-2`.
     "::after": {

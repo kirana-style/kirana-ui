@@ -2,14 +2,15 @@
 title: Message
 description: Displays a message in a conversation, with optional avatar, header, footer, and alignment.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [message, chat, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Message
 
-<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 The `Message` component lays out a single message in a conversation. It handles the avatar, alignment, header, and footer around the message surface.
 
@@ -17,7 +18,7 @@ For AI apps, you can render reasoning steps, tool calls and assistant messages u
 
 ## Installation
 
-<!-- ::installation name="message" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="message" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -47,7 +48,7 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <template>
@@ -173,7 +174,7 @@ MessageGroup
 
 Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` on the message to align the avatar to the end of the message.
 
-<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 | align   | Description                                         |
 | ------- | --------------------------------------------------- |
@@ -184,19 +185,19 @@ Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` o
 
 Use `MessageGroup` to stack consecutive messages from the same sender. Render an empty `MessageAvatar` on the earlier messages to keep them aligned with the avatar on the last one.
 
-<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Header and Footer
 
 Use `MessageHeader` for a sender name and `MessageFooter` for metadata such as a delivery or read status.
 
-<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Actions
 
 Place message-level actions in `MessageFooter`, such as copy, retry, or feedback buttons.
 
-<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Attachment
 
