@@ -1,0 +1,152 @@
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref } from "vue"
+import { css } from "@kirana-style/core"
+import IconPlaceholder from "../../../icons/IconPlaceholder.vue"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "../ui/command"
+import {
+  fontFamily,
+  fontSize,
+  fontWeight,
+  lineHeight,
+  space,
+} from "../../../core/scales"
+import { radius, theme } from "../../../core/tokens"
+import { page } from "../../../styles/page.styles"
+
+const styles = {
+  mutedSm: css({
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    color: theme.mutedForeground,
+  }),
+  kbd: css({
+    pointerEvents: "none",
+    display: "inline-flex",
+    height: space[5],
+    alignItems: "center",
+    gap: space[1],
+    borderRadius: radius.sm,
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.border,
+    backgroundColor: theme.muted,
+    paddingInline: space["1.5"],
+    fontFamily: fontFamily.mono,
+    fontSize: "10px",
+    fontWeight: fontWeight.medium,
+    color: theme.mutedForeground,
+    opacity: 1,
+    userSelect: "none",
+  }),
+  textXs: css({ fontSize: fontSize.xs, lineHeight: lineHeight.xs }),
+}
+
+const open = ref(false)
+// ⌘J or Ctrl+J opens and closes it.
+function down(e: KeyboardEvent) {
+  if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+    e.preventDefault()
+    open.value = !open.value
+  }
+}
+onMounted(() => document.addEventListener("keydown", down))
+onUnmounted(() => document.removeEventListener("keydown", down))
+</script>
+
+<template>
+  <div :sx="page.example">
+    <p :sx="styles.mutedSm">
+      Press{{ " " }}
+      <kbd :sx="styles.kbd">
+        <span :sx="styles.textXs"> ⌘ </span>
+        J
+      </kbd>
+    </p>
+    <CommandDialog v-model:open="open">
+      <Command>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty> No results found. </CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem>
+              <IconPlaceholder
+                lucide="CalendarIcon"
+                tabler="IconCalendar"
+                hugeicons="CalendarIcon"
+                phosphor="CalendarIcon"
+                remixicon="RiCalendarLine"
+              />
+              <span> Calendar </span>
+            </CommandItem>
+            <CommandItem>
+              <IconPlaceholder
+                lucide="SmileIcon"
+                tabler="IconMoodSmile"
+                hugeicons="SmileIcon"
+                phosphor="SmileyIcon"
+                remixicon="RiEmotionLine"
+              />
+              <span> Search Emoji </span>
+            </CommandItem>
+            <CommandItem>
+              <IconPlaceholder
+                lucide="CalculatorIcon"
+                tabler="IconCalculator"
+                hugeicons="CalculatorIcon"
+                phosphor="CalculatorIcon"
+                remixicon="RiCalculatorLine"
+              />
+              <span> Calculator </span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem>
+              <IconPlaceholder
+                lucide="UserIcon"
+                tabler="IconUser"
+                hugeicons="UserIcon"
+                phosphor="UserIcon"
+                remixicon="RiUserLine"
+              />
+              <span> Profile </span>
+              <CommandShortcut> ⌘P </CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <IconPlaceholder
+                lucide="CreditCardIcon"
+                tabler="IconCreditCard"
+                hugeicons="CreditCardIcon"
+                phosphor="CreditCardIcon"
+                remixicon="RiBankCardLine"
+              />
+              <span> Billing </span>
+              <CommandShortcut> ⌘B </CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <IconPlaceholder
+                lucide="SettingsIcon"
+                tabler="IconSettings"
+                hugeicons="SettingsIcon"
+                phosphor="TerminalIcon"
+                remixicon="RiSettingsLine"
+              />
+              <span> Settings </span>
+              <CommandShortcut> ⌘S </CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </CommandDialog>
+  </div>
+</template>

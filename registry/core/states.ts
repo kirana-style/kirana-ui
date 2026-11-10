@@ -203,18 +203,28 @@ export const resizable = {
   },
 } as const satisfies Record<string, StateKeys>
 
-/** A Base UI toast and its content. React Aria has no toast. */
+/**
+ * A Base UI toast and its content. React Aria has no toast. Reka UI's writes Base UI's `data-expanded`
+ * and `data-limited`, and Vue's part writes the first frame and the content's states itself, under
+ * Base UI's names; it leaves on Reka's `data-state` (`toast.rootReka`).
+ */
 export const toast = {
-  expanded: { base: Base.Toast.Root.expanded },
-  limited: { base: Base.Toast.Root.limited },
-  starting: { base: Base.Toast.Root.startingStyle },
+  expanded: { base: Base.Toast.Root.expanded, reka: "[data-expanded]" },
+  limited: { base: Base.Toast.Root.limited, reka: "[data-limited]" },
+  starting: {
+    base: Base.Toast.Root.startingStyle,
+    reka: "[data-starting-style]",
+  },
   ending: { base: Base.Toast.Root.endingStyle },
   swipeUp: { base: Base.Toast.Root.swipeDirection.up },
   swipeDown: { base: Base.Toast.Root.swipeDirection.down },
   swipeLeft: { base: Base.Toast.Root.swipeDirection.left },
   swipeRight: { base: Base.Toast.Root.swipeDirection.right },
-  contentExpanded: { base: Base.Toast.Content.expanded },
-  behind: { base: Base.Toast.Content.behind },
+  contentExpanded: {
+    base: Base.Toast.Content.expanded,
+    reka: "[data-expanded]",
+  },
+  behind: { base: Base.Toast.Content.behind, reka: "[data-behind]" },
 } as const satisfies Record<string, StateKeys>
 
 /** A collapsible panel's first frame and its exit, which it animates its height over. */

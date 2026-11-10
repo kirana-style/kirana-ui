@@ -98,6 +98,14 @@ export const combobox = {
     },
   }),
 
+  // Reka UI's popper names it `--reka-popper-anchor-width`.
+  contentReka: css({
+    minWidth: {
+      base: `calc(var(--reka-popper-anchor-width) + ${space[7]})`,
+      '[data-chips="true"]': "var(--reka-popper-anchor-width)",
+    },
+  }),
+
   // cn-combobox-content-aria, after `menuSurface`: React Aria's popover keeps the content's
   // `min-w-36` and gives its height in its own style.
   contentAria: css(comboboxPopupScope.anchor, {

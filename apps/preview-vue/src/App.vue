@@ -46,16 +46,12 @@ const SonnerToaster = defineAsyncComponent(() =>
     ? import("@workspace/registry/bases/vue-reka/ui/sonner/Toaster.vue")
     : import("@workspace/registry/bases/vue-ark/ui/sonner/Toaster.vue")
 )
-/**
- * The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item. Reka UI's
- * toast comes with its own layer.
- */
-const ToastToaster =
+/** The toast's toaster, the base's own, as React's preview mounts Base UI's beside every item. */
+const ToastToaster = defineAsyncComponent(() =>
   base === "reka"
-    ? undefined
-    : defineAsyncComponent(
-        () => import("@workspace/registry/bases/vue-ark/ui/toast/Toaster.vue")
-      )
+    ? import("@workspace/registry/bases/vue-reka/ui/toast/Toaster.vue")
+    : import("@workspace/registry/bases/vue-ark/ui/toast/Toaster.vue")
+)
 const mounted = ref(false)
 onMounted(() => (mounted.value = true))
 
@@ -87,6 +83,6 @@ const list = css({
       <a :href="`/preview/vue/${base}/showcase`">showcase</a>
     </nav>
     <SonnerToaster v-if="mounted && current" position="top-center" />
-    <ToastToaster v-if="ToastToaster && mounted && current" />
+    <ToastToaster v-if="mounted && current" />
   </component>
 </template>

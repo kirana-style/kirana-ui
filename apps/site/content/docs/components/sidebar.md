@@ -2,13 +2,14 @@
 title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [sidebar, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" caption="A sidebar that collapses to icons." -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" caption="A sidebar that collapses to icons." -->
 
 Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
@@ -19,7 +20,7 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="sidebar" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -50,7 +51,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <script setup lang="ts">
@@ -757,4 +758,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->

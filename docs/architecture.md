@@ -410,9 +410,8 @@ Every component Ark UI and Reka UI need here has a state vocabulary in
 `@kirana-style/states`. Bits UI's Command and ScrollArea do not yet.
 
 **Vue has a second base, Reka UI** (`registry/bases/vue-reka`, at
-`/preview/vue/reka/`), with 49 of Vue's 61 components so far, the others to
-follow. Its parts take the same props as the Ark UI ones and turn them into
-Reka's, so Vue's examples, blocks and charts are the same files on both bases,
+`/preview/vue/reka/`), with all of Vue's 61 components. Its parts take the
+same props as the Ark UI ones and turn them into Reka's, so Vue's examples, blocks and charts are the same files on both bases,
 and both are checked against React's pages. A base is one more key per state
 (`reka:` in `core/states.ts`), not another set of styles.
 
