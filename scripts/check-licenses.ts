@@ -38,6 +38,11 @@ const REVIEWED: { pattern: RegExp; reason: string }[] = [
     reason:
       "LGPL-3.0: libvips, loaded by sharp, which wrangler uses for images while developing and deploying",
   },
+  {
+    pattern: /^(runed|svelte-toolbelt)$/,
+    reason:
+      "MIT, by the LICENSE file each ships, though its package.json names no licence: Bits UI's own dependencies",
+  },
 ]
 
 /** An SPDX expression is allowed when one of its `OR` alternatives has every `AND` part allowed. */

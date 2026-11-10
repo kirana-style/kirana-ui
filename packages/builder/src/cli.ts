@@ -98,6 +98,7 @@ const BASE_NAMES = {
   ark: "Ark UI",
   ng: "ng-primitives",
   reka: "Reka UI",
+  bits: "Bits UI",
 } as const
 
 const started = performance.now()

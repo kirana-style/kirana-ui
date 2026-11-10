@@ -1,6 +1,7 @@
 /**
  * The bases' official marks, drawn in the text's colour: Base UI's and React Aria's as upstream's
- * `registry/bases.ts` has them, inline so they take `currentColor`; Ark UI's, Reka UI's and
+ * `registry/bases.ts` has them, and Bits UI's site icon (a disc), inline so they take
+ * `currentColor`; Ark UI's, Reka UI's and
  * ng-primitives' are their sites' icons, kept in `brands/` as the other logos are and drawn as images. The docs'
  * frameworks row and `/create`'s Get Code draw them from here.
  */
@@ -37,6 +38,11 @@ const IMAGES: Partial<Record<Base, SvglIcon>> = {
 }
 
 const INLINE: Partial<Record<Base, ReactNode>> = {
+  bits: (
+    <svg viewBox="0 0 11 11" width="100%" height="100%" aria-hidden="true">
+      <circle cx="5.5" cy="5.5" r="5" fill="currentColor" />
+    </svg>
+  ),
   base: (
     <svg viewBox="0 0 17 24" width="100%" height="100%" aria-hidden="true">
       <path

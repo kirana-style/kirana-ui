@@ -12,6 +12,7 @@ import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 import * as Reka from "@kirana-style/states/reka-ui"
+import * as Bits from "@kirana-style/states/bits-ui"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
 // A type, which Node erases: the configuration still loads no module of its own.
@@ -32,12 +33,14 @@ export const orientation = {
     aria: '[aria-orientation="horizontal"]',
     ark: '[data-orientation="horizontal"]',
     reka: '[data-orientation="horizontal"]',
+    bits: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Separator.orientation.vertical,
     aria: '[aria-orientation="vertical"]',
     ark: '[data-orientation="vertical"]',
     reka: '[data-orientation="vertical"]',
+    bits: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -48,6 +51,7 @@ export const registryConfig = {
       ...Aria.exclusive,
       ...Ark.exclusive,
       ...Reka.exclusive,
+      ...Bits.exclusive,
       // React Aria's separator writes `aria-orientation`, which no vocabulary names (`orientation`).
       [orientation.horizontal.base, orientation.vertical.aria],
       [orientation.vertical.base, orientation.horizontal.aria],
@@ -82,7 +86,13 @@ export const registryConfig = {
     ],
     // Pure, so a page that reaches this module (for `orientation`, through `states.ts`) drops the
     // configuration and the vocabularies it walks.
-    exclusiveAcross: /* @__PURE__ */ exclusiveAcross(Base, Aria, Ark, Reka),
+    exclusiveAcross: /* @__PURE__ */ exclusiveAcross(
+      Base,
+      Aria,
+      Ark,
+      Reka,
+      Bits
+    ),
   },
 } satisfies KiranaConfig
 

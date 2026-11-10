@@ -42,6 +42,7 @@ export const FRAMEWORK_BASES = [
   { framework: "vue", base: "ark", bases: "vue-ark" },
   { framework: "vue", base: "reka", bases: "vue-reka" },
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
+  { framework: "svelte", base: "bits", bases: "svelte-bits" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
 ] as const
@@ -138,7 +139,7 @@ const PORTING: Framework[] = ["svelte", "solid", "angular"]
  * A framework's second base while it is ported against React's pages (P8): its components appear
  * as their markup is written. Vue on Reka UI is whole; Svelte on Bits UI joins it next.
  */
-const PORTING_BASES: string[] = []
+const PORTING_BASES: string[] = ["svelte-bits"]
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -301,8 +302,23 @@ export const ITEMS: Item[] = [
     // Ark UI's frameworks: their popups take Base UI's placement on the content and place it
     // from the root. Reka UI's take Radix's physical sides, turned from Base UI's logical ones.
     files: (combination) =>
-      combination.base === "ark" || combination.base === "reka"
+      combination.base === "ark" ||
+      combination.base === "reka" ||
+      combination.base === "bits"
         ? ["lib/placement.ts"]
+        : undefined,
+  },
+  {
+    name: "as-child",
+    type: "registry:lib",
+    title: "As child",
+    description:
+      "A part's element, or the caller's own through an asChild snippet given the props to spread.",
+    // Bits UI has no element factory: Svelte's parts on it render through `Element.svelte`, with
+    // Ark UI's `asChild` (a snippet called with the props function).
+    files: (combination) =>
+      combination.framework === "svelte" && combination.base === "bits"
+        ? ["lib/svelte/as-child.ts", "lib/svelte/Element.svelte"]
         : undefined,
   },
   {
@@ -682,7 +698,7 @@ export const ITEMS: Item[] = [
     "A collection of links for navigating websites.",
     ["react", "vue"],
     // React Aria has none; Angular's is the registry's own.
-    ["base", "ark", "ng", "reka"]
+    ["base", "ark", "ng", "reka", "bits"]
   ),
   component(
     "menubar",

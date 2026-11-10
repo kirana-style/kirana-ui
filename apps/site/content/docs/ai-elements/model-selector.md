@@ -3,7 +3,16 @@ title: Model Selector
 description: Two menus. One picks the model the agent runs, the other picks how hard it thinks.
 section: ai-elements
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords: [model selector, ai elements, agent, chat]
 ---
 

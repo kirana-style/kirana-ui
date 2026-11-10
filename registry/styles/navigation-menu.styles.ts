@@ -38,9 +38,10 @@ import { AVAILABLE_WIDTH } from "./overlay.styles"
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 const Nav = State.NavigationMenu
-/** Ark UI's and Reka UI's open trigger, read from inside it (the chevron). */
+/** Ark UI's, Reka UI's and Bits UI's open trigger, read from inside it (the chevron). */
 const ARK_TRIGGER_OPEN = navigationMenuState.triggerOpen.ark
 const REKA_TRIGGER_OPEN = navigationMenuState.triggerOpen.reka
+const BITS_TRIGGER_OPEN = navigationMenuState.triggerOpen.bits
 
 /** A panel, read by the links inside it (`in-data-[slot=navigation-menu-content]:`). */
 export const navigationMenuContentScope = relation("navigation-menu-content")
@@ -177,9 +178,10 @@ export const navigationMenu = {
     transitionTimingFunction: easing.inOut,
     rotate: {
       [navigationMenuTriggerScope.within(Nav.Trigger.popupOpen)]: "180deg",
-      // Ark UI's open trigger, and Reka UI's.
+      // Ark UI's open trigger, Reka UI's and Bits UI's.
       [navigationMenuTriggerScope.within(ARK_TRIGGER_OPEN)]: "180deg",
       [navigationMenuTriggerScope.within(REKA_TRIGGER_OPEN)]: "180deg",
+      [navigationMenuTriggerScope.within(BITS_TRIGGER_OPEN)]: "180deg",
     },
   }),
 
@@ -226,6 +228,11 @@ export const navigationMenu = {
     isolation: { [maia]: "isolate" },
     zIndex: { [maia]: zIndex.popover },
   }),
+
+  // Bits UI's panel, as large as its own content: Bits sizes the viewport to the panel's measured
+  // size, and a panel as large as the viewport (`width: auto`, `height: 100%`) would keep whatever
+  // size was measured first. Base UI's viewport shrinks to fit the panel.
+  contentBits: css({ width: "max-content", height: "max-content" }),
 
   // cn-navigation-menu-positioner and the component's own classes: it follows the open trigger.
   positioner: css({

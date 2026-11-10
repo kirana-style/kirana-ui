@@ -3,7 +3,16 @@ title: Terminal
 description: Displays a command the agent runs, with its output as it streams.
 section: ai-elements
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords: [terminal, ai elements, agent, chat]
 ---
 

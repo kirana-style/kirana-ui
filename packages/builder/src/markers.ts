@@ -24,7 +24,7 @@ export type Marker =
   | { kind: "fallback"; args: string[] }
   | {
       kind: "state"
-      base: "base" | "aria" | "ark" | "ng" | "reka"
+      base: "base" | "aria" | "ark" | "ng" | "reka" | "bits"
       key: string
     }
 

@@ -110,7 +110,7 @@ import {
 </template>
 ```
 
-### Svelte
+### Svelte · Ark UI
 
 ```svelte
 <script lang="ts">
