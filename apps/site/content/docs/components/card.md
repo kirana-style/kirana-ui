@@ -212,7 +212,7 @@ Use the `size="sm"` prop to set the size of the card to small. The small size va
 
 In addition to the `size` prop, the card's spacing context sets the spacing between sections and the inset of its parts: `[cardCtx.spacing]: spacing(6)` on the card (`@/lib/kirana/context`).
 
-<!-- ::preview item="card-spacing" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="card-spacing" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 Use negative margins of `calc(${cardCtx.spacing} * -1)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, give `CardContent` the same negative bottom margin to remove the section gap.
 

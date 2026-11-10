@@ -2,7 +2,8 @@
 title: Date Picker
 description: A date picker component with range and presets.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     date picker,
@@ -21,7 +22,7 @@ keywords:
 
 # Date Picker
 
-<!-- ::preview item="date-picker-demo" height="640" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-demo" height="640" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
@@ -180,42 +181,42 @@ PopoverTrigger
 
 A basic date picker component.
 
-<!-- ::preview item="date-picker-basic" height="668" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-basic" height="668" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Range Picker
 
 A date picker component for selecting a range of dates.
 
-<!-- ::preview item="date-picker-range" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-range" height="760" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Date of Birth
 
 A date picker component for selecting a date of birth. This component includes a dropdown caption layout for date and month selection.
 
-<!-- ::preview item="date-picker-dob" height="668" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-dob" height="668" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Input
 
 A date picker component with an input field for selecting a date.
 
-<!-- ::preview item="date-picker-input" height="672" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-input" height="672" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Time Picker
 
 A date picker component with a time input field for selecting a time.
 
-<!-- ::preview item="date-picker-time" height="668" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-time" height="668" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Natural Language Picker
 
 This one parses natural language dates with [`chrono-node`](https://github.com/wanasit/chrono) (MIT).
 
-<!-- ::preview item="date-picker-natural-language" height="620" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="date-picker-natural-language" height="620" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="date-picker-rtl" height="640" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="date-picker-rtl" height="640" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 A date picker takes Kirana's `sx` where upstream's takes `className`, on each of its parts.

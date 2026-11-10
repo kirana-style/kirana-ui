@@ -134,8 +134,11 @@ function component(
  */
 const PORTING: Framework[] = ["svelte", "solid", "angular"]
 
-/** A framework's second base, being ported against React's pages (P8): Vue on Reka UI. */
-const PORTING_BASES: string[] = ["vue-reka"]
+/**
+ * A framework's second base while it is ported against React's pages (P8): its components appear
+ * as their markup is written. Vue on Reka UI is whole; Svelte on Bits UI joins it next.
+ */
+const PORTING_BASES: string[] = []
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -725,7 +728,7 @@ export const ITEMS: Item[] = [
     "A succinct message that is displayed temporarily.",
     ["react", "vue"],
     // React Aria has no toast: its pages use Sonner. Angular's comes with its own (P6).
-    ["base", "ark", "ng"]
+    ["base", "ark", "ng", "reka"]
   ),
   component(
     "resizable",

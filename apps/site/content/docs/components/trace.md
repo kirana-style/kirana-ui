@@ -398,7 +398,7 @@ Wrap the `TraceLine` in an anchor. For a new tab, use an arrow-up-right icon and
 
 Wrap the `TraceLine` in the dialog's trigger. The dialog owns its open state, Escape and focus return.
 
-<!-- ::preview item="trace-dialog" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-dialog" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -456,7 +456,7 @@ The same shape as the dialog. Popover works the same way. Drawer is a Base UI dr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="trace-sheet" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-sheet" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Group
 
@@ -504,7 +504,7 @@ See [Chain of Thought](/docs/ai-elements/chain-of-thought) and [Task](/docs/ai-e
 
 A commit is a collapsible row with a line for each changed file. Say what changed in the title, Added, Edited or Deleted, and put the line counts in the description. Each file opens its diff in a [Sheet](#sheet).
 
-<!-- ::preview item="trace-commit" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-commit" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Whole Turn
 

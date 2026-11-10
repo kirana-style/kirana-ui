@@ -2,18 +2,18 @@
 title: Toast
 description: A succinct message that is displayed temporarily.
 section: components
-variants: [react/base, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants: [react/base, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [toast, notification, component, base, ark, vue, svelte, solid, angular]
 ---
 
 # Toast
 
-<!-- ::preview item="toast-demo" height="300" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-demo" height="300" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="toast" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="toast" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 Then add the `Toaster` component to your root layout:
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <script setup lang="ts">
@@ -130,7 +130,7 @@ Set the `type` option to render a status icon. The built-in renderer recognizes
 shadcn/ui's keep the text's but the error's: green for `success`, sky for `info`, orange for
 `warning` and the destructive red for `error`.
 
-<!-- ::preview item="toast-types" height="300" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-types" height="300" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Action
 
@@ -153,7 +153,7 @@ const id = toast.add({
 Use `toast.promise` to update one toast as an asynchronous task moves through
 loading, success, and error states.
 
-<!-- ::preview item="toast-promise" height="300" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-promise" height="300" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## API Reference
 
@@ -172,6 +172,16 @@ API.
 which `toaster` is; it places them at the bottom end, three at most, as Base UI's are. See the
 [Ark UI Toast documentation](https://ark-ui.com/vue/docs/components/toast#api-reference) for the
 toaster's own options and the parts.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+`toast` takes Base UI's calls (`add`, `close`, `update` and `promise`, with `title`,
+`description`, `type`, `timeout` and `actionProps`) and makes the toasts with Reka UI's toast
+manager, which `toaster` is; it places them at the bottom end, three at most, as Base UI's are. See
+the [Reka UI Toast documentation](https://reka-ui.com/docs/components/toast#api-reference) for the
+manager's own options and the parts.
 
 <!-- ::end:only -->
 

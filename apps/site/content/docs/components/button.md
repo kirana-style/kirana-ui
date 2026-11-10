@@ -160,7 +160,7 @@ Render a `<Spinner />` component inside the button to show a loading state. Reme
 
 To create a button group, use the `ButtonGroup` component. See the [Button Group](/docs/components/button-group) documentation for more details.
 
-<!-- ::preview item="button-group-demo" height="564" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="button-group-demo" height="564" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## As Link
 

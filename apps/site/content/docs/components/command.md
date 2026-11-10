@@ -2,7 +2,8 @@
 title: Command
 description: Command menu for search and quick actions.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     command,
@@ -21,7 +22,7 @@ keywords:
 
 # Command
 
-<!-- ::preview item="command-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## About
 
@@ -33,7 +34,7 @@ The `<Command />` component uses the [`cmdk`](https://github.com/dip/cmdk) compo
 
 ## Installation
 
-<!-- ::installation name="command" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="command" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -111,7 +112,7 @@ const framed = css({
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <template>
@@ -278,29 +279,29 @@ Command
 
 A simple command menu in a dialog.
 
-<!-- ::preview item="command-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Shortcuts
 
-<!-- ::preview item="command-shortcuts" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-shortcuts" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Groups
 
 A command menu with groups, icons and separators.
 
-<!-- ::preview item="command-groups" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-groups" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Scrollable
 
 Scrollable command menu with multiple items.
 
-<!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -319,6 +320,12 @@ See the [React Aria](https://react-aria.adobe.com/Autocomplete) documentation fo
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Listbox](https://ark-ui.com/vue/docs/components/listbox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+See the [Reka UI Listbox](https://reka-ui.com/docs/components/listbox#api-reference) documentation.
 
 <!-- ::end:only -->
 

@@ -15,6 +15,8 @@ const { defaultOpen = false, unmountOnHide = true } = defineProps<{
   unmountOnHide?: boolean
 }>()
 const model = defineModel<boolean | undefined>("open", { default: undefined })
+// `open-change`, as Ark UI's: the new state, for a caller that keeps its own.
+const emit = defineEmits<{ openChange: [details: { open: boolean }] }>()
 const own = ref(defaultOpen)
 const requested = () => model.value ?? own.value
 
@@ -34,7 +36,13 @@ const { sx, attrs } = useSx()
     :unmount-on-hide="unmountOnHide"
     v-bind="attrs"
     :sx="sx"
-    @update:open="(next: boolean) => ((own = next), (model = next))"
+    @update:open="
+      (next: boolean) => (
+        (own = next),
+        (model = next),
+        emit('openChange', { open: next })
+      )
+    "
   >
     <slot />
   </CollapsibleRoot>

@@ -410,7 +410,7 @@ Track the active snap point with the controlled `snapPoint` and `onSnapPointChan
 
 You can combine the `Dialog` and `Drawer` components to create a responsive dialog. This renders a `Dialog` component on desktop and a `Drawer` on mobile.
 
-<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-dialog" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## API Reference
 

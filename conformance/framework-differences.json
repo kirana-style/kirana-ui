@@ -709,6 +709,36 @@
       "property": "outline-width",
       "route": "/preview/vue/reka/",
       "reason": "as the context menu's: Base UI's highlighted row matches `:focus-visible` after a keyboard open, Reka UI's does not; the outline is `none`, so nothing is drawn"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "display",
+      "route": "/preview/vue/reka/combobox-",
+      "reason": "Reka UI lays out a combobox's popup as a column inline (`display: flex`, Radix's), as its select's"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "flex-direction",
+      "route": "/preview/vue/reka/combobox-",
+      "reason": "Reka UI lays out a combobox's popup as a column inline (`display: flex`, Radix's), as its select's"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "min-height",
+      "route": "/preview/vue/reka/combobox-",
+      "reason": "in Reka UI's column popup (`display`, above) the search input is a flex item, whose `auto` minimum stays `auto`; its box is the same"
+    },
+    {
+      "element": "div[data-slot=\"combobox-list\"]",
+      "property": "min-width",
+      "route": "/preview/vue/reka/combobox-",
+      "reason": "as the input's: a flex item of Reka UI's column popup; its box is the same"
+    },
+    {
+      "element": "div[data-slot=\"combobox-list\"]",
+      "property": "min-height",
+      "route": "/preview/vue/reka/combobox-",
+      "reason": "as the input's: a flex item of Reka UI's column popup; its box is the same"
     }
   ]
 }

@@ -734,6 +734,12 @@ On a framework's second base (Vue on Reka UI):
   open state themselves and mount a panel a frame before Reka opens it, taking
   it out once its exit has run (`ui/collapsible/panel.ts`,
   `ui/accordion/panels.ts`); a tab panel is in the page only while chosen.
+- **A list renders its caller's slot directly** (`<template v-for … :key>` around
+  `<slot :item>`), never through an inline component
+  (`<component :is="() => slots.default?.(…)">`): that is a new component on every
+  render, so each time the list draws again every row is unmounted and mounted
+  anew. Reka's combobox popup draws again as each of its items registers, which
+  made a 187-item list take seconds to open and the popup pattern loop.
 - **React's elements, with Base UI's keys.** Reka draws a checkbox, a radio and
   a switch as buttons; the parts render `span`s, as Base UI's, focusable and
   pressed with Space, and the slider's track, range and thumbs as `div`s.

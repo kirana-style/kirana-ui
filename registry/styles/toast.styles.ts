@@ -33,6 +33,8 @@ const { lyra, mira, sera } = axes.style
 
 // Tailwind's `spin`.
 const spin = keyframes({ to: { transform: "rotate(360deg)" } })
+/** Changes nothing: Reka UI's toast stays in the page while it runs (`rootReka`). */
+const hold = keyframes({ from: { opacity: 1 }, to: { opacity: 1 } })
 
 const SWIPE_X = "var(--toast-swipe-movement-x)"
 const SWIPE_Y = "var(--toast-swipe-movement-y)"
@@ -175,6 +177,23 @@ export const toast = {
     transitionProperty: "translate, scale, opacity, height, box-shadow",
     transitionDuration: "500ms, 500ms, 500ms, 150ms, 150ms",
     transitionTimingFunction: `${EASE}, ${EASE}, ease, ease, ease`,
+  }),
+  // Reka UI's toast (Vue): Base UI's stack, which Reka measures and the part hands on under Base
+  // UI's names. It leaves on Reka's `data-state="closed"`, sliding down, or right when swiped, and is
+  // held in the page for Base UI's 500ms by an animation: Reka removes a toast once its animation
+  // ends, and at once when it has none.
+  rootReka: css({
+    translate: {
+      '[data-state="closed"]': {
+        base: "0 150%",
+        '[data-swipe="end"]': "150% 0",
+      },
+    },
+    animationName: { '[data-state="closed"]': hold },
+    animationDuration: "500ms",
+    transitionProperty: "transform, opacity, height, translate",
+    transitionDuration: "500ms, 500ms, 150ms, 500ms",
+    transitionTimingFunction: `${EASE}, ease, ease, ${EASE}`,
   }),
   content: css({
     display: "flex",
