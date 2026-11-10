@@ -2,18 +2,19 @@
 title: Slider
 description: An input where the user selects a value from within a given range.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [slider, range, form, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Slider
 
-<!-- ::preview item="slider-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="slider" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="slider" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -29,7 +30,7 @@ import { Slider } from "@/components/ui/slider"
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <template>
@@ -77,35 +78,35 @@ export class Example {}
 
 Use an array with two values for a range slider.
 
-<!-- ::preview item="slider-range" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-range" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Multiple Thumbs
 
 Use an array with multiple values for multiple thumbs.
 
-<!-- ::preview item="slider-multiple" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-multiple" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Vertical
 
 Use `orientation="vertical"` for a vertical slider.
 
-<!-- ::preview item="slider-vertical" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-vertical" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Controlled
 
-<!-- ::preview item="slider-controlled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-controlled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
 Use the `disabled` prop to disable the slider.
 
-<!-- ::preview item="slider-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-disabled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -124,6 +125,12 @@ See the [React Aria Slider](https://react-aria.adobe.com/Slider#api) documentati
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Slider](https://ark-ui.com/vue/docs/components/slider#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+See the [Reka UI Slider](https://reka-ui.com/docs/components/slider#api-reference) documentation.
 
 <!-- ::end:only -->
 

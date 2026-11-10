@@ -2,17 +2,18 @@
 title: Tooltip
 description: A popup that displays information related to an element when it receives focus or is hovered.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [tooltip, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Tooltip
 
-<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="tooltip" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="tooltip" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -123,23 +124,23 @@ Use the `placement` prop to change the position of the tooltip.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## With Keyboard Shortcut
 
-<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled Button
 
 Show a tooltip on a disabled button by wrapping it with a span.
 
-<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -158,6 +159,12 @@ See the [React Aria Tooltip](https://react-aria.adobe.com/Tooltip#api) documenta
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Tooltip](https://ark-ui.com/vue/docs/components/tooltip#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+See the [Reka UI Tooltip](https://reka-ui.com/docs/components/tooltip#api-reference) documentation.
 
 <!-- ::end:only -->
 

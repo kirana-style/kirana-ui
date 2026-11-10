@@ -2,17 +2,18 @@
 title: Select
 description: Displays a list of options for the user to pick from—triggered by a button.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [select, component, base, aria, ark, ark, vue, svelte, solid, angular]
 ---
 
 # Select
 
-<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="select-demo" height="464" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="select" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="select" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -85,7 +86,7 @@ const items = [
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <script setup lang="ts">
@@ -255,7 +256,7 @@ Select
 
 Use `alignItemWithTrigger` on `SelectContent` to control whether the selected item aligns with the trigger. When `true` (default), the popup positions so the selected item appears over the trigger. When `false`, the popup aligns to the trigger edge.
 
-<!-- ::preview item="select-align-item" height="360" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="select-align-item" height="360" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -263,17 +264,17 @@ Use `alignItemWithTrigger` on `SelectContent` to control whether the selected it
 
 Use `SelectGroup`, `SelectLabel`, and `SelectSeparator` to organize items.
 
-<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="select-groups" height="604" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Scrollable
 
 A select with many items that scrolls.
 
-<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="select-scrollable" height="760" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="select-disabled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Invalid
 
@@ -305,7 +306,7 @@ Add the `data-invalid` attribute to the `Field` component and the `isInvalid` pr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="select-invalid" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/aria -->
 
@@ -317,13 +318,13 @@ Use the [Autocomplete](https://react-aria.adobe.com/Autocomplete) component from
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base,react/aria,vue/ark,svelte/ark,solid/ark -->
+<!-- ::start:only react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="select-rtl" height="716" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 
@@ -344,6 +345,12 @@ See the [React Aria Select](https://react-aria.adobe.com/Select#api) documentati
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Select](https://ark-ui.com/vue/docs/components/select#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+See the [Reka UI Select](https://reka-ui.com/docs/components/select#api-reference) documentation.
 
 <!-- ::end:only -->
 

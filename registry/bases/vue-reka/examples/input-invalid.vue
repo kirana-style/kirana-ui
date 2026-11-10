@@ -1,0 +1,17 @@
+<script setup lang="ts">
+import { Field, FieldDescription, FieldLabel } from "../ui/field"
+import { Input } from "../ui/input"
+import { page } from "../../../styles/page.styles"
+</script>
+
+<template>
+  <div :sx="page.example">
+    <Field data-invalid="true">
+      <FieldLabel for="input-invalid">Invalid Input</FieldLabel>
+      <Input id="input-invalid" placeholder="Error" aria-invalid="true" />
+      <FieldDescription
+        >This field contains validation errors.</FieldDescription
+      >
+    </Field>
+  </div>
+</template>

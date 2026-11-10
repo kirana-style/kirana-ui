@@ -631,6 +631,84 @@
       "property": "text-align",
       "route": "/angular/ng/(queue-demo|queue-descriptions|test-results-demo|test-results-suites)",
       "reason": "Angular's row component (`<kui-todo-line>`, `display: contents`) is the Trace child that holds the line, so Trace's rule for such a child (upstream's `[&>*:has(>[data-slot=trace-line])]`, `text-left`) reaches its host and the line inherits `left`; React's line is Trace's own child and keeps `start`, the same side left to right"
+    },
+    {
+      "element": "span[data-slot=\"checkbox-indicator\"]",
+      "property": "pointer-events",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI writes `pointer-events: none` inline on its checkbox indicator, so a press lands on the box; nothing inside takes a press"
+    },
+    {
+      "element": "span[data-slot=\"select-value\"]",
+      "property": "pointer-events",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI writes `pointer-events: none` inline on its select value (Radix's), so a press lands on the trigger"
+    },
+    {
+      "element": "ul[data-slot=\"navigation-menu-list\"]",
+      "property": "min-width",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI wraps a navigation menu's list in a `div` of its own (`position: relative`, for its indicator), so the list is not the root's flex item and its `auto` minimum computes to 0; the list's box is the same"
+    },
+    {
+      "element": "ul[data-slot=\"navigation-menu-list\"]",
+      "property": "min-height",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI wraps a navigation menu's list in a `div` of its own (`position: relative`, for its indicator), so the list is not the root's flex item and its `auto` minimum computes to 0; the list's box is the same"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "pointer-events",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI's modal menu and select turn off pointer events on the page behind them while open (Radix's `disableOutsidePointerEvents`, on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
+    },
+    {
+      "element": "span[data-slot=\"button-label\"]",
+      "property": "pointer-events",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI's modal menu and select turn off pointer events on the page behind them while open (Radix's `disableOutsidePointerEvents`, on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
+    },
+    {
+      "element": "button[data-slot=\"select-trigger\"]",
+      "property": "pointer-events",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI's modal menu and select turn off pointer events on the page behind them while open (Radix's `disableOutsidePointerEvents`, on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "background-color",
+      "route": "/preview/vue/reka/",
+      "reason": "the pointer stays over an open menu's trigger, which Base UI's keeps `:hover` while Reka UI's modal menu turns off the page's pointer events (`pointer-events`, above), so a ghost trigger shows its open colour without its hover's"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "display",
+      "route": "/preview/vue/reka/",
+      "reason": "Reka UI lays out a select popup aligned with its trigger as a column inline (`display: flex`, Radix's), around its one viewport; the viewport's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "flex-direction",
+      "route": "/preview/vue/reka/",
+      "reason": "as display: Reka UI's inline column"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "min-height",
+      "route": "/preview/vue/reka/",
+      "reason": "as display: the popup is a flex item of Reka UI's positioner"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "outline-width",
+      "route": "/preview/vue/reka/",
+      "reason": "which part the browser counts as focused by keyboard differs (`:focus-visible`): Reka UI focuses a context menu's popup on the pointer's open, Base UI its first row; the outline is `none` either way, so nothing is drawn"
+    },
+    {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "outline-width",
+      "route": "/preview/vue/reka/",
+      "reason": "as the context menu's: Base UI's highlighted row matches `:focus-visible` after a keyboard open, Reka UI's does not; the outline is `none`, so nothing is drawn"
     }
   ]
 }

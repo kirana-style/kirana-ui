@@ -33,12 +33,14 @@ import {
 import { alpha, radius, surface, theme } from "../core/tokens"
 import { controlIcons, focusRing, laterRings } from "./control"
 import { ringAndShadow } from "./menu.styles"
+import { AVAILABLE_WIDTH } from "./overlay.styles"
 
 const { nova, vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
 const Nav = State.NavigationMenu
-/** Ark UI's open trigger, read from inside it (the chevron). */
+/** Ark UI's and Reka UI's open trigger, read from inside it (the chevron). */
 const ARK_TRIGGER_OPEN = navigationMenuState.triggerOpen.ark
+const REKA_TRIGGER_OPEN = navigationMenuState.triggerOpen.reka
 
 /** A panel, read by the links inside it (`in-data-[slot=navigation-menu-content]:`). */
 export const navigationMenuContentScope = relation("navigation-menu-content")
@@ -175,8 +177,9 @@ export const navigationMenu = {
     transitionTimingFunction: easing.inOut,
     rotate: {
       [navigationMenuTriggerScope.within(Nav.Trigger.popupOpen)]: "180deg",
-      // Ark UI's open trigger.
+      // Ark UI's open trigger, and Reka UI's.
       [navigationMenuTriggerScope.within(ARK_TRIGGER_OPEN)]: "180deg",
+      [navigationMenuTriggerScope.within(REKA_TRIGGER_OPEN)]: "180deg",
     },
   }),
 
@@ -230,7 +233,7 @@ export const navigationMenu = {
     zIndex: zIndex.popover,
     height: "var(--positioner-height)",
     width: "var(--positioner-width)",
-    maxWidth: "var(--available-width)",
+    maxWidth: AVAILABLE_WIDTH,
     ...MORPH,
     transitionProperty: {
       base: "top, left, right, bottom",

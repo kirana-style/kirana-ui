@@ -2,18 +2,18 @@
 title: Navigation Menu
 description: A collection of links for navigating websites.
 section: components
-variants: [react/base, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants: [react/base, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [navigation, menu, links, nav, component, base, ark, vue, svelte, solid]
 ---
 
 # Navigation Menu
 
-<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="navigation-menu" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -45,7 +45,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <template>
@@ -186,7 +186,7 @@ export function NavigationMenuDemo() {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

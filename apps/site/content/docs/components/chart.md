@@ -2,7 +2,8 @@
 title: Chart
 description: Beautiful charts. Built using TanStack Charts. Copy and paste into your apps.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [
     chart,
@@ -20,7 +21,7 @@ keywords:
 
 # Chart
 
-<!-- ::preview item="chart-demo" height="440" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-demo" height="440" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 Introducing **Charts**. A collection of chart components that you can copy and paste into your apps.
 
@@ -68,7 +69,7 @@ We do not wrap TanStack Charts. A definition is TanStack Charts' own, so you are
 
 **The components are yours**.
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ## On Vue
 
@@ -286,7 +287,7 @@ If you are porting a shadcn/ui chart written with Recharts, as every chart in [t
 
 ## Installation
 
-<!-- ::installation name="chart" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="chart" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 The chart colours are the design's tokens, `theme.chart1` to `theme.chart5`, which the chart colours axis sets ([Colours and theming](/docs/design-system/theming)): there is nothing to add to your CSS.
 
@@ -340,7 +341,7 @@ You can now build your chart with TanStack Charts' marks: a row per bar, and `gr
 > [!WARNING] Important
 > The container keeps its box's shape, 16 / 9 unless you give it an `aspectRatio` or a `height`, and `initialWidth` is the width a server draws the chart at, before the browser measures its box.
 
-<!-- ::preview item="chart-example-bar" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-example-bar" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:steps -->
 
@@ -374,7 +375,7 @@ scales: {
 },
 ```
 
-<!-- ::preview item="chart-example-grid" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-example-grid" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:steps -->
 
@@ -401,7 +402,7 @@ x: {
 },
 ```
 
-<!-- ::preview item="chart-example-axis" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-example-axis" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:steps -->
 
@@ -435,7 +436,7 @@ const chart = defineChart(
 />
 ```
 
-<!-- ::preview item="chart-example-tooltip" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-example-tooltip" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 Hover to see the tooltips. Easy, right? Two parts, and we've got a beautiful tooltip. The muted band behind the month is a mark too, shown while the month has the focus: `whenFocused(bandX(chartData, { x: "month", fill: theme.muted }), { match: "x" })`.
 
@@ -465,7 +466,7 @@ import { ChartLegendContent } from "@/components/ui/chart"
 />
 ```
 
-<!-- ::preview item="chart-example-legend" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-example-legend" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 <!-- ::end:steps -->
 
@@ -589,7 +590,7 @@ A row's `fill` is also the colour its tooltip row shows.
 
 A chart tooltip contains a label, name, indicator and value. You can use a combination of these to customize your tooltip.
 
-<!-- ::preview item="chart-tooltip" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="chart-tooltip" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 You can turn on/off any of these using the `hideLabel`, `hideIndicator` props and customize the indicator style using the `indicator` prop.
 
@@ -705,4 +706,4 @@ TanStack Charts makes the chart focusable: the arrow keys move between its point
 
 To set the direction, see [Right to left](/docs/design-system/rtl). A chart's x scale runs from the right with `reverse: true`.
 
-<!-- ::preview item="chart-rtl" height="400" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="chart-rtl" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->

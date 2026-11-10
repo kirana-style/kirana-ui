@@ -11,6 +11,7 @@ import { exclusiveAcross } from "@kirana-style/states"
 import * as Base from "@kirana-style/states/base-ui"
 import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
+import * as Reka from "@kirana-style/states/reka-ui"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
 // A type, which Node erases: the configuration still loads no module of its own.
@@ -19,8 +20,8 @@ import type { StateKeys } from "./states"
 /**
  * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
  * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); Ark UI has no separator, so the Vue,
- * Svelte and Solid parts write `data-orientation` as Base UI's does. `@kirana-style/states` has no
- * keys for React Aria's or Ark UI's.
+ * Svelte and Solid parts write `data-orientation` as Base UI's does, and so do Reka UI's. `@kirana-style/states` has no
+ * keys for React Aria's, Ark UI's or Reka UI's.
  * Here rather than in `states.ts`, which re-exports it, so the configuration imports no module of
  * its own: Node loads it, where a relative import needs its `.ts` extension, which a project's
  * type checker refuses without `allowImportingTsExtensions`.
@@ -30,11 +31,13 @@ export const orientation = {
     base: Base.Separator.orientation.horizontal,
     aria: '[aria-orientation="horizontal"]',
     ark: '[data-orientation="horizontal"]',
+    reka: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Separator.orientation.vertical,
     aria: '[aria-orientation="vertical"]',
     ark: '[data-orientation="vertical"]',
+    reka: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -44,6 +47,7 @@ export const registryConfig = {
       ...Base.exclusive,
       ...Aria.exclusive,
       ...Ark.exclusive,
+      ...Reka.exclusive,
       // React Aria's separator writes `aria-orientation`, which no vocabulary names (`orientation`).
       [orientation.horizontal.base, orientation.vertical.aria],
       [orientation.vertical.base, orientation.horizontal.aria],
@@ -58,6 +62,9 @@ export const registryConfig = {
         '[data-placement^="left"]',
         '[data-placement^="right"]',
       ],
+      // Reka UI's popup, open (a tooltip's `delayed-open` or `instant-open`, the others' `open`) or
+      // closed (`presence`, in `states.ts`).
+      ['[data-state$="open"]', '[data-state="closed"]'],
       // A drawer's swipe axis, which the Drawer writes on its popup from its direction.
       ['[data-swipe-axis="x"]', '[data-swipe-axis="y"]'],
       // A calendar's day, as its markup marks it: one chosen day, or a range's start, middle or end
@@ -73,7 +80,9 @@ export const registryConfig = {
         ':is([data-slot="attachment"][data-orientation="vertical"] [data-slot="attachment-media"] > *)',
       ],
     ],
-    exclusiveAcross: exclusiveAcross(Base, Aria, Ark),
+    // Pure, so a page that reaches this module (for `orientation`, through `states.ts`) drops the
+    // configuration and the vocabularies it walks.
+    exclusiveAcross: /* @__PURE__ */ exclusiveAcross(Base, Aria, Ark, Reka),
   },
 } satisfies KiranaConfig
 

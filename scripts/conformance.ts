@@ -19,7 +19,7 @@
  * `MAX_CHANGED` do: name the pages the change concerns with `--pages` instead. `--all` is the
  * whole matrix, for a change that truly reaches every page. `--shard` is the harness's.
  *
- * `--framework vue` (or `svelte`, `solid`, `angular`) compares that framework's pages with React's
+ * `--framework vue` (or `svelte`, `solid`, `angular`, or `vue/reka` for a framework's other base) compares that framework's pages with React's
  * on the same site instead: React is the benchmark the other frameworks are built against, and it
  * already matches upstream. A page is any item in the framework's `examples` folder, `-example`
  * pages and docs demos alike, against Base UI's of the same name; `--all` is every one React's Base
@@ -105,7 +105,15 @@ const FRAMEWORKS: Record<string, { base: string; extension: string }> = {
   solid: { base: "ark", extension: ".tsx" },
   angular: { base: "ng", extension: ".ts" },
 }
-const framework = values.framework ? FRAMEWORKS[values.framework] : undefined
+// `vue` is its first base, Ark UI's; `vue/reka` names another.
+const [frameworkName, frameworkBase] = (values.framework ?? "").split("/")
+const framework =
+  frameworkName && FRAMEWORKS[frameworkName]
+    ? {
+        ...FRAMEWORKS[frameworkName],
+        base: frameworkBase ?? FRAMEWORKS[frameworkName].base,
+      }
+    : undefined
 if (values.framework && !framework) {
   console.error(`conformance: no framework ${values.framework}`)
   process.exit(2)
@@ -266,7 +274,7 @@ function compare(name: string, paths: string[], ...options: string[]) {
             "--label",
             "react",
             "--expected-path",
-            `/preview/${values.framework}/${framework.base}/=/preview/react/base/`,
+            `/preview/${frameworkName}/${framework.base}/=/preview/react/base/`,
             "--expected-differences",
             FRAMEWORK_EXPECTED,
           ]
@@ -309,25 +317,27 @@ function compare(name: string, paths: string[], ...options: string[]) {
 /** Pages of a preview app's own, not items, which React's has too (`charts-base.tsx`, `showcase.tsx`). */
 const APP_PAGES = ["charts", "showcase"]
 
-/** The app pages a framework's preview builds (its `previewPages` extras). */
-function frameworkAppPages(name: string) {
+/** The app pages a framework's preview builds for a base (its `previewPages` extras). */
+function frameworkAppPages(name: string, base: string) {
   const config = join(ROOT, "apps", `preview-${name}`, "vite.config.ts")
   if (!existsSync(config)) return []
-  const extra =
-    readFileSync(config, "utf8").match(/extra: \[([^\]]*)\]/)?.[1] ?? ""
+  const call = [
+    ...readFileSync(config, "utf8").matchAll(/previewPages\(\{([^}]*)\}\)/g),
+  ].find(([, options]) => options!.includes(`base: "${base}"`))?.[1]
+  const extra = call?.match(/extra: \[([^\]]*)\]/)?.[1] ?? ""
   return [...extra.matchAll(/"([\w-]+)"/g)].map(([, page]) => page)
 }
 
 function frameworkRoutes() {
   const { base, extension } = framework!
-  const folder = join(BASES, `${values.framework}-${base}`, "examples")
+  const folder = join(BASES, `${frameworkName}-${base}`, "examples")
   const react = new Set(
     readdirSync(join(BASES, "react-base", "examples")).map((file) =>
       file.replace(/\.tsx$/, "")
     )
   )
   // Blocks too: a block the framework has (`blocks/<name>/page<extension>`) that React's base has.
-  const blocks = join(BASES, `${values.framework}-${base}`, "blocks")
+  const blocks = join(BASES, `${frameworkName}-${base}`, "blocks")
   const reactBlocks = join(BASES, "react-base", "blocks")
   if (existsSync(reactBlocks))
     for (const block of readdirSync(reactBlocks)) react.add(block)
@@ -335,7 +345,7 @@ function frameworkRoutes() {
   if (existsSync(reactCharts))
     for (const file of readdirSync(reactCharts))
       react.add(file.replace(/\.tsx$/, ""))
-  const charts = join(BASES, `${values.framework}-${base}`, "charts")
+  const charts = join(BASES, `${frameworkName}-${base}`, "charts")
   return [
     ...readdirSync(folder)
       .filter((file) => file.endsWith(extension))
@@ -352,7 +362,7 @@ function frameworkRoutes() {
       : []),
     // The preview apps' own pages both have: `/create`'s charts and the home page's showcase.
     ...APP_PAGES.filter((page) =>
-      frameworkAppPages(values.framework!).includes(page)
+      frameworkAppPages(frameworkName!, base).includes(page)
     ),
   ]
     .filter(
@@ -363,7 +373,7 @@ function frameworkRoutes() {
     .flatMap((name) =>
       styles.map(
         (style) =>
-          `/preview/${values.framework}/${base}/${name}?preset=${PRESETS[style]}`
+          `/preview/${frameworkName}/${base}/${name}?preset=${PRESETS[style]}`
       )
     )
 }
@@ -374,9 +384,15 @@ if (framework) {
     console.log(paths.join("\n"))
     process.exit(0)
   }
-  const passes = [compare(`${values.framework}-rest`, paths)]
+  const passes = [compare(`${values.framework!.replace("/", "-")}-rest`, paths)]
   if (values.states)
-    passes.push(compare(`${values.framework}-states`, paths, "--states"))
+    passes.push(
+      compare(
+        `${values.framework!.replace("/", "-")}-states`,
+        paths,
+        "--states"
+      )
+    )
   process.exit(passes.every(Boolean) ? 0 : 1)
 }
 

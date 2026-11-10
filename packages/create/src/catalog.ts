@@ -33,6 +33,7 @@ export const BASE_LABELS: Record<Base, string> = {
   aria: "React Aria",
   ark: "Ark UI",
   ng: "ng-primitives",
+  reka: "Reka UI",
 }
 
 /**

@@ -2,18 +2,19 @@
 title: Checkbox
 description: A control that allows the user to toggle between checked and not checked.
 section: components
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords:
   [checkbox, form, field, component, base, aria, ark, vue, svelte, solid]
 ---
 
 # Checkbox
 
-<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="checkbox" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="checkbox" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -29,7 +30,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark -->
+<!-- ::start:only vue/ark,vue/reka -->
 
 ```vue
 <template>
@@ -123,19 +124,19 @@ show the invalid styles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Basic
 
 Pair the checkbox with `Field` and `FieldLabel` for proper layout and labeling.
 
-<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Description
 
 Use `FieldContent` and `FieldDescription` for helper text.
 
-<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Disabled
 
@@ -151,23 +152,23 @@ Use the `isDisabled` prop to prevent interaction and add the `data-disabled` att
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Group
 
 Use multiple fields to create a checkbox list.
 
-<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## Table
 
-<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,vue/ark,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -186,6 +187,12 @@ See the [React Aria](https://react-aria.adobe.com/Checkbox#api) documentation fo
 <!-- ::start:only vue/ark -->
 
 See the [Ark UI Checkbox](https://ark-ui.com/vue/docs/components/checkbox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only vue/reka -->
+
+See the [Reka UI Checkbox](https://reka-ui.com/docs/components/checkbox#api-reference) documentation.
 
 <!-- ::end:only -->
 

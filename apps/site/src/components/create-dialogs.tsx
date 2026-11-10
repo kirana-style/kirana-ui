@@ -229,6 +229,7 @@ const RTL_PROVIDERS: Record<Base, string> = {
   aria: "React Aria's I18nProvider",
   ark: "Ark UI's LocaleProvider (the registry's DirectionProvider, locale=\"ar\")",
   ng: "the Angular CDK's Directionality (the registry's kuiDirectionProvider)",
+  reka: "Reka UI's ConfigProvider (the registry's DirectionProvider, locale=\"ar\")",
 }
 
 /** Why a card cannot be chosen with the rest. */

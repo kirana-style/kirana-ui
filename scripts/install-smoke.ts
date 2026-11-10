@@ -48,7 +48,7 @@ const ROOT = join(import.meta.dirname, "..")
 const STATIC = join(ROOT, "apps", "site", "dist", "client")
 
 /**
- * What CI installs: each framework once, React on both bases, across the templates, the toolings
+ * What CI installs: each framework once, React and Vue on both bases, across the templates, the toolings
  * and the workspaces (a Turborepo, a Vite+ monorepo, each with `packages/ui`), each in another
  * style.
  */
@@ -56,6 +56,7 @@ const DEFAULT = [
   "react-base-nova@vite-react--none--eslint",
   "react-aria-lyra@react-router--turbo--oxlint",
   "vue-ark-vega@nuxt--none--biome",
+  "vue-reka-rhea@vite-vue--none--oxlint",
   "svelte-ark-maia@sveltekit--vite-plus--vite-plus",
   "solid-ark-mira@tanstack-start-solid--none--oxlint",
   "angular-ng-luma@analog-angular--none--eslint",

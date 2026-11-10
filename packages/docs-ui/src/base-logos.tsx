@@ -1,7 +1,7 @@
 /**
  * The bases' official marks, drawn in the text's colour: Base UI's and React Aria's as upstream's
- * `registry/bases.ts` has them, inline so they take `currentColor`; Ark UI's and ng-primitives'
- * are their sites' icons, kept in `brands/` as the other logos are and drawn as images. The docs'
+ * `registry/bases.ts` has them, inline so they take `currentColor`; Ark UI's, Reka UI's and
+ * ng-primitives' are their sites' icons, kept in `brands/` as the other logos are and drawn as images. The docs'
  * frameworks row and `/create`'s Get Code draw them from here.
  */
 import type { ReactNode } from "react"
@@ -12,16 +12,28 @@ import { BrandIcon } from "./brand-icon.tsx"
 import type { SvglIcon } from "./brand-icon.tsx"
 import arkLogo from "./brands/ark-ui.svg?url"
 import ngLogo from "./brands/ng-primitives.svg?url"
+import rekaLogo from "./brands/reka-ui.svg?url"
 
 export const ARK_UI: SvglIcon = {
   title: "Ark UI",
   url: "https://ark-ui.com",
   route: arkLogo,
 }
+export const REKA_UI: SvglIcon = {
+  title: "Reka UI",
+  url: "https://reka-ui.com",
+  route: rekaLogo,
+}
 export const NG_PRIMITIVES: SvglIcon = {
   title: "ng-primitives",
   url: "https://ng-primitives.com",
   route: ngLogo,
+}
+
+const IMAGES: Partial<Record<Base, SvglIcon>> = {
+  ark: ARK_UI,
+  reka: REKA_UI,
+  ng: NG_PRIMITIVES,
 }
 
 const INLINE: Partial<Record<Base, ReactNode>> = {
@@ -62,7 +74,6 @@ export function BaseLogo({
 }) {
   const inline = INLINE[base]
   if (inline) return <>{inline}</>
-  return (
-    <BrandIcon icon={base === "ark" ? ARK_UI : NG_PRIMITIVES} scheme={scheme} />
-  )
+  const image = IMAGES[base]
+  return image ? <BrandIcon icon={image} scheme={scheme} /> : null
 }

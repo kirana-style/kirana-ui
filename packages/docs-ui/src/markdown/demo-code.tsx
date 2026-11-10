@@ -25,6 +25,7 @@ import {
   theme,
 } from "../tokens.ts"
 import { CopyButton } from "./code-block.tsx"
+import { withShared } from "./shared-code.ts"
 
 /** Per `framework/base`: one source, or one per icon library. */
 type DemoSources = Record<string, string | Record<string, string>>
@@ -137,7 +138,7 @@ export function DemoCode({
       .then((response) =>
         response.ok ? (response.json() as Promise<DemoSources>) : null
       )
-      .then((value) => live && setSources(value ?? {}))
+      .then((value) => live && setSources(withShared(value ?? {})))
       .catch(() => live && setSources({}))
     // The highlighter is the build's, loaded only where a panel is shown.
     void import("@workspace/docs-core/highlight.ts").then(

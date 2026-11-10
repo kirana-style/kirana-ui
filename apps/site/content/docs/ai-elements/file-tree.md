@@ -2,7 +2,8 @@
 title: File Tree
 description: The files the agent changed, as a folder tree.
 section: ai-elements
-variants: [react/base, react/aria, vue/ark, svelte/ark, solid/ark, angular/ng]
+variants:
+  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
 keywords: [file tree, ai elements, agent, chat]
 ---
 

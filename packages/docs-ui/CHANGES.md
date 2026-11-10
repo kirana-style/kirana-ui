@@ -86,11 +86,15 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   `RegistryItem` for it. `name` may list several items (`name="trace code-block"`), as an AI
   Elements pattern built from components does: the command adds them all, and Manual copies the
   first and lists the others among the components to add.
+- `markdown/shared-code.ts` (new): `withShared()`, read by `demo-code.tsx` and `demo-source.tsx`
+  over a fetched `/r/demos/<item>.json` or `.parts.json`: an entry `{ "same": "<framework/base>" }`
+  is the code of the combination it names, which the builder writes where two bases' code is the
+  same (Vue's Ark UI and Reka UI).
 - `markdown/install-tabs.tsx`: the `create` attribute, with `packages`, `dev`, `run` and `exec`.
 - `base-logos.tsx` (new): the bases' official marks, Base UI's and React Aria's inline as upstream's
   `registry/bases.ts` has them (moved out of `markdown/frameworks.tsx`), Ark UI's and ng-primitives'
-  as images from `brands/` (`ark-ui.svg`, their site's icon; `ng-primitives.svg`, their
-  documentation's favicon); `/create`'s Get Code draws them too.
+  as images from `brands/` (`ark-ui.svg` and `reka-ui.svg`, their sites' icons;
+  `ng-primitives.svg`, their documentation's favicon); `/create`'s Get Code draws them too.
 - `markdown/section-cards.tsx` (new), registered as `section-cards`: `<!-- ::section-cards
   section="…" -->`, a section's pages but its index as cards, each its title and description, as
   shadcn/ui's AI Elements page lists its patterns (`LinkedCard`). It reads the navigation.

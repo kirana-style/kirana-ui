@@ -424,8 +424,10 @@ React already matches upstream, and upstream has no copy of these bases to
 compare with. `vp run conformance -- --framework vue --pages button-example`
 loads each page from `/preview/vue/ark/` and from `/preview/react/base/` on the
 same site and compares them as above; `--all` takes every page the framework has
-that React's Base UI has too, docs demos and `-example` pages alike. Its
-reviewed differences are `conformance/framework-differences.json`.
+that React's Base UI has too, docs demos and `-example` pages alike. A
+framework's second base is named after a slash (`--framework vue/reka` loads
+`/preview/vue/reka/`). Its reviewed differences are
+`conformance/framework-differences.json`.
 
 A component on another framework follows React's file of the same name, and
 keeps its parts' `data-slot`s, so the harness pairs them. On Ark UI (Vue,
@@ -701,6 +703,44 @@ On Angular (ng-primitives):
   the marks wait for it (`data-entering`), so the first draw is at the box's width. A chart's state (the
   interactive ones' series, range or month) is a signal on the component, its definition a
   `computed` of it.
+
+On a framework's second base (Vue on Reka UI):
+
+- **The same public API as the framework's first base.** A part on Reka UI
+  takes what its Ark UI twin takes (`default-value`, `v-model:checked`,
+  `:items`, `multiple`, a content's `side` and `align`, a checkbox's
+  `checked-change`, a menu item's `close-on-select`) and turns it into Reka's
+  own inside the part, so the framework's examples, blocks and charts are the
+  same files on both bases (`registry/bases/vue-reka/` holds copies of
+  `vue-ark/`'s). An example uses a part only when that part exists on the
+  base; the builder lists a component for a base being ported once its markup
+  is written (`PORTING_BASES` in `packages/builder/src/items.ts`).
+- **Reka UI's own keys** (`reka:` in `core/states.ts`, from
+  `@kirana-style/states/reka-ui`). Reka writes Radix's attributes: often Ark
+  UI's strings (`data-state="open"`, `data-highlighted`), sometimes its own (a
+  chosen tab is `data-state="active"`, a tooltip `delayed-open` or
+  `instant-open`). The builder flattens for `reka` as for any base, so a state
+  without a `reka:` key is missing from a project's install, while the site,
+  which serves every base's keys, still draws it: give every state a part
+  reads its key.
+- **Reka's measures under the shared names.** A popup's room and origin are
+  `--reka-popper-*`: the styles read them through `ANCHOR_WIDTH`,
+  `AVAILABLE_HEIGHT`, `AVAILABLE_WIDTH` and `TRANSFORM_ORIGIN`
+  (`overlay.styles.ts`), and a panel's height, `--reka-*-content-height`, is
+  handed to the motion as Ark UI's `--height` on the part.
+- **A closed panel leaves the page**, as Base UI's: Reka keeps a closed
+  collapsible's, accordion's or tab's element, `hidden`, and skips the opening
+  motion of a panel mounted open. The collapsible and the accordion keep their
+  open state themselves and mount a panel a frame before Reka opens it, taking
+  it out once its exit has run (`ui/collapsible/panel.ts`,
+  `ui/accordion/panels.ts`); a tab panel is in the page only while chosen.
+- **React's elements, with Base UI's keys.** Reka draws a checkbox, a radio and
+  a switch as buttons; the parts render `span`s, as Base UI's, focusable and
+  pressed with Space, and the slider's track, range and thumbs as `div`s.
+- **Radix's placement.** A content takes Base UI's `side`, `align` and
+  offsets, and passes Reka a physical side (`physicalSide()`,
+  `registry/lib/placement.ts`); Reka's own content is placed by its own props,
+  with no positioner or root to hand them to.
 
 Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.

@@ -15,6 +15,7 @@
     "@kirana-style/core": "catalog:",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
+    "reka-ui": "catalog:",
     "vue": "catalog:",
     "vue-sonner": "catalog:"
   },
