@@ -48,7 +48,7 @@
   )
 </script>
 
-<Example title="With Presets" {...rest} sx={[className as Sx]}>
+<Example title="With Presets" {...rest} sx={className as Sx}>
   <Card sx={styles.mxAutoWFitMaxW300Px} size="sm">
     <CardContent>
       <Calendar mode="single" selected={date} onSelectedChange={(details: { selected: typeof date }) => (date = details.selected)} month={currentMonth} onMonthChange={(details: { month: typeof currentMonth }) => (currentMonth = details.month)} fixedWeeks sx={styles.p0CellSizeSpacing95} />

@@ -8,7 +8,6 @@
   import type { DomChartDefinition } from "@tanstack/charts"
   import { Chart } from "@tanstack/charts/svelte"
   import { props as styleProps } from "@kirana-style/core"
-  import type { Sx } from "@kirana-style/core"
   import { onMount, setContext } from "svelte"
   import type { Snippet } from "svelte"
   import type { ClassValue } from "svelte/elements"
@@ -85,7 +84,7 @@
   data-slot="chart"
   data-entering={width === undefined ? "" : undefined}
   {...rest}
-  sx={[styles.container, className as Sx]}
+  class={className} sx={styles.container}
   style={colors}
 >
   {#if legend}

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<div data-slot="message-group" {...rest} sx={[message.group, className as Sx]}>
+<div data-slot="message-group" {...rest} class={className} sx={message.group}>
   {@render children?.()}
 </div>

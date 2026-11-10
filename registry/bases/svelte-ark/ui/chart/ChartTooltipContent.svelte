@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from "svelte"
   import type { Snippet } from "svelte"
-  import type { StyleHandle, Sx } from "@kirana-style/core"
+  import type { StyleHandle } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import type { ChartPoint, ChartValue } from "@tanstack/charts"
@@ -104,7 +104,7 @@
 </script>
 
 {#if rows.length}
-  <div {...rest} sx={[styles.tooltip, className as Sx]}>
+  <div {...rest} class={className} sx={styles.tooltip}>
     {#if !nestLabel && headingText !== undefined}
       <div sx={[styles.tooltipLabel, labelSx]}>
         {headingText}

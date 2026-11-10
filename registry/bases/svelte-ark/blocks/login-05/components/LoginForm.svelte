@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { Button } from "../../../ui/button"
@@ -90,7 +89,7 @@
   }
 </script>
 
-<div sx={[styles.loginFormDiv, className as Sx]} {...rest}>
+<div class={className} sx={styles.loginFormDiv} {...rest}>
   <form>
     <FieldGroup>
       <div sx={styles.div2}>

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<div data-slot="sidebar-header" data-sidebar="header" {...rest} sx={[sidebar.header, className as Sx]}>
+<div data-slot="sidebar-header" data-sidebar="header" {...rest} class={className} sx={sidebar.header}>
   {@render children?.()}
 </div>

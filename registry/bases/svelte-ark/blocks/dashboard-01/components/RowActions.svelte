@@ -22,7 +22,7 @@
   } = $props()
 </script>
 
-<DropdownMenu {...rest} sx={[className as Sx]}>
+<DropdownMenu {...rest} sx={className as Sx}>
   <DropdownMenuTrigger>
     {#snippet asChild(props)}
       <Button {...props()} class={props().class} style={props().style} variant="ghost" sx={styles.button} size="icon">

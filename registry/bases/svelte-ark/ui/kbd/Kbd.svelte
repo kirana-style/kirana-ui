@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<kbd data-slot="kbd" {...rest} sx={[kbd.root, className as Sx]}>
+<kbd data-slot="kbd" {...rest} class={className} sx={kbd.root}>
   {@render children?.()}
 </kbd>

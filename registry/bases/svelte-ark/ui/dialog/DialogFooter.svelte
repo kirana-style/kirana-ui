@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -21,7 +20,7 @@
   } = $props()
 </script>
 
-<div data-slot="dialog-footer" {...rest} sx={[dialog.footer, className as Sx]}>
+<div data-slot="dialog-footer" {...rest} class={className} sx={dialog.footer}>
   {@render children?.()}
   {#if showCloseButton}
     <DialogCloseTrigger>

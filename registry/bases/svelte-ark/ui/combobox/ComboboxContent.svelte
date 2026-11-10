@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { setContext } from "svelte"
   import type { Sx } from "@kirana-style/core"
+  import { setContext } from "svelte"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
   import { ComboboxContent, ComboboxPositioner, Portal } from "@ark-ui/svelte"

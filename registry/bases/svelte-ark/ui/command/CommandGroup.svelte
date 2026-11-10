@@ -1,6 +1,5 @@
 <script lang="ts">
   import { setContext } from "svelte"
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -26,7 +25,7 @@
 </script>
 
 <!-- A group with no match leaves the list, as cmdk's; its items stay mounted to be counted. -->
-<div style:display={ctx.groupVisible(group) ? undefined : "none"} data-slot="command-group" {...{ "cmdk-group": "" }} role="presentation" {...rest} sx={[command.group, className as Sx]}>
+<div style:display={ctx.groupVisible(group) ? undefined : "none"} data-slot="command-group" {...{ "cmdk-group": "" }} role="presentation" {...rest} class={className} sx={command.group}>
   {#if heading}
     <div id={id} {...{ "cmdk-group-heading": "" }} aria-hidden="true">
       {heading}

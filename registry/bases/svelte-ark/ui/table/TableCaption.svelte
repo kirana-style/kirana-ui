@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<caption data-slot="table-caption" {...rest} sx={[table.caption, className as Sx]}>
+<caption data-slot="table-caption" {...rest} class={className} sx={table.caption}>
   {@render children?.()}
 </caption>

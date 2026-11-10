@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -28,6 +27,6 @@
   }
 </script>
 
-<div data-slot="input-group-addon" role="group" data-align={align} onclick={focusInput} {...rest} sx={[inputGroup.addonScope, inputGroup.addon({ align }), className as Sx]}>
+<div data-slot="input-group-addon" role="group" data-align={align} onclick={focusInput} {...rest} class={className} sx={[inputGroup.addonScope, inputGroup.addon({ align })]}>
   {@render children?.()}
 </div>

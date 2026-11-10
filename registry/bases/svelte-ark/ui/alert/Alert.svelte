@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -20,6 +19,6 @@
   type AlertVariants = NonNullable<Parameters<typeof alert.root>[0]>
 </script>
 
-<div data-slot="alert" data-variant={variant} role="alert" {...rest} sx={[alert.scope, alert.root({ variant }), className as Sx]}>
+<div data-slot="alert" data-variant={variant} role="alert" {...rest} class={className} sx={[alert.scope, alert.root({ variant })]}>
   {@render children?.()}
 </div>

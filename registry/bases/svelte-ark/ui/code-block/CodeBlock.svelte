@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -19,6 +18,6 @@
   } = $props()
 </script>
 
-<div data-slot="code-block" data-variant={variant} data-size={size} {...rest} sx={[codeBlock.root, className as Sx]}>
+<div data-slot="code-block" data-variant={variant} data-size={size} {...rest} class={className} sx={codeBlock.root}>
   {@render children?.()}
 </div>

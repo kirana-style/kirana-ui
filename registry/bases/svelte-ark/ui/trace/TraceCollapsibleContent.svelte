@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
   import { untrack } from "svelte"
@@ -27,7 +26,7 @@
 </script>
 
 <CollapsibleContent data-slot="trace-collapsible-content" {...rest} sx={[trace.content, trace.contentArk]}>
-  <div data-slot="trace-collapsible-content-inner" sx={[trace.contentInner, className as Sx]}>
+  <div data-slot="trace-collapsible-content-inner" class={className} sx={trace.contentInner}>
     {@render children?.()}
   </div>
 </CollapsibleContent>

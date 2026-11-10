@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { Snippet } from "svelte"
   import type { ClassValue, HTMLSelectAttributes } from "svelte/elements"
 
@@ -21,7 +20,7 @@
   } = $props()
 </script>
 
-<div data-slot="native-select-wrapper" data-size={size} sx={[nativeSelect.wrapper, className as Sx]}>
+<div data-slot="native-select-wrapper" data-size={size} class={className} sx={nativeSelect.wrapper}>
   <select data-slot="native-select" data-size={size} bind:value {...rest} sx={nativeSelect.select}>
     {@render children?.()}
   </select>

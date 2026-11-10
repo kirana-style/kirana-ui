@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<span data-slot="breadcrumb-page" role="link" aria-disabled="true" aria-current="page" {...rest} sx={[breadcrumb.page, className as Sx]}>
+<span data-slot="breadcrumb-page" role="link" aria-disabled="true" aria-current="page" {...rest} class={className} sx={breadcrumb.page}>
   {@render children?.()}
 </span>

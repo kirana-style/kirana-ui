@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -17,7 +16,7 @@
   } = $props()
 </script>
 
-<div data-slot="field-separator" data-content={!!children} {...rest} sx={[field.separator, className as Sx]}>
+<div data-slot="field-separator" data-content={!!children} {...rest} class={className} sx={field.separator}>
   <Separator sx={field.separatorLine} />
   {#if children}
     <span data-slot="field-separator-content" sx={field.separatorContent}>

@@ -55,7 +55,7 @@
   const ctx = useSidebar()
 </script>
 
-<SidebarGroup {...rest} sx={[className as Sx]}>
+<SidebarGroup {...rest} sx={className as Sx}>
   <SidebarMenu>
     {#each items as item (item.title)}
       <DropdownMenu>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onDestroy } from "svelte"
   import type { Sx } from "@kirana-style/core"
+  import { onDestroy } from "svelte"
   import type { ClassValue } from "svelte/elements"
 
   import IconPlaceholder from "../../../../icons/IconPlaceholder.svelte"

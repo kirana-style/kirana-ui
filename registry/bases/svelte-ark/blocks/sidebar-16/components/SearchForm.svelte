@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { Label } from "../../../ui/label"
@@ -55,7 +54,7 @@
   }
 </script>
 
-<form {...rest} sx={[className as Sx]}>
+<form {...rest} class={className}>
   <div sx={styles.searchFormDiv}>
     <Label for="search" sx={styles.searchFormLabel}>
       Search

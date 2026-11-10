@@ -33,7 +33,7 @@
   let date = $state<Date>()
 </script>
 
-<Example title="Date Picker Simple" {...rest} sx={[className as Sx]}>
+<Example title="Date Picker Simple" {...rest} sx={className as Sx}>
   <Field sx={styles.w72}>
     <FieldLabel for="date-picker-simple">
       Date

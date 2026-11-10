@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<fieldset data-slot="field-set" {...rest} sx={[field.set, className as Sx]}>
+<fieldset data-slot="field-set" {...rest} class={className} sx={field.set}>
   {@render children?.()}
 </fieldset>

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { Button } from "../../../ui/button"
@@ -224,7 +223,7 @@
   onMount(() => (isOpen = true))
 </script>
 
-<div sx={[styles.navActionsDiv, className as Sx]} {...rest}>
+<div class={className} sx={styles.navActionsDiv} {...rest}>
   <div sx={styles.div2}>
     Edit Oct 08
   </div>

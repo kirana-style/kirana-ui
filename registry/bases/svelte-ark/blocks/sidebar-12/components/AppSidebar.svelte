@@ -64,7 +64,7 @@
   }
 </script>
 
-<Sidebar {...rest} sx={[className as Sx]}>
+<Sidebar {...rest} sx={className as Sx}>
   <SidebarHeader sx={styles.sidebarHeader}>
     <NavUser user={data.user} />
   </SidebarHeader>

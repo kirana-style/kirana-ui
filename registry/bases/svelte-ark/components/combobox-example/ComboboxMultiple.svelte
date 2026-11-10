@@ -36,7 +36,7 @@
   ] as const
 </script>
 
-<Example title="Combobox Multiple" {...rest} sx={[className as Sx]}>
+<Example title="Combobox Multiple" {...rest} sx={className as Sx}>
   <Combobox multiple autoHighlight items={frameworks} defaultValue={[frameworks[0]]}>
     <ComboboxChips sx={example.row}>
       <ComboboxValue>

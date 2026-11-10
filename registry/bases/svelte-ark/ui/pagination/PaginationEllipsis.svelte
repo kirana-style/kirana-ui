@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import IconPlaceholder from "../../../../icons/IconPlaceholder.svelte"
@@ -15,7 +14,7 @@
   } = $props()
 </script>
 
-<span aria-hidden="true" data-slot="pagination-ellipsis" {...rest} sx={[pagination.ellipsis, className as Sx]}>
+<span aria-hidden="true" data-slot="pagination-ellipsis" {...rest} class={className} sx={pagination.ellipsis}>
   <IconPlaceholder lucide="MoreHorizontalIcon" tabler="IconDots" hugeicons="MoreHorizontalCircle01Icon" phosphor="DotsThreeIcon" remixicon="RiMoreLine" />
   <span sx={visuallyHidden}>
     More pages

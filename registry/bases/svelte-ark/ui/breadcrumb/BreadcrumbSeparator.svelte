@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -17,7 +16,7 @@
   } = $props()
 </script>
 
-<li data-slot="breadcrumb-separator" role="presentation" aria-hidden="true" {...rest} sx={[breadcrumb.separator, className as Sx]}>
+<li data-slot="breadcrumb-separator" role="presentation" aria-hidden="true" {...rest} class={className} sx={breadcrumb.separator}>
   {#if children}{@render children()}{:else}
     <IconPlaceholder lucide="ChevronRightIcon" tabler="IconChevronRight" hugeicons="ArrowRight01Icon" phosphor="CaretRightIcon" remixicon="RiArrowRightSLine" />
   {/if}

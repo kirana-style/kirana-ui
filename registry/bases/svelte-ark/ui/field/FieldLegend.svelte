@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -18,6 +17,6 @@
   } = $props()
 </script>
 
-<legend data-slot="field-legend" data-variant={variant} {...rest} sx={[field.legend, className as Sx]}>
+<legend data-slot="field-legend" data-variant={variant} {...rest} class={className} sx={field.legend}>
   {@render children?.()}
 </legend>

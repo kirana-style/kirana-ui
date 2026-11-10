@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue, HTMLInputAttributes } from "svelte/elements"
 
   import { input } from "../../../../styles/input.styles"
@@ -15,4 +14,4 @@
   } = $props()
 </script>
 
-<input data-slot="input" bind:value {...rest} sx={[input, className as Sx]} />
+<input data-slot="input" bind:value {...rest} class={className} sx={input} />

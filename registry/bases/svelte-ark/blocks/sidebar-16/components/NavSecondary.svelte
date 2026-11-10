@@ -32,7 +32,7 @@
   } = $props()
 </script>
 
-<SidebarGroup {...rest} sx={[className as Sx]}>
+<SidebarGroup {...rest} sx={className as Sx}>
   <SidebarGroupContent>
     <SidebarMenu>
       {#each items as item (item.title)}

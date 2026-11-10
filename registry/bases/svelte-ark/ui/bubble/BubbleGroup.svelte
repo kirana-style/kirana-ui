@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<div data-slot="bubble-group" {...rest} sx={[bubble.group, className as Sx]}>
+<div data-slot="bubble-group" {...rest} class={className} sx={bubble.group}>
   {@render children?.()}
 </div>

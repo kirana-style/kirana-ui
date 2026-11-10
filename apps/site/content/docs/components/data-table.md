@@ -869,20 +869,23 @@ export const columns = columnHelper.columns([
 
 <!-- ::start:only react/aria -->
 
-```tsx showLineNumbers title="payments/columns.tsx" {2,8-15}
+```tsx showLineNumbers title="payments/columns.tsx" {2,8-18}
 import { createColumnHelper } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 
 export const columns = columnHelper.columns([
   columnHelper.accessor("email", {
     header: ({ column }) => {
       return (
-        <div sx={buttonVariants({ variant: "ghost" })}>
+        <Button
+          variant="ghost"
+          onPress={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Email
           <ArrowUpDown />
-        </div>
+        </Button>
       )
     },
   }),

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<span data-slot="context-menu-shortcut" {...rest} sx={[menuShortcut, className as Sx]}>
+<span data-slot="context-menu-shortcut" {...rest} class={className} sx={menuShortcut}>
   {@render children?.()}
 </span>

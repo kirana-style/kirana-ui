@@ -18,7 +18,7 @@ import {
 import type { Framework, IconLibrary } from "@kirana-style/registry"
 
 import type { Combination } from "./items"
-import { rewriteImports } from "./registry"
+import { resolveSource, rewriteImports } from "./registry"
 
 /** A demo's code per `framework/base`: one source, or one per icon library when it draws icons. */
 export type DemoCode = Record<
@@ -176,6 +176,84 @@ export function demoCode(
         ).content.trimStart()
       ),
     ])
+  )
+}
+
+/** A demo's parts per `framework/base`: each file's code by its path in the base's folder. */
+export type DemoParts = Record<
+  string,
+  Record<string, string | Partial<Record<IconLibrary, string>>>
+>
+
+/**
+ * A demo's own parts for one framework and base: the files of its folder in `components/`
+ * (`components/tool-demo/ToolRow.vue`, Angular's `components/tool-demo.ts`) that it imports, and
+ * those they import, each as a project writes it (the imports at `ui init`'s aliases, the icons
+ * resolved as in `demoCode`), by its path in the base's folder. React's demos keep their parts in
+ * the demo's file, so they have none.
+ */
+export function demoParts(
+  registry: string,
+  combination: Combination,
+  item: string
+): Record<string, string | Partial<Record<IconLibrary, string>>> {
+  const folder = `bases/${combination.framework}-${combination.base}`
+  const extension = EXTENSIONS[combination.framework] ?? ".tsx"
+  const example = `${folder}/examples/${item}${extension}`
+  if (!existsSync(join(registry, example))) return {}
+  const own = (path: string) =>
+    path.startsWith(`${folder}/components/${item}/`) ||
+    path.startsWith(`${folder}/components/${item}.`)
+  const found: string[] = []
+  const visit = (from: string) => {
+    const code = readFileSync(join(registry, from), "utf8")
+    for (const [, specifier] of code.matchAll(
+      /\bfrom\s*["'](\.{1,2}\/[^"']+)["']/g
+    )) {
+      let target: string
+      try {
+        target = resolveSource(registry, from, specifier!)
+      } catch {
+        continue
+      }
+      if (!own(target) || found.includes(target)) continue
+      found.push(target)
+      visit(target)
+    }
+  }
+  visit(example)
+  return Object.fromEntries(
+    found.map((source) => {
+      const code = rewriteImports(
+        registry,
+        source,
+        withoutPortNote(readFileSync(join(registry, source), "utf8")),
+        combination,
+        "@/registry"
+      )
+      const path = source.slice(folder.length + 1)
+      if (
+        !code.includes("icon-placeholder") ||
+        !ICON_FRAMEWORKS.includes(combination.framework)
+      )
+        return [path, atDefaultAliases(code)]
+      return [
+        path,
+        Object.fromEntries(
+          ICON_LIBRARIES.map((library) => [
+            library,
+            atDefaultAliases(
+              resolveIcons(
+                source,
+                code,
+                combination.framework as Framework,
+                library
+              ).content.trimStart()
+            ),
+          ])
+        ),
+      ]
+    })
   )
 }
 

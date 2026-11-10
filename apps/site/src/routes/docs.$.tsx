@@ -3,10 +3,14 @@ import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
 import { Markdown } from "@tanstack/markdown/react"
 
 import { pageHeadings } from "@workspace/docs-core/pages.ts"
-import { chooseCombination } from "@workspace/docs-ui/combination.ts"
+import {
+  chooseCombination,
+  rememberCombination,
+} from "@workspace/docs-ui/combination.ts"
 import { DocsPage } from "@workspace/docs-ui/docs-page.tsx"
 
 import { markdownComponents } from "@/components/markdown"
+import { readerCombination } from "@/lib/reader-combination"
 import {
   defaultVariant,
   findPage,
@@ -19,16 +23,46 @@ const SITE = "https://ui.kirana.style"
 
 /**
  * A docs page, from the content the generator parsed (`content/docs`). A component is a page per
- * framework and base (`lib/variants.ts`); the URL its variants share answers with a permanent
- * redirect to the default one, as shadcn/ui's `/docs/components/<name>` does to its Base UI page.
+ * framework and base (`lib/variants.ts`); the URL its variants share redirects to the reader's
+ * framework and base when the component has it (`readerCombination`), else to the default one,
+ * as shadcn/ui's `/docs/components/<name>` does to its Base UI page. Temporarily: where it leads
+ * depends on the reader.
  */
+/** Where a shared URL leads: the variant the reader chose (`vue/ark`) when there is one, else the default. */
+function variantFor(href: string, chosen: string | undefined) {
+  const own = chosen
+    ? findPage(href.replace(/\/([^/]+)$/, `/${chosen}/$1`))
+    : undefined
+  return own?.variant?.of === href ? own : defaultVariant(href)
+}
+
 export const Route = createFileRoute("/docs/$")({
+  server: {
+    handlers: {
+      // A shared URL loaded as a document is redirected here, before anything renders. The crawl
+      // leaves these URLs to the server (`dynamic` in `vite.config.ts`): a file written for one was
+      // the default variant's page served at the shared URL, which the client then moved to the
+      // reader's variant after hydrating from the wrong location (React's error #418).
+      GET: ({ request, params, next }) => {
+        const href = pageHref(params._splat)
+        if (findPage(href)) return next()
+        const variant = variantFor(href, readerCombination())
+        if (!variant) return next()
+        const url = new URL(request.url)
+        return new Response(null, {
+          status: 302,
+          headers: { location: `${variant.href}${url.search}` },
+        })
+      },
+    },
+  },
   loader: async ({ params }) => {
     const href = pageHref(params._splat)
     const meta = findPage(href)
     if (!meta) {
-      const variant = defaultVariant(href)
-      if (variant) throw redirect({ href: variant.href, statusCode: 301 })
+      // Followed in the app (a link's navigation); a document's request was redirected above.
+      const variant = variantFor(href, readerCombination())
+      if (variant) throw redirect({ href: variant.href, statusCode: 302 })
       throw notFound()
     }
     return { meta, document: await loadDocument(href) }
@@ -65,6 +99,7 @@ function Page() {
   const variant = meta.variant?.id
   useEffect(() => {
     if (variant) chooseCombination(variant)
+    else rememberCombination()
   }, [variant])
 
   return (

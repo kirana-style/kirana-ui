@@ -155,7 +155,7 @@
   const ctx = useSidebar()
 </script>
 
-<SidebarMenu {...rest} sx={[className as Sx]}>
+<SidebarMenu {...rest} sx={className as Sx}>
   <SidebarMenuItem>
     <DropdownMenu>
       <DropdownMenuTrigger>

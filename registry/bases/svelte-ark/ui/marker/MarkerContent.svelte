@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<span data-slot="marker-content" {...rest} sx={[marker.content, className as Sx]}>
+<span data-slot="marker-content" {...rest} class={className} sx={marker.content}>
   {@render children?.()}
 </span>

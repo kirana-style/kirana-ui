@@ -14,6 +14,7 @@ import { defineAppConfig } from "@workspace/vite-config"
 import { designScript } from "@workspace/vite-config/preview"
 
 const REGISTRY = fileURLToPath(new URL("../../registry/", import.meta.url))
+const SITE = fileURLToPath(new URL(".", import.meta.url))
 
 /**
  * The typeset builder's preview pages, `/preview/typeset/<item>` (`src/lib/typeset.ts`'s
@@ -242,10 +243,25 @@ function previewsInDev(): Plugin {
 
 // The site deploys as the Cloudflare Worker `ui` (wrangler.jsonc), its pages prerendered into the
 // static files the Worker's assets serve: those reached from `/`, and the typeset previews.
+/**
+ * Whether a path is one of the docs' shared URLs (`/docs/components/button`): a page whose source
+ * lists `variants`, which redirects to the reader's framework and base (`routes/docs.$.tsx`), so
+ * the server answers it; a file the crawl wrote would be served in its place, the default
+ * variant's page at the shared URL. Read from the sources, which exist before the content is
+ * generated.
+ */
+function isSharedUrl(path: string) {
+  const match = /^\/docs\/([\w-]+)\/([\w-]+)(?:\.html)?$/.exec(path)
+  if (!match) return false
+  const source = join(SITE, "content", "docs", match[1]!, `${match[2]}.md`)
+  return existsSync(source) && /^variants:/m.test(readFileSync(source, "utf8"))
+}
+
 export default defineAppConfig({
   cloudflare: true,
   prerender: true,
   pages: TYPESET_PAGES,
+  dynamic: isSharedUrl,
   // Each framework's preview app writes its own pages (`@workspace/vite-config/preview`).
   elsewhere: ["react", "vue", "svelte", "solid", "angular"].map(
     (framework) => `/preview/${framework}/`

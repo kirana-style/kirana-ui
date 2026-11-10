@@ -22,7 +22,7 @@ import type {
   SortingState,
 } from "@tanstack/react-table"
 
-import { Button, buttonVariants } from "../ui/button"
+import { Button } from "../ui/button"
 import { Checkbox } from "../ui/checkbox"
 import {
   DropdownMenu,
@@ -201,9 +201,13 @@ export const columns = columnHelper.columns([
     cell: ({ row }) => <div sx={styles.div}>{row.getValue("status")}</div>,
   }),
   columnHelper.accessor("email", {
-    header: () => {
+    // Upstream's Aria demo draws a styled `div` here, with no handler; a Button sorts, as on Base UI.
+    header: ({ column }) => {
       return (
-        <div sx={buttonVariants({ variant: "ghost" })}>
+        <Button
+          variant="ghost"
+          onPress={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Email
           <IconPlaceholder
             lucide="ArrowUpDownIcon"
@@ -212,7 +216,7 @@ export const columns = columnHelper.columns([
             phosphor="ArrowsDownUpIcon"
             remixicon="RiArrowUpDownLine"
           />
-        </div>
+        </Button>
       )
     },
     cell: ({ row }) => <div sx={styles.div2}>{row.getValue("email")}</div>,

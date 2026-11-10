@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Sx } from "@kirana-style/core"
   import {
     Toaster,
     ToastActionTrigger,
@@ -7,7 +8,6 @@
     ToastRoot,
     ToastTitle,
   } from "@ark-ui/svelte"
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import IconPlaceholder from "../../../../icons/IconPlaceholder.svelte"

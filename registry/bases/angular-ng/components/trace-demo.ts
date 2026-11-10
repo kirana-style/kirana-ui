@@ -129,7 +129,7 @@ export class ThinkingRow {
   host: { style: "display: contents" },
   template: `
     @if (done()) {
-      <div kuiTraceCollapsible [defaultOpen]="defaultOpen()">
+      <div kuiTraceCollapsible [defaultOpen]="initiallyOpen()">
         <button kuiTraceCollapsibleTrigger>
           <span kuiTraceLine [status]="failed() ? 'error' : undefined">
             <span kuiTraceIcon>
@@ -209,6 +209,9 @@ export class ToolRow {
   readonly part = input.required<Extract<Part, { type: "tool-runCommand" }>>()
   readonly streaming = input(false)
   readonly defaultOpen = input(false)
+  // Read once, as Base UI's `defaultOpen` is: ng-primitives' follows it, and the chat's end would
+  // open the row again.
+  protected readonly initiallyOpen = signal(false)
   protected readonly styles = styles
   protected readonly command = computed(() => this.part().input?.command)
   protected readonly done = computed(
@@ -227,6 +230,10 @@ export class ToolRow {
     const part = this.part()
     return part.state === "output-available" ? part.output.stdout : ""
   })
+
+  ngOnInit() {
+    this.initiallyOpen.set(this.defaultOpen())
+  }
 }
 
 @Component({

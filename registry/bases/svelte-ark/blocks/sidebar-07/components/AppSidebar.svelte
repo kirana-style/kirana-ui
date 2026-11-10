@@ -212,7 +212,7 @@
   }
 </script>
 
-<Sidebar collapsible="icon" {...rest} sx={[className as Sx]}>
+<Sidebar collapsible="icon" {...rest} sx={className as Sx}>
   <SidebarHeader>
     <TeamSwitcher teams={data.teams} />
   </SidebarHeader>

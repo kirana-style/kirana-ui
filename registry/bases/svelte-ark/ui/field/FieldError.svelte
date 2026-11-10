@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -26,7 +25,7 @@
 </script>
 
 {#if children || messages.length}
-  <div role="alert" data-slot="field-error" {...rest} sx={[field.error, className as Sx]}>
+  <div role="alert" data-slot="field-error" {...rest} class={className} sx={field.error}>
     {#if children}{@render children()}{:else}
       {#if messages.length === 1}
         {messages[0]}

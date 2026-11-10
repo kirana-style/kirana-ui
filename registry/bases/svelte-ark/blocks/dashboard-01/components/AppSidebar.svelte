@@ -254,7 +254,7 @@
   }
 </script>
 
-<Sidebar collapsible="offcanvas" {...rest} sx={[className as Sx]}>
+<Sidebar collapsible="offcanvas" {...rest} sx={className as Sx}>
   <SidebarHeader>
     <SidebarMenu>
       <SidebarMenuItem>

@@ -22,47 +22,7 @@ import { Message, MessageContent, MessageFooter } from "@/components/ui/message"
 
 The example draws each step with its own parts, which you copy beside it:
 
-```tsx showLineNumbers title="message-action.tsx"
-import { splitProps } from "solid-js"
-import { Button } from "@/components/ui/button"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import type { JSX } from "solid-js"
-import type { Sx } from "@kirana-style/core"
-
-export function MessageAction(props: {
-  label: string
-  children?: JSX.Element
-  [attribute: string]: unknown
-  sx?: Sx
-  class?: string
-}) {
-  const [local, rest] = splitProps(props, ["label", "children", "sx", "class"])
-  return (
-    <Tooltip>
-      <TooltipTrigger
-        asChild={(childProps) => (
-          <Button
-            {...childProps()}
-            variant="ghost"
-            size="icon-sm"
-            aria-label={local.label}
-            {...rest}
-          >
-            {local.children}
-          </Button>
-        )}
-      />
-      <TooltipContent>
-        <p>{local.label}</p>
-      </TooltipContent>
-    </Tooltip>
-  )
-}
-```
+<!-- ::demo-source item="message-pattern" parts="true" combinations="solid/ark" -->
 
 See [Message](/docs/components/message).
 

@@ -124,6 +124,9 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   site, kept in localStorage (`docs-ui:combination`), from `DocsConfig.combinations` (new).
 - `combination.ts`: `useSavedCombination()`, the saved choice without the provider, for the site's
   home showcase, whose framework switch shares it.
+- `combination.ts`: the choice is also the `docs-ui-combination` cookie (`COMBINATION_COOKIE`), and
+  `savedCombination()` reads it once, so a route can send a shared URL to the reader's page;
+  `rememberCombination()` writes a choice saved before the cookie existed to it.
 - `markdown/preview.tsx`: `combinations="react/base,react/aria"` puts a picker over the preview and
   passes the choice to `previewSrc(item, combination)`.
 - `markdown/component-code.tsx` (new), registered as `component-code`: the files installing an item
@@ -175,7 +178,9 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   demos do (an item that is `hidden md:flex`).
 - `markdown/demo-source.tsx` (new), registered as `demo-source`: `<!-- ::demo-source item="…"
   title="…" combinations="…" -->`, a demo's whole code as a titled, foldable code block, as
-  shadcn/ui's `ComponentSource` shows a file (its Forms guides end on the finished form).
+  shadcn/ui's `ComponentSource` shows a file (its Forms guides end on the finished form). With
+  `parts="true"`, the demo's own parts instead (`<item>.parts.json` beside its code), one titled
+  block per file, so a page shows a framework's row components from the registry, not a copy.
 - `markdown/callout.tsx`: shadcn/ui's callout. A quiet aside in the site's surface colour, its
   border the same, small text, the kind's icon in the text's colour; every kind looks alike, where
   each had a tinted surface and hairline of its own, and a line naming no title shows none (the

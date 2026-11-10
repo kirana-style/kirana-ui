@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -18,6 +17,6 @@
   } = $props()
 </script>
 
-<div data-slot="attachment-media" data-variant={variant} {...rest} sx={[attachment.media, variant === 'image' && attachment.mediaImage, className as Sx]}>
+<div data-slot="attachment-media" data-variant={variant} {...rest} class={className} sx={[attachment.media, variant === 'image' && attachment.mediaImage]}>
   {@render children?.()}
 </div>

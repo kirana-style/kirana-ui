@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import { onMount, setContext } from "svelte"
   import type { Snippet } from "svelte"
   import type { ClassValue } from "svelte/elements"
@@ -82,6 +81,6 @@
   })
 </script>
 
-<div data-slot="sidebar-wrapper" {...rest} sx={[sidebar.wrapper, className as Sx]}>
+<div data-slot="sidebar-wrapper" {...rest} class={className} sx={sidebar.wrapper}>
   {@render children?.()}
 </div>

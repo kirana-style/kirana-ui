@@ -1,6 +1,5 @@
 <script lang="ts">
   import { getContext } from "svelte"
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { chart as styles } from "../../../../styles/chart.styles"
@@ -31,7 +30,7 @@
 </script>
 
 {#if entries.length}
-  <div {...rest} sx={[styles.legend, verticalAlign === 'top' ? styles.legendTop : styles.legendBottom, className as Sx]}>
+  <div {...rest} class={className} sx={[styles.legend, verticalAlign === 'top' ? styles.legendTop : styles.legendBottom]}>
     {#each entries as key (key)}
       <div sx={styles.legendItem}>
         {#if config[key]!.icon && !hideIcon}

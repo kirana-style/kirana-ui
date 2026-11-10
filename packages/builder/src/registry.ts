@@ -50,7 +50,7 @@ export { importsOf, packageOf } from "@kirana-style/registry"
 const EXTENSIONS = ["", ".ts", ".tsx", ".vue", ".svelte", "/index.ts"]
 
 /** The registry file a relative import names, from the importing file. */
-function resolveSource(
+export function resolveSource(
   registry: string,
   from: string,
   specifier: string

@@ -12,6 +12,8 @@ import { useDocs } from "./provider.tsx"
 
 const KEY = "docs-ui:combination"
 const EVENT = "docs-ui:combination"
+/** The choice as a cookie too, so the server can send a shared URL to the reader's page. */
+export const COMBINATION_COOKIE = "docs-ui-combination"
 
 function read(): string | null {
   try {
@@ -30,12 +32,27 @@ function subscribe(onChange: () => void) {
   }
 }
 
+const writeCookie = (id: string) => {
+  document.cookie = `${COMBINATION_COOKIE}=${encodeURIComponent(id)}; path=/; max-age=31536000; samesite=lax`
+}
+
 export function chooseCombination(id: string) {
   try {
     localStorage.setItem(KEY, id)
   } catch {}
+  writeCookie(id)
   window.dispatchEvent(new Event(EVENT))
 }
+
+/** A choice saved before the cookie existed, written to it too (once a page has hydrated). */
+export function rememberCombination() {
+  const saved = read()
+  if (saved && !document.cookie.includes(`${COMBINATION_COOKIE}=`))
+    writeCookie(saved)
+}
+
+/** The saved choice, read once (a route's loader, on the client). */
+export const savedCombination = read
 
 /** The saved choice alone, for a page outside the docs that has no provider (the home showcase). */
 export function useSavedCombination(): string | null {

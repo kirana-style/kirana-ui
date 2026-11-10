@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { command } from "../../../../styles/command.styles"
@@ -18,5 +17,5 @@
 
 <!-- Hidden while something is typed, as cmdk's (`alwaysRender` aside). -->
 {#if !ctx.query}
-  <div data-slot="command-separator" {...{ "cmdk-separator": "" }} role="separator" {...rest} sx={[command.separator, className as Sx]}></div>
+  <div data-slot="command-separator" {...{ "cmdk-separator": "" }} role="separator" {...rest} class={className} sx={command.separator}></div>
 {/if}

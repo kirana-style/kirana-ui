@@ -19,6 +19,6 @@
   } = $props()
 </script>
 
-<DrawerCloseTrigger {asChild} data-slot="drawer-close" {...rest} sx={[className as Sx]}>
+<DrawerCloseTrigger {asChild} data-slot="drawer-close" {...rest} sx={className as Sx}>
   {@render children?.()}
 </DrawerCloseTrigger>

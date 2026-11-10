@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { Badge } from "../../../ui/badge"
@@ -18,7 +17,7 @@
 
 </script>
 
-<div sx={[styles.div3, className as Sx]} {...rest}>
+<div class={className} sx={styles.div3} {...rest}>
   <Badge variant="outline" sx={styles.badge}>
     {type}
   </Badge>

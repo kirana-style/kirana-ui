@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { Separator } from "../../../ui/separator"
@@ -62,7 +61,7 @@
   }
 </script>
 
-<header sx={[styles.siteHeaderHeader, className as Sx]} {...rest}>
+<header class={className} sx={styles.siteHeaderHeader} {...rest}>
   <div sx={styles.siteHeaderDiv}>
     <SidebarTrigger sx={styles.sidebarTrigger} />
     <Separator orientation="vertical" sx={styles.siteHeaderSeparator} />

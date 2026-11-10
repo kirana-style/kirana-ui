@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<p data-slot="field-description" {...rest} sx={[field.description, className as Sx]}>
+<p data-slot="field-description" {...rest} class={className} sx={field.description}>
   {@render children?.()}
 </p>

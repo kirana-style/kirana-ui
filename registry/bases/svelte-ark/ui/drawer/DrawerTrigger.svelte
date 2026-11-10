@@ -19,6 +19,6 @@
   } = $props()
 </script>
 
-<DrawerTrigger {asChild} data-slot="drawer-trigger" {...rest} sx={[className as Sx]}>
+<DrawerTrigger {asChild} data-slot="drawer-trigger" {...rest} sx={className as Sx}>
   {@render children?.()}
 </DrawerTrigger>

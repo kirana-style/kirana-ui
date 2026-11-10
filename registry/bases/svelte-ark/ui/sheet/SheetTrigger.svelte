@@ -20,6 +20,6 @@
   } = $props()
 </script>
 
-<Dialog.Trigger {asChild} data-slot="sheet-trigger" {...rest} sx={[className as Sx]}>
+<Dialog.Trigger {asChild} data-slot="sheet-trigger" {...rest} sx={className as Sx}>
   {@render children?.()}
 </Dialog.Trigger>

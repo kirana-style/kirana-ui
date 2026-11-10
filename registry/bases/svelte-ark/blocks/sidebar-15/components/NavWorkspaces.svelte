@@ -54,7 +54,7 @@
   }
 </script>
 
-<SidebarGroup {...rest} sx={[className as Sx]}>
+<SidebarGroup {...rest} sx={className as Sx}>
   <SidebarGroupLabel>
     Workspaces
   </SidebarGroupLabel>

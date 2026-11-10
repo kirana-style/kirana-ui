@@ -22,4 +22,4 @@
   const lines = $derived(useHighlightedCode(code, language))
 </script>
 
-<CodeBlockContent lineNumbers {...rest} sx={[className as Sx]}>{#each lines as line, index (index)}<CodeBlockLine><HighlightedLine tokens={line} /></CodeBlockLine>{/each}</CodeBlockContent>
+<CodeBlockContent lineNumbers {...rest} sx={className as Sx}>{#each lines as line, index (index)}<CodeBlockLine><HighlightedLine tokens={line} /></CodeBlockLine>{/each}</CodeBlockContent>

@@ -44,7 +44,7 @@
   let open = $state(false)
 </script>
 
-<Example title="Date Picker with Dropdowns" {...rest} sx={[className as Sx]}>
+<Example title="Date Picker with Dropdowns" {...rest} sx={className as Sx}>
   <Field sx={styles.w72}>
     <Popover open={open} onOpenChange={(details: { open: typeof open }) => (open = details.open)}>
       <FieldLabel for="date-picker-with-dropdowns-desktop">

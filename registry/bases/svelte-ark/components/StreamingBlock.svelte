@@ -58,7 +58,7 @@
   }
 </script>
 
-<CodeBlock {...rest} sx={[className as Sx]}>
+<CodeBlock {...rest} sx={className as Sx}>
   {#if block.title}
     <CodeBlockHeader>
       <CodeBlockTitle>{block.title}</CodeBlockTitle>

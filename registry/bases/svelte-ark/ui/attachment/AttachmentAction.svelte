@@ -22,6 +22,6 @@
   type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 </script>
 
-<Button data-slot="attachment-action" variant={variant} size={size} {...rest} sx={[className as Sx]}>
+<Button data-slot="attachment-action" variant={variant} size={size} {...rest} sx={className as Sx}>
   {@render children?.()}
 </Button>

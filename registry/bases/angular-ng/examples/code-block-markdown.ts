@@ -1,4 +1,10 @@
-import { Component, computed } from "@angular/core"
+import {
+  Component,
+  Injector,
+  afterNextRender,
+  computed,
+  inject,
+} from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { streamingMarkdownExtension } from "@tanstack/markdown/extensions/streaming"
 import { createChat, getMessageText } from "../../../lib/ai"
@@ -145,6 +151,7 @@ const components = {
   `,
 })
 export default class CodeBlockMarkdown {
+  private readonly injector = inject(Injector)
   protected readonly chat = new Chat({ messages: transcript, transport })
   protected readonly busy = computed(
     () => this.chat.status === "submitted" || this.chat.status === "streaming"
@@ -158,6 +165,9 @@ export default class CodeBlockMarkdown {
 
   protected replay() {
     this.chat.messages = []
-    void this.chat.sendMessage(question)
+    // The rows go before the replay's arrive, so each starts afresh, as React's do.
+    afterNextRender(() => void this.chat.sendMessage(question), {
+      injector: this.injector,
+    })
   }
 }

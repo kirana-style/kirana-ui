@@ -5,7 +5,7 @@
  * - in Kirana's format, which `kirana-style ui` reads: `<out>/<item>.json`, one item for every
  *   framework and base with its style modules as written, and `<out>/index.json`;
  * - each docs demo's code as a project writes it, for the panel under its preview:
- *   `<out>/demos/<item>.json` (`demos.ts`);
+ *   `<out>/demos/<item>.json` (`demos.ts`), and its own parts in `<out>/demos/<item>.parts.json`;
  * - for shadcn/ui's CLI, every combination flattened, checked against the live styles with Kirana
  *   (one session, `session.ts`), each handle and each composition of handles in the markup
  *   (`compose.ts`), and validated against shadcn/ui's schema; written for React's combinations
@@ -34,8 +34,8 @@ import {
   roundTrip,
 } from "./check"
 import { compositionProbes, compositionsOf } from "./compose"
-import type { DemoCode } from "./demos"
-import { demoCode, previewedItems } from "./demos"
+import type { DemoCode, DemoParts } from "./demos"
+import { demoCode, demoParts, previewedItems } from "./demos"
 import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
@@ -333,6 +333,7 @@ mkdirSync(join(values.out!, "demos"), { recursive: true })
 let demoCount = 0
 for (const item of demos) {
   const code: DemoCode = {}
+  const parts: DemoParts = {}
   for (const { framework, base } of FRAMEWORK_BASES) {
     const combination = COMBINATIONS.find(
       (each) => each.framework === framework && each.base === base
@@ -341,10 +342,17 @@ for (const item of demos) {
     try {
       const source = demoCode(REGISTRY, combination, item)
       if (source !== undefined) code[`${framework}/${base}`] = source
+      const files = demoParts(REGISTRY, combination, item)
+      if (Object.keys(files).length) parts[`${framework}/${base}`] = files
     } catch (error) {
       problems.push(`demo ${item} (${framework}/${base}): ${String(error)}`)
     }
   }
+  if (Object.keys(parts).length)
+    writeFileSync(
+      join(values.out!, "demos", `${item}.parts.json`),
+      `${JSON.stringify(parts)}\n`
+    )
   // A block previewed in the docs shows its own code on its page.
   if (Object.keys(code).length === 0) continue
   writeFileSync(

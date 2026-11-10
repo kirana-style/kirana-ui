@@ -174,7 +174,7 @@
   }
 </script>
 
-<Sidebar {...rest} sx={[className as Sx]}>
+<Sidebar {...rest} sx={className as Sx}>
   <SidebarContent>
     <SidebarGroup>
       <SidebarGroupLabel>

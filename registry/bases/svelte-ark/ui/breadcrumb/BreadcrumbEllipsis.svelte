@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { breadcrumb } from "../../../../styles/breadcrumb.styles"
@@ -15,7 +14,7 @@
   } = $props()
 </script>
 
-<span data-slot="breadcrumb-ellipsis" role="presentation" aria-hidden="true" {...rest} sx={[breadcrumb.ellipsis, className as Sx]}>
+<span data-slot="breadcrumb-ellipsis" role="presentation" aria-hidden="true" {...rest} class={className} sx={breadcrumb.ellipsis}>
   <IconPlaceholder lucide="MoreHorizontalIcon" tabler="IconDots" hugeicons="MoreHorizontalCircle01Icon" phosphor="DotsThreeIcon" remixicon="RiMoreLine" />
   <span sx={visuallyHidden}>
     More

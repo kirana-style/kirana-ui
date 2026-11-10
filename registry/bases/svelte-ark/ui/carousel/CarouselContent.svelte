@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import emblaCarouselSvelte from "embla-carousel-svelte"
   import type { Snippet } from "svelte"
   import type { ClassValue } from "svelte/elements"
@@ -29,7 +28,7 @@
 >
   <div
     {...rest}
-    sx={[context.orientation === "horizontal" ? carousel.content : carousel.contentVertical, className as Sx]}
+    class={className} sx={context.orientation === "horizontal" ? carousel.content : carousel.contentVertical}
   >
     {@render children?.()}
   </div>

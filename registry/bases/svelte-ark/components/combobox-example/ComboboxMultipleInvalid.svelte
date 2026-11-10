@@ -43,7 +43,7 @@
   ] as const
 </script>
 
-<Example title="Combobox Multiple Invalid" {...rest} sx={[className as Sx]}>
+<Example title="Combobox Multiple Invalid" {...rest} sx={className as Sx}>
   <div sx={[styles.flexCol4, example.row]}>
     <Combobox multiple autoHighlight items={frameworks} defaultValue={[frameworks[0], frameworks[1]]}>
       <ComboboxChips>

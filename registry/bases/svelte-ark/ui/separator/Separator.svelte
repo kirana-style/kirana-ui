@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { separator } from "../../../../styles/separator.styles"
@@ -15,4 +14,4 @@
   } = $props()
 </script>
 
-<div data-slot="separator" role="separator" aria-orientation={orientation} data-orientation={orientation} {...rest} sx={[separator, className as Sx]}></div>
+<div data-slot="separator" role="separator" aria-orientation={orientation} data-orientation={orientation} {...rest} class={className} sx={separator}></div>
