@@ -3,7 +3,16 @@ title: Suggestion
 description: A short prompt you can send to the agent in one click.
 section: ai-elements
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords: [suggestion, ai elements, agent, chat]
 ---
 

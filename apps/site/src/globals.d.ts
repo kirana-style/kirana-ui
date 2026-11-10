@@ -17,7 +17,9 @@ declare module "virtual:preview-names" {
     | "react/base"
     | "react/aria"
     | "vue/ark"
+    | "vue/reka"
     | "svelte/ark"
+    | "svelte/bits"
     | "solid/ark"
     | "angular/ng",
     readonly string[]

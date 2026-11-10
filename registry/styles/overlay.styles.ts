@@ -16,18 +16,18 @@ import { overlay, presence, side, when } from "../core/states"
 
 /**
  * What a base's positioner tells its popup, under each base's own name: Base UI's, then React
- * Aria's, then Ark UI's, then Reka UI's. Only the base in use sets its variable, so one value
- * serves them all.
+ * Aria's, then Ark UI's, then Reka UI's, then Bits UI's. Only the base in use sets its variable, so
+ * one value serves them all.
  */
 export const ANCHOR_WIDTH =
-  "var(--anchor-width, var(--trigger-width, var(--reference-width, var(--reka-popper-anchor-width))))"
+  "var(--anchor-width, var(--trigger-width, var(--reference-width, var(--reka-popper-anchor-width, var(--bits-floating-anchor-width)))))"
 /** The room a popup has below or beside its trigger, under the same names. */
 export const AVAILABLE_HEIGHT =
-  "var(--available-height, var(--reka-popper-available-height))"
+  "var(--available-height, var(--reka-popper-available-height, var(--bits-floating-available-height)))"
 export const AVAILABLE_WIDTH =
-  "var(--available-width, var(--reka-popper-available-width))"
+  "var(--available-width, var(--reka-popper-available-width, var(--bits-floating-available-width)))"
 export const TRANSFORM_ORIGIN =
-  "var(--transform-origin, var(--trigger-anchor-point, var(--reka-popper-transform-origin)))"
+  "var(--transform-origin, var(--trigger-anchor-point, var(--reka-popper-transform-origin, var(--bits-floating-transform-origin))))"
 
 /** `slide-in-from-*-2`: how far a popup travels in from its trigger's side. */
 const SLIDE = space[2]

@@ -35,6 +35,7 @@ const EXAMPLES = {
   "vue/ark": ["vue-ark", ".vue"],
   "vue/reka": ["vue-reka", ".vue"],
   "svelte/ark": ["svelte-ark", ".svelte"],
+  "svelte/bits": ["svelte-bits", ".svelte"],
   "solid/ark": ["solid-ark", ".tsx"],
   "angular/ng": ["angular-ng", ".ts"],
 } as const

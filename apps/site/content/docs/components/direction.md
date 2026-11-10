@@ -3,7 +3,16 @@ title: Direction
 description: A provider component that sets the text direction for your application.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [
     direction,
@@ -29,11 +38,11 @@ Persian.
 Here's a preview of the component in RTL mode. Use the language selector to switch the language. To
 see more examples, look for the RTL section on components pages.
 
-<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="card-rtl" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## Installation
 
-<!-- ::installation name="direction" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="direction" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -68,10 +77,10 @@ import { DirectionProvider } from "@/components/ui/direction"
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
-<!-- Ark UI reads the direction from the locale. -->
+<!-- The direction follows the locale. -->
 <DirectionProvider locale="ar">
   <!-- Your app content -->
 </DirectionProvider>
@@ -162,6 +171,12 @@ See the [Reka UI Config Provider](https://reka-ui.com/docs/utilities/config-prov
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Locale](https://ark-ui.com/svelte/docs/utilities/locale#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+Bits UI has no direction provider: this one is the registry's own, a context each part reads for its `dir`.
 
 <!-- ::end:only -->
 

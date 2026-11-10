@@ -3,7 +3,16 @@ title: Queue
 description: Displays the agent's todo list, split into what is left and what is done.
 section: ai-elements
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords: [queue, ai elements, agent, chat]
 ---
 

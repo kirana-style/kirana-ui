@@ -10,16 +10,10 @@ import { useCombination } from "@workspace/docs-ui/combination.ts"
 import { CombinationPicker } from "@workspace/docs-ui/markdown/preview.tsx"
 import type { ChartItem } from "@workspace/registry/charts"
 import { breakpoint, space } from "@workspace/registry/core/scales"
+import { VARIANTS } from "@/lib/variants"
 
-/** The frameworks and bases every chart is on. */
-const COMBINATIONS = [
-  "react/base",
-  "react/aria",
-  "vue/ark",
-  "svelte/ark",
-  "solid/ark",
-  "angular/ng",
-]
+/** The frameworks and bases the site documents (`lib/variants.ts`): every chart is on each. */
+const COMBINATIONS = VARIANTS.map((variant) => variant.id)
 
 const styles = {
   root: css({ display: "flex", flexDirection: "column", gap: space[6] }),

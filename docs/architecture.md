@@ -413,7 +413,10 @@ Every component Ark UI and Reka UI need here has a state vocabulary in
 `/preview/vue/reka/`), with all of Vue's 61 components. Its parts take the
 same props as the Ark UI ones and turn them into Reka's, so Vue's examples, blocks and charts are the same files on both bases,
 and both are checked against React's pages. A base is one more key per state
-(`reka:` in `core/states.ts`), not another set of styles.
+(`reka:` in `core/states.ts`), not another set of styles. **Svelte's second
+base is Bits UI** (`registry/bases/svelte-bits`, at `/preview/svelte/bits/`),
+built the same way, with 52 of Svelte's 61 components so far (Bits UI has no
+toast, so it will carry 60).
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

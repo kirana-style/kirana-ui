@@ -21,4 +21,5 @@ export const OPEN = {
   ark: collapsibleScope.within(disclosure.open.ark),
   ng: collapsibleScope.within(disclosure.open.ng),
   reka: collapsibleScope.within(disclosure.open.reka),
+  bits: collapsibleScope.within(disclosure.open.bits),
 }

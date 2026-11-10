@@ -3,14 +3,23 @@ title: Label
 description: Renders an accessible label associated with controls.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [label, form, field, component, base, aria, ark, vue, svelte, solid, angular]
 ---
 
 # Label
 
-<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 > [!NOTE]
 > For form fields, use the [Field](/docs/components/field) component, which
@@ -18,7 +27,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="label" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="label" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -44,7 +53,7 @@ import { Label } from "@/components/ui/label"
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <Label for="email">Your email address</Label>
@@ -88,13 +97,13 @@ includes built-in `FieldLabel`, `FieldDescription`, and `FieldError` components.
 </Field>
 ```
 
-<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="field-demo" height="760" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="label-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="label-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

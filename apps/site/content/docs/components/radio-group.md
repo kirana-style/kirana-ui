@@ -3,18 +3,27 @@ title: Radio Group
 description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [radio, radio group, form, field, component, base, aria, ark, vue, svelte]
 ---
 
 # Radio Group
 
-<!-- ::preview item="radio-group-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="radio-group-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="radio-group" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="radio-group" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -65,7 +74,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <RadioGroup defaultValue="option-one">
@@ -142,19 +151,19 @@ RadioGroup
 
 Radio group items with a description using the `Field` component.
 
-<!-- ::preview item="radio-group-description" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="radio-group-description" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Choice Card
 
 Use `FieldLabel` to wrap the entire `Field` for a clickable card-style selection.
 
-<!-- ::preview item="radio-group-choice-card" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="radio-group-choice-card" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Fieldset
 
 Use `FieldSet` and `FieldLegend` to group radio items with a label and description.
 
-<!-- ::preview item="radio-group-fieldset" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="radio-group-fieldset" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Disabled
 
@@ -170,7 +179,7 @@ Use the `isDisabled` prop on `RadioGroup` to disable all items.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="radio-group-disabled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="radio-group-disabled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Invalid
 
@@ -186,13 +195,13 @@ Use `isInvalid` on `RadioGroupItem` and `data-invalid` on `Field` to show valida
 
 <!-- ::end:only -->
 
-<!-- ::preview item="radio-group-invalid" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="radio-group-invalid" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="radio-group-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="radio-group-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -223,6 +232,12 @@ See the [Reka UI Radio Group](https://reka-ui.com/docs/components/radio-group#ap
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Radio Group](https://ark-ui.com/svelte/docs/components/radio-group#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+See the [Bits UI Radio Group](https://bits-ui.com/docs/components/radio-group#api-reference) documentation.
 
 <!-- ::end:only -->
 

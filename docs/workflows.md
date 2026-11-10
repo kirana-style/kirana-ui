@@ -704,7 +704,7 @@ On Angular (ng-primitives):
   interactive ones' series, range or month) is a signal on the component, its definition a
   `computed` of it.
 
-On a framework's second base (Vue on Reka UI):
+On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
 
 - **The same public API as the framework's first base.** A part on Reka UI
   takes what its Ark UI twin takes (`default-value`, `v-model:checked`,
@@ -743,6 +743,16 @@ On a framework's second base (Vue on Reka UI):
 - **React's elements, with Base UI's keys.** Reka draws a checkbox, a radio and
   a switch as buttons; the parts render `span`s, as Base UI's, focusable and
   pressed with Space, and the slider's track, range and thumbs as `div`s.
+- **Svelte on Bits UI** keeps the same rules, with Bits' own model: its popups
+  and panels write Base UI's `data-starting-style` and `data-ending-style` and
+  wait for transitions, so their motion is Base UI's (`overlay.starting` and
+  `.ending` have `bits:` keys), not Ark's or Reka's keyframes. Bits has no
+  element factory and no `asChild`: `registry/lib/svelte/as-child.ts` and
+  `Element.svelte` give a part Ark's `asChild` snippet and its props function
+  on top of Bits' `child` snippet. It has no direction provider either: the
+  part's `DirectionProvider` is a context of the registry's own, which each
+  part reads for its `dir`. The drawer is the registry's own swipe on Bits'
+  Dialog, writing Base UI's `--drawer-*` variables; Bits has no toast.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

@@ -92,7 +92,7 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   same (Vue's Ark UI and Reka UI).
 - `markdown/install-tabs.tsx`: the `create` attribute, with `packages`, `dev`, `run` and `exec`.
 - `base-logos.tsx` (new): the bases' official marks, Base UI's and React Aria's inline as upstream's
-  `registry/bases.ts` has them (moved out of `markdown/frameworks.tsx`), Ark UI's and ng-primitives'
+  `registry/bases.ts` has them, and Bits UI's site icon (a disc) inline too (moved out of `markdown/frameworks.tsx`), Ark UI's and ng-primitives'
   as images from `brands/` (`ark-ui.svg` and `reka-ui.svg`, their sites' icons;
   `ng-primitives.svg`, their documentation's favicon); `/create`'s Get Code draws them too.
 - `markdown/section-cards.tsx` (new), registered as `section-cards`: `<!-- ::section-cards

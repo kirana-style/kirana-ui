@@ -3,18 +3,27 @@ title: Popover
 description: Displays rich content in a portal, triggered by a button.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [popover, popup, floating, overlay, component, base, aria, ark, vue, svelte]
 ---
 
 # Popover
 
-<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="popover-demo" height="580" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="popover" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -105,7 +114,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <script lang="ts">
@@ -252,7 +261,7 @@ PopoverTrigger
 
 A simple popover with a header, title, and description.
 
-<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="popover-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Align
 
@@ -268,19 +277,19 @@ Use the `placement` prop on `Popover` to control the horizontal alignment.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="popover-alignments" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## With Form
 
 A popover with form fields inside.
 
-<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="popover-form" height="424" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="popover-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="popover-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -311,6 +320,12 @@ See the [Reka UI Popover](https://reka-ui.com/docs/components/popover#api-refere
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Popover](https://ark-ui.com/svelte/docs/components/popover#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+See the [Bits UI Popover](https://bits-ui.com/docs/components/popover#api-reference) documentation.
 
 <!-- ::end:only -->
 

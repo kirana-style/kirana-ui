@@ -44,16 +44,13 @@ import { Icon } from "@workspace/shell/icon"
 import blockNames from "virtual:block-names"
 
 import { frameQuery } from "@/lib/page-design"
+import { VARIANTS } from "@/lib/variants"
 
-/** The frameworks and bases every block is on. */
-const COMBINATIONS = [
-  "react/base",
-  "react/aria",
-  "vue/ark",
-  "svelte/ark",
-  "solid/ark",
-  "angular/ng",
-]
+/**
+ * The frameworks and bases the site documents (`lib/variants.ts`); a block not on the chosen one
+ * yet shows React's Base UI.
+ */
+const COMBINATIONS = VARIANTS.map((variant) => variant.id)
 
 /** Upstream's widths: desktop, tablet and phone, as shares of the frame's room. */
 const WIDTHS = [

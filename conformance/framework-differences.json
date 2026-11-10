@@ -739,6 +739,48 @@
       "property": "min-height",
       "route": "/preview/vue/reka/combobox-",
       "reason": "as the input's: a flex item of Reka UI's column popup; its box is the same"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "pointer-events",
+      "route": "/preview/svelte/bits/",
+      "reason": "Bits UI's modal menu turns off pointer events on the page behind it while open (its body scroll lock sets `pointer-events: none` on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
+    },
+    {
+      "element": "span[data-slot=\"button-label\"]",
+      "property": "pointer-events",
+      "route": "/preview/svelte/bits/",
+      "reason": "Bits UI's modal menu turns off pointer events on the page behind it while open (its body scroll lock sets `pointer-events: none` on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
+    },
+    {
+      "element": "button[data-slot=\"select-trigger\"]",
+      "property": "pointer-events",
+      "route": "/preview/svelte/bits/",
+      "reason": "Bits UI's modal menu turns off pointer events on the page behind it while open (its body scroll lock sets `pointer-events: none` on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
+    },
+    {
+      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
+      "property": "background-color",
+      "route": "/preview/svelte/bits/",
+      "reason": "the pointer stays over an open menu's trigger, which Base UI's keeps `:hover` while Bits UI's modal menu turns off the page's pointer events (`pointer-events`, above), so a ghost trigger shows its open colour without its hover's"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "display",
+      "route": "/preview/svelte/bits/",
+      "reason": "Bits UI lays out a select's popup as a column inline (`display: flex`, Radix's), around its one viewport; the viewport's box is the same"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "flex-direction",
+      "route": "/preview/svelte/bits/",
+      "reason": "as display: Bits UI's inline column"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "outline-width",
+      "route": "/preview/svelte/bits/",
+      "reason": "which part the browser counts as focused by keyboard differs (`:focus-visible`): Bits UI focuses a context menu's popup on the pointer's open, Base UI its first row; the outline is `none` either way, so nothing is drawn"
     }
   ]
 }

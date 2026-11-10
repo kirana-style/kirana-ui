@@ -3,18 +3,27 @@ title: Scroll Area
 description: Augments native scroll functionality for custom, cross-browser styling.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [scroll area, scrollbar, overflow, component, base, aria, ark, vue, svelte]
 ---
 
 # Scroll Area
 
-<!-- ::preview item="scroll-area-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="scroll-area-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="scroll-area" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="scroll-area" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -60,7 +69,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <script lang="ts">
@@ -180,13 +189,13 @@ Use `ScrollBar` with `orientation="horizontal"` for horizontal scrolling.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="scroll-area-horizontal-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="scroll-area-rtl" height="380" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -211,6 +220,12 @@ See the [Reka UI Scroll Area](https://reka-ui.com/docs/components/scroll-area#ap
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Scroll Area](https://ark-ui.com/svelte/docs/components/scroll-area#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+See the [Bits UI Scroll Area](https://bits-ui.com/docs/components/scroll-area#api-reference) documentation.
 
 <!-- ::end:only -->
 

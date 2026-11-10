@@ -56,6 +56,8 @@
       "@kirana-style/states": "0.4.1",
       "@kirana-style/vite": "0.4.1",
       "reka-ui": "^2.11.0",
+      "bits-ui": "^2.20.6",
+      "paneforge": "^1.0.2",
       "@shadcn/helpers": "^0.3.0",
       "@tanstack/markdown": "^1.2.0",
       "ai": "^7.0.164",

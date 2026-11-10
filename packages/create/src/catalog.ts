@@ -34,6 +34,7 @@ export const BASE_LABELS: Record<Base, string> = {
   ark: "Ark UI",
   ng: "ng-primitives",
   reka: "Reka UI",
+  bits: "Bits UI",
 }
 
 /**

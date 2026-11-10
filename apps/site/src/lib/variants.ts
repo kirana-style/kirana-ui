@@ -5,14 +5,15 @@
  * (`content/docs/components/<name>.md`, its `variants`, `::only` blocks and per-variant tabs) by
  * the content generator, with an override beside it where a variant differs throughout
  * (`<name>/<framework>-<base>.md`). React's two are labelled by their base; a framework with one
- * is labelled by the framework, and Vue, with two, by both.
+ * is labelled by the framework, and Vue and Svelte, with two, by both.
  */
 export const VARIANTS = [
   { id: "react/base", label: "Base UI", name: "React with Base UI" },
   { id: "react/aria", label: "React Aria", name: "React with React Aria" },
   { id: "vue/ark", label: "Vue · Ark UI", name: "Vue with Ark UI" },
   { id: "vue/reka", label: "Vue · Reka UI", name: "Vue with Reka UI" },
-  { id: "svelte/ark", label: "Svelte", name: "Svelte" },
+  { id: "svelte/ark", label: "Svelte · Ark UI", name: "Svelte with Ark UI" },
+  { id: "svelte/bits", label: "Svelte · Bits UI", name: "Svelte with Bits UI" },
   { id: "solid/ark", label: "Solid", name: "Solid" },
   { id: "angular/ng", label: "Angular", name: "Angular" },
 ] as const

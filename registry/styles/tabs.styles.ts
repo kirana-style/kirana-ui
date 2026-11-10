@@ -44,6 +44,7 @@ const IN_HORIZONTAL = {
   ark: tabsScope.within(tabOrientation.horizontal.ark),
   ng: tabsScope.within(tabOrientation.horizontal.ng),
   reka: tabsScope.within(tabOrientation.horizontal.reka),
+  bits: tabsScope.within(tabOrientation.horizontal.bits),
 }
 const IN_VERTICAL = {
   base: tabsScope.within(tabOrientation.vertical.base),
@@ -51,6 +52,7 @@ const IN_VERTICAL = {
   ark: tabsScope.within(tabOrientation.vertical.ark),
   ng: tabsScope.within(tabOrientation.vertical.ng),
   reka: tabsScope.within(tabOrientation.vertical.reka),
+  bits: tabsScope.within(tabOrientation.vertical.bits),
 }
 const IN_DEFAULT_LIST = tabsList.within('[data-variant="default"]')
 const IN_LINE_LIST = tabsList.within('[data-variant="line"]')

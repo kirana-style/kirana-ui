@@ -3,18 +3,27 @@ title: Hover Card
 description: For sighted users to preview content available behind a link.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [hover card, preview, tooltip, link, component, base, aria, ark, vue, svelte]
 ---
 
 # Hover Card
 
-<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="hover-card" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="hover-card" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -79,7 +88,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <script lang="ts">
@@ -239,17 +248,17 @@ Use the `placement` prop on `HoverCard` to control placement.
 
 ## Basic
 
-<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="hover-card-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Sides
 
-<!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="hover-card-sides" height="352" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="hover-card-rtl" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="hover-card-rtl" height="320" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -280,6 +289,12 @@ See the [Reka UI Hover Card](https://reka-ui.com/docs/components/hover-card#api-
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Hover Card](https://ark-ui.com/svelte/docs/components/hover-card#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+See the [Bits UI Link Preview](https://bits-ui.com/docs/components/link-preview#api-reference) documentation.
 
 <!-- ::end:only -->
 
