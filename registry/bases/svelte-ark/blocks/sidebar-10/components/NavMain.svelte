@@ -31,7 +31,7 @@
   } = $props()
 </script>
 
-<SidebarMenu {...rest} sx={[className as Sx]}>
+<SidebarMenu {...rest} sx={className as Sx}>
   {#each items as item (item.title)}
     <SidebarMenuItem>
       <SidebarMenuButton isActive={item.isActive}>

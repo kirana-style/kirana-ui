@@ -26,7 +26,7 @@
       {title}
     </div>
   {/if}
-  <div data-slot="example-content" sx={[example.content, className as Sx]}>
+  <div data-slot="example-content" class={className} sx={example.content}>
     {@render children?.()}
   </div>
 </div>

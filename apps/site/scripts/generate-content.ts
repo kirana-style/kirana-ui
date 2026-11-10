@@ -157,8 +157,10 @@ await generate({
     figure: ({ light, alt, caption }) =>
       `![${alt ?? ""}](https://ui.kirana.style${light ?? ""})${caption ? `\n\n${caption}` : ""}`,
     // A demo's whole code is its registry document, every framework and base.
-    "demo-source": ({ item, title }) =>
-      `[${title ?? item}](https://ui.kirana.style/r/demos/${item}.json)`,
+    "demo-source": ({ item, title, parts }) =>
+      parts === "true"
+        ? `[${item}'s parts](https://ui.kirana.style/r/demos/${item}.parts.json)`
+        : `[${title ?? item}](https://ui.kirana.style/r/demos/${item}.json)`,
     // A language model reads the preview as a link to the page that draws the item.
     preview: ({ item, combinations }) =>
       `[Preview: ${item}](https://ui.kirana.style/preview/${combinations?.split(",")[0] ?? "react/base"}/${item})`,

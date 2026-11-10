@@ -209,7 +209,7 @@
   }
 </script>
 
-<Sidebar variant="floating" {...rest} sx={[className as Sx]}>
+<Sidebar variant="floating" {...rest} sx={className as Sx}>
   <SidebarHeader>
     <SidebarMenu>
       <SidebarMenuItem>

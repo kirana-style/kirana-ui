@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -36,7 +35,7 @@
 </script>
 
 {#if collapsible === 'none'}
-  <div data-slot="sidebar" {...rest} sx={[sidebar.static, className as Sx]}>
+  <div data-slot="sidebar" {...rest} class={className} sx={sidebar.static}>
     {@render children?.()}
   </div>
 {:else if ctx.isMobile}
@@ -62,8 +61,8 @@
         sidebar.gap,
         (variant === 'floating' || variant === 'inset') && sidebar.gapPadded,
       ]}></div>
-    <div data-slot="sidebar-container" data-side={side} dir={dir} {...rest} sx={[sidebar.container, (variant === 'floating' || variant === 'inset') &&
-          sidebar.containerPadded, className as Sx]}>
+    <div data-slot="sidebar-container" data-side={side} dir={dir} {...rest} class={className} sx={[sidebar.container, (variant === 'floating' || variant === 'inset') &&
+          sidebar.containerPadded]}>
       <div data-sidebar="sidebar" data-slot="sidebar-inner" sx={sidebar.inner}>
         {@render children?.()}
       </div>

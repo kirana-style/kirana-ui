@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import { onDestroy } from "svelte"
 
@@ -40,7 +39,7 @@
       direction === 'up'
         ? 'select-scroll-up-button'
         : 'select-scroll-down-button'
-    } data-direction={direction} data-side={direction === 'up' ? 'top' : 'bottom'} data-visible="" aria-hidden="true" style="position: absolute" {...rest} sx={[select.scrollButton, direction === 'up' ? select.scrollUp : select.scrollDown, className as Sx]} onpointerenter={scroll} onpointerleave={stop}>
+    } data-direction={direction} data-side={direction === 'up' ? 'top' : 'bottom'} data-visible="" aria-hidden="true" style="position: absolute" {...rest} class={className} sx={[select.scrollButton, direction === 'up' ? select.scrollUp : select.scrollDown]} onpointerenter={scroll} onpointerleave={stop}>
   {#if direction === 'up'}
     <IconPlaceholder lucide="ChevronUpIcon" tabler="IconChevronUp" hugeicons="ArrowUp01Icon" phosphor="CaretUpIcon" remixicon="RiArrowUpSLine" />
   {:else}

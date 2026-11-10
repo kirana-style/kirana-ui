@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { EmblaOptionsType, EmblaPluginType } from "embla-carousel"
   import { onDestroy, setContext } from "svelte"
   import type { Snippet } from "svelte"
@@ -79,7 +78,7 @@
   aria-roledescription="carousel"
   data-slot="carousel"
   {...rest}
-  sx={[carousel.root, className as Sx]}
+  class={className} sx={carousel.root}
   onkeydowncapture={onkeydown}
 >
   {@render children?.()}

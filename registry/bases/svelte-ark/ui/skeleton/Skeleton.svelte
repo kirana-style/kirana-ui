@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { HTMLAttributes } from "svelte/elements"
 
   import { skeleton } from "../../../../styles/skeleton.styles"
@@ -11,4 +10,4 @@
     $props()
 </script>
 
-<div data-slot="skeleton" {...rest} sx={[skeleton, className as Sx]}></div>
+<div data-slot="skeleton" {...rest} class={className} sx={skeleton}></div>

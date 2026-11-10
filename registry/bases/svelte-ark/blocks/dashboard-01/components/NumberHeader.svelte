@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   // The target's and the limit's header, aligned as their fields are.
@@ -18,6 +17,6 @@
 
 </script>
 
-<div sx={[field === 'target' ? styles.div4 : styles.div5, className as Sx]} {...rest}>
+<div class={className} sx={field === 'target' ? styles.div4 : styles.div5} {...rest}>
   {field === "target" ? "Target" : "Limit"}
 </div>

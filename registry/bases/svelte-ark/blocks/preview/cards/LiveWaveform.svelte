@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onDestroy, onMount, untrack } from "svelte"
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   /**
@@ -362,7 +361,7 @@
   onDestroy(() => cancelAnimationFrame(rafId))
 </script>
 
-<div bind:this={containerRef} {...rest} sx={[styles.root, className as Sx]} style:height={typeof height === 'number' ? `${height}px` : height} aria-label={
+<div bind:this={containerRef} {...rest} class={className} sx={styles.root} style:height={typeof height === 'number' ? `${height}px` : height} aria-label={
       active
         ? 'Live audio waveform'
         : processing

@@ -254,7 +254,7 @@
   }
 </script>
 
-<Sidebar variant="inset" {...rest} sx={[className as Sx]}>
+<Sidebar variant="inset" {...rest} sx={className as Sx}>
   <SidebarHeader>
     <SidebarMenu>
       <SidebarMenuItem>

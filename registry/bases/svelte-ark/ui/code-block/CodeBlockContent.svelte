@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { Snippet } from "svelte"
   import type { ClassValue } from "svelte/elements"
 
@@ -41,7 +40,7 @@
   tabindex="0"
   style:counter-reset={`line ${startLine - 1}`}
   {...rest}
-  sx={[codeBlock.content, wrap && codeBlock.contentWrap, className as Sx]}
+  class={className} sx={[codeBlock.content, wrap && codeBlock.contentWrap]}
 ><code data-slot="code-block-code" sx={codeBlock.code}>{#if lines}{#each lines as line, index (index)}<CodeBlockLine
         >{line || "\n"}</CodeBlockLine
       >{/each}{:else if code !== undefined}{code}{:else}{@render children?.()}{/if}</code

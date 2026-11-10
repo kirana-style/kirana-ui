@@ -16,6 +16,6 @@
   } = $props()
 </script>
 
-<Button data-slot="alert-dialog-action" {...rest} sx={[className as Sx]}>
+<Button data-slot="alert-dialog-action" {...rest} sx={className as Sx}>
   {@render children?.()}
 </Button>

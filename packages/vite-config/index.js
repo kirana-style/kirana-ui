@@ -15,14 +15,16 @@ import { defineConfig } from "vite"
 import { lazyPlugins } from "vite-plus"
 
 /**
- * @param {{ cloudflare?: boolean, prerender?: boolean, pages?: string[], elsewhere?: string[], plugins?: import("vite").PluginOption[] }} [options]
+ * @param {{ cloudflare?: boolean, prerender?: boolean, pages?: string[], elsewhere?: string[], dynamic?: (path: string) => boolean, plugins?: import("vite").PluginOption[] }} [options]
  *   `cloudflare`: the app deploys as a Cloudflare Worker (its `wrangler.jsonc`); `vite dev` and `vite build` then run the server half
  *   inside workerd, the runtime production uses, so a Node-only API fails locally rather than after
  *   deploying. `prerender`: `vite build` renders every page it can reach from `/` into the static
  *   files, which are served without running the server; `pages` adds paths no link reaches, and
  *   `elsewhere` names the path prefixes another build writes into the same static files (a
  *   preview app's), which the crawl leaves alone, as it leaves the `.md` and `.txt` files the app
- *   writes itself.
+ *   writes itself. `dynamic` names the paths the server answers on each request (a redirect that
+ *   depends on the reader), which the crawl does not write: written, the file would be served in
+ *   the server's place.
  *   `plugins`: the app's own, ahead of Kirana's.
  * @returns {import("vite").UserConfigFnObject}
  */
@@ -62,7 +64,8 @@ export function defineAppConfig(options = {}) {
                   !/\.(md|txt)$/.test(path.split(/[?#]/)[0] ?? path) &&
                   !(options.elsewhere ?? []).some((prefix) =>
                     path.startsWith(prefix)
-                  ),
+                  ) &&
+                  !options.dynamic?.(path.split(/[?#]/)[0] ?? path),
                 // `docs.html`, not `docs/index.html`: Cloudflare serves the first at `/docs` and
                 // redirects `/docs` to `/docs/` for the second.
                 autoSubfolderIndex: false,

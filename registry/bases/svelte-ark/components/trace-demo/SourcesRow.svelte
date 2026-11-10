@@ -53,7 +53,7 @@
   }
 </script>
 
-<TraceCollapsible {...rest} sx={[className as Sx]}>
+<TraceCollapsible {...rest} sx={className as Sx}>
   <TraceCollapsibleTrigger>
     <TraceLine status={running ? 'running' : undefined}>
       <TraceIcon>

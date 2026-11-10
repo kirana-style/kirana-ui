@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue, HTMLTextareaAttributes } from "svelte/elements"
 
   import { textarea } from "../../../../styles/textarea.styles"
@@ -15,4 +14,4 @@
   } = $props()
 </script>
 
-<textarea data-slot="textarea" bind:value {...rest} sx={[textarea, className as Sx]}></textarea>
+<textarea data-slot="textarea" bind:value {...rest} class={className} sx={textarea}></textarea>

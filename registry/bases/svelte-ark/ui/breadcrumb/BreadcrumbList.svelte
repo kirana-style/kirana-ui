@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<ol data-slot="breadcrumb-list" {...rest} sx={[breadcrumb.list, className as Sx]}>
+<ol data-slot="breadcrumb-list" {...rest} class={className} sx={breadcrumb.list}>
   {@render children?.()}
 </ol>

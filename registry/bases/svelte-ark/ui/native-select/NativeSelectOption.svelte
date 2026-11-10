@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<option data-slot="native-select-option" {...rest} sx={[nativeSelect.option, className as Sx]}>
+<option data-slot="native-select-option" {...rest} class={className} sx={nativeSelect.option}>
   {@render children?.()}
 </option>

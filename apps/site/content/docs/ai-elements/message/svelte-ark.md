@@ -22,35 +22,7 @@ import { Message, MessageContent, MessageFooter } from "@/components/ui/message"
 
 The example draws each step with its own parts, which you copy beside it:
 
-```svelte showLineNumbers title="MessageAction.svelte"
-<script lang="ts">
-  import type { Snippet } from "svelte"
-
-  import { Button } from "@/components/ui/button"
-  import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-
-  let { label, children, ...rest }: {
-    label: string
-    children?: Snippet
-    [attribute: string]: unknown
-  } = $props()
-</script>
-
-<Tooltip>
-  <TooltipTrigger>
-    {#snippet asChild(props)}
-      <Button {...props()} variant="ghost" size="icon-sm" aria-label={label} {...rest}>
-        {@render children?.()}
-      </Button>
-    {/snippet}
-  </TooltipTrigger>
-  <TooltipContent>
-    <p>
-      {label}
-    </p>
-  </TooltipContent>
-</Tooltip>
-```
+<!-- ::demo-source item="message-pattern" parts="true" combinations="svelte/ark" -->
 
 See [Message](/docs/components/message).
 

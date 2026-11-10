@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -25,7 +24,7 @@
   const ctx = useCombobox()
 </script>
 
-<div data-slot="combobox-chip" {...rest} sx={[combobox.chip, className as Sx]}>
+<div data-slot="combobox-chip" {...rest} class={className} sx={combobox.chip}>
   {@render children?.()}
   {#if showRemove}
     <Button data-slot="combobox-chip-remove" variant="ghost" size="icon-xs" tabindex="-1" sx={combobox.chipRemove} onclick={() => { ctx.remove(value) }}>

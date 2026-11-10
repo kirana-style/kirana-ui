@@ -265,7 +265,7 @@
   let open = $state(true)
 </script>
 
-<Dialog open={open} onOpenChange={(details: { open: typeof open }) => (open = details.open)} {...rest} sx={[className as Sx]}>
+<Dialog open={open} onOpenChange={(details: { open: typeof open }) => (open = details.open)} {...rest} sx={className as Sx}>
   <DialogTrigger>
     {#snippet asChild(props)}
       <Button {...props()} size="sm">

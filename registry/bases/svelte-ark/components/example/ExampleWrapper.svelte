@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -17,7 +16,7 @@
 </script>
 
 <div sx={example.page}>
-  <div data-slot="example-wrapper" {...rest} sx={[example.wrapper, className as Sx]}>
+  <div data-slot="example-wrapper" {...rest} class={className} sx={example.wrapper}>
     {@render children?.()}
   </div>
 </div>

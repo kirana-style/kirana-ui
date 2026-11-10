@@ -49,7 +49,7 @@
   )
 </script>
 
-<Example title="With Time" {...rest} sx={[className as Sx]}>
+<Example title="With Time" {...rest} sx={className as Sx}>
   <Card size="sm" sx={styles.mxAutoWFit}>
     <CardContent>
       <Calendar mode="single" selected={date} onSelectedChange={(details: { selected: typeof date }) => (date = details.selected)} sx={styles.p0} />

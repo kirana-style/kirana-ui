@@ -59,7 +59,7 @@
   let open = $state(false)
 </script>
 
-<Example title="Combobox in Dialog" {...rest} sx={[className as Sx]}>
+<Example title="Combobox in Dialog" {...rest} sx={className as Sx}>
   <Dialog open={open} onOpenChange={(details: { open: typeof open }) => (open = details.open)}>
     <DialogTrigger>
       {#snippet asChild(props)}

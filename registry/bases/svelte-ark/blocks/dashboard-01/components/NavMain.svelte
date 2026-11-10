@@ -82,7 +82,7 @@
   }
 </script>
 
-<SidebarGroup {...rest} sx={[className as Sx]}>
+<SidebarGroup {...rest} sx={className as Sx}>
   <SidebarGroupContent sx={styles.sidebarGroupContent}>
     <SidebarMenu>
       <SidebarMenuItem sx={styles.sidebarMenuItem}>

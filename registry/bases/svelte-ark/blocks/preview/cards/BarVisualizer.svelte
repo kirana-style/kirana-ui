@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { css, keyframes } from "@kirana-style/core"
@@ -107,7 +106,7 @@
     Math.min(maxHeight, Math.max(minHeight, volume * 100 + 5))
 </script>
 
-<div data-state={state} {...rest} sx={[styles.root, centerAlign ? styles.center : styles.end, styles.box, className as Sx]}>
+<div data-state={state} {...rest} class={className} sx={[styles.root, centerAlign ? styles.center : styles.end, styles.box]}>
   {#each volumeBands as volume, index (index)}
     <div data-highlighted={highlighted.current.includes(index)} sx={[
         styles.bar,

@@ -1,4 +1,10 @@
-import { Component, computed } from "@angular/core"
+import {
+  Component,
+  Injector,
+  afterNextRender,
+  computed,
+  inject,
+} from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Chat } from "../../../lib/angular/chat"
@@ -178,6 +184,7 @@ type Source = Extract<Part, { type: "source-url" }>
   `,
 })
 export default class TraceDemo {
+  private readonly injector = inject(Injector)
   protected readonly chat = new Chat<ChatMessage>({
     messages: transcript,
     transport,
@@ -215,6 +222,9 @@ export default class TraceDemo {
 
   protected replay() {
     this.chat.messages = []
-    void this.chat.sendMessage(question)
+    // The rows go before the replay's arrive, so each starts afresh, as React's do.
+    afterNextRender(() => void this.chat.sendMessage(question), {
+      injector: this.injector,
+    })
   }
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { setContext } from "svelte"
   import type { Sx } from "@kirana-style/core"
+  import { setContext } from "svelte"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
   import type { ComboboxItemGroupProps } from "@ark-ui/svelte"
@@ -31,6 +31,6 @@
   })
 </script>
 
-<ComboboxItemGroup {asChild} data-slot="combobox-group" {...rest} sx={[className as Sx]}>
+<ComboboxItemGroup {asChild} data-slot="combobox-group" {...rest} sx={className as Sx}>
   {@render children?.()}
 </ComboboxItemGroup>

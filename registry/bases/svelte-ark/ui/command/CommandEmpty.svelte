@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -20,7 +19,7 @@
 </script>
 
 {#if ctx.empty}
-  <div data-slot="command-empty" {...{ "cmdk-empty": "" }} role="presentation" {...rest} sx={[command.empty, className as Sx]}>
+  <div data-slot="command-empty" {...{ "cmdk-empty": "" }} role="presentation" {...rest} class={className} sx={command.empty}>
     {@render children?.()}
   </div>
 {/if}

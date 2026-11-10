@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -20,6 +19,6 @@
   type ButtonGroupVariants = NonNullable<Parameters<typeof buttonGroup.root>[0]>
 </script>
 
-<div data-slot="button-group" role="group" data-orientation={orientation} {...rest} sx={[buttonGroup.root({ orientation }), buttonGroup.width, className as Sx]}>
+<div data-slot="button-group" role="group" data-orientation={orientation} {...rest} class={className} sx={[buttonGroup.root({ orientation }), buttonGroup.width]}>
   {@render children?.()}
 </div>

@@ -1,6 +1,5 @@
 <script lang="ts">
   /** A day's cell and its button, as react-day-picker draws them, from Ark UI's cell state. */
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -62,8 +61,8 @@
   let focusedNow = $state(false)
 </script>
 
-<td role="gridcell" data-day={iso} aria-selected={flag(cell.selected || cell.inRange)} data-selected={flag(cell.selected || cell.inRange)} data-today={flag(cell.today)} data-outside={flag(cell.outsideRange)} data-disabled={flag(disabled)} data-hidden={flag(empty)} data-focused={flag(focusedNow)} sx={[[
-      calendar.day, range && cell.firstInRange && calendar.rangeStart, range && middle && calendar.rangeMiddle, range && cell.lastInRange && calendar.rangeEnd, cell.today && calendar.today, cell.outsideRange && calendar.outside, disabled && calendar.disabled, empty && calendar.hidden, ], className as Sx]} {...rest}>
+<td role="gridcell" data-day={iso} aria-selected={flag(cell.selected || cell.inRange)} data-selected={flag(cell.selected || cell.inRange)} data-today={flag(cell.today)} data-outside={flag(cell.outsideRange)} data-disabled={flag(disabled)} data-hidden={flag(empty)} data-focused={flag(focusedNow)} class={className} sx={[
+      calendar.day, range && cell.firstInRange && calendar.rangeStart, range && middle && calendar.rangeMiddle, range && cell.lastInRange && calendar.rangeEnd, cell.today && calendar.today, cell.outsideRange && calendar.outside, disabled && calendar.disabled, empty && calendar.hidden, ]} {...rest}>
   {#if !empty}
     <DatePickerTableCellTrigger>
       {#snippet asChild(props)}

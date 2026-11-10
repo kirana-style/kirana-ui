@@ -36,7 +36,7 @@
   let open = $state(false)
 </script>
 
-<Example title="Many Groups & Items" {...rest} sx={[className as Sx]}>
+<Example title="Many Groups & Items" {...rest} sx={className as Sx}>
   <div sx={[styles.flexCol4, example.row]}>
     <Button onclick={() => (open = true)} variant="outline" sx={styles.wFit}>
       Open Menu

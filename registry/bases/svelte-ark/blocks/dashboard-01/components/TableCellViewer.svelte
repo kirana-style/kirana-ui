@@ -66,7 +66,7 @@
   ]
 </script>
 
-<Drawer swipeDirection={isMobile.current ? 'down' : 'right'} {...rest} sx={[className as Sx]}>
+<Drawer swipeDirection={isMobile.current ? 'down' : 'right'} {...rest} sx={className as Sx}>
   <DrawerTrigger>
     {#snippet asChild(props)}
       <Button {...props()} class={props().class} style={props().style} variant="link" sx={styles.tableCellViewerButton}>

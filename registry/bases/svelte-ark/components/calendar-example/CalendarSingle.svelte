@@ -29,7 +29,7 @@
   )
 </script>
 
-<Example title="Single" {...rest} sx={[className as Sx]}>
+<Example title="Single" {...rest} sx={className as Sx}>
   <Card sx={styles.mxAutoWFitP0}>
     <CardContent sx={styles.p0}>
       <Calendar mode="single" selected={date} onSelectedChange={(details: { selected: typeof date }) => (date = details.selected)} captionLayout="dropdown" />

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   // Ark's select has no separator part: a rule between groups, as the others draw it.
@@ -15,4 +14,4 @@
   } = $props()
 </script>
 
-<div role="separator" data-slot="select-separator" {...rest} sx={[menuSeparator, select.separator, className as Sx]}></div>
+<div role="separator" data-slot="select-separator" {...rest} class={className} sx={[menuSeparator, select.separator]}></div>

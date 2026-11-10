@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
   import type { AccordionItemContentProps } from "@ark-ui/svelte"
@@ -22,7 +21,7 @@
 </script>
 
 <AccordionItemContent {asChild} data-slot="accordion-content" {...rest} sx={[accordion.content, accordion.contentArk]}>
-  <div sx={[accordion.contentInner, className as Sx]}>
+  <div class={className} sx={accordion.contentInner}>
     {@render children?.()}
   </div>
 </AccordionItemContent>

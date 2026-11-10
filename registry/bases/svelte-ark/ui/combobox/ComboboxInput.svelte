@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getContext } from "svelte"
   import type { Sx } from "@kirana-style/core"
+  import { getContext } from "svelte"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { untrack } from "svelte"
   import type { Sx } from "@kirana-style/core"
+  import { untrack } from "svelte"
   import type { ClassValue } from "svelte/elements"
 
   import {
@@ -70,7 +70,7 @@
   let selectedVersion = $state(untrack(() => defaultVersion))
 </script>
 
-<SidebarMenu {...rest} sx={[className as Sx]}>
+<SidebarMenu {...rest} sx={className as Sx}>
   <SidebarMenuItem>
     <DropdownMenu>
       <DropdownMenuTrigger>

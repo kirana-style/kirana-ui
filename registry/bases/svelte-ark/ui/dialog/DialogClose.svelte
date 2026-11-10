@@ -19,6 +19,6 @@
   } = $props()
 </script>
 
-<DialogCloseTrigger {asChild} data-slot="dialog-close" {...rest} sx={[className as Sx]}>
+<DialogCloseTrigger {asChild} data-slot="dialog-close" {...rest} sx={className as Sx}>
   {@render children?.()}
 </DialogCloseTrigger>

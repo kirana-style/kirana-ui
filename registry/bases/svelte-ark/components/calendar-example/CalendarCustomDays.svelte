@@ -41,7 +41,7 @@
   })
 </script>
 
-<Example title="Custom Days" {...rest} sx={[className as Sx]}>
+<Example title="Custom Days" {...rest} sx={className as Sx}>
   <Card sx={styles.mxAutoWFitP0}>
     <CardContent sx={styles.p0}>
       <Calendar mode="range" defaultMonth={range?.from} selected={range} onSelectedChange={(details: { selected: typeof range }) => (range = details.selected)} numberOfMonths={1} captionLayout="dropdown" sx={styles.cellSizeSpacing10MdCellS} formatters={{

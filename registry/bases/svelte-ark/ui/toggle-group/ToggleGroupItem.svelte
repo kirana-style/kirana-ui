@@ -1,7 +1,7 @@
 <script lang="ts">
+  import type { Sx } from "@kirana-style/core"
   import { ToggleGroupItem } from "@ark-ui/svelte"
   import type { ToggleGroupItemProps } from "@ark-ui/svelte"
-  import type { Sx } from "@kirana-style/core"
   import { getContext } from "svelte"
   import type { Snippet } from "svelte"
   import type { ClassValue } from "svelte/elements"

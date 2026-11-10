@@ -7,7 +7,6 @@
    */
   import { streamingMarkdownExtension } from "@tanstack/markdown/extensions/streaming"
   import { css, select } from "@kirana-style/core"
-  import type { Sx } from "@kirana-style/core"
   import type { Component } from "svelte"
   import type { ClassValue } from "svelte/elements"
 
@@ -119,7 +118,7 @@
   } = $props()
 </script>
 
-<div data-slot="markdown" {...rest} sx={[styles.root, className as Sx]}>
+<div data-slot="markdown" {...rest} class={className} sx={styles.root}>
   <FenceOpen value={fenceOpen(source)}>
     <MarkdownPrimitive {source} {components} {extensions} />
   </FenceOpen>

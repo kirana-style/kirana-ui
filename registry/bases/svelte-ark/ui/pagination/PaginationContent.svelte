@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -16,6 +15,6 @@
   } = $props()
 </script>
 
-<ul data-slot="pagination-content" {...rest} sx={[pagination.content, className as Sx]}>
+<ul data-slot="pagination-content" {...rest} class={className} sx={pagination.content}>
   {@render children?.()}
 </ul>

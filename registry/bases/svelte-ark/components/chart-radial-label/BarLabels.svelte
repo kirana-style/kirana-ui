@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { css } from "@kirana-style/core"
@@ -80,7 +79,7 @@
   )
 </script>
 
-<svg aria-hidden="true" sx={[styles.labels, className as Sx]} {...rest}>
+<svg aria-hidden="true" class={className} sx={styles.labels} {...rest}>
   <svg x="50%" y="50%" overflow="visible">
     {#each chartData as row, i (row.browser)}
       <text fill="white" font-size={11} dominant-baseline="central">

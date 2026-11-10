@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import { css } from "@kirana-style/core"
   import { duration, easing, space } from "../../../../core/scales"
@@ -36,7 +35,7 @@
 </script>
 
 {#if !!payload.length}
-  <div sx={[chart.tooltip, styles.tooltip, className as Sx]}>
+  <div class={className} sx={[chart.tooltip, styles.tooltip]}>
     {#if !nestLabel && !hideLabel}
       <div sx={chart.tooltipLabel}>
         {label}

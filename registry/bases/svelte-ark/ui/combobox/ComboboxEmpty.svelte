@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -18,6 +17,6 @@
 
 <!-- Base UI's empty part stays in the popup, shown by the content's `data-empty`; Ark's
        unmounts while there are items. -->
-<div data-slot="combobox-empty" {...rest} sx={[combobox.empty, className as Sx]}>
+<div data-slot="combobox-empty" {...rest} class={className} sx={combobox.empty}>
   {@render children?.()}
 </div>

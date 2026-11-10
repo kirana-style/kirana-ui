@@ -22,42 +22,7 @@ import { Message, MessageContent, MessageFooter } from "@/components/ui/message"
 
 The example draws each step with its own parts, which you copy beside it:
 
-```vue showLineNumbers title="MessageAction.vue"
-<script setup lang="ts">
-import { Button } from "@/components/ui/button"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-
-defineOptions({ inheritAttrs: false })
-
-const { label } = defineProps<{
-  label: string
-}>()
-</script>
-
-<template>
-  <Tooltip>
-    <TooltipTrigger as-child>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        :aria-label="label"
-        v-bind="$attrs"
-      >
-        <slot />
-      </Button>
-    </TooltipTrigger>
-    <TooltipContent>
-      <p>
-        {{ label }}
-      </p>
-    </TooltipContent>
-  </Tooltip>
-</template>
-```
+<!-- ::demo-source item="message-pattern" parts="true" combinations="vue/ark" -->
 
 See [Message](/docs/components/message).
 

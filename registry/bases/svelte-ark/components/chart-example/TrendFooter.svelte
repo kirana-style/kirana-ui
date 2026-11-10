@@ -40,7 +40,7 @@
   }
 </script>
 
-<CardFooter {...rest} sx={[className as Sx]}>
+<CardFooter {...rest} sx={className as Sx}>
   <div sx={styles.footerRow}>
     <div sx={styles.lines}>
       <div sx={styles.trendRow}>

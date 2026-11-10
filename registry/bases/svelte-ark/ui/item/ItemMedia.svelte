@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -20,6 +19,6 @@
   type ItemMediaVariants = NonNullable<Parameters<typeof item.media>[0]>
 </script>
 
-<div data-slot="item-media" data-variant={variant} {...rest} sx={[item.media({ variant }), className as Sx]}>
+<div data-slot="item-media" data-variant={variant} {...rest} class={className} sx={item.media({ variant })}>
   {@render children?.()}
 </div>

@@ -37,7 +37,7 @@
 
 </script>
 
-<Example title="Booked Dates" {...rest} sx={[className as Sx]}>
+<Example title="Booked Dates" {...rest} sx={className as Sx}>
   <Card sx={styles.mxAutoWFitP0}>
     <CardContent sx={styles.p0}>
       <Calendar mode="single" defaultMonth={date} selected={date} onSelectedChange={(details: { selected: typeof date }) => (date = details.selected)} disabled={bookedDates} modifiers={{

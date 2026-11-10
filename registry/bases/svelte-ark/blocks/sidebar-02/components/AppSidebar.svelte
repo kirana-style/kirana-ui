@@ -208,7 +208,7 @@
   }
 </script>
 
-<Sidebar {...rest} sx={[className as Sx]}>
+<Sidebar {...rest} sx={className as Sx}>
   <SidebarHeader>
     <VersionSwitcher versions={data.versions} defaultVersion={data.versions[0]} />
     <SearchForm />

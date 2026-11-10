@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import SearchForm from "./SearchForm.svelte"
@@ -71,7 +70,7 @@
   const ctx = useSidebar()
 </script>
 
-<header sx={[styles.siteHeaderHeader, className as Sx]} {...rest}>
+<header class={className} sx={styles.siteHeaderHeader} {...rest}>
   <div sx={styles.siteHeaderDiv}>
     <Button sx={styles.siteHeaderButton} variant="ghost" size="icon" onclick={ctx.toggleSidebar}>
       <IconPlaceholder lucide="PanelLeftIcon" tabler="IconLayoutSidebar" hugeicons="SidebarLeftIcon" phosphor="SidebarIcon" remixicon="RiLayoutLeftLine" />

@@ -18,7 +18,7 @@
   const ctx = useSidebar()
 </script>
 
-<Button data-sidebar="trigger" data-slot="sidebar-trigger" variant="ghost" size="icon-sm" onclick={ctx.toggleSidebar} {...rest} sx={[className as Sx]}>
+<Button data-sidebar="trigger" data-slot="sidebar-trigger" variant="ghost" size="icon-sm" onclick={ctx.toggleSidebar} {...rest} sx={className as Sx}>
   <IconPlaceholder lucide="PanelLeftIcon" tabler="IconLayoutSidebar" hugeicons="SidebarLeftIcon" phosphor="SidebarIcon" remixicon="RiSideBarLine" />
   <span sx={visuallyHidden}>
     Toggle Sidebar

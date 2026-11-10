@@ -53,7 +53,7 @@
   }
 </script>
 
-<Example title="Form with Combobox" {...rest} sx={[className as Sx]}>
+<Example title="Form with Combobox" {...rest} sx={className as Sx}>
   <Card sx={styles.wFullMaxWSm} size="sm">
     <CardContent>
       <form id="form-with-combobox" sx={styles.wFull} onsubmit={handleSubmit}>

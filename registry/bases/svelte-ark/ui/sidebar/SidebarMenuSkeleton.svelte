@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
 
   import { sidebar } from "../../../../styles/sidebar.styles"
@@ -19,7 +18,7 @@
   const width = `${Math.floor(Math.random() * 40) + 50}%`
 </script>
 
-<div data-slot="sidebar-menu-skeleton" data-sidebar="menu-skeleton" {...rest} sx={[sidebar.menuSkeleton, className as Sx]}>
+<div data-slot="sidebar-menu-skeleton" data-sidebar="menu-skeleton" {...rest} class={className} sx={sidebar.menuSkeleton}>
   {#if showIcon}
     <Skeleton data-sidebar="menu-skeleton-icon" sx={sidebar.menuSkeletonIcon} />
   {/if}

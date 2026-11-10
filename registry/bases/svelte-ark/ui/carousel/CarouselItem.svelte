@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -19,6 +18,6 @@
   const context = useCarousel()
 </script>
 
-<div role="group" aria-roledescription="slide" data-slot="carousel-item" {...rest} sx={[context.orientation === 'horizontal' ? carousel.item : carousel.itemVertical, className as Sx]}>
+<div role="group" aria-roledescription="slide" data-slot="carousel-item" {...rest} class={className} sx={context.orientation === 'horizontal' ? carousel.item : carousel.itemVertical}>
   {@render children?.()}
 </div>

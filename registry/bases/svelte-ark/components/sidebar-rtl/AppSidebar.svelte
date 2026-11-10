@@ -241,6 +241,6 @@
   }
 </script>
 
-<SidebarProvider {...rest} sx={[className as Sx]}>
+<SidebarProvider {...rest} sx={className as Sx}>
   <SidebarContentInner dir={translation.dir} t={translation.t} navMain={navMain} projects={projects} user={user} />
 </SidebarProvider>

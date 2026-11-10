@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -45,7 +44,7 @@
   }
 </script>
 
-<li {...rest} sx={[className as Sx]}>
+<li {...rest} class={className}>
   <NavigationMenuLink>
     {#snippet asChild(props)}
       <a {...props()} href={href}>

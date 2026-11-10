@@ -36,7 +36,7 @@
   }
 </script>
 
-<Card {...rest} sx={[className as Sx]}>
+<Card {...rest} sx={className as Sx}>
   <CardHeader>
     <CardTitle>
       Create an account

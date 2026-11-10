@@ -22,7 +22,7 @@
   type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 </script>
 
-<Button variant={isActive ? 'outline' : 'ghost'} size={size} labelText={false} sx={[className as Sx]}>
+<Button variant={isActive ? 'outline' : 'ghost'} size={size} labelText={false} sx={className as Sx}>
   {#snippet asChild(props)}
     <a {...props()} aria-current={isActive ? 'page' : undefined} data-slot="pagination-link" data-active={isActive || undefined} {...rest}>
       {@render children?.()}

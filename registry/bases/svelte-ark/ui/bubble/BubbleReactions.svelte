@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
@@ -19,6 +18,6 @@
   } = $props()
 </script>
 
-<div data-slot="bubble-reactions" data-align={align} data-side={side} {...rest} sx={[bubble.reactions, className as Sx]}>
+<div data-slot="bubble-reactions" data-align={align} data-side={side} {...rest} class={className} sx={bubble.reactions}>
   {@render children?.()}
 </div>

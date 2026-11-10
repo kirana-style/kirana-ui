@@ -1,7 +1,7 @@
 <script lang="ts">
+  import type { Sx } from "@kirana-style/core"
   import { ToggleGroupRoot } from "@ark-ui/svelte"
   import type { ToggleGroupRootProps } from "@ark-ui/svelte"
-  import type { Sx } from "@kirana-style/core"
   import { setContext } from "svelte"
   import type { Snippet } from "svelte"
   import type { ClassValue } from "svelte/elements"
