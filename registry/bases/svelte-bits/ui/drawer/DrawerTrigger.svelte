@@ -24,9 +24,9 @@
 <Dialog.Trigger data-slot="drawer-trigger" {...rest} sx={className as Sx}>
   {#snippet child({ props })}
     {#if asChild}
-      {@render asChild(propsFn(props))}
+      {@render asChild(propsFn({ type: "button", ...props }))}
     {:else}
-      <button {...props}>
+      <button type="button" {...props}>
         {@render children?.()}
       </button>
     {/if}

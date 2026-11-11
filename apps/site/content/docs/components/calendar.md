@@ -3,7 +3,16 @@ title: Calendar
 description: A calendar component that allows users to select a date or a range of dates.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [
     calendar,
@@ -22,11 +31,11 @@ keywords:
 
 # Calendar
 
-<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="calendar" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="calendar" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -64,7 +73,7 @@ const date = ref<Date | undefined>(new Date())
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <script lang="ts">
@@ -233,15 +242,15 @@ const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
 </template>
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark" -->
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ## International Calendars
 
-Ark UI's date picker draws any calendar system of `@internationalized/date`. Pass its `createCalendar` and a locale whose calendar it is, such as `fa-IR` for the Persian (Jalali) calendar, with the locale's direction. The weekdays' names come from `formatters.formatWeekdayName`, as React DayPicker's do.
+The calendar draws any calendar system of `@internationalized/date`. Pass its `createCalendar` and a locale whose calendar it is, such as `fa-IR` for the Persian (Jalali) calendar, with the locale's direction. The weekdays' names come from `formatters.formatWeekdayName`, as React DayPicker's do.
 
 ```svelte
 <script lang="ts">
@@ -264,7 +273,7 @@ Ark UI's date picker draws any calendar system of `@internationalized/date`. Pas
 </DirectionProvider>
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark" -->
 
 <!-- ::end:only -->
 
@@ -300,7 +309,7 @@ export function Example() {
 }
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,svelte/ark,solid/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark" -->
 
 <!-- ::end:only -->
 
@@ -335,31 +344,31 @@ const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
 
 ## Basic
 
-<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Range Calendar
 
-<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Month and Year Selector
 
-<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Presets
 
-<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Date and Time Picker
 
-<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Booked dates
 
-<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Custom Cell Size
 
-<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 The calendar's cells are `calendarCtx.cellSize` (`--cell-size` upstream). Set it through `sx`, and
 make it responsive with breakpoint-specific values:
@@ -380,13 +389,13 @@ const cells = css({
 })
 ```
 
-<!-- ::start:only react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng -->
+<!-- ::start:only react/base,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng -->
 
 ## Week Numbers
 
 Use `showWeekNumber` (`show-week-number` on Vue) to show week numbers.
 
-<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -406,7 +415,7 @@ See also the [International Calendars Guide](#international-calendars) for enabl
 
 <!-- ::end:only -->
 
-<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="calendar-rtl" height="384" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::start:only react/base -->
 
@@ -455,9 +464,9 @@ When using RTL, pass the locale's tag as `locale`, with `dir`. The week's first 
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
-When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's tag as `locale`, with `dir`. Ark UI takes the week's first day from the tag (Saturday in Arabic); `weekStartsOn` sets it, `0` for Sunday as react-day-picker's `arSA`:
+When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's tag as `locale`, with `dir`. `weekStartsOn` sets the week's first day, `0` for Sunday as react-day-picker's `arSA`:
 
 ```svelte showLineNumbers
 <DirectionProvider locale="ar-SA">
@@ -522,6 +531,12 @@ See the [Reka UI Calendar](https://reka-ui.com/docs/components/calendar#api-refe
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Date Picker](https://ark-ui.com/svelte/docs/components/date-picker#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+See the [Bits UI Calendar](https://bits-ui.com/docs/components/calendar#api-reference) and [Range Calendar](https://bits-ui.com/docs/components/range-calendar#api-reference) documentation.
 
 <!-- ::end:only -->
 

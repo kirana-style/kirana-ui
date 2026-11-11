@@ -32,7 +32,7 @@ follow React's pages, checked against them the same way: Vue has 61 of the compo
 (all but the three no Vue library carries: Menubar, Message Scroller and Questionnaire) with
 their demos and example pages, the 29 blocks and the 70 charts, on Ark UI and on its second base, Reka UI, alike; Svelte and Solid have the same
 61 with their demos and example pages, the 29 blocks and the 70 charts (Svelte on Bits UI, its second
-base, has 52 of them so far); and
+base, has 60 of them, all but the toast); and
 Angular has 62, Vue's 61 and Menubar (no Ark UI one exists; Angular's is the registry's own),
 on ng-primitives and the registry's own parts, with their demos, example pages and right-to-left
 demos, the 29 blocks and the 70 charts. Every framework installs with `kirana-style ui`, checked

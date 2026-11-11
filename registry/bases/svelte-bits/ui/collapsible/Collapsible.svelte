@@ -5,6 +5,8 @@
   import { Collapsible } from "bits-ui"
   import { setContext, untrack } from "svelte"
 
+  import { propsFn } from "../../../../lib/svelte/as-child"
+  import type { AsChild } from "../../../../lib/svelte/as-child"
   import { KEEP_PANEL } from "./context"
   import type { KeepPanel } from "./context"
 
@@ -21,6 +23,7 @@
     unmountOnExit = true,
     class: className,
     children,
+    asChild,
     ...rest
   }: {
     defaultOpen?: boolean
@@ -30,6 +33,8 @@
     unmountOnExit?: boolean
     class?: ClassValue | null
     children?: Snippet
+    /** The caller's element as the collapsible, as Ark UI's Svelte parts take `asChild`. */
+    asChild?: AsChild<"div">
     [attribute: string]: unknown
   } = $props()
 
@@ -37,9 +42,14 @@
   setContext<KeepPanel>(KEEP_PANEL, () => !unmountOnExit)
 </script>
 
+{#snippet bridge({ props }: { props: Record<string, unknown> })}
+  {@render asChild?.(propsFn(props))}
+{/snippet}
+
 <Collapsible.Root
   data-slot="collapsible"
   {...rest}
+  child={asChild ? bridge : undefined}
   open={open ?? own}
   onOpenChange={(next) => {
     own = next

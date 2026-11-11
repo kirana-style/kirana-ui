@@ -29,7 +29,7 @@
 {#if asChild}
   <Select.Trigger data-slot="select-trigger" data-size={size} {...rest} sx={[select.trigger, className as Sx]}>
     {#snippet child({ props })}
-      {@render asChild(propsFn(props))}
+      {@render asChild(propsFn({ type: "button", ...props }))}
     {/snippet}
   </Select.Trigger>
 {:else}

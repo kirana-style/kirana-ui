@@ -98,7 +98,7 @@
   "static.files": {
     "budget": 20000,
     "unit": "files",
-    "why": "Every static file the Worker serves: its limit is 20,000 per version. 20,214 with P6-06 before the React preview stopped publishing source maps (1,895 files; the other previews never had them); 18,319 measured after. Each framework's items and preview pages add to it. 19,550 with P6-19, before the shadcn/ui export was written for React's combinations alone (its CLI installs React; about 4,600 files for Vue, Svelte, Solid and Angular, which install with `kirana-style ui`); 14,942 measured after.",
+    "why": "Every static file the Worker serves: its limit is 20,000 per version. 20,214 with P6-06 before the React preview stopped publishing source maps (1,895 files; the other previews never had them); 18,319 measured after. Each framework's items and preview pages add to it. 19,550 with P6-19, before the shadcn/ui export was written for React's combinations alone (its CLI installs React; about 4,600 files for Vue, Svelte, Solid and Angular, which install with `kirana-style ui`); 14,942 measured after. 20,129 with P8-04 (Svelte on Bits UI whole), before the non-React previews stopped copying their page per item (about 4,000 files; `apps/site/public/_redirects` rewrites each item's route to the app's page); 16,091 measured after.",
     "measured": 14942
   },
   "style.nova": {

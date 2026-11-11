@@ -23,7 +23,7 @@
 {#if asChild}
   <Popover.Trigger data-slot="popover-trigger" {...rest} sx={className as Sx}>
     {#snippet child({ props })}
-      {@render asChild(propsFn(props))}
+      {@render asChild(propsFn({ type: "button", ...props }))}
     {/snippet}
   </Popover.Trigger>
 {:else}

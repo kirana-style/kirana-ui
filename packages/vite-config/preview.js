@@ -1,12 +1,11 @@
 // @ts-check
 /**
  * What every framework's preview app builds the same way: into the `ui` Worker's static files
- * (`apps/site/dist/client/preview/<framework>/`, after the site's build has written that folder),
- * with a copy of the app's page for every example and for the showcase, named as its route
- * (`<base>/<item>.html`), which Cloudflare serves at `/preview/<framework>/<base>/<item>` without
- * running the Worker.
+ * (`apps/site/dist/client/preview/<framework>/`, after the site's build has written that folder):
+ * one page, the app's, which the site's `_redirects` serves at `/preview/<framework>/<base>/<item>`
+ * without running the Worker.
  */
-import { copyFileSync, existsSync, mkdirSync, readdirSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 
 import { build } from "vite-plus"
@@ -25,58 +24,34 @@ export function previewOutDir(framework) {
 }
 
 /**
- * A page for every example under `registry/bases/<framework>-<base>/examples/` with `extension`,
- * every block under `blocks/` with a `page` of that extension, every chart under `charts/`, and
- * the `extra` names (`showcase`),
- * copied from the built `index.html`.
+ * Checks the preview's routes are served: the site's `_redirects` serves the app's one page at
+ * every `/preview/<framework>/<base>/<item>` (a 200 rewrite, without running the Worker), where a
+ * copy of the page per item would count against the Worker's 20,000 static files. The build fails
+ * when the rule for this framework and base is missing. `extra` names the app's own pages
+ * (`showcase`, `charts`), which the comparison script reads from here.
  * @param {{ framework: string, base: string, extension: string, extra?: readonly string[] }} options
  * @returns {import("vite-plus").Plugin}
  */
-export function previewPages({ framework, base, extension, extra = [] }) {
-  const outDir = previewOutDir(framework)
-  const examples = fileURLToPath(
-    new URL(
-      `../../registry/bases/${framework}-${base}/examples/`,
-      import.meta.url
-    )
+export function previewPages({ framework, base }) {
+  const redirects = fileURLToPath(
+    new URL("../../apps/site/public/_redirects", import.meta.url)
   )
-  const charts = fileURLToPath(
-    new URL(
-      `../../registry/bases/${framework}-${base}/charts/`,
-      import.meta.url
-    )
-  )
-  const blocks = fileURLToPath(
-    new URL(
-      `../../registry/bases/${framework}-${base}/blocks/`,
-      import.meta.url
-    )
-  )
+  // The app's page at its canonical URL, `/preview/<framework>/`: a rewrite to `index.html` would
+  // loop, since Cloudflare serves that page at the folder's URL.
+  const rule = `/preview/${framework}/${base}/* /preview/${framework}/ 200`
   return {
-    name: "preview-item-pages",
+    name: "preview-item-routes",
     apply: "build",
-    closeBundle() {
-      // A failed build calls this too, with no page written: leave its error the one reported.
-      if (!existsSync(`${outDir}index.html`)) return
-      mkdirSync(`${outDir}${base}`, { recursive: true })
-      const names = [
-        ...readdirSync(examples)
-          .filter((file) => file.endsWith(extension))
-          .map((file) => file.slice(0, -extension.length)),
-        ...(existsSync(blocks)
-          ? readdirSync(blocks).filter((block) =>
-              existsSync(`${blocks}${block}/page${extension}`)
-            )
-          : []),
-        ...(existsSync(charts)
-          ? readdirSync(charts)
-              .filter((file) => file.endsWith(extension))
-              .map((file) => file.slice(0, -extension.length))
-          : []),
-        ...extra,
-      ]
-      for (const name of names)
-        copyFileSync(`${outDir}index.html`, `${outDir}${base}/${name}.html`)
+    buildStart() {
+      const lines = existsSync(redirects)
+        ? readFileSync(redirects, "utf8")
+            .split("\n")
+            .map((line) => line.trim())
+        : []
+      if (!lines.includes(rule))
+        this.error(
+          `${framework} on ${base}: apps/site/public/_redirects has no "${rule}", so its item pages would not be served`
+        )
     },
   }
 }

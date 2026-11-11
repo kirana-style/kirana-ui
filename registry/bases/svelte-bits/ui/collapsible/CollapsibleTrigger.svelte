@@ -22,7 +22,7 @@
 </script>
 
 {#snippet bridge({ props }: { props: Record<string, unknown> })}
-  {@render asChild?.(propsFn(props))}
+  {@render asChild?.(propsFn({ type: "button", ...props }))}
 {/snippet}
 
 <Collapsible.Trigger

@@ -1,0 +1,11 @@
+# Each non-React preview is one page, its app's, which reads the item from the path: Cloudflare
+# serves it at every `/preview/<framework>/<base>/<item>` without running the Worker (a 200 is a
+# rewrite), where a copy per item would count against the Worker's 20,000 static files. React's
+# previews are prerendered, a page per item. `previewPages` in `@workspace/vite-config` checks each
+# preview's rule is here.
+/preview/vue/ark/* /preview/vue/ 200
+/preview/vue/reka/* /preview/vue/ 200
+/preview/svelte/ark/* /preview/svelte/ 200
+/preview/svelte/bits/* /preview/svelte/ 200
+/preview/solid/ark/* /preview/solid/ 200
+/preview/angular/ng/* /preview/angular/ 200
