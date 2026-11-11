@@ -415,8 +415,8 @@ same props as the Ark UI ones and turn them into Reka's, so Vue's examples, bloc
 and both are checked against React's pages. A base is one more key per state
 (`reka:` in `core/states.ts`), not another set of styles. **Svelte's second
 base is Bits UI** (`registry/bases/svelte-bits`, at `/preview/svelte/bits/`),
-built the same way, with 52 of Svelte's 61 components so far (Bits UI has no
-toast, so it will carry 60).
+built the same way, with 60 of Svelte's 61 components: all but the toast,
+which Bits UI has none of.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,
@@ -555,7 +555,11 @@ and the design system's classes on `<html>` and `<body>`.
 `/preview/react/<base>/<item>` is a route of the site, prerendered for every item
 and base and given the design by the inline script; `/preview/vue/ark/<item>` is a
 page of the Vue preview app, built into the same Worker's static files, since a
-Vue component cannot render inside the React site. Both read the same query and
+Vue component cannot render inside the React site. Each non-React preview is one
+page, its app's, which reads the item from the path: the site's `_redirects`
+serves it at every `/preview/<framework>/<base>/<item>` (a 200 rewrite, so no
+Worker runs), where a copy per item would count against the Worker's 20,000
+static files. Both read the same query and
 take the same message (`registry/core/preview.ts`): upstream's `?preset=` and
 `design-system-params`, so shadcn/ui's customizer and ours can drive either, and
 the conformance harness can open one item and preset on both sites. A change of

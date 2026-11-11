@@ -3,7 +3,10 @@ import type { Plugin } from "vite-plus"
 /** The folder a framework's preview builds into. */
 export function previewOutDir(framework: string): string
 
-/** A page for every example of `<framework>-<base>` with `extension`, and for `extra` names. */
+/**
+ * Checks the site's `_redirects` serves the app's page at every `/preview/<framework>/<base>/<item>`;
+ * `extra` names the app's own pages, for the comparison script.
+ */
 export function previewPages(options: {
   framework: string
   base: string

@@ -23,7 +23,7 @@
 {#if asChild}
   <DropdownMenu.Trigger data-slot="dropdown-menu-trigger" {...rest} sx={className as Sx}>
     {#snippet child({ props })}
-      {@render asChild(propsFn(props))}
+      {@render asChild(propsFn({ type: "button", ...props }))}
     {/snippet}
   </DropdownMenu.Trigger>
 {:else}

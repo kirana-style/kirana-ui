@@ -23,7 +23,7 @@
 {#if asChild}
   <Tooltip.Trigger data-slot="tooltip-trigger" {...rest} sx={className as Sx}>
     {#snippet child({ props })}
-      {@render asChild(propsFn(props))}
+      {@render asChild(propsFn({ type: "button", ...props }))}
     {/snippet}
   </Tooltip.Trigger>
 {:else}

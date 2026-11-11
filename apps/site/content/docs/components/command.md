@@ -3,7 +3,16 @@ title: Command
 description: Command menu for search and quick actions.
 section: components
 variants:
-  [react/base, react/aria, vue/ark, vue/reka, svelte/ark, solid/ark, angular/ng]
+  [
+    react/base,
+    react/aria,
+    vue/ark,
+    vue/reka,
+    svelte/ark,
+    svelte/bits,
+    solid/ark,
+    angular/ng,
+  ]
 keywords:
   [
     command,
@@ -22,7 +31,7 @@ keywords:
 
 # Command
 
-<!-- ::preview item="command-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## About
 
@@ -34,7 +43,7 @@ The `<Command />` component uses the [`cmdk`](https://github.com/dip/cmdk) compo
 
 ## Installation
 
-<!-- ::installation name="command" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::installation name="command" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -138,7 +147,7 @@ const framed = css({
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/ark,svelte/bits -->
 
 ```svelte
 <Command>
@@ -279,29 +288,29 @@ Command
 
 A simple command menu in a dialog.
 
-<!-- ::preview item="command-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-basic" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Shortcuts
 
-<!-- ::preview item="command-shortcuts" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-shortcuts" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Groups
 
 A command menu with groups, icons and separators.
 
-<!-- ::preview item="command-groups" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-groups" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Scrollable
 
 Scrollable command menu with multiple items.
 
-<!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" -->
+<!-- ::preview item="command-scrollable" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="command-rtl" height="392" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -332,6 +341,12 @@ See the [Reka UI Listbox](https://reka-ui.com/docs/components/listbox#api-refere
 <!-- ::start:only svelte/ark -->
 
 See the [Ark UI Listbox](https://ark-ui.com/svelte/docs/components/listbox#api-reference) documentation.
+
+<!-- ::end:only -->
+
+<!-- ::start:only svelte/bits -->
+
+See the [Bits UI Command](https://bits-ui.com/docs/components/command#api-reference) documentation.
 
 <!-- ::end:only -->
 

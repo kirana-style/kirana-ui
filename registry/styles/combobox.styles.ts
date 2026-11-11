@@ -106,6 +106,14 @@ export const combobox = {
     },
   }),
 
+  // Bits UI's floating layer names it `--bits-floating-anchor-width`.
+  contentBits: css({
+    minWidth: {
+      base: `calc(var(--bits-floating-anchor-width) + ${space[7]})`,
+      '[data-chips="true"]': "var(--bits-floating-anchor-width)",
+    },
+  }),
+
   // cn-combobox-content-aria, after `menuSurface`: React Aria's popover keeps the content's
   // `min-w-36` and gives its height in its own style.
   contentAria: css(comboboxPopupScope.anchor, {

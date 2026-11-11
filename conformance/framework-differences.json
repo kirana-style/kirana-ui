@@ -742,24 +742,6 @@
     },
     {
       "element": "button[data-slot=\"dropdown-menu-trigger\"]",
-      "property": "pointer-events",
-      "route": "/preview/svelte/bits/",
-      "reason": "Bits UI's modal menu turns off pointer events on the page behind it while open (its body scroll lock sets `pointer-events: none` on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
-    },
-    {
-      "element": "span[data-slot=\"button-label\"]",
-      "property": "pointer-events",
-      "route": "/preview/svelte/bits/",
-      "reason": "Bits UI's modal menu turns off pointer events on the page behind it while open (its body scroll lock sets `pointer-events: none` on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
-    },
-    {
-      "element": "button[data-slot=\"select-trigger\"]",
-      "property": "pointer-events",
-      "route": "/preview/svelte/bits/",
-      "reason": "Bits UI's modal menu turns off pointer events on the page behind it while open (its body scroll lock sets `pointer-events: none` on `body`), where Base UI blocks the page with a backdrop of its own; the trigger keeps its look"
-    },
-    {
-      "element": "button[data-slot=\"dropdown-menu-trigger\"]",
       "property": "background-color",
       "route": "/preview/svelte/bits/",
       "reason": "the pointer stays over an open menu's trigger, which Base UI's keeps `:hover` while Bits UI's modal menu turns off the page's pointer events (`pointer-events`, above), so a ghost trigger shows its open colour without its hover's"
@@ -781,6 +763,42 @@
       "property": "outline-width",
       "route": "/preview/svelte/bits/",
       "reason": "which part the browser counts as focused by keyboard differs (`:focus-visible`): Bits UI focuses a context menu's popup on the pointer's open, Base UI its first row; the outline is `none` either way, so nothing is drawn"
+    },
+    {
+      "element": "",
+      "property": "pointer-events",
+      "route": "/preview/svelte/bits/",
+      "reason": "Bits UI's modal menus and select turn off pointer events on `body` while open (their body scroll lock), which every element of the page inherits, where Base UI blocks the page with a backdrop of its own; nothing else changes"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "display",
+      "route": "/preview/svelte/bits/combobox-",
+      "reason": "Bits UI lays out a combobox's popup as a column inline (`display: flex`), as its select's"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "flex-direction",
+      "route": "/preview/svelte/bits/combobox-",
+      "reason": "Bits UI lays out a combobox's popup as a column inline (`display: flex`), as its select's"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "min-height",
+      "route": "/preview/svelte/bits/combobox-",
+      "reason": "in Bits UI's column popup (`display`, above) the search input is a flex item, whose `auto` minimum stays `auto`; its box is the same"
+    },
+    {
+      "element": "div[data-slot=\"combobox-list\"]",
+      "property": "min-width",
+      "route": "/preview/svelte/bits/combobox-",
+      "reason": "as the input's: a flex item of Bits UI's column popup; its box is the same"
+    },
+    {
+      "element": "div[data-slot=\"combobox-list\"]",
+      "property": "min-height",
+      "route": "/preview/svelte/bits/combobox-",
+      "reason": "as the input's: a flex item of Bits UI's column popup; its box is the same"
     }
   ]
 }
