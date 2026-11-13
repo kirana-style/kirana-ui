@@ -26,8 +26,7 @@ const value = ref([200, 800])
         Set your budget range ($
         <span :sx="styles.fontMediumTabularNums">{{ value[0] }}</span>
         -
-        <span :sx="styles.fontMediumTabularNums">{{ value[1] }}</span
-        >).
+        <span :sx="styles.fontMediumTabularNums">{{ value[1] }}</span>).
       </FieldDescription>
       <Slider
         v-model="value"

@@ -11,6 +11,7 @@
  *
  *   bun scripts/install-smoke.ts [<framework>-<base>-<style>[@<skeleton>] …]   # what `vp run install` runs
  *   bun scripts/install-smoke.ts react-base-nova@next-turbopack--turbo--biome    # one skeleton
+ *   bun scripts/install-smoke.ts --shard 2/4      # every fourth of the default list, from the second
  *
  * A skeleton is `<template>--<monorepo>--<tooling>` (`r/templates/index.json` lists them); without
  * one, the framework's Vite app alone with ESLint. Needs the site, its registry and the templates
@@ -393,8 +394,20 @@ function byHand(app: string, document: string, output: string) {
   )
 }
 
-const combinations = process.argv.slice(2)
-for (const asked of combinations.length ? combinations : DEFAULT) {
+/**
+ * The combinations asked for, else the default list; `--shard <i>/<n>` keeps every n-th of the
+ * default list from the i-th, so CI installs it on n runners side by side.
+ */
+function selected(argv: string[]) {
+  const at = argv.indexOf("--shard")
+  if (at === -1) return argv.length ? argv : DEFAULT
+  const [index = 0, count = 0] = (argv[at + 1] ?? "").split("/").map(Number)
+  if (!(count >= 1 && index >= 1 && index <= count))
+    throw new Error(`--shard takes <i>/<n>, 1 <= i <= n: ${argv[at + 1]}`)
+  return DEFAULT.filter((_, position) => position % count === index - 1)
+}
+
+for (const asked of selected(process.argv.slice(2))) {
   const [combination = "", named] = asked.split("@")
   const [framework, base, style] = combination.split("-") as [
     Framework,
