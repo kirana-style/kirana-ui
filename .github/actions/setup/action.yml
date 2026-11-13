@@ -4,6 +4,11 @@ description: Vite+ with Node.js, Bun and the workspace installed, and the task c
 # Every job needs the same things, and each one used to spell them out. Kept here so the workflow
 # reads as a graph of jobs rather than as the same install block copied per job.
 
+inputs:
+  task-cache:
+    description: Restore the `vp run` task cache (and save it on `main`). A job that runs no task leaves it off.
+    default: "true"
+
 runs:
   using: composite
 
@@ -27,9 +32,10 @@ runs:
     # replays its output and restores its files. Each run on `main` saves a new entry, and every
     # run restores the newest one for its job and platform; other branches only restore, so their
     # entries never evict main's. Vite Task fingerprints the inputs itself, so none belong in the
-    # key.
+    # key (Vite+'s "GitHub Actions Cache" guide; reusing it across runs is experimental there).
+    # `vp run -v <task>` in a job's log names the file behind each miss.
     - name: Cache vp tasks
-      if: github.ref == 'refs/heads/main'
+      if: inputs.task-cache == 'true' && github.ref == 'refs/heads/main'
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: node_modules/.vite/task-cache
@@ -37,7 +43,7 @@ runs:
         restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
     - name: Restore vp tasks
-      if: github.ref != 'refs/heads/main'
+      if: inputs.task-cache == 'true' && github.ref != 'refs/heads/main'
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: node_modules/.vite/task-cache

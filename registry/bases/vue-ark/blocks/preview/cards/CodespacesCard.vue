@@ -327,8 +327,7 @@ function createCodespace() {
                 :disabled="isCreatingCodespace"
               >
                 <Spinner v-if="isCreatingCodespace" data-icon="inline-start" />
-                <template v-else>{{ "" }}</template
-                >Create Codespace
+                <template v-else>{{ "" }}</template>Create Codespace
               </Button>
               <a href="#learn-more" :sx="styles.a">
                 Learn more about codespaces

@@ -891,6 +891,50 @@ here than usual: a local `theme` or `spacing` state hides the design token of th
 same name for the rest of the function. Name the inner binding for what it holds
 (`themeMode`, `child`, `option`, `rows`).
 
+## Tasks and their cache
+
+Every command in the README's table is a task in the root `vite.config.ts`, run by
+`vp run`, which caches it: when nothing a task reads has changed, it replays the
+task's output and restores the files it wrote. `vp run prepush` runs the lot, side
+by side where nothing orders them (four at a time); the pre-push hook and CI run the
+same tasks.
+
+| Task                                        | What makes it run again                                                                |
+| ------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `build:<app>`                               | A file that app's build read: Vite+ records them (a Vue part rebuilds the Vue preview) |
+| `check`, `content`, `registry`, `templates` | Any source in the workspace: they read most of it                                      |
+| `styles`, `test`                            | A source under the folders they read (`sourcesIn`), the lockfile or the root's config  |
+| `licenses`                                  | The lockfile                                                                           |
+| `budgets`, `install`                        | Always run                                                                             |
+
+`vp run build` is the site first, which empties `apps/site/dist`, then the five
+previews side by side, each writing its own `dist/client/preview/<framework>/`. The
+site's task runs after `content` and reads what it generated, so a change to the
+registry or the docs rebuilds the site only when the generated content differs.
+
+Two things to know when changing a task:
+
+- **Vite+ does not see what Bun reads.** Recording a build's reads works for
+  Node.js processes; a script run with `bun`, and `bun run` reading `package.json`,
+  read files the cache never hears about, and the task replays a stale result. A
+  traced task therefore runs `vp build` itself (`cwd`), or names what Bun reads in
+  its `input`. A task run with `bun` keeps a named `input` (`SOURCES`, `sourcesIn`).
+- **A task given to the cache must not rewrite what it reads** (a `--fix`, a `fmt`):
+  the cache then restores the rewritten files over your edits.
+
+When a task runs and you expected a replay, or the reverse:
+
+```bash
+vp run --dry-run prepush   # each command, and whether it would hit, without running
+vp run -v build            # every change behind each miss
+vp run --last-details      # the last run's summary again
+```
+
+In CI, every job restores the cache `main` last saved (other branches only
+restore), so a pull request rebuilds only what it changed. The build job hands the
+registry it built to four install jobs, which install
+`scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`).
+
 ## Performance
 
 Kirana's output is atomic and deduplicated, so CSS size plateaus as the codebase

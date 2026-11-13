@@ -1,17 +1,19 @@
 import { defineConfig } from "vite-plus"
 
 /**
- * The workspace's sources, named rather than traced. Tracing a task's file access makes starting
- * a native binary fail with EBUSY (tsgolint under `vp check`), and it can miss reads of workspace
- * packages; the Kirana repository found both (kirana's root vite.config.ts).
+ * The workspace's sources, named rather than traced, for the tasks that read most of it. Tracing a
+ * task's file access makes starting a native binary fail with EBUSY (tsgolint under `vp check`),
+ * and it can miss reads of workspace packages; the Kirana repository found both (kirana's root
+ * vite.config.ts). The apps' builds are traced (`BUILD_INPUT`).
  */
 const SOURCES = [
-  "**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs,json,jsonc,md,css,yml,yaml,html}",
+  "**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs,json,jsonc,md,css,yml,yaml,html,vue,svelte}",
   "!**/node_modules/**",
   "!**/dist/**",
   "!**/coverage/**",
   "!**/.tanstack/**",
   "!**/.wrangler/**",
+  "!**/.angular/**",
   // Generated from `apps/site/content`, which is in: the `content` task writes them.
   "!apps/site/src/generated/**",
   "!apps/site/public/llms*.txt",
@@ -22,21 +24,56 @@ const SOURCES = [
   "bun.lock",
 ]
 
+/** What no task reads, whatever it lists: `SOURCES`' exclusions. */
+const EXCLUDED = SOURCES.filter((each) => each.startsWith("!"))
+
 /**
- * The apps, each built by its own `build` script (`vp build`): the site, and a preview per
- * framework, whose build is where the registry's components for it compile
- * (`react-base` and `react-aria`, `vue-ark`, `svelte-ark`, `solid-ark`, `angular-ng`). In this
- * order: each preview writes into the site's `dist/client/preview/<framework>/`, which the `ui`
- * Worker serves.
+ * The sources under some folders only, for a task that reads nothing else: a change outside them
+ * (the docs' content, another app, a workflow) leaves its cached result standing. What every task
+ * depends on is always in: the lockfile and the root's own configuration.
  */
-const APPS = [
-  "site",
-  "preview-react",
-  "preview-vue",
-  "preview-svelte",
-  "preview-solid",
-  "preview-angular",
+const sourcesIn = (...folders: string[]) => [
+  ...folders.map(
+    (each) =>
+      `${each}/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs,json,jsonc,md,css,html,vue,svelte}`
+  ),
+  ...EXCLUDED,
+  "bun.lock",
+  "package.json",
+  "tsconfig*.json",
+  "vite.config.ts",
 ]
+
+/**
+ * An app's build, traced: Vite+ records the files it reads, so an app rebuilds only when one of
+ * them changed (a Vue part rebuilds the Vue preview alone). Only what Node.js reads is traced:
+ * a file Bun reads is not (`bun run` reading `package.json`, a script run with `bun`), so such
+ * a file is named. The other apps' outputs, which the previews write beside the site's own, are
+ * never its inputs.
+ */
+const BUILD_INPUT = [{ auto: true }, ...EXCLUDED]
+
+/**
+ * The site's build, traced too, reading the docs content the `content` task wrote: a change to
+ * the registry or the docs reruns the generator, and the site rebuilds only when what it wrote
+ * differs.
+ */
+const SITE_INPUT = [
+  { auto: true },
+  ...EXCLUDED.filter((each) => !each.startsWith("!apps/site/")),
+]
+
+/** Where each preview writes: the site's static files, which the `ui` Worker serves. */
+const previewOut = (framework: string) =>
+  `apps/site/dist/client/preview/${framework}/**`
+
+/**
+ * The previews, one per framework, whose build is where the registry's components for it compile
+ * (`react-base` and `react-aria`, `vue-ark` and `vue-reka`, `svelte-ark` and `svelte-bits`,
+ * `solid-ark`, `angular-ng`). Each writes into the site's `dist/client/preview/<framework>/`, after
+ * the site's build, which empties `dist`; they do not read one another, so they run side by side.
+ */
+const PREVIEWS = ["react", "vue", "svelte", "solid", "angular"]
 
 export default defineConfig({
   // The workspace's tasks: `vp run <name>`. Each is cached (node_modules/.vite/task-cache) unless
@@ -44,17 +81,44 @@ export default defineConfig({
   // the pre-push hook runs, and CI runs the same tasks.
   run: {
     tasks: {
-      // Every app into its dist/. The build prints Kirana's diagnostics as file:line:column; an
-      // error fails it.
+      // Every app into its dist/: the site, then the previews side by side. The build prints
+      // Kirana's diagnostics as file:line:column; an error fails it.
       build: {
-        command: APPS.map((app) => `bun run --cwd apps/${app} build`).join(
-          " && "
-        ),
+        command: "echo Every app built.",
+        dependsOn: PREVIEWS.map((framework) => `build:${framework}`),
+        cache: false,
+      },
+      // `vp build` itself rather than the app's `build` script, whose `prebuild` would generate
+      // the content again under Bun, where no read is traced.
+      "build:site": {
+        command: "vp build",
+        cwd: "apps/site",
+        dependsOn: ["content"],
         cache: {
-          input: SOURCES,
-          output: APPS.map((app) => `apps/${app}/dist/**`),
+          input: SITE_INPUT,
+          output: [
+            "apps/site/dist/**",
+            ...PREVIEWS.map((framework) => `!${previewOut(framework)}`),
+            "!apps/site/dist/client/r/**",
+          ],
         },
       },
+      ...Object.fromEntries(
+        PREVIEWS.map((framework) => [
+          `build:${framework}`,
+          {
+            command: `bun run --cwd apps/preview-${framework} build`,
+            dependsOn: ["build:site"],
+            cache: {
+              input: [...BUILD_INPUT, `apps/preview-${framework}/package.json`],
+              output: [
+                previewOut(framework),
+                `apps/preview-${framework}/dist/**`,
+              ],
+            },
+          },
+        ])
+      ),
       // The registry for every combination (`packages/builder`): each style module flattened to one
       // style and base, checked against the live module with Kirana (one `Driver` session), every
       // item validated against shadcn/ui's schema, written into the site's static files
@@ -123,9 +187,10 @@ export default defineConfig({
         cache: false,
       },
       // Format, lint with the Kirana rules, and types. A lint warning fails it, as in CI, so
-      // warnings cannot pile up.
+      // warnings cannot pile up; each check runs whatever an earlier one found, so one run lists
+      // every problem. Lint is most of its time: the Kirana rules' setup per file (KF-123).
       check: {
-        command: "vp check --deny-warnings",
+        command: "vp check --deny-warnings --continue-on-error",
         dependsOn: ["content"],
         cache: { input: SOURCES, output: [] },
       },
@@ -147,12 +212,16 @@ export default defineConfig({
       // yet, so this is where a diagnostic in one shows. A warning fails it too.
       styles: {
         command: "bun run --cwd registry styles",
-        cache: { input: SOURCES, output: [] },
+        cache: { input: sourcesIn("registry"), output: [] },
       },
-      // Vitest: the registry's codec, configuration and palettes (`registry/**/*.test.ts`).
+      // Vitest: the registry's codec, configuration and palettes, the builder, Get Code's
+      // composer, the docs framework and the site's own helpers (each folder's `*.test.ts`).
       test: {
         command: "vp test run",
-        cache: { input: SOURCES, output: [] },
+        cache: {
+          input: sourcesIn("apps/site/src", "packages", "registry", "scripts"),
+          output: [],
+        },
       },
       // Every installed JavaScript dependency's licence against the policy in the script; it
       // changes only with the lockfile.
