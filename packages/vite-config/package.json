@@ -18,7 +18,7 @@
     "@kirana-style/vite": "catalog:",
     "@tanstack/devtools-vite": "^0.8.6",
     "@tanstack/react-start": "catalog:",
-    "@vitejs/plugin-react": "^6.2.1",
+    "@vitejs/plugin-react": "^6.3.0",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },
