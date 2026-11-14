@@ -11,6 +11,17 @@
     "./preview": {
       "types": "./preview.d.ts",
       "default": "./preview.js"
+    },
+    "./browser": {
+      "types": "./browser.d.ts",
+      "default": "./browser.js"
+    },
+    "./browser-page": {
+      "types": "./browser-page.d.ts",
+      "default": "./browser-page.js"
+    },
+    "./browser-stub": {
+      "default": "./browser-stub.js"
     }
   },
   "dependencies": {

@@ -20,10 +20,13 @@
   },
   "devDependencies": {
     "@kirana-style/vite": "catalog:",
+    "@tanstack/charts": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^6.3.0",
+    "@vitest/browser-playwright": "catalog:",
     "@workspace/vite-config": "workspace:*",
+    "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"

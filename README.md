@@ -109,17 +109,18 @@ vp run dev                            # the site on :3000, the previews on :3003
 
 The site runs in workerd, Cloudflare's runtime, as it does in production.
 
-| Command                                | What it does                                                                                        |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `vp run build`                         | Every app, the previews side by side, printing Kirana's diagnostics; it must report no errors       |
-| `vp run check`                         | Formatting, lint (with Kirana's rules) and types; a warning fails it                                |
-| `vp run styles`                        | The registry's style modules through Kirana                                                         |
-| `vp run test`                          | The unit tests                                                                                      |
-| `vp run registry`                      | The registry's JSON, every item validated and every flattened build checked                         |
-| `vp run install`                       | The registry installed into new projects and built (needs the network)                              |
-| `vp run conformance -- --pages <page>` | A page against shadcn/ui's own site (needs upstream served locally)                                 |
-| `vp run prepush`                       | What the pre-push hook and CI run, cached: check, styles, tests, licences, build, registry, budgets |
-| `bun scripts/use-kirana.ts <version>`  | Moves every Kirana package to one release                                                           |
+| Command                                | What it does                                                                                                       |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `vp run build`                         | Every app, the previews side by side, printing Kirana's diagnostics; it must report no errors                      |
+| `vp run check`                         | Formatting, lint (with Kirana's rules) and types; a warning fails it                                               |
+| `vp run styles`                        | The registry's style modules through Kirana                                                                        |
+| `vp run test`                          | The unit tests                                                                                                     |
+| `vp run browser`                       | The preview apps' tests in a real browser (`BROWSERS=chromium,firefox,webkit`)                                     |
+| `vp run registry`                      | The registry's JSON, every item validated and every flattened build checked                                        |
+| `vp run install`                       | The registry installed into new projects and built (needs the network)                                             |
+| `vp run conformance -- --pages <page>` | A page against shadcn/ui's own site (needs upstream served locally)                                                |
+| `vp run prepush`                       | What the pre-push hook and CI run, cached: check, styles, tests, browser tests, licences, build, registry, budgets |
+| `bun scripts/use-kirana.ts <version>`  | Moves every Kirana package to one release                                                                          |
 
 `cd apps/site && bun run preview` serves the built site as its Worker on `:8787`.
 

@@ -75,7 +75,32 @@ const previewOut = (framework: string) =>
  */
 const PREVIEWS = ["react", "vue", "svelte", "solid", "angular"]
 
+/** The preview apps with browser tests (`apps/<app>/test/`), each a Vitest project of its own. */
+const BROWSER_PROJECTS = [
+  "apps/preview-react",
+  "apps/preview-vue",
+  "apps/preview-svelte",
+  "apps/preview-solid",
+]
+
 export default defineConfig({
+  // Vitest: the unit tests in Node (`vp run test`), and each preview app's tests in a real browser
+  // (`vp run browser`), compiled with that app's own plugins.
+  test: {
+    projects: [
+      {
+        test: {
+          name: "unit",
+          include: [
+            "registry/**/*.test.ts",
+            "packages/*/{src,test}/**/*.test.ts",
+            "apps/site/src/**/*.test.ts",
+          ],
+        },
+      },
+      ...BROWSER_PROJECTS,
+    ],
+  },
   // The workspace's tasks: `vp run <name>`. Each is cached (node_modules/.vite/task-cache) unless
   // it says otherwise; a hit replays its output and restores its files. `vp run prepush` is what
   // the pre-push hook runs, and CI runs the same tasks.
@@ -217,10 +242,26 @@ export default defineConfig({
       // Vitest: the registry's codec, configuration and palettes, the builder, Get Code's
       // composer, the docs framework and the site's own helpers (each folder's `*.test.ts`).
       test: {
-        command: "vp test run",
+        command: "vp test run --project unit",
         cache: {
           input: sourcesIn("apps/site/src", "packages", "registry", "scripts"),
           output: [],
+        },
+      },
+      // The preview apps' tests in a real browser (`apps/<app>/test/`): what JSDOM cannot judge
+      // (focus, a form's submission, an overlay opening, animation frames), in the engines
+      // `BROWSERS` names (Chromium unless it says otherwise; CI runs Firefox and WebKit too).
+      browser: {
+        command: "vp test run --project 'browser-*'",
+        cache: {
+          input: [
+            ...sourcesIn("registry", "packages/vite-config"),
+            ...BROWSER_PROJECTS.map(
+              (app) => `${app}/**/*.{ts,tsx,vue,svelte,json}`
+            ),
+          ],
+          output: [],
+          env: ["BROWSERS"],
         },
       },
       // Every installed JavaScript dependency's licence against the policy in the script; it
@@ -236,6 +277,7 @@ export default defineConfig({
           "check",
           "styles",
           "test",
+          "browser",
           "licenses",
           "build",
           "registry",
