@@ -1,8 +1,8 @@
 name: ci
 
 # What a pull request must keep true: the workspace checks itself (format, lint with the Kirana
-# rules, types, licences, tests), every app builds with 0 compiler errors, and the registry installs
-# into a project per framework. The push to `main` keeps the caches warm: only `main` saves them.
+# rules, types, licences, tests), the preview apps' tests pass in Chromium, Firefox and WebKit,
+# every app builds with 0 compiler errors, and the registry installs into a project per framework. The push to `main` keeps the caches warm: only `main` saves them.
 
 on:
   push:
@@ -111,6 +111,38 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # The preview apps' tests in a real browser (`apps/<app>/test/`, `vp run browser`): every example
+  # page mounted and every trigger pressed on each framework and base, no error and no form submitted;
+  # the chart's entrance. Once for each engine, side by side, each job installing only its own.
+  browser:
+    runs-on: ubuntu-26.04
+    name: browser tests (${{ matrix.browser }})
+    timeout-minutes: 20
+
+    strategy:
+      # One engine's failure does not hide what the others would have said.
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          scope: -${{ matrix.browser }}
+
+      # The engine at the version the lockfile's Playwright asks for, with its system libraries.
+      - name: Browser
+        run: bunx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Browser tests
+        env:
+          BROWSERS: ${{ matrix.browser }}
+        run: vp run browser
+
   # The registry installed with Kirana's own installer, as Get Code has a reader do it: a skeleton
   # per framework started with Get Code's own command (`kirana-style ui init --template` from the
   # templates the build job packed), `add`, built, linted, type-checked, the lockfile validated, for
@@ -149,7 +181,7 @@ jobs:
   result:
     name: ci result
     if: always()
-    needs: [check, build, install]
+    needs: [check, browser, build, install]
     runs-on: ubuntu-26.04
     timeout-minutes: 5
 

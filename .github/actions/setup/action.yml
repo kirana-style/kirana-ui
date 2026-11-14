@@ -8,6 +8,9 @@ inputs:
   task-cache:
     description: Restore the `vp run` task cache (and save it on `main`). A job that runs no task leaves it off.
     default: "true"
+  scope:
+    description: Added to the task cache's key, so each job of a matrix keeps an entry of its own (`-firefox`).
+    default: ""
 
 runs:
   using: composite
@@ -39,13 +42,13 @@ runs:
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: node_modules/.vite/task-cache
-        key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
-        restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
+        key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}${{ inputs.scope }}-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}${{ inputs.scope }}-
 
     - name: Restore vp tasks
       if: inputs.task-cache == 'true' && github.ref != 'refs/heads/main'
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: node_modules/.vite/task-cache
-        key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
-        restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
+        key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}${{ inputs.scope }}-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}${{ inputs.scope }}-

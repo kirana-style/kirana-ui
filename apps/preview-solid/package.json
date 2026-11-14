@@ -17,7 +17,9 @@
   },
   "devDependencies": {
     "@kirana-style/vite": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "@workspace/vite-config": "workspace:*",
+    "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plugin-solid": "catalog:",

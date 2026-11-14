@@ -130,9 +130,12 @@ function TooltipTrigger(props: {
     "sx",
     "children",
   ])
+  // `type="button"`: Ark's tooltip trigger is a `<button>` without one, which submits the form it
+  // sits in (LF-021).
   return (
     <ArkTooltipTrigger
       asChild={local.asChild}
+      type="button"
       data-slot="tooltip-trigger"
       {...rest}
       {...styleProps(local.class, local.sx)}

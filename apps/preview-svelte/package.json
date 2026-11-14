@@ -19,7 +19,9 @@
   "devDependencies": {
     "@kirana-style/vite": "catalog:",
     "@sveltejs/vite-plugin-svelte": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "@workspace/vite-config": "workspace:*",
+    "playwright": "catalog:",
     "svelte-check": "4.7.8",
     "typescript": "~6.0.3",
     "vite": "catalog:",

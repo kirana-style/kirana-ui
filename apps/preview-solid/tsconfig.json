@@ -2,6 +2,8 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx",
     "../../registry/bases/solid-ark/**/*.ts",
     "../../registry/bases/solid-ark/**/*.tsx",
     "../../registry/lib/solid/**/*.ts",

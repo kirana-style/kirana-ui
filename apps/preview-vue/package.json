@@ -22,7 +22,9 @@
   "devDependencies": {
     "@kirana-style/vite": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "@workspace/vite-config": "workspace:*",
+    "playwright": "catalog:",
     "typescript": "~6.0.3",
     "vite": "catalog:",
     "vite-plus": "catalog:",

@@ -1,5 +1,10 @@
 {
-  "include": ["src/**/*.ts", "vite.config.ts", "kirana.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "vite.config.ts",
+    "kirana.config.ts"
+  ],
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",

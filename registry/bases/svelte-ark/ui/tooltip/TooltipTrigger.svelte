@@ -19,6 +19,8 @@
   } = $props()
 </script>
 
-<TooltipTrigger {asChild} data-slot="tooltip-trigger" {...rest} sx={className as Sx}>
+<!-- `type="button"`: Ark's tooltip trigger is a `<button>` without one, which submits the form it
+     sits in (LF-021). -->
+<TooltipTrigger {asChild} type="button" data-slot="tooltip-trigger" {...rest} sx={className as Sx}>
   {@render children?.()}
 </TooltipTrigger>

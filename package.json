@@ -15,7 +15,9 @@
   "devDependencies": {
     "@kirana-style/eslint-plugin": "catalog:",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "kirana-style": "catalog:",
+    "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
@@ -58,6 +60,7 @@
       "reka-ui": "^2.11.0",
       "bits-ui": "^2.20.6",
       "paneforge": "^1.0.2",
+      "playwright": "1.65.0",
       "@shadcn/helpers": "^0.3.0",
       "@tanstack/markdown": "^1.2.0",
       "ai": "^7.0.164",
@@ -128,6 +131,7 @@
       "@types/react": "^19.3.0",
       "@types/react-dom": "^19.3.0",
       "@vitejs/plugin-vue": "^6.0.10",
+      "@vitest/browser-playwright": "5.1.0",
       "chrono-node": "^2.10.3",
       "cmdk": "^1.1.1",
       "d3-shape": "^3.2.1",

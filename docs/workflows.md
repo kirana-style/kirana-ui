@@ -935,6 +935,41 @@ restore), so a pull request rebuilds only what it changed. The build job hands t
 registry it built to four install jobs, which install
 `scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`).
 
+## Browser tests
+
+`vp run browser` runs each preview app's tests (`apps/preview-react`, `-vue`,
+`-svelte`, `-solid`, their `test/` folders) in a real browser: Vitest's browser
+mode through Vite+'s Playwright provider, each app's project compiled with that
+app's own plugins, so the registry's components compile with Kirana as on the
+site. They hold what neither types nor JSDOM can:
+
+| Test                      | What it holds                                                                                                                                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `examples.test.*`         | Every `-example` page on every base mounts without an error, and every trigger on it can be pressed: no error, no form submitted                          |
+| `triggers-in-form.test.*` | A trigger inside a form, as its own button and through `asChild`, never submits it                                                                        |
+| `chart-entrance.test.tsx` | Chart's entrance grows through its 1.5 s; a canary fails once TanStack Charts keeps an entrance through a repaint, when `ChartContainer`'s remount can go |
+
+The first catches what a port from Radix carries: Base UI's label parts
+(`DropdownMenuLabel`, `SelectLabel` …) throw when their menu opens unless they sit
+in their group. The second found the Ark UI and Reka UI tooltip triggers
+submitting their form; their `TooltipTrigger` passes `type="button"`.
+
+The engines are `BROWSERS` (`chromium` unless it says otherwise): the pre-push
+hook runs Chromium, CI one job per engine, Chromium, Firefox and WebKit. A first
+run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
+a test:
+
+- Mount through the app's `test/page.*` (`mountItem`), which mounts as the preview
+  page does and collects every error and form submission (`watchPage` in
+  `@workspace/vite-config/browser-page`); `pressTriggers` presses what a reader
+  could.
+- Kirana's development stylesheet does not follow the compiles into the test page
+  on its own, so `mountItem` fetches it before and after mounting
+  (`refreshStyles`). A test that mounts outside it calls the page's `styles()`.
+- A dependency the tests load late is bundled again mid-run, with a second copy
+  of React or Svelte: each app's config names every example as a scan entry
+  (`browserDeps`).
+
 ## Performance
 
 Kirana's output is atomic and deduplicated, so CSS size plateaus as the codebase
