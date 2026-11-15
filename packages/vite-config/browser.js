@@ -58,7 +58,9 @@ export function browserTest(
  * Only under Vitest: the app's dev server keeps scanning from its page.
  */
 export function browserDeps(entries) {
-  return process.env.VITEST ? { entries } : {}
+  // `force`: scanned again at every start, not taken from the last run's cache, which knows
+  // nothing of an import added since and would bundle it mid-run.
+  return process.env.VITEST ? { entries, force: true } : {}
 }
 
 /**

@@ -45,6 +45,7 @@ const IN_HORIZONTAL = {
   ng: tabsScope.within(tabOrientation.horizontal.ng),
   reka: tabsScope.within(tabOrientation.horizontal.reka),
   bits: tabsScope.within(tabOrientation.horizontal.bits),
+  uisdk: tabsScope.within(tabOrientation.horizontal.uisdk),
 }
 const IN_VERTICAL = {
   base: tabsScope.within(tabOrientation.vertical.base),
@@ -53,6 +54,7 @@ const IN_VERTICAL = {
   ng: tabsScope.within(tabOrientation.vertical.ng),
   reka: tabsScope.within(tabOrientation.vertical.reka),
   bits: tabsScope.within(tabOrientation.vertical.bits),
+  uisdk: tabsScope.within(tabOrientation.vertical.uisdk),
 }
 const IN_DEFAULT_LIST = tabsList.within('[data-variant="default"]')
 const IN_LINE_LIST = tabsList.within('[data-variant="line"]')

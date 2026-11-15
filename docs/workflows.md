@@ -753,6 +753,50 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   part's `DirectionProvider` is a context of the registry's own, which each
   part reads for its `dir`. The drawer is the registry's own swipe on Bits'
   Dialog, writing Base UI's `--drawer-*` variables; Bits has no toast.
+- **React on ui-sdk** keeps Base UI's API on ui-sdk's parts, which already
+  write Base UI's attribute names nearly everywhere (`data-open`,
+  `data-starting-style`, `data-checked`), so its `uisdk:` keys in
+  `core/states.ts` are mostly Base UI's strings, written as selectors until
+  Kirana has a ui-sdk vocabulary. Three things differ from Base UI:
+  - **Its own `data-slot`.** ui-sdk writes a slot on every part (`tabs-tab`,
+    `accordion-panel`), which a prop cannot replace but an element passed as
+    `render` can: each part renders under the registry's slot, in the tag Base
+    UI's part has (`slotRender` in `registry/lib/uisdk-slot.ts`, the caller's
+    own `render` keeping the slot). Button takes the slot a trigger hands it.
+  - **One element per popup.** A content places itself (`side`, `align`,
+    offsets on the content), with no positioner, so the positioner's styles
+    join the content's. ui-sdk renders a popup in place, in the top layer,
+    where it would inherit its trigger's surroundings (a table cell's
+    `text-align`); each root takes the document's body as its `container`
+    (`popupContainer()`, `registry/lib/uisdk-slot.ts`), as Base UI's portal
+    does; a navigation menu's viewport is Base UI's
+    positioner, popup and viewport in one, after their styles
+    (`navigationMenu.viewportUisdk`, its own `--viewport-*` sizes). Base UI's
+    logical sides (`inline-start`) are ui-sdk's `start` and `end`.
+  - **What it has no part for**: a Tooltip provider (a context handing its
+    tooltips their delays), a Direction provider (ui-sdk reads the `dir` an
+    element is laid out in), Select's scroll arrows and its item over the
+    trigger (`alignItemWithTrigger`). Base UI's props it names or types differently
+    are turned into its own in the part: a checkbox's `indeterminate`, a
+    select's `items` record, `null` placeholder, object values
+    (`itemToStringValue`, its `itemToValue`) and value type, a radio group's
+    value type, a drawer's `swipeDirection` (its `side`), snap points and
+    `disablePointerDismissal` (`closeOnOutsidePress`), a hover card's delays
+    on its trigger (ui-sdk's root takes them), a progress value's function
+    child, a menu checkbox item's `value` (an id when none is given), the
+    logical sides (`sideOf()`), a link's `active` (`current`), an input's
+    numeric value. A drawer cancels the scroll-driven animations in its content
+    as it closes (`endScrollAnimations()`): ui-sdk's exit waits for every
+    animation inside the popup, and Firefox gives a scroll fade's an end
+    about three minutes away. Type-check after copying examples over (`vp check`): the
+    preview app does not see them, its previews loading through a glob.
+  - **Its keys in every per-base table**, `when()`'s and a style module's own
+    (`IN_VERTICAL` in `tabs.styles.ts`, `OPEN` in `collapsible.styles.ts`):
+    ui-sdk writes Base UI's attributes, so on the site Base UI's condition
+    draws ui-sdk's parts too and only a flattened install loses a missing row
+    (`vp run registry` says so). A `uisdk:` key is no broader than its twin's:
+    a bare `[data-disabled]` also matches React Aria's parts, where Base UI's
+    `:disabled` is the checkbox's key.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

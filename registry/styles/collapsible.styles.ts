@@ -13,7 +13,7 @@ export const collapsibleScope = relation("collapsible")
 
 /**
  * Inside an open section, on Base UI (`data-open`), React Aria (`data-expanded`), Ark UI and Reka
- * UI (`data-state="open"`) or ng-primitives (`data-open`).
+ * UI (`data-state="open"`) or ng-primitives and ui-sdk (`data-open`).
  */
 export const OPEN = {
   base: collapsibleScope.within(disclosure.open.base),
@@ -22,4 +22,5 @@ export const OPEN = {
   ng: collapsibleScope.within(disclosure.open.ng),
   reka: collapsibleScope.within(disclosure.open.reka),
   bits: collapsibleScope.within(disclosure.open.bits),
+  uisdk: collapsibleScope.within(disclosure.open.uisdk),
 }

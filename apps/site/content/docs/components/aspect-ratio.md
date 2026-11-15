@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -19,11 +20,11 @@ keywords:
 
 # Aspect Ratio
 
-<!-- ::preview item="aspect-ratio-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="aspect-ratio-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="aspect-ratio" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="aspect-ratio" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -107,13 +108,13 @@ export class Example {
 
 A square aspect ratio component using the `ratio={1 / 1}` prop. This is useful for displaying images in a square format.
 
-<!-- ::preview item="aspect-ratio-square" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="aspect-ratio-square" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Portrait
 
 A portrait aspect ratio component using the `ratio={9 / 16}` prop. This is useful for displaying images in a portrait format.
 
-<!-- ::preview item="aspect-ratio-portrait" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="aspect-ratio-portrait" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 

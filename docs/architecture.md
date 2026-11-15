@@ -416,7 +416,12 @@ and both are checked against React's pages. A base is one more key per state
 (`reka:` in `core/states.ts`), not another set of styles. **Svelte's second
 base is Bits UI** (`registry/bases/svelte-bits`, at `/preview/svelte/bits/`),
 built the same way, with 60 of Svelte's 61 components: all but the toast,
-which Bits UI has none of.
+which Bits UI has none of. **React's third base is ui-sdk**
+(`registry/bases/react-uisdk`, at `/preview/react/uisdk/`), one headless core
+that also renders in Vue, Svelte and Solid. It is being ported (the first 44
+components so far: every component that needs no other, and Field); each part
+takes its Base UI twin's props, so React's examples, blocks and charts copy
+over unchanged.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

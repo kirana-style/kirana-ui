@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -22,13 +23,13 @@ keywords: [breadcrumb, component, base, aria, ark, vue, svelte, solid, angular]
 
 ## Installation
 
-<!-- ::installation name="breadcrumb" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="breadcrumb" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
 <!-- ::start:tabs -->
 
-### Base UI
+### Base UI, ui-sdk
 
 ```tsx
 import {
@@ -134,13 +135,13 @@ Breadcrumb
 
 A basic breadcrumb with a home link and a components link.
 
-<!-- ::preview item="breadcrumb-basic" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-basic" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Custom separator
 
 Use a custom component as `children` for `<BreadcrumbSeparator />` to create a custom separator.
 
-<!-- ::preview item="breadcrumb-separator" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-separator" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Dropdown
 
@@ -152,13 +153,13 @@ You can compose `<BreadcrumbItem />` with a `<DropdownMenu />` to create a dropd
 
 We provide a `<BreadcrumbEllipsis />` component to show a collapsed state when the breadcrumb is too long.
 
-<!-- ::preview item="breadcrumb-ellipsis" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-ellipsis" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Link component
 
 To use a custom link component from your routing library, you can use the `render` prop on `<BreadcrumbLink />`.
 
-<!-- ::preview item="breadcrumb-link" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-link" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 

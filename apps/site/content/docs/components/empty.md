@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -19,11 +20,11 @@ keywords:
 
 # Empty
 
-<!-- ::preview item="empty-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="empty-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="empty" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="empty" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -187,13 +188,13 @@ Empty
 
 Use the `border` utility class to create an outline empty state.
 
-<!-- ::preview item="empty-outline" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="empty-outline" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Background
 
 Use the `bg-*` and `bg-gradient-*` utilities to add a background to the empty state.
 
-<!-- ::preview item="empty-background" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="empty-background" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Avatar
 

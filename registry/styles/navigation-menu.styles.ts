@@ -232,6 +232,13 @@ export const navigationMenu = {
   // Bits UI's panel, as large as its own content: Bits sizes the viewport to the panel's measured
   // size, and a panel as large as the viewport (`width: auto`, `height: 100%`) would keep whatever
   // size was measured first. Base UI's viewport shrinks to fit the panel.
+  // ui-sdk's viewport is the positioner, the popup and the viewport in one element, after their
+  // styles: sized by its own variables, its overflow clipped.
+  viewportUisdk: css({
+    width: "var(--viewport-width)",
+    height: "var(--viewport-height)",
+    overflow: "hidden",
+  }),
   contentBits: css({ width: "max-content", height: "max-content" }),
 
   // cn-navigation-menu-positioner and the component's own classes: it follows the open trigger.

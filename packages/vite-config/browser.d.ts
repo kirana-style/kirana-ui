@@ -10,7 +10,10 @@ export function browserTest(
 ): Record<string, unknown>
 
 /** The dependency scan's entries under Vitest (every file a test may load), else nothing. */
-export function browserDeps(entries: string[]): { entries?: string[] }
+export function browserDeps(entries: string[]): {
+  entries?: string[]
+  force?: boolean
+}
 
 /** Under Vitest, `@/components/…` resolved to `stub` (the code block demos' text), else none. */
 export function browserAliases(

@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -25,11 +26,11 @@ keywords:
 
 import { InfoIcon } from "lucide-react"
 
-<!-- ::preview item="native-select-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="native-select" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="native-select" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -155,19 +156,19 @@ NativeSelect
 
 Use `NativeSelectOptGroup` to organize options into categories.
 
-<!-- ::preview item="native-select-groups" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-groups" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Disabled
 
 Add the `disabled` prop to the `NativeSelect` component to disable the select.
 
-<!-- ::preview item="native-select-disabled" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-disabled" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Invalid
 
 Use `aria-invalid` to show validation errors and the `data-invalid` attribute to the `Field` component for styling.
 
-<!-- ::preview item="native-select-invalid" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-invalid" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Native Select vs Select
 

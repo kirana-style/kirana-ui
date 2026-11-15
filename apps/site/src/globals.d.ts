@@ -16,6 +16,7 @@ declare module "virtual:preview-names" {
   const names: Record<
     | "react/base"
     | "react/aria"
+    | "react/uisdk"
     | "vue/ark"
     | "vue/reka"
     | "svelte/ark"

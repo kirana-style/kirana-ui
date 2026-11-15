@@ -21,7 +21,8 @@ import type { StateKeys } from "./states"
 /**
  * A separator's direction. React Aria writes `aria-orientation`, and draws a horizontal one as an
  * `<hr>` with none (`:is(hr)`, in `separator.styles.ts`); Ark UI has no separator, so the Vue,
- * Svelte and Solid parts write `data-orientation` as Base UI's does, and so do Reka UI's. `@kirana-style/states` has no
+ * Svelte and Solid parts write `data-orientation` as Base UI's does, and so do Reka UI's and
+ * ui-sdk's. `@kirana-style/states` has no
  * keys for React Aria's, Ark UI's or Reka UI's.
  * Here rather than in `states.ts`, which re-exports it, so the configuration imports no module of
  * its own: Node loads it, where a relative import needs its `.ts` extension, which a project's
@@ -34,6 +35,7 @@ export const orientation = {
     ark: '[data-orientation="horizontal"]',
     reka: '[data-orientation="horizontal"]',
     bits: '[data-orientation="horizontal"]',
+    uisdk: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Separator.orientation.vertical,
@@ -41,6 +43,7 @@ export const orientation = {
     ark: '[data-orientation="vertical"]',
     reka: '[data-orientation="vertical"]',
     bits: '[data-orientation="vertical"]',
+    uisdk: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 

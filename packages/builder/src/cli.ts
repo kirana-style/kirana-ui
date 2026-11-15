@@ -99,6 +99,7 @@ const BASE_NAMES = {
   ng: "ng-primitives",
   reka: "Reka UI",
   bits: "Bits UI",
+  uisdk: "ui-sdk",
 } as const
 
 const started = performance.now()

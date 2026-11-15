@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -18,19 +19,19 @@ keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid, angular]
 
 # Tabs
 
-<!-- ::preview item="tabs-demo" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 `TabsList` takes `variant="line"` for an underlined list, and `Tabs` an `orientation`.
 
 ## Installation
 
-<!-- ::installation name="tabs" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="tabs" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
 <!-- ::start:tabs -->
 
-### Base UI
+### Base UI, ui-sdk
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -168,21 +169,21 @@ Tabs
 
 Use the `variant="line"` prop on `TabsList` for a line style.
 
-<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-line" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Vertical
 
 Use `orientation="vertical"` for vertical tabs.
 
-<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-vertical" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-disabled" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Icons
 
-<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="tabs-icons" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark -->
 
@@ -190,7 +191,7 @@ Use `orientation="vertical"` for vertical tabs.
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="tabs-rtl" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 

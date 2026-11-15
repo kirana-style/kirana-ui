@@ -3,8 +3,16 @@
  * (`?preset=`, upstream's axis parameters, `rtl`, `pointer`), on the server, which prerenders it,
  * and in the browser, which hydrates it.
  */
-import { Suspense, lazy, startTransition, useEffect, useState } from "react"
-import type { ComponentType } from "react"
+import {
+  Suspense,
+  createContext,
+  lazy,
+  startTransition,
+  use,
+  useEffect,
+  useState,
+} from "react"
+import type { ComponentType, ReactNode } from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { Tooltip } from "@base-ui/react/tooltip"
 import { css } from "@kirana-style/core"
@@ -23,12 +31,20 @@ import { IconLibraryProvider } from "@workspace/registry/icons/icon-placeholder"
 
 type Previews = Record<string, () => Promise<{ default: ComponentType }>>
 
+/** What a base wraps each of its items in, if anything: ui-sdk's providers. */
+type Frame = ComponentType<{ direction: "ltr" | "rtl"; children: ReactNode }>
+
 /**
- * Each base's map of items: small, since each item is its own chunk, loaded only on its own page.
+ * Each base's map of items: small, since each item is its own chunk, loaded only on its own page;
+ * and its frame, loaded with it, so no other base's page carries it.
  */
-const BASES: Record<string, () => Promise<{ previews: Previews }>> = {
+const BASES: Record<
+  string,
+  () => Promise<{ previews: Previews; Frame?: Frame }>
+> = {
   base: () => import("@workspace/registry/bases/react-base/previews"),
   aria: () => import("@workspace/registry/bases/react-aria/previews"),
+  uisdk: () => import("@workspace/registry/bases/react-uisdk/previews"),
 }
 
 /**
@@ -64,11 +80,22 @@ export async function loadItem(
 ): Promise<ComponentType | undefined> {
   const own = APP_PAGES[base]?.[item]
   if (own) return (await own()).default
-  const previews = (await BASES[base]?.())?.previews
-  return previews && item in previews
-    ? (await previews[item]()).default
-    : undefined
+  const module = await BASES[base]?.()
+  if (!module || !(item in module.previews)) return undefined
+  const Own = (await module.previews[item]()).default
+  const BaseFrame = module.Frame
+  if (!BaseFrame) return Own
+  return function Framed() {
+    return (
+      <BaseFrame direction={use(PageDirection)}>
+        <Own />
+      </BaseFrame>
+    )
+  }
 }
+
+/** The page's direction, which a base's frame hands its own provider. */
+const PageDirection = createContext<"ltr" | "rtl">("ltr")
 
 /**
  * The element the page renders into, out of the layout: the item lays out as `<body>`'s child, as
@@ -153,7 +180,10 @@ export function Preview({ base, Item }: { base: string; Item: ComponentType }) {
             {/* Upstream's site wraps every page in `TooltipProvider delay={0}`, so a Base UI tooltip
                 opens at once where it would wait its own 600ms. */}
             <Tooltip.Provider delay={0}>
-              <Item />
+              {/* ui-sdk's tooltips take the same delay from its base's frame (`loadItem`). */}
+              <PageDirection value={dir}>
+                <Item />
+              </PageDirection>
             </Tooltip.Provider>
           </LanguageProvider>
           {hydrated && (
