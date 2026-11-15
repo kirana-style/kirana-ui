@@ -32,6 +32,8 @@ const BLOCK_NAMES = "virtual:block-names"
 
 /** Each framework's examples, by the extension of its files, beside React's two bases. */
 const EXAMPLES = {
+  // ui-sdk on React, ported part by part: its previews map is a glob over these folders.
+  "react/uisdk": ["react-uisdk", ".tsx"],
   "vue/ark": ["vue-ark", ".vue"],
   "vue/reka": ["vue-reka", ".vue"],
   "svelte/ark": ["svelte-ark", ".svelte"],

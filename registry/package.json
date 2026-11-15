@@ -18,6 +18,8 @@
     "@ark-ui/svelte": "catalog:",
     "@ark-ui/vue": "catalog:",
     "@base-ui/react": "catalog:",
+    "@ui-sdk/core": "catalog:",
+    "@ui-sdk/react": "catalog:",
     "@daypicker/persian": "catalog:",
     "@dnd-kit/abstract": "catalog:",
     "@dnd-kit/core": "catalog:",

@@ -799,6 +799,234 @@
       "property": "min-height",
       "route": "/preview/svelte/bits/combobox-",
       "reason": "as the input's: a flex item of Bits UI's column popup; its box is the same"
+    },
+    {
+      "element": "input[data-slot=\"radio-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "input[data-slot=\"checkbox-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "input[data-slot=\"switch-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "input[data-slot=\"slider-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "input[data-slot=\"slider-thumb-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "input[data-slot=\"select-form-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "h3[data-slot=\"accordion-header\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's accordion header carries a slot of its own; Base UI's `h3` has none"
+    },
+    {
+      "element": "div[data-slot=\"slider-control\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's slider control carries a slot of its own; Base UI's has none"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "margin-left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk places a thumb along its track by its inline margins, where Base UI uses `left`: the thumbs land in the same place (measured), but at a track's ends ui-sdk centres a thumb on its value where Base UI keeps it inside the track (`thumbAlignment=\"edge\"`, which ui-sdk has no option for), 3px apart"
+    },
+    {
+      "element": "div[data-slot=\"slider-thumb\"]",
+      "property": "margin-right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk places a thumb along its track by its inline margins, where Base UI uses `left`: the thumbs land in the same place (measured), but at a track's ends ui-sdk centres a thumb on its value where Base UI keeps it inside the track (`thumbAlignment=\"edge\"`, which ui-sdk has no option for), 3px apart"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk keeps a tooltip's content in the page from the start, hidden, so it names or describes its trigger before focus reaches it; Base UI mounts it on opening"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-arrow\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "the hidden tooltip content's arrow, as the content"
+    },
+    {
+      "element": "kbd[data-slot=\"kbd\"]",
+      "property": "(element)",
+      "route": "react/uisdk/tooltip-example",
+      "reason": "a shortcut inside a hidden tooltip content, as the content"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-corner\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk renders a scroll area's scrollbars, thumbs and corner whether or not its content overflows, hidden while it does not; Base UI mounts them where it does"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-scrollbar\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk renders a scroll area's scrollbars, thumbs and corner whether or not its content overflows, hidden while it does not; Base UI mounts them where it does"
+    },
+    {
+      "element": "div[data-slot=\"scroll-area-thumb\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk renders a scroll area's scrollbars, thumbs and corner whether or not its content overflows, hidden while it does not; Base UI mounts them where it does"
+    },
+    {
+      "element": "div[data-slot=\"navigation-menu-viewport\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk keeps its navigation menu's viewport in the page while every panel is closed, hidden; Base UI mounts its positioner on opening"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"dropdown-menu-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"tooltip-content\"]",
+      "property": "display",
+      "route": "react/uisdk/",
+      "reason": "the tooltip's `inline-flex` on a fixed element computes to `flex` (ui-sdk's content is the fixed element; Base UI's positioner is)"
+    },
+    {
+      "element": "div[data-slot=\"drawer-viewport\"]",
+      "property": "*",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's drawer viewport is its own full-screen element in the top layer, laid out by ui-sdk (a flex column placing the drawer at its side) and drawing nothing; Base UI's is the registry's fixed, block viewport. The drawer inside matches"
+    },
+    {
+      "element": "div[data-slot=\"drawer-popup\"]",
+      "property": "transform",
+      "route": "react/uisdk/",
+      "reason": "at rest both are the identity: Base UI's swipe writes `transform`, ui-sdk's `translate`"
+    },
+    {
+      "element": "div[data-slot=\"drawer-popup\"]",
+      "property": "translate",
+      "route": "react/uisdk/",
+      "reason": "at rest both are the identity: Base UI's swipe writes `transform`, ui-sdk's `translate`"
+    },
+    {
+      "element": "span[data-slot=\"select-item-text\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk names a select item's text and indicator; Base UI's carry no slot, the same elements otherwise"
+    },
+    {
+      "element": "span[data-slot=\"select-item-indicator\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk names a select item's text and indicator; Base UI's carry no slot, the same elements otherwise"
     }
   ]
 }

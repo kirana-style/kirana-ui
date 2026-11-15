@@ -211,6 +211,7 @@ const RTL_PROVIDERS: Record<Base, string> = {
   ng: "the Angular CDK's Directionality (the registry's kuiDirectionProvider)",
   reka: "Reka UI's ConfigProvider (the registry's DirectionProvider, locale=\"ar\")",
   bits: "the registry's DirectionProvider (locale=\"ar\"), which Bits UI's parts read",
+  uisdk: "the registry's DirectionProvider, which ui-sdk's parts read",
 }
 
 /** Why a card cannot be chosen with the rest. */

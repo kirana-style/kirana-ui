@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -18,7 +19,7 @@ keywords: [context, ai elements, agent, chat]
 
 # Context
 
-<!-- ::preview item="context-demo" height="250" combinations="react/base,react/aria" -->
+<!-- ::preview item="context-demo" height="250" combinations="react/base,react/aria,react/uisdk" -->
 
 Context shows how much of the model's context window the conversation has used. It is a [Hover Card](/docs/components/hover-card) with a [Progress](/docs/components/progress) bar.
 
@@ -26,7 +27,7 @@ Context shows how much of the model's context window the conversation has used. 
 
 Context is built with the [Hover Card](/docs/components/hover-card) and [Progress](/docs/components/progress) components.
 
-<!-- ::installation name="hover-card progress" combinations="react/base,react/aria" -->
+<!-- ::installation name="hover-card progress" combinations="react/base,react/aria,react/uisdk" -->
 
 ## Usage
 

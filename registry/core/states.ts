@@ -22,7 +22,13 @@ import * as Bits from "@kirana-style/states/bits-ui"
  * disabled trigger). `reka` is Reka UI, Vue's second base, which writes Radix's attributes
  * (`data-state`, `data-highlighted`): often Ark UI's selectors too. `bits` is Bits UI, Svelte's
  * second base, which writes `data-state` as Reka UI does and Base UI's `data-starting-style` and
- * `data-ending-style` on its popups and panels, so its motion is Base UI's transitions.
+ * `data-ending-style` on its popups and panels, so its motion is Base UI's transitions. `uisdk` is
+ * ui-sdk (P9), one core for React, Vue, Svelte and Solid, which writes Base UI's names nearly
+ * everywhere (`data-open`, `data-closed`, `data-starting-style`, `data-checked`, `data-highlighted`)
+ * and a few of its own (`data-selected` on a tab, `data-pressed` on a toggle). Kirana has no ui-sdk
+ * vocabulary yet, so its keys are written here as selectors, from each component's Data Attributes
+ * in ui-sdk's docs (0.1.0-beta.2), each checked in the browser: the vocabulary's keys once a release
+ * carries KF-125 (found on 0.4.1).
  */
 export type StateKeys = {
   base?: string
@@ -31,6 +37,7 @@ export type StateKeys = {
   ng?: string
   reka?: string
   bits?: string
+  uisdk?: string
 }
 
 /** `value` under every base's key for `state`. */
@@ -42,6 +49,7 @@ export function when<Value>(state: StateKeys, value: Value) {
     ...(state.ng ? { [state.ng]: value } : {}),
     ...(state.reka ? { [state.reka]: value } : {}),
     ...(state.bits ? { [state.bits]: value } : {}),
+    ...(state.uisdk ? { [state.uisdk]: value } : {}),
   }
 }
 
@@ -51,11 +59,13 @@ export const overlay = {
     base: Base.Dialog.Popup.startingStyle,
     aria: Aria.Modal.entering,
     bits: Bits.Dialog.Content.startingStyle,
+    uisdk: "[data-starting-style]",
   },
   ending: {
     base: Base.Dialog.Popup.endingStyle,
     aria: Aria.Modal.exiting,
     bits: Bits.Dialog.Content.endingStyle,
+    uisdk: "[data-ending-style]",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -80,21 +90,25 @@ export const side = {
     base: Base.Menu.Popup.side.top,
     aria: Aria.Popover.placement.top,
     bits: Bits.Popover.Arrow.side.top,
+    uisdk: '[data-side="top"]',
   },
   bottom: {
     base: Base.Menu.Popup.side.bottom,
     aria: Aria.Popover.placement.bottom,
     bits: Bits.Popover.Arrow.side.bottom,
+    uisdk: '[data-side="bottom"]',
   },
   left: {
     base: Base.Menu.Popup.side.left,
     aria: Aria.Popover.placement.left,
     bits: Bits.Popover.Arrow.side.left,
+    uisdk: '[data-side="left"]',
   },
   right: {
     base: Base.Menu.Popup.side.right,
     aria: Aria.Popover.placement.right,
     bits: Bits.Popover.Arrow.side.right,
+    uisdk: '[data-side="right"]',
   },
   inlineStart: { base: Base.Menu.Popup.side.inlineStart },
   inlineEnd: { base: Base.Menu.Popup.side.inlineEnd },
@@ -108,6 +122,7 @@ export const item = {
     ark: Ark.Menu.Item.highlighted,
     reka: Reka.DropdownMenu.Item.highlighted,
     bits: Bits.DropdownMenu.Item.highlighted,
+    uisdk: "[data-highlighted]",
   },
   disabled: {
     base: Base.Menu.Item.disabled,
@@ -115,6 +130,7 @@ export const item = {
     ark: Ark.Menu.Item.disabled,
     reka: Reka.DropdownMenu.Item.disabled,
     bits: Bits.DropdownMenu.Item.disabled,
+    uisdk: "[data-disabled]",
   },
   /** A submenu trigger whose submenu is open. */
   open: {
@@ -124,6 +140,7 @@ export const item = {
     reka: Reka.DropdownMenu.SubTrigger.state.open,
     // Bits UI names a submenu's trigger by its menu (`data-dropdown-menu-sub-trigger` …).
     bits: '[data-state="open"]',
+    uisdk: "[data-open]",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -135,6 +152,7 @@ export const tab = {
     ark: Ark.Tabs.Trigger.selected,
     reka: Reka.Tabs.Trigger.state.active,
     bits: Bits.Tabs.Trigger.state.active,
+    uisdk: "[data-selected]",
   },
   disabled: {
     base: Base.Tabs.Tab.disabled,
@@ -142,6 +160,7 @@ export const tab = {
     ark: Ark.Tabs.Trigger.disabled,
     reka: Reka.Tabs.Trigger.disabled,
     bits: Bits.Tabs.Trigger.disabled,
+    uisdk: "[data-disabled]",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -154,6 +173,7 @@ export const tabOrientation = {
     ng: NgPrimitives.Tabs.Tabset.orientation.horizontal,
     reka: '[data-orientation="horizontal"]',
     bits: '[data-orientation="horizontal"]',
+    uisdk: '[data-orientation="horizontal"]',
   },
   vertical: {
     base: Base.Tabs.Root.orientation.vertical,
@@ -162,6 +182,7 @@ export const tabOrientation = {
     ng: NgPrimitives.Tabs.Tabset.orientation.vertical,
     reka: '[data-orientation="vertical"]',
     bits: '[data-orientation="vertical"]',
+    uisdk: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -174,6 +195,7 @@ export const disclosure = {
     ng: NgPrimitives.Collapsible.Root.open,
     reka: Reka.Collapsible.Root.state.open,
     bits: Bits.Collapsible.Root.state.open,
+    uisdk: "[data-open]",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -191,11 +213,16 @@ export const accordion = {
     ark: Ark.Accordion.Item.state.open,
     reka: Reka.Accordion.Item.state.open,
     bits: Bits.Accordion.Item.state.open,
+    uisdk: "[data-open]",
   },
   /** An open item on either base: `data-open:`, React Aria's `data-expanded:`. */
-  expanded: { base: Base.Accordion.Item.open, aria: Aria.Disclosure.expanded },
-  panelOpen: { base: Base.Accordion.Panel.open },
-  panelClosed: { base: Base.Accordion.Panel.closed },
+  expanded: {
+    base: Base.Accordion.Item.open,
+    aria: Aria.Disclosure.expanded,
+    uisdk: "[data-open]",
+  },
+  panelOpen: { base: Base.Accordion.Panel.open, uisdk: "[data-open]" },
+  panelClosed: { base: Base.Accordion.Panel.closed, uisdk: "[data-closed]" },
   /** Ark UI's content, which moves over its own `--height` (`accordion.contentArk`). */
   contentOpen: {
     ark: Ark.Accordion.ItemContent.state.open,
@@ -211,6 +238,7 @@ export const accordion = {
     base: '[aria-disabled="true"]',
     aria: ":disabled",
     ng: NgPrimitives.Accordion.Trigger.disabled,
+    uisdk: "[data-disabled]",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -230,6 +258,8 @@ export const resizable = {
     reka: '[data-orientation="vertical"]',
     // paneforge (on Bits UI) gives its group and its resizers the group's `data-direction`.
     bits: '[data-direction="vertical"]',
+    // react-resizable-panels on ui-sdk too, until its own Resizable is taken (P9's coverage).
+    uisdk: '[data-group][aria-orientation="vertical"]',
   },
   across: {
     base: '[data-separator][aria-orientation="horizontal"]',
@@ -237,6 +267,7 @@ export const resizable = {
     ark: Ark.Splitter.ResizeTrigger.orientation.vertical,
     reka: '[data-orientation="vertical"]',
     bits: '[data-direction="vertical"]',
+    uisdk: '[data-separator][aria-orientation="horizontal"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -266,8 +297,14 @@ export const toast = {
 
 /** A collapsible panel's first frame and its exit, which it animates its height over. */
 export const collapsiblePanel = {
-  starting: { base: Base.Collapsible.Panel.startingStyle },
-  ending: { base: Base.Collapsible.Panel.endingStyle },
+  starting: {
+    base: Base.Collapsible.Panel.startingStyle,
+    uisdk: "[data-starting-style]",
+  },
+  ending: {
+    base: Base.Collapsible.Panel.endingStyle,
+    uisdk: "[data-ending-style]",
+  },
   // Ark UI's content, opening or leaving: its motion is keyframes over the `--height` it sets.
   open: {
     ark: Ark.Collapsible.Content.state.open,
@@ -299,6 +336,7 @@ export const check = {
     ark: Ark.Checkbox.Control.state.checked,
     reka: Reka.Checkbox.Root.state.checked,
     bits: Bits.Checkbox.Root.state.checked,
+    uisdk: "[data-checked]",
   },
   focusVisible: {
     base: ":focus-visible",
@@ -306,6 +344,7 @@ export const check = {
     ark: Ark.Checkbox.Control.focusVisible,
     reka: ":focus-visible",
     bits: ":focus-visible",
+    uisdk: ":focus-visible",
   },
   invalid: {
     base: '[aria-invalid="true"]',
@@ -313,6 +352,7 @@ export const check = {
     ark: Ark.Checkbox.Control.invalid,
     reka: '[aria-invalid="true"]',
     bits: '[aria-invalid="true"]',
+    uisdk: '[aria-invalid="true"]',
   },
   disabled: {
     base: ":disabled",
@@ -321,6 +361,9 @@ export const check = {
     // through its Field, whose hidden input is `:disabled`.
     reka: ":disabled",
     bits: ":disabled",
+    // Base UI's, which ui-sdk's box, a `span` as Base UI's, never holds either: it dims through its
+    // Field. A bare `[data-disabled]` would also match React Aria's box.
+    uisdk: ":disabled",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -334,12 +377,14 @@ export const navigationMenuState = {
     ark: '[data-scope="navigation-menu"][data-part="trigger"][data-state="open"]',
     reka: `${Reka.NavigationMenu.Trigger.navigationMenuTrigger}${Reka.NavigationMenu.Trigger.state.open}`,
     bits: `[data-navigation-menu-trigger]${Bits.NavigationMenu.Trigger.state.open}`,
+    uisdk: '[data-slot="navigation-menu-trigger"][data-open]',
   },
   linkActive: {
     base: Base.NavigationMenu.Link.active,
     ark: Ark.NavigationMenu.Link.current,
     reka: Reka.NavigationMenu.Link.active,
     bits: Bits.NavigationMenu.Link.active,
+    uisdk: '[aria-current="page"]',
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -357,6 +402,7 @@ export const toggleState = {
     bits: Bits.Toggle.Root.state.on,
     // ng-primitives' toggle and a single-choice group's items (radios, `aria-checked`).
     ng: NgPrimitives.Toggle.Root.selected,
+    uisdk: "[data-pressed]",
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -367,6 +413,7 @@ export const placeholder = {
     ark: Ark.Select.Trigger.placeholderShown,
     reka: Reka.Select.Trigger.placeholder,
     bits: Bits.Select.Trigger.placeholder,
+    uisdk: "[data-placeholder]",
   },
   value: { aria: Aria.SelectValue.placeholder },
 } as const satisfies Record<string, StateKeys>

@@ -39,6 +39,7 @@ export const STYLES = [
 export const FRAMEWORK_BASES = [
   { framework: "react", base: "base", bases: "react-base" },
   { framework: "react", base: "aria", bases: "react-aria" },
+  { framework: "react", base: "uisdk", bases: "react-uisdk" },
   { framework: "vue", base: "ark", bases: "vue-ark" },
   { framework: "vue", base: "reka", bases: "vue-reka" },
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
@@ -136,11 +137,11 @@ function component(
 const PORTING: Framework[] = ["svelte", "solid", "angular"]
 
 /**
- * A framework's second base while it is ported against React's pages (P8): its components appear
- * as their markup is written. Vue on Reka UI and Svelte on Bits UI are whole (Bits UI has no
- * toast, which the toast's item leaves out by its bases).
+ * A base while it is ported against React's pages: its components appear as their markup is
+ * written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI has no toast, which the
+ * toast's item leaves out by its bases); ui-sdk on React is being ported (P9).
  */
-const PORTING_BASES: string[] = []
+const PORTING_BASES: string[] = ["react-uisdk"]
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -202,8 +203,8 @@ function localComponents(bases: string, name: string): string[] {
     : []
 }
 
-/** A block, as an item: `registry/blocks.ts` names it, its folder holds it, React draws it, and
- * each other framework whose base has its folder. */
+/** A block, as an item: `registry/blocks.ts` names it, its folder holds it, React draws it (a
+ * base being ported once it has the folder), and each other framework whose base has its folder. */
 function blockItem(name: string): Item {
   return {
     name,
@@ -211,7 +212,7 @@ function blockItem(name: string): Item {
     title: blockInfo(name).title,
     description: blockInfo(name).description,
     files: (combination) =>
-      react(combination) ||
+      (react(combination) && !PORTING_BASES.includes(combination.bases)) ||
       existsSync(join(REGISTRY, "bases", combination.bases, "blocks", name))
         ? blockFiles(combination.bases, name)
         : undefined,
@@ -226,7 +227,33 @@ const ICON_DATA = [
   "icons/remixicon.ts",
 ]
 
-export const ITEMS: Item[] = [
+/**
+ * A base being ported has a part once its markup is written, for every UI item, the ones that name
+ * their files themselves too (`direction` …), not only those `component()` builds.
+ */
+function gated(item: Item): Item {
+  if (item.type !== "registry:ui") return item
+  return {
+    ...item,
+    files: (combination) => {
+      const files = item.files(combination)
+      // Only the base's own files can be missing: a shared style module has none.
+      if (
+        files &&
+        PORTING_BASES.includes(combination.bases) &&
+        files.some(
+          (file) =>
+            file.startsWith(`bases/${combination.bases}/`) &&
+            !existsSync(join(REGISTRY, file.replace(/\/\*$/, "")))
+        )
+      )
+        return undefined
+      return files
+    },
+  }
+}
+
+const ALL_ITEMS: Item[] = [
   {
     name: "kirana",
     type: "registry:lib",
@@ -274,6 +301,18 @@ export const ITEMS: Item[] = [
       "The sx prop React components take in place of className, and the props type that adds it.",
     // Vue merges a caller's `:sx` with Kirana's own `useSx()`, so it needs no helper.
     files: (combination) => (react(combination) ? ["lib/sx.ts"] : undefined),
+  },
+  {
+    name: "uisdk-slot",
+    type: "registry:lib",
+    title: "ui-sdk slot",
+    description:
+      "A ui-sdk part rendered under the registry's slot name, its tag as Base UI's, or the caller's render with the slot added.",
+    // ui-sdk writes its own `data-slot` on each part, which only a `render` element overrides.
+    files: (combination) =>
+      combination.framework === "react" && combination.base === "uisdk"
+        ? ["lib/uisdk-slot.ts"]
+        : undefined,
   },
   {
     name: "icon-placeholder",
@@ -699,7 +738,7 @@ export const ITEMS: Item[] = [
     "A collection of links for navigating websites.",
     ["react", "vue"],
     // React Aria has none; Angular's is the registry's own.
-    ["base", "ark", "ng", "reka", "bits"]
+    ["base", "ark", "ng", "reka", "bits", "uisdk"]
   ),
   component(
     "menubar",
@@ -895,6 +934,9 @@ export const ITEMS: Item[] = [
     },
   })),
 ]
+
+/** Every item, each UI item gated for a base being ported (`gated`). */
+export const ITEMS: Item[] = ALL_ITEMS.map(gated)
 
 /**
  * Where a registry file lives in an installed project, relative to the registry's root for the

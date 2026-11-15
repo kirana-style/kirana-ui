@@ -19,7 +19,7 @@
  * `MAX_CHANGED` do: name the pages the change concerns with `--pages` instead. `--all` is the
  * whole matrix, for a change that truly reaches every page. `--shard` is the harness's.
  *
- * `--framework vue` (or `svelte`, `solid`, `angular`, or `vue/reka` for a framework's other base) compares that framework's pages with React's
+ * `--framework vue` (or `svelte`, `solid`, `angular`, or `vue/reka`, `react/uisdk` for a framework's other base) compares that framework's pages with React's
  * on the same site instead: React is the benchmark the other frameworks are built against, and it
  * already matches upstream. A page is any item in the framework's `examples` folder, `-example`
  * pages and docs demos alike, against Base UI's of the same name; `--all` is every one React's Base
@@ -100,6 +100,8 @@ const styles = (
 
 /** Each framework's base and its examples' extension, for `--framework`. */
 const FRAMEWORKS: Record<string, { base: string; extension: string }> = {
+  // React's other bases against its Base UI pages: `react/uisdk` (ui-sdk, P9).
+  react: { base: "base", extension: ".tsx" },
   vue: { base: "ark", extension: ".vue" },
   svelte: { base: "ark", extension: ".svelte" },
   solid: { base: "ark", extension: ".tsx" },

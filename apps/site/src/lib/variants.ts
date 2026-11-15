@@ -21,6 +21,12 @@ export const VARIANTS = [
     base: "React Aria",
   },
   {
+    id: "react/uisdk",
+    label: "ui-sdk",
+    name: "React with ui-sdk",
+    base: "ui-sdk",
+  },
+  {
     id: "vue/ark",
     label: "Vue · Ark UI",
     name: "Vue with Ark UI",
