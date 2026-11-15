@@ -75,31 +75,31 @@
     "budget": 15000,
     "unit": "files",
     "why": "The registry's JSON files under /r: with the rest of the site they must stay under the Worker's 20,000 static files per version.",
-    "measured": 4421
+    "measured": 0
   },
   "registry.bytes": {
     "budget": 125000,
     "unit": "KB",
     "why": "The registry's JSON, total: it grows with items × combinations, about 19 MB expected at 64 components. Raised to 40 MB with P2-10's 70 charts, each an item for every React combination (8 styles × 2 bases): 1198 files, 8.0 MB in all; main measured 29.5 MB before the last 36. The Worker limits a file's size and the number of files (`registry.largest`, `registry.files`), not their total. Raised to 55 MB with P2-09's 25 blocks, each an item for every React combination (about 9.3 MB, `dashboard-01` 2.1 MB with its data), and their icons in `icon-placeholder`'s data for all 48 combinations; 49.2 MB measured. Raised to 65 MB with P6-02: the 12 components' Vue items in every style, and the highlighter's and `use-mobile`'s Vue files; 59.0 MB measured. Raised to 75 MB with P6-03: the six components' Vue items in every style, and Vue's 70 charts and 28 blocks, each an item in every style with its own parts; 68.9 MB measured. Raised to 82 MB with P6-04: the 38 components' Svelte items in every style, with Svelte's icon placeholder; 75.7 MB measured. Raised to 92 MB with P6-13 and P6-05: Solid's items in every style, then Svelte's and Solid's layer 1 (13 components each, with the highlighter and `useIsMobile`); 84.6 MB measured. Raised to 112 MB with P6-06: the six layer-2 components' Svelte and Solid items in every style, and both frameworks' 26 blocks and 70 charts, each an item in every style with its own parts; 105.3 MB measured. Raised to 125 MB with P6-08, P6-16 and P6-17: Angular's 36 components in every style, the popups and menus the largest; 112.6 MB measured.",
-    "measured": 83217.3
+    "measured": 0
   },
   "registry.largest": {
     "budget": 25600,
     "unit": "KB",
     "why": "The largest registry file: the Worker serves no static file over 25 MiB.",
-    "measured": 1328.2
+    "measured": null
   },
   "demos.bytes": {
     "budget": 15000,
     "unit": "KB",
     "why": "Each docs demo's code as a project writes it, the panels under the docs' previews (`r/demos`, the builder's `demos.ts`): one file per demo, its source per framework and base, and per icon library where it draws icons. 3.6 MB for 396 demos when added. Raised to 7 MB with Message Scroller's nine missing demos, Trace's three and Code Block's Markdown (the chat demos are long, their scripted conversations in the code): 6.5 MB for 492 demos. Raised to 9 MB with AI Elements' 32 demos on both React bases (8.25 MB measured). Raised to 12 MB with Vue's code for 295 demos (P6-01), beside React's: 9.4 MB measured. Raised to 13 MB with Angular's code for 106 demos (P6-08), its components' templates written out in each: 12.03 MB measured. Raised to 15 MB for Angular's remaining components (P6-10: Combobox, Navigation Menu, Calendar, Chart and the charts, the blocks), agreed with the maintainer: 12.9 MB measured with Sidebar and Command, at 13 MB's edge.",
-    "measured": 13600.9
+    "measured": 0
   },
   "static.files": {
     "budget": 20000,
     "unit": "files",
-    "why": "Every static file the Worker serves: its limit is 20,000 per version. 20,214 with P6-06 before the React preview stopped publishing source maps (1,895 files; the other previews never had them); 18,319 measured after. Each framework's items and preview pages add to it. 19,550 with P6-19, before the shadcn/ui export was written for React's combinations alone (its CLI installs React; about 4,600 files for Vue, Svelte, Solid and Angular, which install with `kirana-style ui`); 14,942 measured after. 20,129 with P8-04 (Svelte on Bits UI whole), before the non-React previews stopped copying their page per item (about 4,000 files; `apps/site/public/_redirects` rewrites each item's route to the app's page); 16,091 measured after.",
-    "measured": 19854
+    "why": "Every static file the Worker serves: its limit is 20,000 per version. 20,214 with P6-06 before the React preview stopped publishing source maps (1,895 files; the other previews never had them); 18,319 measured after. Each framework's items and preview pages add to it. 19,550 with P6-19, before the shadcn/ui export was written for React's combinations alone (its CLI installs React; about 4,600 files for Vue, Svelte, Solid and Angular, which install with `kirana-style ui`); 14,942 measured after. 20,129 with P8-04 (Svelte on Bits UI whole), before the non-React previews stopped copying their page per item (about 4,000 files; `apps/site/public/_redirects` rewrites each item's route to the app's page); 16,091 measured after. 19,964 with P9-03's first part (Vue on ui-sdk, layer 0), before the Vue, Svelte, Solid and Angular previews grouped their items' chunks by component, chart kind and block (`previewChunks`, `@workspace/vite-config/preview`; about 8,400 files were a chunk per item per base); 11,597 measured after. React's keeps a chunk per item: grouping left a facade chunk per item there.",
+    "measured": 11597
   },
   "style.nova": {
     "budget": 39,

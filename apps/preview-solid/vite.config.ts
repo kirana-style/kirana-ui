@@ -6,7 +6,11 @@ import {
   browserDeps,
   browserTest,
 } from "@workspace/vite-config/browser"
-import { previewOutDir, previewPages } from "@workspace/vite-config/preview"
+import {
+  previewChunks,
+  previewOutDir,
+  previewPages,
+} from "@workspace/vite-config/preview"
 import solid from "vite-plugin-solid"
 import { defineConfig, lazyPlugins } from "vite-plus"
 import { playwright } from "vite-plus/test/browser-playwright"
@@ -19,7 +23,12 @@ import { playwright } from "vite-plus/test/browser-playwright"
  */
 export default defineConfig({
   base: "/preview/solid/",
-  build: { outDir: previewOutDir("solid"), emptyOutDir: true },
+  build: {
+    outDir: previewOutDir("solid"),
+    emptyOutDir: true,
+    // A chunk per component, not per item: the Worker's 20,000 static files.
+    rolldownOptions: previewChunks(),
+  },
   plugins: lazyPlugins(() => [
     kirana(),
     solid(),

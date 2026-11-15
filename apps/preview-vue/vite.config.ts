@@ -7,7 +7,11 @@ import {
   browserDeps,
   browserTest,
 } from "@workspace/vite-config/browser"
-import { previewOutDir, previewPages } from "@workspace/vite-config/preview"
+import {
+  previewChunks,
+  previewOutDir,
+  previewPages,
+} from "@workspace/vite-config/preview"
 import { defineConfig, lazyPlugins } from "vite-plus"
 import { playwright } from "vite-plus/test/browser-playwright"
 
@@ -18,7 +22,12 @@ import { playwright } from "vite-plus/test/browser-playwright"
  */
 export default defineConfig({
   base: "/preview/vue/",
-  build: { outDir: previewOutDir("vue"), emptyOutDir: true },
+  build: {
+    outDir: previewOutDir("vue"),
+    emptyOutDir: true,
+    // A chunk per component, not per item: the Worker's 20,000 static files.
+    rolldownOptions: previewChunks(),
+  },
   plugins: lazyPlugins(() => [
     kirana(),
     vue(),
