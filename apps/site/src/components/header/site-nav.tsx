@@ -55,6 +55,9 @@ const REDUCED = "@media (prefers-reduced-motion: reduce)"
 
 const loadPanels = () => import("./menu-panels")
 const Panel = lazy(loadPanels)
+const FrameworksPanel = lazy(() =>
+  loadPanels().then((module) => ({ default: module.FrameworksPanel }))
+)
 const MobileGroups = lazy(() =>
   loadPanels().then((module) => ({ default: module.MobileGroups }))
 )
@@ -193,6 +196,18 @@ export function DesktopNav({ sx }: { sx?: Sx }) {
               </NavigationMenuLink>
             </NavigationMenuItem>
           ))}
+          {/* The reader's framework for the whole site (U-025): another framework's page of a
+              component, and every link to one, follow the choice. */}
+          <NavigationMenuItem value="Frameworks">
+            <NavigationMenuTrigger data-pill="Frameworks" sx={styles.trigger}>
+              Frameworks
+            </NavigationMenuTrigger>
+            <NavigationMenuContent sx={styles.frame}>
+              <Suspense fallback={null}>
+                <FrameworksPanel />
+              </Suspense>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
           {MENUS.map((menu) => (
             <NavigationMenuItem key={menu.title} value={menu.title}>
               <NavigationMenuTrigger data-pill={menu.title} sx={styles.trigger}>

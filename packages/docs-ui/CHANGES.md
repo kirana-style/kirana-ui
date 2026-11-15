@@ -116,10 +116,17 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   active (the site's New, to its editor). The collapsed sidebar is a rail holding the button that
   opens it again, no longer a column of the tabs' icons, which repeated the tab row beside it.
 
-- `markdown/frameworks.tsx` (new), registered as `frameworks`: a variant page's siblings as tabs,
-  each a link, the page's own chosen. `combination.ts`: a variant page's combination wins over the
-  saved choice. `docs-layout.tsx`: the section of a `current` that is a variant source's shared
-  URL is its variants'.
+- `markdown/frameworks.tsx` (new), registered as `frameworks`: under a variant page's title, its
+  framework by its mark and name, then a switch of that framework's bases the page has (siblings of
+  the same framework only, labelled by their base), none where it has one; at the row's end, the
+  chosen base's logo. Choosing a framework is the app's (kirana/ui: a Frameworks menu in its header
+  and a dropdown in the docs bar); this row once listed every sibling as tabs. `combination.ts`: a
+  variant page's combination wins over the saved choice. `docs-layout.tsx`: the section of a
+  `current` that is a variant source's shared URL is its variants'.
+- `framework-logos.ts` (new): the frameworks' marks (React, Vue, Svelte, Solid, Angular), from
+  `brands/`, which the row and the app draw.
+- `provider.tsx`: `DocsCombination` takes an optional `framework` (`{ id, label }`) and `base` (the
+  base's own name), which the base switch labels with.
 - `theme-toggle.tsx`: `keycap` (new, optional, `hotkey` by default) shows the `D` chip on a toggle
   that does not listen for the key itself, as the site's footer, whose header listens for it.
 - `markdown/preview.tsx`: `CombinationPicker` takes `sx`, for a page that sets it in a row of its

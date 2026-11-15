@@ -8,9 +8,12 @@ import docsCss from "@/styles/docs.css?url"
 import { DocsLayout } from "@workspace/docs-ui/docs-layout.tsx"
 import { ThemeMenu } from "@workspace/docs-ui/theme-menu.tsx"
 
+import { FrameworkMenu } from "@/components/frameworks"
+
 /**
  * The documentation chrome, for `/docs` and everything under it: docs-ui's frame with the site's
- * brand, then the colour mode, GitHub, the heart and Create, as the Kirana site's docs keep their
+ * brand, then the reader's framework (`FrameworkMenu`, U-025's navigation), the colour mode, GitHub,
+ * the heart and Create, as the Kirana site's docs keep their
  * bar to the brand and its actions; the site's menus are on its other pages, the docs' own sections
  * are the tab row. A layout route rather than a wrapper inside the page,
  * so the sidebar keeps its scroll position and open sections between pages.
@@ -31,6 +34,7 @@ function Docs() {
         logo={<Brand />}
         actions={
           <>
+            <FrameworkMenu />
             <ThemeMenu />
             <HeaderActions />
           </>

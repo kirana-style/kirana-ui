@@ -16,7 +16,7 @@ import type { DocsConfig, DocsTab } from "@workspace/docs-ui/provider.tsx"
 
 import { DocsLink } from "@/components/docs-link"
 import { NAV, PAGES } from "@/generated/content.gen"
-import { VARIANTS } from "@/lib/variants"
+import { FRAMEWORKS, VARIANTS, frameworkOf } from "@/lib/variants"
 import { frameQuery, usePageDesign } from "@/lib/page-design"
 import { loadSearch, search } from "@/lib/search"
 
@@ -65,7 +65,15 @@ export const TABS: readonly DocsTab[] = [
 ]
 
 /** The frameworks and bases a component page can show, as the registry names them (`lib/variants.ts`). */
-const COMBINATIONS = VARIANTS.map(({ id, label }) => ({ id, label }))
+const COMBINATIONS = VARIANTS.map(({ id, label, base }) => {
+  const framework = FRAMEWORKS.find((each) => each.id === frameworkOf(id))
+  return {
+    id,
+    label,
+    base,
+    framework: framework && { id: framework.id, label: framework.label },
+  }
+})
 
 export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()

@@ -90,7 +90,16 @@ export type DocsConfig = {
   rtlGuide?: string
 }
 
-export type DocsCombination = { id: string; label: string }
+/**
+ * A framework and base a page can show: its id (`vue/reka`), its label in a tab group (`Vue · Reka
+ * UI`), and, for the page's base switch, its framework and its base's own name.
+ */
+export type DocsCombination = {
+  id: string
+  label: string
+  framework?: { id: string; label: string }
+  base?: string
+}
 
 const Context = createContext<DocsConfig | null>(null)
 
