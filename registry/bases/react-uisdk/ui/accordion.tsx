@@ -7,19 +7,40 @@ import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { accordion } from "../../../styles/accordion.styles"
 
+type RootProps = ComponentProps<typeof AccordionPrimitive.Accordion>
+
+/** A value as ui-sdk keeps it: Base UI's may be any value (an index), ui-sdk's are text. */
+const text = (values: readonly unknown[] | undefined) => values?.map(String)
+
+/**
+ * Base UI's Accordion root, whose values may be numbers (an item's index), on ui-sdk's, whose are
+ * strings: each is written as text both ways.
+ */
 function Accordion({
   sx,
+  value,
+  defaultValue,
+  onValueChange,
   ...props
-}: Omit<ComponentProps<typeof AccordionPrimitive.Accordion>, "className"> & {
+}: Omit<RootProps, "className" | "value" | "defaultValue" | "onValueChange"> & {
   sx?: Sx
+  value?: readonly unknown[]
+  defaultValue?: readonly unknown[]
+  onValueChange?: (
+    value: string[],
+    details: Parameters<NonNullable<RootProps["onValueChange"]>>[1]
+  ) => void
 }) {
   return (
     <AccordionPrimitive.Accordion
+      value={text(value)}
+      defaultValue={text(defaultValue)}
+      onValueChange={onValueChange}
       {...props}
-      render={slotRender("accordion", "div", props.render)}
+      render={slotRender(slotOf(props, "accordion"), "div", props.render)}
       {...styleProps(accordion.root, sx)}
     />
   )
@@ -27,15 +48,17 @@ function Accordion({
 
 function AccordionItem({
   sx,
+  value,
   ...props
 }: Omit<
   ComponentProps<typeof AccordionPrimitive.AccordionItem>,
-  "className"
-> & { sx?: Sx }) {
+  "className" | "value"
+> & { sx?: Sx; value?: unknown }) {
   return (
     <AccordionPrimitive.AccordionItem
+      value={value === undefined ? undefined : String(value)}
       {...props}
-      render={slotRender("accordion-item", "div", props.render)}
+      render={slotRender(slotOf(props, "accordion-item"), "div", props.render)}
       {...styleProps(accordion.item, sx)}
     />
   )
@@ -57,7 +80,11 @@ function AccordionTrigger({
     <AccordionPrimitive.AccordionHeader {...styleProps(accordion.header)}>
       <AccordionPrimitive.AccordionTrigger
         {...props}
-        render={slotRender("accordion-trigger", "button", props.render)}
+        render={slotRender(
+          slotOf(props, "accordion-trigger"),
+          "button",
+          props.render
+        )}
         {...styleProps(accordion.trigger, sx)}
       >
         {children}
@@ -99,7 +126,11 @@ function AccordionContent({
   return (
     <AccordionPrimitive.AccordionPanel
       {...props}
-      render={slotRender("accordion-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "accordion-content"),
+        "div",
+        props.render
+      )}
       {...styleProps(accordion.content, accordion.contentBase)}
     >
       <div sx={[accordion.contentInner, accordion.contentInnerBase, sx]}>

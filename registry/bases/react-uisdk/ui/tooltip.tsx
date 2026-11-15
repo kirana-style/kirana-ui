@@ -6,7 +6,12 @@ import * as TooltipPrimitive from "@ui-sdk/react/tooltip"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, sideOf, slotRender } from "../../../lib/uisdk-slot"
+import {
+  popupContainer,
+  sideOf,
+  slotRender,
+  slotOf,
+} from "../../../lib/uisdk-slot"
 import type { BaseSide } from "../../../lib/uisdk-slot"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { tooltip } from "../../../styles/tooltip.styles"
@@ -49,7 +54,11 @@ function TooltipTrigger(
   return (
     <TooltipPrimitive.TooltipTrigger
       {...props}
-      render={slotRender("tooltip-trigger", "button", props.render)}
+      render={slotRender(
+        slotOf(props, "tooltip-trigger"),
+        "button",
+        props.render
+      )}
     />
   )
 }
@@ -74,7 +83,7 @@ function TooltipContent({
       alignOffset={alignOffset}
       {...props}
       side={sideOf(side)}
-      render={slotRender("tooltip-content", "div", props.render)}
+      render={slotRender(slotOf(props, "tooltip-content"), "div", props.render)}
       {...styleProps(tooltip.positioner, popupMotion, tooltip.content, sx)}
     >
       {children}

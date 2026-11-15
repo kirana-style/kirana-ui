@@ -6,7 +6,7 @@ import * as ProgressPrimitive from "@ui-sdk/react/progress"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { progress } from "../../../styles/progress.styles"
 
 type Props<P> = Omit<P, "className"> & { sx?: Sx }
@@ -26,7 +26,7 @@ function Progress({
     <ProgressPrimitive.Progress
       value={value}
       {...props}
-      render={slotRender("progress", "div", props.render)}
+      render={slotRender(slotOf(props, "progress"), "div", props.render)}
       {...styleProps(progress.root, sx)}
     >
       {children}
@@ -44,7 +44,7 @@ function ProgressTrack({
   return (
     <ProgressPrimitive.ProgressTrack
       {...props}
-      render={slotRender("progress-track", "div", props.render)}
+      render={slotRender(slotOf(props, "progress-track"), "div", props.render)}
       {...styleProps(progress.track, sx)}
     />
   )
@@ -57,7 +57,11 @@ function ProgressIndicator({
   return (
     <ProgressPrimitive.ProgressIndicator
       {...props}
-      render={slotRender("progress-indicator", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "progress-indicator"),
+        "div",
+        props.render
+      )}
       {...styleProps(progress.indicator, sx)}
     />
   )
@@ -70,7 +74,7 @@ function ProgressLabel({
   return (
     <ProgressPrimitive.ProgressLabel
       {...props}
-      render={slotRender("progress-label", "span", props.render)}
+      render={slotRender(slotOf(props, "progress-label"), "span", props.render)}
       {...styleProps(progress.label, sx)}
     />
   )
@@ -92,7 +96,7 @@ function ProgressValue({
   return (
     <ProgressPrimitive.ProgressValue
       {...props}
-      render={slotRender("progress-value", "span", props.render)}
+      render={slotRender(slotOf(props, "progress-value"), "span", props.render)}
       {...styleProps(progress.value, sx)}
     >
       {typeof children === "function"

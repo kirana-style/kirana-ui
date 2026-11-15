@@ -6,7 +6,7 @@ import * as AvatarPrimitive from "@ui-sdk/react/avatar"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { avatar } from "../../../styles/avatar.styles"
 
 function Avatar({
@@ -21,7 +21,7 @@ function Avatar({
     <AvatarPrimitive.Avatar
       data-size={size}
       {...props}
-      render={slotRender("avatar", "span", props.render)}
+      render={slotRender(slotOf(props, "avatar"), "span", props.render)}
       {...styleProps(avatar.root, sx)}
     />
   )
@@ -36,7 +36,7 @@ function AvatarImage({
   return (
     <AvatarPrimitive.AvatarImage
       {...props}
-      render={slotRender("avatar-image", "img", props.render)}
+      render={slotRender(slotOf(props, "avatar-image"), "img", props.render)}
       {...styleProps(avatar.image, sx)}
     />
   )
@@ -51,7 +51,11 @@ function AvatarFallback({
   return (
     <AvatarPrimitive.AvatarFallback
       {...props}
-      render={slotRender("avatar-fallback", "span", props.render)}
+      render={slotRender(
+        slotOf(props, "avatar-fallback"),
+        "span",
+        props.render
+      )}
       {...styleProps(avatar.fallback, sx)}
     />
   )

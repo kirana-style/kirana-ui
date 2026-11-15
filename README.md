@@ -19,7 +19,7 @@ stylesheet at build time: there is no Tailwind, no `cn` and no runtime styling.
 - **Every framework from the same style modules**: Vue, Svelte and Solid on
   [Ark UI](https://ark-ui.com), and Angular on [ng-primitives](https://angularprimitives.dev),
   each installed with `kirana-style ui`; and Vue on [Reka UI](https://reka-ui.com) and Svelte on
-  [Bits UI](https://bits-ui.com) too. React on [ui-sdk](https://ui-sdk.dev) is being ported.
+  [Bits UI](https://bits-ui.com) too. React has [ui-sdk](https://ui-sdk.dev) as a third base.
 
 The site is at [ui.kirana-style.workers.dev](https://ui.kirana-style.workers.dev) until
 `ui.kirana.style` is attached.

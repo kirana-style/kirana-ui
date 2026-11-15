@@ -6,7 +6,12 @@ import * as HoverCardPrimitive from "@ui-sdk/react/hover-card"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, sideOf, slotRender } from "../../../lib/uisdk-slot"
+import {
+  popupContainer,
+  sideOf,
+  slotRender,
+  slotOf,
+} from "../../../lib/uisdk-slot"
 import type { BaseSide } from "../../../lib/uisdk-slot"
 import { hoverCard } from "../../../styles/hover-card.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
@@ -46,7 +51,11 @@ function HoverCardTrigger({
   return (
     <HoverCardPrimitive.HoverCardTrigger
       {...props}
-      render={slotRender("hover-card-trigger", "a", props.render)}
+      render={slotRender(
+        slotOf(props, "hover-card-trigger"),
+        "a",
+        props.render
+      )}
     />
   )
 }
@@ -73,7 +82,11 @@ function HoverCardContent({
       alignOffset={alignOffset}
       {...props}
       side={sideOf(side)}
-      render={slotRender("hover-card-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "hover-card-content"),
+        "div",
+        props.render
+      )}
       {...styleProps(hoverCard.positioner, popupMotion, hoverCard.content, sx)}
     />
   )

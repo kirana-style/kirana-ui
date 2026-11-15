@@ -6,7 +6,7 @@ import { props as styleProps } from "@kirana-style/core"
 import * as SliderPrimitive from "@ui-sdk/react/slider"
 
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { slider } from "../../../styles/slider.styles"
 
 function Slider({
@@ -32,7 +32,7 @@ function Slider({
       min={min}
       max={max}
       {...props}
-      render={slotRender("slider", "div", props.render)}
+      render={slotRender(slotOf(props, "slider"), "div", props.render)}
       {...styleProps(slider.root, sx)}
     >
       <SliderPrimitive.SliderControl {...styleProps(slider.control)}>

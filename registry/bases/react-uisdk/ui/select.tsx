@@ -6,7 +6,13 @@ import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, slotRender } from "../../../lib/uisdk-slot"
+import {
+  popupContainer,
+  sideOf,
+  slotRender,
+  slotOf,
+} from "../../../lib/uisdk-slot"
+import type { BaseSide } from "../../../lib/uisdk-slot"
 import {
   menuCheckableRowPadding,
   menuIndicator,
@@ -27,6 +33,26 @@ type RootProps = SelectPrimitive.SelectProps<unknown, boolean | undefined>
 const SelectRoot = SelectPrimitive.Select as (
   props: RootProps
 ) => React.JSX.Element
+
+/** A label's text, for ui-sdk's list and typeahead: an icon and a word are the word. */
+function textOf(node: React.ReactNode): string {
+  if (node === null || node === undefined || typeof node === "boolean")
+    return ""
+  if (typeof node === "string" || typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(textOf).join("")
+  if (React.isValidElement<{ children?: React.ReactNode }>(node))
+    return textOf(node.props.children)
+  return ""
+}
+
+/**
+ * The labels Base UI's value shows that ui-sdk's cannot, being text: each item's by its value, and
+ * the placeholder's, while any is more than text (an icon beside the word).
+ */
+const Labels = React.createContext<{
+  byValue: Map<unknown, React.ReactNode>
+  placeholder: React.ReactNode
+} | null>(null)
 
 /** Base UI's items: a list of `{ label, value }`, or a record of labels by value. */
 type BaseItems =
@@ -73,30 +99,40 @@ function Select<Value, Multiple extends boolean | undefined = false>({
     : undefined
   const empty = list?.find((item) => item.value === null)
   const objects = itemToStringValue !== undefined
+  const rich = list?.some((item) => typeof item.label === "object")
+  const labels =
+    list && rich
+      ? {
+          byValue: new Map(list.map((item) => [item.value, item.label])),
+          placeholder: empty?.label,
+        }
+      : null
   return (
-    <SelectRoot
-      data-slot="select"
-      container={popupContainer()}
-      items={list
-        ?.filter((item) => item.value !== null)
-        .map((item) =>
-          objects
-            ? {
-                value: item,
-                label: itemToStringLabel
-                  ? itemToStringLabel(item as Value)
-                  : String(item.label),
-              }
-            : { value: item.value, label: String(item.label) }
-        )}
-      itemToValue={itemToStringValue as RootProps["itemToValue"]}
-      itemToLabel={itemToStringLabel as RootProps["itemToLabel"]}
-      placeholder={placeholder ?? (empty ? String(empty.label) : undefined)}
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={onValueChange as RootProps["onValueChange"]}
-      {...props}
-    />
+    <Labels value={labels}>
+      <SelectRoot
+        data-slot="select"
+        container={popupContainer()}
+        items={list
+          ?.filter((item) => item.value !== null)
+          .map((item) =>
+            objects
+              ? {
+                  value: item,
+                  label: itemToStringLabel
+                    ? itemToStringLabel(item as Value)
+                    : textOf(item.label),
+                }
+              : { value: item.value, label: textOf(item.label) }
+          )}
+        itemToValue={itemToStringValue as RootProps["itemToValue"]}
+        itemToLabel={itemToStringLabel as RootProps["itemToLabel"]}
+        placeholder={placeholder ?? (empty ? textOf(empty.label) : undefined)}
+        value={value}
+        defaultValue={defaultValue}
+        onValueChange={onValueChange as RootProps["onValueChange"]}
+        {...props}
+      />
+    </Labels>
   )
 }
 
@@ -107,7 +143,7 @@ function SelectGroup({
   return (
     <SelectPrimitive.SelectGroup
       {...props}
-      render={slotRender("select-group", "div", props.render)}
+      render={slotRender(slotOf(props, "select-group"), "div", props.render)}
       {...styleProps(select.group, sx)}
     />
   )
@@ -115,29 +151,42 @@ function SelectGroup({
 
 /**
  * The trigger's text: ui-sdk's selected label or placeholder, or the caller's children; a function
- * child receives the value, as Base UI's does.
+ * child receives the value, as Base UI's does. Labels that are more than text (`Labels`) show as
+ * Base UI's do, the chosen item's or the placeholder's.
  */
 function SelectValue({
   sx,
   children,
+  placeholder,
   ...props
 }: Omit<
   React.ComponentProps<typeof SelectPrimitive.SelectValue>,
-  "className" | "children"
+  "className" | "children" | "placeholder"
 > & {
+  /** Base UI's may be a number (a page size); ui-sdk's is text. */
+  placeholder?: string | number
   sx?: Sx
   children?: React.ReactNode | ((value: never) => React.ReactNode)
 }) {
+  const labels = React.use(Labels)
+  const own =
+    children === undefined && labels
+      ? (value: unknown) =>
+          value === null || value === undefined
+            ? labels.placeholder
+            : labels.byValue.get(value)
+      : children
   return (
     <SelectPrimitive.SelectValue
+      placeholder={placeholder === undefined ? undefined : String(placeholder)}
       {...props}
-      render={slotRender("select-value", "span", props.render)}
+      render={slotRender(slotOf(props, "select-value"), "span", props.render)}
       {...styleProps(select.value, sx)}
     >
-      {typeof children === "function"
+      {typeof own === "function"
         ? (state: { value: unknown }) =>
-            (children as (value: unknown) => React.ReactNode)(state.value)
-        : children}
+            (own as (value: unknown) => React.ReactNode)(state.value)
+        : own}
     </SelectPrimitive.SelectValue>
   )
 }
@@ -158,7 +207,11 @@ function SelectTrigger({
     <SelectPrimitive.SelectTrigger
       data-size={size}
       {...props}
-      render={slotRender("select-trigger", "button", props.render)}
+      render={slotRender(
+        slotOf(props, "select-trigger"),
+        "button",
+        props.render
+      )}
       {...styleProps(select.trigger, sx)}
     >
       {children}
@@ -188,18 +241,21 @@ function SelectContent({
   alignOffset = 0,
   alignItemWithTrigger: _alignItemWithTrigger,
   ...props
-}: Props<React.ComponentProps<typeof SelectPrimitive.SelectContent>> & {
+}: Props<
+  Omit<React.ComponentProps<typeof SelectPrimitive.SelectContent>, "side">
+> & {
   alignItemWithTrigger?: boolean
+  side?: BaseSide
 }) {
   return (
     <SelectPrimitive.SelectContent
       data-align-trigger={false}
-      side={side}
+      side={sideOf(side)}
       sideOffset={sideOffset}
       align={align}
       alignOffset={alignOffset}
       {...props}
-      render={slotRender("select-content", "div", props.render)}
+      render={slotRender(slotOf(props, "select-content"), "div", props.render)}
       {...styleProps(
         menuPositioner,
         popupMotion,
@@ -220,7 +276,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.SelectGroupLabel
       {...props}
-      render={slotRender("select-label", "div", props.render)}
+      render={slotRender(slotOf(props, "select-label"), "div", props.render)}
       {...styleProps(menuLabel, sx)}
     />
   )
@@ -237,7 +293,7 @@ function SelectItem({
   return (
     <SelectPrimitive.SelectItem
       {...props}
-      render={slotRender("select-item", "div", props.render)}
+      render={slotRender(slotOf(props, "select-item"), "div", props.render)}
       {...styleProps(menuRowBase, menuCheckableRowPadding, select.item, sx)}
     >
       <SelectPrimitive.SelectItemText {...styleProps(select.itemText)}>
@@ -265,7 +321,11 @@ function SelectSeparator({
   return (
     <SelectPrimitive.SelectSeparator
       {...props}
-      render={slotRender("select-separator", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "select-separator"),
+        "div",
+        props.render
+      )}
       {...styleProps([menuSeparator, select.separator], sx)}
     />
   )

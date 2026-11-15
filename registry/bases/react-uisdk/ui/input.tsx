@@ -3,6 +3,7 @@ import { Input as InputPrimitive } from "@ui-sdk/react/input"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
+import { slotOf, slotRender } from "../../../lib/uisdk-slot"
 import { input } from "../../../styles/input.styles"
 
 type InputProps = React.ComponentProps<typeof InputPrimitive>
@@ -22,12 +23,12 @@ function Input({
   return (
     <InputPrimitive
       type={type}
-      data-slot="input"
       value={value === undefined ? undefined : String(value)}
       defaultValue={
         defaultValue === undefined ? undefined : String(defaultValue)
       }
       {...props}
+      render={slotRender(slotOf(props, "input"), "input", props.render)}
       {...styleProps(input, sx)}
     />
   )

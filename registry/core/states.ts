@@ -277,22 +277,46 @@ export const resizable = {
  * Base UI's names; it leaves on Reka's `data-state` (`toast.rootReka`).
  */
 export const toast = {
-  expanded: { base: Base.Toast.Root.expanded, reka: "[data-expanded]" },
+  // ui-sdk's toast writes Base UI's names on the toast; its content is the part's own element,
+  // which the part gives Base UI's `data-expanded` and `data-behind` (`ui/toast.tsx`).
+  expanded: {
+    base: Base.Toast.Root.expanded,
+    reka: "[data-expanded]",
+    uisdk: "[data-expanded]",
+  },
   limited: { base: Base.Toast.Root.limited, reka: "[data-limited]" },
   starting: {
     base: Base.Toast.Root.startingStyle,
     reka: "[data-starting-style]",
+    uisdk: "[data-starting-style]",
   },
-  ending: { base: Base.Toast.Root.endingStyle },
-  swipeUp: { base: Base.Toast.Root.swipeDirection.up },
-  swipeDown: { base: Base.Toast.Root.swipeDirection.down },
-  swipeLeft: { base: Base.Toast.Root.swipeDirection.left },
-  swipeRight: { base: Base.Toast.Root.swipeDirection.right },
+  ending: { base: Base.Toast.Root.endingStyle, uisdk: "[data-ending-style]" },
+  swipeUp: {
+    base: Base.Toast.Root.swipeDirection.up,
+    uisdk: '[data-swipe-direction="up"]',
+  },
+  swipeDown: {
+    base: Base.Toast.Root.swipeDirection.down,
+    uisdk: '[data-swipe-direction="down"]',
+  },
+  swipeLeft: {
+    base: Base.Toast.Root.swipeDirection.left,
+    uisdk: '[data-swipe-direction="left"]',
+  },
+  swipeRight: {
+    base: Base.Toast.Root.swipeDirection.right,
+    uisdk: '[data-swipe-direction="right"]',
+  },
   contentExpanded: {
     base: Base.Toast.Content.expanded,
     reka: "[data-expanded]",
+    uisdk: "[data-expanded]",
   },
-  behind: { base: Base.Toast.Content.behind, reka: "[data-behind]" },
+  behind: {
+    base: Base.Toast.Content.behind,
+    reka: "[data-behind]",
+    uisdk: "[data-behind]",
+  },
 } as const satisfies Record<string, StateKeys>
 
 /** A collapsible panel's first frame and its exit, which it animates its height over. */

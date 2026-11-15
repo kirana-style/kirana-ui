@@ -2,17 +2,17 @@
 title: Menubar
 description: A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
 section: components
-variants: [react/base, angular/ng]
+variants: [react/base, react/uisdk, angular/ng]
 keywords: [menubar, menu, desktop, commands, component, base, angular]
 ---
 
 # Menubar
 
-<!-- ::preview item="menubar-demo" height="492" combinations="react/base,angular/ng" -->
+<!-- ::preview item="menubar-demo" height="492" combinations="react/base,react/uisdk,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="menubar" combinations="react/base,angular/ng" -->
+<!-- ::installation name="menubar" combinations="react/base,react/uisdk,angular/ng" -->
 
 ## Usage
 
@@ -149,29 +149,29 @@ Menubar
 
 Use `MenubarCheckboxItem` for toggleable options.
 
-<!-- ::preview item="menubar-checkbox" height="360" combinations="react/base,angular/ng" -->
+<!-- ::preview item="menubar-checkbox" height="360" combinations="react/base,react/uisdk,angular/ng" -->
 
 ## Radio
 
 Use `MenubarRadioGroup` and `MenubarRadioItem` for single-select options.
 
-<!-- ::preview item="menubar-radio" height="436" combinations="react/base,angular/ng" -->
+<!-- ::preview item="menubar-radio" height="436" combinations="react/base,react/uisdk,angular/ng" -->
 
 ## Submenu
 
 Use `MenubarSub`, `MenubarSubTrigger`, and `MenubarSubContent` for nested menus.
 
-<!-- ::preview item="menubar-submenu" height="360" combinations="react/base,angular/ng" -->
+<!-- ::preview item="menubar-submenu" height="360" combinations="react/base,react/uisdk,angular/ng" -->
 
 ## With Icons
 
-<!-- ::preview item="menubar-icons" height="360" combinations="react/base,angular/ng" -->
+<!-- ::preview item="menubar-icons" height="360" combinations="react/base,react/uisdk,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="menubar-rtl" height="532" combinations="react/base,angular/ng" direction="rtl" -->
+<!-- ::preview item="menubar-rtl" height="532" combinations="react/base,react/uisdk,angular/ng" direction="rtl" -->
 
 ## API Reference
 

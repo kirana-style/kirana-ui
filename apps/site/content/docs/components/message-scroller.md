@@ -2,13 +2,13 @@
 title: Message Scroller
 description: A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.
 section: components
-variants: [react/base, react/aria]
+variants: [react/base, react/aria, react/uisdk]
 keywords: [message-scroller, chat, component, base, aria]
 ---
 
 # Message Scroller
 
-<!-- ::preview item="message-scroller-demo" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-demo" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 ## What Makes a Great Streaming Chat Experience
 
@@ -62,7 +62,7 @@ markdown.
 
 ## Installation
 
-<!-- ::installation name="message-scroller" combinations="react/base,react/aria" -->
+<!-- ::installation name="message-scroller" combinations="react/base,react/aria,react/uisdk" -->
 
 ## Usage
 
@@ -171,7 +171,7 @@ viewport.
 
 In the following example, the user's message is anchored. When you send a new message, the viewport anchors it near the top and appends the assistant reply below it. Toggle the anchor to the assistant's message to see the difference.
 
-<!-- ::preview item="message-scroller-anchoring" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-anchoring" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 ### Group Chat
 
@@ -190,7 +190,7 @@ a message.
 </MessageScrollerItem>
 ```
 
-<!-- ::preview item="message-scroller-group-chat" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-group-chat" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 ### Keeping Context Visible
 
@@ -208,7 +208,7 @@ conversation restarted on a blank page.
 
 Adjust the peek amount in the example below to see how it affects the conversation.
 
-<!-- ::preview item="message-scroller-previous-context" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-previous-context" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 ### Following the Live Edge
 
@@ -229,7 +229,7 @@ follow-output takes over from the anchor.
 </MessageScrollerProvider>
 ```
 
-<!-- ::preview item="message-scroller-streaming" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-streaming" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 Calling `scrollToEnd`, or pressing `MessageScrollerButton`, re-engages
 follow-output when `autoScroll` is enabled, so a reader who scrolled away can
@@ -254,7 +254,7 @@ the conversation from the bottom edge.
 </MessageScrollerProvider>
 ```
 
-<!-- ::preview item="message-scroller-opening-position" height="688" combinations="react/base,react/aria" surface="true" code="false" -->
+<!-- ::preview item="message-scroller-opening-position" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" code="false" -->
 
 `"last-anchor"` is keyed on `scrollAnchor`, not message role. If no anchor
 exists, or the last anchored turn already fits in the viewport, it falls back to
@@ -313,7 +313,7 @@ same place while history loads above them.
 
 This is enabled by default through `preserveScrollOnPrepend`.
 
-<!-- ::preview item="message-scroller-load-history" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-load-history" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 Use stable `messageId` values for message rows. That gives the scroller a
 specific row to preserve instead of guessing from whichever pixel happens to sit
@@ -333,7 +333,7 @@ its final position so it feels like it rises from the live edge of the viewport.
 const MotionMessageScrollerItem = motion.create(MessageScrollerItem)
 ```
 
-<!-- ::preview item="message-scroller-animation" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-animation" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 Avoid animating height, margin, or padding for row entrances; those changes can
 fight the scroller's positioning work. If the reader prefers reduced motion,
@@ -355,7 +355,7 @@ import { useMessageScroller } from "@/components/ui/message-scroller"
 const { scrollToMessage, scrollToEnd, scrollToStart } = useMessageScroller()
 ```
 
-<!-- ::preview item="message-scroller-commands" height="688" combinations="react/base,react/aria" surface="true" code="false" -->
+<!-- ::preview item="message-scroller-commands" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" code="false" -->
 
 `scrollToMessage` targets the `messageId` on `MessageScrollerItem`, so rows that
 need to be addressable should have stable ids. `scrollToMessage` returns `false`
@@ -380,7 +380,7 @@ import { useMessageScrollerVisibility } from "@/components/ui/message-scroller"
 const { currentAnchorId, visibleMessageIds } = useMessageScrollerVisibility()
 ```
 
-<!-- ::preview item="message-scroller-visibility" height="688" combinations="react/base,react/aria" surface="true" code="false" -->
+<!-- ::preview item="message-scroller-visibility" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" code="false" -->
 
 `currentAnchorId` answers "where am I" by reporting the current anchored turn,
 and it stays set after that anchor scrolls above the viewport. `visibleMessageIds`
@@ -406,7 +406,7 @@ import { useMessageScrollerScrollable } from "@/components/ui/message-scroller"
 const { start, end } = useMessageScrollerScrollable()
 ```
 
-<!-- ::preview item="message-scroller-scrollable" height="688" combinations="react/base,react/aria" surface="true" -->
+<!-- ::preview item="message-scroller-scrollable" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
 
 ## Performance
 

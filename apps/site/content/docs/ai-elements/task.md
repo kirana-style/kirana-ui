@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -18,7 +19,7 @@ keywords: [task, ai elements, agent, chat]
 
 # Task
 
-<!-- ::preview item="task-demo" height="490" combinations="react/base,react/aria" -->
+<!-- ::preview item="task-demo" height="490" combinations="react/base,react/aria,react/uisdk" -->
 
 Task is a piece of work the agent is doing, such as finding the project files or updating a page. Each step, like a search, a read or an edit, appears under the task when the agent takes it.
 
@@ -41,7 +42,7 @@ Use [Plan](/docs/ai-elements/plan) when the agent decides the steps before it st
 
 Task is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/base,react/aria" -->
+<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk" -->
 
 ## Usage
 
