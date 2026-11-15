@@ -15,10 +15,11 @@ import { expect, it, onTestFinished } from "vite-plus/test"
 import { mountItem } from "./page"
 
 /**
- * The height of the tallest filled path a reader can see in `root`, every frame for `ms`, as
- * `[t, height]`: a chart `ChartContainer` still holds hidden (`data-entering`) counts as nothing.
+ * The height of the tallest filled path a reader can see in `root`, every frame from `from` until
+ * `until()` (both in ms), as `[t, height]`: a chart `ChartContainer` still holds hidden
+ * (`data-entering`) counts as nothing.
  */
-function sample(root: Element, ms: number, from = performance.now()) {
+function sample(root: Element, until: () => number, from = performance.now()) {
   return new Promise<[number, number][]>((resolve) => {
     const out: [number, number][] = []
     const step = () => {
@@ -34,7 +35,7 @@ function sample(root: Element, ms: number, from = performance.now()) {
         )
         .map((path) => path.getBoundingClientRect().height)
       out.push([t, Math.max(0, ...heights)])
-      if (t < ms) requestAnimationFrame(step)
+      if (t < until()) requestAnimationFrame(step)
       else resolve(out)
     }
     requestAnimationFrame(step)
@@ -45,20 +46,26 @@ const at = (samples: [number, number][], ms: number) =>
   samples.find(([t]) => t >= ms)?.[1] ?? Number.NaN
 
 it("ChartContainer: the area grows through the entrance", async () => {
-  const { container, errors } = await mountItem("base", "chart-area-default")
-  // From the mount, where the entrance starts: a slow load (the item compiled under the pre-push
-  // hook's other tasks) would otherwise eat the window, and the area be sampled still growing.
-  const samples = await sample(container, 2200)
+  // Sampled from before the mount until 2.2s after it, timed from the frame the chart shows: the
+  // entrance can start while the item is still mounting (WebKit), and a slow load (the pre-push
+  // hook's other tasks) can take any part of a fixed window.
+  const start = performance.now()
+  let mounted = Number.POSITIVE_INFINITY
+  const sampling = sample(document.body, () => mounted + 2200, start)
+  const { errors } = await mountItem("base", "chart-area-default")
+  mounted = performance.now() - start
+  const samples = await sampling
   const final = samples.at(-1)![1]
   expect(errors).toEqual([])
   expect(final).toBeGreaterThan(50)
+  const shown = samples.find(([, h]) => h > 0)![0]
   // Still growing well into the 1.5s, never at full height in its first frames.
   const peakEarly = Math.max(
-    ...samples.filter(([t]) => t < 150).map(([, h]) => h)
+    ...samples.filter(([t]) => t >= shown && t < shown + 150).map(([, h]) => h)
   )
   expect(peakEarly).toBeLessThan(final * 0.5)
   const firstFull = samples.find(([, h]) => h >= final * 0.98)![0]
-  expect(firstFull).toBeGreaterThan(900)
+  expect(firstFull - shown).toBeGreaterThan(900)
 })
 
 /**
@@ -102,7 +109,7 @@ it("TanStack Charts: a repaint mid-entrance still ends a path's growth (LF-005)"
     )
   )
   setTimeout(() => (box.style.width = "620px"), 400)
-  const samples = await sample(box, 2000, start)
+  const samples = await sample(box, () => 2000, start)
   const final = samples.at(-1)![1]
   // Growing before the repaint, then at full height within 300ms of it, a second early.
   expect(at(samples, 300)).toBeLessThan(final * 0.6)
