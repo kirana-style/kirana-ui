@@ -24,6 +24,53 @@ export function previewOutDir(framework) {
 }
 
 /**
+ * How a preview's client build splits its items: one chunk per component per base (every
+ * `button-*` example together), per chart kind (`chart-area-*`) and per block, where each item was
+ * its own. The Worker serves at most 20,000 static files per version, and a chunk per item per base
+ * was most of them (8,400 of 19,964 with three React and three Vue bases). A page loads its item's
+ * siblings with it, a few kilobytes; the parts they share stay chunks of their own. Vue's, Svelte's,
+ * Solid's and Angular's previews take it; React's does not: its maps load per base through a dynamic
+ * import, and Rolldown kept a facade chunk per item (2,188 of 58 bytes), so grouping saved nothing.
+ * Rolldown keeps the chunks valid without each group pulling its dependencies in when entries may
+ * export more than their own signature and modules run in their order (`allow-extension`, its
+ * `strictExecutionOrder`), and the map imports an item from its group rather than through a facade
+ * chunk per item.
+ * @returns {{ preserveEntrySignatures: "allow-extension", output: { strictExecutionOrder: boolean, codeSplitting: { includeDependenciesRecursively: boolean, groups: { name: (id: string) => string | null, debugName: string }[] } } }}
+ */
+export function previewChunks() {
+  return {
+    preserveEntrySignatures: "allow-extension",
+    output: {
+      strictExecutionOrder: true,
+      codeSplitting: {
+        includeDependenciesRecursively: false,
+        groups: [{ name: itemGroup, debugName: "preview-items" }],
+      },
+    },
+  }
+}
+
+/**
+ * An item's group, from its path in the registry, or `null` for any other module.
+ * @param {string} id
+ */
+function itemGroup(id) {
+  const match =
+    /\/registry\/bases\/([a-z-]+)\/(examples|charts|blocks)\/([a-z0-9-]+)/.exec(
+      id.replaceAll("\\", "/")
+    )
+  if (!match) return null
+  const [, base, kind, name] = match
+  if (kind === "blocks") return `${base}-block-${name}`
+  // `chart-area-default` → `area`; an example by its component's first word (`alert-dialog-demo`
+  // → `alert`: a group, not a component, so a shared first word only joins two groups).
+  const words = name.split("-")
+  return kind === "charts"
+    ? `${base}-chart-${words[1] ?? words[0]}`
+    : `${base}-${words[0]}`
+}
+
+/**
  * Checks the preview's routes are served: the site's `_redirects` serves the app's one page at
  * every `/preview/<framework>/<base>/<item>` (a 200 rewrite, without running the Worker), where a
  * copy of the page per item would count against the Worker's 20,000 static files. The build fails

@@ -2,7 +2,11 @@ import { createRequire, registerHooks } from "node:module"
 import { pathToFileURL } from "node:url"
 
 import { kiranaAngular } from "@kirana-style/angular/vite"
-import { previewOutDir, previewPages } from "@workspace/vite-config/preview"
+import {
+  previewChunks,
+  previewOutDir,
+  previewPages,
+} from "@workspace/vite-config/preview"
 import { defineConfig } from "vite-plus"
 
 /**
@@ -36,6 +40,8 @@ export default defineConfig({
     outDir: previewOutDir("angular"),
     emptyOutDir: true,
     target: ["es2022"],
+    // A chunk per component, not per item: the Worker's 20,000 static files.
+    rolldownOptions: previewChunks(),
   },
   resolve: { mainFields: ["module"] },
   // The examples load lazily, one per page: scanned up front, their dependencies are bundled before

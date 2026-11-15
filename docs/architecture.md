@@ -567,7 +567,10 @@ Vue component cannot render inside the React site. Each non-React preview is one
 page, its app's, which reads the item from the path: the site's `_redirects`
 serves it at every `/preview/<framework>/<base>/<item>` (a 200 rewrite, so no
 Worker runs), where a copy per item would count against the Worker's 20,000
-static files. Both read the same query and
+static files. For the same reason their builds group the items' code by
+component, chart kind and block (`previewChunks` in
+`@workspace/vite-config/preview`), a chunk each where each item was its own: a
+page loads its siblings' code too, a few kilobytes. Both read the same query and
 take the same message (`registry/core/preview.ts`): upstream's `?preset=` and
 `design-system-params`, so shadcn/ui's customizer and ours can drive either, and
 the conformance harness can open one item and preset on both sites. A change of

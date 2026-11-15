@@ -19,3 +19,18 @@ export function previewPages(options: {
  * page writes inline before the first paint.
  */
 export function designScript(entry: string): Plugin
+
+/**
+ * How a preview's client build splits its items: one chunk per component per base, per chart kind
+ * and per block, so the Worker's 20,000 static files hold.
+ */
+export function previewChunks(): {
+  preserveEntrySignatures: "allow-extension"
+  output: {
+    strictExecutionOrder: boolean
+    codeSplitting: {
+      includeDependenciesRecursively: boolean
+      groups: { name: (id: string) => string | null; debugName: string }[]
+    }
+  }
+}
