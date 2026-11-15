@@ -9,6 +9,7 @@ variants:
     react/uisdk,
     vue/ark,
     vue/reka,
+    vue/uisdk,
     svelte/ark,
     svelte/bits,
     solid/ark,
@@ -20,11 +21,11 @@ keywords:
 
 # Table
 
-<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="table" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="table" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -268,7 +269,7 @@ Table
 
 Use the `<TableFooter />` component to add a footer to the table.
 
-<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Actions
 

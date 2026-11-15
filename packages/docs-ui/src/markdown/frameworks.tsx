@@ -1,12 +1,12 @@
 /**
  * `<!-- ::frameworks -->`, under the title of a page published once per variant (a component per
- * framework and base): the page's framework, by its mark and name, then a switch of that
- * framework's bases the page has (React: Base UI, React Aria), each a link to its own URL, the
- * page's own chosen; none where the framework has one. Another framework is the site header's
- * Frameworks menu (U-025's navigation). The generator places it (`docs-core`'s `variants.ts`); the
- * links are real anchors, so a crawler and the prerender reach every variant, and choosing one is a
- * navigation that also saves the reader's choice for the rest of the site. At the row's end, the
- * chosen base's logo, as upstream's switcher shows it (its marks for Base UI and React Aria).
+ * framework and base): a switch of the page's framework's bases the page has (React: Base UI, React
+ * Aria, ui-sdk), each a link to its own URL, the page's own chosen; none where the framework has
+ * one. The framework itself is the sidebar's picker (U-025's navigation), so the row does not name
+ * it again. The generator places it (`docs-core`'s `variants.ts`); the links are real anchors, so a
+ * crawler and the prerender reach every variant, and choosing one is a navigation that also saves
+ * the reader's choice for the rest of the site. At the row's end, the chosen base's logo where it
+ * has an official one, as upstream's switcher shows it (its marks for Base UI and React Aria).
  */
 import { use } from "react"
 import { css } from "@kirana-style/core"
@@ -19,9 +19,7 @@ import {
 
 import type { Base } from "@workspace/registry/core/config"
 
-import { BaseLogo } from "../base-logos.tsx"
-import { BrandIcon } from "../brand-icon.tsx"
-import { FRAMEWORK_LOGOS } from "../framework-logos.ts"
+import { BaseLogo, hasBaseLogo } from "../base-logos.tsx"
 import { chooseCombination } from "../combination.ts"
 import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
@@ -38,15 +36,6 @@ const styles = {
     minWidth: 0,
     overflowX: "auto",
     scrollbarWidth: "none",
-  }),
-  framework: css({
-    display: "inline-flex",
-    alignItems: "center",
-    gap: spacing[2],
-    flexShrink: 0,
-    fontSize: "0.875rem",
-    fontWeight: 500,
-    color: theme.foreground,
   }),
   // `ml-auto size-4 shrink-0 text-muted-foreground opacity-80`.
   logo: css({
@@ -67,17 +56,14 @@ export function MarkdownFrameworks() {
   const [framework, base] = variant.id.split("/") as [string, Base?]
   const named = (id: string) => combinations.find((each) => each.id === id)
   const frameworkLabel = named(variant.id)?.framework?.label ?? framework
-  // The page's own framework's bases only: another framework is the header's menu.
+  // The page's own framework's bases only: another framework is the sidebar's picker.
   const bases = variant.siblings.filter((sibling) =>
     sibling.id.startsWith(`${framework}/`)
   )
-  const logo = FRAMEWORK_LOGOS[framework]
+  const mark = base && hasBaseLogo(base)
+  if (bases.length < 2 && !mark) return null
   return (
     <div sx={styles.row} data-slot="frameworks">
-      <span sx={styles.framework}>
-        {logo ? <BrandIcon icon={logo} /> : null}
-        {frameworkLabel}
-      </span>
       {bases.length > 1 ? (
         <Tabs value={variant.id} sx={styles.root}>
           <TabsList aria-label={`${frameworkLabel} base`}>
@@ -99,7 +85,7 @@ export function MarkdownFrameworks() {
           </TabsList>
         </Tabs>
       ) : null}
-      {base ? (
+      {mark && base ? (
         <span sx={styles.logo}>
           <BaseLogo base={base} />
         </span>

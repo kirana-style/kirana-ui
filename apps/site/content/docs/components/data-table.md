@@ -9,6 +9,7 @@ variants:
     react/uisdk,
     vue/ark,
     vue/reka,
+    vue/uisdk,
     svelte/ark,
     svelte/bits,
     solid/ark,
@@ -30,7 +31,7 @@ keywords:
 
 # Data Table
 
-<!-- ::preview item="data-table-demo" height="460" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="data-table-demo" height="460" combinations="react/base,react/aria,react/uisdk,vue/uisdk" -->
 
 ## Introduction
 
@@ -62,7 +63,7 @@ This guide will show you how to use [TanStack Table](https://tanstack.com/table)
 
 1. Add the `<Table />` component to your project:
 
-<!-- ::installation name="table" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::installation name="table" combinations="react/base,react/aria,react/uisdk,vue/uisdk" -->
 
 2. Add the `@tanstack/react-table` dependency. This guide uses **TanStack Table v9**:
 
@@ -1384,4 +1385,4 @@ You can show the number of selected rows using the `table.getFilteredSelectedRow
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="data-table-rtl" height="460" combinations="react/base,react/aria,react/uisdk" direction="rtl" -->
+<!-- ::preview item="data-table-rtl" height="460" combinations="react/base,react/aria,react/uisdk,vue/uisdk" direction="rtl" -->

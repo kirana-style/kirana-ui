@@ -14,12 +14,17 @@ import {
 } from "@workspace/vite-config/browser-page"
 import { previews as arkPreviews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { previews as rekaPreviews } from "@workspace/registry/bases/vue-reka/previews.ts"
+import { previews as uisdkPreviews } from "@workspace/registry/bases/vue-uisdk/previews.ts"
 import { ICON_LIBRARY } from "@workspace/registry/icons/vue.ts"
 
 import { design } from "../src/design"
 import Host from "./Host.vue"
 
-export const BASES = { ark: arkPreviews, reka: rekaPreviews }
+export const BASES = {
+  ark: arkPreviews,
+  reka: rekaPreviews,
+  uisdk: uisdkPreviews,
+}
 
 /** Lets Vue and the item settle: the next tick, then two frames. */
 export async function settle() {

@@ -15,6 +15,7 @@ import { DocsProvider } from "@workspace/docs-ui/provider.tsx"
 import type { DocsConfig, DocsTab } from "@workspace/docs-ui/provider.tsx"
 
 import { DocsLink } from "@/components/docs-link"
+import { FrameworkMenu } from "@/components/frameworks"
 import { NAV, PAGES } from "@/generated/content.gen"
 import { FRAMEWORKS, VARIANTS, frameworkOf } from "@/lib/variants"
 import { frameQuery, usePageDesign } from "@/lib/page-design"
@@ -97,6 +98,10 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     siteName: "kirana/ui",
     // An item's preview page for a combination, Base UI's by default; it reads the reader's design
     // from the cookie, and takes a change from the customizer by message.
+    // The reader's framework, where pages differ by it (U-025's navigation): Components and AI
+    // Elements; Docs, Kirana and Registry are the same for every framework.
+    sidebarHeader: (tab) =>
+      tab === "components" || tab === "ai-elements" ? <FrameworkMenu /> : null,
     previewSrc: (item, combination = "react/base") =>
       `/preview/${combination}/${item}`,
     frameQuery,

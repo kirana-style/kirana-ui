@@ -9,6 +9,7 @@ variants:
     react/uisdk,
     vue/ark,
     vue/reka,
+    vue/uisdk,
     svelte/ark,
     svelte/bits,
     solid/ark,
@@ -20,7 +21,7 @@ keywords:
 
 # Label
 
-<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="label-demo" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 > [!NOTE]
 > For form fields, use the [Field](/docs/components/field) component, which
@@ -28,7 +29,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="label" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="label" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 

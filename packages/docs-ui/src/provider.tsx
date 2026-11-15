@@ -57,6 +57,8 @@ export type DocsConfig = {
   railFooter?: React.ReactNode
   /** Pinned under the sidebar's list, outside its scroll. */
   sidebarFooter?: React.ReactNode
+  /** Above the sidebar's list, outside its scroll, for the active tab (its id): a framework picker. */
+  sidebarHeader?: (tab: string | undefined) => React.ReactNode
   /**
    * Where an item's live preview is served, for `<!-- ::preview item="…" -->`: a page that shows
    * the item alone, framed on the docs page, in a combination when the page names one. Without

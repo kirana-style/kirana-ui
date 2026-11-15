@@ -133,6 +133,8 @@
         "@fontsource-variable/geist": "catalog:",
         "@fontsource-variable/inter": "catalog:",
         "@kirana-style/core": "catalog:",
+        "@ui-sdk/core": "catalog:",
+        "@ui-sdk/vue": "catalog:",
         "@workspace/fonts": "workspace:*",
         "@workspace/registry": "workspace:*",
         "reka-ui": "catalog:",
@@ -373,6 +375,7 @@
         "@tanstack/vue-table": "catalog:",
         "@ui-sdk/core": "catalog:",
         "@ui-sdk/react": "catalog:",
+        "@ui-sdk/vue": "catalog:",
         "ai": "catalog:",
         "bits-ui": "catalog:",
         "chrono-node": "catalog:",
@@ -516,6 +519,7 @@
     "@types/react-dom": "^19.3.0",
     "@ui-sdk/core": "0.1.0-beta.2",
     "@ui-sdk/react": "0.1.0-beta.2",
+    "@ui-sdk/vue": "0.1.0-beta.2",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitest/browser-playwright": "5.1.0",
     "ai": "^7.0.164",
@@ -1500,6 +1504,8 @@
     "@ui-sdk/core": ["@ui-sdk/core@0.1.0-beta.2", "", {}, "sha512-y89M4OKL2Oy1IvFS8FEozn/44BJD9FoRjfecWA4XwFhkSuQADcEcI+eoLdfRK1hkrJZhKkHvhJf4Jtfp1y7aJw=="],
 
     "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.2", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.2", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-OVOECM3PYGEF69/iOSZ1U0zxv6O6aTWmZuCt88R6c2Ql2ZQxAy+DjFK8o8hyVkRNlYE5nEm357UMOI6bchn70w=="],
+
+    "@ui-sdk/vue": ["@ui-sdk/vue@0.1.0-beta.2", "", { "peerDependencies": { "@nuxt/kit": "^4.0.0 || ^5.0.0-0", "@nuxt/schema": "^4.0.0 || ^5.0.0-0", "@ui-sdk/core": "^0.1.0-beta.2", "nuxt": "^4.0.0 || ^5.0.0-0", "vue": ">=3.5" }, "optionalPeers": ["@nuxt/kit", "@nuxt/schema", "nuxt"] }, "sha512-KbtbgxykcKgrsgkrsygJ3R0txzyKQjAga/DcmQ1txNcMIPIPyndNmvW/9MIuoL/JUuwxwpoapmuhYVb4TUsq1Q=="],
 
     "@vercel/oidc": ["@vercel/oidc@3.2.0", "", {}, "sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug=="],
 

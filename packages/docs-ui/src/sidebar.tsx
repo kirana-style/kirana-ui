@@ -63,6 +63,7 @@ const styles = {
     height: "100%",
   }),
   searchWrap: css({ padding: spacing[3], paddingBlockEnd: spacing[2] }),
+  header: css({ padding: spacing[3], paddingBlockEnd: 0 }),
   footer: css({
     padding: spacing[3],
     borderBlockStartWidth: "1px",
@@ -365,7 +366,7 @@ export function DocsSidebar({
   onNavigate?: () => void
   sx?: Sx
 }) {
-  const { nav, tabs, navigate, sidebarFooter } = useDocs()
+  const { nav, tabs, navigate, sidebarFooter, sidebarHeader } = useDocs()
   const [query, setQuery] = useState("")
   const terms = words(query)
   const results =
@@ -377,6 +378,7 @@ export function DocsSidebar({
         })
   const reduce = useReducedMotion()
   const tab = tabFor(tabs, section)
+  const header = sidebarHeader?.(tab?.id)
   const groups = (tab?.sections ?? [])
     .map((slug) => nav.find((group) => group.slug === slug))
     .filter((group) => group !== undefined)
@@ -469,6 +471,7 @@ export function DocsSidebar({
           <DocsSearch />
         </div>
       ) : null}
+      {header ? <div sx={styles.header}>{header}</div> : null}
       <div ref={scroller} sx={styles.scroller}>
         <nav
           ref={list}

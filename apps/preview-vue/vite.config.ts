@@ -12,7 +12,7 @@ import { defineConfig, lazyPlugins } from "vite-plus"
 import { playwright } from "vite-plus/test/browser-playwright"
 
 /**
- * The Vue preview: the registry's `vue-ark` and `vue-reka` items on their own page, compiled by Kirana's adapter
+ * The Vue preview: the registry's `vue-ark`, `vue-reka` and `vue-uisdk` items on their own page, compiled by Kirana's adapter
  * ahead of Vue's plugin so `:sx` in templates reaches Vue as `class`. Built into the `ui` Worker's
  * static files with a page per item and the showcase (`@workspace/vite-config/preview`).
  */
@@ -29,6 +29,7 @@ export default defineConfig({
       extra: ["showcase", "charts"],
     }),
     previewPages({ framework: "vue", base: "reka", extension: ".vue" }),
+    previewPages({ framework: "vue", base: "uisdk", extension: ".vue" }),
   ]),
   // The code block demos' text imports `@/components/…`, which the tests' dependency scan reads.
   resolve: {
@@ -39,7 +40,7 @@ export default defineConfig({
   // Every example the tests can load.
   optimizeDeps: browserDeps([
     "test/**/*.{ts,vue}",
-    "../../registry/bases/vue-{ark,reka}/examples/*.vue",
+    "../../registry/bases/vue-{ark,reka,uisdk}/examples/*.vue",
   ]),
   // The items in a real browser (`test/`), compiled as this app compiles them: `vp run browser`.
   test: browserTest(playwright, {

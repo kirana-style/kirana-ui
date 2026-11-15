@@ -179,6 +179,13 @@ export const inputOtp = {
   // Ark UI's control around the groups (Vue, Svelte, Solid): out of the layout.
   controlArk: css({ display: "contents" }),
 
+  // ui-sdk's code input (Vue): the text cursor (the arrow while disabled) and no selection, which
+  // React's `input-otp` writes inline on its container.
+  containerUisdk: css({
+    cursor: { base: "text", ":has(:disabled)": "default" },
+    userSelect: "none",
+  }),
+
   // Ark UI's slot (Vue, Svelte, Solid) is its own input, with the browser's caret: its character
   // centred where React's slot centres a text node.
   slotArk: css({

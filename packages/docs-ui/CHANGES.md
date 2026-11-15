@@ -116,11 +116,15 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   active (the site's New, to its editor). The collapsed sidebar is a rail holding the button that
   opens it again, no longer a column of the tabs' icons, which repeated the tab row beside it.
 
-- `markdown/frameworks.tsx` (new), registered as `frameworks`: under a variant page's title, its
-  framework by its mark and name, then a switch of that framework's bases the page has (siblings of
-  the same framework only, labelled by their base), none where it has one; at the row's end, the
-  chosen base's logo. Choosing a framework is the app's (kirana/ui: a Frameworks menu in its header
-  and a dropdown in the docs bar); this row once listed every sibling as tabs. `combination.ts`: a
+- `markdown/frameworks.tsx` (new), registered as `frameworks`: under a variant page's title, a
+  switch of the page's framework's bases the page has (siblings of the same framework only,
+  labelled by their base), none where it has one; at the row's end, the chosen base's logo where it
+  has an official one (`hasBaseLogo`; ui-sdk has none). Choosing a framework is the app's
+  (kirana/ui: a picker at the top of the Components and AI Elements sidebars, through
+  `sidebarHeader`, and a Frameworks menu in the header of its other pages), so the row does not
+  name the framework; this row once listed every sibling as tabs.
+- `provider.tsx` and `sidebar.tsx`: `sidebarHeader(tab)`, content above the sidebar's list for the
+  active tab, outside its scroll (kirana/ui's framework picker). `combination.ts`: a
   variant page's combination wins over the saved choice. `docs-layout.tsx`: the section of a
   `current` that is a variant source's shared URL is its variants'.
 - `framework-logos.ts` (new): the frameworks' marks (React, Vue, Svelte, Solid, Angular), from

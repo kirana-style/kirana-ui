@@ -36,6 +36,7 @@ const EXAMPLES = {
   "react/uisdk": ["react-uisdk", ".tsx"],
   "vue/ark": ["vue-ark", ".vue"],
   "vue/reka": ["vue-reka", ".vue"],
+  "vue/uisdk": ["vue-uisdk", ".vue"],
   "svelte/ark": ["svelte-ark", ".svelte"],
   "svelte/bits": ["svelte-bits", ".svelte"],
   "solid/ark": ["solid-ark", ".tsx"],

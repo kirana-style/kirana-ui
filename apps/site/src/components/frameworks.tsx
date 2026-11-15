@@ -1,7 +1,8 @@
 /**
  * Choosing a framework (U-025's navigation): which one the reader is in, where choosing another
- * leads, and the docs bar's dropdown. The header's Frameworks menu (`header/menu-panels.tsx`) draws
- * the same rows from here, so the two never disagree. A choice is saved for the whole site
+ * leads, and the picker at the top of the Components and AI Elements sidebars (the other tabs'
+ * pages are the same for every framework). The header's Frameworks menu (`header/menu-panels.tsx`)
+ * draws the same rows from here, so the two never disagree. A choice is saved for the whole site
  * (`chooseCombination`), and every link to a component follows it.
  */
 import { css } from "@kirana-style/core"
@@ -86,20 +87,22 @@ export const frameworkLabel = (id: string) =>
   FRAMEWORKS.find((framework) => framework.id === id)?.label ?? id
 
 const styles = {
-  trigger: css({ gap: space["1.5"] }),
-  item: css({ gap: space[2] }),
-  itemText: css({ display: "grid", flexGrow: 1 }),
-  itemBases: css({
-    fontSize: "0.75rem",
-    whiteSpace: "nowrap",
-    color: theme.mutedForeground,
+  // The sidebar's width, the framework at its start and the chevron at its end.
+  trigger: css({
+    width: "100%",
+    justifyContent: "flex-start",
+    gap: space[2],
   }),
+  chevron: css({ marginInlineStart: "auto", color: theme.mutedForeground }),
+  content: css({ minWidth: "var(--anchor-width)" }),
+  item: css({ gap: space[2] }),
   tick: css({ marginInlineStart: "auto" }),
 }
 
 /**
- * The docs bar's framework dropdown: the reader's framework by its mark and name, and the others to
- * choose, each with its bases; on a component's page, choosing one opens that page in it.
+ * The sidebar's framework picker: the reader's framework by its mark and name, and the others to
+ * choose; on a component's page, choosing one opens that page in it. A framework's bases are the
+ * page's own switch, under its title.
  */
 export function FrameworkMenu() {
   const { path, saved, current } = useFrameworks()
@@ -108,8 +111,7 @@ export function FrameworkMenu() {
       <DropdownMenuTrigger
         render={
           <Button
-            variant="ghost"
-            size="sm"
+            variant="outline"
             aria-label={`Framework: ${frameworkLabel(current)}`}
             sx={styles.trigger}
           />
@@ -117,9 +119,9 @@ export function FrameworkMenu() {
       >
         <FrameworkMark framework={current} />
         {frameworkLabel(current)}
-        <Icon icon={ArrowDown01Icon} />
+        <Icon icon={ArrowDown01Icon} sx={styles.chevron} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="start" sx={styles.content}>
         <DropdownMenuGroup>
           <DropdownMenuLabel>Frameworks</DropdownMenuLabel>
           {FRAMEWORKS.map((framework) => {
@@ -136,14 +138,7 @@ export function FrameworkMenu() {
                 }
               >
                 <FrameworkMark framework={framework.id} />
-                <span sx={styles.itemText}>
-                  {framework.label}
-                  <span sx={styles.itemBases}>
-                    {framework.variants
-                      .map((variant) => variant.base)
-                      .join(" · ")}
-                  </span>
-                </span>
+                {framework.label}
                 {current === framework.id ? (
                   <Icon icon={Tick02Icon} sx={styles.tick} />
                 ) : null}

@@ -9,6 +9,7 @@ variants:
     react/uisdk,
     vue/ark,
     vue/reka,
+    vue/uisdk,
     svelte/ark,
     svelte/bits,
     solid/ark,
@@ -32,7 +33,7 @@ keywords:
 
 # Carousel
 
-<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="carousel-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## About
 
@@ -40,7 +41,7 @@ The carousel component is built using the [Embla Carousel](https://www.embla-car
 
 ## Installation
 
-<!-- ::installation name="carousel" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="carousel" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -175,7 +176,7 @@ Carousel
 
 To set the size of the items, give the `<CarouselItem />` a `flexBasis` through `sx`.
 
-<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="carousel-size" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ```tsx
 // 33% of the carousel width.
@@ -202,7 +203,7 @@ const item = css({
 To set the spacing between the items, give the `<CarouselItem />` a `paddingLeft` and the
 `<CarouselContent />` the same negative `marginLeft`.
 
-<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="carousel-spacing" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ```tsx
 const content = css({ marginLeft: `calc(${space[2]} * -1)` })
@@ -221,7 +222,7 @@ const item = css({ paddingLeft: space[2] })
 
 Use the `orientation` prop to set the orientation of the carousel.
 
-<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="carousel-orientation" height="420" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ```tsx
 <Carousel orientation="vertical | horizontal">
@@ -305,7 +306,7 @@ You can pass options to the carousel using the `opts` prop. See the
 
 Use a state and the `setApi` prop to get an instance of the carousel API.
 
-<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="carousel-api" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base,react/aria -->
 
@@ -626,7 +627,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="carousel-plugin" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## RTL
 

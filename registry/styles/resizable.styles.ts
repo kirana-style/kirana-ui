@@ -24,6 +24,8 @@ export const resizable = {
     width: "100%",
     flexDirection: when(orientation.stacked, "column"),
   }),
+  // ui-sdk's group (Vue): its panels clipped, as react-resizable-panels writes inline on its own.
+  groupUisdk: css({ overflow: "hidden" }),
   // cn-resizable-handle
   handle: css({
     position: "relative",
