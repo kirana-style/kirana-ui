@@ -785,7 +785,10 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     on its trigger (ui-sdk's root takes them), a progress value's function
     child, a menu checkbox item's `value` (an id when none is given), the
     logical sides (`sideOf()`), a link's `active` (`current`), an input's
-    numeric value. Type-check after copying examples over (`vp check`): the
+    numeric value. A drawer cancels the scroll-driven animations in its content
+    as it closes (`endScrollAnimations()`): ui-sdk's exit waits for every
+    animation inside the popup, and Firefox gives a scroll fade's an end
+    about three minutes away. Type-check after copying examples over (`vp check`): the
     preview app does not see them, its previews loading through a glob.
   - **Its keys in every per-base table**, `when()`'s and a style module's own
     (`IN_VERTICAL` in `tabs.styles.ts`, `OPEN` in `collapsible.styles.ts`):

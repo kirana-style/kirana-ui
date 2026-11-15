@@ -52,3 +52,19 @@ export function sideOf(side: BaseSide | undefined) {
       ? "end"
       : side
 }
+
+/**
+ * Cancels the animations a scroll drives inside `el` (a scroll fade's), as a popup starts to close.
+ * ui-sdk ends a popup's exit once every animation in its subtree has finished, and one a scroll
+ * drives never does: Chromium reports its end as a percentage, which ui-sdk's fallback timer skips,
+ * but Firefox reports it in milliseconds (181 s for a scroll fade), so the closed popup's invisible
+ * layer stays over the page that long (LF-024). The content unmounts once closed, so the next open
+ * starts them again.
+ */
+export function endScrollAnimations(el: Element | null) {
+  if (!el) return
+  for (const animation of el.getAnimations({ subtree: true })) {
+    if (animation.timeline && animation.timeline !== document.timeline)
+      animation.cancel()
+  }
+}

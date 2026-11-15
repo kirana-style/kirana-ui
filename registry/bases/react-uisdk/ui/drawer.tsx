@@ -5,7 +5,11 @@ import * as DrawerPrimitive from "@ui-sdk/react/drawer"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, slotRender } from "../../../lib/uisdk-slot"
+import {
+  endScrollAnimations,
+  popupContainer,
+  slotRender,
+} from "../../../lib/uisdk-slot"
 import { drawer } from "../../../styles/drawer.styles"
 
 type El = Omit<React.ComponentProps<"div">, "className"> & { sx?: Sx }
@@ -22,6 +26,8 @@ const SIDES = {
 type RootProps = React.ComponentProps<typeof DrawerPrimitive.Drawer>
 
 type DrawerContextProps = {
+  /** The content's own element, whose scroll-driven animations end as the drawer closes. */
+  content: React.RefObject<HTMLDivElement | null>
   hasSnapPoints: boolean
   modal: RootProps["modal"]
   showSwipeHandle: boolean
@@ -46,6 +52,7 @@ function Drawer({
   snapPoints,
   swipeDirection = "down",
   disablePointerDismissal,
+  onOpenChange,
   ...props
 }: Omit<RootProps, "side" | "snapPoints"> & {
   showSwipeHandle?: boolean
@@ -57,8 +64,9 @@ function Drawer({
   disablePointerDismissal?: boolean
 }) {
   const hasSnapPoints = snapPoints != null && snapPoints.length > 0
+  const content = React.useRef<HTMLDivElement>(null)
   const contextValue = React.useMemo(
-    () => ({ hasSnapPoints, modal, showSwipeHandle, swipeDirection }),
+    () => ({ content, hasSnapPoints, modal, showSwipeHandle, swipeDirection }),
     [hasSnapPoints, modal, showSwipeHandle, swipeDirection]
   )
 
@@ -70,6 +78,11 @@ function Drawer({
         modal={modal}
         snapPoints={snapPoints as RootProps["snapPoints"]}
         side={SIDES[swipeDirection]}
+        onOpenChange={(open, details) => {
+          // Before ui-sdk gathers what its exit waits for (LF-024).
+          if (!open) endScrollAnimations(content.current)
+          onOpenChange?.(open, details)
+        }}
         closeOnOutsidePress={
           disablePointerDismissal === undefined
             ? undefined
@@ -150,7 +163,8 @@ function DrawerContent({
   React.ComponentProps<typeof DrawerPrimitive.DrawerContent>,
   "className" | "children"
 > & { sx?: Sx; children?: React.ReactNode }) {
-  const { hasSnapPoints, modal, showSwipeHandle, swipeDirection } = useDrawer()
+  const { content, hasSnapPoints, modal, showSwipeHandle, swipeDirection } =
+    useDrawer()
   const swipeAxis =
     swipeDirection === "down" || swipeDirection === "up" ? "y" : "x"
   return (
@@ -168,7 +182,7 @@ function DrawerContent({
         {...styleProps(drawer.popup, sx)}
       >
         {showSwipeHandle && <DrawerSwipeHandle />}
-        <div data-slot="drawer-content" sx={drawer.content}>
+        <div data-slot="drawer-content" ref={content} sx={drawer.content}>
           {children}
         </div>
       </DrawerPrimitive.DrawerContent>
