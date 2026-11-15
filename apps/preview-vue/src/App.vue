@@ -5,24 +5,37 @@ import { css } from "@kirana-style/core"
 import { LANGUAGE } from "@workspace/registry/bases/vue-ark/components/language-selector/index.ts"
 import { previews as arkPreviews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { previews as rekaPreviews } from "@workspace/registry/bases/vue-reka/previews.ts"
+import { previews as uisdkPreviews } from "@workspace/registry/bases/vue-uisdk/previews.ts"
 import { LANGUAGES } from "@workspace/registry/core/language.ts"
 import { previewDirection } from "@workspace/registry/core/preview.ts"
 import { space } from "@workspace/registry/core/scales.ts"
-import { computed, defineAsyncComponent, onMounted, provide, ref } from "vue"
+import {
+  computed,
+  defineAsyncComponent,
+  defineComponent,
+  onMounted,
+  provide,
+  ref,
+} from "vue"
 
 import { design } from "./design"
 import Charts from "./Charts.vue"
 import Showcase from "./Showcase.vue"
 
 /**
- * One page per item, as `/preview/vue/<base>/<item>` (Ark UI's, `ark`, or Reka UI's, `reka`), the
- * showcase and `/create`'s charts; anything else lists them.
+ * One page per item, as `/preview/vue/<base>/<item>` (Ark UI's, `ark`, Reka UI's, `reka`, or
+ * ui-sdk's, `uisdk`), the showcase and `/create`'s charts; anything else lists them.
  */
 const [, base = "ark", item] =
-  location.pathname.match(/\/(ark|reka)\/([a-z0-9-]+?)(?:\.html)?\/?$/) ??
-  location.pathname.match(/\/(ark|reka)\/?$/) ??
+  location.pathname.match(/\/(ark|reka|uisdk)\/([a-z0-9-]+?)(?:\.html)?\/?$/) ??
+  location.pathname.match(/\/(ark|reka|uisdk)\/?$/) ??
   []
-const previews = base === "reka" ? rekaPreviews : arkPreviews
+const previews =
+  base === "reka"
+    ? rekaPreviews
+    : base === "uisdk"
+      ? uisdkPreviews
+      : arkPreviews
 const load = item ? previews[item] : undefined
 const current = load ? defineAsyncComponent(load) : undefined
 const locale = computed(() => {
@@ -52,6 +65,22 @@ const ToastToaster = defineAsyncComponent(() =>
     ? import("@workspace/registry/bases/vue-reka/ui/toast/Toaster.vue")
     : import("@workspace/registry/bases/vue-ark/ui/toast/Toaster.vue")
 )
+/** ui-sdk's parts read the direction they are laid out in, with no provider of their own. */
+const Passthrough = defineComponent(
+  (_, { slots }) =>
+    () =>
+      slots.default?.()
+)
+const provider = computed(() =>
+  base === "reka"
+    ? {
+        is: ConfigProvider,
+        props: { dir: direction.value, locale: locale.value },
+      }
+    : base === "uisdk"
+      ? { is: Passthrough, props: {} }
+      : { is: LocaleProvider, props: { locale: locale.value } }
+)
 const mounted = ref(false)
 onMounted(() => (mounted.value = true))
 
@@ -64,11 +93,8 @@ const list = css({
 </script>
 
 <template>
-  <!-- Each base's own direction and locale: Ark UI's provider, or Reka UI's. -->
-  <component
-    :is="base === 'reka' ? ConfigProvider : LocaleProvider"
-    v-bind="base === 'reka' ? { dir: direction, locale } : { locale }"
-  >
+  <!-- Each base's own direction and locale: Ark UI's provider, Reka UI's, or none (ui-sdk). -->
+  <component :is="provider.is" v-bind="provider.props">
     <Showcase v-if="item === 'showcase'" />
     <Charts v-else-if="item === 'charts'" />
     <component :is="current" v-else-if="current" />
@@ -83,6 +109,7 @@ const list = css({
       <a :href="`/preview/vue/${base}/showcase`">showcase</a>
     </nav>
     <SonnerToaster v-if="mounted && current" position="top-center" />
-    <ToastToaster v-if="mounted && current" />
+    <!-- Vue on ui-sdk has no toast yet (P9-03). -->
+    <ToastToaster v-if="mounted && current && base !== 'uisdk'" />
   </component>
 </template>

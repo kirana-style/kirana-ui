@@ -38,7 +38,7 @@ export type Base = (typeof BASES)[number]
 /** Which bases each framework offers; the first is its default. */
 export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
   react: ["base", "aria", "uisdk"],
-  vue: ["ark", "reka"],
+  vue: ["ark", "reka", "uisdk"],
   svelte: ["ark", "bits"],
   solid: ["ark"],
   angular: ["ng"],

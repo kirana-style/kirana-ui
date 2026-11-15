@@ -42,6 +42,7 @@ export const FRAMEWORK_BASES = [
   { framework: "react", base: "uisdk", bases: "react-uisdk" },
   { framework: "vue", base: "ark", bases: "vue-ark" },
   { framework: "vue", base: "reka", bases: "vue-reka" },
+  { framework: "vue", base: "uisdk", bases: "vue-uisdk" },
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
   { framework: "svelte", base: "bits", bases: "svelte-bits" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
@@ -139,9 +140,10 @@ const PORTING: Framework[] = ["svelte", "solid", "angular"]
 /**
  * A base while it is ported against React's pages: its components appear as their markup is
  * written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI has no toast, which the
- * toast's item leaves out by its bases), and so is React on ui-sdk (P9-02).
+ * toast's item leaves out by its bases), and so is React on ui-sdk (P9-02); Vue on ui-sdk is being
+ * ported (P9-03).
  */
-const PORTING_BASES: string[] = []
+const PORTING_BASES: string[] = ["vue-uisdk"]
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -310,9 +312,13 @@ const ALL_ITEMS: Item[] = [
       "A ui-sdk part rendered under the registry's slot name, its tag as Base UI's, or the caller's render with the slot added.",
     // ui-sdk writes its own `data-slot` on each part, which only a `render` element overrides.
     files: (combination) =>
-      combination.framework === "react" && combination.base === "uisdk"
-        ? ["lib/uisdk-slot.ts"]
-        : undefined,
+      combination.base !== "uisdk"
+        ? undefined
+        : combination.framework === "react"
+          ? ["lib/uisdk-slot.ts"]
+          : combination.framework === "vue"
+            ? ["lib/vue/uisdk-slot.ts"]
+            : undefined,
   },
   {
     name: "icon-placeholder",

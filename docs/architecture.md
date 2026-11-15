@@ -421,7 +421,10 @@ which Bits UI has none of. **React's third base is ui-sdk**
 that also renders in Vue, Svelte and Solid. It carries all 64 components, the
 examples, blocks and charts: each part takes its Base UI twin's props, so
 React's examples copy over unchanged. Calendar, Carousel, Chart, Command, Input
-OTP, Resizable and Sonner stay on the libraries Base UI's parts use.
+OTP, Resizable and Sonner stay on the libraries Base UI's parts use. **Vue's
+third base is ui-sdk too** (`registry/bases/vue-uisdk`, at
+`/preview/vue/uisdk/`), its parts taking their `vue-ark` twins' props; it is
+being ported, layer 0 and Field so far, on ui-sdk's own Input OTP and Resizable.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

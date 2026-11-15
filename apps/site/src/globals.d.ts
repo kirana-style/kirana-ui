@@ -19,6 +19,7 @@ declare module "virtual:preview-names" {
     | "react/uisdk"
     | "vue/ark"
     | "vue/reka"
+    | "vue/uisdk"
     | "svelte/ark"
     | "svelte/bits"
     | "solid/ark"

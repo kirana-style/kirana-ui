@@ -811,6 +811,23 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     (`vp run registry` says so). A `uisdk:` key is no broader than its twin's:
     a bare `[data-disabled]` also matches React Aria's parts, where Base UI's
     `:disabled` is the checkbox's key.
+- **Vue on ui-sdk** keeps Vue's Ark UI parts' API (`as-child`, `v-model`,
+  `v-model:checked`, `v-model:open`, a select's `items`) on ui-sdk's parts,
+  which have React's structure and names. ui-sdk's Vue parts override a
+  `data-slot` as React's do, and take a `render` slot instead of an element:
+  `UisdkPart` (`registry/lib/vue/uisdk-slot.ts`) renders a part through it under
+  the registry's slot (or one the caller hands it), as the tag Base UI's part
+  has or, with `as-child`, as the caller's element. A part's own `<slot />`
+  arrives as a fragment, read through; a child that names its own slot keeps
+  it. `Element` gives the parts on Ark's factory (Button, Badge, Item …) an
+  `as-child` element; `popupContainer()`, `sideOf()` and
+  `endScrollAnimations()` are React's. The input OTP and the resizable are
+  ui-sdk's own (Vue has no `input-otp` or `react-resizable-panels`): the
+  resizable writes react-resizable-panels' `data-group` and `data-separator`,
+  so the shared `uisdk:` keys hold, and both carry `*Uisdk` handles for what
+  those libraries write inline. The reviewed differences of React's ui-sdk
+  base are ui-sdk's core's, so their routes cover both
+  (`(react|vue)/uisdk/`).
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,
@@ -820,8 +837,9 @@ Each framework's preview loads an example only when its page asks for it
 (`import.meta.glob`), so a page fetches its own chunk and no other.
 
 `vue-tsc` checks the registry's Vue markup and its demos before the Vue
-preview builds (`apps/preview-vue/tsconfig.vue.json`), as `vp check` checks
-React's.
+preview builds, one base at a time (`apps/preview-vue/tsconfig.vue-ark.json`,
+`-reka`, `-uisdk`: one program for every base outgrew Node's default heap), as
+`vp check` checks React's.
 
 ### Following upstream
 

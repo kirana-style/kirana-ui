@@ -39,6 +39,12 @@ export const VARIANTS = [
     base: "Reka UI",
   },
   {
+    id: "vue/uisdk",
+    label: "Vue · ui-sdk",
+    name: "Vue with ui-sdk",
+    base: "ui-sdk",
+  },
+  {
     id: "svelte/ark",
     label: "Svelte · Ark UI",
     name: "Svelte with Ark UI",

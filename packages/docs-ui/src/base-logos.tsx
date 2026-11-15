@@ -1,9 +1,10 @@
 /**
  * The bases' official marks, drawn in the text's colour: Base UI's and React Aria's as upstream's
- * `registry/bases.ts` has them, Bits UI's site icon (a disc) and ui-sdk's wordmark's U, inline so they take
+ * `registry/bases.ts` has them and Bits UI's site icon (a disc), inline so they take
  * `currentColor`; Ark UI's, Reka UI's and
  * ng-primitives' are their sites' icons, kept in `brands/` as the other logos are and drawn as images. The docs'
- * frameworks row and `/create`'s Get Code draw them from here.
+ * frameworks row and `/create`'s Get Code draw them from here. A base with no official mark (ui-sdk,
+ * whose site's icon is Vercel's own) draws none.
  */
 import type { ReactNode } from "react"
 
@@ -38,15 +39,6 @@ const IMAGES: Partial<Record<Base, SvglIcon>> = {
 }
 
 const INLINE: Partial<Record<Base, ReactNode>> = {
-  /** ui-sdk's wordmark's first letter (its site's icon is Vercel's own mark). */
-  uisdk: (
-    <svg viewBox="7 3.5 68 84" width="100%" height="100%" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M7 3.64H22.08V55.724C22.08 67.904 28.692 74.284 40.988 74.284C53.284 74.284 59.896 67.904 59.896 55.724V3.64H74.976V56.188C74.976 76.372 62.448 87.392 40.988 87.392C19.528 87.392 7 76.372 7 56.188V3.64Z"
-      />
-    </svg>
-  ),
   bits: (
     <svg viewBox="0 0 11 11" width="100%" height="100%" aria-hidden="true">
       <circle cx="5.5" cy="5.5" r="5" fill="currentColor" />
@@ -77,6 +69,11 @@ const INLINE: Partial<Record<Base, ReactNode>> = {
       />
     </svg>
   ),
+}
+
+/** Whether a base has a mark to draw. */
+export function hasBaseLogo(base: Base): boolean {
+  return INLINE[base] !== undefined || IMAGES[base] !== undefined
 }
 
 /** A base's mark, sized by its container (an inline mark) or 1em square (an image). */

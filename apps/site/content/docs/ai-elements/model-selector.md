@@ -9,6 +9,7 @@ variants:
     react/uisdk,
     vue/ark,
     vue/reka,
+    vue/uisdk,
     svelte/ark,
     svelte/bits,
     solid/ark,
@@ -19,13 +20,13 @@ keywords: [model selector, ai elements, agent, chat]
 
 # Model Selector
 
-<!-- ::preview item="model-selector-demo" height="360" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="model-selector-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/uisdk" -->
 
 ## Installation
 
 Model Selector is built with the [Dropdown Menu](/docs/components/dropdown-menu) and [Input Group](/docs/components/input-group) components.
 
-<!-- ::installation name="dropdown-menu input-group" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::installation name="dropdown-menu input-group" combinations="react/base,react/aria,react/uisdk,vue/uisdk" -->
 
 ## Usage
 

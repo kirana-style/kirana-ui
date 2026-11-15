@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vp dev --port 3003",
-    "build": "vue-tsc --noEmit -p tsconfig.vue.json && vp build"
+    "build": "vue-tsc --noEmit -p tsconfig.vue-ark.json && vue-tsc --noEmit -p tsconfig.vue-reka.json && vue-tsc --noEmit -p tsconfig.vue-uisdk.json && vp build"
   },
   "dependencies": {
     "@ai-sdk/vue": "catalog:",
@@ -13,6 +13,8 @@
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",
+    "@ui-sdk/core": "catalog:",
+    "@ui-sdk/vue": "catalog:",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "reka-ui": "catalog:",

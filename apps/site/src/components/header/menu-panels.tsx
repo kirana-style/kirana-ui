@@ -286,9 +286,6 @@ function FrameworkRow({
       </span>
       <span sx={styles.rowText}>
         <span sx={styles.rowTitle}>{framework.label}</span>
-        <span sx={styles.rowDescription}>
-          {framework.variants.map((variant) => variant.base).join(" · ")}
-        </span>
       </span>
       {chosen ? (
         <Icon icon={Tick02Icon} sx={styles.frameworkCurrent} />
@@ -314,7 +311,8 @@ function FrameworkRow({
 }
 
 /**
- * The header's Frameworks menu: each framework with its mark and bases, the reader's ticked.
+ * The header's Frameworks menu: each framework with its mark, the reader's ticked (its bases are a
+ * component page's own switch).
  * Choosing one saves it for the whole site (every link to a component follows it) and, on a
  * component's page, opens that page in the framework.
  */

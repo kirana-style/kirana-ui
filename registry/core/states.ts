@@ -258,7 +258,8 @@ export const resizable = {
     reka: '[data-orientation="vertical"]',
     // paneforge (on Bits UI) gives its group and its resizers the group's `data-direction`.
     bits: '[data-direction="vertical"]',
-    // react-resizable-panels on ui-sdk too, until its own Resizable is taken (P9's coverage).
+    // react-resizable-panels' on ui-sdk: React's part keeps that library, and Vue's ui-sdk Resizable
+    // writes its `data-group` and `data-separator` (`ui/resizable` in `bases/vue-uisdk`).
     uisdk: '[data-group][aria-orientation="vertical"]',
   },
   across: {

@@ -1,5 +1,5 @@
 /**
- * A tooltip or popover trigger in a form never submits it, on either base, as its own button or
+ * A tooltip or popover trigger in a form never submits it, on every base, as its own button or
  * with `as-child` on the registry's Button. Ark UI's tooltip trigger is a `<button>` with no type,
  * which submits the form (LF-021): `TooltipTrigger.vue` passes `type="button"`.
  */
@@ -19,6 +19,9 @@ const modules = {
   ),
   reka: import.meta.glob<Record<string, unknown>>(
     "../../../registry/bases/vue-reka/ui/*/index.ts"
+  ),
+  uisdk: import.meta.glob<Record<string, unknown>>(
+    "../../../registry/bases/vue-uisdk/ui/*/index.ts"
   ),
 }
 
