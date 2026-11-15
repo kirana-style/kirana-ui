@@ -21,11 +21,15 @@ import { overlay, presence, side, when } from "../core/states"
  */
 export const ANCHOR_WIDTH =
   "var(--anchor-width, var(--trigger-width, var(--reference-width, var(--reka-popper-anchor-width, var(--bits-floating-anchor-width)))))"
-/** The room a popup has below or beside its trigger, under the same names. */
+/**
+ * The room a popup has below or beside its trigger, under the same names. ui-sdk registers its
+ * `--available-*` as not inherited (LF-025), so inside its popup they are handed on as
+ * `--uisdk-available-*` (`ui/combobox.tsx` in `bases/react-uisdk`).
+ */
 export const AVAILABLE_HEIGHT =
-  "var(--available-height, var(--reka-popper-available-height, var(--bits-floating-available-height)))"
+  "var(--available-height, var(--reka-popper-available-height, var(--bits-floating-available-height, var(--uisdk-available-height))))"
 export const AVAILABLE_WIDTH =
-  "var(--available-width, var(--reka-popper-available-width, var(--bits-floating-available-width)))"
+  "var(--available-width, var(--reka-popper-available-width, var(--bits-floating-available-width, var(--uisdk-available-width))))"
 export const TRANSFORM_ORIGIN =
   "var(--transform-origin, var(--trigger-anchor-point, var(--reka-popper-transform-origin, var(--bits-floating-transform-origin))))"
 

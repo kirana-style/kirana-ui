@@ -875,7 +875,7 @@
     {
       "element": "kbd[data-slot=\"kbd\"]",
       "property": "(element)",
-      "route": "react/uisdk/tooltip-example",
+      "route": "react/uisdk/(tooltip|kbd)-example",
       "reason": "a shortcut inside a hidden tooltip content, as the content"
     },
     {
@@ -1027,6 +1027,264 @@
       "property": "(element)",
       "route": "react/uisdk/",
       "reason": "ui-sdk names a select item's text and indicator; Base UI's carry no slot, the same elements otherwise"
+    },
+    {
+      "element": "section[data-slot=\"toast-viewport\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's toast region stays in the page while it holds no toast; Base UI's viewport mounts with its first"
+    },
+    {
+      "element": "ol[data-slot=\"toast-list\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's toast region holds its toasts in a list, which stays in the page while empty; Base UI's toasts are the viewport's children"
+    },
+    {
+      "element": "input[data-slot=\"combobox-form-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's combobox submits its value through hidden inputs, as its select does (`select-form-input`)"
+    },
+    {
+      "element": "input[data-slot=\"combobox-value-input\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's combobox submits its value through hidden inputs, as its select does (`select-form-input`)"
+    },
+    {
+      "element": "button[data-slot=\"collapsible-trigger\"]",
+      "property": "rotate",
+      "route": "react/uisdk/sidebar-inset-example",
+      "reason": "the example turns its chevron on `[data-open]`, which ui-sdk's collapsible trigger writes when open; Base UI's writes `data-panel-open`, so on Base UI (and upstream's Base UI page) it never turns"
+    },
+    {
+      "element": "div[data-slot=\"combobox-chip\"]",
+      "property": "cursor",
+      "route": "react/uisdk/combobox-example",
+      "reason": "ui-sdk disables a chip's remove button in a disabled combobox (`disabled`), which the chip's `:has(:disabled)` cursor reads; Base UI's stays enabled"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"popover-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"context-menu-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"combobox-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "max-height",
+      "route": "react/uisdk/",
+      "reason": "the room below the trigger (`--available-height`) as ui-sdk measures it from its own placement, 3px from Base UI's"
+    },
+    {
+      "element": "span[data-slot=\"menu-item-indicator\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk names a menu's and a combobox's item indicator; Base UI's carry no slot, the same elements otherwise"
+    },
+    {
+      "element": "span[data-slot=\"combobox-item-indicator\"]",
+      "property": "(element)",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk names a menu's and a combobox's item indicator; Base UI's carry no slot, the same elements otherwise"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "transition-property",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's select has no `alignItemWithTrigger`: its popup opens beside the trigger, with the popup's motion, where Base UI's over the trigger has none"
+    },
+    {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "display",
+      "route": "react/uisdk/",
+      "reason": "a closed select's popup, kept in the page by both: ui-sdk's hidden (`display: none`), Base UI's out of view"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "border-top-color",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "border-right-color",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "border-bottom-color",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "border-left-color",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "div[data-slot=\"input-group\"]",
+      "property": "box-shadow",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "input[data-slot=\"input-group-control\"]",
+      "property": "outline-width",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "div[data-slot=\"combobox-item\"]",
+      "property": "background-color",
+      "route": "react/uisdk/combobox-example",
+      "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-content\"]",
+      "property": "position",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-content\"]",
+      "property": "top",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-content\"]",
+      "property": "right",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-content\"]",
+      "property": "bottom",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
+    },
+    {
+      "element": "div[data-slot=\"hover-card-content\"]",
+      "property": "left",
+      "route": "react/uisdk/",
+      "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     }
   ]
 }

@@ -7,7 +7,7 @@ import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { checkbox } from "../../../styles/checkbox.styles"
 
 type CheckboxProps = ComponentProps<typeof CheckboxPrimitive.Checkbox>
@@ -35,7 +35,7 @@ function Checkbox({
   return (
     <CheckboxPrimitive.Checkbox
       {...props}
-      render={slotRender("checkbox", "span", props.render)}
+      render={slotRender(slotOf(props, "checkbox"), "span", props.render)}
       checked={indeterminate ? "indeterminate" : checked}
       onCheckedChange={
         onCheckedChange &&

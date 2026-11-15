@@ -17,9 +17,15 @@ type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
  */
 type ButtonProps = Omit<
   React.ComponentProps<typeof ButtonPrimitive>,
-  "className"
+  "className" | "onClick" | "children"
 > &
-  ButtonVariants & { sx?: Sx; nativeButton?: boolean }
+  ButtonVariants & {
+    sx?: Sx
+    children?: React.ReactNode
+    nativeButton?: boolean
+    /** Base UI's handler, of the event alone; ui-sdk's also hands how it was pressed. */
+    onClick?: React.MouseEventHandler<HTMLButtonElement>
+  }
 
 /**
  * Wraps each run of text so it is trimmed to its capitals; icons and elements pass through.
@@ -61,6 +67,7 @@ function Button({
   children,
   nativeButton,
   render,
+  onClick,
   "data-slot": slot = "button",
   ...props
 }: ButtonProps & { "data-slot"?: string }) {
@@ -73,10 +80,13 @@ function Button({
     <ButtonPrimitive
       {...props}
       {...link}
+      onClick={
+        onClick as React.ComponentProps<typeof ButtonPrimitive>["onClick"]
+      }
       render={slotRender(slot, "button", render)}
       {...styleProps(button({ variant, size }), sx)}
     >
-      {typeof children === "function" ? children : withLabels(children)}
+      {withLabels(children)}
     </ButtonPrimitive>
   )
 }

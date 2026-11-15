@@ -139,9 +139,9 @@ const PORTING: Framework[] = ["svelte", "solid", "angular"]
 /**
  * A base while it is ported against React's pages: its components appear as their markup is
  * written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI has no toast, which the
- * toast's item leaves out by its bases); ui-sdk on React is being ported (P9).
+ * toast's item leaves out by its bases), and so is React on ui-sdk (P9-02).
  */
-const PORTING_BASES: string[] = ["react-uisdk"]
+const PORTING_BASES: string[] = []
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -744,9 +744,9 @@ const ALL_ITEMS: Item[] = [
     "menubar",
     "Menubar",
     "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
-    // No Ark UI menubar; Angular's is the registry's own, on its menus.
+    // No Ark UI menubar; Angular's is the registry's own, on its menus; ui-sdk's is its own.
     ["react", "angular"],
-    ["base", "ng"]
+    ["base", "ng", "uisdk"]
   ),
   component(
     "accordion",
@@ -784,7 +784,7 @@ const ALL_ITEMS: Item[] = [
     "A succinct message that is displayed temporarily.",
     ["react", "vue"],
     // React Aria has no toast: its pages use Sonner. Angular's comes with its own (P6).
-    ["base", "ark", "ng", "reka"]
+    ["base", "ark", "ng", "reka", "uisdk"]
   ),
   component(
     "resizable",

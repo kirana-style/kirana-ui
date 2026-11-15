@@ -6,7 +6,7 @@ import * as ScrollAreaPrimitive from "@ui-sdk/react/scroll-area"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { scrollArea } from "../../../styles/scroll-area.styles"
 
 function ScrollArea({
@@ -19,7 +19,7 @@ function ScrollArea({
   return (
     <ScrollAreaPrimitive.ScrollArea
       {...props}
-      render={slotRender("scroll-area", "div", props.render)}
+      render={slotRender(slotOf(props, "scroll-area"), "div", props.render)}
       {...styleProps(scrollArea.root, sx)}
     >
       <ScrollAreaPrimitive.ScrollAreaViewport
@@ -47,7 +47,11 @@ function ScrollBar({
       data-orientation={orientation}
       orientation={orientation}
       {...props}
-      render={slotRender("scroll-area-scrollbar", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "scroll-area-scrollbar"),
+        "div",
+        props.render
+      )}
       {...styleProps(scrollArea.scrollbar, sx)}
     >
       <ScrollAreaPrimitive.ScrollAreaThumb

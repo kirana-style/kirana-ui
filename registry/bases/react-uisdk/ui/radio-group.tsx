@@ -5,7 +5,7 @@ import type { ComponentProps } from "react"
 import * as RadioPrimitive from "@ui-sdk/react/radio"
 
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { radioGroup } from "../../../styles/radio-group.styles"
 
 type GroupProps = ComponentProps<typeof RadioPrimitive.RadioGroup>
@@ -41,7 +41,7 @@ function RadioGroup<Value extends string = string>({
         ((next, details) => onValueChange(next as Value, details))
       }
       {...props}
-      render={slotRender("radio-group", "div", props.render)}
+      render={slotRender(slotOf(props, "radio-group"), "div", props.render)}
       {...styleProps(radioGroup.root, sx)}
     />
   )
@@ -56,7 +56,11 @@ function RadioGroupItem({
   return (
     <RadioPrimitive.Radio
       {...props}
-      render={slotRender("radio-group-item", "span", props.render)}
+      render={slotRender(
+        slotOf(props, "radio-group-item"),
+        "span",
+        props.render
+      )}
       {...styleProps(radioGroup.item, sx)}
     >
       <RadioPrimitive.RadioIndicator

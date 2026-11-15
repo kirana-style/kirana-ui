@@ -6,7 +6,7 @@ import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, slotRender } from "../../../lib/uisdk-slot"
+import { popupContainer, slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { navigationMenu } from "../../../styles/navigation-menu.styles"
 
 type Props<P> = Omit<P, "className"> & { sx?: Sx }
@@ -31,7 +31,7 @@ function NavigationMenu({
     <NavigationMenuPrimitive.NavigationMenu
       container={popupContainer()}
       {...props}
-      render={slotRender("navigation-menu", "nav", props.render)}
+      render={slotRender(slotOf(props, "navigation-menu"), "nav", props.render)}
       {...styleProps(navigationMenu.root, sx)}
     >
       {children}
@@ -49,7 +49,11 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.NavigationMenuList
       {...props}
-      render={slotRender("navigation-menu-list", "ul", props.render)}
+      render={slotRender(
+        slotOf(props, "navigation-menu-list"),
+        "ul",
+        props.render
+      )}
       {...styleProps(navigationMenu.list, sx)}
     />
   )
@@ -64,7 +68,11 @@ function NavigationMenuItem({
   return (
     <NavigationMenuPrimitive.NavigationMenuItem
       {...props}
-      render={slotRender("navigation-menu-item", "li", props.render)}
+      render={slotRender(
+        slotOf(props, "navigation-menu-item"),
+        "li",
+        props.render
+      )}
       {...styleProps(navigationMenu.item, sx)}
     />
   )
@@ -89,7 +97,11 @@ function NavigationMenuTrigger({
   return (
     <NavigationMenuPrimitive.NavigationMenuTrigger
       {...props}
-      render={slotRender("navigation-menu-trigger", "button", props.render)}
+      render={slotRender(
+        slotOf(props, "navigation-menu-trigger"),
+        "button",
+        props.render
+      )}
       {...styleProps(navigationMenu.trigger, sx)}
     >
       {children}{" "}
@@ -115,7 +127,11 @@ function NavigationMenuContent({
   return (
     <NavigationMenuPrimitive.NavigationMenuContent
       {...props}
-      render={slotRender("navigation-menu-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "navigation-menu-content"),
+        "div",
+        props.render
+      )}
       {...styleProps(navigationMenu.content, sx)}
     />
   )
@@ -168,7 +184,11 @@ function NavigationMenuLink({
     <NavigationMenuPrimitive.NavigationMenuLink
       current={current ?? active}
       {...props}
-      render={slotRender("navigation-menu-link", "a", props.render)}
+      render={slotRender(
+        slotOf(props, "navigation-menu-link"),
+        "a",
+        props.render
+      )}
       {...styleProps(navigationMenu.link, sx)}
     />
   )
@@ -184,7 +204,11 @@ function NavigationMenuIndicator({
   return (
     <NavigationMenuPrimitive.NavigationMenuIndicator
       {...props}
-      render={slotRender("navigation-menu-indicator", "span", props.render)}
+      render={slotRender(
+        slotOf(props, "navigation-menu-indicator"),
+        "span",
+        props.render
+      )}
       {...styleProps(navigationMenu.indicator, sx)}
     >
       <div sx={navigationMenu.arrow} />

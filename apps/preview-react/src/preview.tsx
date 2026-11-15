@@ -120,6 +120,13 @@ const BaseToaster = lazy(() =>
   }))
 )
 
+/** ui-sdk's, which its base's items' `toast.add` show, as Base UI's toaster beside Base UI's. */
+const UisdkToaster = lazy(() =>
+  import("@workspace/registry/bases/react-uisdk/ui/toast").then((module) => ({
+    default: module.Toaster,
+  }))
+)
+
 /** Inter and Geist, which the page links. */
 const LINKED = new Set<string>(["inter", "geist", "inherit"])
 
@@ -190,6 +197,7 @@ export function Preview({ base, Item }: { base: string; Item: ComponentType }) {
             <Suspense>
               <SonnerToaster position="top-center" />
               {base === "base" && <BaseToaster />}
+              {base === "uisdk" && <UisdkToaster />}
             </Suspense>
           )}
         </IconLibraryProvider>

@@ -6,7 +6,12 @@ import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, sideOf, slotRender } from "../../../lib/uisdk-slot"
+import {
+  popupContainer,
+  sideOf,
+  slotRender,
+  slotOf,
+} from "../../../lib/uisdk-slot"
 import type { BaseSide } from "../../../lib/uisdk-slot"
 import { contextMenu } from "../../../styles/context-menu.styles"
 import {
@@ -50,7 +55,11 @@ function ContextMenuTrigger({
   return (
     <MenuPrimitive.MenuContextTrigger
       {...props}
-      render={slotRender("context-menu-trigger", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-trigger"),
+        "div",
+        props.render
+      )}
       {...styleProps(contextMenu.trigger, sx)}
     />
   )
@@ -74,7 +83,11 @@ function ContextMenuContent({
   return (
     <MenuPrimitive.MenuContent
       {...props}
-      render={slotRender("context-menu-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-content"),
+        "div",
+        props.render
+      )}
       align={align}
       alignOffset={alignOffset}
       side={sideOf(side)}
@@ -96,7 +109,11 @@ function ContextMenuGroup({
   return (
     <MenuPrimitive.MenuGroup
       {...props}
-      render={slotRender("context-menu-group", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-group"),
+        "div",
+        props.render
+      )}
     />
   )
 }
@@ -116,7 +133,11 @@ function ContextMenuLabel({
     <MenuPrimitive.MenuGroupLabel
       data-inset={inset}
       {...props}
-      render={slotRender("context-menu-label", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-label"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuLabel, menuLabelWeight, sx)}
     />
   )
@@ -126,18 +147,27 @@ function ContextMenuItem({
   sx,
   inset,
   variant = "default",
+  closeOnClick,
   ...props
 }: Omit<React.ComponentProps<typeof MenuPrimitive.MenuItem>, "className"> & {
   inset?: boolean
   variant?: "default" | "destructive"
   sx?: Sx
+} & {
+  /** Base UI's name for ui-sdk's `closeOnSelect`. */
+  closeOnClick?: boolean
 }) {
   return (
     <MenuPrimitive.MenuItem
+      closeOnSelect={closeOnClick}
       data-inset={inset}
       data-variant={variant}
       {...props}
-      render={slotRender("context-menu-item", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-item"),
+        "div",
+        props.render
+      )}
       {...styleProps(
         menuRowBase,
         menuRowPadding,
@@ -170,7 +200,11 @@ function ContextMenuSubTrigger({
     <MenuPrimitive.MenuSubTrigger
       data-inset={inset}
       {...props}
-      render={slotRender("context-menu-sub-trigger", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-sub-trigger"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuRowBase, menuRowPadding, contextMenu.subTrigger, sx)}
     >
       {children}
@@ -198,7 +232,11 @@ function ContextMenuSubContent({
   return (
     <MenuPrimitive.MenuSubContent
       {...props}
-      render={slotRender("context-menu-sub-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-sub-content"),
+        "div",
+        props.render
+      )}
       side={sideOf(side)}
       {...styleProps(
         menuPositioner,
@@ -216,6 +254,7 @@ function ContextMenuCheckboxItem({
   sx,
   children,
   inset,
+  closeOnClick,
   ...props
 }: Omit<
   React.ComponentProps<typeof MenuPrimitive.MenuCheckboxItem>,
@@ -223,15 +262,23 @@ function ContextMenuCheckboxItem({
 > & { children?: React.ReactNode; value?: string } & {
   inset?: boolean
   sx?: Sx
+} & {
+  /** Base UI's name for ui-sdk's `closeOnSelect`. */
+  closeOnClick?: boolean
 }) {
   // Base UI\'s item needs no value; ui-sdk\'s names it within the menu.
   const id = React.useId()
   return (
     <MenuPrimitive.MenuCheckboxItem
+      closeOnSelect={closeOnClick}
       data-inset={inset}
       value={id}
       {...props}
-      render={slotRender("context-menu-checkbox-item", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-checkbox-item"),
+        "div",
+        props.render
+      )}
       {...styleProps(
         menuRowBase,
         menuCheckableRowPadding,
@@ -261,7 +308,11 @@ function ContextMenuRadioGroup({
   return (
     <MenuPrimitive.MenuRadioGroup
       {...props}
-      render={slotRender("context-menu-radio-group", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-radio-group"),
+        "div",
+        props.render
+      )}
     />
   )
 }
@@ -270,6 +321,7 @@ function ContextMenuRadioItem({
   sx,
   children,
   inset,
+  closeOnClick,
   ...props
 }: Omit<
   React.ComponentProps<typeof MenuPrimitive.MenuRadioItem>,
@@ -277,12 +329,20 @@ function ContextMenuRadioItem({
 > & { children?: React.ReactNode } & {
   inset?: boolean
   sx?: Sx
+} & {
+  /** Base UI's name for ui-sdk's `closeOnSelect`. */
+  closeOnClick?: boolean
 }) {
   return (
     <MenuPrimitive.MenuRadioItem
+      closeOnSelect={closeOnClick}
       data-inset={inset}
       {...props}
-      render={slotRender("context-menu-radio-item", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-radio-item"),
+        "div",
+        props.render
+      )}
       {...styleProps(
         menuRowBase,
         menuCheckableRowPadding,
@@ -316,7 +376,11 @@ function ContextMenuSeparator({
   return (
     <MenuPrimitive.MenuSeparator
       {...props}
-      render={slotRender("context-menu-separator", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "context-menu-separator"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuSeparator, sx)}
     />
   )

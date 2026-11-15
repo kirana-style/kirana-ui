@@ -785,10 +785,24 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     on its trigger (ui-sdk's root takes them), a progress value's function
     child, a menu checkbox item's `value` (an id when none is given), the
     logical sides (`sideOf()`), a link's `active` (`current`), an input's
-    numeric value. A drawer cancels the scroll-driven animations in its content
-    as it closes (`endScrollAnimations()`): ui-sdk's exit waits for every
-    animation inside the popup, and Firefox gives a scroll fade's an end
-    about three minutes away. Type-check after copying examples over (`vp check`): the
+    numeric value, an accordion's numeric values, a menu item's
+    `closeOnClick` (`closeOnSelect`). A combobox keeps Base UI's function
+    children: the root hands its `items` to the list's, a group's to its
+    collection, and the value's hands each chip it returns its value, in
+    order; its popup is placed against the input's group, or the trigger when
+    the input is inside the popup, as Base UI's is. ui-sdk registers its
+    `--available-*` as not inherited, so the combobox's content hands its room
+    on as `--uisdk-available-*`, the last fallback of `AVAILABLE_HEIGHT` and
+    `AVAILABLE_WIDTH` (`overlay.styles.ts`). A menubar's menus are the dropdown menu's parts under the slot it
+    hands them (`slotOf()`). The toast keeps Base UI's manager (`toast.add`,
+    `close`, `promise`) over a ui-sdk toaster, hands ui-sdk's stack variables
+    on under Base UI's names (`--toast-offset` as `--toast-offset-y` …) and
+    writes Base UI's `data-behind` and `data-expanded` on its content. A
+    drawer, a dialog, an alert dialog and a sheet cancel the scroll-driven
+    animations in their content as they close (`useClosingRoot()`,
+    `endScrollAnimations()`): ui-sdk's exit waits for every animation inside
+    the popup, and Firefox gives a scroll fade's an end about three minutes
+    away. Type-check after copying examples over (`vp check`): the
     preview app does not see them, its previews loading through a glob.
   - **Its keys in every per-base table**, `when()`'s and a style module's own
     (`IN_VERTICAL` in `tabs.styles.ts`, `OPEN` in `collapsible.styles.ts`):

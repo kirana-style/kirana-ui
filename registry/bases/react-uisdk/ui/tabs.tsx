@@ -6,7 +6,7 @@ import * as TabsPrimitive from "@ui-sdk/react/tabs"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { slotRender } from "../../../lib/uisdk-slot"
+import { slotRender, slotOf } from "../../../lib/uisdk-slot"
 import { tabs } from "../../../styles/tabs.styles"
 
 function Tabs({
@@ -19,7 +19,7 @@ function Tabs({
       data-orientation={orientation}
       orientation={orientation}
       {...props}
-      render={slotRender("tabs", "div", props.render)}
+      render={slotRender(slotOf(props, "tabs"), "div", props.render)}
       {...styleProps(tabs.root, sx)}
     />
   )
@@ -37,7 +37,7 @@ function TabsList({
     <TabsPrimitive.TabsList
       data-variant={variant}
       {...props}
-      render={slotRender("tabs-list", "div", props.render)}
+      render={slotRender(slotOf(props, "tabs-list"), "div", props.render)}
       {...styleProps(
         tabs.list,
         variant === "line" ? tabs.listLine : tabs.listDefault,
@@ -56,7 +56,7 @@ function TabsTrigger({
   return (
     <TabsPrimitive.TabsTab
       {...props}
-      render={slotRender("tabs-trigger", "button", props.render)}
+      render={slotRender(slotOf(props, "tabs-trigger"), "button", props.render)}
       {...styleProps(tabs.trigger, sx)}
     />
   )
@@ -71,7 +71,7 @@ function TabsContent({
   return (
     <TabsPrimitive.TabsPanel
       {...props}
-      render={slotRender("tabs-content", "div", props.render)}
+      render={slotRender(slotOf(props, "tabs-content"), "div", props.render)}
       {...styleProps(tabs.content, sx)}
     />
   )

@@ -9,6 +9,7 @@ import {
   endScrollAnimations,
   popupContainer,
   slotRender,
+  slotOf,
 } from "../../../lib/uisdk-slot"
 import { drawer } from "../../../styles/drawer.styles"
 
@@ -100,7 +101,11 @@ function DrawerTrigger(
   return (
     <DrawerPrimitive.DrawerTrigger
       {...props}
-      render={slotRender("drawer-trigger", "button", props.render)}
+      render={slotRender(
+        slotOf(props, "drawer-trigger"),
+        "button",
+        props.render
+      )}
     />
   )
 }
@@ -116,7 +121,7 @@ function DrawerClose(
   return (
     <DrawerPrimitive.DrawerClose
       {...props}
-      render={slotRender("drawer-close", "button", props.render)}
+      render={slotRender(slotOf(props, "drawer-close"), "button", props.render)}
     />
   )
 }
@@ -133,7 +138,7 @@ function DrawerOverlay({
   return (
     <DrawerPrimitive.DrawerBackdrop
       {...props}
-      render={slotRender("drawer-overlay", "div", props.render)}
+      render={slotRender(slotOf(props, "drawer-overlay"), "div", props.render)}
       {...styleProps(drawer.overlay, sx)}
     />
   )
@@ -178,7 +183,7 @@ function DrawerContent({
         data-swipe-direction={swipeDirection}
         data-snap-points={hasSnapPoints ? "" : undefined}
         {...props}
-        render={slotRender("drawer-popup", "div", props.render)}
+        render={slotRender(slotOf(props, "drawer-popup"), "div", props.render)}
         {...styleProps(drawer.popup, sx)}
       >
         {showSwipeHandle && <DrawerSwipeHandle />}
@@ -210,7 +215,7 @@ function DrawerTitle({
   return (
     <DrawerPrimitive.DrawerTitle
       {...props}
-      render={slotRender("drawer-title", "h2", props.render)}
+      render={slotRender(slotOf(props, "drawer-title"), "h2", props.render)}
       {...styleProps(drawer.title, sx)}
     />
   )
@@ -228,7 +233,11 @@ function DrawerDescription({
   return (
     <DrawerPrimitive.DrawerDescription
       {...props}
-      render={slotRender("drawer-description", "p", props.render)}
+      render={slotRender(
+        slotOf(props, "drawer-description"),
+        "p",
+        props.render
+      )}
       {...styleProps(drawer.description, sx)}
     />
   )

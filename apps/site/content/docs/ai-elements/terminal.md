@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/aria,
+    react/uisdk,
     vue/ark,
     vue/reka,
     svelte/ark,
@@ -18,7 +19,7 @@ keywords: [terminal, ai elements, agent, chat]
 
 # Terminal
 
-<!-- ::preview item="terminal-demo" height="710" combinations="react/base,react/aria" -->
+<!-- ::preview item="terminal-demo" height="710" combinations="react/base,react/aria,react/uisdk" -->
 
 Terminal is a shell command the agent runs, such as a lint, a test run or a build. The line shows the command, and its output streams in underneath while it runs.
 
@@ -28,7 +29,7 @@ Terminal is built with `Trace` with a `TraceCollapsible` for each command.
 
 Terminal is built with the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components.
 
-<!-- ::installation name="trace code-block" combinations="react/base,react/aria" -->
+<!-- ::installation name="trace code-block" combinations="react/base,react/aria,react/uisdk" -->
 
 ## Usage
 
@@ -75,7 +76,7 @@ const styles = {
 
 A command that exits with any code other than `0` failed. Set `status="error"`.
 
-<!-- ::preview item="terminal-error" height="440" combinations="react/base,react/aria" -->
+<!-- ::preview item="terminal-error" height="440" combinations="react/base,react/aria,react/uisdk" -->
 
 | Command                  | `status`    | Title                        |
 | ------------------------ | ----------- | ---------------------------- |

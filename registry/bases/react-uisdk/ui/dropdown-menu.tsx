@@ -6,7 +6,12 @@ import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, sideOf, slotRender } from "../../../lib/uisdk-slot"
+import {
+  popupContainer,
+  sideOf,
+  slotOf,
+  slotRender,
+} from "../../../lib/uisdk-slot"
 import type { BaseSide } from "../../../lib/uisdk-slot"
 import { dropdownMenu } from "../../../styles/dropdown-menu.styles"
 import {
@@ -47,7 +52,11 @@ function DropdownMenuTrigger({
   return (
     <MenuPrimitive.MenuTrigger
       {...props}
-      render={slotRender("dropdown-menu-trigger", "button", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-trigger"),
+        "button",
+        props.render
+      )}
     />
   )
 }
@@ -70,7 +79,11 @@ function DropdownMenuContent({
   return (
     <MenuPrimitive.MenuContent
       {...props}
-      render={slotRender("dropdown-menu-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-content"),
+        "div",
+        props.render
+      )}
       align={align}
       alignOffset={alignOffset}
       side={sideOf(side)}
@@ -92,7 +105,11 @@ function DropdownMenuGroup({
   return (
     <MenuPrimitive.MenuGroup
       {...props}
-      render={slotRender("dropdown-menu-group", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-group"),
+        "div",
+        props.render
+      )}
     />
   )
 }
@@ -112,7 +129,11 @@ function DropdownMenuLabel({
     <MenuPrimitive.MenuGroupLabel
       data-inset={inset}
       {...props}
-      render={slotRender("dropdown-menu-label", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-label"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuLabel, menuLabelWeight, sx)}
     />
   )
@@ -122,18 +143,27 @@ function DropdownMenuItem({
   sx,
   inset,
   variant = "default",
+  closeOnClick,
   ...props
 }: Omit<React.ComponentProps<typeof MenuPrimitive.MenuItem>, "className"> & {
   inset?: boolean
   variant?: "default" | "destructive"
   sx?: Sx
+} & {
+  /** Base UI's name for ui-sdk's `closeOnSelect`. */
+  closeOnClick?: boolean
 }) {
   return (
     <MenuPrimitive.MenuItem
+      closeOnSelect={closeOnClick}
       data-inset={inset}
       data-variant={variant}
       {...props}
-      render={slotRender("dropdown-menu-item", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-item"),
+        "div",
+        props.render
+      )}
       {...styleProps(
         menuRowBase,
         menuRowPadding,
@@ -166,7 +196,11 @@ function DropdownMenuSubTrigger({
     <MenuPrimitive.MenuSubTrigger
       data-inset={inset}
       {...props}
-      render={slotRender("dropdown-menu-sub-trigger", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-sub-trigger"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuRowBase, menuRowPadding, dropdownMenu.subTrigger, sx)}
     >
       {children}
@@ -200,7 +234,11 @@ function DropdownMenuSubContent({
       alignOffset={alignOffset}
       sideOffset={sideOffset}
       {...props}
-      render={slotRender("dropdown-menu-sub-content", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-sub-content"),
+        "div",
+        props.render
+      )}
       side={sideOf(side)}
       {...styleProps(
         menuPositioner,
@@ -218,6 +256,7 @@ function DropdownMenuCheckboxItem({
   sx,
   children,
   inset,
+  closeOnClick,
   ...props
 }: Omit<
   React.ComponentProps<typeof MenuPrimitive.MenuCheckboxItem>,
@@ -225,15 +264,23 @@ function DropdownMenuCheckboxItem({
 > & { children?: React.ReactNode; value?: string } & {
   inset?: boolean
   sx?: Sx
+} & {
+  /** Base UI's name for ui-sdk's `closeOnSelect`. */
+  closeOnClick?: boolean
 }) {
   // Base UI\'s item needs no value; ui-sdk\'s names it within the menu.
   const id = React.useId()
   return (
     <MenuPrimitive.MenuCheckboxItem
+      closeOnSelect={closeOnClick}
       data-inset={inset}
       value={id}
       {...props}
-      render={slotRender("dropdown-menu-checkbox-item", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-checkbox-item"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuRowBase, menuCheckableRowPadding, sx)}
     >
       <span
@@ -261,7 +308,11 @@ function DropdownMenuRadioGroup({
   return (
     <MenuPrimitive.MenuRadioGroup
       {...props}
-      render={slotRender("dropdown-menu-radio-group", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-radio-group"),
+        "div",
+        props.render
+      )}
     />
   )
 }
@@ -270,6 +321,7 @@ function DropdownMenuRadioItem({
   sx,
   children,
   inset,
+  closeOnClick,
   ...props
 }: Omit<
   React.ComponentProps<typeof MenuPrimitive.MenuRadioItem>,
@@ -277,12 +329,20 @@ function DropdownMenuRadioItem({
 > & { children?: React.ReactNode } & {
   inset?: boolean
   sx?: Sx
+} & {
+  /** Base UI's name for ui-sdk's `closeOnSelect`. */
+  closeOnClick?: boolean
 }) {
   return (
     <MenuPrimitive.MenuRadioItem
+      closeOnSelect={closeOnClick}
       data-inset={inset}
       {...props}
-      render={slotRender("dropdown-menu-radio-item", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-radio-item"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuRowBase, menuCheckableRowPadding, sx)}
     >
       <span data-slot="dropdown-menu-radio-item-indicator" sx={menuIndicator}>
@@ -311,7 +371,11 @@ function DropdownMenuSeparator({
   return (
     <MenuPrimitive.MenuSeparator
       {...props}
-      render={slotRender("dropdown-menu-separator", "div", props.render)}
+      render={slotRender(
+        slotOf(props, "dropdown-menu-separator"),
+        "div",
+        props.render
+      )}
       {...styleProps(menuSeparator, sx)}
     />
   )

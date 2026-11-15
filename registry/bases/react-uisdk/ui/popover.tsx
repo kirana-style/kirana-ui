@@ -5,7 +5,12 @@ import * as PopoverPrimitive from "@ui-sdk/react/popover"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
-import { popupContainer, sideOf, slotRender } from "../../../lib/uisdk-slot"
+import {
+  popupContainer,
+  sideOf,
+  slotRender,
+  slotOf,
+} from "../../../lib/uisdk-slot"
 import type { BaseSide } from "../../../lib/uisdk-slot"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { popover } from "../../../styles/popover.styles"
@@ -22,13 +27,21 @@ function Popover(props: React.ComponentProps<typeof PopoverPrimitive.Popover>) {
   )
 }
 
-function PopoverTrigger(
-  props: React.ComponentProps<typeof PopoverPrimitive.PopoverTrigger>
-) {
+/** Base UI's `nativeButton={false}` (a trigger drawn as another element) needs nothing here. */
+function PopoverTrigger({
+  nativeButton: _nativeButton,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.PopoverTrigger> & {
+  nativeButton?: boolean
+}) {
   return (
     <PopoverPrimitive.PopoverTrigger
       {...props}
-      render={slotRender("popover-trigger", "button", props.render)}
+      render={slotRender(
+        slotOf(props, "popover-trigger"),
+        "button",
+        props.render
+      )}
     />
   )
 }
@@ -51,7 +64,7 @@ function PopoverContent({
       sideOffset={sideOffset}
       {...props}
       side={sideOf(side)}
-      render={slotRender("popover-content", "div", props.render)}
+      render={slotRender(slotOf(props, "popover-content"), "div", props.render)}
       {...styleProps(popover.positioner, popupMotion, popover.content, sx)}
     />
   )
@@ -71,7 +84,7 @@ function PopoverTitle({
   return (
     <PopoverPrimitive.PopoverTitle
       {...props}
-      render={slotRender("popover-title", "h2", props.render)}
+      render={slotRender(slotOf(props, "popover-title"), "h2", props.render)}
       {...styleProps(popover.title, sx)}
     />
   )
@@ -84,7 +97,11 @@ function PopoverDescription({
   return (
     <PopoverPrimitive.PopoverDescription
       {...props}
-      render={slotRender("popover-description", "p", props.render)}
+      render={slotRender(
+        slotOf(props, "popover-description"),
+        "p",
+        props.render
+      )}
       {...styleProps(popover.description, sx)}
     />
   )
