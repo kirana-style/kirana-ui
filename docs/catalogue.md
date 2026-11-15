@@ -427,18 +427,22 @@ Oxlint + Oxfmt, Biome, Vite+), a card the others rule out dimmed with the reason
 right-to-left switches; the one command, `kirana-style ui init --template @kirana/<id>` from the
 registry package, for npm, pnpm, Yarn, Bun or `vp`, a Vite+ project locked to `vp`) and Existing
 Project (`kirana-style ui preset`). The bases' official marks are docs-ui's
-`base-logos.tsx`, shared with the docs' frameworks row. A framed preview is created once the page
+`base-logos.tsx`, shared with the docs' base switch; the frameworks' are its `framework-logos.ts`. A framed preview is created once the page
 has hydrated, so it loads once; it follows the colour mode through the theme provider's channel.
 `?theme=` is the colour mode when its value is `light`, `dark` or `system`, and the design's
 colour theme otherwise. The site's chrome is the Kirana site's, at the maintainer's call. The header: the petal K and
 the wordmark ("kirana ui", Crimson Pro's italic, where Kirana writes "kirana style"); Components,
-Blocks and Charts as links of their own (kirana/ui is its components); Docs (Colors with it) and Community
+Blocks and Charts as links of their own (kirana/ui is its components); Frameworks (each framework
+with its mark and bases, the reader's ticked: choosing one saves it for the whole site and opens a
+component's page in it, `components/frameworks.tsx`); Docs (Colors with it) and Community
 as mega menus (`components/header/`, featured destinations on the Kirana site's landscapes,
 `public/scenes/`, titled columns of links, the panels loaded on demand); then search, the GitHub
 mark, the sponsor heart and **Create**, the pill in the place of Kirana's Quick start
 (`components/cta.tsx`, the one label for starting a project); below `lg` a sheet. The docs bar
 keeps to the brand and its actions, as the Kirana site's docs do (no menus; its tab row is the
-docs' own sections). Outside the docs and `/create`, the header, every section and the footer
+docs' own sections), the reader's framework first among the actions (`FrameworkMenu`, a dropdown
+with the header menu's rows). Under a component page's title: its framework, and a switch of that
+framework's bases the page has (docs-ui's `markdown/frameworks.tsx`). Outside the docs and `/create`, the header, every section and the footer
 stand in the page's rail (`components/page/rail.tsx`, Kirana's `Rail`: a centred column, 80rem at
 most, ruled on both sides from `md` up, each section's bottom border crossing the rules); the
 home page's showcase is the one band that runs across it, to the page's edges; the footer's top

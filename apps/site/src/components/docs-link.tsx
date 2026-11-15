@@ -17,6 +17,14 @@ for (const page of PAGES) {
   VARIANT_PAGES.set(variant.of, pages)
 }
 
+/** A component's page for one variant (`/docs/components/button`, `vue/reka`), if it has one. */
+export function variantPage(
+  shared: string,
+  variant: string
+): string | undefined {
+  return VARIANT_PAGES.get(shared)?.get(variant)
+}
+
 /**
  * Where a link to a component's shared URL (the nav's, search's, the pager's, a page's own) leads:
  * the variant the reader is on (the page's, else the one they chose), or the component's default

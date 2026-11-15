@@ -79,9 +79,15 @@ import {
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
 import { BaseLogo } from "@workspace/docs-ui/base-logos.tsx"
+import {
+  ANGULAR,
+  REACT,
+  SOLID,
+  SVELTE,
+  VUE,
+} from "@workspace/docs-ui/framework-logos.ts"
 import { BrandIcon } from "@workspace/docs-ui/brand-icon.tsx"
 import type { SvglIcon } from "@workspace/docs-ui/brand-icon.tsx"
-import angularLogo from "@workspace/docs-ui/brands/angular.svg?url"
 import astroDark from "@workspace/docs-ui/brands/astro-icon-dark.svg?url"
 import astroLight from "@workspace/docs-ui/brands/astro-icon-light.svg?url"
 import biomeLogo from "@workspace/docs-ui/brands/biomejs.svg?url"
@@ -91,14 +97,9 @@ import nextLogo from "@workspace/docs-ui/brands/nextjs_icon_dark.svg?url"
 import nuxtLogo from "@workspace/docs-ui/brands/nuxt.svg?url"
 import oxcLogo from "@workspace/docs-ui/brands/oxc.svg?url"
 import reactRouterLogo from "@workspace/docs-ui/brands/reactrouter.svg?url"
-import reactDark from "@workspace/docs-ui/brands/react_dark.svg?url"
-import reactLight from "@workspace/docs-ui/brands/react_light.svg?url"
-import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
-import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
 import tanstackDark from "@workspace/docs-ui/brands/tanstack_dark.svg?url"
 import tanstackLight from "@workspace/docs-ui/brands/tanstack_light.svg?url"
 import viteLogo from "@workspace/docs-ui/brands/vite.svg?url"
-import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import { visuallyHidden } from "@workspace/registry/styles/visually-hidden.styles"
 import { Icon } from "@workspace/shell/icon"
 
@@ -106,27 +107,6 @@ const VITE: SvglIcon = {
   title: "Vite",
   url: "https://vitejs.dev",
   route: viteLogo,
-}
-const REACT: SvglIcon = {
-  title: "React",
-  url: "https://react.dev",
-  route: { light: reactLight, dark: reactDark },
-}
-const VUE: SvglIcon = { title: "Vue", url: "https://vuejs.org", route: vueLogo }
-const SVELTE: SvglIcon = {
-  title: "Svelte",
-  url: "https://svelte.dev",
-  route: svelteLogo,
-}
-const SOLID: SvglIcon = {
-  title: "Solid",
-  url: "https://www.solidjs.com",
-  route: solidLogo,
-}
-const ANGULAR: SvglIcon = {
-  title: "Angular",
-  url: "https://angular.dev",
-  route: angularLogo,
 }
 const TANSTACK: SvglIcon = {
   title: "TanStack",

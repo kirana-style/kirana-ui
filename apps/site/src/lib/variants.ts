@@ -8,15 +8,70 @@
  * is labelled by the framework, and Vue and Svelte, with two, by both.
  */
 export const VARIANTS = [
-  { id: "react/base", label: "Base UI", name: "React with Base UI" },
-  { id: "react/aria", label: "React Aria", name: "React with React Aria" },
-  { id: "vue/ark", label: "Vue · Ark UI", name: "Vue with Ark UI" },
-  { id: "vue/reka", label: "Vue · Reka UI", name: "Vue with Reka UI" },
-  { id: "svelte/ark", label: "Svelte · Ark UI", name: "Svelte with Ark UI" },
-  { id: "svelte/bits", label: "Svelte · Bits UI", name: "Svelte with Bits UI" },
-  { id: "solid/ark", label: "Solid", name: "Solid" },
-  { id: "angular/ng", label: "Angular", name: "Angular" },
+  {
+    id: "react/base",
+    label: "Base UI",
+    name: "React with Base UI",
+    base: "Base UI",
+  },
+  {
+    id: "react/aria",
+    label: "React Aria",
+    name: "React with React Aria",
+    base: "React Aria",
+  },
+  {
+    id: "vue/ark",
+    label: "Vue · Ark UI",
+    name: "Vue with Ark UI",
+    base: "Ark UI",
+  },
+  {
+    id: "vue/reka",
+    label: "Vue · Reka UI",
+    name: "Vue with Reka UI",
+    base: "Reka UI",
+  },
+  {
+    id: "svelte/ark",
+    label: "Svelte · Ark UI",
+    name: "Svelte with Ark UI",
+    base: "Ark UI",
+  },
+  {
+    id: "svelte/bits",
+    label: "Svelte · Bits UI",
+    name: "Svelte with Bits UI",
+    base: "Bits UI",
+  },
+  { id: "solid/ark", label: "Solid", name: "Solid", base: "Ark UI" },
+  {
+    id: "angular/ng",
+    label: "Angular",
+    name: "Angular",
+    base: "ng-primitives",
+  },
 ] as const
+
+/**
+ * The frameworks, in the variants' order, each with its variants: the header's Frameworks menu
+ * lists them, and a component page switches between the bases of its own (U-025's navigation).
+ */
+export const FRAMEWORKS = [
+  { id: "react", label: "React" },
+  { id: "vue", label: "Vue" },
+  { id: "svelte", label: "Svelte" },
+  { id: "solid", label: "Solid" },
+  { id: "angular", label: "Angular" },
+].map((framework) => ({
+  ...framework,
+  variants: VARIANTS.filter((variant) =>
+    variant.id.startsWith(`${framework.id}/`)
+  ),
+}))
+
+/** `vue/reka` → `vue`. */
+export const frameworkOf = (variant: string) => variant.split("/")[0] ?? ""
 
 export type VariantId = (typeof VARIANTS)[number]["id"]
 

@@ -5,8 +5,19 @@
  * menu itself are in `site-nav.tsx`, on every page from the first paint.
  */
 import { css } from "@kirana-style/core"
+import { Tick02Icon } from "@hugeicons/core-free-icons"
+
+import { chooseCombination } from "@workspace/docs-ui/combination.ts"
+import { Icon } from "@workspace/shell/icon"
 
 import { DocsLink } from "@/components/docs-link"
+import {
+  FrameworkMark,
+  frameworkTarget,
+  useFrameworks,
+} from "@/components/frameworks"
+import type { Framework } from "@/components/frameworks"
+import { FRAMEWORKS } from "@/lib/variants"
 import { hues } from "@/components/page/hue"
 import {
   duration,
@@ -162,6 +173,23 @@ const styles = {
     whiteSpace: "normal",
     textWrap: "pretty",
   }),
+  panelFrameworks: css({
+    gridTemplateColumns: "minmax(0, 1fr)",
+    width: "20rem",
+  }),
+  frameworkRow: css({ gridTemplateColumns: "auto minmax(0, 1fr) auto" }),
+  frameworkTile: css({
+    display: "inline-grid",
+    placeItems: "center",
+    width: "2.25rem",
+    height: "2.25rem",
+    borderRadius: radius.lg,
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.border,
+    backgroundColor: theme.card,
+  }),
+  frameworkCurrent: css({ color: theme.foreground }),
   mobileGroups: css({
     display: "grid",
     gap: space[6],
@@ -233,6 +261,76 @@ export default function Panel({ menu }: { menu: Menu }) {
   )
 }
 
+/** A framework in the menu (`mobile`: in the phone sheet, a plain link). */
+function FrameworkRow({
+  framework,
+  mobile = false,
+}: {
+  framework: Framework
+  mobile?: boolean
+}) {
+  const { path, saved, current } = useFrameworks()
+  const target = frameworkTarget(framework, path, saved)
+  const chosen = current === framework.id
+  const link = (
+    <DocsLink
+      href={target.href}
+      onClick={() => chooseCombination(target.variant)}
+      aria-current={chosen ? "true" : undefined}
+    />
+  )
+  const content = (
+    <>
+      <span sx={styles.frameworkTile}>
+        <FrameworkMark framework={framework.id} size="1.25rem" />
+      </span>
+      <span sx={styles.rowText}>
+        <span sx={styles.rowTitle}>{framework.label}</span>
+        <span sx={styles.rowDescription}>
+          {framework.variants.map((variant) => variant.base).join(" · ")}
+        </span>
+      </span>
+      {chosen ? (
+        <Icon icon={Tick02Icon} sx={styles.frameworkCurrent} />
+      ) : (
+        <span />
+      )}
+    </>
+  )
+  return mobile ? (
+    <DocsLink
+      href={target.href}
+      onClick={() => chooseCombination(target.variant)}
+      aria-current={chosen ? "true" : undefined}
+      sx={[styles.row, styles.frameworkRow]}
+    >
+      {content}
+    </DocsLink>
+  ) : (
+    <NavigationMenuLink render={link} sx={[styles.row, styles.frameworkRow]}>
+      {content}
+    </NavigationMenuLink>
+  )
+}
+
+/**
+ * The header's Frameworks menu: each framework with its mark and bases, the reader's ticked.
+ * Choosing one saves it for the whole site (every link to a component follows it) and, on a
+ * component's page, opens that page in the framework.
+ */
+export function FrameworksPanel() {
+  return (
+    <div sx={[styles.panel, styles.panelFrameworks]}>
+      <div sx={styles.column}>
+        <span sx={styles.columnTitle}>Frameworks</span>
+        {FRAMEWORKS.map((framework) => (
+          <FrameworkRow key={framework.id} framework={framework} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /** The phone sheet's groups: every menu's links, its featured destinations after them, and `extra`. */
 export function MobileGroups({
   extra,
@@ -246,6 +344,12 @@ export function MobileGroups({
       <div sx={styles.mobileGroup}>
         {LINKS.map((link) => (
           <MobileRow key={link.href} link={link} />
+        ))}
+      </div>
+      <div sx={styles.mobileGroup}>
+        <span sx={styles.columnTitle}>Frameworks</span>
+        {FRAMEWORKS.map((framework) => (
+          <FrameworkRow key={framework.id} framework={framework} mobile />
         ))}
       </div>
       {MENUS.map((menu) => (
