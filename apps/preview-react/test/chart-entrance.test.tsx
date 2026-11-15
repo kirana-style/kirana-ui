@@ -45,9 +45,10 @@ const at = (samples: [number, number][], ms: number) =>
   samples.find(([t]) => t >= ms)?.[1] ?? Number.NaN
 
 it("ChartContainer: the area grows through the entrance", async () => {
-  const start = performance.now()
   const { container, errors } = await mountItem("base", "chart-area-default")
-  const samples = await sample(container, 2200, start)
+  // From the mount, where the entrance starts: a slow load (the item compiled under the pre-push
+  // hook's other tasks) would otherwise eat the window, and the area be sampled still growing.
+  const samples = await sample(container, 2200)
   const final = samples.at(-1)![1]
   expect(errors).toEqual([])
   expect(final).toBeGreaterThan(50)
