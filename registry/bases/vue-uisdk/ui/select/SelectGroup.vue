@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectGroup"
-    name="select-group"
+    slot-name="select-group"
     tag="div"
     v-bind="attrs"
     :sx="[select.group, sx]"

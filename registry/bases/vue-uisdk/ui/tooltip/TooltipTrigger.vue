@@ -11,7 +11,7 @@ const { asChild = false } = defineProps<{ asChild?: boolean }>()
 <template>
   <UisdkPart
     :part="TooltipTrigger"
-    name="tooltip-trigger"
+    slot-name="tooltip-trigger"
     tag="button"
     :as-child="asChild"
     type="button"

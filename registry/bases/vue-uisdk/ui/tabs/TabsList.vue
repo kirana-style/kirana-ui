@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="TabsList"
-    name="tabs-list"
+    slot-name="tabs-list"
     tag="div"
     :data-variant="variant"
     v-bind="attrs"

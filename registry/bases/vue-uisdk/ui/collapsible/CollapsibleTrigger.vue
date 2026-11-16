@@ -12,7 +12,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="CollapsibleTrigger"
-    name="collapsible-trigger"
+    slot-name="collapsible-trigger"
     tag="button"
     v-bind="attrs"
     :sx="sx"

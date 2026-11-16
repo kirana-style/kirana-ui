@@ -818,8 +818,11 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   which have React's structure and names. ui-sdk's Vue parts override a
   `data-slot` as React's do, and take a `render` slot instead of an element:
   `UisdkPart` (`registry/lib/vue/uisdk-slot.ts`) renders a part through it under
-  the registry's slot (or one the caller hands it), as the tag Base UI's part
-  has or, with `as-child`, as the caller's element. A part's own `<slot />`
+  the registry's slot (`slot-name`, not `name`, which a form field passes on to
+  the part; or a slot the caller hands it), as the tag Base UI's part has or,
+  with `as-child`, as the caller's element. Attributes that must win over
+  ui-sdk's on an element a `render` slot draws are merged in script
+  (`{ ...props, ... }`), not as separate bindings after `v-bind`. A part's own `<slot />`
   arrives as a fragment, read through; a child that names its own slot keeps
   it (a sidebar's menu button inside a tooltip trigger stays
   `sidebar-menu-button`). When that child is a component, ui-sdk's ref is
@@ -832,7 +835,27 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   so the shared `uisdk:` keys hold, and both carry `*Uisdk` handles for what
   those libraries write inline. The reviewed differences of React's ui-sdk
   base are ui-sdk's core's, so their routes cover both
-  (`(react|vue)/uisdk/`).
+  (`(react|vue)/uisdk/`). Where React keeps a library of its own (cmdk,
+  react-day-picker, Sonner's), Vue's ui-sdk base takes ui-sdk's part and draws
+  that library's markup on it:
+  - **Command** is ui-sdk's command under cmdk's attributes (`cmdk-item`,
+    `cmdk-group-heading`, a heading with no slot); the style module reads
+    ui-sdk's `data-highlighted` and empty `data-disabled` beside cmdk's
+    values. ui-sdk keeps its empty message in the page as a live region; it
+    takes the slot and the style only while nothing matches, as cmdk mounts it.
+  - **Calendar** is ui-sdk's calendar drawn as react-day-picker's table: the
+    day part is the day's button (its focus, keys and press), the cell around
+    it writes day-picker's attributes from the part's state, and the month
+    steps and grid carry no slot. ui-sdk hides the outside days between two
+    months, and a fixed week's there, which day-picker shows, so the calendar
+    draws them as outside days. It counts Gregorian dates alone: the Persian
+    demo's `createCalendar` is taken and unused.
+  - **Combobox** keeps Base UI's API as React's ui-sdk one does: its list and
+    collections draw every item through their slot and ui-sdk filters them,
+    its popup is placed against the chips, the input's group or the trigger,
+    and its trigger takes the chevron inside an `as-child` element (`UisdkPart`'s
+    `after` slot).
+  - **Toast** keeps Base UI's manager over a ui-sdk toaster, as React's.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

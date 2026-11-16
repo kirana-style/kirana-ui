@@ -32,7 +32,7 @@ const { sx, attrs } = useSx()
   <!-- Focus on the popup as it opens, as Base UI's drawer puts it; ui-sdk's goes to the first field. -->
   <UisdkPart
     :part="DrawerContent"
-    name="drawer-popup"
+    slot-name="drawer-popup"
     tag="div"
     initial-focus="content"
     :data-modal="context.modal"

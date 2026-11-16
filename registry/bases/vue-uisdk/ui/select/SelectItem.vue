@@ -25,7 +25,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectItem"
-    name="select-item"
+    slot-name="select-item"
     tag="div"
     :value="value ?? undefined"
     v-bind="attrs"
@@ -33,7 +33,7 @@ const { sx, attrs } = useSx()
   >
     <UisdkPart
       :part="SelectItemText"
-      name="select-item-text"
+      slot-name="select-item-text"
       tag="span"
       :sx="select.itemText"
     >

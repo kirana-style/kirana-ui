@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="NavigationMenuTrigger"
-    name="navigation-menu-trigger"
+    slot-name="navigation-menu-trigger"
     tag="button"
     v-bind="attrs"
     :sx="[navigationMenu.trigger, sx]"

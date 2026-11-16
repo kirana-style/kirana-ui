@@ -19,7 +19,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="OTPInput"
-    name="input-otp"
+    slot-name="input-otp"
     tag="div"
     :max-length="maxLength"
     :default-value="defaultValue"

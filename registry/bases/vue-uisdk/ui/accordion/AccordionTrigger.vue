@@ -16,7 +16,7 @@ const { sx, attrs } = useSx()
   <AccordionHeader :sx="accordion.header">
     <UisdkPart
       :part="AccordionTrigger"
-      name="accordion-trigger"
+      slot-name="accordion-trigger"
       tag="button"
       v-bind="attrs"
       :sx="[accordion.trigger, sx]"

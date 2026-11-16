@@ -16,7 +16,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Tabs"
-    name="tabs"
+    slot-name="tabs"
     tag="div"
     :model-value="value"
     @update:model-value="(next: string) => (value = next)"

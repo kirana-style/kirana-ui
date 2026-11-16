@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AccordionPanel"
-    name="accordion-content"
+    slot-name="accordion-content"
     tag="div"
     v-bind="attrs"
     :sx="[accordion.content, accordion.contentBase]"

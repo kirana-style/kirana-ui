@@ -25,7 +25,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Checkbox"
-    name="checkbox"
+    slot-name="checkbox"
     tag="span"
     :default-checked="defaultChecked"
     :checked="checked"
@@ -35,7 +35,7 @@ const { sx, attrs } = useSx()
   >
     <UisdkPart
       :part="CheckboxIndicator"
-      name="checkbox-indicator"
+      slot-name="checkbox-indicator"
       tag="span"
       :sx="checkbox.indicator"
     >

@@ -25,7 +25,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Switch"
-    name="switch"
+    slot-name="switch"
     tag="span"
     :data-size="size"
     :default-checked="defaultChecked"
@@ -36,7 +36,7 @@ const { sx, attrs } = useSx()
   >
     <UisdkPart
       :part="SwitchThumb"
-      name="switch-thumb"
+      slot-name="switch-thumb"
       tag="span"
       :sx="switchStyles.thumb"
     />

@@ -12,7 +12,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="CollapsiblePanel"
-    name="collapsible-content"
+    slot-name="collapsible-content"
     tag="div"
     v-bind="attrs"
     :sx="sx"

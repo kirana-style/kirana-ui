@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Radio"
-    name="radio-group-item"
+    slot-name="radio-group-item"
     tag="span"
     :value="value"
     v-bind="attrs"
@@ -23,7 +23,7 @@ const { sx, attrs } = useSx()
   >
     <UisdkPart
       :part="RadioIndicator"
-      name="radio-group-indicator"
+      slot-name="radio-group-indicator"
       tag="span"
       :sx="radioGroup.indicator"
     >

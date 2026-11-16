@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuSeparator"
-    name="context-menu-separator"
+    slot-name="context-menu-separator"
     tag="div"
     v-bind="attrs"
     :sx="[menuSeparator, sx]"

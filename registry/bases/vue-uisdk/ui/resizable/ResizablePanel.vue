@@ -14,7 +14,7 @@ const entry = computed(() => panels()?.find((panel) => panel.id === id))
 <template>
   <UisdkPart
     :part="ResizablePanel"
-    name="resizable-panel"
+    slot-name="resizable-panel"
     tag="div"
     :id="id"
     :min-size="entry?.minSize"

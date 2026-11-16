@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="OTPInputSlot"
-    name="input-otp-slot"
+    slot-name="input-otp-slot"
     tag="div"
     :index="index"
     v-bind="attrs"

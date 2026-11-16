@@ -34,7 +34,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectContent"
-    name="select-content"
+    slot-name="select-content"
     tag="div"
     :data-align-trigger="false"
     :side="sideOf(side)"

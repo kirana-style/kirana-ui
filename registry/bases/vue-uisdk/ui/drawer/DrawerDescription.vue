@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="DrawerDescription"
-    name="drawer-description"
+    slot-name="drawer-description"
     tag="p"
     v-bind="attrs"
     :sx="[drawer.description, sx]"

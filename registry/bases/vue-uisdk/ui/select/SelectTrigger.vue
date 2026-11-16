@@ -16,7 +16,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectTrigger"
-    name="select-trigger"
+    slot-name="select-trigger"
     tag="button"
     :data-size="size"
     v-bind="attrs"

@@ -11,7 +11,7 @@ const { asChild = false } = defineProps<{ asChild?: boolean }>()
 <template>
   <UisdkPart
     :part="DialogClose"
-    name="sheet-close"
+    slot-name="sheet-close"
     tag="button"
     :as-child="asChild"
     v-bind="$attrs"

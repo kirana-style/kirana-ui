@@ -23,7 +23,7 @@ const { sx, attrs } = useSx()
   <DialogOverlay />
   <UisdkPart
     :part="DialogContent"
-    name="dialog-content"
+    slot-name="dialog-content"
     tag="div"
     :element="
       (el: Element | null) => content && (content.el = el as HTMLElement | null)
@@ -35,7 +35,7 @@ const { sx, attrs } = useSx()
     <UisdkPart
       v-if="showCloseButton"
       :part="DialogClose"
-      name="dialog-close"
+      slot-name="dialog-close"
       tag="button"
       as-child
     >

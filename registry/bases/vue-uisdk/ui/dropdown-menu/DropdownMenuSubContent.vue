@@ -31,7 +31,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuSubContent"
-    name="dropdown-menu-sub-content"
+    slot-name="dropdown-menu-sub-content"
     tag="div"
     :side="sideOf(side)"
     :side-offset="sideOffset"

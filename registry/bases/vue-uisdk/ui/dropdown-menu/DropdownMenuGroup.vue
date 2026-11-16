@@ -12,7 +12,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuGroup"
-    name="dropdown-menu-group"
+    slot-name="dropdown-menu-group"
     tag="div"
     v-bind="attrs"
     :sx="sx"

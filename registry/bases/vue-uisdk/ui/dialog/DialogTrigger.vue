@@ -11,7 +11,7 @@ const { asChild = false } = defineProps<{ asChild?: boolean }>()
 <template>
   <UisdkPart
     :part="DialogTrigger"
-    name="dialog-trigger"
+    slot-name="dialog-trigger"
     tag="button"
     :as-child="asChild"
     v-bind="$attrs"

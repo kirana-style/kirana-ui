@@ -38,7 +38,7 @@ provide(
   <!-- The gap, in steps of 0.25rem, as upstream hands it down. -->
   <UisdkPart
     :part="ToggleGroup"
-    name="toggle-group"
+    slot-name="toggle-group"
     tag="div"
     :data-variant="variant"
     :data-size="size"

@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="TabsPanel"
-    name="tabs-content"
+    slot-name="tabs-content"
     tag="div"
     :value="value"
     v-bind="attrs"

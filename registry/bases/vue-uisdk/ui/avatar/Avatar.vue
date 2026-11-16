@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Avatar"
-    name="avatar"
+    slot-name="avatar"
     tag="span"
     :data-size="size"
     v-bind="attrs"

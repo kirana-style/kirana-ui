@@ -18,7 +18,7 @@ const { sx, attrs } = useSx()
     <slot />
     <UisdkPart
       :part="DialogClose"
-      name="dialog-close"
+      slot-name="dialog-close"
       tag="button"
       v-if="showCloseButton"
       as-child

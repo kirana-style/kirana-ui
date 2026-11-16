@@ -29,7 +29,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="TooltipContent"
-    name="tooltip-content"
+    slot-name="tooltip-content"
     tag="div"
     :side="sideOf(side)"
     :side-offset="sideOffset"

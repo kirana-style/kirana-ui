@@ -29,7 +29,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="HoverCardContent"
-    name="hover-card-content"
+    slot-name="hover-card-content"
     tag="div"
     :side="sideOf(side)"
     :side-offset="sideOffset"

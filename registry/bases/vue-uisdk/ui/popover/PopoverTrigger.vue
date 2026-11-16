@@ -11,7 +11,7 @@ const { asChild = false } = defineProps<{ asChild?: boolean }>()
 <template>
   <UisdkPart
     :part="PopoverTrigger"
-    name="popover-trigger"
+    slot-name="popover-trigger"
     tag="button"
     :as-child="asChild"
     v-bind="$attrs"

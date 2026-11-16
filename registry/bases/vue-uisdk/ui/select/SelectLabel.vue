@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectGroupLabel"
-    name="select-label"
+    slot-name="select-label"
     tag="div"
     v-bind="attrs"
     :sx="[menuLabel, sx]"

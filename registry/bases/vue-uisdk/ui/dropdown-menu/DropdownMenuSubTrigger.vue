@@ -17,7 +17,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuSubTrigger"
-    name="dropdown-menu-sub-trigger"
+    slot-name="dropdown-menu-sub-trigger"
     tag="div"
     :data-inset="inset || undefined"
     v-bind="attrs"

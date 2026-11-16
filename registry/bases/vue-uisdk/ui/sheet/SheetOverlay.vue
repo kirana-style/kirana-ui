@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="DialogBackdrop"
-    name="sheet-overlay"
+    slot-name="sheet-overlay"
     tag="div"
     v-bind="attrs"
     :sx="[sheet.overlay, sx]"

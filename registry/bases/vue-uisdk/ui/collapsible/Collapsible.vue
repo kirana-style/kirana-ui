@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Collapsible"
-    name="collapsible"
+    slot-name="collapsible"
     tag="div"
     :open="open"
     @update:open="(value: boolean) => (open = value)"

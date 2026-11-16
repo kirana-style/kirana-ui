@@ -19,14 +19,14 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="ScrollArea"
-    name="scroll-area"
+    slot-name="scroll-area"
     tag="div"
     v-bind="attrs"
     :sx="[scrollArea.root, sx]"
   >
     <UisdkPart
       :part="ScrollAreaViewport"
-      name="scroll-area-viewport"
+      slot-name="scroll-area-viewport"
       tag="div"
       :sx="scrollArea.viewport"
     >

@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
   <!-- A div, as Base UI's trigger: a region, not a button. -->
   <UisdkPart
     :part="MenuContextTrigger"
-    name="context-menu-trigger"
+    slot-name="context-menu-trigger"
     tag="div"
     v-bind="attrs"
     :sx="[contextMenu.trigger, sx]"

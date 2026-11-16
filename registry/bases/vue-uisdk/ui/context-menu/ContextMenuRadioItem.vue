@@ -20,7 +20,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuRadioItem"
-    name="context-menu-radio-item"
+    slot-name="context-menu-radio-item"
     tag="div"
     :close-on-select="false"
     :value="value"

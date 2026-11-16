@@ -11,7 +11,7 @@ const { asChild = false } = defineProps<{ asChild?: boolean }>()
 <template>
   <UisdkPart
     :part="MenuTrigger"
-    name="dropdown-menu-trigger"
+    slot-name="dropdown-menu-trigger"
     tag="button"
     :as-child="asChild"
     v-bind="$attrs"

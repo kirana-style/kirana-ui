@@ -12,7 +12,7 @@ const value = defineModel<string | undefined>({ default: undefined })
 <template>
   <UisdkPart
     :part="MenuRadioGroup"
-    name="dropdown-menu-radio-group"
+    slot-name="dropdown-menu-radio-group"
     tag="div"
     :model-value="value"
     @update:model-value="(next: string) => (value = next)"

@@ -10,7 +10,8 @@
  * the input group's own rules come later and keep their values.
  *
  * cmdk writes `data-selected` and `data-disabled` as `"true"` or `"false"` on every row, so its keys
- * name the value; React Aria highlights a row with `data-focused` (`cn-command-item-aria`).
+ * name the value; React Aria highlights a row with `data-focused` (`cn-command-item-aria`); ui-sdk
+ * (Vue's command) writes `data-highlighted`, and an empty `data-disabled` on a disabled row.
  */
 import { css, relation, select } from "@kirana-style/core"
 
@@ -38,6 +39,9 @@ const IN_DIALOG = ':is([data-slot="dialog-content"] *)'
 /** A highlighted row: cmdk's `data-selected="true"`, React Aria's `data-focused`. */
 const SELECTED = '[data-selected="true"]'
 const FOCUSED = "[data-focused]"
+const HIGHLIGHTED = "[data-highlighted]"
+/** A disabled row: cmdk's `data-disabled="true"`, ui-sdk's empty `data-disabled`. */
+const DISABLED = ':is([data-disabled="true"], [data-disabled=""])'
 
 /** The group holds an addon at its start (`has-[>[data-align=inline-start]]:[&>input]:pl-1.5`). */
 const AFTER_START_ADDON =
@@ -260,10 +264,18 @@ export const command = {
       [mira]: leading.relaxed,
     },
     fontWeight: { [luma]: fontWeight.medium },
-    backgroundColor: { [SELECTED]: theme.muted, [FOCUSED]: theme.muted },
-    color: { [SELECTED]: theme.foreground, [FOCUSED]: theme.foreground },
-    pointerEvents: { '[data-disabled="true"]': "none" },
-    opacity: { '[data-disabled="true"]': 0.5 },
+    backgroundColor: {
+      [SELECTED]: theme.muted,
+      [FOCUSED]: theme.muted,
+      [HIGHLIGHTED]: theme.muted,
+    },
+    color: {
+      [SELECTED]: theme.foreground,
+      [FOCUSED]: theme.foreground,
+      [HIGHLIGHTED]: theme.foreground,
+    },
+    pointerEvents: { [DISABLED]: "none" },
+    opacity: { [DISABLED]: 0.5 },
   }),
 
   // cn-command-item-indicator (no rules of its own) and the component's own classes: the check at a
@@ -286,6 +298,7 @@ export const command = {
       base: theme.mutedForeground,
       [commandItemScope.within(SELECTED)]: theme.foreground,
       [commandItemScope.within(FOCUSED)]: theme.foreground,
+      [commandItemScope.within(HIGHLIGHTED)]: theme.foreground,
     },
   }),
 }

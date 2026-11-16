@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AvatarFallback"
-    name="avatar-fallback"
+    slot-name="avatar-fallback"
     tag="span"
     v-bind="attrs"
     :sx="[avatar.fallback, sx]"

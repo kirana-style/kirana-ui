@@ -29,7 +29,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="PopoverContent"
-    name="popover-content"
+    slot-name="popover-content"
     tag="div"
     :side="sideOf(side)"
     :side-offset="sideOffset"

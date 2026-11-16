@@ -31,7 +31,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuContent"
-    name="context-menu-content"
+    slot-name="context-menu-content"
     tag="div"
     :side="sideOf(side)"
     :side-offset="sideOffset"

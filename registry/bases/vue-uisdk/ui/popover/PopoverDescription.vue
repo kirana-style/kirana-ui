@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="PopoverDescription"
-    name="popover-description"
+    slot-name="popover-description"
     tag="p"
     v-bind="attrs"
     :sx="[popover.description, sx]"
