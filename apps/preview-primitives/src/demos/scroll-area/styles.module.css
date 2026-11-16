@@ -1,0 +1,57 @@
+.root {
+  position: relative;
+  width: 16rem;
+  height: 10rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+
+/* The element that scrolls: the keyboard reaches it when there is more to see. */
+.viewport {
+  height: 100%;
+  border-radius: 0.5rem;
+  overscroll-behavior: contain;
+}
+
+.viewport:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.content {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+}
+
+.text {
+  margin: 0;
+  color: var(--quiet);
+}
+
+/* Shown while the pointer is over the area, and while it scrolls. */
+.scrollbar {
+  position: absolute;
+  inset-block: 0.25rem;
+  inset-inline-end: 0.25rem;
+  width: 0.25rem;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.scrollbar[data-hovering],
+.scrollbar[data-scrolling] {
+  opacity: 1;
+}
+
+/* Its height and its place are the component's to write. */
+.thumb {
+  width: 100%;
+  border-radius: 9999px;
+  background: var(--quiet);
+}

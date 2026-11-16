@@ -55,8 +55,12 @@ export function reference(framework: Framework): Map<string, Reference> {
       ? [...partsLine[1]!.matchAll(/`([^`]+)`/g)].map((each) => each[1]!)
       : []
     let body = section.slice(section.indexOf("\n") + 1)
-    if (code) body = body.replace(code[0], "")
-    if (partsLine) body = body.replace(partsLine[0], "")
+    // Each is in the section once: taken out by where it is, not by a pattern.
+    for (const taken of [code?.[0], partsLine?.[0]]) {
+      const at = taken ? body.indexOf(taken) : -1
+      if (taken && at >= 0)
+        body = body.slice(0, at) + body.slice(at + taken.length)
+    }
     const first = /^<([\w.]+)>$/.exec(parts[0] ?? "")?.[1]
     found.set(name, {
       name,

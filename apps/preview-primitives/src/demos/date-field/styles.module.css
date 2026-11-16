@@ -1,0 +1,35 @@
+.field {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.field[data-invalid] {
+  border-color: var(--danger);
+}
+
+.segment {
+  padding: 0 0.25rem;
+  border-radius: 0.375rem;
+  caret-color: transparent;
+}
+
+/* An empty part, and what stands between two parts. */
+.segment[data-placeholder],
+.segment[data-segment="literal"] {
+  color: var(--quiet);
+}
+
+.segment[data-segment="literal"] {
+  padding: 0;
+}
+
+.segment:focus-visible {
+  background: var(--raised);
+  outline: 2px solid var(--ring);
+}

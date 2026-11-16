@@ -1,0 +1,56 @@
+import { css } from "@kirana-style/core"
+
+import { theme } from "../../tokens.ts"
+
+export default {
+  area: css({
+    display: "flex",
+    width: "16rem",
+    height: "8rem",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0.25rem",
+    borderWidth: "1px",
+    borderStyle: "dashed",
+    borderColor: theme.line,
+    borderRadius: "0.75rem",
+    backgroundColor: { "[data-popup-open]": theme.raised },
+    color: theme.ink,
+    userSelect: "none",
+  }),
+  hint: css({ color: theme.quiet, fontSize: "0.75rem" }),
+  popup: css({
+    minWidth: "10rem",
+    padding: "0.25rem",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0.5rem",
+    backgroundColor: theme.surface,
+    color: theme.ink,
+    transformOrigin: "var(--transform-origin)",
+    opacity: { "[data-starting-style]": "0", "[data-ending-style]": "0" },
+    scale: { "[data-starting-style]": "0.95", "[data-ending-style]": "0.95" },
+    transitionProperty: "opacity, scale",
+    transitionDuration: "150ms",
+    transitionTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+    outlineWidth: "2px",
+    outlineStyle: { base: "none", ":focus-visible": "solid" },
+    outlineColor: theme.ring,
+    outlineOffset: "2px",
+  }),
+  item: css({
+    paddingBlock: "0.25rem",
+    paddingInline: "0.5rem",
+    borderRadius: "0.375rem",
+    backgroundColor: { "[data-highlighted]": theme.raised },
+    cursor: "default",
+  }),
+  separator: css({
+    height: "1px",
+    marginBlock: "0.25rem",
+    marginInline: "-0.25rem",
+    backgroundColor: theme.line,
+  }),
+}

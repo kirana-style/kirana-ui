@@ -226,3 +226,8 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   holds it, with the parts the picture leaves out listed under it; and its props one to a row, the
   type and default beside the name and the description below, so a long type is never a column
   that squeezes the text.
+- **`::primitive-preview`** (`markdown/primitive-preview.tsx`): a primitive drawn live in a frame
+  with a switch between Raw and the same markup styled with CSS Modules, Tailwind and Kirana,
+  each a page of the primitives' preview app that loads only its own stylesheet.
+- **`::start:picker`** around a tab group (`markdown/tabs.tsx`): one picker in place of the row of
+  tabs, each choice with its framework's mark, for a choice made once for the page.

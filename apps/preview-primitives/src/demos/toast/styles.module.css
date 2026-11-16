@@ -1,0 +1,131 @@
+.button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background-color: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--raised);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* A corner of the page. The toasts are stacked on its bottom edge. */
+.viewport {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 18rem;
+}
+
+/* Each toast says where it is in the stack (--toast-index, 0 for the newest): one behind is
+   a little higher and a little smaller, and under the ones in front. */
+.toast {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: calc(10 - var(--toast-index));
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background-color: var(--surface);
+  user-select: none;
+  transform-origin: top;
+  translate: var(--toast-swipe-movement-x, 0px)
+    calc(var(--toast-index) * -0.5rem);
+  scale: calc(1 - var(--toast-index) * 0.05);
+  transition-property: translate, scale, transform, opacity;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
+}
+
+/* The pointer or focus is on the stack: each one stands above those in front of it. */
+.toast[data-expanded] {
+  translate: var(--toast-swipe-movement-x, 0px)
+    calc(var(--toast-index) * -0.5rem - var(--toast-offset-y, 0px));
+  scale: 1;
+}
+
+/* What it animates in from, and out to. */
+.toast[data-starting-style],
+.toast[data-ending-style] {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+/* One behind as many as are shown at once is not seen. */
+.toast[data-limited] {
+  opacity: 0;
+}
+
+/* A dragged toast follows the pointer at once. */
+.toast[data-swiping] {
+  transition-duration: 0s;
+}
+
+.toast:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Fills the gap under a toast, so the pointer stays on the stack between two. */
+.toast::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+}
+
+.content {
+  flex: 1;
+}
+
+.title {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.description {
+  color: var(--quiet);
+}
+
+.close {
+  display: flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  background-color: transparent;
+  color: var(--quiet);
+  font: inherit;
+  font-size: 1.125rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover {
+  background-color: var(--raised);
+  color: var(--ink);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

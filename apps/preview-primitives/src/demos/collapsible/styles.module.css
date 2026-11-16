@@ -1,0 +1,54 @@
+.root {
+  width: 14rem;
+}
+
+.trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  background: var(--raised);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.trigger::after {
+  content: "+";
+  color: var(--quiet);
+}
+
+.trigger[data-panel-open]::after {
+  content: "–";
+}
+
+.panel {
+  overflow: hidden;
+  height: var(--collapsible-panel-height);
+  transition: height 200ms ease;
+}
+
+/* What it animates in from, and out to. */
+.panel[data-starting-style],
+.panel[data-ending-style] {
+  height: 0;
+}
+
+.text {
+  margin: 0;
+  padding: 0.5rem 0.75rem 0;
+  color: var(--quiet);
+}

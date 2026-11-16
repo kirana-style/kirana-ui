@@ -21,6 +21,8 @@ import {
   usage,
 } from "./primitives-data.ts"
 import type { Framework } from "./primitives-data.ts"
+import { hasDemo, styledCode } from "./primitives-demos.ts"
+import type { StyledCode } from "./primitives-demos.ts"
 
 /** What each is, in a line: the pages' descriptions and the index's cards. */
 const DESCRIPTIONS: Record<string, string> = {
@@ -128,8 +130,8 @@ const install = (framework: Framework | "web") =>
 const fence = (language: string, code: string) =>
   `\`\`\`${language}\n${code}\n\`\`\``
 
-/** A cell of a table: a `|` in a type would end it. */
-const cell = (text: string) => text.replace(/\|/g, "\\|")
+/** A cell of a table: a `|` in a type would end it, and a backslash would escape what follows. */
+const cell = (text: string) => text.replace(/[\\|]/g, "\\$&")
 
 /** The reference's props, for the page's props table: the default is said on its own. */
 function propsTable(lines: readonly string[]): string {
@@ -313,7 +315,11 @@ function tree(name: string): { text: string; rest: string[] } | undefined {
   return { text, rest: [...known].filter((part) => !used.has(part)) }
 }
 
-function page(name: string, order: number): string {
+function page(
+  name: string,
+  order: number,
+  styled: StyledCode | undefined
+): string {
   const slug = kebab(name)
   const tabs = (each: (framework: Framework | "web") => string | undefined) =>
     [
@@ -369,7 +375,33 @@ keywords: [${[title(name).toLowerCase(), "primitive", "headless", "unstyled"].jo
 ---
 
 # ${title(name)}
+${
+  styled
+    ? `
+<!-- ::primitive-preview demo="${slug}" -->
 
+The same markup, styled three ways. Raw is what the component draws by itself: no styles at all.
+
+<!-- ::start:tabs -->
+
+### CSS Modules
+
+${fence('tsx title="demo.tsx"', styled.css.component)}
+
+${fence('css title="demo.module.css"', styled.css.stylesheet)}
+
+### Tailwind
+
+${fence('tsx title="demo.tsx"', styled.tailwind)}
+
+### Kirana
+
+${fence('tsx title="demo.tsx"', styled.kirana)}
+
+<!-- ::end:tabs -->
+`
+    : ""
+}
 ## Installation
 
 ${imports}
@@ -393,18 +425,55 @@ hears a change is in [Frameworks](/docs/primitives/frameworks). This page is gen
 `
 }
 
-/** How each framework writes a component: its reference's own "Using it", and one example. */
+/** What a line of a reference's "Using it" is about, for the lines every framework shares. */
+const TOPICS: [RegExp, string][] = [
+  [/^- No CSS is shipped/, "Styles"],
+  [/^- A boolean state/, "States"],
+  [/^- An entrance starts/, "Motion"],
+  [/^- A popup is drawn/, "Popups"],
+  [/^- Every change callback/, "Changes"],
+  [/^- A value is controlled/, "Values"],
+  [/^- A control with a `name`/, "Forms"],
+  [/^- `PortalProvider`/, "Portals"],
+  [/^- An agent can read/, "Agents"],
+]
+
+/**
+ * How each framework writes a component: a picker, then the same steps on each, with that
+ * framework's own notes from its reference; what every reference says the same is said once.
+ */
 function frameworks(): string {
+  const lists = Object.fromEntries(
+    FRAMEWORKS.map((framework) => [framework, usage(framework)])
+  ) as Record<Framework, string[]>
+  const shared = lists.react.filter((line) =>
+    FRAMEWORKS.every((framework) => lists[framework].includes(line))
+  )
+  const example = (framework: Framework | "web") =>
+    fence(LANGUAGE[framework], anatomy.meter?.[framework] ?? "")
   const one = (framework: Framework) =>
     [
-      `## ${LABELS[framework]}`,
+      `### ${LABELS[framework]}`,
+      "<!-- ::start:steps -->",
+      "### Install the package",
       install(framework),
-      usage(framework).join("\n"),
-      fence(LANGUAGE[framework], anatomy.collapsible?.[framework] ?? ""),
+      "### Import a component",
+      "Each component is an entry of its own, so a page carries only what it draws.",
+      fence("ts", references[framework].get("Meter")?.import ?? ""),
+      "### Write its parts",
+      "A meter: a root, a label, a track with its indicator, and the value as text.",
+      example(framework),
+      `### Know how ${LABELS[framework]} writes things`,
+      lists[framework].filter((line) => !shared.includes(line)).join("\n"),
+      "<!-- ::end:steps -->",
     ].join("\n\n")
+  const same = shared.map((line) => {
+    const topic = TOPICS.find(([pattern]) => pattern.test(line))?.[1] ?? "Also"
+    return `| **${topic}** | ${cell(line.slice(2))} |`
+  })
   return `---
 title: Frameworks
-description: How a component is written on React, Vue, Svelte, Solid, Angular and as custom elements, and what is the same on all of them.
+description: Pick your framework and follow the same four steps on each. The parts, their attributes, the keyboard and the callbacks do not change.
 section: primitives
 order: 3
 keywords: [react, vue, svelte, solid, angular, custom elements, web components, render, as-child, directive]
@@ -412,24 +481,59 @@ keywords: [react, vue, svelte, solid, angular, custom elements, web components, 
 
 # Frameworks
 
-One core holds every component's behaviour, and a package per framework draws its parts in that
-framework's own idiom. The parts, their attributes, the keyboard and the callbacks are the same on
-all of them: the library's tests play one set of scenarios on every adapter and compare the DOM
-of every state.
+Pick your framework. The steps are the same on each, and so is the component: one core holds its
+behaviour, and a package per framework draws its parts in that framework's own idiom.
 
-What follows is each package's own reference, as it ships in the package (\`llms.txt\`, version
-${version}), with the same collapsible written on each.
+<!-- ::start:picker -->
+
+<!-- ::start:tabs -->
 
 ${FRAMEWORKS.map(one).join("\n\n")}
 
-## Custom elements
+### Custom elements
+
+<!-- ::start:steps -->
+
+### Install the package
 
 ${install("web")}
 
-With no framework, a component is a custom element that holds it and draws nothing; its parts are
-the page's own elements. [Custom elements](/docs/primitives/custom-elements) has the whole of it.
+### Import a component
 
-${fence("html", anatomy.collapsible?.web ?? "")}
+Importing an entry defines its element. \`@kirana-ui/web\` alone defines them all.
+
+${fence("ts", 'import "@kirana-ui/web/meter"')}
+
+### Write its parts
+
+The element holds the component and draws nothing. Each part is an element of your own, named by
+\`kui-part\`.
+
+${example("web")}
+
+### Know how custom elements write things
+
+- A prop is an attribute in kebab case, and a property in camel case: \`default-open\`, \`element.open = true\`.
+- A change is an event named for its callback (\`open-change\`, \`value-change\`); preventing it refuses the change.
+- A list the component draws is written once as a \`<template kui-each="…">\`.
+- [Custom elements](/docs/primitives/custom-elements) has the whole of it.
+
+<!-- ::end:steps -->
+
+<!-- ::end:tabs -->
+
+<!-- ::end:picker -->
+
+## The same on every framework
+
+These hold whichever you picked. The library's tests play one set of scenarios on every adapter
+and compare the DOM of every state, so they cannot drift apart.
+
+| | |
+| --- | --- |
+${same.join("\n")}
+
+This page is generated from each package's own reference (\`llms.txt\`, version ${version}).
 `
 }
 
@@ -439,17 +543,22 @@ const folder = new URL(
 )
 mkdirSync(folder, { recursive: true })
 const written = new Set<string>()
-components().forEach((component, at) => {
+for (const [at, component] of components().entries()) {
   if (!DESCRIPTIONS[component.name])
     throw new Error(`${component.name} has no description`)
   const file = `${kebab(component.name)}.md`
   written.add(file)
-  const text = page(component.name, at + 1)
+  const slug = kebab(component.name)
+  const text = page(
+    component.name,
+    at + 1,
+    hasDemo(slug) ? await styledCode(slug) : undefined
+  )
   const path = new URL(file, folder)
   // Left alone when it is the same: the content task's cache reads these files.
   if (!existsSync(path) || readFileSync(path, "utf8") !== text)
     writeFileSync(path, text)
-})
+}
 const write = (path: URL, text: string) => {
   if (!existsSync(path) || readFileSync(path, "utf8") !== text)
     writeFileSync(path, text)

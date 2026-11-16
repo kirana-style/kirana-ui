@@ -1,0 +1,66 @@
+.root {
+  display: grid;
+  gap: 0.25rem;
+  width: 9rem;
+}
+
+.label {
+  font-weight: 500;
+}
+
+/* The input and its buttons, drawn as one control. */
+.group {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.group[data-focused] {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.step {
+  width: 2.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.step:hover {
+  background: var(--raised);
+}
+
+.step:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+/* At the least or the most the number can be. */
+.step[data-disabled] {
+  background: transparent;
+  color: var(--quiet);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.input {
+  flex: 1 1 0%;
+  min-width: 0;
+  margin: 0;
+  padding: 0.5rem 0;
+  border: 0 solid;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  outline-style: none;
+}

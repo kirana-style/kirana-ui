@@ -1,0 +1,55 @@
+.text {
+  margin: 0;
+  color: var(--quiet);
+}
+
+.trigger {
+  border-radius: 0.375rem;
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration-line: underline;
+  text-underline-offset: 0.25rem;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  width: 16rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  color: var(--ink);
+  /* Grow from the point nearest the trigger. */
+  transform-origin: var(--transform-origin);
+  opacity: 1;
+  scale: 1;
+  transition-property: opacity, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+/* What it animates in from, and out to. */
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.95;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.handle {
+  color: var(--quiet);
+  font-size: 0.75rem;
+}
+
+.bio {
+  margin-top: 0.5rem;
+}

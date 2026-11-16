@@ -1,0 +1,92 @@
+.trigger,
+.cancel,
+.confirm {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.trigger {
+  color: var(--danger);
+}
+
+.trigger:hover,
+.cancel:hover {
+  background: var(--raised);
+}
+
+.confirm {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: var(--surface);
+}
+
+.confirm:hover {
+  opacity: 0.9;
+}
+
+.trigger:focus-visible,
+.cancel:focus-visible,
+.confirm:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.4);
+  transition: opacity 150ms ease-out;
+}
+
+.popup {
+  position: fixed;
+  inset: 0;
+  width: 22rem;
+  max-width: calc(100vw - 2rem);
+  height: fit-content;
+  margin: auto;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    opacity 150ms ease-out,
+    scale 150ms ease-out;
+}
+
+/* What they animate in from, and out to. */
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.95;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.description {
+  margin: 0.25rem 0 0;
+  color: var(--quiet);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}

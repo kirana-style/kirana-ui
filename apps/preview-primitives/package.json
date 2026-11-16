@@ -1,0 +1,28 @@
+{
+  "name": "preview-primitives",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vp dev --port 3008",
+    "build": "vp build"
+  },
+  "dependencies": {
+    "@kirana-style/core": "catalog:",
+    "@kirana-ui/react": "0.1.1",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@kirana-style/vite": "catalog:",
+    "@tailwindcss/vite": "4.3.5",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "^6.3.0",
+    "@workspace/vite-config": "workspace:*",
+    "tailwindcss": "4.3.5",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

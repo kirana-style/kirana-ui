@@ -1,0 +1,84 @@
+.button {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--raised);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* It fades as the drawer is dragged away. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.4);
+  opacity: calc(1 - var(--drawer-swipe-progress, 0));
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* It follows the finger: the library says how far it was dragged. */
+.popup {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem 1.5rem;
+  border: solid var(--line);
+  border-width: 1px 1px 0;
+  border-radius: 0.75rem 0.75rem 0 0;
+  background: var(--surface);
+  color: var(--ink);
+  touch-action: none;
+  translate: 0 var(--drawer-swipe-movement-y, 0px);
+  transition: translate 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* What they animate in from, and out to. */
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  translate: 0 100%;
+}
+
+/* No easing while it is dragged. */
+.backdrop[data-swiping],
+.popup[data-swiping] {
+  transition-duration: 0s;
+}
+
+.handle {
+  width: 2.5rem;
+  height: 0.25rem;
+  margin: 0 auto 0.75rem;
+  border-radius: 9999px;
+  background: var(--line);
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.description {
+  margin: 0.25rem 0 1rem;
+  color: var(--quiet);
+}

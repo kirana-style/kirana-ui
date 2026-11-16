@@ -1,0 +1,70 @@
+import { css } from "@kirana-style/core"
+
+import { theme } from "../../tokens.ts"
+
+export default {
+  root: css({
+    width: "16rem",
+    overflow: "hidden",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0.75rem",
+    backgroundColor: theme.surface,
+    color: theme.ink,
+  }),
+  input: css({
+    display: "block",
+    width: "100%",
+    margin: "0",
+    padding: "0.75rem",
+    borderWidth: "0 0 1px",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0",
+    backgroundColor: "transparent",
+    color: theme.ink,
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    // Inside the edge: the root clips what is outside it.
+    outlineWidth: "2px",
+    outlineStyle: { base: "none", ":focus-visible": "solid" },
+    outlineColor: theme.ring,
+    outlineOffset: "-2px",
+    "::placeholder": { color: theme.quiet, opacity: "1" },
+  }),
+  list: css({ maxHeight: "14rem", overflowY: "auto", padding: "0.25rem" }),
+  heading: css({
+    paddingBlock: "0.25rem",
+    paddingInline: "0.5rem",
+    color: theme.quiet,
+    fontSize: "0.75rem",
+    fontWeight: "500",
+  }),
+  item: css({
+    paddingBlock: "0.25rem",
+    paddingInline: "0.5rem",
+    borderRadius: "0.375rem",
+    backgroundColor: { "[data-highlighted]": theme.raised },
+    opacity: { "[data-disabled]": "0.5" },
+    cursor: "default",
+  }),
+  separator: css({
+    height: "1px",
+    marginBlock: "0.25rem",
+    marginInline: "-0.25rem",
+    backgroundColor: theme.line,
+  }),
+  empty: css({ padding: "0.5rem", color: theme.quiet, textAlign: "center" }),
+  status: css({
+    margin: "0",
+    paddingBlock: "0.5rem",
+    paddingInline: "0.75rem",
+    borderWidth: "1px 0 0",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    color: theme.quiet,
+    fontSize: "0.75rem",
+  }),
+}
