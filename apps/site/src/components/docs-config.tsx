@@ -3,7 +3,9 @@
  * item's preview is served.
  */
 import {
+  AiBrain01Icon,
   BookOpen01Icon,
+  CubeIcon,
   DashboardSquare01Icon,
   PackageIcon,
   PaintBrush01Icon,
@@ -12,7 +14,11 @@ import {
 import { useRouter } from "@tanstack/react-router"
 
 import { DocsProvider } from "@workspace/docs-ui/provider.tsx"
-import type { DocsConfig, DocsTab } from "@workspace/docs-ui/provider.tsx"
+import type {
+  DocsConfig,
+  DocsTab,
+  DocsTabGroup,
+} from "@workspace/docs-ui/provider.tsx"
 
 import { DocsLink } from "@/components/docs-link"
 import { FrameworkMenu } from "@/components/frameworks"
@@ -65,6 +71,33 @@ export const TABS: readonly DocsTab[] = [
   },
 ]
 
+/**
+ * Kirana UI Primitives' pages have a chrome of their own: these two tabs alone, and "Headless"
+ * beside the logo where the other pages say "Docs".
+ */
+export const HEADLESS_TABS: readonly DocsTab[] = [
+  {
+    id: "primitives",
+    label: "Primitives",
+    href: "/docs/primitives",
+    sections: ["primitives", "primitives-components"],
+    accent: "neutral",
+    icon: CubeIcon,
+  },
+  {
+    id: "ai",
+    label: "AI",
+    href: "/docs/ai",
+    sections: ["ai"],
+    accent: "neutral",
+    icon: AiBrain01Icon,
+  },
+]
+
+export const TAB_GROUPS: readonly DocsTabGroup[] = [
+  { id: "headless", badge: "Headless", tabs: HEADLESS_TABS },
+]
+
 /** The frameworks and bases a component page can show, as the registry names them (`lib/variants.ts`). */
 const COMBINATIONS = VARIANTS.map(({ id, label, base }) => {
   const framework = FRAMEWORKS.find((each) => each.id === frameworkOf(id))
@@ -84,6 +117,7 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     nav: NAV,
     pages: PAGES,
     tabs: TABS,
+    tabGroups: TAB_GROUPS,
     search: (query) => search(query),
     loadSearch,
     navigate: (href) => {
@@ -99,7 +133,8 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
     // An item's preview page for a combination, Base UI's by default; it reads the reader's design
     // from the cookie, and takes a change from the customizer by message.
     // The reader's framework, where pages differ by it (U-025's navigation): Components and AI
-    // Elements; Docs, Kirana and Registry are the same for every framework.
+    // Elements; Docs, Kirana and Registry are the same for every framework, and the headless
+    // pages (Primitives, AI) have no framework menu.
     sidebarHeader: (tab) =>
       tab === "components" || tab === "ai-elements" ? <FrameworkMenu /> : null,
     previewSrc: (item, combination = "react/base") =>

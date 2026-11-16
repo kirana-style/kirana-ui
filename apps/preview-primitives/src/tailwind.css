@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+/* The shared tokens, as Tailwind colours: `bg-surface`, `text-quiet`, `border-line`. */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-quiet: var(--quiet);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-ring: var(--ring);
+  --color-danger: var(--danger);
+}

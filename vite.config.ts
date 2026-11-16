@@ -73,7 +73,9 @@ const previewOut = (framework: string) =>
  * `solid-ark`, `angular-ng`). Each writes into the site's `dist/client/preview/<framework>/`, after
  * the site's build, which empties `dist`; they do not read one another, so they run side by side.
  */
-const PREVIEWS = ["react", "vue", "svelte", "solid", "angular"]
+// `primitives` is not the registry's: Kirana UI Primitives' own components, raw and styled three
+// ways, for their docs (`apps/preview-primitives`).
+const PREVIEWS = ["react", "vue", "svelte", "solid", "angular", "primitives"]
 
 /** The preview apps with browser tests (`apps/<app>/test/`), each a Vitest project of its own. */
 const BROWSER_PROJECTS = [

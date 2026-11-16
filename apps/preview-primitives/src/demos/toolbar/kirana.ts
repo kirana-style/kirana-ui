@@ -1,0 +1,67 @@
+import { css } from "@kirana-style/core"
+
+import { theme } from "../../tokens.ts"
+
+export default {
+  root: css({
+    display: "flex",
+    alignItems: "center",
+    gap: "0.25rem",
+    padding: "0.25rem",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0.5rem",
+    backgroundColor: theme.surface,
+  }),
+  group: css({ display: "flex", gap: "0.25rem" }),
+  // A toggle, a button and a link of the toolbar look the same.
+  item: css({
+    paddingBlock: "0.25rem",
+    paddingInline: "0.5rem",
+    borderWidth: "0",
+    borderRadius: "0.375rem",
+    backgroundColor: {
+      base: "transparent",
+      ":hover": theme.raised,
+      "[data-pressed]": theme.accent,
+    },
+    color: { base: theme.ink, "[data-pressed]": theme.onAccent },
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    fontWeight: "500",
+    textDecorationLine: "none",
+    cursor: "pointer",
+    outlineWidth: "2px",
+    outlineStyle: { base: "none", ":focus-visible": "solid" },
+    outlineColor: theme.ring,
+    outlineOffset: "2px",
+  }),
+  separator: css({
+    alignSelf: "stretch",
+    width: "1px",
+    margin: "0.25rem",
+    backgroundColor: theme.line,
+  }),
+  input: css({
+    width: "3rem",
+    margin: "0",
+    paddingBlock: "0.25rem",
+    paddingInline: "0.5rem",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0.375rem",
+    backgroundColor: theme.surface,
+    color: theme.ink,
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    textAlign: "center",
+    outlineWidth: "2px",
+    outlineStyle: { base: "none", ":focus-visible": "solid" },
+    outlineColor: theme.ring,
+    outlineOffset: "2px",
+  }),
+}

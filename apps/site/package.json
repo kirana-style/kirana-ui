@@ -38,6 +38,13 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@kirana-ui/angular": "0.1.1",
+    "@kirana-ui/core": "0.1.1",
+    "@kirana-ui/react": "0.1.1",
+    "@kirana-ui/solid": "0.1.1",
+    "@kirana-ui/svelte": "0.1.1",
+    "@kirana-ui/vocabulary": "0.1.1",
+    "@kirana-ui/vue": "0.1.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/vite-config": "workspace:*",

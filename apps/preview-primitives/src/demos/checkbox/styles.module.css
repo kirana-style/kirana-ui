@@ -1,0 +1,46 @@
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.box {
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  background: var(--surface);
+  color: var(--on-accent);
+}
+
+.box[data-checked] {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.box:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.mark {
+  font-size: 0.75rem;
+  line-height: 1;
+  transition:
+    opacity 150ms cubic-bezier(0, 0, 0.2, 1),
+    scale 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* What the mark animates in from, and out to. */
+.mark[data-starting-style],
+.mark[data-ending-style] {
+  opacity: 0;
+  scale: 0.5;
+}

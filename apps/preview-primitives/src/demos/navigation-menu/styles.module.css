@@ -1,0 +1,136 @@
+.list {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.trigger,
+.link {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  border: 0 solid;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.link {
+  display: block;
+  text-decoration-line: none;
+}
+
+.trigger:hover,
+.trigger[data-popup-open],
+.link:hover {
+  background: var(--raised);
+}
+
+.trigger:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.icon {
+  color: var(--quiet);
+  rotate: 0deg;
+  transition-property: rotate;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.icon[data-popup-open] {
+  rotate: 180deg;
+}
+
+/*
+ * The one panel every item's content is shown in. It takes the open content's size, so it
+ * grows and shrinks from one item to the next: its border, 1px a side, is added to that size.
+ */
+.popup {
+  position: relative;
+  width: calc(var(--popup-width) + 2px);
+  height: calc(var(--popup-height) + 2px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  color: var(--ink);
+  /* Grow from the point nearest the trigger. */
+  transform-origin: var(--transform-origin);
+  opacity: 1;
+  scale: 1;
+  transition-property: opacity, scale, width, height;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* What it animates in from, and out to. */
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.95;
+}
+
+.content {
+  position: static;
+  top: 0;
+  left: 0;
+  display: grid;
+  gap: 0.25rem;
+  width: 18rem;
+  padding: 0.5rem;
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.content[data-starting-style],
+.content[data-ending-style] {
+  opacity: 0;
+}
+
+/* The content that is leaving steps out of the way of the one coming in. */
+.content[data-ending-style] {
+  position: absolute;
+}
+
+.card {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--ink);
+  text-decoration-line: none;
+}
+
+.card:hover {
+  background: var(--raised);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--ring);
+}
+
+.cardTitle {
+  display: block;
+  font-weight: 500;
+}
+
+.cardText {
+  display: block;
+  color: var(--quiet);
+}

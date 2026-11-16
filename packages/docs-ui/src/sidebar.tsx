@@ -47,7 +47,7 @@ import {
 } from "./tokens.ts"
 
 import { accent, tint } from "./accent.ts"
-import { tabFor, useDocs } from "./provider.tsx"
+import { tabFor, useDocs, useDocsChrome } from "./provider.tsx"
 import { DocsSearch } from "./search.tsx"
 import { NewDot } from "./new-dot.tsx"
 
@@ -366,7 +366,8 @@ export function DocsSidebar({
   onNavigate?: () => void
   sx?: Sx
 }) {
-  const { nav, tabs, navigate, sidebarFooter, sidebarHeader } = useDocs()
+  const { nav, navigate, sidebarFooter, sidebarHeader } = useDocs()
+  const { tabs } = useDocsChrome(section)
   const [query, setQuery] = useState("")
   const terms = words(query)
   const results =

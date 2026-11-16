@@ -1,0 +1,35 @@
+.group {
+  display: flex;
+  width: 20rem;
+  height: 8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+
+/* Its share of the group is the component's to write. */
+.panel {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--quiet);
+}
+
+.handle {
+  width: 0.25rem;
+  flex-shrink: 0;
+  background: var(--line);
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.handle:hover,
+.handle[data-dragging] {
+  background: var(--quiet);
+}
+
+.handle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 0;
+}

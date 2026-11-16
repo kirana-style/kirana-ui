@@ -315,6 +315,9 @@ function FrameworkRow({
  * component page's own switch).
  * Choosing one saves it for the whole site (every link to a component follows it) and, on a
  * component's page, opens that page in the framework.
+ *
+ * Off for now (`site-nav.tsx` does not render it, nor the phone sheet its group): the docs' own
+ * framework switcher does this. Kept so it can come back.
  */
 export function FrameworksPanel() {
   return (
@@ -344,12 +347,14 @@ export function MobileGroups({
           <MobileRow key={link.href} link={link} />
         ))}
       </div>
+      {/* The Frameworks group is off, as the header's menu: the docs' own framework switcher does this.
       <div sx={styles.mobileGroup}>
         <span sx={styles.columnTitle}>Frameworks</span>
         {FRAMEWORKS.map((framework) => (
           <FrameworkRow key={framework.id} framework={framework} mobile />
         ))}
       </div>
+      */}
       {MENUS.map((menu) => (
         <div key={menu.title} sx={styles.mobileGroup}>
           <span sx={styles.columnTitle}>{menu.title}</span>

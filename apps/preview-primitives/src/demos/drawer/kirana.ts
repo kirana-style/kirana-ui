@@ -1,0 +1,85 @@
+import { css } from "@kirana-style/core"
+
+import { theme } from "../../tokens.ts"
+
+export default {
+  button: css({
+    margin: "0",
+    paddingBlock: "0.5rem",
+    paddingInline: "0.75rem",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0.5rem",
+    backgroundColor: { base: theme.surface, ":hover": theme.raised },
+    color: theme.ink,
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    fontWeight: "500",
+    cursor: "pointer",
+    outlineWidth: "2px",
+    outlineStyle: { base: "none", ":focus-visible": "solid" },
+    outlineColor: theme.ring,
+    outlineOffset: "2px",
+  }),
+  backdrop: css({
+    position: "fixed",
+    inset: "0",
+    backgroundColor: "rgb(0 0 0 / 0.4)",
+    // It fades as the drawer is dragged away, and animates in from and out to nothing.
+    opacity: {
+      base: "calc(1 - var(--drawer-swipe-progress, 0))",
+      "[data-starting-style]": "0",
+      "[data-ending-style]": "0",
+    },
+    transitionProperty: "opacity",
+    // No easing while it is dragged.
+    transitionDuration: { base: "300ms", "[data-swiping]": "0s" },
+    transitionTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+  }),
+  popup: css({
+    position: "fixed",
+    right: "0",
+    bottom: "0",
+    left: "0",
+    maxWidth: "28rem",
+    marginBlock: "0",
+    marginInline: "auto",
+    paddingBlockStart: "0.75rem",
+    paddingBlockEnd: "1.5rem",
+    paddingInline: "1.5rem",
+    borderWidth: "1px 1px 0",
+    borderStyle: "solid",
+    borderColor: theme.line,
+    borderRadius: "0.75rem 0.75rem 0 0",
+    backgroundColor: theme.surface,
+    color: theme.ink,
+    touchAction: "none",
+    // It follows the finger: the library says how far it was dragged.
+    translate: {
+      base: "0 var(--drawer-swipe-movement-y, 0px)",
+      "[data-starting-style]": "0 100%",
+      "[data-ending-style]": "0 100%",
+    },
+    transitionProperty: "translate",
+    transitionDuration: { base: "300ms", "[data-swiping]": "0s" },
+    transitionTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+  }),
+  handle: css({
+    width: "2.5rem",
+    height: "0.25rem",
+    marginBlockStart: "0",
+    marginBlockEnd: "0.75rem",
+    marginInline: "auto",
+    borderRadius: "9999px",
+    backgroundColor: theme.line,
+  }),
+  title: css({ margin: "0", fontSize: "1rem", fontWeight: "600" }),
+  description: css({
+    marginBlockStart: "0.25rem",
+    marginBlockEnd: "1rem",
+    marginInline: "0",
+    color: theme.quiet,
+  }),
+}

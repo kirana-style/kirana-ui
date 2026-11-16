@@ -30,11 +30,27 @@ export type DocsTab = {
   icon?: unknown
 }
 
+/**
+ * A set of tabs with a chrome of its own: the pages in its tabs' sections show these tabs alone,
+ * and its badge beside the logo where the others say "Docs".
+ */
+export type DocsTabGroup = {
+  id: string
+  /** Beside the logo, in place of "Docs". */
+  badge: string
+  tabs: readonly DocsTab[]
+}
+
 export type DocsConfig = {
   Link: LinkComponent
   nav: readonly NavGroup[]
   pages: readonly PageMeta[]
   tabs: readonly DocsTab[]
+  /**
+   * Tab sets apart from `tabs`, each with its badge: a second product documented under the same
+   * URLs. A page in one of a group's sections gets that group's tabs; every other page gets `tabs`.
+   */
+  tabGroups?: readonly DocsTabGroup[]
   search: (query: string) => readonly SearchHit[]
   /**
    * Loads what `search` reads, when a site keeps its records out of the first page load. Search
@@ -119,6 +135,25 @@ export function useDocs(): DocsConfig {
   const value = useContext(Context)
   if (!value) throw new Error("docs-ui: wrap the docs in <DocsProvider>")
   return value
+}
+
+/**
+ * The chrome a page stands in, by its section: a tab group's tabs and badge when one of its tabs
+ * owns the section, the docs' own tabs and "Docs" otherwise.
+ */
+export function useDocsChrome(section: string | undefined): {
+  /** The group's id; `undefined` in the docs' own chrome. */
+  group: string | undefined
+  badge: string
+  tabs: readonly DocsTab[]
+} {
+  const { tabs, tabGroups } = useDocs()
+  const group = tabGroups?.find((each) =>
+    each.tabs.some((tab) => section && tab.sections.includes(section))
+  )
+  return group
+    ? { group: group.id, badge: group.badge, tabs: group.tabs }
+    : { group: undefined, badge: "Docs", tabs }
 }
 
 /** The tab a page belongs to, by its section; the first tab when unknown. */

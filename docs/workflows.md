@@ -1124,3 +1124,44 @@ flowchart TD
 
 Nothing here is settled. If you find a better organisation, take it — and update
 these documents in the same change so the next person inherits the better one.
+
+## The primitives' pages
+
+`/docs/primitives` and `/docs/ai` document Kirana UI Primitives
+([kirana-style/primitives](https://github.com/kirana-style/primitives)), which the site installs
+from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
+
+- **A page per component is generated, not written**: `apps/site/scripts/generate-primitives.ts`
+  runs before the content is read and writes `content/docs/primitives/components/*.md`, their
+  index and `primitives/frameworks.md` (none committed). The reference comes from each installed
+  adapter's `llms.txt` (`scripts/primitives-data.ts`), so a page says what the pinned version
+  does.
+- **The examples are the library's own tested code**: `apps/site/primitives/anatomy.json` holds
+  each component as its conformance fixtures write it on every framework, cut out by
+  `bun scripts/primitives-anatomy.ts <a checkout of kirana-style/primitives>`. Run it again, at
+  the same version, when the `@kirana-ui/*` version moves.
+- **The anatomy is read, not drawn by hand**: the generator reads each component's parts as they
+  nest from its custom-element example (the one form where every part is an element with its
+  name on it), names them as the frameworks do, and lists the parts the example does not use,
+  so none is left out (`::anatomy`). An example can be chosen by the id the fixtures give it
+  (`PREFER` in `primitives-anatomy.ts`) where the first one found shows the component poorly.
+- **The reference is tables**: a component's props through `::props`, and each part's
+  attributes and CSS variables as tables under the part's name.
+- **These pages have their own chrome**: the docs sections `primitives`,
+  `primitives-components` and `ai` are a tab group of their own (`TAB_GROUPS` in
+  `apps/site/src/components/docs-config.tsx`), with a "Headless" badge and two tabs; the header
+  reaches them through its Headless menu.
+- **Each component has a live demo, raw and styled three ways** (`apps/preview-primitives`, built
+  into the site's static files at `/preview/primitives/`): one piece of markup
+  (`src/demos/<slug>/demo.tsx`) that takes its styles as `s`, with a CSS module, a list of
+  Tailwind classes and Kirana handles beside it, each compiled for real (Tailwind 4 and Kirana
+  run in that app only). A page loads one style's stylesheet and no other, so Raw is the
+  browser's own. `apps/preview-primitives/DEMOS.md` is how one is written. The page shows it
+  through `::primitive-preview`, and the code under it is generated from the same four files
+  (`apps/site/scripts/primitives-demos.ts`), so what a reader copies is what the frame draws.
+  The three stylings are held to the same computed styles and boxes, element for element.
+- **A component's one-line description** is in `generate-primitives.ts` (`DESCRIPTIONS`); a new
+  component without one fails the generation.
+- The guides (`content/docs/primitives/*.md`) and the AI pages (`content/docs/ai/`) are written by
+  hand: they state only what the release does, so check a claim against the package before
+  writing it.

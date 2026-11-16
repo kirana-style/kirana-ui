@@ -29,7 +29,7 @@ import { accent } from "./accent.ts"
 import { CopyPage } from "./copy-page.tsx"
 import { WidthToggle } from "./width-toggle.tsx"
 import { DOCS_CHROME } from "./chrome.ts"
-import { tabFor, useDocs } from "./provider.tsx"
+import { tabFor, useDocs, useDocsChrome } from "./provider.tsx"
 import { PageContext } from "./page-context.ts"
 import { TableOfContents } from "./toc.tsx"
 
@@ -162,7 +162,8 @@ export function DocsPage({
   next?: PageMeta
   children: React.ReactNode
 }) {
-  const { Link, nav, tabs, pageIcon, railFooter } = useDocs()
+  const { Link, nav, pageIcon, railFooter } = useDocs()
+  const { tabs } = useDocsChrome(meta.section)
   const logo = pageIcon?.(meta.href, "1.375rem")
   const section = nav.find((group) => group.slug === meta.section)?.label
   const tab = tabFor(tabs, meta.section)

@@ -24,6 +24,18 @@
     "label": "AI Elements"
   },
   {
+    "slug": "primitives",
+    "label": "Primitives"
+  },
+  {
+    "slug": "primitives-components",
+    "label": "Components"
+  },
+  {
+    "slug": "ai",
+    "label": "AI"
+  },
+  {
     "slug": "kirana",
     "label": "Kirana"
   },

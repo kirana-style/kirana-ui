@@ -30,7 +30,10 @@ import { accent, tint } from "../accent.ts"
 import { DOCS_CHROME } from "../chrome.ts"
 import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
+import { Anatomy } from "./anatomy.tsx"
 import { Callout, InCallout } from "./callout.tsx"
+import { PrimitivePreview } from "./primitive-preview.tsx"
+import { PropsTable } from "./props-table.tsx"
 import { ComponentsList } from "./components-list.tsx"
 import { SectionCards } from "./section-cards.tsx"
 import { MarkdownFigure } from "./figure.tsx"
@@ -44,7 +47,7 @@ import { DemoSource } from "./demo-source.tsx"
 import { Installation } from "./installation.tsx"
 import { MarkdownFrameworks } from "./frameworks.tsx"
 import { MarkdownPreview } from "./preview.tsx"
-import { MarkdownTabPanel, MarkdownTabs } from "./tabs.tsx"
+import { MarkdownPicker, MarkdownTabPanel, MarkdownTabs } from "./tabs.tsx"
 
 /** Where a linked heading lands: under the docs chrome (or the site header), with room above it. */
 const ANCHOR = `calc(${DOCS_CHROME} + ${spacing[4]})`
@@ -380,10 +383,14 @@ export function createMarkdownComponents(
       "demo-source": DemoSource as CommentRegistry[string],
       installation: Installation as CommentRegistry[string],
       tabs: MarkdownTabs as unknown as CommentRegistry[string],
+      picker: MarkdownPicker as unknown as CommentRegistry[string],
       steps: MarkdownSteps as unknown as CommentRegistry[string],
       figure: MarkdownFigure as CommentRegistry[string],
       "components-list": ComponentsList as CommentRegistry[string],
       "section-cards": SectionCards as CommentRegistry[string],
+      anatomy: Anatomy as CommentRegistry[string],
+      props: PropsTable as CommentRegistry[string],
+      "primitive-preview": PrimitivePreview as CommentRegistry[string],
       ...components,
     }),
   }

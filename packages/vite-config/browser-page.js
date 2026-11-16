@@ -137,6 +137,11 @@ export async function pressTriggers(
     // trigger.
     // Forced: an open drawer's overlay may cover the corner, and the pointer only needs to move.
     await page.getByTestId(away()).hover({ force: true, timeout: 2000 })
+    // And focus off the trigger: a popup that opens on focus after a delay (a hover card) would
+    // otherwise open once Escape and the wait below are past, and cover the next trigger for
+    // good. Seen in WebKit under load, on Reka UI's hover card.
+    if (document.activeElement instanceof HTMLElement)
+      document.activeElement.blur()
     await closed(container)
     await settle()
   }

@@ -1,0 +1,155 @@
+.control {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.field {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.field[data-invalid] {
+  border-color: var(--danger);
+}
+
+.segment {
+  padding: 0 0.25rem;
+  border-radius: 0.375rem;
+  caret-color: transparent;
+}
+
+/* An empty part, and what stands between two parts. */
+.segment[data-placeholder],
+.segment[data-segment="literal"] {
+  color: var(--quiet);
+}
+
+.segment[data-segment="literal"] {
+  padding: 0;
+}
+
+.segment:focus-visible {
+  background: var(--raised);
+  outline: 2px solid var(--ring);
+}
+
+.trigger {
+  width: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--quiet);
+  font: inherit;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  background: var(--raised);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.popup {
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  color: var(--ink);
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity 150ms cubic-bezier(0, 0, 0.2, 1),
+    scale 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* What the calendar animates in from, and out to. */
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.95;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.heading {
+  font-weight: 500;
+}
+
+.nav,
+.day {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+  border: 0 solid transparent;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav:hover,
+.day:hover {
+  background: var(--raised);
+}
+
+.nav:focus-visible,
+.day:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.grid {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.weekday {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  color: var(--quiet);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.cell {
+  padding: 0;
+  text-align: center;
+}
+
+.day {
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.day[data-today] {
+  font-weight: 600;
+  text-decoration-line: underline;
+}
+
+.day[data-outside-month] {
+  opacity: 0.5;
+}
+
+.day[data-selected] {
+  background: var(--accent);
+  color: var(--on-accent);
+}

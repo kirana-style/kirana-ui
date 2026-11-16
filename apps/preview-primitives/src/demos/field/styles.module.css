@@ -1,0 +1,56 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 16rem;
+}
+
+.label {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.control {
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.control::placeholder {
+  color: var(--quiet);
+  opacity: 1;
+}
+
+/* The field found the value wrong. */
+.control[data-invalid] {
+  border-color: var(--danger);
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.description {
+  margin: 0;
+  color: var(--quiet);
+  font-size: 0.75rem;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.75rem;
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+/* What it animates in from, and out to. */
+.error[data-starting-style],
+.error[data-ending-style] {
+  opacity: 0;
+}

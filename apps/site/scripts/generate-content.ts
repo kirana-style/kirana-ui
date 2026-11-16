@@ -7,6 +7,10 @@ import { existsSync, readFileSync, readdirSync } from "node:fs"
 
 import { generate } from "@workspace/docs-core/generate.ts"
 
+// The primitives' pages, from the installed `@kirana-ui/*` packages: written before the content
+// is read.
+import "./generate-primitives.ts"
+
 import { VARIANTS } from "../src/lib/variants.ts"
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
 
@@ -143,6 +147,41 @@ await generate({
         .filter((page) => variant !== "new" || page.new)
         .map((page) => `- [${page.title}](/docs/components/${page.name})`)
         .join("\n"),
+    // A live demo is a link to the page that draws it.
+    "primitive-preview": ({ demo = "" }) =>
+      `[Live demo: ${demo}](https://ui.kirana.style/preview/primitives/?demo=${demo}&style=css)`,
+    // A component's props, as a table.
+    props: ({ rows = "" }) => {
+      const list = JSON.parse(decodeURIComponent(rows)) as string[][]
+      const cell = (text: string) => text.replace(/[\\|]/g, "\\$&")
+      return [
+        "| Prop | Type | Default | Description |",
+        "| --- | --- | --- | --- |",
+        ...list.map(
+          ([name, type, fallback, description]) =>
+            `| \`${name}\` | \`${cell(type ?? "")}\` | ${fallback ? `\`${fallback}\`` : "–"} | ${cell(description ?? "")} |`
+        ),
+      ].join("\n")
+    },
+    // A component's parts, as they nest: an indented list.
+    anatomy: ({ tree = "", rest = "" }) => {
+      // `Label|note` is "Label (note)": split at the one bar a part's text has.
+      const noted = (token: string) => {
+        const [label = "", ...note] = token.split("|")
+        return note.length ? `${label} (${note.join("|")})` : label
+      }
+      const lines: string[] = []
+      let depth = 0
+      for (const token of tree.split(/([[\],])/)) {
+        if (token === "[") depth++
+        else if (token === "]") depth--
+        else if (token && token !== ",")
+          lines.push(`${"  ".repeat(depth)}- ${noted(token)}`)
+      }
+      return rest
+        ? `${lines.join("\n")}\n\nNot in this picture: ${rest.split(",").join(", ")}`
+        : lines.join("\n")
+    },
     // A section's pages as cards: each linked, with its description.
     "section-cards": ({ section }) =>
       sectionPages(section ?? "")
