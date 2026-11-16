@@ -3,7 +3,9 @@
  * item's preview is served.
  */
 import {
+  AiBrain01Icon,
   BookOpen01Icon,
+  CubeIcon,
   DashboardSquare01Icon,
   PackageIcon,
   PaintBrush01Icon,
@@ -46,6 +48,22 @@ export const TABS: readonly DocsTab[] = [
     sections: ["ai-elements"],
     accent: "neutral",
     icon: SparklesIcon,
+  },
+  {
+    id: "primitives",
+    label: "Primitives",
+    href: "/docs/primitives",
+    sections: ["primitives", "primitives-components"],
+    accent: "neutral",
+    icon: CubeIcon,
+  },
+  {
+    id: "ai",
+    label: "AI",
+    href: "/docs/ai",
+    sections: ["ai"],
+    accent: "neutral",
+    icon: AiBrain01Icon,
   },
   {
     id: "kirana",

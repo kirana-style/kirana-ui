@@ -1124,3 +1124,24 @@ flowchart TD
 
 Nothing here is settled. If you find a better organisation, take it — and update
 these documents in the same change so the next person inherits the better one.
+
+## The primitives' pages
+
+`/docs/primitives` and `/docs/ai` document Kirana UI Primitives
+([kirana-style/primitives](https://github.com/kirana-style/primitives)), which the site installs
+from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
+
+- **A page per component is generated, not written**: `apps/site/scripts/generate-primitives.ts`
+  runs before the content is read and writes `content/docs/primitives/components/*.md`, their
+  index and `primitives/frameworks.md` (none committed). The reference comes from each installed
+  adapter's `llms.txt` (`scripts/primitives-data.ts`), so a page says what the pinned version
+  does.
+- **The examples are the library's own tested code**: `apps/site/primitives/anatomy.json` holds
+  each component as its conformance fixtures write it on every framework, cut out by
+  `bun scripts/primitives-anatomy.ts <a checkout of kirana-style/primitives>`. Run it again, at
+  the same version, when the `@kirana-ui/*` version moves.
+- **A component's one-line description** is in `generate-primitives.ts` (`DESCRIPTIONS`); a new
+  component without one fails the generation.
+- The guides (`content/docs/primitives/*.md`) and the AI pages (`content/docs/ai/`) are written by
+  hand: they state only what the release does, so check a claim against the package before
+  writing it.

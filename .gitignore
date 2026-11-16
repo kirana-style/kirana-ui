@@ -29,3 +29,7 @@ apps/site/src/generated
 apps/site/public/llms.txt
 apps/site/public/llms-full.txt
 apps/site/public/docs
+
+# the primitives' pages, generated from the installed @kirana-ui/* packages (`bun run generate:content`)
+apps/site/content/docs/primitives/components
+apps/site/content/docs/primitives/frameworks.md

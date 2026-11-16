@@ -7,6 +7,10 @@ import { existsSync, readFileSync, readdirSync } from "node:fs"
 
 import { generate } from "@workspace/docs-core/generate.ts"
 
+// The primitives' pages, from the installed `@kirana-ui/*` packages: written before the content
+// is read.
+import "./generate-primitives.ts"
+
 import { VARIANTS } from "../src/lib/variants.ts"
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
 

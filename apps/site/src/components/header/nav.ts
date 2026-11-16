@@ -6,7 +6,9 @@
  * the Kirana site's Quick start is.
  */
 import {
+  AiBrain01Icon,
   BookOpen01Icon,
+  CubeIcon,
   FavouriteIcon,
   GitBranchIcon,
   GithubIcon,
@@ -98,6 +100,20 @@ export const LINKS: readonly NavLinkItem[] = [
     href: "/docs/components",
     icon: DashboardSquare01Icon,
     scene: "highlands",
+  },
+  {
+    title: "Primitives",
+    description: "Headless components, the same on every framework",
+    href: "/docs/primitives",
+    icon: CubeIcon,
+    scene: "misty-hills",
+  },
+  {
+    title: "AI",
+    description: "Agents build with it, and use what you build",
+    href: "/docs/ai",
+    icon: AiBrain01Icon,
+    scene: "turquoise-lake",
   },
   {
     title: "Blocks",
@@ -301,6 +317,8 @@ export const FOOTER: readonly {
     links: [
       { label: "Components", href: "/docs/components" },
       { label: "AI Elements", href: "/docs/ai-elements" },
+      { label: "Primitives", href: "/docs/primitives" },
+      { label: "AI", href: "/docs/ai" },
       { label: "Blocks", href: "/blocks" },
       { label: "Charts", href: "/charts" },
       { label: "Colors", href: "/colors" },
