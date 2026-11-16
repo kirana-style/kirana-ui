@@ -27,6 +27,9 @@ const SOURCES = {
 } as const
 type Framework = keyof typeof SOURCES
 
+/** A text as a pattern that matches only itself: every character a pattern reads, the backslash too. */
+const literal = (text: string) => text.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&")
+
 const VOID = new Set(["input", "img", "br", "hr"])
 
 /** Where a start tag ends, and whether it closes itself: quotes and braces may hold a `>`. */
@@ -54,7 +57,7 @@ function element(text: string, start: number): string {
   const tag = /^<([\w.-]+)/.exec(text.slice(start))![1]!
   const first = startTagEnd(text, start)
   if (first.closed || VOID.has(tag)) return text.slice(start, first.end)
-  const escaped = tag.replace(/[.]/g, "\\.")
+  const escaped = literal(tag)
   const either = new RegExp(`<${escaped}(?=[\\s>/])|</${escaped}\\s*>`, "g")
   either.lastIndex = first.end
   let depth = 1
@@ -134,7 +137,7 @@ const anatomy: Record<string, Partial<Record<Framework, string>>> = {}
 const missing: string[] = []
 for (const { name, first } of components()) {
   const tag = first ?? name
-  const jsx = [new RegExp(`<${tag.replace(".", "\\.")}(?=[\\s>/])`)]
+  const jsx = [new RegExp(`<${literal(tag)}(?=[\\s>/])`)]
   const directive = (suffix: string) =>
     new RegExp(`\\skui${name}${suffix}(?=[\\s=>\\]/])`)
   const entry: Partial<Record<Framework, string>> = {
