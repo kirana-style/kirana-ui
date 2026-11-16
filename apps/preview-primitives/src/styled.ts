@@ -8,9 +8,17 @@ export type Styles<Part extends string> = Record<Part, { className?: string }>
 export const raw = new Proxy({}, { get: () => ({}) }) as Styles<string>
 
 /** Class names by part (a CSS module, or a Tailwind list), as a demo takes them. */
-export const classes = <Part extends string>(names: Record<Part, string>) =>
-  new Proxy(names, {
-    get: (all, part: string) => ({
-      className: (all as Record<string, string>)[part] ?? "",
-    }),
-  }) as unknown as Styles<Part>
+export function classes<Part extends string>(
+  names: Record<Part, string>
+): Styles<Part> {
+  // A `Map`: a part's name finds a class that was written, never something an object inherits.
+  const known = new Map<string, string>(Object.entries(names))
+  return new Proxy(
+    {},
+    {
+      get: (_all, part) => ({
+        className: typeof part === "string" ? (known.get(part) ?? "") : "",
+      }),
+    }
+  ) as Styles<Part>
+}
