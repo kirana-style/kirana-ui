@@ -5,7 +5,8 @@ export type Entry = {
   label: string
   value: string | null
   disabled?: boolean
-  [field: string]: unknown
+  // `any`, as Ark UI types a caller's items: an entry's own fields (an icon) pass to its slot.
+  [field: string]: any
 }
 
 /** The root's items, which the value's slot reads the chosen entries from. */

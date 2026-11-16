@@ -802,7 +802,9 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     animations in their content as they close (`useClosingRoot()`,
     `endScrollAnimations()`): ui-sdk's exit waits for every animation inside
     the popup, and Firefox gives a scroll fade's an end about three minutes
-    away. Type-check after copying examples over (`vp check`): the
+    away. A drawer's popup takes focus as it opens (`initialFocus="content"`),
+    as Base UI's does, where ui-sdk's default goes to its first field.
+    Type-check after copying examples over (`vp check`): the
     preview app does not see them, its previews loading through a glob.
   - **Its keys in every per-base table**, `when()`'s and a style module's own
     (`IN_VERTICAL` in `tabs.styles.ts`, `OPEN` in `collapsible.styles.ts`):
@@ -819,7 +821,10 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   the registry's slot (or one the caller hands it), as the tag Base UI's part
   has or, with `as-child`, as the caller's element. A part's own `<slot />`
   arrives as a fragment, read through; a child that names its own slot keeps
-  it. `Element` gives the parts on Ark's factory (Button, Badge, Item …) an
+  it (a sidebar's menu button inside a tooltip trigger stays
+  `sidebar-menu-button`). When that child is a component, ui-sdk's ref is
+  handed the component's first element: Vue gives a ref on a component its
+  instance, which ui-sdk would take for the element. `Element` gives the parts on Ark's factory (Button, Badge, Item …) an
   `as-child` element; `popupContainer()`, `sideOf()` and
   `endScrollAnimations()` are React's. The input OTP and the resizable are
   ui-sdk's own (Vue has no `input-otp` or `react-resizable-panels`): the

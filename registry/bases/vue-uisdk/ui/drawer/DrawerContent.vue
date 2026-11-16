@@ -29,10 +29,12 @@ const { sx, attrs } = useSx()
     v-if="context.modal"
     :data-snap-points="context.hasSnapPoints ? '' : undefined"
   />
+  <!-- Focus on the popup as it opens, as Base UI's drawer puts it; ui-sdk's goes to the first field. -->
   <UisdkPart
     :part="DrawerContent"
     name="drawer-popup"
     tag="div"
+    initial-focus="content"
     :data-modal="context.modal"
     :data-swipe-axis="axis()"
     :data-swipe-direction="context.swipeDirection"
