@@ -21,7 +21,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AlertDialogClose"
-    name="alert-dialog-close"
+    slot-name="alert-dialog-close"
     tag="button"
     data-slot="alert-dialog-cancel"
     v-bind="attrs"

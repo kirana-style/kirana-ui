@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="NavigationMenuContent"
-    name="navigation-menu-content"
+    slot-name="navigation-menu-content"
     tag="div"
     v-bind="attrs"
     :sx="[navigationMenu.content, sx]"

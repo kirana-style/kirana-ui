@@ -29,7 +29,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuItem"
-    name="context-menu-item"
+    slot-name="context-menu-item"
     tag="div"
     :value="value ?? id"
     :data-inset="inset || undefined"

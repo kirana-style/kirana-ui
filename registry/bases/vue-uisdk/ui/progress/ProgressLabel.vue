@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="ProgressLabel"
-    name="progress-label"
+    slot-name="progress-label"
     tag="span"
     v-bind="attrs"
     :sx="[progress.label, sx]"

@@ -25,7 +25,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="NavigationMenu"
-    name="navigation-menu"
+    slot-name="navigation-menu"
     tag="nav"
     :container="popupContainer()"
     v-bind="attrs"

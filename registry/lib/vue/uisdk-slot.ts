@@ -37,13 +37,32 @@ function firstElement(nodes: VNode[]): VNode | undefined {
  * A component's first element: its `$el` when it is one, else the first after its anchor (a
  * fragment's). The DOM's `Element`, which this module's `Element` component shadows.
  */
-function elementOf(target: unknown): globalThis.Element | null {
+export function elementOf(target: unknown): globalThis.Element | null {
   const isElement = (node: unknown): node is globalThis.Element =>
     node instanceof globalThis.Element
   if (target === null || isElement(target)) return target
   let node = (target as { $el?: Node | null }).$el ?? null
   while (node && !isElement(node)) node = node.nextSibling
   return node
+}
+
+/** `node` with `extra` after its own children: an element's list, or a component's default slot. */
+function withChildren(node: VNode, extra: VNode[]): VNode {
+  const children = node.children
+  if (children && typeof children === "object" && !Array.isArray(children)) {
+    const named = children as Record<string, unknown>
+    const own = named.default as (() => VNode[]) | undefined
+    return h(node.type as Component, node.props, {
+      ...named,
+      default: () => [...(own?.() ?? []), ...extra],
+    })
+  }
+  const list = Array.isArray(children)
+    ? (children as VNode[])
+    : children
+      ? [children as unknown as VNode]
+      : []
+  return h(node.type as Component, node.props, [...list, ...extra])
 }
 
 type Ref = (target: unknown) => void
@@ -68,8 +87,11 @@ export const UisdkPart = defineComponent({
   props: {
     /** The ui-sdk part (`Separator`, `CheckboxIndicator` …). */
     part: { type: [Object, Function] as PropType<Component>, required: true },
-    /** The registry's slot, shadcn/ui's name, which the styles read. */
-    name: { type: String, required: true },
+    /**
+     * The registry's slot, shadcn/ui's name, which the styles read. Not `name`, which a caller's
+     * form field passes on to the part (a combobox's input, a checkbox).
+     */
+    slotName: { type: String, required: true },
     /** The element it renders, as Base UI's part renders it. */
     tag: { type: String, default: "div" },
     /** Its child as its element (Ark UI's `as-child`). */
@@ -101,7 +123,9 @@ export const UisdkPart = defineComponent({
     }
     return () => {
       const slot =
-        typeof attrs["data-slot"] === "string" ? attrs["data-slot"] : props.name
+        typeof attrs["data-slot"] === "string"
+          ? attrs["data-slot"]
+          : props.slotName
       return h(props.part, attrs, {
         ...slots,
         render: ({
@@ -120,13 +144,15 @@ export const UisdkPart = defineComponent({
                 component && typeof own.ref === "function"
                   ? toElementRef(own.ref as Ref)
                   : own.ref
-              return cloneVNode(
-                child,
-                mergeProps(own, {
-                  ref: telling(ref),
-                  "data-slot": child.props?.["data-slot"] ?? slot,
-                })
-              )
+              const merged = mergeProps(own, {
+                ref: telling(ref),
+                "data-slot": child.props?.["data-slot"] ?? slot,
+              })
+              // The `after` slot goes inside the child, after its own children, as the part's
+              // children go inside Base UI's `render` element (a combobox trigger's chevron).
+              return slots.after
+                ? withChildren(cloneVNode(child, merged), slots.after())
+                : cloneVNode(child, merged)
             }
           }
           return h(

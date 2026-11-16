@@ -16,7 +16,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="RadioGroup"
-    name="radio-group"
+    slot-name="radio-group"
     tag="div"
     :model-value="value"
     @update:model-value="(next: string | null) => (value = next)"

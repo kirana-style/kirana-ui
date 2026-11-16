@@ -40,7 +40,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Slider"
-    name="slider"
+    slot-name="slider"
     tag="div"
     :default-value="defaultValue ?? [min, max]"
     :model-value="value"
@@ -53,13 +53,13 @@ const { sx, attrs } = useSx()
     <SliderControl :sx="slider.control">
       <UisdkPart
         :part="SliderTrack"
-        name="slider-track"
+        slot-name="slider-track"
         tag="div"
         :sx="slider.track"
       >
         <UisdkPart
           :part="SliderIndicator"
-          name="slider-range"
+          slot-name="slider-range"
           tag="div"
           :sx="slider.range"
         />
@@ -68,7 +68,7 @@ const { sx, attrs } = useSx()
         v-for="index in thumbs"
         :key="index"
         :part="SliderThumb"
-        name="slider-thumb"
+        slot-name="slider-thumb"
         tag="div"
         :index="index - 1"
         :sx="slider.thumb"

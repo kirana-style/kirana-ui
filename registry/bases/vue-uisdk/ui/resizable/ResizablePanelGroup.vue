@@ -32,7 +32,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Resizable"
-    name="resizable-panel-group"
+    slot-name="resizable-panel-group"
     tag="div"
     :default-layout="defaultSize"
     :orientation="orientation"

@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuGroupLabel"
-    name="context-menu-label"
+    slot-name="context-menu-label"
     tag="div"
     :data-inset="inset || undefined"
     v-bind="attrs"

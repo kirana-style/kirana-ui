@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="DrawerBackdrop"
-    name="drawer-overlay"
+    slot-name="drawer-overlay"
     tag="div"
     v-bind="attrs"
     :sx="[drawer.overlay, sx]"

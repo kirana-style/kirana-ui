@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="TabsTab"
-    name="tabs-trigger"
+    slot-name="tabs-trigger"
     tag="button"
     :value="value"
     v-bind="attrs"

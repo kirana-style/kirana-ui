@@ -19,7 +19,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="NavigationMenuLink"
-    name="navigation-menu-link"
+    slot-name="navigation-menu-link"
     tag="a"
     :current="active"
     :as-child="asChild"

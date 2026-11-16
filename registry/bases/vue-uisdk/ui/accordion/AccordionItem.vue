@@ -15,7 +15,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AccordionItem"
-    name="accordion-item"
+    slot-name="accordion-item"
     tag="div"
     :value="value"
     v-bind="attrs"

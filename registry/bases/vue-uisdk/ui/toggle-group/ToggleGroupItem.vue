@@ -33,7 +33,7 @@ const chosen = computed(() => ({
 <template>
   <UisdkPart
     :part="Toggle"
-    name="toggle-group-item"
+    slot-name="toggle-group-item"
     tag="button"
     :value="value"
     :data-variant="chosen.variant"

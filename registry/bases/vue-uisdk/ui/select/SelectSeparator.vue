@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectSeparator"
-    name="select-separator"
+    slot-name="select-separator"
     tag="div"
     v-bind="attrs"
     :sx="[menuSeparator, select.separator, sx]"

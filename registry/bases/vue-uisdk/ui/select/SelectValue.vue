@@ -30,7 +30,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="SelectValue"
-    name="select-value"
+    slot-name="select-value"
     tag="span"
     :placeholder="placeholder"
     v-bind="attrs"

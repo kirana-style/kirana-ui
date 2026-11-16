@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AvatarImage"
-    name="avatar-image"
+    slot-name="avatar-image"
     tag="img"
     v-bind="attrs"
     :sx="[avatar.image, sx]"

@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="ProgressTrack"
-    name="progress-track"
+    slot-name="progress-track"
     tag="div"
     v-bind="attrs"
     :sx="[progress.track, sx]"

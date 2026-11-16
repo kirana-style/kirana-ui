@@ -28,7 +28,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuCheckboxItem"
-    name="context-menu-checkbox-item"
+    slot-name="context-menu-checkbox-item"
     tag="div"
     :close-on-select="false"
     :value="value ?? id"

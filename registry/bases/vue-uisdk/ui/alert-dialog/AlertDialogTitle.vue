@@ -13,7 +13,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AlertDialogTitle"
-    name="alert-dialog-title"
+    slot-name="alert-dialog-title"
     tag="h2"
     v-bind="attrs"
     :sx="[alertDialog.title, sx]"

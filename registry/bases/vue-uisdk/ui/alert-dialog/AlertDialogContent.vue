@@ -20,7 +20,7 @@ const { sx, attrs } = useSx()
   <AlertDialogOverlay />
   <UisdkPart
     :part="AlertDialogContent"
-    name="alert-dialog-content"
+    slot-name="alert-dialog-content"
     tag="div"
     :data-size="size"
     :element="

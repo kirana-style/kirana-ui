@@ -20,7 +20,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="Toggle"
-    name="toggle"
+    slot-name="toggle"
     tag="button"
     v-bind="attrs"
     :sx="[toggleScope.anchor, toggle({ variant, size }), sx]"

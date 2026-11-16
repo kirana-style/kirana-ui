@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
   <!-- The arrow under the open trigger: ui-sdk's indicator, which follows it. -->
   <UisdkPart
     :part="NavigationMenuIndicator"
-    name="navigation-menu-indicator"
+    slot-name="navigation-menu-indicator"
     tag="span"
     v-bind="attrs"
     :sx="[navigationMenu.indicator, sx]"

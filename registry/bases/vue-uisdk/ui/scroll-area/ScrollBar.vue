@@ -17,7 +17,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="ScrollAreaScrollbar"
-    name="scroll-area-scrollbar"
+    slot-name="scroll-area-scrollbar"
     tag="div"
     :orientation="orientation"
     :data-orientation="orientation"
@@ -26,7 +26,7 @@ const { sx, attrs } = useSx()
   >
     <UisdkPart
       :part="ScrollAreaThumb"
-      name="scroll-area-thumb"
+      slot-name="scroll-area-thumb"
       tag="div"
       :sx="scrollArea.thumb"
     />

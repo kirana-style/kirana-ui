@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
   <!-- ui-sdk's text (`40%`) unless the caller gives its own. -->
   <UisdkPart
     :part="ProgressValue"
-    name="progress-value"
+    slot-name="progress-value"
     tag="span"
     v-bind="attrs"
     :sx="[progress.value, sx]"

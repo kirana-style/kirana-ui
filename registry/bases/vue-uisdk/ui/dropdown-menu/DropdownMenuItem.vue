@@ -29,7 +29,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="MenuItem"
-    name="dropdown-menu-item"
+    slot-name="dropdown-menu-item"
     tag="div"
     :value="value ?? id"
     :data-inset="inset || undefined"

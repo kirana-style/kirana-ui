@@ -14,7 +14,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="AlertDialogBackdrop"
-    name="alert-dialog-overlay"
+    slot-name="alert-dialog-overlay"
     tag="div"
     v-bind="attrs"
     :sx="[backdropMotion, alertDialog.overlay, sx]"

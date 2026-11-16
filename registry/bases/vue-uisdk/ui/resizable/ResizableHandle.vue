@@ -21,7 +21,7 @@ const { sx, attrs } = useSx()
 <template>
   <UisdkPart
     :part="ResizableHandle"
-    name="resizable-handle"
+    slot-name="resizable-handle"
     tag="div"
     data-separator=""
     v-bind="attrs"

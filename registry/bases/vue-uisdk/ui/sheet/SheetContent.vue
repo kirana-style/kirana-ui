@@ -25,7 +25,7 @@ const { sx, attrs } = useSx()
   <SheetOverlay />
   <UisdkPart
     :part="DialogContent"
-    name="sheet-content"
+    slot-name="sheet-content"
     tag="div"
     :data-side="side"
     :element="
@@ -38,7 +38,7 @@ const { sx, attrs } = useSx()
     <UisdkPart
       v-if="showCloseButton"
       :part="DialogClose"
-      name="sheet-close"
+      slot-name="sheet-close"
       tag="button"
       as-child
     >

@@ -11,7 +11,7 @@ const { asChild = false } = defineProps<{ asChild?: boolean }>()
 <template>
   <UisdkPart
     :part="HoverCardTrigger"
-    name="hover-card-trigger"
+    slot-name="hover-card-trigger"
     tag="a"
     :as-child="asChild"
     v-bind="$attrs"
