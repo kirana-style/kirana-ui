@@ -1,0 +1,24 @@
+<script setup lang="ts">
+import { DialogBackdrop } from "@ui-sdk/vue/dialog"
+import { useSx } from "@kirana-style/core/vue"
+
+import { UisdkPart } from "../../../../lib/vue/uisdk-slot"
+import { backdropMotion } from "../../../../styles/overlay.styles"
+import { dialog } from "../../../../styles/dialog.styles"
+
+defineOptions({ inheritAttrs: false })
+
+const { sx, attrs } = useSx()
+</script>
+
+<template>
+  <UisdkPart
+    :part="DialogBackdrop"
+    name="dialog-overlay"
+    tag="div"
+    v-bind="attrs"
+    :sx="[backdropMotion, dialog.overlay, sx]"
+  >
+    <slot />
+  </UisdkPart>
+</template>

@@ -1029,6 +1029,24 @@
       "reason": "ui-sdk names a select item's text and indicator; Base UI's carry no slot, the same elements otherwise"
     },
     {
+      "element": "div[data-slot=\"select-content\"]",
+      "property": "(element)",
+      "route": "(react|vue)/uisdk/dashboard-01",
+      "reason": "ui-sdk mounts a select's content, hidden, to read the chosen item's label when its value changes and it has no `items`: the dashboard's time range moves to the last 7 days on a phone; Base UI reads the label from the item's children on opening"
+    },
+    {
+      "element": "div[data-slot=\"select-item\"]",
+      "property": "(element)",
+      "route": "(react|vue)/uisdk/dashboard-01",
+      "reason": "the hidden content's items, as the content"
+    },
+    {
+      "element": "tr[data-slot=\"table-row\"]",
+      "property": "background-color",
+      "route": "(react|vue)/uisdk/dashboard-01",
+      "reason": "the row whose link opened the drawer, under the pointer: ui-sdk's modal drawer makes the page behind it inert, so the row loses `:hover`; behind Base UI's it keeps it until the pointer moves"
+    },
+    {
       "element": "section[data-slot=\"toast-viewport\"]",
       "property": "(element)",
       "route": "(react|vue)/uisdk/",

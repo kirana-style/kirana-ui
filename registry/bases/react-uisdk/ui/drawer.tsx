@@ -177,7 +177,9 @@ function DrawerContent({
       {modal === true && (
         <DrawerOverlay data-snap-points={hasSnapPoints ? "" : undefined} />
       )}
+      {/* Focus on the popup as it opens, as Base UI's drawer puts it; ui-sdk's goes to the first field. */}
       <DrawerPrimitive.DrawerContent
+        initialFocus="content"
         data-modal={modal}
         data-swipe-axis={swipeAxis}
         data-swipe-direction={swipeDirection}

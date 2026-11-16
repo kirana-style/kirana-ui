@@ -15,7 +15,7 @@ import {
   mergeProps,
   Text,
 } from "vue"
-import type { Component, PropType, VNode } from "vue"
+import type { Component, PropType, VNode, VNodeRef } from "vue"
 
 /**
  * The first element among a slot's nodes, as Ark UI's `as-child` takes it: a slot passed on (a
@@ -33,6 +33,35 @@ function firstElement(nodes: VNode[]): VNode | undefined {
   return undefined
 }
 
+/**
+ * A component's first element: its `$el` when it is one, else the first after its anchor (a
+ * fragment's). The DOM's `Element`, which this module's `Element` component shadows.
+ */
+function elementOf(target: unknown): globalThis.Element | null {
+  const isElement = (node: unknown): node is globalThis.Element =>
+    node instanceof globalThis.Element
+  if (target === null || isElement(target)) return target
+  let node = (target as { $el?: Node | null }).$el ?? null
+  while (node && !isElement(node)) node = node.nextSibling
+  return node
+}
+
+type Ref = (target: unknown) => void
+const elementRefs = new WeakMap<Ref, Ref>()
+/**
+ * ui-sdk's ref, given the element of a component child: Vue hands a ref on a component its instance,
+ * which ui-sdk reads as the element (LF-026). One wrapper per ref, so Vue does not detach and
+ * reattach it on every render.
+ */
+function toElementRef(ref: Ref): Ref {
+  let wrapped = elementRefs.get(ref)
+  if (!wrapped) {
+    wrapped = (target) => ref(elementOf(target))
+    elementRefs.set(ref, wrapped)
+  }
+  return wrapped
+}
+
 export const UisdkPart = defineComponent({
   name: "UisdkPart",
   inheritAttrs: false,
@@ -45,8 +74,31 @@ export const UisdkPart = defineComponent({
     tag: { type: String, default: "div" },
     /** Its child as its element (Ark UI's `as-child`). */
     asChild: { type: Boolean, default: false },
+    /**
+     * Told the part's element as ui-sdk attaches it (a modal's content, whose animations end as it
+     * closes): the component's `$el` can be an anchor, where ui-sdk renders a fragment.
+     */
+    element: {
+      type: Function as PropType<(el: globalThis.Element | null) => void>,
+      default: undefined,
+    },
   },
   setup(props, { attrs, slots }) {
+    // ui-sdk's ref with `element` told too: one wrapper per ref, so Vue does not reattach it.
+    const told = new WeakMap<Ref, Ref>()
+    const telling = (ref: unknown): VNodeRef | undefined => {
+      if (!props.element || typeof ref !== "function")
+        return ref as VNodeRef | undefined
+      let wrapped = told.get(ref as Ref)
+      if (!wrapped) {
+        wrapped = (target) => {
+          ;(ref as Ref)(target)
+          props.element?.(elementOf(target))
+        }
+        told.set(ref as Ref, wrapped)
+      }
+      return wrapped
+    }
     return () => {
       const slot =
         typeof attrs["data-slot"] === "string" ? attrs["data-slot"] : props.name
@@ -62,15 +114,26 @@ export const UisdkPart = defineComponent({
           if (props.asChild) {
             const child = firstElement(slots.default?.() ?? [])
             // A child that names its own slot keeps it, as its props win on Base UI's part.
-            if (child)
+            if (child) {
+              const component = typeof child.type !== "string"
+              const ref =
+                component && typeof own.ref === "function"
+                  ? toElementRef(own.ref as Ref)
+                  : own.ref
               return cloneVNode(
                 child,
-                child.props?.["data-slot"] === undefined
-                  ? mergeProps(own, { "data-slot": slot })
-                  : own
+                mergeProps(own, {
+                  ref: telling(ref),
+                  "data-slot": child.props?.["data-slot"] ?? slot,
+                })
               )
+            }
           }
-          return h(props.tag, { ...own, "data-slot": slot }, h(children))
+          return h(
+            props.tag,
+            { ...own, ref: telling(own.ref), "data-slot": slot },
+            h(children)
+          )
         },
       })
     }
