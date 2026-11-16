@@ -30,7 +30,9 @@ import { accent, tint } from "../accent.ts"
 import { DOCS_CHROME } from "../chrome.ts"
 import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
+import { Anatomy } from "./anatomy.tsx"
 import { Callout, InCallout } from "./callout.tsx"
+import { PropsTable } from "./props-table.tsx"
 import { ComponentsList } from "./components-list.tsx"
 import { SectionCards } from "./section-cards.tsx"
 import { MarkdownFigure } from "./figure.tsx"
@@ -384,6 +386,8 @@ export function createMarkdownComponents(
       figure: MarkdownFigure as CommentRegistry[string],
       "components-list": ComponentsList as CommentRegistry[string],
       "section-cards": SectionCards as CommentRegistry[string],
+      anatomy: Anatomy as CommentRegistry[string],
+      props: PropsTable as CommentRegistry[string],
       ...components,
     }),
   }

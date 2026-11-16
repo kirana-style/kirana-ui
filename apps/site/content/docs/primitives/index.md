@@ -53,7 +53,7 @@ All of them share one version. Each adapter depends on the core, so installing o
 
 ## Where to go
 
-- [Installation](/docs/primitives/installation): a first component, styled.
+- [Get started](/docs/primitives/installation): from nothing to a first component, styled, in five steps.
 - [Frameworks](/docs/primitives/frameworks): how each framework writes a part, a prop and a change.
 - [Styling](/docs/primitives/styling) and [Animation](/docs/primitives/animation): the attributes and variables a part gives you.
 - [Components](/docs/primitives/components): all of them, with their reference.

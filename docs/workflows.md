@@ -1140,6 +1140,17 @@ from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
   each component as its conformance fixtures write it on every framework, cut out by
   `bun scripts/primitives-anatomy.ts <a checkout of kirana-style/primitives>`. Run it again, at
   the same version, when the `@kirana-ui/*` version moves.
+- **The anatomy is read, not drawn by hand**: the generator reads each component's parts as they
+  nest from its custom-element example (the one form where every part is an element with its
+  name on it), names them as the frameworks do, and lists the parts the example does not use,
+  so none is left out (`::anatomy`). An example can be chosen by the id the fixtures give it
+  (`PREFER` in `primitives-anatomy.ts`) where the first one found shows the component poorly.
+- **The reference is tables**: a component's props through `::props`, and each part's
+  attributes and CSS variables as tables under the part's name.
+- **These pages have their own chrome**: the docs sections `primitives`,
+  `primitives-components` and `ai` are a tab group of their own (`TAB_GROUPS` in
+  `apps/site/src/components/docs-config.tsx`), with a "Headless" badge and two tabs; the header
+  reaches them through its Headless menu.
 - **A component's one-line description** is in `generate-primitives.ts` (`DESCRIPTIONS`); a new
   component without one fails the generation.
 - The guides (`content/docs/primitives/*.md`) and the AI pages (`content/docs/ai/`) are written by

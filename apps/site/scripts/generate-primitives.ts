@@ -121,18 +121,197 @@ const version = (
   JSON.parse(packageFile("core", "package.json")) as { version: string }
 ).version
 
+/** The install command, as the site draws one: every package manager, in a terminal. */
+const install = (framework: Framework | "web") =>
+  `<!-- ::install packages="@kirana-ui/${framework}" -->`
+
 const fence = (language: string, code: string) =>
   `\`\`\`${language}\n${code}\n\`\`\``
 
-/** The reference's own headings, as the page's. */
-const api = (body: string) =>
-  body
-    .replace(/^Props of its root:$/m, "## Props\n\nOf its root.")
-    .replace(/^Props:$/m, "## Props")
-    .replace(
-      /^Attributes and CSS variables, by part:$/m,
-      "## Attributes and CSS variables\n\nBy part: what to style it by."
+/** A cell of a table: a `|` in a type would end it. */
+const cell = (text: string) => text.replace(/\|/g, "\\|")
+
+/** The reference's props, for the page's props table: the default is said on its own. */
+function propsTable(lines: readonly string[]): string {
+  const rows = lines.flatMap((line) => {
+    const found = /^- `([^`]+)`(?:: (.*))?$/.exec(line)
+    if (!found) return []
+    const [, signature = "", said = ""] = found
+    const at = signature.indexOf(": ")
+    const prop = at < 0 ? signature : signature.slice(0, at)
+    const type = at < 0 ? "" : signature.slice(at + 2)
+    return [
+      [
+        prop.replace(/\?$/, ""),
+        type,
+        /Default:? `([^`]+)`/.exec(said)?.[1] ?? "",
+        said,
+      ],
+    ]
+  })
+  // An attribute holds no quote: the rows are encoded.
+  return `<!-- ::props rows="${encodeURIComponent(JSON.stringify(rows))}" -->`
+}
+
+/** The reference's parts, each with its attributes and its CSS variables as tables. */
+function partsReference(
+  lines: readonly string[],
+  label: (part: string) => string
+): string {
+  const out: string[] = []
+  let attributes: string[] = []
+  let variables: string[] = []
+  const flush = () => {
+    if (attributes.length)
+      out.push(
+        ["| Attribute | When |", "| --- | --- |", ...attributes].join("\n")
+      )
+    if (variables.length)
+      out.push(
+        [
+          "| CSS variable | What it holds |",
+          "| --- | --- |",
+          ...variables,
+        ].join("\n")
+      )
+    attributes = []
+    variables = []
+  }
+  for (const line of lines) {
+    const part = /^- ([\w-]+): (.*)$/.exec(line)
+    const entry = /^\s+- `([^`]+)`: (.*)$/.exec(line)
+    if (part) {
+      flush()
+      out.push(`### ${label(part[1]!)}`, part[2]!)
+    } else if (entry) {
+      const row = `| \`${cell(entry[1]!)}\` | ${cell(entry[2]!)} |`
+      if (entry[1]!.startsWith("--")) variables.push(row)
+      else attributes.push(row)
+    }
+  }
+  flush()
+  return out.join("\n\n")
+}
+
+/** The reference as the page's sections: props, then every part. */
+function api(body: string, label: (part: string) => string): string {
+  const lines = body.split("\n")
+  const from = (heading: RegExp) =>
+    lines.findIndex((line) => heading.test(line))
+  const props = from(/^Props( of its root)?:$/)
+  const parts = from(/^Attributes and CSS variables, by part:$/)
+  const out: string[] = ["## API reference"]
+  if (props >= 0) {
+    const end = parts > props ? parts : lines.length
+    out.push(
+      lines[props] === "Props:" ? "### Props" : "### Props of the root",
+      propsTable(lines.slice(props + 1, end))
     )
+  }
+  if (parts >= 0) out.push(partsReference(lines.slice(parts + 1), label))
+  return out.join("\n\n")
+}
+
+const pascal = (part: string) =>
+  part.replace(/(^|-)([a-z])/g, (_whole, _dash, letter: string) =>
+    letter.toUpperCase()
+  )
+
+/** What a list's template is on the frameworks, where its name is not the part's. */
+const LISTS: Record<string, string> = { toasts: "List" }
+
+interface Node {
+  label: string
+  note?: string
+  children: Node[]
+}
+
+/**
+ * A component's parts as they nest, read from how it is written as custom elements (the one
+ * form where every part is an element with its name on it), and named as the frameworks name
+ * them. A component written inside it is another component's, and left out.
+ */
+function tree(name: string): { text: string; rest: string[] } | undefined {
+  const html = anatomy[kebab(name)]?.web
+  const own = references.react.get(name)
+  if (!html || !own) return undefined
+  const known = new Set(
+    own.parts.map((part) => /^<(.+)>$/.exec(part)?.[1] ?? part)
+  )
+  const used = new Set<string>()
+  const named = (part: string) => {
+    const dotted = `${name}.${pascal(part)}`
+    // A component of one part is that part, whatever it is called (`Button`, `Autosize.Textarea`).
+    const label = known.has(dotted)
+      ? dotted
+      : part === "root" && known.size <= 1
+        ? ([...known][0] ?? name)
+        : undefined
+    if (label) used.add(label)
+    return label
+  }
+  const top: Node = { label: "", children: [] }
+  // Each open element: the node its parts go into, and whether it is inside another component.
+  const stack: { tag: string; into: Node; foreign: boolean }[] = []
+  const tags = /<(\/?)([a-zA-Z][\w-]*)((?:"[^"]*"|[^>"])*)>/g
+  let hosts = 0
+  for (let found = tags.exec(html); found; found = tags.exec(html)) {
+    const [, closing, tag = "", attributes = ""] = found
+    if (closing) {
+      while (stack.length && stack.pop()!.tag !== tag);
+      continue
+    }
+    const around = stack.at(-1)
+    let into = around?.into ?? top
+    let foreign = around?.foreign ?? false
+    if (tag.startsWith("kui-") && hosts++ > 0) foreign = true
+    const part = /kui-part="([^"]+)"/.exec(attributes)?.[1]
+    const each = /kui-each="([^"]+)"/.exec(attributes)?.[1]
+    const label = foreign
+      ? undefined
+      : part === "portal"
+        ? named("portal")
+        : part
+          ? named(part)
+          : each
+            ? named(LISTS[each] ? LISTS[each]!.toLowerCase() : each)
+            : undefined
+    if (label) {
+      const node: Node = { label, children: [] }
+      if (part === "portal")
+        node.note = "no element: what is inside is drawn at the end of body"
+      if (each)
+        node.note = "no element: draws what is inside once for each entry"
+      into.children.push(node)
+      into = node
+    }
+    const single =
+      /\/\s*$/.test(attributes) || ["input", "img", "br", "hr"].includes(tag)
+    if (!single) stack.push({ tag, into, foreign })
+  }
+  // The same part written several times (an item for each value) is drawn once.
+  const write = (node: Node): string =>
+    `${node.label}${node.note ? `|${node.note}` : ""}${
+      node.children.length
+        ? `[${[...new Set(node.children.map(write))].join(",")}]`
+        : ""
+    }`
+  let roots = top.children
+  // A root that draws no element holds the rest, in the code only.
+  const root = `${name}.Root`
+  if (known.has(root) && !used.has(root)) {
+    used.add(root)
+    roots = [
+      {
+        label: root,
+        note: "no element: holds the component's state",
+        children: roots,
+      },
+    ]
+  }
+  const text = [...new Set(roots.map(write))].join(",")
+  return { text, rest: [...known].filter((part) => !used.has(part)) }
+}
 
 function page(name: string, order: number): string {
   const slug = kebab(name)
@@ -147,12 +326,11 @@ function page(name: string, order: number): string {
     ].join("\n\n")
   const imports = tabs((framework) =>
     framework === "web"
-      ? [
-          fence("bash", "npm install @kirana-ui/web"),
-          fence("ts", `import "@kirana-ui/web/${slug}"`),
-        ].join("\n\n")
+      ? [install("web"), fence("ts", `import "@kirana-ui/web/${slug}"`)].join(
+          "\n\n"
+        )
       : [
-          fence("bash", `npm install @kirana-ui/${framework}`),
+          install(framework),
           fence("ts", references[framework].get(name)?.import ?? ""),
         ].join("\n\n")
   )
@@ -161,14 +339,27 @@ function page(name: string, order: number): string {
     return code && fence(LANGUAGE[framework], code)
   })
   const own = references.react.get(name)!
-  const parts = tabs((framework) =>
-    framework === "web"
-      ? undefined
-      : references[framework]
-          .get(name)
-          ?.parts.map((part) => `- \`${part}\``)
-          .join("\n")
-  )
+  const drawn = tree(name)
+  // What each part is called: one spelling on four frameworks, a directive on Angular.
+  const directives = references.angular.get(name)?.parts ?? []
+  const names = !own.parts.length
+    ? ""
+    : directives.length === own.parts.length
+      ? [
+          "| React, Vue, Svelte, Solid | Angular |",
+          "| --- | --- |",
+          ...own.parts.map(
+            (part, at) => `| \`${part}\` | \`${cell(directives[at]!)}\` |`
+          ),
+        ].join("\n")
+      : [
+          `On React, Vue, Svelte and Solid: ${own.parts.map((part) => `\`${part}\``).join(", ")}.`,
+          ...(directives.length
+            ? [
+                `On Angular: ${directives.map((part) => `\`${part}\``).join(", ")}.`,
+              ]
+            : []),
+        ].join("\n\n")
   return `---
 title: ${title(name)}
 description: ${DESCRIPTIONS[name]}
@@ -179,20 +370,22 @@ keywords: [${[title(name).toLowerCase(), "primitive", "headless", "unstyled"].jo
 
 # ${title(name)}
 
-${DESCRIPTIONS[name]}
-
 ## Installation
 
 ${imports}
-
+${
+  drawn
+    ? `\n## Anatomy\n\nHow its parts go together. Write them in this order, each inside the one around it.\n\n<!-- ::anatomy tree="${drawn.text}" rest="${drawn.rest.join(",")}" -->\n`
+    : ""
+}${names ? `\n### What each part is called\n\n${names}\n` : ""}
 ## Example
 
-As the library's own tests write it, on each framework. The classes are the example's: a
-primitive has no styles of its own.
+A whole one, as the library's own tests write it, on each framework. The classes are the
+example's: a primitive has no styles of its own.
 
 ${examples}
-${own.parts.length ? `\n## Parts\n\n${parts}\n` : ""}
-${api(own.body)}
+
+${api(own.body, (part) => (own.parts.length ? `${name}.${pascal(part)}` : name))}
 
 The props, attributes and variables are the same on every framework; how each writes a prop and
 hears a change is in [Frameworks](/docs/primitives/frameworks). This page is generated from
@@ -205,7 +398,7 @@ function frameworks(): string {
   const one = (framework: Framework) =>
     [
       `## ${LABELS[framework]}`,
-      fence("bash", `npm install @kirana-ui/${framework}`),
+      install(framework),
       usage(framework).join("\n"),
       fence(LANGUAGE[framework], anatomy.collapsible?.[framework] ?? ""),
     ].join("\n\n")
@@ -231,7 +424,7 @@ ${FRAMEWORKS.map(one).join("\n\n")}
 
 ## Custom elements
 
-${fence("bash", "npm install @kirana-ui/web")}
+${install("web")}
 
 With no framework, a component is a custom element that holds it and draws nothing; its parts are
 the page's own elements. [Custom elements](/docs/primitives/custom-elements) has the whole of it.

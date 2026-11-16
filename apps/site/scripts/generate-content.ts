@@ -147,6 +147,35 @@ await generate({
         .filter((page) => variant !== "new" || page.new)
         .map((page) => `- [${page.title}](/docs/components/${page.name})`)
         .join("\n"),
+    // A component's props, as a table.
+    props: ({ rows = "" }) => {
+      const list = JSON.parse(decodeURIComponent(rows)) as string[][]
+      const cell = (text: string) => text.replace(/\|/g, "\\|")
+      return [
+        "| Prop | Type | Default | Description |",
+        "| --- | --- | --- | --- |",
+        ...list.map(
+          ([name, type, fallback, description]) =>
+            `| \`${name}\` | \`${cell(type ?? "")}\` | ${fallback ? `\`${fallback}\`` : "–"} | ${cell(description ?? "")} |`
+        ),
+      ].join("\n")
+    },
+    // A component's parts, as they nest: an indented list.
+    anatomy: ({ tree = "", rest = "" }) => {
+      const lines: string[] = []
+      let depth = 0
+      for (const token of tree.split(/([[\],])/)) {
+        if (token === "[") depth++
+        else if (token === "]") depth--
+        else if (token && token !== ",")
+          lines.push(
+            `${"  ".repeat(depth)}- ${token.replace("|", " (")}${token.includes("|") ? ")" : ""}`
+          )
+      }
+      return rest
+        ? `${lines.join("\n")}\n\nNot in this picture: ${rest.split(",").join(", ")}`
+        : lines.join("\n")
+    },
     // A section's pages as cards: each linked, with its description.
     "section-cards": ({ section }) =>
       sectionPages(section ?? "")

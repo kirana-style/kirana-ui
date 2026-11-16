@@ -33,36 +33,114 @@ stylesheet is three things:
 The names are Base UI's where the two have the same state, so a style written for Base UI's
 attributes holds for these parts.
 
-## Plain CSS
+## The same component, three ways
 
-```css
-.popup {
-  transform-origin: var(--transform-origin);
-  max-height: var(--available-height);
+Nothing in the library knows which of these you use. Each reads the same attributes and the same
+variables.
+
+<!-- ::start:tabs -->
+
+### CSS Modules
+
+```css title="details.module.css"
+.trigger[data-panel-open] {
+  font-weight: 600;
 }
-.popup[data-side="top"] {
-  margin-bottom: 4px;
+
+.panel {
+  overflow: hidden;
+  height: var(--collapsible-panel-height);
+  transition: height 200ms ease;
 }
-.item[data-highlighted] {
-  background: Highlight;
+
+/* What it animates in from, and out to. */
+.panel[data-starting-style],
+.panel[data-ending-style] {
+  height: 0;
 }
 ```
 
-## Tailwind
+```tsx title="details.tsx"
+import { Collapsible } from "@kirana-ui/react/collapsible"
 
-Tailwind's data variants read the same attributes:
+import styles from "./details.module.css"
 
-```html
-<div
-  class="data-[side=top]:mb-1 data-[highlighted]:bg-accent max-h-(--available-height)"
-></div>
+export function Details() {
+  return (
+    <Collapsible.Root>
+      <Collapsible.Trigger className={styles.trigger}>
+        Details
+      </Collapsible.Trigger>
+      <Collapsible.Panel className={styles.panel}>
+        <p>Panel content</p>
+      </Collapsible.Panel>
+    </Collapsible.Root>
+  )
+}
 ```
 
-## Kirana
+### Tailwind
 
-In Kirana a state is a condition on a style's value, and the conditions are these same attribute
-selectors. The components on this site are styled that way; a set of them built on the primitives,
-with typed state keys read from the vocabulary below, is what comes next here.
+```tsx title="details.tsx"
+import { Collapsible } from "@kirana-ui/react/collapsible"
+
+export function Details() {
+  return (
+    <Collapsible.Root>
+      <Collapsible.Trigger className="data-panel-open:font-semibold">
+        Details
+      </Collapsible.Trigger>
+      <Collapsible.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 data-starting-style:h-0 data-ending-style:h-0">
+        <p>Panel content</p>
+      </Collapsible.Panel>
+    </Collapsible.Root>
+  )
+}
+```
+
+### Kirana
+
+```tsx title="details.tsx"
+import { css, props } from "@kirana-style/core"
+import { Collapsible } from "@kirana-ui/react/collapsible"
+
+const styles = {
+  trigger: css({
+    fontWeight: { base: "400", "[data-panel-open]": "600" },
+  }),
+  panel: css({
+    overflow: "hidden",
+    height: {
+      base: "var(--collapsible-panel-height)",
+      "[data-starting-style]": "0",
+      "[data-ending-style]": "0",
+    },
+    transitionProperty: "height",
+    transitionDuration: "200ms",
+  }),
+}
+
+export function Details() {
+  return (
+    <Collapsible.Root>
+      <Collapsible.Trigger {...props(styles.trigger)}>
+        Details
+      </Collapsible.Trigger>
+      <Collapsible.Panel {...props(styles.panel)}>
+        <p>Panel content</p>
+      </Collapsible.Panel>
+    </Collapsible.Root>
+  )
+}
+```
+
+<!-- ::end:tabs -->
+
+- **CSS Modules, or any stylesheet**: an attribute selector for a state, `var()` for a variable.
+- **Tailwind**: a data variant for a state (`data-panel-open:`), an arbitrary value for a variable
+  (`h-(--collapsible-panel-height)`).
+- **Kirana**: a state is a condition on a value, written as its attribute selector. The parts do
+  not read `sx`, so a style reaches a part through `props()`.
 
 ## The contract as data
 

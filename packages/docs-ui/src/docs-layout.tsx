@@ -41,7 +41,7 @@ import {
 import { accent, accents, tint } from "./accent.ts"
 import { BAR, DOCS_CHROME, TABS } from "./chrome.ts"
 import { collapsedPreference, widePreference } from "./preferences.ts"
-import { tabFor, useDocs } from "./provider.tsx"
+import { tabFor, useDocs, useDocsChrome } from "./provider.tsx"
 import type { DocsTab } from "./provider.tsx"
 import { DocsSearch } from "./search.tsx"
 import { DocsSidebar } from "./sidebar.tsx"
@@ -334,13 +334,16 @@ const styles = {
  * tabs unfold under it as rows of their own.
  */
 function SectionSwitcher({
+  tabs,
   active,
   onNavigate,
 }: {
+  /** The page's chrome's tabs (`useDocsChrome`). */
+  tabs: readonly DocsTab[]
   active: DocsTab | undefined
   onNavigate: () => void
 }) {
-  const { tabs, Link } = useDocs()
+  const { Link } = useDocs()
   const [open, setOpen] = useState(false)
   const others = tabs.filter((tab) => tab.id !== active?.id)
   const box = useRef<HTMLElement>(null)
@@ -431,7 +434,7 @@ export function DocsLayout({
   banner?: React.ReactNode
   children: React.ReactNode
 }) {
-  const { tabs, pages, Link } = useDocs()
+  const { pages, Link } = useDocs()
   const reduce = useReducedMotion()
   const [menuOpen, setMenuOpen] = useState(false)
   const wide = useSyncExternalStore(
@@ -489,6 +492,7 @@ export function DocsLayout({
   const section = pages.find(
     (page) => page.href === current || page.variant?.of === current
   )?.section
+  const { tabs, badge } = useDocsChrome(section)
   const active = tabFor(tabs, section)
 
   return (
@@ -502,7 +506,7 @@ export function DocsLayout({
         <div sx={styles.bar}>
           <div sx={styles.brand} data-collapsed={collapsed ? "" : undefined}>
             {logo}
-            <span sx={styles.badge}>Docs</span>
+            <span sx={styles.badge}>{badge}</span>
           </div>
           <div sx={styles.actions}>
             {actions}
@@ -532,6 +536,7 @@ export function DocsLayout({
               >
                 <SheetTitle sx={styles.sheetTitle}>Documentation</SheetTitle>
                 <SectionSwitcher
+                  tabs={tabs}
                   active={active}
                   onNavigate={() => setMenuOpen(false)}
                 />

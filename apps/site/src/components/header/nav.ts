@@ -1,8 +1,8 @@
 /**
  * What the site header links to, as the Kirana site's `nav.ts` lays its menus out: one list, so
  * the header, the phone's sheet and the footer never disagree. kirana/ui is its components, so
- * they lead, with the blocks, the charts and the typeset builder, as links of their own (the colours are under Docs); Docs and Community
- * are the two menus, each page in one of them. Create, to `/create`, is the button at the end, as
+ * they lead, with the blocks, the charts and the typeset builder, as links of their own (the colours are under Docs); Headless
+ * (Kirana UI Primitives and its AI pages), Docs and Community are the menus, each page in one of them. Create, to `/create`, is the button at the end, as
  * the Kirana site's Quick start is.
  */
 import {
@@ -19,6 +19,9 @@ import {
   Rocket01Icon,
   SourceCodeIcon,
   DashboardSquare01Icon,
+  Download04Icon,
+  Html5Icon,
+  Layers01Icon,
   PackageIcon,
   PaintBrush01Icon,
   QrCodeIcon,
@@ -81,7 +84,7 @@ export type NavLinkItem = {
 
 export type Featured = NavLinkItem & {
   /** Which small illustration stands on the scene (`menu-art.tsx`). */
-  art: "start" | "compile"
+  art: "start" | "compile" | "parts" | "agent"
 }
 
 export type Menu = {
@@ -100,20 +103,6 @@ export const LINKS: readonly NavLinkItem[] = [
     href: "/docs/components",
     icon: DashboardSquare01Icon,
     scene: "highlands",
-  },
-  {
-    title: "Primitives",
-    description: "Headless components, the same on every framework",
-    href: "/docs/primitives",
-    icon: CubeIcon,
-    scene: "misty-hills",
-  },
-  {
-    title: "AI",
-    description: "Agents build with it, and use what you build",
-    href: "/docs/ai",
-    icon: AiBrain01Icon,
-    scene: "turquoise-lake",
   },
   {
     title: "Blocks",
@@ -148,6 +137,78 @@ export const SPONSOR: NavLinkItem = {
 }
 
 export const MENUS: readonly Menu[] = [
+  // Kirana UI Primitives, the headless library, and what it gives an agent: before Docs, which is
+  // the styled components'.
+  {
+    title: "Headless",
+    featured: [
+      {
+        title: "Primitives",
+        description: "Headless components, the same on every framework.",
+        href: "/docs/primitives",
+        icon: CubeIcon,
+        scene: "golden-fields",
+        art: "parts",
+      },
+      {
+        title: "AI",
+        description: "Agents build with it, and use what you build.",
+        href: "/docs/ai",
+        icon: AiBrain01Icon,
+        scene: "city-dusk",
+        art: "agent",
+      },
+    ],
+    columns: [
+      {
+        title: "Start here",
+        links: [
+          {
+            title: "Get started",
+            description: "A first component, styled, in five steps",
+            href: "/docs/primitives/installation",
+            icon: Download04Icon,
+            scene: "highlands",
+          },
+          {
+            title: "Frameworks",
+            description: "The same parts on each of them",
+            href: "/docs/primitives/frameworks",
+            icon: Layers01Icon,
+            scene: "rock-garden",
+          },
+          {
+            title: "Styling",
+            description: "Elements, state attributes, CSS variables",
+            href: "/docs/primitives/styling",
+            icon: PaintBrush01Icon,
+            scene: "heritage-street",
+          },
+          {
+            title: "Components",
+            description: "The 48 primitives, each with its parts",
+            href: "/docs/primitives/components",
+            icon: DashboardSquare01Icon,
+            scene: "still-water",
+          },
+          {
+            title: "Custom elements",
+            description: "No framework, and no shadow root",
+            href: "/docs/primitives/custom-elements",
+            icon: Html5Icon,
+            scene: "old-hall",
+          },
+          {
+            title: "The agent bridge",
+            description: "Agents read your components, and act",
+            href: "/docs/ai/agent-bridge",
+            icon: RoboticIcon,
+            scene: "city-dusk",
+          },
+        ],
+      },
+    ],
+  },
   {
     title: "Docs",
     featured: [

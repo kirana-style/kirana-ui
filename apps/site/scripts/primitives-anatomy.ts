@@ -130,6 +130,12 @@ function find(
   return undefined
 }
 
+/**
+ * The example to take where the first in the fixtures is not the one that shows the component
+ * best: by the id the fixtures give it.
+ */
+const PREFER: Record<string, string> = { Field: "fd1" }
+
 const kebab = (name: string) =>
   name.replace(/[A-Z]/g, (letter, at) => (at ? "-" : "") + letter.toLowerCase())
 
@@ -137,7 +143,11 @@ const anatomy: Record<string, Partial<Record<Framework, string>>> = {}
 const missing: string[] = []
 for (const { name, first } of components()) {
   const tag = first ?? name
-  const jsx = [new RegExp(`<${literal(tag)}(?=[\\s>/])`)]
+  const id = PREFER[name]
+  const jsx = [
+    ...(id ? [new RegExp(`<${literal(tag)}\\s[^>]*id="${id}"`)] : []),
+    new RegExp(`<${literal(tag)}(?=[\\s>/])`),
+  ]
   const directive = (suffix: string) =>
     new RegExp(`\\skui${name}${suffix}(?=[\\s=>\\]/])`)
   const entry: Partial<Record<Framework, string>> = {
@@ -145,13 +155,16 @@ for (const { name, first } of components()) {
     vue: find("vue", jsx),
     svelte: find("svelte", jsx),
     solid: find("solid", jsx),
-    angular: find(
-      "angular",
-      ["", "Root", "Group", "Viewport", "Textarea", "Trigger"].map((suffix) =>
-        directive(suffix)
-      )
-    ),
-    web: find("web", [new RegExp(`<kui-${kebab(name)}(?=[\\s>])`)]),
+    angular: find("angular", [
+      ...(id ? [new RegExp(`\\skui${name}\\s[^>]*\\[kuiId\\]="'${id}'"`)] : []),
+      ...["", "Root", "Group", "Viewport", "Textarea", "Trigger"].map(
+        (suffix) => directive(suffix)
+      ),
+    ]),
+    web: find("web", [
+      ...(id ? [new RegExp(`<kui-${kebab(name)}\\s[^>]*kui-id="${id}"`)] : []),
+      new RegExp(`<kui-${kebab(name)}(?=[\\s>])`),
+    ]),
   }
   for (const framework of Object.keys(SOURCES) as Framework[])
     if (!entry[framework]) missing.push(`${name} on ${framework}`)

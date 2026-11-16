@@ -215,3 +215,14 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   (a track with a hairline, the chosen one a muted pill), rounded as the code panel beneath them
   rather than round, where Kirana's are line tabs;
   below `sm` each pill is its logo alone, named by `aria-label` and `title`.
+- `provider.tsx`: `DocsConfig.tabGroups` (new, optional), tab sets apart from `tabs`, each a
+  `DocsTabGroup` with a `badge`; `useDocsChrome(section)` gives a page's tabs and badge, its
+  group's when one of the group's tabs owns the section, `tabs` and "Docs" otherwise.
+  `docs-layout.tsx` (the badge, the tab row, the sheet's section switch), `sidebar.tsx` and
+  `docs-page.tsx` (the breadcrumb) read it where they read `tabs`: a second product documented
+  under the same URLs has a chrome of its own, the layout the same.
+- **`::anatomy` and `::props`** (`markdown/anatomy.tsx`, `markdown/props-table.tsx`), for the
+  primitives' component pages: a component's parts as nested frames, each inside the part that
+  holds it, with the parts the picture leaves out listed under it; and its props one to a row, the
+  type and default beside the name and the description below, so a long type is never a column
+  that squeezes the text.
