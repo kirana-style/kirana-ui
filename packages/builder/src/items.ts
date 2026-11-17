@@ -11,6 +11,7 @@ import { join } from "node:path"
 
 import { BLOCKS, blockInfo } from "../../../registry/blocks"
 import { CHARTS } from "../../../registry/charts"
+import { PORTING_BASES } from "../../../registry/core/config"
 import type { Base } from "./flatten"
 
 export type Framework = "react" | "vue" | "svelte" | "solid" | "angular"
@@ -40,6 +41,7 @@ export const FRAMEWORK_BASES = [
   { framework: "react", base: "base", bases: "react-base" },
   { framework: "react", base: "aria", bases: "react-aria" },
   { framework: "react", base: "uisdk", bases: "react-uisdk" },
+  { framework: "react", base: "kirana", bases: "react-kirana" },
   { framework: "vue", base: "ark", bases: "vue-ark" },
   { framework: "vue", base: "reka", bases: "vue-reka" },
   { framework: "vue", base: "uisdk", bases: "vue-uisdk" },
@@ -138,13 +140,11 @@ function component(
  */
 const PORTING: Framework[] = ["svelte", "solid", "angular"]
 
-/**
- * A base while it is ported against React's pages: its components appear as their markup is
- * written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI has no toast, which the
- * toast's item leaves out by its bases), and so are React, Vue and Svelte on ui-sdk (P9-02 to
- * P9-04).
- */
-const PORTING_BASES: string[] = []
+// A base while it is ported against React's pages (`registry/core/config.ts`): its components
+// appear as their markup is written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI
+// has no toast, which the toast's item leaves out by its bases), and so are React, Vue and Svelte
+// on ui-sdk (P9-02 to P9-04); React on Kirana UI Primitives is being ported (P10).
+export { PORTING_BASES }
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -353,8 +353,34 @@ const ALL_ITEMS: Item[] = [
     files: (combination) =>
       combination.base === "ark" ||
       combination.base === "reka" ||
-      combination.base === "bits"
+      combination.base === "bits" ||
+      combination.base === "kirana"
         ? ["lib/placement.ts"]
+        : undefined,
+  },
+  {
+    name: "kirana-render",
+    type: "registry:lib",
+    title: "Kirana render",
+    description:
+      "The render prop for the registry's own parts on Kirana UI Primitives, and the part props typed as their element's.",
+    // `@kirana-ui/react` exports no render step for a plain element, and types a part's other props
+    // `unknown` (PF-002, PF-003).
+    files: (combination) =>
+      combination.framework === "react" && combination.base === "kirana"
+        ? ["lib/kirana-render.ts"]
+        : undefined,
+  },
+  {
+    name: "kirana-side",
+    type: "registry:lib",
+    title: "Kirana side",
+    description:
+      "Base UI's logical sides (inline-start, inline-end) on Kirana UI Primitives' Positioners, by the reading direction.",
+    // The primitives' Positioners take the physical four only (PF-016).
+    files: (combination) =>
+      combination.framework === "react" && combination.base === "kirana"
+        ? ["lib/kirana-side.ts"]
         : undefined,
   },
   {
@@ -930,8 +956,14 @@ const ALL_ITEMS: Item[] = [
     title: chart.title,
     description: chart.description,
     files: (combination) => {
-      if (react(combination))
-        return [`bases/${combination.bases}/charts/${chart.name}.tsx`]
+      if (react(combination)) {
+        const file = `bases/${combination.bases}/charts/${chart.name}.tsx`
+        // A React base being ported has a chart once its components do (`PORTING_BASES`).
+        return PORTING_BASES.includes(combination.bases) &&
+          !existsSync(join(REGISTRY, file))
+          ? undefined
+          : [file]
+      }
       const file = `bases/${combination.bases}/charts/${chart.name}.${CHART_EXTENSIONS[combination.framework]}`
       return existsSync(join(REGISTRY, file))
         ? [

@@ -11,10 +11,16 @@ import { pressTriggers } from "@workspace/vite-config/browser-page"
 import { previews as basePreviews } from "@workspace/registry/bases/react-base/previews"
 import { previews as ariaPreviews } from "@workspace/registry/bases/react-aria/previews"
 import { previews as uisdkPreviews } from "@workspace/registry/bases/react-uisdk/previews"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/react-kirana/previews"
 
 import { mountItem, settle } from "./page"
 
-const BASES = { base: basePreviews, aria: ariaPreviews, uisdk: uisdkPreviews }
+const BASES = {
+  base: basePreviews,
+  aria: ariaPreviews,
+  uisdk: uisdkPreviews,
+  kirana: kiranaPreviews,
+}
 
 for (const [base, previews] of Object.entries(BASES)) {
   describe(base, () => {

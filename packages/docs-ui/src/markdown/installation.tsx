@@ -39,6 +39,7 @@ import { installedFiles } from "./component-code.tsx"
 import type { RegistryItem } from "./component-code.tsx"
 import { InstallTabs } from "./install-tabs.tsx"
 import { CombinationPicker } from "./preview.tsx"
+import { PORTING_BASES } from "@workspace/registry/core/config"
 
 /** What `kirana-style ui init` installs: never a manual step of its own. */
 const FROM_INIT = new Set(["kirana", "sx"])
@@ -181,7 +182,10 @@ export function Installation({
   }, [tab, loaded, name, registryItem])
 
   if (!name) return null
-  const react = current?.id.startsWith("react/") ?? true
+  // shadcn/ui's CLI installs React, from an export a base being ported does not have yet.
+  const react =
+    (current?.id.startsWith("react/") ?? true) &&
+    !PORTING_BASES.includes(current?.id.replace("/", "-") ?? "")
   const names = name.split(/\s+/).filter(Boolean)
 
   return (

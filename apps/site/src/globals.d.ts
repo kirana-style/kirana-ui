@@ -17,6 +17,7 @@ declare module "virtual:preview-names" {
     | "react/base"
     | "react/aria"
     | "react/uisdk"
+    | "react/kirana"
     | "vue/ark"
     | "vue/reka"
     | "vue/uisdk"

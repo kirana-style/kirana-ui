@@ -4,7 +4,7 @@
  * `currentColor`; Ark UI's, Reka UI's and
  * ng-primitives' are their sites' icons, kept in `brands/` as the other logos are and drawn as images. The docs'
  * frameworks row and `/create`'s Get Code draw them from here. A base with no official mark (ui-sdk,
- * whose site's icon is Vercel's own) draws none.
+ * whose site's icon is Vercel's own, and Kirana UI Primitives, whose brand has none yet) draws none.
  */
 import type { ReactNode } from "react"
 

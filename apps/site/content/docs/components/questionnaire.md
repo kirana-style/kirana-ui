@@ -2,17 +2,17 @@
 title: Questionnaire
 description: A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.
 section: components
-variants: [react/base, react/aria, react/uisdk]
+variants: [react/base, react/aria, react/uisdk, react/kirana]
 keywords: [questionnaire, chat, component, base, aria]
 ---
 
 # Questionnaire
 
-<!-- ::preview item="questionnaire-demo" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-demo" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Installation
 
-<!-- ::installation name="questionnaire" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::installation name="questionnaire" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Usage
 
@@ -153,79 +153,79 @@ headless Questionnaire for the complete behavior.
 
 Use `multiple` for an item that accepts more than one fixed answer.
 
-<!-- ::preview item="questionnaire-multiple" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-multiple" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Freeform Answer
 
 Compose `QuestionnaireInput` with fixed choices when the user can provide another answer.
 
-<!-- ::preview item="questionnaire-freeform" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-freeform" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Explicit Skip
 
 Add `QuestionnaireSkip` when an optional item may be intentionally left unanswered.
 
-<!-- ::preview item="questionnaire-skip" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-skip" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Shortcuts
 
 Assign a letter or number key to each answer with `shortcuts`.
 
-<!-- ::preview item="questionnaire-shortcuts" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-shortcuts" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Custom Validation
 
 Combine controlled navigation with an external schema such as Zod to return to an invalid item and present its error.
 
-<!-- ::preview item="questionnaire-validation" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-validation" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Controlled
 
 Control the active item from host state, such as returning to an invalid step.
 
-<!-- ::preview item="questionnaire-controlled" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-controlled" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Resume
 
 Restore a saved active item and default answers, then reset changes back to that saved state.
 
-<!-- ::preview item="questionnaire-resume" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-resume" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Conditional Items
 
 Disable items that do not apply to the user's earlier answers.
 
-<!-- ::preview item="questionnaire-conditional" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-conditional" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Navigation State
 
 Read item status to opt into disabled navigation and custom action styling.
 
-<!-- ::preview item="questionnaire-navigation-state" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-navigation-state" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Custom Progress
 
 Use the Progress render state to build a custom progress indicator.
 
-<!-- ::preview item="questionnaire-progress" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-progress" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Animated Items
 
 Animate the active item while keeping progress and navigation stationary.
 
-<!-- ::preview item="questionnaire-animated" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-animated" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Card
 
 Compose Questionnaire with Card slots while keeping the question title and description semantic.
 
-<!-- ::preview item="questionnaire-card" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-card" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Dialog
 
 Compose Questionnaire inside a Dialog while keeping cancellation and dismissal host-owned.
 
-<!-- ::preview item="questionnaire-dialog" height="400" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="questionnaire-dialog" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Accessibility
 

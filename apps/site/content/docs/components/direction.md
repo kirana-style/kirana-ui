@@ -7,6 +7,7 @@ variants:
     react/base,
     react/aria,
     react/uisdk,
+    react/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
@@ -45,7 +46,7 @@ see more examples, look for the RTL section on components pages.
 
 ## Installation
 
-<!-- ::installation name="direction" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="direction" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 

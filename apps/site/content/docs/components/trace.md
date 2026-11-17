@@ -8,6 +8,7 @@ variants:
     react/base,
     react/aria,
     react/uisdk,
+    react/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
@@ -22,7 +23,7 @@ keywords: [trace, chat, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Trace
 
-<!-- ::preview item="trace-demo" height="560" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-demo" height="560" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 `Trace` is a list of lines. Each line has an icon, a title, and an optional description and status. A line can expand to show more detail, link to a page, or open a dialog or sheet.
 
@@ -50,7 +51,7 @@ Every pattern below is a composition of `Trace` parts. See [AI Elements](/docs/a
 
 ## Installation
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -305,13 +306,13 @@ Trace
 
 Use a `TraceLine` on its own for a step with no detail to show. It reads as plain text.
 
-<!-- ::preview item="trace-static" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-static" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Status
 
 Set `status` on `TraceLine` when a step is running, has failed or hasn't started yet.
 
-<!-- ::preview item="trace-status" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-status" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 | Status      | Use for                                                                       |
 | ----------- | ----------------------------------------------------------------------------- |
@@ -324,13 +325,13 @@ Set `status` on `TraceLine` when a step is running, has failed or hasn't started
 
 Put secondary text such as a diff stat, a duration or a count in a `TraceDescription` after the `TraceTitle`. It does not truncate.
 
-<!-- ::preview item="trace-description" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-description" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Collapsible
 
 Wrap the line in a `TraceCollapsible` to show more detail when it expands. Put the `TraceLine` inside `TraceCollapsibleTrigger` and the detail in `TraceCollapsibleContent`.
 
-<!-- ::preview item="trace-collapsible" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-collapsible" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Open State
 
@@ -346,7 +347,7 @@ Rows start closed. Use `defaultExpanded` on `TraceCollapsible` to start open, or
 
 <!-- ::end:only -->
 
-<!-- ::preview item="trace-open" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-open" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 To open a row while it streams and let the reader's click win, pass `open ?? running`.
 
@@ -390,7 +391,7 @@ const [open, setOpen] = React.useState<boolean>()
 
 Wrap the `TraceLine` in an anchor. For a new tab, use an arrow-up-right icon and sr-only "(opens in a new tab)".
 
-<!-- ::preview item="trace-link" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-link" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ```tsx
 <a href="https://docs.astro.build" target="_blank" rel="noreferrer">
@@ -410,7 +411,7 @@ Wrap the `TraceLine` in an anchor. For a new tab, use an arrow-up-right icon and
 
 Wrap the `TraceLine` in the dialog's trigger. The dialog owns its open state, Escape and focus return.
 
-<!-- ::preview item="trace-dialog" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-dialog" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -468,19 +469,19 @@ The same shape as the dialog. Popover works the same way. Drawer is a Base UI dr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="trace-sheet" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-sheet" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Group
 
 Put rows that sit next to each other in a `Trace`. It also styles any trigger or link that wraps a `TraceLine`.
 
-<!-- ::preview item="trace-group" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-group" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Sources
 
 A collapsible row whose detail is a `Trace` of link rows.
 
-<!-- ::preview item="trace-sources" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-sources" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -498,7 +499,7 @@ See [Sources](/docs/ai-elements/sources) for more examples.
 
 A chain of thought is a collapsible row with step rows inside. Set the parent's status and title from its children.
 
-<!-- ::preview item="trace-steps" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-steps" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -516,19 +517,19 @@ See [Chain of Thought](/docs/ai-elements/chain-of-thought) and [Task](/docs/ai-e
 
 A commit is a collapsible row with a line for each changed file. Say what changed in the title, Added, Edited or Deleted, and put the line counts in the description. Each file opens its diff in a [Sheet](#sheet).
 
-<!-- ::preview item="trace-commit" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-commit" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
 
 ## Whole Turn
 
 Three levels: the turn, a summary, and the rows. Text between steps sits between two `Trace` lists.
 
-<!-- ::preview item="trace-turn" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-turn" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Reasoning
 
 Render a `reasoning` part from the AI SDK. The row is a `TraceLine` until the first text arrives. See [Open State](#open-state).
 
-<!-- ::preview item="trace-thinking" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-thinking" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 See [Reasoning](/docs/ai-elements/reasoning) for more examples.
 
@@ -536,7 +537,7 @@ See [Reasoning](/docs/ai-elements/reasoning) for more examples.
 
 Render tool parts from the AI SDK. Map the tool part as in [Tool](/docs/ai-elements/tool#states).
 
-<!-- ::preview item="trace-tool-calls" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="trace-tool-calls" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 See [Tool](/docs/ai-elements/tool) for more examples.
 

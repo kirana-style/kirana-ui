@@ -135,6 +135,7 @@ const BASE_NAMES: Record<string, string> = {
   bits: "Bits UI",
   ng: "ng-primitives",
   uisdk: "ui-sdk",
+  kirana: "Kirana UI",
 }
 
 /** The combinations by framework, in the order given: each framework a group of its bases. */

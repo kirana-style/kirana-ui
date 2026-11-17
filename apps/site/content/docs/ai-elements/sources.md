@@ -7,6 +7,7 @@ variants:
     react/base,
     react/aria,
     react/uisdk,
+    react/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
@@ -21,7 +22,7 @@ keywords: [sources, ai elements, agent, chat]
 
 # Sources
 
-<!-- ::preview item="sources-demo" height="460" combinations="react/base,react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="sources-demo" height="460" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
 
 Sources is a line that lists the links the agent used for a reply. It says how many there are, like "Used 3 sources", and opens into a link for each one.
 
@@ -31,7 +32,7 @@ Sources is built with `Trace` with a `TraceCollapsible` for the list.
 
 Sources is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
+<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
 
 ## Usage
 

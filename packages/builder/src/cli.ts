@@ -39,7 +39,7 @@ import { demoCode, demoParts, previewedItems } from "./demos"
 import { evaluate, installStub, tagStates } from "./evaluate"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
-import { COMBINATIONS, FRAMEWORK_BASES, ITEMS } from "./items"
+import { COMBINATIONS, FRAMEWORK_BASES, ITEMS, PORTING_BASES } from "./items"
 import { buildKiranaRegistry } from "./kirana-items"
 import { checkDependencyFrameworks, checkKiranaItems } from "./kirana-check"
 import { split } from "./markers"
@@ -100,6 +100,7 @@ const BASE_NAMES = {
   reka: "Reka UI",
   bits: "Bits UI",
   uisdk: "ui-sdk",
+  kirana: "Kirana UI",
 } as const
 
 const started = performance.now()
@@ -261,8 +262,10 @@ for (const combination of COMBINATIONS) {
   const built = buildCombination(REGISTRY, combination, contentOf, versions)
   problems.push(...built.problems)
   itemCount += built.items.length
-  // Built and checked for every combination; written for React's, which shadcn/ui's CLI installs.
+  // Built and checked for every combination; written for React's, which shadcn/ui's CLI installs,
+  // once the base is whole (`PORTING_BASES`).
   if (combination.framework !== "react") continue
+  if (PORTING_BASES.includes(combination.bases)) continue
   const folder = join(values.out!, "shadcn", combination.id)
   mkdirSync(folder, { recursive: true })
   for (const item of built.items) {
@@ -385,5 +388,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; for shadcn/ui, ${COMBINATIONS.length} combinations and ${itemCount} items checked, React's ${COMBINATIONS.filter((combination) => combination.framework === "react").length} written; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; for shadcn/ui, ${COMBINATIONS.length} combinations and ${itemCount} items checked, React's ${COMBINATIONS.filter((combination) => combination.framework === "react" && !PORTING_BASES.includes(combination.bases)).length} written; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )

@@ -11,8 +11,15 @@ import { generate } from "@workspace/docs-core/generate.ts"
 // is read.
 import "./generate-primitives.ts"
 
+import { PORTING_BASES } from "@workspace/registry/core/config"
 import { VARIANTS } from "../src/lib/variants.ts"
+
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
+
+/** Whether shadcn/ui's export has the variant: React's, once its base is whole (`PORTING_BASES`). */
+const shadcnExport = (variant: string) =>
+  variant.startsWith("react/") &&
+  !PORTING_BASES.includes(variant.replace("/", "-"))
 
 /**
  * Pages that are guides to building a component from others, as upstream's: no item of their own,
@@ -210,7 +217,7 @@ await generate({
         "```bash",
         `npx kirana-style ui add ${names.join(" ")}`,
         "```",
-        ...(variant.startsWith("react/")
+        ...(shadcnExport(variant)
           ? [
               "",
               "Or with shadcn/ui's CLI, from the registry's export:",
@@ -231,7 +238,7 @@ await generate({
       return [
         `- Every framework and base, every style: [${name}.json](/r/${name}.json)`,
         // shadcn/ui's CLI installs React only.
-        ...(variant.startsWith("react/")
+        ...(shadcnExport(variant)
           ? [
               `- Flattened for one combination, as shadcn/ui's CLI installs it: [${variant.replace("/", "-")}-nova/${name}.json](/r/shadcn/${variant.replace("/", "-")}-nova/${name}.json)`,
             ]

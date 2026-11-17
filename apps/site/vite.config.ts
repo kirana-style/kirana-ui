@@ -34,6 +34,8 @@ const BLOCK_NAMES = "virtual:block-names"
 const EXAMPLES = {
   // ui-sdk on React, ported part by part: its previews map is a glob over these folders.
   "react/uisdk": ["react-uisdk", ".tsx"],
+  // Kirana UI Primitives on React, ported part by part (P10).
+  "react/kirana": ["react-kirana", ".tsx"],
   "vue/ark": ["vue-ark", ".vue"],
   "vue/reka": ["vue-reka", ".vue"],
   "vue/uisdk": ["vue-uisdk", ".vue"],

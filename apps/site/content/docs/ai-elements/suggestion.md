@@ -7,6 +7,7 @@ variants:
     react/base,
     react/aria,
     react/uisdk,
+    react/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
@@ -21,7 +22,7 @@ keywords: [suggestion, ai elements, agent, chat]
 
 # Suggestion
 
-<!-- ::preview item="suggestion-demo" height="320" combinations="react/base,react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="suggestion-demo" height="320" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
 
 Suggestion is a prompt you send without typing. Each one is a [Button](/docs/components/button) with the prompt as its label. Put a row of them above the [Prompt Input](/docs/ai-elements/prompt-input).
 
@@ -29,7 +30,7 @@ Suggestion is a prompt you send without typing. Each one is a [Button](/docs/com
 
 Suggestion is built with the [Button](/docs/components/button) component.
 
-<!-- ::installation name="button" combinations="react/base,react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
+<!-- ::installation name="button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
 
 ## Usage
 

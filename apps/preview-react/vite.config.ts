@@ -77,7 +77,7 @@ export default defineConfig({
   optimizeDeps: browserDeps([
     "test/**/*.{ts,tsx}",
     "src/**/*.tsx",
-    "../../registry/bases/react-{base,aria,uisdk}/**/*.tsx",
+    "../../registry/bases/react-{base,aria,uisdk,kirana}/**/*.tsx",
   ]),
   // The items in a real browser (`test/`), compiled as this app compiles them: `vp run browser`.
   test: browserTest(playwright, {
