@@ -226,8 +226,14 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   holds it, with the parts the picture leaves out listed under it; and its props one to a row, the
   type and default beside the name and the description below, so a long type is never a column
   that squeezes the text.
-- **`::primitive-preview`** (`markdown/primitive-preview.tsx`): a primitive drawn live in a frame
-  with a switch between Raw and the same markup styled with CSS Modules, Tailwind and Kirana,
-  each a page of the primitives' preview app that loads only its own stylesheet.
+- **`::start:primitive-demo`** (`markdown/primitive-demo.tsx`): one card for a primitive's
+  example. The component drawn live in a frame; a bar with the framework whose code is read, the
+  styling (CSS Modules, Kirana, Tailwind, Raw) and links to the demo's own page and its source;
+  then that choice's files as tabs over the one that is read, with its copy button, and the code
+  can be put away. The block's content is the code, one fenced block a file, its title saying
+  whose it is (`React · CSS Modules · demo.tsx`); `CodeSource` in `code-block.tsx` draws a
+  file's highlighted source without the code block's own card.
+- **`::anatomy` has two views** when it is given a `demo`: the picture (the live component,
+  opened, with a named line to each part, in a frame) and the structure (the nested frames).
 - **`::start:picker`** around a tab group (`markdown/tabs.tsx`): one picker in place of the row of
   tabs, each choice with its framework's mark, for a choice made once for the page.

@@ -36,6 +36,16 @@ const kiranas = byDemo(
   import.meta.glob<{ default: Record<string, Sx> }>("./demos/*/kirana.ts")
 )
 
+// Each demo's markup as text, for the anatomy view to read the parts it writes.
+const sources = new Map(
+  Object.entries(
+    import.meta.glob<string>("./demos/*/demo.tsx", {
+      query: "?raw",
+      import: "default",
+    })
+  ).map(([path, load]) => [path.split("/")[2] ?? "", load])
+)
+
 const query = new URLSearchParams(location.search)
 const name = query.get("demo") ?? "collapsible"
 const style = query.get("style") ?? "css"
@@ -85,11 +95,53 @@ const root = document.getElementById("app")!
 if (!demos.has(name)) root.textContent = "No demo has that name."
 else {
   const [Demo, s] = await Promise.all([file(demos), styles()])
-  document.body.style.cssText =
-    "margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box"
+  document.body.style.margin = "0"
+  // The demo is centred in the frame by its own box, never by `<body>`: a popup is drawn at the
+  // end of the body, and a body that laid its children out would move the demo each time one
+  // came or went.
+  root.style.cssText =
+    "min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box"
   createRoot(root).render(
     <StrictMode>
-      <Demo s={s} />
+      <div id="stage">
+        <Demo s={s} />
+      </div>
     </StrictMode>
   )
+  // Centred as it first draws, then held by its top edge from the first time it is used: what
+  // opens or grows goes downwards, and a tab or a trigger stays under the pointer when the
+  // content below it changes height. Held on the first use, not on load: only then is it sure
+  // that the frame has its size and the demo is drawn.
+  let held = false
+  const hold = (at?: number | Event) => {
+    const stage = document.getElementById("stage")
+    if (!stage || held) return
+    held = true
+    // The anatomy view asks for a place near the top, so what opens has room under it.
+    const top =
+      typeof at === "number"
+        ? at
+        : Math.round(stage.getBoundingClientRect().top + window.scrollY)
+    root.style.placeItems = "start center"
+    root.style.paddingTop = `${Math.max(24, top)}px`
+  }
+  for (const used of [
+    "pointerover",
+    "pointerdown",
+    "click",
+    "contextmenu",
+    "keydown",
+    "focusin",
+  ])
+    document.addEventListener(used, hold, { capture: true, once: true })
+  // The anatomy view: the same demo, opened, with a named line to each part.
+  const read = sources.get(name)
+  if (query.get("view") === "anatomy" && typeof read === "function") {
+    try {
+      const [view, source] = await Promise.all([import("./anatomy.ts"), read()])
+      await view.anatomy(name, source, hold)
+    } catch (error) {
+      document.documentElement.dataset.error = String(error)
+    }
+  }
 }

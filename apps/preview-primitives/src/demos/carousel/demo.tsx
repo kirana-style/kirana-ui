@@ -35,7 +35,17 @@ export default function Demo({
       </Carousel.Viewport>
       <div {...s.controls}>
         <Carousel.Previous aria-label="Previous tip" {...s.arrow}>
-          ‹
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden="true"
+          >
+            <path d="M10 4l-4 4 4 4" />
+          </svg>
         </Carousel.Previous>
         <div {...s.dots}>
           {TIPS.map((each, index) => (
@@ -48,7 +58,17 @@ export default function Demo({
           ))}
         </div>
         <Carousel.Next aria-label="Next tip" {...s.arrow}>
-          ›
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden="true"
+          >
+            <path d="M6 4l4 4-4 4" />
+          </svg>
         </Carousel.Next>
       </div>
     </Carousel.Root>

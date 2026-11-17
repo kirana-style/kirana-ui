@@ -32,7 +32,7 @@ import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
 import { Anatomy } from "./anatomy.tsx"
 import { Callout, InCallout } from "./callout.tsx"
-import { PrimitivePreview } from "./primitive-preview.tsx"
+import { PrimitiveDemo } from "./primitive-demo.tsx"
 import { PropsTable } from "./props-table.tsx"
 import { ComponentsList } from "./components-list.tsx"
 import { SectionCards } from "./section-cards.tsx"
@@ -390,7 +390,7 @@ export function createMarkdownComponents(
       "section-cards": SectionCards as CommentRegistry[string],
       anatomy: Anatomy as CommentRegistry[string],
       props: PropsTable as CommentRegistry[string],
-      "primitive-preview": PrimitivePreview as CommentRegistry[string],
+      "primitive-demo": PrimitiveDemo as unknown as CommentRegistry[string],
       ...components,
     }),
   }

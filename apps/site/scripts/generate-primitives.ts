@@ -21,7 +21,7 @@ import {
   usage,
 } from "./primitives-data.ts"
 import type { Framework } from "./primitives-data.ts"
-import { hasDemo, styledCode } from "./primitives-demos.ts"
+import { SHARED, hasDemo, styledCode } from "./primitives-demos.ts"
 import type { StyledCode } from "./primitives-demos.ts"
 
 /** What each is, in a line: the pages' descriptions and the index's cards. */
@@ -126,6 +126,18 @@ const version = (
 /** The install command, as the site draws one: every package manager, in a terminal. */
 const install = (framework: Framework | "web") =>
   `<!-- ::install packages="@kirana-ui/${framework}" -->`
+
+const REPOSITORY = "https://github.com/kirana-style/kirana-ui"
+
+/** The file a framework's example would be, for its title. */
+const EXAMPLE_FILE: Record<Framework | "web", string> = {
+  react: "demo.tsx",
+  vue: "Demo.vue",
+  svelte: "Demo.svelte",
+  solid: "demo.tsx",
+  angular: "demo.html",
+  web: "index.html",
+}
 
 const fence = (language: string, code: string) =>
   `\`\`\`${language}\n${code}\n\`\`\``
@@ -340,10 +352,6 @@ function page(
           fence("ts", references[framework].get(name)?.import ?? ""),
         ].join("\n\n")
   )
-  const examples = tabs((framework) => {
-    const code = anatomy[slug]?.[framework]
-    return code && fence(LANGUAGE[framework], code)
-  })
   const own = references.react.get(name)!
   const drawn = tree(name)
   // What each part is called: one spelling on four frameworks, a directive on Angular.
@@ -378,27 +386,37 @@ keywords: [${[title(name).toLowerCase(), "primitive", "headless", "unstyled"].jo
 ${
   styled
     ? `
-<!-- ::primitive-preview demo="${slug}" -->
+<!-- ::start:primitive-demo demo="${slug}" source="${REPOSITORY}/tree/main/apps/preview-primitives/src/demos/${slug}" -->
 
-The same markup, styled three ways. Raw is what the component draws by itself: no styles at all.
+${[
+  fence('tsx title="React · CSS Modules · demo.tsx"', styled.css.component),
+  fence(
+    'css title="React · CSS Modules · demo.module.css"',
+    styled.css.stylesheet
+  ),
+  fence('css title="React · CSS Modules · theme.css"', SHARED.theme),
+  fence('tsx title="React · Kirana · demo.tsx"', styled.kirana),
+  fence('ts title="React · Kirana · tokens.ts"', SHARED.tokens),
+  fence('tsx title="React · Tailwind · demo.tsx"', styled.tailwind),
+  fence('css title="React · Tailwind · app.css"', SHARED.tailwind),
+  fence('css title="React · Tailwind · theme.css"', SHARED.theme),
+  fence('tsx title="React · Raw · demo.tsx"', styled.raw),
+  ...(["vue", "svelte", "solid", "angular", "web"] as const).flatMap(
+    (framework) => {
+      const code = anatomy[slug]?.[framework]
+      return code
+        ? [
+            fence(
+              `${LANGUAGE[framework]} title="${LABELS[framework]} · Example · ${EXAMPLE_FILE[framework]}"`,
+              code
+            ),
+          ]
+        : []
+    }
+  ),
+].join("\n\n")}
 
-<!-- ::start:tabs -->
-
-### CSS Modules
-
-${fence('tsx title="demo.tsx"', styled.css.component)}
-
-${fence('css title="demo.module.css"', styled.css.stylesheet)}
-
-### Tailwind
-
-${fence('tsx title="demo.tsx"', styled.tailwind)}
-
-### Kirana
-
-${fence('tsx title="demo.tsx"', styled.kirana)}
-
-<!-- ::end:tabs -->
+<!-- ::end:primitive-demo -->
 `
     : ""
 }
@@ -407,16 +425,9 @@ ${fence('tsx title="demo.tsx"', styled.kirana)}
 ${imports}
 ${
   drawn
-    ? `\n## Anatomy\n\nHow its parts go together. Write them in this order, each inside the one around it.\n\n<!-- ::anatomy tree="${drawn.text}" rest="${drawn.rest.join(",")}" -->\n`
+    ? `\n## Anatomy\n\nHow its parts go together: as a picture of the component itself, and as the structure you write.\n\n<!-- ::anatomy tree="${drawn.text}" rest="${drawn.rest.join(",")}"${styled ? ` demo="${slug}"` : ""} -->\n`
     : ""
 }${names ? `\n### What each part is called\n\n${names}\n` : ""}
-## Example
-
-A whole one, as the library's own tests write it, on each framework. The classes are the
-example's: a primitive has no styles of its own.
-
-${examples}
-
 ${api(own.body, (part) => (own.parts.length ? `${name}.${pascal(part)}` : name))}
 
 The props, attributes and variables are the same on every framework; how each writes a prop and

@@ -14,7 +14,8 @@
   padding: 0.75rem;
   border: solid var(--line);
   border-width: 0 0 1px;
-  border-radius: 0;
+  /* The root's corners, less its border: the focus ring follows them and is not cut. */
+  border-radius: calc(0.75rem - 1px) calc(0.75rem - 1px) 0 0;
   background: transparent;
   color: var(--ink);
   font: inherit;

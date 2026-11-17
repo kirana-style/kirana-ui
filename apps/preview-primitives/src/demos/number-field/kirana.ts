@@ -24,6 +24,8 @@ export default {
     padding: "0",
     borderWidth: "0",
     borderStyle: "solid",
+    // The group's corners, less its border: the focus ring follows them and is not cut.
+    borderRadius: "calc(0.5rem - 1px)",
     backgroundColor: {
       base: "transparent",
       ":hover": theme.raised,

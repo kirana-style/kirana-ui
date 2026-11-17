@@ -353,6 +353,33 @@ export function CodeBlock({
   )
 }
 
+/**
+ * A file's highlighted source alone, for a card that draws its own header and holds several
+ * files (the primitives' demo block).
+ */
+export function CodeSource({
+  html,
+  lang,
+  source,
+}: {
+  html: string
+  lang: string
+  source: string
+}) {
+  return (
+    <pre
+      sx={styles.pre}
+      data-slot="code-block-source"
+      data-lang={lang}
+      data-line-numbers={
+        source.trimEnd().split("\n").length > 3 ? "" : undefined
+      }
+    >
+      <code dangerouslySetInnerHTML={{ __html: html }} />
+    </pre>
+  )
+}
+
 /** The longest line a half-width card shows without scrolling, in characters. */
 const HALF = 36
 

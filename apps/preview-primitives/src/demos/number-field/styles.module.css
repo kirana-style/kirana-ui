@@ -27,6 +27,8 @@
   margin: 0;
   padding: 0;
   border: 0 solid;
+  /* The group's corners, less its border: the focus ring follows them and is not cut. */
+  border-radius: calc(0.5rem - 1px);
   background: transparent;
   color: var(--ink);
   font: inherit;

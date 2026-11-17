@@ -10,7 +10,7 @@ export default {
     "origin-(--transform-origin) rounded-xl border border-line bg-surface p-3 text-ink transition-[opacity,scale] duration-150 ease-out data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0",
   header: "mb-2 flex items-center justify-between",
   heading: "font-medium",
-  nav: "m-0 size-8 cursor-pointer rounded-md border-0 border-transparent bg-transparent p-0 text-ink hover:bg-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+  nav: "m-0 flex size-8 cursor-pointer items-center justify-center rounded-md border-0 border-transparent bg-transparent p-0 text-ink hover:bg-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
   grid: "border-collapse border-spacing-0",
   weekday: "size-8 p-0 text-center text-[0.75rem] font-normal text-quiet",
   cell: "p-0 text-center",

@@ -47,7 +47,11 @@
   margin-top: 0.75rem;
 }
 
+/* A flex box, to put the chevron in the middle of the circle. */
 .arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 2rem;
   height: 2rem;
   padding: 0;

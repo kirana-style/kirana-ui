@@ -73,7 +73,11 @@ export default {
     marginBlockEnd: "0.5rem",
   }),
   heading: css({ fontWeight: "500" }),
+  // A flex box, to put the chevron in the middle of the square.
   nav: css({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     width: "2rem",
     height: "2rem",
     margin: "0",

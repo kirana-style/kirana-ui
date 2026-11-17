@@ -5,7 +5,7 @@ export default {
   root: "w-fit rounded-xl border border-line bg-surface p-3 text-ink",
   header: "mb-2 flex items-center justify-between",
   heading: "font-medium",
-  arrow: `${square} text-ink`,
+  arrow: `${square} flex items-center justify-center text-ink`,
   grid: "border-collapse",
   weekday: "h-8 p-0 text-center font-normal text-quiet",
   cell: "p-0",
