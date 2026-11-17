@@ -1171,17 +1171,25 @@ from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
   attributes and CSS variables as tables under the part's name.
 - **These pages have their own chrome**: the docs sections `primitives`,
   `primitives-components` and `ai` are a tab group of their own (`TAB_GROUPS` in
-  `apps/site/src/components/docs-config.tsx`), with a "Headless" badge and two tabs; the header
+  `apps/site/src/components/docs-config.tsx`), with a "Headless" badge and three tabs (Primitives, Components, AI); the header
   reaches them through its Headless menu.
 - **Each component has a live demo, raw and styled three ways** (`apps/preview-primitives`, built
   into the site's static files at `/preview/primitives/`): one piece of markup
   (`src/demos/<slug>/demo.tsx`) that takes its styles as `s`, with a CSS module, a list of
   Tailwind classes and Kirana handles beside it, each compiled for real (Tailwind 4 and Kirana
-  run in that app only). A page loads one style's stylesheet and no other, so Raw is the
+  run in that app only). A page loads one styling's stylesheet and no other, so Raw is the
   browser's own. `apps/preview-primitives/DEMOS.md` is how one is written. The page shows it
-  through `::primitive-preview`, and the code under it is generated from the same four files
-  (`apps/site/scripts/primitives-demos.ts`), so what a reader copies is what the frame draws.
-  The three stylings are held to the same computed styles and boxes, element for element.
+  in one block (`::start:primitive-demo`): the frame, a framework and a styling to choose, and
+  the code, which is generated from the same four files (`apps/site/scripts/primitives-demos.ts`),
+  so what a reader copies is what the frame draws. The styled demo is React's; another
+  framework's code in that block is the library's own tested example of the component. The
+  three stylings are held to the same computed styles and boxes, element for element, and a
+  demo is held still: nothing above a popup moves when it opens.
+- **The anatomy has a picture and a structure.** The picture is the demo itself, opened, with a
+  named line to each part (`?view=anatomy`), read from the elements the component draws; the
+  structure is the nested frames the generator reads from the custom-element example. Both name
+  the parts they do not show.
+- **Their docs have three tabs**: Primitives (the guides), Components, and AI.
 - **A component's one-line description** is in `generate-primitives.ts` (`DESCRIPTIONS`); a new
   component without one fails the generation.
 - The guides (`content/docs/primitives/*.md`) and the AI pages (`content/docs/ai/`) are written by

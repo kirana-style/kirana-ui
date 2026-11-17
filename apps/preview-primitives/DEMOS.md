@@ -62,3 +62,22 @@ From the repository root, on your own folders only:
 It formats, type-checks and runs Kirana's own diagnostics on `kirana.ts`: zero errors and zero
 warnings before a demo is done. Do not build the app and do not start a server: one build at the
 end draws every demo and compares its three stylings.
+
+## What the page does with a demo
+
+- **It is centred in the frame, then held by its top edge** from the first time it is used
+  (`src/main.tsx`), so what opens or grows goes downwards and nothing above it moves. The demo is
+  never laid out by `<body>`: a popup is drawn at the end of the body, and a body that laid its
+  children out would move the demo each time one came or went.
+- **Each part's element carries its name**, `data-part="Dialog.Trigger"`, written by the build
+  from the markup (`vite.config.ts`, `partNames`): do not write it by hand.
+- **`?view=anatomy`** draws the same demo opened, with a named line to each part
+  (`src/anatomy.ts`): the docs' anatomy picture. A part with no element, or not shown just then,
+  is named under the picture. Write the demo so that pressing its first control opens what it
+  opens. The picture is drawn as large as the frame has room for beside the names (the
+  demos are sized in `rem`, so the root's font size scales them), a part that holds others is
+  outlined further out than they are, one of a repeated part is outlined at rest, and the page
+  tells the frame how tall the picture is, so the docs' figure is that tall and no taller.
+- **A glyph is an inline SVG** when a text one sits off centre (arrows, chevrons), with
+  `width`, `height`, `viewBox`, `fill="none"`, `stroke="currentColor"` as attributes, so the raw
+  styling still draws it sanely.

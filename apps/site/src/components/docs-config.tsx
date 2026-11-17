@@ -72,7 +72,7 @@ export const TABS: readonly DocsTab[] = [
 ]
 
 /**
- * Kirana UI Primitives' pages have a chrome of their own: these two tabs alone, and "Headless"
+ * Kirana UI Primitives' pages have a chrome of their own: these three tabs alone, and "Headless"
  * beside the logo where the other pages say "Docs".
  */
 export const HEADLESS_TABS: readonly DocsTab[] = [
@@ -80,9 +80,17 @@ export const HEADLESS_TABS: readonly DocsTab[] = [
     id: "primitives",
     label: "Primitives",
     href: "/docs/primitives",
-    sections: ["primitives", "primitives-components"],
+    sections: ["primitives"],
     accent: "neutral",
     icon: CubeIcon,
+  },
+  {
+    id: "primitives-components",
+    label: "Components",
+    href: "/docs/primitives/components",
+    sections: ["primitives-components"],
+    accent: "neutral",
+    icon: DashboardSquare01Icon,
   },
   {
     id: "ai",

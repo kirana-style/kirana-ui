@@ -1,0 +1,145 @@
+/* The anatomy view: the live component with a named line to each of its parts. */
+html[data-view="anatomy"] body {
+  background-color: var(--raised);
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* The picture is of the component at rest in its open state: nothing in it is mid-way. */
+html[data-view="anatomy"] body * {
+  transition: none !important;
+  animation: none !important;
+}
+
+#anatomy {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+#anatomy svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+#anatomy .box {
+  fill: transparent;
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  opacity: 0.45;
+  transition:
+    opacity 150ms,
+    stroke 150ms,
+    fill 150ms;
+}
+
+/* The others of a part written many times: outlined when the part is looked at. */
+#anatomy .box.more {
+  opacity: 0;
+}
+
+#anatomy .line {
+  fill: none;
+  stroke: var(--ink);
+  opacity: 0.55;
+  stroke-width: 1;
+  transition:
+    opacity 150ms,
+    stroke 150ms;
+}
+
+#anatomy .dot {
+  fill: var(--ink);
+  transition:
+    opacity 150ms,
+    fill 150ms;
+}
+
+#anatomy .name {
+  position: absolute;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: default;
+  user-select: text;
+  transition:
+    opacity 150ms,
+    border-color 150ms,
+    color 150ms,
+    transform 150ms;
+}
+
+/* One part is looked at: it comes forward, and the others stand back. */
+#anatomy[data-active] .name,
+#anatomy[data-active] .line,
+#anatomy[data-active] .dot,
+#anatomy[data-active] .box {
+  opacity: 0.25;
+}
+
+#anatomy[data-active] .active {
+  opacity: 1;
+}
+
+#anatomy .name.active {
+  border-color: var(--ring);
+  color: var(--ring);
+  transform: scale(1.06);
+}
+
+#anatomy .line.active {
+  stroke: var(--ring);
+  stroke-width: 1.5;
+}
+
+#anatomy .dot.active {
+  fill: var(--ring);
+}
+
+#anatomy .box.active {
+  stroke: var(--ring);
+  stroke-dasharray: none;
+  stroke-width: 1.5;
+  fill: color-mix(in srgb, var(--ring) 12%, transparent);
+}
+
+#anatomy .rest {
+  position: absolute;
+  inset-inline: 12px;
+  bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: var(--quiet);
+  pointer-events: auto;
+  user-select: text;
+}
+
+#anatomy .rest code {
+  padding: 3px 6px;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #anatomy * {
+    transition: none;
+  }
+}

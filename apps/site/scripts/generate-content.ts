@@ -147,9 +147,6 @@ await generate({
         .filter((page) => variant !== "new" || page.new)
         .map((page) => `- [${page.title}](/docs/components/${page.name})`)
         .join("\n"),
-    // A live demo is a link to the page that draws it.
-    "primitive-preview": ({ demo = "" }) =>
-      `[Live demo: ${demo}](https://ui.kirana.style/preview/primitives/?demo=${demo}&style=css)`,
     // A component's props, as a table.
     props: ({ rows = "" }) => {
       const list = JSON.parse(decodeURIComponent(rows)) as string[][]

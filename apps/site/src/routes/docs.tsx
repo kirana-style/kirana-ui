@@ -39,7 +39,8 @@ function Docs() {
       >
         <Outlet />
       </DocsLayout>
-      <Customizer />
+      {/* The primitives' pages draw no design of the registry's: nothing there to customize. */}
+      {/^\/docs\/(primitives|ai)(\/|$)/.test(current) ? null : <Customizer />}
     </SiteDocsProvider>
   )
 }

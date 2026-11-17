@@ -46,11 +46,31 @@ export default function Demo({
             <DatePicker.Calendar>
               <div {...s.header}>
                 <DatePicker.Previous {...s.nav} aria-label="Previous month">
-                  ‹
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M10 4l-4 4 4 4" />
+                  </svg>
                 </DatePicker.Previous>
                 <DatePicker.Heading {...s.heading} />
                 <DatePicker.Next {...s.nav} aria-label="Next month">
-                  ›
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 4l4 4-4 4" />
+                  </svg>
                 </DatePicker.Next>
               </div>
               <DatePicker.Grid {...s.grid}>

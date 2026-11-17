@@ -27,11 +27,31 @@ export default function Demo({
     >
       <div {...s.header}>
         <Calendar.Previous aria-label="Previous month" {...s.arrow}>
-          ‹
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden="true"
+          >
+            <path d="M10 4l-4 4 4 4" />
+          </svg>
         </Calendar.Previous>
         <Calendar.Heading {...s.heading} />
         <Calendar.Next aria-label="Next month" {...s.arrow}>
-          ›
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden="true"
+          >
+            <path d="M6 4l4 4-4 4" />
+          </svg>
         </Calendar.Next>
       </div>
       <Calendar.Grid {...s.grid}>

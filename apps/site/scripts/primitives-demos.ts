@@ -13,6 +13,15 @@ export interface StyledCode {
   css: { component: string; stylesheet: string }
   tailwind: string
   kirana: string
+  /** The markup alone: what the component draws by itself. */
+  raw: string
+}
+
+/** The few shared values each styling reads, as the files a reader would have. */
+export const SHARED = {
+  theme: readFileSync(new URL("../theme.css", DEMOS), "utf8").trim(),
+  tailwind: readFileSync(new URL("../tailwind.css", DEMOS), "utf8").trim(),
+  tokens: readFileSync(new URL("../tokens.ts", DEMOS), "utf8").trim(),
 }
 
 /** The markup with `s` taken out of its signature, and its type's import with it. */
@@ -87,5 +96,6 @@ export async function styledCode(slug: string): Promise<StyledCode> {
       (_whole, name: string) => `className="${classes[name] ?? ""}"`
     ),
     kirana: `import { css, props } from "@kirana-style/core"\n${kirana.replace(/\n{3,}/g, "\n\n")}`,
+    raw: markup.replace(/\s*\{\.\.\.s\.\w+\}/g, ""),
   }
 }

@@ -39,7 +39,11 @@ export default {
     justifyContent: "space-between",
     marginTop: "0.75rem",
   }),
+  // A flex box, to put the chevron in the middle of the circle.
   arrow: css(ring, {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     width: "2rem",
     height: "2rem",
     padding: "0",

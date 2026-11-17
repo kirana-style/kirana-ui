@@ -104,6 +104,13 @@
   cursor: pointer;
 }
 
+/* A flex box, to put the chevron in the middle of the square. */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .nav:hover,
 .day:hover {
   background: var(--raised);

@@ -13,12 +13,10 @@
 }
 
 .trigger {
-  display: flex;
+  position: relative;
+  display: block;
   width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 0;
+  padding: 0.75rem 1.5rem 0.75rem 0;
   border: none;
   border-radius: 0.375rem;
   background: transparent;
@@ -37,8 +35,12 @@
   outline-offset: 2px;
 }
 
+/* Out of the flow: an underline reaches the text a box lays out, never a positioned mark. */
 .trigger::after {
   content: "+";
+  position: absolute;
+  top: 0.75rem;
+  right: 0;
   color: var(--quiet);
 }
 

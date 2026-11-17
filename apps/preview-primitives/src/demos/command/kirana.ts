@@ -21,7 +21,11 @@ export default {
     borderWidth: "0 0 1px",
     borderStyle: "solid",
     borderColor: theme.line,
-    borderRadius: "0",
+    // The root's corners, less its border: the focus ring follows them and is not cut.
+    borderTopLeftRadius: "calc(0.75rem - 1px)",
+    borderTopRightRadius: "calc(0.75rem - 1px)",
+    borderBottomLeftRadius: "0",
+    borderBottomRightRadius: "0",
     backgroundColor: "transparent",
     color: theme.ink,
     fontFamily: "inherit",

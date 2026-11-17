@@ -36,7 +36,11 @@ export default {
     marginBottom: "0.5rem",
   }),
   heading: css({ fontWeight: "500" }),
+  // A flex box, to put the chevron in the middle of the square.
   arrow: css(square, {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: { base: "transparent", ":hover": theme.raised },
     color: theme.ink,
     fontWeight: "inherit",

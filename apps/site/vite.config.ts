@@ -174,6 +174,8 @@ const PREVIEW_PORTS = {
   svelte: 3004,
   solid: 3005,
   angular: 3006,
+  // Kirana UI Primitives' own demos, raw and styled three ways (`apps/preview-primitives`).
+  primitives: 3008,
 }
 
 /**
@@ -269,7 +271,7 @@ export default defineAppConfig({
   pages: TYPESET_PAGES,
   dynamic: isSharedUrl,
   // Each framework's preview app writes its own pages (`@workspace/vite-config/preview`).
-  elsewhere: ["react", "vue", "svelte", "solid", "angular"].map(
+  elsewhere: ["react", "vue", "svelte", "solid", "angular", "primitives"].map(
     (framework) => `/preview/${framework}/`
   ),
   plugins: [

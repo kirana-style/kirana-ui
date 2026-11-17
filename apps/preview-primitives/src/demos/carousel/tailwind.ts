@@ -8,7 +8,7 @@ export default {
   title: "m-0 font-medium text-ink",
   text: "m-0 text-quiet",
   controls: "mt-3 flex items-center justify-between",
-  arrow: `size-8 cursor-pointer rounded-full border border-line bg-surface p-0 text-ink hover:bg-raised data-disabled:cursor-not-allowed data-disabled:opacity-40 ${ring}`,
+  arrow: `flex size-8 cursor-pointer items-center justify-center rounded-full border border-line bg-surface p-0 text-ink hover:bg-raised data-disabled:cursor-not-allowed data-disabled:opacity-40 ${ring}`,
   dots: "flex gap-2",
   dot: `size-2 cursor-pointer rounded-full border-none bg-line p-0 data-current:bg-accent ${ring}`,
 }
