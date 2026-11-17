@@ -29,11 +29,12 @@ function Popover(props: React.ComponentProps<typeof PopoverPrimitive.Popover>) {
 
 /** Base UI's `nativeButton={false}` (a trigger drawn as another element) needs nothing here. */
 function PopoverTrigger({
-  nativeButton: _nativeButton,
+  nativeButton,
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.PopoverTrigger> & {
   nativeButton?: boolean
 }) {
+  void nativeButton
   return (
     <PopoverPrimitive.PopoverTrigger
       {...props}

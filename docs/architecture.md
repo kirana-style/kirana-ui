@@ -521,7 +521,8 @@ the build for that design, and `kirana-style ui preset <code>` changes it later.
 Every item is checked with Kirana's own reading of the format
 (`@kirana-style/registry`) as the builder writes it, and CI installs the slice
 this way into the project skeletons Get Code offers (`vp run install`: one per
-framework, across the toolings and the workspaces; by hand, any skeleton,
+framework and base, ui-sdk's three among them, across the toolings and the
+workspaces; by hand, any skeleton,
 `bun scripts/install-smoke.ts <combination>@<skeleton>`), builds, lints and
 type-checks them with the skeleton's own scripts, and validates their lockfiles.
 

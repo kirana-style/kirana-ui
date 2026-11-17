@@ -239,7 +239,7 @@ function SelectContent({
   sideOffset = 4,
   align = "center",
   alignOffset = 0,
-  alignItemWithTrigger: _alignItemWithTrigger,
+  alignItemWithTrigger,
   ...props
 }: Props<
   Omit<React.ComponentProps<typeof SelectPrimitive.SelectContent>, "side">
@@ -247,6 +247,8 @@ function SelectContent({
   alignItemWithTrigger?: boolean
   side?: BaseSide
 }) {
+  // Base UI's item over the trigger, which ui-sdk has no option for: taken, and not passed on.
+  void alignItemWithTrigger
   return (
     <SelectPrimitive.SelectContent
       data-align-trigger={false}
@@ -335,13 +337,9 @@ function SelectSeparator({
  * Base UI's scroll arrows, which ui-sdk has no part for: its list scrolls as a scroll area does.
  * Kept so an example that names them builds; they draw nothing.
  */
-function SelectScrollUpButton(_props: { sx?: Sx }) {
-  return null
-}
+const SelectScrollUpButton: (props: { sx?: Sx }) => null = () => null
 
-function SelectScrollDownButton(_props: { sx?: Sx }) {
-  return null
-}
+const SelectScrollDownButton: (props: { sx?: Sx }) => null = () => null
 
 export {
   Select,

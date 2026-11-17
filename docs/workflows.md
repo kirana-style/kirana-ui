@@ -1059,7 +1059,12 @@ vp run --last-details      # the last run's summary again
 In CI, every job restores the cache `main` last saved (other branches only
 restore), so a pull request rebuilds only what it changed. The build job hands the
 registry it built to four install jobs, which install
-`scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`).
+`scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`). The lint runs
+apart from the format and type check, in four jobs too: the Kirana rules read the
+whole project's diagnostics once per file, on one thread, so it is most of
+`vp run check`'s time, and `scripts/lint-shard.ts --shard <i>/4` lints a share of
+the files Git tracks, grouped by folder (`--list` prints it). Locally,
+`vp run check` still runs the whole lint.
 
 ## Browser tests
 
