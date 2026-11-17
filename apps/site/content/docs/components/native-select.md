@@ -26,8 +26,6 @@ keywords:
 > For a styled select component, see the [Select](/docs/components/select)
 > component.
 
-import { InfoIcon } from "lucide-react"
-
 <!-- ::preview item="native-select-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Installation

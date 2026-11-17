@@ -4,20 +4,23 @@
   import type { Snippet } from "svelte"
   import { DrawerDescription } from "@ui-sdk/svelte/drawer"
 
+  import type { AsChild } from "../../../../lib/svelte/as-child"
   import UisdkPart from "../../../../lib/svelte/UisdkPart.svelte"
   import { drawer } from "../../../../styles/drawer.styles"
 
   let {
+    asChild,
     class: className,
     children,
     ...rest
   }: {
+    asChild?: AsChild<"p">
     class?: ClassValue | null
     children?: Snippet
     [attribute: string]: unknown
   } = $props()
 </script>
 
-<UisdkPart part={DrawerDescription} slotName="drawer-description" tag="p" {...rest} sx={[drawer.description, className as Sx]}>
+<UisdkPart part={DrawerDescription} slotName="drawer-description" tag="p" {asChild} {...rest} sx={[drawer.description, className as Sx]}>
   {@render children?.()}
 </UisdkPart>

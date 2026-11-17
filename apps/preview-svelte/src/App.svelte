@@ -52,10 +52,14 @@
   {#await base === "bits" ? import("@workspace/registry/bases/svelte-bits/ui/sonner/Toaster.svelte") : base === "uisdk" ? import("@workspace/registry/bases/svelte-uisdk/ui/sonner/Toaster.svelte") : import("@workspace/registry/bases/svelte-ark/ui/sonner/Toaster.svelte") then toaster}
     <toaster.default position="top-center" />
   {/await}
-  <!-- The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item. Bits
-       UI has no toast; ui-sdk's comes with its other layers (P9-04). -->
+  <!-- The toast's toaster (Ark UI's or ui-sdk's), as React's preview mounts Base UI's beside every
+       item. Bits UI has no toast. -->
   {#if base === "ark"}
     {#await import("@workspace/registry/bases/svelte-ark/ui/toast/Toaster.svelte") then toaster}
+      <toaster.default />
+    {/await}
+  {:else if base === "uisdk"}
+    {#await import("@workspace/registry/bases/svelte-uisdk/ui/toast/Toaster.svelte") then toaster}
       <toaster.default />
     {/await}
   {/if}
