@@ -12,6 +12,7 @@ variants:
     vue/uisdk,
     svelte/ark,
     svelte/bits,
+    svelte/uisdk,
     solid/ark,
     angular/ng,
   ]
@@ -21,7 +22,7 @@ keywords:
 
 # Bubble
 
-<!-- ::preview item="bubble-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 The `Bubble` component displays framed conversational content. Use it for chat text, short structured output, quoted replies, suggestions, and reactions.
 
@@ -29,7 +30,7 @@ For full-featured chat interfaces, use the [`Message`](/docs/components/message)
 
 ## Installation
 
-<!-- ::installation name="bubble" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="bubble" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -157,7 +158,7 @@ BubbleGroup
 
 Use `variant` to change the visual treatment of the bubble.
 
-<!-- ::preview item="bubble-variants" height="960" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-variants" height="960" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 | Variant       | Description                                            |
 | ------------- | ------------------------------------------------------ |
@@ -175,7 +176,7 @@ A bubble sizes to its content, up to 80% of the container width. The `ghost` var
 
 Use `align` on `Bubble` to align the bubble to the start or end of the conversation.
 
-<!-- ::preview item="bubble-alignment" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-alignment" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 | align   | Description                                        |
 | ------- | -------------------------------------------------- |
@@ -196,13 +197,13 @@ BubbleGroup
     └── BubbleContent
 ```
 
-<!-- ::preview item="bubble-group-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-group-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Links and Buttons
 
 You can turn a bubble into a link or button by using the `render` prop on `BubbleContent`.
 
-<!-- ::preview item="bubble-link-button" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-link-button" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 <!-- ::start:only react/base -->
 
@@ -242,13 +243,13 @@ export function BubbleLinkDemo() {
 
 Use `BubbleReactions` for bubble reactions. You can use it to display reactions or quick action buttons. Use `side` and `align` to position the row — `side="top"` anchors it to the upper edge. Reactions overlap the bubble edge, so leave vertical space between rows — the examples below use a larger `gap` for this reason.
 
-<!-- ::preview item="bubble-reactions" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-reactions" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Show More / Collapsible
 
 Long bubble content can be composed with [`Collapsible`](/docs/components/collapsible) to allow for a show more or show less interaction. Use the `CollapsibleTrigger` component to trigger the collapsible content.
 
-<!-- ::preview item="bubble-collapsible" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="bubble-collapsible" height="400" combinations="react/base,react/aria,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Tooltip
 

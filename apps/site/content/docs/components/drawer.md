@@ -12,6 +12,7 @@ variants:
     vue/uisdk,
     svelte/ark,
     svelte/bits,
+    svelte/uisdk,
     solid/ark,
     angular/ng,
   ]
@@ -33,11 +34,11 @@ keywords:
 
 # Drawer
 
-<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="drawer" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="drawer" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 On iOS Safari, the drawer's overlay is absolutely positioned, and covers the viewport after the page
 is scrolled only inside a positioned `body`. Add it to your global styles (see the
@@ -350,13 +351,13 @@ side it names.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-sides" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Swipe Handle
 
 Use `showSwipeHandle` on `Drawer` to render a swipe handle.
 
-<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-swipe-handle" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Nested
 
@@ -383,7 +384,7 @@ behind the frontmost one where Base UI's shrinks into the stack.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-nested" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Non Modal
 
@@ -407,7 +408,7 @@ On Solid, `modal` is `true` or `false`: Ark UI's drawer has no focus-only mode.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-non-modal" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Snap Points
 
@@ -415,7 +416,7 @@ Use `snapPoints` to snap a drawer to preset heights. Numbers between `0` and `1`
 
 Track the active snap point with the controlled `snapPoint` and `onSnapPointChange` props. At the full snap point, the drawer gets a `data-expanded` attribute you can style with the `data-expanded:` variant.
 
-<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="drawer-snap-points" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Responsive
 

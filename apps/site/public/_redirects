@@ -8,5 +8,6 @@
 /preview/vue/uisdk/* /preview/vue/ 200
 /preview/svelte/ark/* /preview/svelte/ 200
 /preview/svelte/bits/* /preview/svelte/ 200
+/preview/svelte/uisdk/* /preview/svelte/ 200
 /preview/solid/ark/* /preview/solid/ 200
 /preview/angular/ng/* /preview/angular/ 200

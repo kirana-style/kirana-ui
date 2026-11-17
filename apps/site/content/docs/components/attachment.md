@@ -12,6 +12,7 @@ variants:
     vue/uisdk,
     svelte/ark,
     svelte/bits,
+    svelte/uisdk,
     solid/ark,
     angular/ng,
   ]
@@ -21,13 +22,13 @@ keywords:
 
 # Attachment
 
-<!-- ::preview item="attachment-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" surface="true" -->
+<!-- ::preview item="attachment-demo" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" surface="true" -->
 
 The `Attachment` component displays a file or image attachment, its media, name, and metadata, with optional actions and upload state. Use it for files and images in chat composers, message threads, and upload lists.
 
 ## Installation
 
-<!-- ::installation name="attachment" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="attachment" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -228,25 +229,25 @@ AttachmentGroup
 
 Set `variant="image"` on `AttachmentMedia` and render an `<img>` inside it. Use `orientation="vertical"` to stack the media above the content.
 
-<!-- ::preview item="attachment-image" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" surface="true" -->
+<!-- ::preview item="attachment-image" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" surface="true" -->
 
 ## States
 
 Set `state` to reflect the upload lifecycle. `uploading` and `processing` shimmer the title, and `error` switches to a destructive treatment.
 
-<!-- ::preview item="attachment-states" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" surface="true" -->
+<!-- ::preview item="attachment-states" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" surface="true" -->
 
 ## Sizes
 
 Use `size` to switch between `default`, `sm`, and `xs`.
 
-<!-- ::preview item="attachment-sizes" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" surface="true" -->
+<!-- ::preview item="attachment-sizes" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" surface="true" -->
 
 ## Group
 
 Wrap attachments in `AttachmentGroup` to lay them out in a horizontally scrollable, snapping row with an edge fade.
 
-<!-- ::preview item="attachment-group" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" surface="true" -->
+<!-- ::preview item="attachment-group" height="400" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" surface="true" -->
 
 ## Trigger
 

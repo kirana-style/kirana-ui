@@ -12,6 +12,7 @@ variants:
     vue/uisdk,
     svelte/ark,
     svelte/bits,
+    svelte/uisdk,
     solid/ark,
     angular/ng,
   ]
@@ -36,7 +37,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="button-group" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="button-group" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -149,13 +150,13 @@ ButtonGroup
 
 Set the `orientation` prop to change the button group layout.
 
-<!-- ::preview item="button-group-orientation" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="button-group-orientation" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Size
 
 Control the size of buttons using the `size` prop on individual buttons.
 
-<!-- ::preview item="button-group-size" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="button-group-size" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Nested
 
@@ -169,19 +170,19 @@ The `ButtonGroupSeparator` component visually divides buttons within a group.
 
 Buttons with variant `outline` do not need a separator since they have a border. For other variants, a separator is recommended to improve the visual hierarchy.
 
-<!-- ::preview item="button-group-separator" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="button-group-separator" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Split
 
 Create a split button group by adding two buttons separated by a `ButtonGroupSeparator`.
 
-<!-- ::preview item="button-group-split" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="button-group-split" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Input
 
 Wrap an `Input` component with buttons.
 
-<!-- ::preview item="button-group-input" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="button-group-input" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Input Group
 

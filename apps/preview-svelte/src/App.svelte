@@ -2,6 +2,7 @@
   import { css } from "@kirana-style/core"
   import { previews as arkPreviews } from "@workspace/registry/bases/svelte-ark/previews.ts"
   import { previews as bitsPreviews } from "@workspace/registry/bases/svelte-bits/previews.ts"
+  import { previews as uisdkPreviews } from "@workspace/registry/bases/svelte-uisdk/previews.ts"
   import { space } from "@workspace/registry/core/scales.ts"
 
   import { LANGUAGE } from "@workspace/registry/bases/svelte-ark/components/language-selector/index.ts"
@@ -19,13 +20,14 @@
   setContext<LanguageContext>(LANGUAGE, () => design.current.options.language)
 
   /**
-   * One page per item, as `/preview/svelte/<base>/<item>` (Ark UI's or Bits UI's), the showcase
+   * One page per item, as `/preview/svelte/<base>/<item>` (Ark UI's, Bits UI's or ui-sdk's), the showcase
    * and `/create`'s charts; anything else lists them.
    */
-  const route = location.pathname.match(/\/(ark|bits)\/([a-z0-9-]+?)(?:\.html)?\/?$/)
-  const base = route?.[1] ?? location.pathname.match(/\/(ark|bits)\/?$/)?.[1] ?? "ark"
+  const route = location.pathname.match(/\/(ark|bits|uisdk)\/([a-z0-9-]+?)(?:\.html)?\/?$/)
+  const base = route?.[1] ?? location.pathname.match(/\/(ark|bits|uisdk)\/?$/)?.[1] ?? "ark"
   const item = route?.[2]
-  const previews = base === "bits" ? bitsPreviews : arkPreviews
+  const previews =
+    base === "bits" ? bitsPreviews : base === "uisdk" ? uisdkPreviews : arkPreviews
   // Loaded only on its own page, as the Vue preview's.
   const load = item ? previews[item] : undefined
 
@@ -47,11 +49,11 @@
   {/await}
   <!-- Sonner's toaster, as upstream's site mounts it on every page (`top-center`): loaded after
        the page, since only the items that call `toast()` need it. -->
-  {#await base === "bits" ? import("@workspace/registry/bases/svelte-bits/ui/sonner/Toaster.svelte") : import("@workspace/registry/bases/svelte-ark/ui/sonner/Toaster.svelte") then toaster}
+  {#await base === "bits" ? import("@workspace/registry/bases/svelte-bits/ui/sonner/Toaster.svelte") : base === "uisdk" ? import("@workspace/registry/bases/svelte-uisdk/ui/sonner/Toaster.svelte") : import("@workspace/registry/bases/svelte-ark/ui/sonner/Toaster.svelte") then toaster}
     <toaster.default position="top-center" />
   {/await}
   <!-- The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item. Bits
-       UI has no toast. -->
+       UI has no toast; ui-sdk's comes with its other layers (P9-04). -->
   {#if base === "ark"}
     {#await import("@workspace/registry/bases/svelte-ark/ui/toast/Toaster.svelte") then toaster}
       <toaster.default />

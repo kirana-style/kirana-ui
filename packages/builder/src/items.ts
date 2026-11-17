@@ -45,6 +45,7 @@ export const FRAMEWORK_BASES = [
   { framework: "vue", base: "uisdk", bases: "vue-uisdk" },
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
   { framework: "svelte", base: "bits", bases: "svelte-bits" },
+  { framework: "svelte", base: "uisdk", bases: "svelte-uisdk" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
 ] as const
@@ -140,9 +141,10 @@ const PORTING: Framework[] = ["svelte", "solid", "angular"]
 /**
  * A base while it is ported against React's pages: its components appear as their markup is
  * written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI has no toast, which the
- * toast's item leaves out by its bases), and so are React and Vue on ui-sdk (P9-02, P9-03).
+ * toast's item leaves out by its bases), and so are React and Vue on ui-sdk (P9-02, P9-03); Svelte
+ * on ui-sdk is being ported (P9-04).
  */
-const PORTING_BASES: string[] = []
+const PORTING_BASES: string[] = ["svelte-uisdk"]
 
 function ported(name: string, combination: Combination): boolean {
   return (
@@ -317,7 +319,9 @@ const ALL_ITEMS: Item[] = [
           ? ["lib/uisdk-slot.ts"]
           : combination.framework === "vue"
             ? ["lib/vue/uisdk-slot.ts"]
-            : undefined,
+            : combination.framework === "svelte"
+              ? ["lib/svelte/uisdk-slot.ts", "lib/svelte/UisdkPart.svelte"]
+              : undefined,
   },
   {
     name: "icon-placeholder",
@@ -359,10 +363,11 @@ const ALL_ITEMS: Item[] = [
     title: "As child",
     description:
       "A part's element, or the caller's own through an asChild snippet given the props to spread.",
-    // Bits UI has no element factory: Svelte's parts on it render through `Element.svelte`, with
-    // Ark UI's `asChild` (a snippet called with the props function).
+    // Bits UI and ui-sdk have no element factory: Svelte's parts on them render through
+    // `Element.svelte`, with Ark UI's `asChild` (a snippet called with the props function).
     files: (combination) =>
-      combination.framework === "svelte" && combination.base === "bits"
+      combination.framework === "svelte" &&
+      (combination.base === "bits" || combination.base === "uisdk")
         ? ["lib/svelte/as-child.ts", "lib/svelte/Element.svelte"]
         : undefined,
   },

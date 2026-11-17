@@ -34,6 +34,9 @@ const modules = {
   bits: import.meta.glob<Record<string, unknown>>(
     "../../../registry/bases/svelte-bits/ui/*/index.ts"
   ),
+  uisdk: import.meta.glob<Record<string, unknown>>(
+    "../../../registry/bases/svelte-uisdk/ui/*/index.ts"
+  ),
 }
 
 /** One base's parts for the fixture, by their export names. */
@@ -48,32 +51,39 @@ async function partsOf(base: keyof typeof modules) {
   return Object.assign({}, ...loaded) as Record<string, unknown>
 }
 
-describe.each(Object.keys(modules) as (keyof typeof modules)[])(
-  "%s",
-  (base) => {
-    it("no trigger submits the form it sits in", async () => {
-      const ui = await partsOf(base)
-      await styles()
-      const watch = watchPage()
-      const container = document.createElement("div")
-      document.body.append(container)
-      const app = mount(TriggersInForm, { target: container, props: { ui } })
-      flushSync()
-      onTestFinished(async () => {
-        await unmount(app)
-        container.remove()
-        watch.stop()
-      })
-      await settle()
-      await styles()
-      // Every trigger the fixture has: its own button and the child of each `asChild`.
-      expect(triggers(container).length).toBeGreaterThanOrEqual(8)
-      await pressTriggers(container, {
-        page,
-        userEvent,
-        settle,
-        check: (label) => expect(watch.errors, label).toEqual([]),
-      })
-    })
-  }
+/** The bases with every part the fixture draws: a base being ported joins once it has them all. */
+const complete = (Object.keys(modules) as (keyof typeof modules)[]).filter(
+  (base) =>
+    PARTS.every(
+      (part) =>
+        `../../../registry/bases/svelte-${base}/ui/${part}/index.ts` in
+        modules[base]
+    )
 )
+
+describe.each(complete)("%s", (base) => {
+  it("no trigger submits the form it sits in", async () => {
+    const ui = await partsOf(base)
+    await styles()
+    const watch = watchPage()
+    const container = document.createElement("div")
+    document.body.append(container)
+    const app = mount(TriggersInForm, { target: container, props: { ui } })
+    flushSync()
+    onTestFinished(async () => {
+      await unmount(app)
+      container.remove()
+      watch.stop()
+    })
+    await settle()
+    await styles()
+    // Every trigger the fixture has: its own button and the child of each `asChild`.
+    expect(triggers(container).length).toBeGreaterThanOrEqual(8)
+    await pressTriggers(container, {
+      page,
+      userEvent,
+      settle,
+      check: (label) => expect(watch.errors, label).toEqual([]),
+    })
+  })
+})

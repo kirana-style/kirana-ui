@@ -856,6 +856,21 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     and its trigger takes the chevron inside an `as-child` element (`UisdkPart`'s
     `after` slot).
   - **Toast** keeps Base UI's manager over a ui-sdk toaster, as React's.
+- **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
+  bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
+  ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
+  `Element.svelte`) it copies as they are. ui-sdk's Svelte parts take a
+  `render` snippet given the part's attributes, the attachment that binds its
+  element among them under a symbol, and its content: `UisdkPart.svelte`
+  (`registry/lib/svelte/`) draws the part through it under `slotName` (or a
+  `data-slot` the caller hands it), as the tag Base UI's part has or, with
+  `asChild`, the caller's element through `propsFn`. The content passes
+  through, so ui-sdk's own (a progress value's text) shows when the caller gives
+  none. The input OTP and the resizable are ui-sdk's own, as on Vue. Its
+  helpers (`popupContainer()`, `sideOf()`, `endScrollAnimations()`) are
+  `uisdk-slot.ts` beside it. ui-sdk's Svelte select mounts its closed content,
+  hidden, to read the chosen label when it has no `items`, a reviewed
+  difference; the others of ui-sdk's core cover `(react|vue|svelte)/uisdk/`.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

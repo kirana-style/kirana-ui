@@ -12,6 +12,7 @@ variants:
     vue/uisdk,
     svelte/ark,
     svelte/bits,
+    svelte/uisdk,
     solid/ark,
     angular/ng,
   ]
@@ -21,11 +22,11 @@ keywords:
 
 # Kbd
 
-<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="kbd" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::installation name="kbd" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -98,13 +99,13 @@ KbdGroup
 
 Use the `KbdGroup` component to group keyboard keys together.
 
-<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Button
 
 Use the `Kbd` component inside a `Button` component to display a keyboard key inside a button.
 
-<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Tooltip
 
@@ -116,13 +117,13 @@ You can use the `Kbd` component inside a `Tooltip` component to display a toolti
 
 You can use the `Kbd` component inside a `InputGroupAddon` component to display a keyboard key inside an input group.
 
-<!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

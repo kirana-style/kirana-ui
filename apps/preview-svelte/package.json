@@ -12,6 +12,8 @@
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",
+    "@ui-sdk/core": "catalog:",
+    "@ui-sdk/svelte": "catalog:",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "svelte": "catalog:"

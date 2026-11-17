@@ -56,6 +56,12 @@ export const VARIANTS = [
     name: "Svelte with Bits UI",
     base: "Bits UI",
   },
+  {
+    id: "svelte/uisdk",
+    label: "Svelte · ui-sdk",
+    name: "Svelte with ui-sdk",
+    base: "ui-sdk",
+  },
   { id: "solid/ark", label: "Solid", name: "Solid", base: "Ark UI" },
   {
     id: "angular/ng",

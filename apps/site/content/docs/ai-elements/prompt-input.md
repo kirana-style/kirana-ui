@@ -12,6 +12,7 @@ variants:
     vue/uisdk,
     svelte/ark,
     svelte/bits,
+    svelte/uisdk,
     solid/ark,
     angular/ng,
   ]
@@ -20,7 +21,7 @@ keywords: [prompt input, ai elements, agent, chat]
 
 # Prompt Input
 
-<!-- ::preview item="prompt-input-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/uisdk" -->
+<!-- ::preview item="prompt-input-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
 
 Prompt Input is the field the person types into to message the agent. It is an [Input Group](/docs/components/input-group) with a textarea, an attach button, the [Model Selector](/docs/ai-elements/model-selector) menus and a send button. Attached files show as [Attachment](/docs/components/attachment) chips above the text.
 
@@ -28,7 +29,7 @@ Prompt Input is the field the person types into to message the agent. It is an [
 
 Prompt Input is built with the [Input Group](/docs/components/input-group), [Attachment](/docs/components/attachment) and [Dropdown Menu](/docs/components/dropdown-menu) components.
 
-<!-- ::installation name="input-group attachment dropdown-menu" combinations="react/base,react/aria,react/uisdk,vue/uisdk" -->
+<!-- ::installation name="input-group attachment dropdown-menu" combinations="react/base,react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
 
 ## Usage
 
