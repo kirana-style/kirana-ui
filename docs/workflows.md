@@ -907,6 +907,25 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     layout boxes; a navigation menu item gets a `value` of its own, which its
     trigger needs; a scrollbar is placed along its edge inline, as Base UI
     places it.
+  - **A `render` element's props over the part's.** On Base UI the element a
+    part renders as keeps its own props (`<Button render={<a
+    data-slot="pagination-link">1</a>} />` is the link, with its text); on the
+    primitives the part's win. `renderOver` (`lib/kirana-render.ts`) moves the
+    element's props onto the part and renders its type alone; the Button joins
+    the element's classes with its own and keeps its children as they are.
+  - **The four that are more than an import.** The Select keeps Base UI's root
+    (a record of labels as the primitives' list; an object value shown by its
+    `label`; `SelectValue`'s function child and a label richer than text drawn
+    from a value its root mirrors), one value only: the primitives' select has
+    no `multiple`, so `select-example` waits for it. The Combobox keeps Base
+    UI's items-driven API (the list's function child renders the root's items,
+    the primitives filtering them by their text; `multiple` as their `values`;
+    chips handed their values; Base UI's `anchor` only marks the chips' popup,
+    which the primitives place against the input). The Drawer takes Base UI's
+    `disablePointerDismissal` as their `dismissible`. The Toast keeps Base UI's
+    manager (`toast.add`, `promise`, `close`, `actionProps`) over the
+    primitives' `createToaster`, carrying the action and any title that is more
+    than text in the toast's `data`.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

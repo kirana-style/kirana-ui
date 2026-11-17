@@ -3,7 +3,7 @@ title: React Hook Form
 description: Build forms in React using React Hook Form and Zod.
 section: forms
 order: 1
-variants: [react/base, react/aria, react/uisdk]
+variants: [react/base, react/aria, react/uisdk, react/kirana]
 keywords: [react hook form, forms, zod, validation, field]
 ---
 
@@ -18,7 +18,7 @@ We are going to build the following form. It has a simple text input and a texta
 > [!NOTE]
 > **Note:** For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in React Hook Form. It is recommended to add basic browser validation in your production code.
 
-<!-- ::preview item="form-rhf-demo" height="700" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-demo" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Approach
 
@@ -128,7 +128,7 @@ export function BugReportForm() {
 
 We can now build the form using the `<Controller />` component from React Hook Form and the `<Field />` component.
 
-<!-- ::demo-source item="form-rhf-demo" title="form.tsx" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::demo-source item="form-rhf-demo" title="form.tsx" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ### Done
 
@@ -215,7 +215,7 @@ Display errors next to the field using `<FieldError />`. For styling and accessi
 - For input fields, spread the `field` object onto the `<Input />` component.
 - To show errors, add the `aria-invalid` prop to the `<Input />` component and the `data-invalid` prop to the `<Field />` component.
 
-<!-- ::preview item="form-rhf-input" height="700" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-input" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 For simple text inputs, spread the `field` object onto the input.
 
@@ -238,7 +238,7 @@ For simple text inputs, spread the `field` object onto the input.
 - For textarea fields, spread the `field` object onto the `<Textarea />` component.
 - To show errors, add the `aria-invalid` prop to the `<Textarea />` component and the `data-invalid` prop to the `<Field />` component.
 
-<!-- ::preview item="form-rhf-textarea" height="700" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-textarea" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 For textarea fields, spread the `field` object onto the textarea.
 
@@ -287,7 +287,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-rhf-select" height="500" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-select" height="500" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 <!-- ::start:only react/base -->
 
@@ -405,7 +405,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-rhf-checkbox" height="700" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-checkbox" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 <!-- ::start:only react/base -->
 
@@ -527,7 +527,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-rhf-radiogroup" height="700" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-radiogroup" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 <!-- ::start:only react/base -->
 
@@ -627,7 +627,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-rhf-switch" height="500" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-switch" height="500" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 <!-- ::start:only react/base -->
 
@@ -694,7 +694,7 @@ const styles = {
 
 Here is an example of a more complex form with multiple fields and validation.
 
-<!-- ::preview item="form-rhf-complex" height="1300" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-complex" height="1300" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Resetting the Form
 
@@ -710,7 +710,7 @@ Use `form.reset()` to reset the form to its default values.
 
 React Hook Form provides a `useFieldArray` hook for managing dynamic array fields. This is useful when you need to add or remove fields dynamically.
 
-<!-- ::preview item="form-rhf-array" height="700" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="form-rhf-array" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ### Using useFieldArray
 

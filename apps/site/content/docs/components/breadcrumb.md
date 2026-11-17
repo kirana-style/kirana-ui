@@ -32,7 +32,7 @@ keywords: [breadcrumb, component, base, aria, ark, vue, svelte, solid, angular]
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk
+### Base UI, ui-sdk, Kirana UI
 
 ```tsx
 import {

@@ -34,7 +34,7 @@ keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid, angular]
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk
+### Base UI, ui-sdk, Kirana UI
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

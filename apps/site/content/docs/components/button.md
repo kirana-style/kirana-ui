@@ -38,7 +38,7 @@ A button drawn on a link keeps the link's role: on Base UI, `render={<a href="/"
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk
+### Base UI, ui-sdk, Kirana UI
 
 ```tsx
 import { Button } from "@/components/ui/button"

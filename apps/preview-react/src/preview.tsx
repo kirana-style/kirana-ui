@@ -128,6 +128,13 @@ const UisdkToaster = lazy(() =>
   }))
 )
 
+/** Kirana UI Primitives', which its base's items' `toast.add` show, as ui-sdk's beside ui-sdk's. */
+const KiranaToaster = lazy(() =>
+  import("@workspace/registry/bases/react-kirana/ui/toast").then((module) => ({
+    default: module.Toaster,
+  }))
+)
+
 /** Inter and Geist, which the page links. */
 const LINKED = new Set<string>(["inter", "geist", "inherit"])
 
@@ -199,6 +206,7 @@ export function Preview({ base, Item }: { base: string; Item: ComponentType }) {
               <SonnerToaster position="top-center" />
               {base === "base" && <BaseToaster />}
               {base === "uisdk" && <UisdkToaster />}
+              {base === "kirana" && <KiranaToaster />}
             </Suspense>
           )}
         </IconLibraryProvider>
