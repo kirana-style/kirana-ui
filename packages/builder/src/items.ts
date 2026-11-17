@@ -141,10 +141,10 @@ const PORTING: Framework[] = ["svelte", "solid", "angular"]
 /**
  * A base while it is ported against React's pages: its components appear as their markup is
  * written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI has no toast, which the
- * toast's item leaves out by its bases), and so are React and Vue on ui-sdk (P9-02, P9-03); Svelte
- * on ui-sdk is being ported (P9-04).
+ * toast's item leaves out by its bases), and so are React, Vue and Svelte on ui-sdk (P9-02 to
+ * P9-04).
  */
-const PORTING_BASES: string[] = ["svelte-uisdk"]
+const PORTING_BASES: string[] = []
 
 function ported(name: string, combination: Combination): boolean {
   return (

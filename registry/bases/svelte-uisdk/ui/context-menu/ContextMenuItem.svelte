@@ -4,6 +4,7 @@
   import type { Snippet } from "svelte"
   import { MenuItem } from "@ui-sdk/svelte/menu"
 
+  import type { AsChild } from "../../../../lib/svelte/as-child"
   import UisdkPart from "../../../../lib/svelte/UisdkPart.svelte"
   import {
     menuRowBase,
@@ -12,6 +13,7 @@
   } from "../../../../styles/menu.styles"
 
   let {
+    asChild,
     value,
     inset,
     variant = "default",
@@ -22,6 +24,7 @@
     value?: string
     inset?: boolean
     variant?: "default" | "destructive"
+    asChild?: AsChild<"div">
     class?: ClassValue | null
     children?: Snippet
     [attribute: string]: unknown
@@ -31,7 +34,7 @@
   const id = $props.id()
 </script>
 
-<UisdkPart part={MenuItem} slotName="context-menu-item" tag="div" value={value ?? id} data-inset={inset || undefined} data-variant={variant} {...rest} sx={[
+<UisdkPart part={MenuItem} slotName="context-menu-item" tag="div" value={value ?? id} data-inset={inset || undefined} data-variant={variant} {asChild} {...rest} sx={[
     menuRowBase,
     menuRowPadding,
     variant === 'destructive' && menuRowDestructive,

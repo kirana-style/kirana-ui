@@ -18,6 +18,7 @@
     slotName,
     tag = "div",
     asChild,
+    element,
     children,
     ...rest
   }: {
@@ -29,6 +30,11 @@
     /** The element it renders, as Base UI's part renders it. */
     tag?: string
     asChild?: AsChild
+    /**
+     * Told the part's element as it mounts, and `null` as it leaves (a modal's content, whose
+     * animations end as it closes).
+     */
+    element?: (el: HTMLElement | null) => void
     /** Its content, given the part's state. */
     children?: Snippet<[any]>
     [attribute: string]: unknown
@@ -37,6 +43,11 @@
   const slot = $derived(
     typeof rest["data-slot"] === "string" ? rest["data-slot"] : slotName
   )
+  // An attachment beside ui-sdk's own, so the caller is told the element ui-sdk binds.
+  const tell = (node: HTMLElement) => {
+    element?.(node)
+    return () => element?.(null)
+  }
   const VOID = new Set(["area", "br", "col", "hr", "img", "input", "wbr"])
 </script>
 
@@ -54,9 +65,9 @@
   {#if asChild}
     {@render asChild(propsFn(mergeProps(props, { "data-slot": slot })))}
   {:else if VOID.has(tag)}
-    <svelte:element this={tag} {...props} data-slot={slot} />
+    <svelte:element this={tag} {...props} data-slot={slot} {@attach tell} />
   {:else}
-    <svelte:element this={tag} {...props} data-slot={slot}>
+    <svelte:element this={tag} {...props} data-slot={slot} {@attach tell}>
       {@render content?.(state)}
     </svelte:element>
   {/if}

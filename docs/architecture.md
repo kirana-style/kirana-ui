@@ -427,8 +427,8 @@ third base is ui-sdk too** (`registry/bases/vue-uisdk`, at
 every component Ark UI carries on Vue, on ui-sdk's own Input OTP and Resizable.
 **Svelte's third base is ui-sdk** (`registry/bases/svelte-uisdk`, at
 `/preview/svelte/uisdk/`), its parts taking their `svelte-bits` twins' props
-(Ark UI's, with Bits UI's library-free parts as they are); it is being ported,
-layer 0 and Field so far.
+(Ark UI's, with Bits UI's library-free parts as they are), with every
+component Ark UI carries on Svelte.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

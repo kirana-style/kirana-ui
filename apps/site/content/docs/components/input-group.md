@@ -34,8 +34,6 @@ keywords:
 
 # Input Group
 
-import { IconInfoCircle } from "@tabler/icons-react"
-
 <!-- ::preview item="input-group-demo" height="416" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Installation

@@ -871,6 +871,13 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   `uisdk-slot.ts` beside it. ui-sdk's Svelte select mounts its closed content,
   hidden, to read the chosen label when it has no `items`, a reviewed
   difference; the others of ui-sdk's core cover `(react|vue|svelte)/uisdk/`.
+  Its command, combobox, toast and calendar are Vue's ui-sdk ones in Svelte's
+  form (cmdk's and react-day-picker's markup on ui-sdk's parts). A part drawn
+  as the registry's Button takes it through its `asChild` snippet
+  (`<Button {...props()} …>`); the combobox trigger's snippet is handed its
+  chevron too. `UisdkPart`'s `element` callback (an attachment beside
+  ui-sdk's) tells a modal its content's element, whose scroll animations end
+  as it closes.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,
