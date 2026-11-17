@@ -28,9 +28,8 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-26.04
-    name: lint, format, types and tests
-    # The Kirana lint rules read every file's diagnostics, on four threads here.
-    timeout-minutes: 30
+    name: format, types and tests
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -57,12 +56,38 @@ jobs:
       - name: Tests
         run: vp run test
 
-      # Oxfmt, Oxlint with the Kirana rules (@kirana-style/eslint-plugin) and the TypeScript type
-      # check (tsgolint), after the site's docs content, which the types read. Every check runs
-      # whatever an earlier one found (`--continue-on-error`), so one red run lists them all; a
-      # warning fails it, like an error.
-      - name: Format, lint and types
-        run: vp run check
+      # Oxfmt and the TypeScript type check (tsgolint), after the site's docs content, which the
+      # types read; the lint is the `lint` jobs'. Both run whatever the other found
+      # (`--continue-on-error`).
+      - name: Format and types
+        run: vp run content && vp check --no-lint --deny-warnings --continue-on-error
+
+  # Oxlint with the Kirana rules (@kirana-style/eslint-plugin), a warning failing it like an error.
+  # The rules read the whole project's diagnostics once per file, on one thread (KF-123), so the
+  # lint is most of `vp run check`'s time: `scripts/lint-shard.ts` splits the files Git tracks into
+  # four shares, by folder, linted side by side. Locally, `vp run check` still lints them all.
+  lint:
+    runs-on: ubuntu-26.04
+    name: lint (${{ matrix.shard }}/4)
+    timeout-minutes: 20
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          scope: -lint-${{ matrix.shard }}
+
+      # The type-aware rules read the site's docs content, as the types do.
+      - name: Lint
+        run: vp run content && bun scripts/lint-shard.ts --shard ${{ matrix.shard }}/4
 
   build:
     runs-on: ubuntu-26.04
@@ -183,7 +208,7 @@ jobs:
   result:
     name: ci result
     if: always()
-    needs: [check, browser, build, install]
+    needs: [check, lint, browser, build, install]
     runs-on: ubuntu-26.04
     timeout-minutes: 5
 
