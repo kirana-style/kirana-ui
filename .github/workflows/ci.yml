@@ -147,8 +147,9 @@ jobs:
   # The registry installed with Kirana's own installer, as Get Code has a reader do it: a skeleton
   # per framework started with Get Code's own command (`kirana-style ui init --template` from the
   # templates the build job packed), `add`, built, linted, type-checked, the lockfile validated, for
-  # React, Vue and Svelte on both bases, Solid and Angular. `scripts/install-smoke.ts`'s list in four
-  # shards side by side (`--shard`), two combinations each; `vp run install` runs it whole.
+  # React, Vue and Svelte on each of their bases (ui-sdk among them), Solid and Angular.
+  # `scripts/install-smoke.ts`'s list in four shards side by side (`--shard`), two or three
+  # combinations each; `vp run install` runs it whole.
   install:
     runs-on: ubuntu-26.04
     name: install (${{ matrix.shard }}/4)
