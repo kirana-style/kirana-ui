@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
+    "@kirana-ui/react": "0.1.1",
     "@ui-sdk/core": "catalog:",
     "@ui-sdk/react": "catalog:",
     "@fontsource-variable/geist": "catalog:",

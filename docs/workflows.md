@@ -878,6 +878,35 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   chevron too. `UisdkPart`'s `element` callback (an attachment beside
   ui-sdk's) tells a modal its content's element, whose scroll animations end
   as it closes.
+- **React on Kirana UI Primitives** keeps Base UI's API on the primitives'
+  parts, which have Base UI's parts and attributes nearly one for one: most
+  parts moved by import (Base UI's module to the primitives' entry; PreviewCard
+  is HoverCard, Radio is RadioGroup's item). While it is being ported it is in
+  `PORTING_BASES` (`registry/core/config.ts`): each component appears as its
+  markup is written, and the base has no shadcn/ui export yet (its component
+  pages show Kirana's command alone), since a React base's export is about
+  1,400 of the Worker's 20,000 static files. It writes no state keys of its own:
+  the builder's flattening keeps a `base:` key for the `kirana` target
+  (`writes` in `packages/builder/src/flatten.ts`), and a `kirana:` key in
+  `core/states.ts` is only for an attribute that differs. Where the primitives
+  fall short of what Base UI gives, the base fills in, each place commented with
+  the issue filed against them, to remove with the release that fixes it:
+  - **`render` for the registry's own parts** (a badge, an item, a breadcrumb
+    link): `registry/lib/kirana-render.ts` is a `useRender` and `mergeProps` in
+    Base UI's shape, writing the part's `state` as data attributes under the
+    caller's props, as Base UI's does (`data-slot` comes that way, and a part a
+    trigger draws keeps the trigger's slot).
+  - **Part props as their element's.** The primitives type a part's other props
+    `unknown`; `PartProps<typeof X.Part>` there types them as the element's,
+    and a change callback whose value is `unknown` as one taking a state setter.
+  - **Logical sides.** The Positioners take the physical four only;
+    `registry/lib/kirana-side.ts` turns `inline-start` and `inline-end` into
+    them by the reading direction.
+  - **The parts Base UI has and they do not**: the tooltip's provider (a
+    context handing each trigger its delays), the select's icon, the drawer's
+    layout boxes; a navigation menu item gets a `value` of its own, which its
+    trigger needs; a scrollbar is placed along its edge inline, as Base UI
+    places it.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

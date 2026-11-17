@@ -103,12 +103,12 @@
     {
       "element": "div[data-slot=\"slider-thumb\"]",
       "property": "left",
-      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same; Kirana UI places the thumb by `left` too, up to 1.8px from Base UI's at `edge`"
     },
     {
       "element": "div[data-slot=\"slider-thumb\"]",
       "property": "right",
-      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same"
+      "reason": "Ark UI and Base UI place a slider's thumb with other inline properties (Ark: `top` and a transform; Base UI: `top` and `translate: -50% -50%`); the thumb's box is the same; Kirana UI places the thumb by `left` too, up to 1.8px from Base UI's at `edge`"
     },
     {
       "element": "div[data-slot=\"slider-thumb\"]",
@@ -238,7 +238,7 @@
     {
       "element": "div[data-slot=\"progress-indicator\"]",
       "property": "left",
-      "reason": "Base UI writes the indicator's `left: 0` inline, Ark UI only its width; it starts at the track's start in both"
+      "reason": "Base UI writes the indicator's `left: 0` inline, Ark UI and Kirana UI only its width; it starts at the track's start in all"
     },
     {
       "element": "div[data-slot=\"scroll-area-viewport\"]",
@@ -301,7 +301,7 @@
       "element": "div[data-slot=\"scroll-area-thumb\"]",
       "property": "width",
       "route": "scroll-area-example",
-      "reason": "Base UI and Ark UI size a scroll area's thumb by their own formula from the same scroll ratio and track (107.8px against 132.4px in the horizontal example); the scrolling is the same"
+      "reason": "Base UI and Ark UI size a scroll area's thumb by their own formula from the same scroll ratio and track (107.8px against 132.4px in the horizontal example); the scrolling is the same; Kirana UI's is 119.4px"
     },
     {
       "element": "",
@@ -312,7 +312,7 @@
     {
       "element": "div[data-slot=\"dialog-overlay\"]",
       "property": "user-select",
-      "reason": "Base UI writes `user-select: none` inline on its backdrop; Ark UI's takes the page's",
+      "reason": "Base UI writes `user-select: none` inline on its backdrop; Ark UI's and Kirana UI's take the page's",
       "route": "-example|(alert-dialog|dialog|drawer|sheet)-|sidebar-13|trace-(commit|dialog|sheet)|attachment-trigger|/preview\\?"
     },
     {
@@ -360,7 +360,7 @@
     {
       "element": "div[data-slot=\"dialog-portal\"]",
       "property": "(element)",
-      "reason": "Base UI's dialog portal is an element of its own; Vue's content teleports itself to `<body>` with no wrapper (Ark's presence is on the positioner, inside it)"
+      "reason": "Base UI's dialog portal is an element of its own; Vue's content teleports itself to `<body>` with no wrapper (Ark's presence is on the positioner, inside it); Kirana UI's portal renders no element either"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
@@ -763,6 +763,12 @@
       "property": "outline-width",
       "route": "/preview/svelte/bits/",
       "reason": "which part the browser counts as focused by keyboard differs (`:focus-visible`): Bits UI focuses a context menu's popup on the pointer's open, Base UI its first row; the outline is `none` either way, so nothing is drawn"
+    },
+    {
+      "element": "div[data-slot=\"menubar-content\"]",
+      "property": "outline-width",
+      "route": "/preview/react/kirana/",
+      "reason": "which part the browser counts as focused by keyboard differs (`:focus-visible`): Base UI's menubar popup matches it after a pointer's open, Kirana UI's does not; the outline is `none` either way, so nothing is drawn"
     },
     {
       "element": "",

@@ -38,6 +38,12 @@ export type StateKeys = {
   reka?: string
   bits?: string
   uisdk?: string
+  /**
+   * Kirana UI Primitives (`@kirana-ui/*`), which write Base UI's vocabulary: Base UI's key holds
+   * for them (a flattened install for `kirana` keeps it), so a state gets a `kirana` key only where
+   * they differ.
+   */
+  kirana?: string
 }
 
 /** `value` under every base's key for `state`. */
@@ -50,6 +56,7 @@ export function when<Value>(state: StateKeys, value: Value) {
     ...(state.reka ? { [state.reka]: value } : {}),
     ...(state.bits ? { [state.bits]: value } : {}),
     ...(state.uisdk ? { [state.uisdk]: value } : {}),
+    ...(state.kirana ? { [state.kirana]: value } : {}),
   }
 }
 

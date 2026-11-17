@@ -7,6 +7,7 @@ variants:
     react/base,
     react/aria,
     react/uisdk,
+    react/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
@@ -34,11 +35,11 @@ keywords:
 
 # Calendar
 
-<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="calendar" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="calendar" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -153,7 +154,7 @@ To use the Persian calendar, install React DayPicker's Persian add-on, `@daypick
 + import { DayPicker } from "@daypicker/persian"
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="react/base,react/uisdk,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="react/base,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
 
 ## Selected Date (With TimeZone)
 
@@ -213,7 +214,7 @@ You can use the `<Calendar>` component to build a date picker. See the
 
 To use international calendar systems such as Persian, Islamic, or Buddhist, use React Aria's `I18nProvider` to set the locale.
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="react/aria,react/uisdk,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
 
 <!-- ::end:only -->
 
@@ -245,7 +246,7 @@ const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
 </template>
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,react/kirana" -->
 
 <!-- ::end:only -->
 
@@ -276,7 +277,7 @@ The calendar draws any calendar system of `@internationalized/date`. Pass its `c
 </DirectionProvider>
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,react/kirana" -->
 
 <!-- ::end:only -->
 
@@ -312,7 +313,7 @@ export function Example() {
 }
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,react/kirana" -->
 
 <!-- ::end:only -->
 
@@ -341,37 +342,37 @@ const formatters = { formatWeekdayName: (day: Date) => weekday.format(day) }
 ></div>
 ```
 
-<!-- ::preview item="calendar-hijri" height="400" combinations="angular/ng,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="calendar-hijri" height="400" combinations="angular/ng,vue/uisdk,svelte/uisdk,react/kirana" -->
 
 <!-- ::end:only -->
 
 ## Basic
 
-<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-basic" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Range Calendar
 
-<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-range" height="380" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Month and Year Selector
 
-<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-caption" height="380" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Presets
 
-<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-presets" height="480" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Date and Time Picker
 
-<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-time" height="480" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Booked dates
 
-<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-booked-dates" height="384" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Custom Cell Size
 
-<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-custom-days" height="560" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 The calendar's cells are `calendarCtx.cellSize` (`--cell-size` upstream). Set it through `sx`, and
 make it responsive with breakpoint-specific values:
@@ -398,7 +399,7 @@ const cells = css({
 
 Use `showWeekNumber` (`show-week-number` on Vue) to show week numbers.
 
-<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="calendar-week-numbers" height="384" combinations="react/base,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 

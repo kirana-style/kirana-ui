@@ -2,13 +2,13 @@
 title: Chat
 description: The thread. Message Scroller keeps your place while the reply streams.
 section: ai-elements
-variants: [react/base, react/aria, react/uisdk]
+variants: [react/base, react/aria, react/uisdk, react/kirana]
 keywords: [chat, ai elements, agent, chat]
 ---
 
 # Chat
 
-<!-- ::preview item="chat-demo" height="840" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="chat-demo" height="840" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 Chat is the thread of a conversation with the agent. Each turn is a [Message](/docs/ai-elements/message) inside [Message Scroller](/docs/components/message-scroller). The person's message is the scroll anchor, so a new question settles near the top and the reply streams in under it. The field is a [Prompt Input](/docs/ai-elements/prompt-input).
 
@@ -16,7 +16,7 @@ Chat is the thread of a conversation with the agent. Each turn is a [Message](/d
 
 Chat is built with the [Message Scroller](/docs/components/message-scroller), [Message](/docs/components/message), [Bubble](/docs/components/bubble), and [Input Group](/docs/components/input-group) components.
 
-<!-- ::installation name="message-scroller message bubble input-group" combinations="react/base,react/aria,react/uisdk" -->
+<!-- ::installation name="message-scroller message bubble input-group" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
 
 ## Usage
 

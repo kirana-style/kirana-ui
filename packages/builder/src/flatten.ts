@@ -28,12 +28,28 @@ import {
 } from "./styles"
 import type { Entry } from "./styles"
 
-export type Base = "base" | "aria" | "ark" | "ng" | "reka" | "bits" | "uisdk"
+export type Base =
+  | "base"
+  | "aria"
+  | "ark"
+  | "ng"
+  | "reka"
+  | "bits"
+  | "uisdk"
+  | "kirana"
 
 export type Target = { style: string; base: Base }
 
 /** What a condition is to the target: its style's, another style's or base's, or neither. */
 export type Classify = (condition: string) => "target" | "drop" | "keep"
+
+/**
+ * Whether a key of `keyed`'s is one the target base writes: its own, and on Kirana UI Primitives
+ * (`kirana`) Base UI's too, whose vocabulary the primitives write (a `kirana` key only where they
+ * differ).
+ */
+const writes = (target: Base, keyed: Base) =>
+  keyed === target || (target === "kirana" && keyed === "base")
 
 /**
  * The classifier for a target: style conditions are reads of the `ui` relation for
@@ -48,12 +64,12 @@ export function classifier(target: Target): Classify {
       if (style) return style === target.style ? "target" : "drop"
     }
     if (marker?.kind === "state")
-      return marker.base === target.base ? "keep" : "drop"
+      return writes(target.base, marker.base) ? "keep" : "drop"
     // A read of a state key (`collapsibleScope.within(disclosure.open.base)`): its base's alone.
     if (marker?.kind === "read")
       for (const part of split(marker.condition))
         if (typeof part !== "string" && part.kind === "state")
-          if (part.base !== target.base) return "drop"
+          if (!writes(target.base, part.base)) return "drop"
     return "keep"
   }
 }

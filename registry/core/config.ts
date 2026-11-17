@@ -21,7 +21,8 @@ export type Framework = (typeof FRAMEWORKS)[number]
 /**
  * The headless library under the components: Base UI, React Aria, Ark UI, ng-primitives (Ark UI
  * has no Angular port; ng-primitives is the library `@kirana-style/states` has Angular's keys for),
- * Reka UI (Vue's second), Bits UI (Svelte's second), ui-sdk (`uisdk`, one core rendered in React,
+ * Reka UI (Vue's second), Bits UI (Svelte's second), Kirana UI Primitives (`kirana`, the
+ * `@kirana-ui/*` packages, which write Base UI's vocabulary), ui-sdk (`uisdk`, one core rendered in React,
  * Vue, Svelte and Solid). A value is added at the end: preset codes index this list.
  */
 export const BASES = [
@@ -32,17 +33,26 @@ export const BASES = [
   "reka",
   "bits",
   "uisdk",
+  "kirana",
 ] as const
 export type Base = (typeof BASES)[number]
 
 /** Which bases each framework offers; the first is its default. */
 export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
-  react: ["base", "aria", "uisdk"],
+  react: ["base", "aria", "uisdk", "kirana"],
   vue: ["ark", "reka", "uisdk"],
   svelte: ["ark", "bits", "uisdk"],
   solid: ["ark"],
   angular: ["ng"],
 }
+
+/**
+ * The bases being ported, as `<framework>-<base>` (their folder in `bases/`): each component
+ * appears as its markup is written, and none has shadcn/ui's export (`/r/shadcn/`) until the base
+ * is whole, since a React base's export is about 1,400 of the Worker's 20,000 static files. Their
+ * docs pages say so (no shadcn/ui command); Kirana's own items (`/r/<item>.json`) carry them.
+ */
+export const PORTING_BASES: readonly string[] = ["react-kirana"]
 
 export const STYLES = [
   "nova",

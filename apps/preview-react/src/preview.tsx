@@ -45,6 +45,7 @@ const BASES: Record<
   base: () => import("@workspace/registry/bases/react-base/previews"),
   aria: () => import("@workspace/registry/bases/react-aria/previews"),
   uisdk: () => import("@workspace/registry/bases/react-uisdk/previews"),
+  kirana: () => import("@workspace/registry/bases/react-kirana/previews"),
 }
 
 /**

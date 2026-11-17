@@ -36,6 +36,7 @@ export const BASE_LABELS: Record<Base, string> = {
   reka: "Reka UI",
   bits: "Bits UI",
   uisdk: "ui-sdk",
+  kirana: "Kirana UI",
 }
 
 /**
