@@ -22,6 +22,7 @@ declare module "virtual:preview-names" {
     | "vue/uisdk"
     | "svelte/ark"
     | "svelte/bits"
+    | "svelte/uisdk"
     | "solid/ark"
     | "angular/ng",
     readonly string[]

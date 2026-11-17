@@ -10,6 +10,8 @@
     "../../registry/bases/svelte-ark/**/*.svelte",
     "../../registry/bases/svelte-bits/**/*.ts",
     "../../registry/bases/svelte-bits/**/*.svelte",
+    "../../registry/bases/svelte-uisdk/**/*.ts",
+    "../../registry/bases/svelte-uisdk/**/*.svelte",
     "../../registry/icons/IconPlaceholder.svelte",
     "../../registry/lib/svelte/**/*.ts",
     "../../registry/lib/svelte/**/*.svelte"

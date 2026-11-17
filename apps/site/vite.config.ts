@@ -39,6 +39,7 @@ const EXAMPLES = {
   "vue/uisdk": ["vue-uisdk", ".vue"],
   "svelte/ark": ["svelte-ark", ".svelte"],
   "svelte/bits": ["svelte-bits", ".svelte"],
+  "svelte/uisdk": ["svelte-uisdk", ".svelte"],
   "solid/ark": ["solid-ark", ".tsx"],
   "angular/ng": ["angular-ng", ".ts"],
 } as const

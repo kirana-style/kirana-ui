@@ -80,6 +80,7 @@
       "@base-ui/react": "^1.9.0",
       "@ui-sdk/core": "0.1.0-beta.2",
       "@ui-sdk/react": "0.1.0-beta.2",
+      "@ui-sdk/svelte": "0.1.0-beta.2",
       "@ui-sdk/vue": "0.1.0-beta.2",
       "@daypicker/persian": "^10.0.2",
       "@floating-ui/dom": "^1.8.0",

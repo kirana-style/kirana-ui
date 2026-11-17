@@ -20,6 +20,7 @@
     "@base-ui/react": "catalog:",
     "@ui-sdk/core": "catalog:",
     "@ui-sdk/react": "catalog:",
+    "@ui-sdk/svelte": "catalog:",
     "@ui-sdk/vue": "catalog:",
     "@daypicker/persian": "catalog:",
     "@dnd-kit/abstract": "catalog:",
