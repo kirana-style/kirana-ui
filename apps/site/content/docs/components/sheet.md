@@ -34,7 +34,7 @@ A sheet slides in from the side its `side` names: `top`, `right`, `bottom` or `l
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk
+### Base UI, ui-sdk, Kirana UI
 
 ```tsx
 import { Button } from "@/components/ui/button"

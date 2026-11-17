@@ -140,3 +140,21 @@ export type RenderProps<
   children?: React.ReactNode
   render?: RenderProp<State>
 }
+
+/**
+ * Base UI's precedence for a part's `render` element (PF-026): the element's own props win over
+ * the part's (its `data-slot`, its children, `disabled`), classes and styles joined and handlers
+ * chained, where the primitives keep the part's. The element's props move onto the part, and the
+ * part renders the element's type alone. Remove with the release that takes Base UI's order.
+ */
+export function renderOver<P extends { render?: unknown }>(props: P): P {
+  const { render } = props
+  if (!isValidElement<Props>(render)) return props
+  const { ref, ...own } = render.props
+  const rest: Props = { ...(props as Props) }
+  delete rest.render
+  return {
+    ...mergeProps<"div">(rest, own),
+    render: createElement(render.type, ref ? { ref } : null),
+  } as unknown as P
+}

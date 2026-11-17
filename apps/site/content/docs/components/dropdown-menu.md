@@ -33,7 +33,7 @@ keywords:
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk
+### Base UI, ui-sdk, Kirana UI
 
 ```tsx
 import { Button } from "@/components/ui/button"

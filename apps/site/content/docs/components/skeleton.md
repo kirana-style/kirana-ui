@@ -32,7 +32,7 @@ keywords: [skeleton, component, base, aria, ark, vue, svelte, solid, angular]
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk, React Aria, Solid
+### Base UI, ui-sdk, Kirana UI, React Aria, Solid
 
 ```tsx
 import { css } from "@kirana-style/core"

@@ -1233,6 +1233,18 @@
       "reason": "the room below the trigger (`--available-height`) as ui-sdk measures it from its own placement, 3px from Base UI's"
     },
     {
+      "element": "div[data-slot=\"combobox-chip\"]",
+      "property": "cursor",
+      "route": "/preview/react/kirana/",
+      "reason": "Kirana UI marks a disabled combobox's chips `data-disabled`, so the chip's `not-allowed` cursor applies; Base UI's chip carries no such mark and keeps `auto`"
+    },
+    {
+      "element": "div[data-slot=\"drawer-popup\"]",
+      "property": "transform",
+      "route": "/preview/react/kirana/",
+      "reason": "an open drawer at rest: Base UI's computes the identity matrix, Kirana UI's `none`; the same place"
+    },
+    {
       "element": "span[data-slot=\"menu-item-indicator\"]",
       "property": "(element)",
       "route": "(react|vue|svelte)/uisdk/",

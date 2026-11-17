@@ -820,7 +820,7 @@ const ALL_ITEMS: Item[] = [
     "A succinct message that is displayed temporarily.",
     ["react", "vue"],
     // React Aria has no toast: its pages use Sonner. Angular's comes with its own (P6).
-    ["base", "ark", "ng", "reka", "uisdk"]
+    ["base", "ark", "ng", "reka", "uisdk", "kirana"]
   ),
   component(
     "resizable",

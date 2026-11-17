@@ -32,7 +32,7 @@ keywords: [card, component, base, aria, ark, vue, svelte, solid]
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, ui-sdk, React Aria, Solid
+### Base UI, ui-sdk, Kirana UI, React Aria, Solid
 
 ```tsx
 import {

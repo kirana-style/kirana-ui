@@ -6,6 +6,7 @@ variants:
   [
     react/base,
     react/uisdk,
+    react/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
