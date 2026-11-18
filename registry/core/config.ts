@@ -52,7 +52,7 @@ export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
  * is whole, since a React base's export is about 1,400 of the Worker's 20,000 static files. Their
  * docs pages say so (no shadcn/ui command); Kirana's own items (`/r/<item>.json`) carry them.
  */
-export const PORTING_BASES: readonly string[] = ["react-kirana", "vue-kirana"]
+export const PORTING_BASES: readonly string[] = ["react-kirana"]
 
 export const STYLES = [
   "nova",

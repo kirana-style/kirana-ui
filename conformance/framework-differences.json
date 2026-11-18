@@ -1251,6 +1251,12 @@
       "reason": "Base UI keeps its empty message in the page while items are shown, hidden by the style (`display: none` unless the popup is `data-empty`); Kirana UI draws it only while no item is shown, so the same nothing is drawn"
     },
     {
+      "element": "div[data-slot=\"command-item\"]",
+      "property": "background-color",
+      "route": "/kirana/",
+      "reason": "cmdk highlights the first matching row as soon as the list is drawn (`data-selected=\"true\"`); Kirana UI's command highlights a row once an arrow or the pointer reaches it (reported to Kirana UI)"
+    },
+    {
       "element": "span[data-slot=\"menu-item-indicator\"]",
       "property": "(element)",
       "route": "(react|vue|svelte)/uisdk/",

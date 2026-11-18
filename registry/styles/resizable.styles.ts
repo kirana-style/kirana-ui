@@ -26,6 +26,20 @@ export const resizable = {
   }),
   // ui-sdk's group (Vue): its panels clipped, as react-resizable-panels writes inline on its own.
   groupUisdk: css({ overflow: "hidden" }),
+
+  // Kirana UI's resizable writes each panel's `flex` and no other CSS: what react-resizable-panels
+  // writes inline beside it, the group clipping, a panel shrinking below its content, a handle not.
+  groupKirana: css({ overflow: "hidden" }),
+  // A group inside another's panel shrinks with it, as react-resizable-panels' does.
+  groupNestedKirana: css({ minWidth: 0, minHeight: 0 }),
+  panelKirana: css({
+    display: "flex",
+    minWidth: 0,
+    minHeight: 0,
+    maxWidth: "100%",
+    maxHeight: "100%",
+  }),
+  handleKirana: css({ flexShrink: 0 }),
   // cn-resizable-handle
   handle: css({
     position: "relative",
