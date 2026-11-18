@@ -128,7 +128,9 @@ export async function pressTriggers(
     // Hidden meanwhile: the section it sits in finished collapsing.
     if (covered === HIDDEN) continue
     if (covered) throw new Error(`${label} is covered: ${covered}`)
-    await page.getByTestId(`trigger-${index}`).click({ timeout: 3000 })
+    // The bounds are generous: they catch a trigger that never becomes pressable, not a slow
+    // engine. CI's Firefox, with four Vue bases in one worker, took 2.3s to move the pointer.
+    await page.getByTestId(`trigger-${index}`).click({ timeout: 10000 })
     await settle()
     check(label)
     await userEvent.keyboard("{Escape}")
@@ -136,7 +138,7 @@ export async function pressTriggers(
     // closes too, and until nothing is open outside the item: an open popup would cover the next
     // trigger.
     // Forced: an open drawer's overlay may cover the corner, and the pointer only needs to move.
-    await page.getByTestId(away()).hover({ force: true, timeout: 2000 })
+    await page.getByTestId(away()).hover({ force: true, timeout: 10000 })
     // And focus off the trigger: a popup that opens on focus after a delay (a hover card) would
     // otherwise open once Escape and the wait below are past, and cover the next trigger for
     // good. Seen in WebKit under load, on Reka UI's hover card.

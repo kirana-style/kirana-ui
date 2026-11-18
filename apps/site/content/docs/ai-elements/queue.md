@@ -11,6 +11,7 @@ variants:
     vue/ark,
     vue/reka,
     vue/uisdk,
+    vue/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
@@ -22,7 +23,7 @@ keywords: [queue, ai elements, agent, chat]
 
 # Queue
 
-<!-- ::preview item="queue-demo" height="470" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="queue-demo" height="470" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 Queue is the agent's todo list. Todos sit in two sections, To do and Completed, and the icon on each todo shows its status. The agent updates the list as it works, so a todo moves from one section to the other when it is done.
 
@@ -32,7 +33,7 @@ Queue is built with `Trace` with a `TraceCollapsible` for each section.
 
 Queue is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 ## Usage
 
@@ -162,7 +163,7 @@ import {
 
 A todo with a description is a `TraceCollapsible` that opens to show it. A todo without one stays a `TraceLine`.
 
-<!-- ::preview item="queue-descriptions" height="380" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="queue-descriptions" height="380" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 ```tsx showLineNumbers
 <TraceCollapsible>
