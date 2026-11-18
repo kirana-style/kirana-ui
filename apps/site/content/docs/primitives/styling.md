@@ -21,8 +21,9 @@ keywords:
 The primitives ship no CSS and inject no styles. The whole contract between a component and your
 stylesheet is three things:
 
-- **The element.** A part renders one element, and you give it a class. The part's own attributes
-  win over yours; your handlers run first.
+- **The element.** A part renders one element, and you give it a class. (A few draw none, such as
+  a popover's root and every `Portal`; a component's page says which.) The part's own role, ARIA
+  and state attributes win over yours; your handlers run first.
 - **State attributes.** A boolean state is an attribute that is present or absent, never
   `="false"`: `[data-open]`, `[data-disabled]`, `[data-checked]`. A state with values carries one:
   `[data-side="top"]`, `[data-orientation="vertical"]`.

@@ -30,8 +30,11 @@ an entry defines its element; `@kirana-ui/web` alone defines them all.
 
 - **The element holds the component and draws nothing.** It has no shadow root and no box
   (`display: contents`), so your CSS reaches everything.
-- **Every part is your own element**, named by `kui-part`. The page it makes is the page the
-  framework adapters draw: the library compares the two in its tests.
+- **Every part is your own element**, named by `kui-part`, the root among them: where a component's
+  root draws an element on the frameworks (an accordion, pagination's `<nav>`), you write it as
+  `kui-part="root"` inside the custom element. A component whose root draws none (a dialog, a
+  select) has no such part. The page it makes is the page the framework adapters draw: the
+  library compares the two in its tests.
 - **A part that is not shown is taken out of the page**, and put back where it was.
   `kui-keep-mounted` keeps it.
 - **A `portal` part is drawn at the end of `<body>`** while the component is open.
@@ -56,7 +59,13 @@ A change is an event named for its callback (`open-change`, `value-change`, `che
 with the value and the same `details` as on the frameworks. Preventing it refuses the change.
 
 A part's own options are `kui-` attributes: `kui-value` for an item, `kui-disabled`, `kui-index`,
-and a positioner's `kui-side`, `kui-align` and `kui-side-offset`. The component's id is `kui-id`.
+`kui-label`, and a positioner's `kui-side`, `kui-align`, `kui-side-offset`, `kui-align-offset`,
+`kui-collision-padding` and `kui-anchor` (the id of the element the popup is placed against, when
+that is not its trigger). The component's id is `kui-id`.
+
+TypeScript knows each element by its tag: `document.querySelector("kui-dialog")` has its props as
+properties and its events with their `detail`. The types they name are exported by the package
+root: `import type { ChangeDetails } from "@kirana-ui/web"`.
 
 ## Components inside components
 
@@ -87,5 +96,5 @@ lost. `{name}` in text and attributes is the entry's value of that name, `kui-wh
 element for entries of one type, and a template inside a copy is a list of that entry's own (a
 week's days).
 
-The elements for each component are on its page under [Components](/docs/primitives/components),
-in the Custom elements tab.
+Each component's page under [Components](/docs/primitives/components) shows it as custom
+elements: choose Custom elements in the code beside its demo.
