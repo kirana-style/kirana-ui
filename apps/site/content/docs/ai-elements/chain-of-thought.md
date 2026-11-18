@@ -11,6 +11,7 @@ variants:
     vue/ark,
     vue/reka,
     vue/uisdk,
+    vue/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
@@ -22,7 +23,7 @@ keywords: [chain of thought, ai elements, agent, chat]
 
 # Chain of Thought
 
-<!-- ::preview item="chain-of-thought-demo" height="610" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="chain-of-thought-demo" height="610" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 Chain of Thought is a summary line that expands into the steps an agent took. The summary says what happened, like "Researched in 3 steps". The steps sit inside it, each one a line of its own.
 
@@ -32,7 +33,7 @@ Chain of Thought is built with `Trace` with a `TraceCollapsible` for the summary
 
 Chain of Thought is built with the [Trace](/docs/components/trace), [Code Block](/docs/components/code-block) and [Badge](/docs/components/badge) components.
 
-<!-- ::installation name="trace code-block badge" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::installation name="trace code-block badge" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 ## Usage
 

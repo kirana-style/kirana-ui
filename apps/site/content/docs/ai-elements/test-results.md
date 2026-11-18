@@ -11,6 +11,7 @@ variants:
     vue/ark,
     vue/reka,
     vue/uisdk,
+    vue/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
@@ -22,7 +23,7 @@ keywords: [test results, ai elements, agent, chat]
 
 # Test Results
 
-<!-- ::preview item="test-results-demo" height="690" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="test-results-demo" height="690" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 Test Results is a test run by the agent. The summary line counts what passed and failed. Open it to see each suite, its tests, and the error for each failure.
 
@@ -32,7 +33,7 @@ Test Results is built with `Trace` with a `TraceCollapsible` for the run and for
 
 Test Results is built with the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components.
 
-<!-- ::installation name="trace code-block" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::installation name="trace code-block" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 ## Usage
 
@@ -99,7 +100,7 @@ const styles = {
 
 Group tests by file. Each suite is a collapsible line with a `Trace` of its tests. Open the suites that have a failure.
 
-<!-- ::preview item="test-results-suites" height="600" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="test-results-suites" height="600" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 <!-- ::start:only react/base -->
 

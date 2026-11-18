@@ -11,6 +11,7 @@ variants:
     vue/ark,
     vue/reka,
     vue/uisdk,
+    vue/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
@@ -22,11 +23,11 @@ keywords: [tooltip, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Tooltip
 
-<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-demo" height="300" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="tooltip" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="tooltip" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -137,23 +138,23 @@ Use the `placement` prop to change the position of the tooltip.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-sides" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## With Keyboard Shortcut
 
-<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-keyboard" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## Disabled Button
 
 Show a tooltip on a disabled button by wrapping it with a span.
 
-<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="tooltip-disabled" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="tooltip-rtl" height="300" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

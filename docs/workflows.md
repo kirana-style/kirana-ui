@@ -867,7 +867,12 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   them on the site and a flattened install keeps them, as for React's Kirana UI
   base. A part that writes text of its own (the progress value) is given no
   slot unless the caller gives one, or it draws the empty slot in place of its
-  text.
+  text. Most parts are Reka's renamed (`DialogContent` is `Dialog.Popup`,
+  `DropdownMenuSub` is `Menu.SubmenuRoot`), and every popup is Base UI's
+  Portal > Positioner > Popup, as React's Kirana UI parts draw it. The select
+  takes `multiple` as the primitives' `values` and hands `SelectValue`'s slot
+  `{ value, items }` as the Ark UI twin does; the combobox keeps Base UI's
+  items-driven API on the primitives' list, which filters by each item's text.
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
