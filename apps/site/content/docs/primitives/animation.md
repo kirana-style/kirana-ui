@@ -40,5 +40,17 @@ Write the hidden style under both, and transition between:
 CSS animations work the same way: key them on `[data-open]` and `[data-closed]`, and the part
 stays until the closing animation ends.
 
-A part with no motion leaves at once. A part you would rather keep in the page while it is closed
-takes `keepMounted` (`kui-keep-mounted` on a custom element's part).
+A part with no motion leaves at once.
+
+## Keeping a closed part in the page
+
+`keepMounted` keeps a part in the page, hidden, while it is closed. Only these parts take it:
+
+| Kind       | Parts                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Panels     | `Accordion.Panel`, `Collapsible.Panel`, `Tabs.Panel`                                                                     |
+| Indicators | `Checkbox.Indicator`, `RadioGroup.Indicator`, and the item indicators of Select, Combobox, Listbox, Menu and ContextMenu |
+| Others     | `ScrollArea.Scrollbar`, `Combobox.Clear`, `Autocomplete.Clear`                                                           |
+
+A popup, a backdrop and a toast do not take it: they are in the page only while they are open. On
+a custom element's part it is `kui-keep-mounted`.

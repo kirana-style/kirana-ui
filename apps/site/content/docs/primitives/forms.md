@@ -23,8 +23,9 @@ library:
 </form>
 ```
 
-`form` names a form the control is not inside, by its id. `disabled`, `readOnly` and `required`
-are the control's props.
+`form` names a form the control is not inside, by its id. `disabled` and `required` are the
+control's props. `readOnly` is a prop of Checkbox, Switch, RadioGroup, NumberField, DateField,
+DatePicker and Calendar; Select, Combobox and Slider have none.
 
 ## Field
 

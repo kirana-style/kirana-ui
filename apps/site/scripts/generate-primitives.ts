@@ -1,8 +1,9 @@
 /**
  * Writes a page for each primitive into `content/docs/primitives/components/`, their index, and
  * `primitives/frameworks.md` (none committed):
- * its reference from the installed `@kirana-ui/*` packages (`primitives-data.ts`), and how it is
- * written on each framework from `primitives/anatomy.json`. `generate-content.ts` runs it first.
+ * its reference and its anatomy from the installed `@kirana-ui/*` packages (`primitives-data.ts`),
+ * and how it is written on each framework from `primitives/anatomy.json`. `generate-content.ts`
+ * runs it first.
  */
 import {
   existsSync,
@@ -167,21 +168,25 @@ function propsTable(lines: readonly string[]): string {
   return `<!-- ::props rows="${encodeURIComponent(JSON.stringify(rows))}" -->`
 }
 
-/** The reference's parts, each with its attributes and its CSS variables as tables. */
-function partsReference(
-  lines: readonly string[],
-  label: (part: string) => string
-): string {
-  const out: string[] = []
+/** A part's attributes and CSS variables as tables, with what the reference says the part is. */
+interface Written {
+  said: string
+  tables: string[]
+}
+
+/** The reference's "Attributes and CSS variables, by part", by the part's name there (`scrollUpArrow`). */
+function statesByPart(lines: readonly string[]): Map<string, Written> {
+  const found = new Map<string, Written>()
   let attributes: string[] = []
   let variables: string[] = []
+  let into: Written | undefined
   const flush = () => {
-    if (attributes.length)
-      out.push(
+    if (into && attributes.length)
+      into.tables.push(
         ["| Attribute | When |", "| --- | --- |", ...attributes].join("\n")
       )
-    if (variables.length)
-      out.push(
+    if (into && variables.length)
+      into.tables.push(
         [
           "| CSS variable | What it holds |",
           "| --- | --- |",
@@ -196,7 +201,8 @@ function partsReference(
     const entry = /^\s+- `([^`]+)`: (.*)$/.exec(line)
     if (part) {
       flush()
-      out.push(`### ${label(part[1]!)}`, part[2]!)
+      into = { said: part[2]!, tables: [] }
+      found.set(part[1]!, into)
     } else if (entry) {
       const row = `| \`${cell(entry[1]!)}\` | ${cell(entry[2]!)} |`
       if (entry[1]!.startsWith("--")) variables.push(row)
@@ -204,26 +210,124 @@ function partsReference(
     }
   }
   flush()
-  return out.join("\n\n")
+  return found
 }
 
-/** The reference as the page's sections: props, then every part. */
-function api(body: string, label: (part: string) => string): string {
+interface Each {
+  /** As the framework writes it: `Select.Trigger`. */
+  label: string
+  /** What the reference says of it: the element it draws, and what it is for. */
+  said: string
+  /** Its own props, as the reference's lines. */
+  props: string[]
+}
+
+/** The reference's "Each part, and its own props" (or the one line of a component of one part). */
+function eachPart(lines: readonly string[]): Each[] {
+  const found: Each[] = []
+  for (const line of lines) {
+    const part = /^(?:- )?`<([\w.]+)>` (.*)$/.exec(line)
+    const prop = /^ {4}- (.*)$/.exec(line)
+    if (part) found.push({ label: part[1]!, said: part[2]!, props: [] })
+    else if (prop && found.length) found.at(-1)!.props.push(`- ${prop[1]!}`)
+  }
+  return found
+}
+
+/** What every positioner takes, from the reference's own section. */
+const positioner = (() => {
+  const text = packageFile("react", "llms.txt")
+  const from = text.indexOf("\n## Positioner options")
+  const section = text.slice(from, text.indexOf("\n## ", from + 1))
+  return {
+    props: section.split("\n").filter((line) => line.startsWith("- `")),
+    /** A component's own defaults over those: `{ align: "start" }`. */
+    defaults: (name: string) =>
+      new RegExp(`\`${name}\` (\`\\{[^}]*\\}\`)`).exec(section)?.[1],
+  }
+})()
+
+const POSITIONER = 'Takes the positioner options ("Positioner options", above).'
+const ABOVE = "Its props are above."
+const sentence = (text: string) =>
+  text.trim().replace(/^[a-z]/, (letter) => letter.toUpperCase())
+
+/** The reference as the page's sections: every part with its element, props, attributes and variables. */
+function api(name: string, body: string): string {
   const lines = body.split("\n")
   const from = (heading: RegExp) =>
     lines.findIndex((line) => heading.test(line))
   const props = from(/^Props( of its root)?:$/)
-  const parts = from(/^Attributes and CSS variables, by part:$/)
+  const each = from(/^Each part, and its own props:$/)
+  const attributes = from(/^Attributes and CSS variables, by part:$/)
+  const end = attributes >= 0 ? attributes : lines.length
+  const root =
+    props >= 0
+      ? lines.slice(props + 1, each > props ? each : end)
+      : ([] as string[])
+  const parts = eachPart(lines.slice(each >= 0 ? each + 1 : 0, end))
+  const states = statesByPart(
+    attributes >= 0 ? lines.slice(attributes + 1) : []
+  )
+  const camel = (label: string) => {
+    const part = label.includes(".") ? label.slice(label.indexOf(".") + 1) : ""
+    return part ? part[0]!.toLowerCase() + part.slice(1) : ""
+  }
   const out: string[] = ["## API reference"]
-  if (props >= 0) {
-    const end = parts > props ? parts : lines.length
+  // What the reference says between its lists (how a toaster is made): said before the parts.
+  const notes = lines
+    .slice(each >= 0 ? each + 1 : 0, end)
+    .join("\n")
+    .split("\n\n")
+    .filter(
+      (text) =>
+        text.trim() && !/^(- |`<|```|Props|Parts:|Anatomy:)/.test(text.trim())
+    )
+    .map((text) => text.replaceAll(', under "Types"', "").trim())
+  out.push(...notes)
+  const used = new Set<string>()
+  for (const part of parts) {
+    const key =
+      camel(part.label) || (parts.length === 1 ? [...states.keys()][0] : "")
+    const state = key ? states.get(key) : undefined
+    if (key) used.add(key)
+    const own = part.said.includes(ABOVE)
+    const placed = part.said.includes(POSITIONER)
+    const said = sentence(
+      part.said
+        .replace(ABOVE, "")
+        .replace(POSITIONER, "")
+        // Said twice of a portal.
+        .replace(
+          "draws no element. Draws no element of its own:",
+          "draws no element:"
+        )
+        .trim()
+    )
+    const rows = [
+      // A component of one part: its props are the part's.
+      ...(own || parts.length === 1 ? root : []),
+      ...(placed ? positioner.props : []),
+      ...part.props,
+    ]
+    const defaults = placed ? positioner.defaults(name) : undefined
     out.push(
-      lines[props] === "Props:" ? "### Props" : "### Props of the root",
-      propsTable(lines.slice(props + 1, end))
+      `### ${part.label}`,
+      [state?.said, said].filter(Boolean).join(" "),
+      ...(placed
+        ? [
+            `It takes what every positioner takes${defaults ? `; here the defaults are ${defaults}` : ""}.`,
+          ]
+        : []),
+      ...(rows.length ? [propsTable(rows)] : []),
+      ...(state?.tables ?? [])
     )
   }
-  if (parts >= 0) out.push(partsReference(lines.slice(parts + 1), label))
-  return out.join("\n\n")
+  // A part the reference gives attributes and does not list: never left out.
+  for (const [key, state] of states)
+    if (!used.has(key))
+      out.push(`### ${name}.${pascal(key)}`, state.said, ...state.tables)
+  return out.filter(Boolean).join("\n\n")
 }
 
 const pascal = (part: string) =>
@@ -231,100 +335,73 @@ const pascal = (part: string) =>
     letter.toUpperCase()
   )
 
-/** What a list's template is on the frameworks, where its name is not the part's. */
-const LISTS: Record<string, string> = { toasts: "List" }
-
 interface Node {
   label: string
-  note?: string
+  notes: string[]
   children: Node[]
 }
 
 /**
- * A component's parts as they nest, read from how it is written as custom elements (the one
- * form where every part is an element with its name on it), and named as the frameworks name
- * them. A component written inside it is another component's, and left out.
+ * A component's parts as they nest, from the reference's own "Anatomy" (the library's data), with
+ * what it says of each: a part that draws no element, one that may be left out, one written once
+ * for each entry. A component of one part is that part.
  */
 function tree(name: string): { text: string; rest: string[] } | undefined {
-  const html = anatomy[kebab(name)]?.web
   const own = references.react.get(name)
-  if (!html || !own) return undefined
-  const known = new Set(
-    own.parts.map((part) => /^<(.+)>$/.exec(part)?.[1] ?? part)
+  if (!own) return undefined
+  const parts = eachPart(own.body.split("\n"))
+  if (!parts.length) return undefined
+  const ghost = new Set(
+    parts
+      .filter((part) => part.said.startsWith("draws no element"))
+      .map((part) => part.label)
   )
+  const drawn = /\nAnatomy:\n\n```\n([\s\S]*?)\n```/.exec(`\n${own.body}`)?.[1]
+  const top: Node = { label: "", notes: [], children: [] }
   const used = new Set<string>()
-  const named = (part: string) => {
-    const dotted = `${name}.${pascal(part)}`
-    // A component of one part is that part, whatever it is called (`Button`, `Autosize.Textarea`).
-    const label = known.has(dotted)
-      ? dotted
-      : part === "root" && known.size <= 1
-        ? ([...known][0] ?? name)
-        : undefined
-    if (label) used.add(label)
-    return label
-  }
-  const top: Node = { label: "", children: [] }
-  // Each open element: the node its parts go into, and whether it is inside another component.
-  const stack: { tag: string; into: Node; foreign: boolean }[] = []
-  const tags = /<(\/?)([a-zA-Z][\w-]*)((?:"[^"]*"|[^>"])*)>/g
-  let hosts = 0
-  for (let found = tags.exec(html); found; found = tags.exec(html)) {
-    const [, closing, tag = "", attributes = ""] = found
-    if (closing) {
-      while (stack.length && stack.pop()!.tag !== tag);
-      continue
+  if (!drawn) {
+    for (const part of parts) {
+      used.add(part.label)
+      top.children.push({ label: part.label, notes: [], children: [] })
     }
-    const around = stack.at(-1)
-    let into = around?.into ?? top
-    let foreign = around?.foreign ?? false
-    if (tag.startsWith("kui-") && hosts++ > 0) foreign = true
-    const part = /kui-part="([^"]+)"/.exec(attributes)?.[1]
-    const each = /kui-each="([^"]+)"/.exec(attributes)?.[1]
-    const label = foreign
-      ? undefined
-      : part === "portal"
-        ? named("portal")
-        : part
-          ? named(part)
-          : each
-            ? named(LISTS[each] ? LISTS[each]!.toLowerCase() : each)
-            : undefined
-    if (label) {
-      const node: Node = { label, children: [] }
-      if (part === "portal")
-        node.note = "no element: what is inside is drawn at the end of body"
-      if (each)
-        node.note = "no element: draws what is inside once for each entry"
-      into.children.push(node)
-      into = node
+  } else {
+    // Each open part by its indent: a line is inside the nearest line indented less.
+    const open: { indent: number; node: Node }[] = []
+    for (const line of drawn.split("\n")) {
+      const found = /^( *)<([\w.]+)>(?: \(([^)]*)\))?$/.exec(line)
+      if (!found) throw new Error(`${name}: an anatomy line not read: ${line}`)
+      const [, spaces = "", label = "", marks = ""] = found
+      while (open.length && open.at(-1)!.indent >= spaces.length) open.pop()
+      used.add(label)
+      const node: Node = {
+        label,
+        notes: [
+          ...(ghost.has(label) ? ["no element"] : []),
+          ...marks
+            .split(", ")
+            .filter(Boolean)
+            .map((mark) =>
+              mark === "repeated"
+                ? "once for each"
+                : mark === "as above"
+                  ? "also here"
+                  : mark
+            ),
+        ],
+        children: [],
+      }
+      ;(open.at(-1)?.node ?? top).children.push(node)
+      open.push({ indent: spaces.length, node })
     }
-    const single =
-      /\/\s*$/.test(attributes) || ["input", "img", "br", "hr"].includes(tag)
-    if (!single) stack.push({ tag, into, foreign })
   }
-  // The same part written several times (an item for each value) is drawn once.
   const write = (node: Node): string =>
-    `${node.label}${node.note ? `|${node.note}` : ""}${
-      node.children.length
-        ? `[${[...new Set(node.children.map(write))].join(",")}]`
-        : ""
+    `${node.label}${node.notes.length ? `|${node.notes.join(" · ")}` : ""}${
+      node.children.length ? `[${node.children.map(write).join(",")}]` : ""
     }`
-  let roots = top.children
-  // A root that draws no element holds the rest, in the code only.
-  const root = `${name}.Root`
-  if (known.has(root) && !used.has(root)) {
-    used.add(root)
-    roots = [
-      {
-        label: root,
-        note: "no element: holds the component's state",
-        children: roots,
-      },
-    ]
+  return {
+    text: top.children.map(write).join(","),
+    rest: parts.map((part) => part.label).filter((part) => !used.has(part)),
   }
-  const text = [...new Set(roots.map(write))].join(",")
-  return { text, rest: [...known].filter((part) => !used.has(part)) }
 }
 
 function page(
@@ -425,14 +502,14 @@ ${[
 ${imports}
 ${
   drawn
-    ? `\n## Anatomy\n\nHow its parts go together: as a picture of the component itself, and as the structure you write.\n\n<!-- ::anatomy tree="${drawn.text}" rest="${drawn.rest.join(",")}"${styled ? ` demo="${slug}"` : ""} -->\n`
+    ? `\n## Anatomy\n\nHow its parts go together: as a picture of the component itself, and as the structure you write. A dashed part draws no element; "optional" is a wrapper you may leave out; "once for each" is a part written for every entry.\n\n<!-- ::anatomy tree="${drawn.text}" rest="${drawn.rest.join(",")}"${styled ? ` demo="${slug}"` : ""} -->\n`
     : ""
 }${names ? `\n### What each part is called\n\n${names}\n` : ""}
-${api(own.body, (part) => (own.parts.length ? `${name}.${pascal(part)}` : name))}
+${api(name, own.body)}
 
-The props, attributes and variables are the same on every framework; how each writes a prop and
-hears a change is in [Frameworks](/docs/primitives/frameworks). This page is generated from
-\`@kirana-ui/*\` ${version}.
+The props, attributes and variables are the same on every framework, and the types are written
+here as React's; how each framework writes a prop and hears a change is in
+[Frameworks](/docs/primitives/frameworks). This page is generated from \`@kirana-ui/*\` ${version}.
 `
 }
 

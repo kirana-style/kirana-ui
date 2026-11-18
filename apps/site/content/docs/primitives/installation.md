@@ -81,8 +81,9 @@ export function Details() {
 ```
 
 A component is made of **parts**. `Collapsible.Root` holds the state, `Collapsible.Trigger` is the
-button, and `Collapsible.Panel` is what it shows and hides. Every part is one element in the page,
-so you can read the markup and know what you will get.
+button, and `Collapsible.Panel` is what it shows and hides. Each of these three is one element in
+the page, so you can read the markup and know what you will get. (A few parts of other components
+draw no element, such as a popover's root and every `Portal`; a component's page says which.)
 
 On another framework the parts are the same and only the spelling changes. See the same component
 on each in [Frameworks](/docs/primitives/frameworks).
@@ -223,5 +224,5 @@ and a table of every prop, attribute and CSS variable.
 
 ## For your editor and your agent
 
-Every package holds its own reference as `llms.txt`, for the version you installed, and
-`@kirana-ui/core` holds a skill an agent can follow. See [AI](/docs/ai/agents-build).
+The package you installed holds its own reference as `llms.txt` and a skill an agent can follow,
+for the version you installed. See [AI](/docs/ai/agents-build).

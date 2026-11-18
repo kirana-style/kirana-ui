@@ -1213,15 +1213,20 @@ from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
   does.
 - **The examples are the library's own tested code**: `apps/site/primitives/anatomy.json` holds
   each component as its conformance fixtures write it on every framework, cut out by
-  `bun scripts/primitives-anatomy.ts <a checkout of kirana-style/primitives>`. Run it again, at
-  the same version, when the `@kirana-ui/*` version moves.
-- **The anatomy is read, not drawn by hand**: the generator reads each component's parts as they
-  nest from its custom-element example (the one form where every part is an element with its
-  name on it), names them as the frameworks do, and lists the parts the example does not use,
-  so none is left out (`::anatomy`). An example can be chosen by the id the fixtures give it
-  (`PREFER` in `primitives-anatomy.ts`) where the first one found shows the component poorly.
-- **The reference is tables**: a component's props through `::props`, and each part's
-  attributes and CSS variables as tables under the part's name.
+  `bun scripts/primitives-anatomy.ts <a checkout of kirana-style/primitives>`, without the id a
+  fixture gives its component (only its tests read it). Run it again, at the same version, when
+  the `@kirana-ui/*` version moves.
+- **The anatomy is the library's data, not drawn by hand**: the generator reads each component's
+  "Anatomy" from the reference (where each part goes, which is a wrapper that may be left out,
+  which is written once for each entry) and marks the parts that draw no element (`::anatomy`).
+  An example can be chosen by the id the fixtures give it (`PREFER` in `primitives-anatomy.ts`)
+  where the first one found shows the component poorly.
+- **The reference is tables, a part at a time**: under each part's name, the element it draws,
+  its own props through `::props` (the root's props under the root, what every positioner takes
+  under a positioner, with that component's defaults), then its attributes and CSS variables.
+- **The hand-written pages say what the pinned version does**: the guides and the AI pages are
+  checked against the installed packages' `llms.txt` and types when the version moves, and
+  `from-base-ui.md` against the pinned Base UI's types.
 - **These pages have their own chrome**: the docs sections `primitives`,
   `primitives-components` and `ai` are a tab group of their own (`TAB_GROUPS` in
   `apps/site/src/components/docs-config.tsx`), with a "Headless" badge and three tabs (Primitives, Components, AI); the header

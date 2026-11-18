@@ -7,6 +7,7 @@ keywords:
   [
     testing,
     faults,
+    known,
     serialize,
     settled,
     recorder,
@@ -18,20 +19,29 @@ keywords:
 
 # Testing
 
-`@kirana-ui/core/testing` is what the library checks its own components with. It runs wherever
-there is a DOM: a browser test, a Playwright page, or jsdom for what needs no layout.
+The `testing` entry is what the library checks its own components with. It is an entry of the
+package you installed (`@kirana-ui/react/testing`, `@kirana-ui/vue/testing` and so on). It runs
+wherever there is a DOM: a browser test, a Playwright page, or jsdom for what needs no layout.
 
 ```ts
-import { faults, recorder, serialize, settled } from "@kirana-ui/core/testing"
+import {
+  faults,
+  known,
+  recorder,
+  serialize,
+  settled,
+} from "@kirana-ui/react/testing"
 ```
 
-| Function                | What it does                                                                                  |
-| ----------------------- | --------------------------------------------------------------------------------------------- |
-| `faults(root)`          | Reads a page for what a component must never do, and lists what it finds                      |
-| `serialize(root)`       | The page as text, the same for two frameworks that draw the same thing                        |
-| `settled()`             | Resolves once nothing is moving: no entrance, no exit, no running animation                   |
-| `recorder()`            | Records what a change callback hears (value, reason, source), and can refuse what it is asked |
-| `known(...definitions)` | Adds the vocabulary of components of your own to what `faults` accepts                        |
+| Function                         | What it does                                                                                  |
+| -------------------------------- | --------------------------------------------------------------------------------------------- |
+| `faults(root, known?, options?)` | Reads a page for what a component must never do, and lists what it finds as sentences         |
+| `known(...definitions)`          | The vocabulary `faults` accepts: the library's own, with any components of yours added        |
+| `serialize(root)`                | The page as text, the same for two frameworks that draw the same thing                        |
+| `settled()`                      | Resolves once nothing is moving: no entrance, no exit, no running animation                   |
+| `recorder()`                     | Records what a change callback hears (value, reason, source), and can refuse what it is asked |
+
+## Faults
 
 `faults` reports:
 
@@ -40,12 +50,44 @@ import { faults, recorder, serialize, settled } from "@kirana-ui/core/testing"
 - a reference (`aria-controls`, `aria-labelledby`, `for`) to an id that is not in the page;
 - one id on two elements.
 
+The first of these includes your page's own `data-*` attributes, which no part wrote. Name them
+in `options.allow`, or a page with test ids always has faults:
+
 ```ts
 trigger.click()
 await settled()
-expect(faults(document.body)).toEqual([])
+expect(faults(document.body, known(), { allow: ["data-testid"] })).toEqual([])
 ```
+
+| Option  | What it is                                                                    |
+| ------- | ----------------------------------------------------------------------------- |
+| `allow` | `data-*` attributes of the page's own, which no part wrote: `["data-testid"]` |
+| `free`  | State attributes whose value may be anything: a number, a word a caller chose |
+
+## A component of your own
+
+`known()` alone is the library's vocabulary. `known(definition)` returns that with a component of
+yours added (a definition made with `defineComponent` from `@kirana-ui/core/authoring`). It
+changes nothing by itself: pass what it returns to `faults`.
+
+```ts
+expect(faults(document.body, known(rating))).toEqual([])
+```
+
+## The same DOM on two frameworks
 
 `serialize` is how the library proves its adapters agree: it writes one line per element with its
 attributes sorted, so the same component drawn by two frameworks gives the same text whatever each
 leaves behind. Use it to hold a design system's React and Vue components to one DOM.
+
+## What a callback heard
+
+```ts
+const heard = recorder()
+render(<Toggle onPressedChange={heard.listen} />)
+
+// …press it…
+expect(heard.said()).toEqual(["true press"])
+
+heard.refuse() // from now on, every change is cancelled
+```

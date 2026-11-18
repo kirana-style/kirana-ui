@@ -13,16 +13,16 @@ which is a third thing and has its own page.
 
 ## Agents build with it
 
-Give an agent the package and it has what it needs: the reference, a skill, the building blocks
-and the checks. All of it ships in the packages, for the version you installed.
+The package you install holds a reference of every part and prop (`llms.txt`), a skill and the
+checks, for the version you installed.
 
 [Agents build with it](/docs/ai/agents-build)
 
 ## Agents use what you build
 
-Connect an agent to a page built with Kirana UI and it reads the components and asks them to act,
-through each component's own handlers. No screenshots, no guessing at the DOM. You decide what it
-may do, and its changes can be undone.
+`createAgent()` reads the components on a page built with Kirana UI and asks them to act, through
+each component's own handlers. Your policy decides what it may do, a person answers where you ask
+for one, and its changes can be undone.
 
 [The agent bridge](/docs/ai/agent-bridge)
 

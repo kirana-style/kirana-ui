@@ -19,8 +19,10 @@ neither does the agent bridge.
 
 - **A catalog a model can choose from.** The registry's items are served to an agent by
   `kirana-style ui mcp`. See [Registry](/docs/registry).
-- **Every part's states and props, as data a model can be given.** `@kirana-ui/vocabulary` and
-  each adapter's `llms.txt`. See [Agents build with it](/docs/ai/agents-build).
+- **Every part's states and CSS variables, as data.** `@kirana-ui/vocabulary` holds each part's
+  description, states, variables and where it goes inside its component. It holds no props.
+- **Every part's props, as text.** Each adapter's `llms.txt`. See
+  [Agents build with it](/docs/ai/agents-build).
 
 ## What is being designed
 

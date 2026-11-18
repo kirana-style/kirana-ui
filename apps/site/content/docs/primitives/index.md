@@ -49,7 +49,10 @@ styles. You write the elements' look, in plain CSS, Tailwind or Kirana.
 | `@kirana-ui/core`       | The framework-free core every adapter draws: behaviour, the agent bridge, the testing kit |
 | `@kirana-ui/vocabulary` | Every part's states and CSS variables, as data and typed keys                             |
 
-All of them share one version. Each adapter depends on the core, so installing one is enough.
+All of them share one version. Each adapter brings the core with it, and what the core gives an
+application is an entry of the adapter too (`@kirana-ui/react/agent`, `@kirana-ui/react/testing`),
+so installing one is enough. `@kirana-ui/vocabulary` is installed on its own, by a design system
+that wants the states as data.
 
 ## Where to go
 
@@ -57,8 +60,11 @@ All of them share one version. Each adapter depends on the core, so installing o
 - [Frameworks](/docs/primitives/frameworks): how each framework writes a part, a prop and a change.
 - [Styling](/docs/primitives/styling) and [Animation](/docs/primitives/animation): the attributes and variables a part gives you.
 - [Components](/docs/primitives/components): all of them, with their reference.
+- [Coming from Base UI](/docs/primitives/from-base-ui): what is the same, what is named
+  differently, and what is not here.
 - [AI](/docs/ai): what an agent gets from the packages, and the bridge that lets one use your page.
 
 The source is [kirana-style/primitives](https://github.com/kirana-style/primitives) on GitHub.
-The components on the rest of this site are drawn on other headless libraries today; a base built
-on these primitives is what comes next.
+The [components](/docs/components) on the rest of this site are drawn on several headless
+libraries, and on React these primitives are one of them (Kirana UI, in a component page's
+framework menu).

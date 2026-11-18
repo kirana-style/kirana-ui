@@ -109,6 +109,16 @@ function tidy(snippet: string, indent: number): string {
     )
 }
 
+/**
+ * Without the id the fixture gives its component, which only its tests read: a page that draws
+ * the component twice would have one id on two elements. The component makes its own.
+ */
+const ownId = (snippet: string) =>
+  snippet.replace(
+    /^(<[\w.-]+(?:\s+[\w-]+)?)\s+(?:id|kui-id|\[kuiId\])="[^"]*"/,
+    "$1"
+  )
+
 function find(
   framework: Framework,
   markers: readonly RegExp[]
@@ -124,7 +134,7 @@ function find(
       )
       const from = found[0].startsWith("<") ? found.index : start
       const lineStart = text.lastIndexOf("\n", from) + 1
-      return tidy(element(text, from), from - lineStart)
+      return ownId(tidy(element(text, from), from - lineStart))
     }
   }
   return undefined
