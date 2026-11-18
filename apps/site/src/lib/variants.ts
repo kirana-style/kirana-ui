@@ -51,6 +51,12 @@ export const VARIANTS = [
     base: "ui-sdk",
   },
   {
+    id: "vue/kirana",
+    label: "Vue · Kirana UI",
+    name: "Vue with Kirana UI",
+    base: "Kirana UI",
+  },
+  {
     id: "svelte/ark",
     label: "Svelte · Ark UI",
     name: "Svelte with Ark UI",

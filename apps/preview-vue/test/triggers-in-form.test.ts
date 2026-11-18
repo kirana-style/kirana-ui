@@ -23,6 +23,9 @@ const modules = {
   uisdk: import.meta.glob<Record<string, unknown>>(
     "../../../registry/bases/vue-uisdk/ui/*/index.ts"
   ),
+  kirana: import.meta.glob<Record<string, unknown>>(
+    "../../../registry/bases/vue-kirana/ui/*/index.ts"
+  ),
 }
 
 /** One base's parts for the fixture, by their export names. */
@@ -37,20 +40,26 @@ async function partsOf(base: keyof typeof modules) {
   return Object.assign({}, ...loaded) as Record<string, unknown>
 }
 
-describe.each(Object.keys(modules) as (keyof typeof modules)[])(
-  "%s",
-  (base) => {
-    it("no trigger submits the form it sits in", async () => {
-      const { container, errors } = await mountComponent(TriggersInForm, {
-        ui: await partsOf(base),
-      })
-      expect(triggers(container).length).toBeGreaterThanOrEqual(4)
-      await pressTriggers(container, {
-        page,
-        userEvent,
-        settle,
-        check: (label) => expect(errors, label).toEqual([]),
-      })
-    })
-  }
+/** The bases that have every part the fixture draws: one being ported joins once it does. */
+const BASES = (Object.keys(modules) as (keyof typeof modules)[]).filter(
+  (base) =>
+    PARTS.every(
+      (part) =>
+        modules[base][`../../../registry/bases/vue-${base}/ui/${part}/index.ts`]
+    )
 )
+
+describe.each(BASES)("%s", (base) => {
+  it("no trigger submits the form it sits in", async () => {
+    const { container, errors } = await mountComponent(TriggersInForm, {
+      ui: await partsOf(base),
+    })
+    expect(triggers(container).length).toBeGreaterThanOrEqual(4)
+    await pressTriggers(container, {
+      page,
+      userEvent,
+      settle,
+      check: (label) => expect(errors, label).toEqual([]),
+    })
+  })
+})

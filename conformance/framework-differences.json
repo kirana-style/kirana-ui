@@ -301,7 +301,7 @@
       "element": "div[data-slot=\"scroll-area-thumb\"]",
       "property": "width",
       "route": "scroll-area-example",
-      "reason": "Base UI and Ark UI size a scroll area's thumb by their own formula from the same scroll ratio and track (107.8px against 132.4px in the horizontal example); the scrolling is the same; Kirana UI's is 119.4px"
+      "reason": "Base UI and Ark UI size a scroll area's thumb by their own formula from the same scroll ratio and track (107.8px against 132.4px in the horizontal example); the scrolling is the same; Kirana UI's React adapter draws Base UI's 107.8px, its Vue adapter 173.8px for the same content and track (reported to Kirana UI)"
     },
     {
       "element": "",

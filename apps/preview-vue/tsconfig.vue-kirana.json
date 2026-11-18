@@ -1,0 +1,13 @@
+{
+  // What `vue-tsc` checks before the build, one base at a time (`tsconfig.vue-*.json`): the app and
+  // that base's Vue markup, which no other check reads (`vp check` reads TypeScript, not single-file
+  // components). One program for every base outgrew Node's default heap (4.4 GB at three bases).
+  // TypeScript 6, since `vue-tsc` runs on its JavaScript API, which TypeScript 7 does not have.
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "../../registry/bases/vue-kirana/**/*.ts",
+    "../../registry/bases/vue-kirana/**/*.vue"
+  ]
+}

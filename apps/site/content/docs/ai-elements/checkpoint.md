@@ -11,6 +11,7 @@ variants:
     vue/ark,
     vue/reka,
     vue/uisdk,
+    vue/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
@@ -22,7 +23,7 @@ keywords: [checkpoint, ai elements, agent, chat]
 
 # Checkpoint
 
-<!-- ::preview item="checkpoint-demo" height="410" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::preview item="checkpoint-demo" height="410" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 Checkpoint is a point in the conversation you can return to. It is a [Marker](/docs/components/marker) after a turn, with a Restore button. Restore keeps that turn and drops every message after it.
 
@@ -30,7 +31,7 @@ Checkpoint is a point in the conversation you can return to. It is a [Marker](/d
 
 Checkpoint is built with the [Marker](/docs/components/marker) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="marker button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,svelte/uisdk" -->
+<!-- ::installation name="marker button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
 
 ## Usage
 

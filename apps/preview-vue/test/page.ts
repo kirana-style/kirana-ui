@@ -15,6 +15,7 @@ import {
 import { previews as arkPreviews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { previews as rekaPreviews } from "@workspace/registry/bases/vue-reka/previews.ts"
 import { previews as uisdkPreviews } from "@workspace/registry/bases/vue-uisdk/previews.ts"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/vue-kirana/previews.ts"
 import { ICON_LIBRARY } from "@workspace/registry/icons/vue.ts"
 
 import { design } from "../src/design"
@@ -24,6 +25,7 @@ export const BASES = {
   ark: arkPreviews,
   reka: rekaPreviews,
   uisdk: uisdkPreviews,
+  kirana: kiranaPreviews,
 }
 
 /** Lets Vue and the item settle: the next tick, then two frames. */
