@@ -1,6 +1,6 @@
 import type * as React from "react"
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import { Button } from "./button"
@@ -108,10 +108,10 @@ function AttachmentTrigger({
   render,
   type,
   ...props
-}: Omit<RenderProps<"button">, "className"> & { sx?: Sx }) {
+}: Omit<PartComponentProps<"button">, "className"> & { sx?: Sx }) {
   return useRender({
     defaultTagName: "button",
-    props: mergeProps<"button">(
+    props: mergeProps(
       {
         type: render ? type : (type ?? "button"),
         ...styleProps(attachment.trigger, sx),

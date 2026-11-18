@@ -31,6 +31,7 @@ export function previewOutDir(framework) {
  * siblings with it, a few kilobytes; the parts they share stay chunks of their own. Vue's, Svelte's,
  * Solid's and Angular's previews take it; React's does not: its maps load per base through a dynamic
  * import, and Rolldown kept a facade chunk per item (2,188 of 58 bytes), so grouping saved nothing.
+ * React's takes `previewGroups()` instead.
  * Rolldown keeps the chunks valid without each group pulling its dependencies in when entries may
  * export more than their own signature and modules run in their order (`allow-extension`, its
  * `strictExecutionOrder`), and the map imports an item from its group rather than through a facade
@@ -46,6 +47,60 @@ export function previewChunks() {
         includeDependenciesRecursively: false,
         groups: [{ name: itemGroup, debugName: "preview-items" }],
       },
+    },
+  }
+}
+
+/**
+ * React's items imported a group at a time (`itemGroup`'s groups: every `button-*` example of a
+ * base together, a chart kind, a block), in its builds only. Each base's map (`previews.ts`)
+ * imports an item by itself, `() => import("./examples/button-demo")`, which in React's build is a
+ * chunk per item per base: 3,000 of the Worker's 20,000 static files with four bases, and grouping
+ * them as `previewChunks()` does left a chunk per item that runs its module and re-exports it.
+ * Here each such import becomes an import of its group's module, which imports the group's items
+ * and names each, and the item is read from it: a chunk per group. Development and the browser
+ * tests keep a module per item.
+ * @returns {import("vite-plus").Plugin}
+ */
+export function previewGroups() {
+  const PREFIX = "virtual:preview-group:"
+  /** @type {Map<string, string[]>} each group's items' files, by the group's name */
+  const groups = new Map()
+  return {
+    name: "preview-groups",
+    apply: "build",
+    enforce: "post",
+    transform(code, id) {
+      const file = id.split("?")[0].replaceAll("\\", "/")
+      if (!/\/registry\/bases\/react-[a-z]+\/previews\.ts$/.test(file)) return
+      const folder = file.slice(0, file.lastIndexOf("/") + 1)
+      const out = code.replace(
+        /\(\)\s*=>\s*import\(\s*["'](\.\/(?:examples|blocks|charts)\/[^"']+)["']\s*\)/g,
+        (whole, relative) => {
+          const target = folder + relative.slice(2)
+          const group = itemGroup(target)
+          if (!group) return whole
+          const items = groups.get(group) ?? []
+          if (!items.includes(target)) items.push(target)
+          groups.set(group, items)
+          const index = items.indexOf(target)
+          return `() => import(${JSON.stringify(PREFIX + group)}).then((m) => ({ default: m.i${index} }))`
+        }
+      )
+      return out === code ? undefined : { code: out, map: null }
+    },
+    resolveId(id) {
+      return id.startsWith(PREFIX) ? "\0" + id : undefined
+    },
+    load(id) {
+      if (!id.startsWith("\0" + PREFIX)) return
+      const items = groups.get(id.slice(PREFIX.length + 1)) ?? []
+      return items
+        .map(
+          (file, index) =>
+            `export { default as i${index} } from ${JSON.stringify(file)}`
+        )
+        .join("\n")
     },
   }
 }

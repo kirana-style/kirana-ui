@@ -1,10 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { renderOver } from "../../../lib/kirana-render"
-import type { PartProps } from "../../../lib/kirana-render"
-import { useSide } from "../../../lib/kirana-side"
-import type { Side } from "../../../lib/placement"
 import { Combobox as ComboboxPrimitive } from "@kirana-ui/react/combobox"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -38,7 +34,7 @@ const Items = React.createContext<readonly unknown[]>([])
 const GroupItems = React.createContext<readonly unknown[]>([])
 /**
  * The chosen value, or values with `multiple`, which Base UI's `Combobox.Value` hands its function
- * child: the primitives have no Value part and hand no state (PF-010), so the root mirrors it.
+ * child: the primitives' combobox has no Value part (PF-011), so the root mirrors it.
  */
 const Chosen = React.createContext<{
   value: unknown
@@ -77,7 +73,6 @@ function Combobox<Value, Multiple extends boolean | undefined = false>({
   value,
   defaultValue,
   onValueChange,
-  autoHighlight,
   children,
   ...props
 }: Omit<
@@ -102,11 +97,8 @@ function Combobox<Value, Multiple extends boolean | undefined = false>({
   /** Base UI's object values' keys: the primitives compare values themselves, so taken only. */
   itemToStringValue?: (item: Value) => string
   itemToStringLabel?: (item: Value) => string
-  /** Base UI's first match highlighted as one types, which the primitives do not offer (PF-024). */
-  autoHighlight?: boolean
 }) {
   void itemToStringValue
-  void autoHighlight
   const label = (itemToStringLabel ?? labelOf) as (item: unknown) => string
   // The value a function child reads: the caller's when controlled, else the last chosen.
   const [own, setOwn] = React.useState<unknown>(
@@ -200,7 +192,7 @@ function ComboboxTrigger({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Trigger>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Trigger>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -225,7 +217,10 @@ function ComboboxTrigger({
 function ComboboxClear({
   sx,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Clear>, "className" | "render"> & {
+}: Omit<
+  React.ComponentProps<typeof ComboboxPrimitive.Clear>,
+  "className" | "render"
+> & {
   sx?: Sx
 }) {
   return (
@@ -252,20 +247,16 @@ function ComboboxInput({
   showTrigger = true,
   showClear = false,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Input>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Input>, "className"> & {
   showTrigger?: boolean
   showClear?: boolean
   sx?: Sx
 }) {
   return (
     <InputGroup sx={[combobox.input, sx]}>
-      {/* The input's `disabled` on the part too: the render element's own props lose to the
-          part's (PF-026). */}
       <ComboboxPrimitive.Input
-        {...renderOver({
-          render: <InputGroupInput disabled={disabled} />,
-          ...props,
-        })}
+        render={<InputGroupInput disabled={disabled} />}
+        {...props}
       />
       <InputGroupAddon align="inline-end">
         {showTrigger && (
@@ -298,11 +289,7 @@ function ComboboxInput({
   )
 }
 
-/**
- * The popup. Base UI places it against `anchor` (the chips' box, `useComboboxAnchor`); the
- * primitives' Positioner takes no anchor and places it against the input (PF-023), so `anchor`
- * only marks the chips' popup (`data-chips`).
- */
+/** The popup, placed against Base UI's `anchor` when it is given one (the chips' box). */
 function ComboboxContent({
   sx,
   side = "bottom",
@@ -311,22 +298,19 @@ function ComboboxContent({
   alignOffset = 0,
   anchor,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Popup>, "className"> &
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Popup>, "className"> &
   Pick<
     React.ComponentProps<typeof ComboboxPrimitive.Positioner>,
-    "align" | "alignOffset" | "sideOffset"
-  > & {
-    side?: Side
-    anchor?: React.RefObject<HTMLElement | null>
-    sx?: Sx
-  }) {
+    "align" | "alignOffset" | "side" | "sideOffset" | "anchor"
+  > & { sx?: Sx }) {
   return (
     <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Positioner
-        side={useSide(side)}
+        side={side}
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
+        anchor={anchor}
         {...styleProps(menuPositioner)}
       >
         <ComboboxPrimitive.Popup
@@ -340,30 +324,29 @@ function ComboboxContent({
   )
 }
 
-/**
- * Base UI's List, whose function child renders each of the root's items; the primitives' popup
- * holds the items itself (no List part, PF-011), so this is the list's box.
- */
+/** Base UI's List, whose function child renders each of the root's items. */
 function ComboboxList({
   sx,
   children,
   ...props
-}: Omit<React.ComponentProps<"div">, "className" | "children"> & {
+}: Omit<
+  React.ComponentProps<typeof ComboboxPrimitive.List>,
+  "className" | "children"
+> & {
   children?: React.ReactNode | ((item: any, index: number) => React.ReactNode)
   sx?: Sx
 }) {
   const items = React.use(Items)
   return (
-    <div
+    <ComboboxPrimitive.List
       data-slot="combobox-list"
-      role="presentation"
       {...props}
       {...styleProps(combobox.list, sx)}
     >
       {typeof children === "function"
         ? items.map((item, index) => children(item, index))
         : children}
-    </div>
+    </ComboboxPrimitive.List>
   )
 }
 
@@ -371,7 +354,7 @@ function ComboboxItem({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Item>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Item>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -381,10 +364,8 @@ function ComboboxItem({
       {...styleProps(menuRowBase, menuCheckableRowPadding, combobox.item, sx)}
     >
       {children}
-      {/* Base UI's indicator renders as the caller's span; the primitives' takes no `render`
-          (PF-010), so the span's styles are its own. */}
       <ComboboxPrimitive.ItemIndicator
-        {...styleProps(menuIndicator, combobox.indicator)}
+        render={<span sx={[menuIndicator, combobox.indicator]} />}
       >
         <IconPlaceholder
           lucide="CheckIcon"
@@ -403,7 +384,7 @@ function ComboboxGroup({
   sx,
   items,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Group>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Group>, "className"> & {
   items?: readonly unknown[]
   sx?: Sx
 }) {
@@ -421,7 +402,10 @@ function ComboboxGroup({
 function ComboboxLabel({
   sx,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.GroupLabel>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof ComboboxPrimitive.GroupLabel>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -446,7 +430,7 @@ function ComboboxCollection({
 function ComboboxEmpty({
   sx,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Empty>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Empty>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -461,7 +445,10 @@ function ComboboxEmpty({
 function ComboboxSeparator({
   sx,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Separator>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof ComboboxPrimitive.Separator>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -476,7 +463,7 @@ function ComboboxSeparator({
 function ComboboxChips({
   sx,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Chips>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Chips>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -495,7 +482,10 @@ function ComboboxChip({
   showRemove = true,
   value,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Chip>, "className" | "value"> & {
+}: Omit<
+  React.ComponentProps<typeof ComboboxPrimitive.Chip>,
+  "className" | "value"
+> & {
   value?: unknown
   showRemove?: boolean
   sx?: Sx
@@ -533,7 +523,7 @@ function ComboboxChip({
 function ComboboxChipsInput({
   sx,
   ...props
-}: Omit<PartProps<typeof ComboboxPrimitive.Input>, "className"> & {
+}: Omit<React.ComponentProps<typeof ComboboxPrimitive.Input>, "className"> & {
   sx?: Sx
 }) {
   return (

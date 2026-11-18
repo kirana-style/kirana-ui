@@ -1,6 +1,6 @@
 import * as React from "react"
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
@@ -35,10 +35,10 @@ function BreadcrumbLink({
   sx,
   render,
   ...props
-}: Omit<RenderProps<"a">, "className"> & { sx?: Sx }) {
+}: Omit<PartComponentProps<"a">, "className"> & { sx?: Sx }) {
   return useRender({
     defaultTagName: "a",
-    props: mergeProps<"a">(styleProps(breadcrumb.link, sx), props),
+    props: mergeProps(styleProps(breadcrumb.link, sx), props),
     render,
     state: { slot: "breadcrumb-link" },
   })

@@ -5,7 +5,11 @@ import kirana from "@kirana-style/vite"
 import type * as Server from "./src/server"
 import react from "@vitejs/plugin-react"
 import { browserDeps, browserTest } from "@workspace/vite-config/browser"
-import { designScript, previewOutDir } from "@workspace/vite-config/preview"
+import {
+  designScript,
+  previewGroups,
+  previewOutDir,
+} from "@workspace/vite-config/preview"
 import { defineConfig, lazyPlugins } from "vite-plus"
 import { playwright } from "vite-plus/test/browser-playwright"
 
@@ -73,7 +77,13 @@ export default defineConfig({
       await prerender()
     },
   },
-  plugins: lazyPlugins(() => [designScript(SCRIPT), kirana(), react()]),
+  plugins: lazyPlugins(() => [
+    designScript(SCRIPT),
+    kirana(),
+    react(),
+    // An item's chunk is its group's, in the builds (`previewGroups`).
+    previewGroups(),
+  ]),
   optimizeDeps: browserDeps([
     "test/**/*.{ts,tsx}",
     "src/**/*.tsx",

@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import type { PartProps } from "../../../lib/kirana-render"
 import { Drawer as DrawerPrimitive } from "@kirana-ui/react/drawer"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -72,7 +71,7 @@ function Drawer({
 
 function DrawerTrigger({
   ...props
-}: PartProps<typeof DrawerPrimitive.Trigger>) {
+}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 
@@ -84,14 +83,16 @@ function DrawerPortal({
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
-function DrawerClose({ ...props }: PartProps<typeof DrawerPrimitive.Close>) {
+function DrawerClose({
+  ...props
+}: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 
 function DrawerOverlay({
   sx,
   ...props
-}: Omit<PartProps<typeof DrawerPrimitive.Backdrop>, "className"> & {
+}: Omit<React.ComponentProps<typeof DrawerPrimitive.Backdrop>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -118,7 +119,7 @@ function DrawerContent({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof DrawerPrimitive.Popup>, "className"> & {
+}: Omit<React.ComponentProps<typeof DrawerPrimitive.Popup>, "className"> & {
   sx?: Sx
 }) {
   const { hasSnapPoints, modal, showSwipeHandle, swipeDirection } = useDrawer()
@@ -165,7 +166,7 @@ function DrawerFooter({ sx, ...props }: El) {
 function DrawerTitle({
   sx,
   ...props
-}: Omit<PartProps<typeof DrawerPrimitive.Title>, "className"> & {
+}: Omit<React.ComponentProps<typeof DrawerPrimitive.Title>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -180,7 +181,10 @@ function DrawerTitle({
 function DrawerDescription({
   sx,
   ...props
-}: Omit<PartProps<typeof DrawerPrimitive.Description>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof DrawerPrimitive.Description>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (

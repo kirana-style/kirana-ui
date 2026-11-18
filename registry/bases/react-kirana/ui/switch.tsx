@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { props as styleProps } from "@kirana-style/core"
 import { Switch as SwitchPrimitive } from "@kirana-ui/react/switch"
@@ -12,7 +12,7 @@ function Switch({
   sx,
   size = "default",
   ...props
-}: Omit<PartProps<typeof SwitchPrimitive.Root>, "className"> & {
+}: Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, "className"> & {
   sx?: Sx
   size?: "sm" | "default"
 }) {

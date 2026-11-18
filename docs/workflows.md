@@ -879,53 +879,44 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   ui-sdk's) tells a modal its content's element, whose scroll animations end
   as it closes.
 - **React on Kirana UI Primitives** keeps Base UI's API on the primitives'
-  parts, which have Base UI's parts and attributes nearly one for one: most
-  parts moved by import (Base UI's module to the primitives' entry; PreviewCard
-  is HoverCard, Radio is RadioGroup's item). While it is being ported it is in
+  parts, which have Base UI's parts, attributes and `render` rule nearly one
+  for one: most parts moved by import (Base UI's module to the primitives'
+  entry; PreviewCard is HoverCard, Radio is RadioGroup's item), Base UI's
+  `useRender` and `mergeProps` are `@kirana-ui/react/use-render`'s, and a plain
+  part's props are `PartComponentProps<"span", State>` from
+  `@kirana-ui/react/runtime`. While it is being ported it is in
   `PORTING_BASES` (`registry/core/config.ts`): each component appears as its
   markup is written, and the base has no shadcn/ui export yet (its component
   pages show Kirana's command alone), since a React base's export is about
   1,400 of the Worker's 20,000 static files. It writes no state keys of its own:
   the builder's flattening keeps a `base:` key for the `kirana` target
   (`writes` in `packages/builder/src/flatten.ts`), and a `kirana:` key in
-  `core/states.ts` is only for an attribute that differs. Where the primitives
-  fall short of what Base UI gives, the base fills in, each place commented with
-  the issue filed against them, to remove with the release that fixes it:
-  - **`render` for the registry's own parts** (a badge, an item, a breadcrumb
-    link): `registry/lib/kirana-render.ts` is a `useRender` and `mergeProps` in
-    Base UI's shape, writing the part's `state` as data attributes under the
-    caller's props, as Base UI's does (`data-slot` comes that way, and a part a
-    trigger draws keeps the trigger's slot).
-  - **Part props as their element's.** The primitives type a part's other props
-    `unknown`; `PartProps<typeof X.Part>` there types them as the element's,
-    and a change callback whose value is `unknown` as one taking a state setter.
-  - **Logical sides.** The Positioners take the physical four only;
-    `registry/lib/kirana-side.ts` turns `inline-start` and `inline-end` into
-    them by the reading direction.
+  `core/states.ts` is only for an attribute that differs. What differs from
+  Base UI, each by the registry's choice:
+  - **Generic parts, generic wrappers.** A part with a value (`Tabs.Root`,
+    `RadioGroup.Root`, a menu's `RadioGroup`, `ToggleGroup`, `Accordion.Root`)
+    is generic in it, so its wrapper is too (`typeof X.Root<Value>`), and
+    `onValueChange={setTab}` takes a state's setter. The radio group's callback
+    is typed by the value alone, as upstream's examples use it: the primitives'
+    `null` (a form's reset to none) reaches the caller as it is.
   - **The parts Base UI has and they do not**: the tooltip's provider (a
-    context handing each trigger its delays), the select's icon, the drawer's
-    layout boxes; a navigation menu item gets a `value` of its own, which its
-    trigger needs; a scrollbar is placed along its edge inline, as Base UI
-    places it.
-  - **A `render` element's props over the part's.** On Base UI the element a
-    part renders as keeps its own props (`<Button render={<a
-    data-slot="pagination-link">1</a>} />` is the link, with its text); on the
-    primitives the part's win. `renderOver` (`lib/kirana-render.ts`) moves the
-    element's props onto the part and renders its type alone; the Button joins
-    the element's classes with its own and keeps its children as they are.
-  - **The four that are more than an import.** The Select keeps Base UI's root
-    (a record of labels as the primitives' list; an object value shown by its
-    `label`; `SelectValue`'s function child and a label richer than text drawn
-    from a value its root mirrors), one value only: the primitives' select has
-    no `multiple`, so `select-example` waits for it. The Combobox keeps Base
-    UI's items-driven API (the list's function child renders the root's items,
-    the primitives filtering them by their text; `multiple` as their `values`;
-    chips handed their values; Base UI's `anchor` only marks the chips' popup,
-    which the primitives place against the input). The Drawer takes Base UI's
-    `disablePointerDismissal` as their `dismissible`. The Toast keeps Base UI's
-    manager (`toast.add`, `promise`, `close`, `actionProps`) over the
-    primitives' `createToaster`, carrying the action and any title that is more
-    than text in the toast's `data`.
+    context handing each trigger its delays), the select's icon (the icon
+    itself), the drawer's viewport and content (the boxes themselves), the
+    combobox's `Value` (its root mirrors the value for `ComboboxValue`'s
+    function child) and `Collection`; a combobox chip is drawn as Base UI's
+    `div`.
+  - **The four that are more than an import.** The Select takes Base UI's
+    `multiple` with `value` as the primitives' `values`, and Base UI's `items`
+    (a list or a record) as their text labels; `SelectValue` draws a label
+    richer than text, an item that is the value itself and `multiple`'s
+    labels through the primitives' function child. The Combobox keeps Base
+    UI's items-driven API: the list's function child renders the root's items,
+    which the primitives filter by their text; `multiple` as their `values`;
+    chips handed their values; `anchor` the Positioner's. The Drawer takes Base
+    UI's `disablePointerDismissal` as their `dismissible`. The Toast keeps Base
+    UI's manager (`toast.add`, `promise`, `close`, `actionProps`, `priority`)
+    over the primitives' `createToaster`, whose options take nodes and an
+    `action`; Base UI's action leaves the toast open, so its press keeps it.
 - **Radix's placement.** A content takes Base UI's `side`, `align` and
   offsets, and passes Reka a physical side (`physicalSide()`,
   `registry/lib/placement.ts`); Reka's own content is placed by its own props,

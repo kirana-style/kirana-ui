@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { Command as CommandPrimitive } from "cmdk"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -22,7 +21,7 @@ import { InputGroup, InputGroupAddon } from "./input-group"
 function Command({
   sx,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive>, "className"> & {
+}: Omit<React.ComponentProps<typeof CommandPrimitive>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -67,7 +66,7 @@ function CommandDialog({
 function CommandInput({
   sx,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive.Input>, "className"> & {
+}: Omit<React.ComponentProps<typeof CommandPrimitive.Input>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -96,7 +95,7 @@ function CommandInput({
 function CommandList({
   sx,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive.List>, "className"> & {
+}: Omit<React.ComponentProps<typeof CommandPrimitive.List>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -111,7 +110,7 @@ function CommandList({
 function CommandEmpty({
   sx,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive.Empty>, "className"> & {
+}: Omit<React.ComponentProps<typeof CommandPrimitive.Empty>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -126,7 +125,7 @@ function CommandEmpty({
 function CommandGroup({
   sx,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive.Group>, "className"> & {
+}: Omit<React.ComponentProps<typeof CommandPrimitive.Group>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -141,7 +140,10 @@ function CommandGroup({
 function CommandSeparator({
   sx,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive.Separator>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof CommandPrimitive.Separator>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -157,7 +159,7 @@ function CommandItem({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof CommandPrimitive.Item>, "className"> & {
+}: Omit<React.ComponentProps<typeof CommandPrimitive.Item>, "className"> & {
   sx?: Sx
 }) {
   return (

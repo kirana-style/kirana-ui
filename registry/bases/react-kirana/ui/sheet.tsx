@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { Dialog as SheetPrimitive } from "@kirana-ui/react/dialog"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -12,26 +11,34 @@ import { sheet } from "../../../styles/sheet.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
 
-function Sheet({ ...props }: PartProps<typeof SheetPrimitive.Root>) {
+function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
 }
 
-function SheetTrigger({ ...props }: PartProps<typeof SheetPrimitive.Trigger>) {
+function SheetTrigger({
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 
-function SheetClose({ ...props }: PartProps<typeof SheetPrimitive.Close>) {
+function SheetClose({
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Close>) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
 }
 
-function SheetPortal({ ...props }: PartProps<typeof SheetPrimitive.Portal>) {
+function SheetPortal({
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Portal>) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
 }
 
 function SheetOverlay({
   sx,
   ...props
-}: Omit<PartProps<typeof SheetPrimitive.Backdrop>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof SheetPrimitive.Backdrop>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
@@ -47,7 +54,7 @@ function SheetContent({
   side = "right",
   showCloseButton = true,
   ...props
-}: Omit<PartProps<typeof SheetPrimitive.Popup>, "className"> & {
+}: Omit<React.ComponentProps<typeof SheetPrimitive.Popup>, "className"> & {
   side?: "top" | "right" | "bottom" | "left"
   showCloseButton?: boolean
   sx?: Sx
@@ -95,7 +102,9 @@ function SheetFooter({ sx, ...props }: El) {
 function SheetTitle({
   sx,
   ...props
-}: Omit<PartProps<typeof SheetPrimitive.Title>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof SheetPrimitive.Title>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
@@ -108,7 +117,10 @@ function SheetTitle({
 function SheetDescription({
   sx,
   ...props
-}: Omit<PartProps<typeof SheetPrimitive.Description>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof SheetPrimitive.Description>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (

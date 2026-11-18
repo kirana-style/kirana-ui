@@ -1,6 +1,6 @@
 import * as React from "react"
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
@@ -14,10 +14,17 @@ function Marker({
   variant = "default",
   render,
   ...props
-}: Omit<RenderProps<"div">, "className"> & MarkerVariants & { sx?: Sx }) {
+}: Omit<
+  PartComponentProps<
+    "div",
+    { slot: string; variant: MarkerVariants["variant"] }
+  >,
+  "className"
+> &
+  MarkerVariants & { sx?: Sx }) {
   return useRender({
     defaultTagName: "div",
-    props: mergeProps<"div">(
+    props: mergeProps(
       styleProps(marker.scope, marker.root({ variant }), sx),
       props
     ),

@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { Collapsible as CollapsiblePrimitive } from "@kirana-ui/react/collapsible"
 import { props as styleProps } from "@kirana-style/core"
@@ -13,7 +13,7 @@ type Props<P> = Omit<P, "className"> & { sx?: Sx }
 function Collapsible({
   sx,
   ...props
-}: Props<PartProps<typeof CollapsiblePrimitive.Root>>) {
+}: Props<React.ComponentProps<typeof CollapsiblePrimitive.Root>>) {
   return (
     <CollapsiblePrimitive.Root
       data-slot="collapsible"
@@ -26,7 +26,7 @@ function Collapsible({
 function CollapsibleTrigger({
   sx,
   ...props
-}: Props<PartProps<typeof CollapsiblePrimitive.Trigger>>) {
+}: Props<React.ComponentProps<typeof CollapsiblePrimitive.Trigger>>) {
   return (
     <CollapsiblePrimitive.Trigger
       data-slot="collapsible-trigger"
@@ -39,7 +39,7 @@ function CollapsibleTrigger({
 function CollapsibleContent({
   sx,
   ...props
-}: Props<PartProps<typeof CollapsiblePrimitive.Panel>>) {
+}: Props<React.ComponentProps<typeof CollapsiblePrimitive.Panel>>) {
   return (
     <CollapsiblePrimitive.Panel
       data-slot="collapsible-content"

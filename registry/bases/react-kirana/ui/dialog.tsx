@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { Dialog as DialogPrimitive } from "@kirana-ui/react/dialog"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -13,28 +12,34 @@ import { backdropMotion, modalMotion } from "../../../styles/overlay.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
 
-function Dialog({ ...props }: PartProps<typeof DialogPrimitive.Root>) {
+function Dialog({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
 
 function DialogTrigger({
   ...props
-}: PartProps<typeof DialogPrimitive.Trigger>) {
+}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 }
 
-function DialogPortal({ ...props }: PartProps<typeof DialogPrimitive.Portal>) {
+function DialogPortal({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-function DialogClose({ ...props }: PartProps<typeof DialogPrimitive.Close>) {
+function DialogClose({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
 }
 
 function DialogOverlay({
   sx,
   ...props
-}: Omit<PartProps<typeof DialogPrimitive.Backdrop>, "className"> & {
+}: Omit<React.ComponentProps<typeof DialogPrimitive.Backdrop>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -51,7 +56,7 @@ function DialogContent({
   children,
   showCloseButton = true,
   ...props
-}: Omit<PartProps<typeof DialogPrimitive.Popup>, "className"> & {
+}: Omit<React.ComponentProps<typeof DialogPrimitive.Popup>, "className"> & {
   showCloseButton?: boolean
   sx?: Sx
 }) {
@@ -111,7 +116,9 @@ function DialogFooter({
 function DialogTitle({
   sx,
   ...props
-}: Omit<PartProps<typeof DialogPrimitive.Title>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof DialogPrimitive.Title>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
@@ -124,7 +131,10 @@ function DialogTitle({
 function DialogDescription({
   sx,
   ...props
-}: Omit<PartProps<typeof DialogPrimitive.Description>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof DialogPrimitive.Description>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (

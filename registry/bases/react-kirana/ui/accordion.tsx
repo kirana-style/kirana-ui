@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { Accordion as AccordionPrimitive } from "@kirana-ui/react/accordion"
 import { props as styleProps } from "@kirana-style/core"
@@ -9,12 +9,17 @@ import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import type { Sx } from "../../../lib/sx"
 import { accordion } from "../../../styles/accordion.styles"
 
-function Accordion({
+function Accordion<Value = unknown>({
   sx,
   ...props
-}: Omit<PartProps<typeof AccordionPrimitive.Root>, "className"> & { sx?: Sx }) {
+}: Omit<
+  React.ComponentProps<typeof AccordionPrimitive.Root<Value>>,
+  "className"
+> & {
+  sx?: Sx
+}) {
   return (
-    <AccordionPrimitive.Root
+    <AccordionPrimitive.Root<Value>
       data-slot="accordion"
       {...props}
       {...styleProps(accordion.root, sx)}
@@ -25,7 +30,9 @@ function Accordion({
 function AccordionItem({
   sx,
   ...props
-}: Omit<PartProps<typeof AccordionPrimitive.Item>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof AccordionPrimitive.Item>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
@@ -39,7 +46,10 @@ function AccordionTrigger({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof AccordionPrimitive.Trigger>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof AccordionPrimitive.Trigger>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -77,7 +87,7 @@ function AccordionContent({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof AccordionPrimitive.Panel>, "className"> & {
+}: Omit<React.ComponentProps<typeof AccordionPrimitive.Panel>, "className"> & {
   sx?: Sx
 }) {
   return (

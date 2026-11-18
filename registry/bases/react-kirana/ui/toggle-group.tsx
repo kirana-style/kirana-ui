@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { props as styleProps } from "@kirana-style/core"
 import { Toggle as TogglePrimitive } from "@kirana-ui/react/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@kirana-ui/react/toggle-group"
@@ -24,7 +23,7 @@ const ToggleGroupContext = React.createContext<GroupContext>({
   orientation: "horizontal",
 })
 
-function ToggleGroup({
+function ToggleGroup<Value = unknown>({
   sx,
   variant,
   size,
@@ -32,11 +31,14 @@ function ToggleGroup({
   orientation = "horizontal",
   children,
   ...props
-}: Omit<PartProps<typeof ToggleGroupPrimitive>, "className" | "style"> &
+}: Omit<
+  React.ComponentProps<typeof ToggleGroupPrimitive<Value>>,
+  "className" | "style"
+> &
   GroupContext & { sx?: Sx }) {
   const own = styleProps(toggleGroup.root, sx)
   return (
-    <ToggleGroupPrimitive
+    <ToggleGroupPrimitive<Value>
       data-slot="toggle-group"
       data-variant={variant}
       data-size={size}
@@ -62,7 +64,7 @@ function ToggleGroupItem({
   variant = "default",
   size = "default",
   ...props
-}: Omit<PartProps<typeof TogglePrimitive>, "className"> &
+}: Omit<React.ComponentProps<typeof TogglePrimitive>, "className"> &
   ToggleVariants & { sx?: Sx }) {
   const context = React.useContext(ToggleGroupContext)
   const chosen = {

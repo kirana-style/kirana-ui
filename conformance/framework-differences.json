@@ -1245,6 +1245,12 @@
       "reason": "an open drawer at rest: Base UI's computes the identity matrix, Kirana UI's `none`; the same place"
     },
     {
+      "element": "div[data-slot=\"combobox-empty\"]",
+      "property": "(element)",
+      "route": "/preview/react/kirana/",
+      "reason": "Base UI keeps its empty message in the page while items are shown, hidden by the style (`display: none` unless the popup is `data-empty`); Kirana UI draws it only while no item is shown, so the same nothing is drawn"
+    },
+    {
       "element": "span[data-slot=\"menu-item-indicator\"]",
       "property": "(element)",
       "route": "(react|vue|svelte)/uisdk/",

@@ -1,7 +1,5 @@
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
-import { useSide } from "../../../lib/kirana-side"
 import { NavigationMenu as NavigationMenuPrimitive } from "@kirana-ui/react/navigation-menu"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -14,8 +12,14 @@ function NavigationMenu({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof NavigationMenuPrimitive.Root>, "className"> &
-  Pick<PartProps<typeof NavigationMenuPrimitive.Positioner>, "align"> & {
+}: Omit<
+  React.ComponentProps<typeof NavigationMenuPrimitive.Root>,
+  "className"
+> &
+  Pick<
+    React.ComponentProps<typeof NavigationMenuPrimitive.Positioner>,
+    "align"
+  > & {
     sx?: Sx
   }) {
   return (
@@ -48,18 +52,14 @@ function NavigationMenuList({
 
 function NavigationMenuItem({
   sx,
-  value,
   ...props
 }: Omit<
   React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Item>,
   "className"
 > & { sx?: Sx }) {
-  // An item with no `value` gives its trigger no context in 0.1.1 (PF-019): one of its own.
-  const own = React.useId()
   return (
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
-      value={value ?? own}
       {...props}
       {...styleProps(navigationMenu.item, sx)}
     />
@@ -76,7 +76,10 @@ function NavigationMenuTrigger({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof NavigationMenuPrimitive.Trigger>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -102,7 +105,10 @@ function NavigationMenuTrigger({
 function NavigationMenuContent({
   sx,
   ...props
-}: Omit<PartProps<typeof NavigationMenuPrimitive.Content>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof NavigationMenuPrimitive.Content>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -121,13 +127,16 @@ function NavigationMenuPositioner({
   align = "start",
   alignOffset = 0,
   ...props
-}: Omit<PartProps<typeof NavigationMenuPrimitive.Positioner>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof NavigationMenuPrimitive.Positioner>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
     <NavigationMenuPrimitive.Portal>
       <NavigationMenuPrimitive.Positioner
-        side={useSide(side)}
+        side={side}
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
@@ -147,7 +156,10 @@ function NavigationMenuPositioner({
 function NavigationMenuLink({
   sx,
   ...props
-}: Omit<PartProps<typeof NavigationMenuPrimitive.Link>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof NavigationMenuPrimitive.Link>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (

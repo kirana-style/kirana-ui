@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
@@ -335,10 +335,10 @@ function SidebarGroupLabel({
   sx,
   render,
   ...props
-}: Omit<RenderProps<"div">, "className"> & { sx?: Sx }) {
+}: Omit<PartComponentProps<"div">, "className"> & { sx?: Sx }) {
   return useRender({
     defaultTagName: "div",
-    props: mergeProps<"div">(styleProps(sidebar.groupLabel, sx), props),
+    props: mergeProps(styleProps(sidebar.groupLabel, sx), props),
     render,
     state: { slot: "sidebar-group-label", sidebar: "group-label" },
   })
@@ -348,10 +348,10 @@ function SidebarGroupAction({
   sx,
   render,
   ...props
-}: Omit<RenderProps<"button">, "className"> & { sx?: Sx }) {
+}: Omit<PartComponentProps<"button">, "className"> & { sx?: Sx }) {
   return useRender({
     defaultTagName: "button",
-    props: mergeProps<"button">(styleProps(sidebar.groupAction, sx), props),
+    props: mergeProps(styleProps(sidebar.groupAction, sx), props),
     render,
     state: { slot: "sidebar-group-action", sidebar: "group-action" },
   })
@@ -408,7 +408,13 @@ function SidebarMenuButton({
   tooltip,
   sx,
   ...props
-}: Omit<RenderProps<"button">, "className"> & {
+}: Omit<
+  PartComponentProps<
+    "button",
+    { slot: string; sidebar: string; size: string; active: boolean }
+  >,
+  "className"
+> & {
   isActive?: boolean
   tooltip?: string | React.ComponentProps<typeof TooltipContent>
   variant?: keyof typeof MENU_BUTTON_VARIANTS
@@ -418,7 +424,7 @@ function SidebarMenuButton({
   const { isMobile, state } = useSidebar()
   const comp = useRender({
     defaultTagName: "button",
-    props: mergeProps<"button">(
+    props: mergeProps(
       styleProps(
         sidebar.menuButton,
         MENU_BUTTON_VARIANTS[variant],
@@ -427,7 +433,14 @@ function SidebarMenuButton({
       ),
       props
     ),
-    render: !tooltip ? render : <TooltipTrigger render={render} />,
+    // Under a tooltip the caller's `render` draws the trigger, and a function is told its state.
+    render: !tooltip ? (
+      render
+    ) : (
+      <TooltipTrigger
+        render={render as React.ComponentProps<typeof TooltipTrigger>["render"]}
+      />
+    ),
     state: {
       slot: "sidebar-menu-button",
       sidebar: "menu-button",
@@ -460,13 +473,13 @@ function SidebarMenuAction({
   render,
   showOnHover = false,
   ...props
-}: Omit<RenderProps<"button">, "className"> & {
+}: Omit<PartComponentProps<"button">, "className"> & {
   showOnHover?: boolean
   sx?: Sx
 }) {
   return useRender({
     defaultTagName: "button",
-    props: mergeProps<"button">(
+    props: mergeProps(
       styleProps(
         sidebar.menuAction,
         showOnHover && sidebar.menuActionOnHover,
@@ -550,14 +563,20 @@ function SidebarMenuSubButton({
   isActive = false,
   sx,
   ...props
-}: Omit<RenderProps<"a">, "className"> & {
+}: Omit<
+  PartComponentProps<
+    "a",
+    { slot: string; sidebar: string; size: string; active: boolean }
+  >,
+  "className"
+> & {
   size?: "sm" | "md"
   isActive?: boolean
   sx?: Sx
 }) {
   return useRender({
     defaultTagName: "a",
-    props: mergeProps<"a">(styleProps(sidebar.menuSubButton, sx), props),
+    props: mergeProps(styleProps(sidebar.menuSubButton, sx), props),
     render,
     state: {
       slot: "sidebar-menu-sub-button",

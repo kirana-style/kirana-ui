@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { props as styleProps } from "@kirana-style/core"
 import { Slider as SliderPrimitive } from "@kirana-ui/react/slider"
@@ -15,7 +15,9 @@ function Slider({
   min = 0,
   max = 100,
   ...props
-}: Omit<PartProps<typeof SliderPrimitive.Root>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof SliderPrimitive.Root>, "className"> & {
+  sx?: Sx
+}) {
   const values = Array.isArray(value)
     ? value
     : Array.isArray(defaultValue)
@@ -47,9 +49,6 @@ function Slider({
           <SliderPrimitive.Thumb
             data-slot="slider-thumb"
             key={index}
-            // Unnamed, every thumb takes the first value in 0.1.1 (PF-021); a single value's two
-            // thumbs (upstream's `[min, max]`) both draw it, as on Base UI.
-            index={Array.isArray(value ?? defaultValue) ? index : undefined}
             {...styleProps(slider.thumb)}
           />
         ))}

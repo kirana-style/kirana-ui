@@ -733,7 +733,7 @@ You can trigger the combobox from a button or any other component by putting `ku
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-popup" height="700" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-popup" height="700" combinations="react/base,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
