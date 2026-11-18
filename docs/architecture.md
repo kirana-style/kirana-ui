@@ -436,7 +436,8 @@ Base UI twin's props. The
 primitives write Base UI's attribute names, so a project installed for `kirana`
 keeps Base UI's state keys and needs no keys of its own. **Vue's fourth base is Kirana UI
 Primitives too** (`registry/bases/vue-kirana`, at `/preview/vue/kirana/`, on
-`@kirana-ui/vue`), being ported: its parts take their Ark UI twins' props
+`@kirana-ui/vue`), with all of Vue's 61 components (its calendar Ark UI's, as
+React's is react-day-picker, until Kirana UI's chooses several days and months): its parts take their Ark UI twins' props
 (`v-model`, `default-value`, `checked-change` given `{ checked }`), the plain
 components are Vue's own, and the ones on Reka UI's `Primitive` take the
 primitives' (`@kirana-ui/vue/primitive`), with the same `as` and `as-child`.

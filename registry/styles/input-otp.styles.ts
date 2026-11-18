@@ -186,6 +186,45 @@ export const inputOtp = {
     userSelect: "none",
   }),
 
+  // Kirana UI's code input (`Otp.Root` around `Otp.Input` and the cells): no CSS of its own, the
+  // design lays the input over the cells. As React's `input-otp` writes it inline: the container
+  // the input is placed in, with the text cursor and no selection.
+  containerKirana: css({
+    position: "relative",
+    cursor: { base: "text", ":has(:disabled)": "default" },
+    userSelect: "none",
+  }),
+
+  // The one input, over the cells and unseen, as `input-otp` writes it inline: its text and caret
+  // transparent, so the cells draw the code.
+  inputKirana: css({
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    textAlign: "left",
+    opacity: 1,
+    color: "transparent",
+    pointerEvents: "all",
+    backgroundColor: "transparent",
+    caretColor: "transparent",
+    borderWidth: 0,
+    borderStyle: "solid",
+    borderColor: "transparent",
+    outlineWidth: 0,
+    outlineStyle: "solid",
+    outlineColor: "transparent",
+    boxShadow: "none",
+    // The container's height, which the wrapper measures as `input-otp` does: the input's
+    // transparent text spans the cells.
+    fontSize: "var(--root-height)",
+    lineHeight: 1,
+    letterSpacing: "-0.5em",
+    fontFamily: "monospace",
+    fontVariantNumeric: "tabular-nums",
+  }),
+
   // Ark UI's slot (Vue, Svelte, Solid) is its own input, with the browser's caret: its character
   // centred where React's slot centres a text node.
   slotArk: css({

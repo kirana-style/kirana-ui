@@ -72,7 +72,9 @@ const ToastToaster = defineAsyncComponent(() =>
     ? import("@workspace/registry/bases/vue-reka/ui/toast/Toaster.vue")
     : base === "uisdk"
       ? import("@workspace/registry/bases/vue-uisdk/ui/toast/Toaster.vue")
-      : import("@workspace/registry/bases/vue-ark/ui/toast/Toaster.vue")
+      : base === "kirana"
+        ? import("@workspace/registry/bases/vue-kirana/ui/toast/Toaster.vue")
+        : import("@workspace/registry/bases/vue-ark/ui/toast/Toaster.vue")
 )
 /** ui-sdk's parts read the direction they are laid out in, with no provider of their own. */
 const Passthrough = defineComponent(
@@ -121,7 +123,6 @@ const list = css({
       <a :href="`/preview/vue/${base}/showcase`">showcase</a>
     </nav>
     <SonnerToaster v-if="mounted && current" position="top-center" />
-    <!-- Kirana UI's toast comes with its part of the base (P10-03). -->
-    <ToastToaster v-if="mounted && current && base !== 'kirana'" />
+    <ToastToaster v-if="mounted && current" />
   </component>
 </template>
