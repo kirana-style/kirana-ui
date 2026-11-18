@@ -12,9 +12,14 @@ import { ITEMS } from "./context"
  * (`null` for none) or several with `multiple`. Its popup renders in the body, as Base UI's portal
  * puts it.
  */
-const { items, defaultValue } = defineProps<{
+const {
+  items,
+  defaultValue,
+  multiple = false,
+} = defineProps<{
   items?: readonly Entry[]
   defaultValue?: string | string[]
+  multiple?: boolean
 }>()
 const value = defineModel<string | string[] | null | undefined>({
   default: undefined,
@@ -32,6 +37,14 @@ const list = computed(() =>
 const placeholder = computed(
   () => items?.find((item) => item.value === null)?.label
 )
+// ui-sdk types the value by `multiple`, one signature each and a third for a `multiple` only known
+// when it runs. vue-tsc 3.3, which an installed project gets, refuses these three bound one by one
+// (3.2 passes them), so they are bound as one object it does not read against the select (LF-031).
+const selection = computed<Record<string, unknown>>(() => ({
+  multiple,
+  defaultValue,
+  modelValue: value.value,
+}))
 </script>
 
 <template>
@@ -40,10 +53,8 @@ const placeholder = computed(
     :container="popupContainer()"
     :items="list"
     :placeholder="placeholder"
-    :default-value="defaultValue"
-    :model-value="value"
+    v-bind="{ ...$attrs, ...selection }"
     @update:model-value="(next: string | string[] | null) => (value = next)"
-    v-bind="$attrs"
   >
     <slot />
   </Select>
