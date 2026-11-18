@@ -34,3 +34,4 @@ export function previewChunks(): {
     }
   }
 }
+export function previewGroups(): Plugin

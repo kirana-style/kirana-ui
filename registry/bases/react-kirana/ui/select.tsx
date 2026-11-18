@@ -1,9 +1,6 @@
 "use client"
 
 import * as React from "react"
-import type { PartProps } from "../../../lib/kirana-render"
-import { useSide } from "../../../lib/kirana-side"
-import type { Side } from "../../../lib/placement"
 import { Select as SelectPrimitive } from "@kirana-ui/react/select"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -21,10 +18,9 @@ import {
 import { popupMotion } from "../../../styles/overlay.styles"
 import { select } from "../../../styles/select.styles"
 
+type RootProps<Value> = React.ComponentProps<typeof SelectPrimitive.Root<Value>>
 type ChangeDetails = Parameters<
-  NonNullable<
-    React.ComponentProps<typeof SelectPrimitive.Root>["onValueChange"]
-  >
+  NonNullable<RootProps<unknown>["onValueChange"]>
 >[1]
 
 /** A label's text, for the primitives' `items`, which are text: an icon and a word are the word. */
@@ -38,17 +34,22 @@ function textOf(node: React.ReactNode): string {
   return ""
 }
 
+/** An item as Base UI names it when it is the value itself: its `label`, else its text. */
+function labelOf(value: unknown): string {
+  return typeof value === "object" && value !== null && "label" in value
+    ? textOf((value as { label: React.ReactNode }).label)
+    : String(value)
+}
+
 /**
- * What Base UI's value shows that the primitives' cannot: the chosen value, for a function child
- * (the primitives' `Select.Value` takes none, and hands no state, PF-010, PF-018); each item's
- * label by its value, while any is more than text; and the placeholder an item of value `null`
- * names.
+ * What Base UI's value shows that the primitives' text labels cannot: each item's label by its
+ * value while any is more than text (an icon beside the word), and the placeholder an item of
+ * value `null` names.
  */
-const Chosen = React.createContext<{
-  value: unknown
+const Labels = React.createContext<{
   byValue: Map<unknown, React.ReactNode> | null
   placeholder: React.ReactNode
-}>({ value: null, byValue: null, placeholder: undefined })
+}>({ byValue: null, placeholder: undefined })
 
 /** Base UI's items: a list of `{ label, value }`, or a record of labels by value. */
 type BaseItems =
@@ -56,13 +57,14 @@ type BaseItems =
   | Record<string, React.ReactNode>
 
 /**
- * Base UI's Select root on the primitives': the value is the caller's type (a state's setter is
- * its `onValueChange`); Base UI's `items`, a list or a record of labels, are the primitives' list
- * of text labels, an item of value `null` the placeholder Base UI shows for no value. One value
- * only: the primitives' select has no `multiple` (PF-018).
+ * Base UI's Select root on the primitives': `multiple` takes Base UI's `value`, `defaultValue` and
+ * `onValueChange` as the primitives' `values`, `defaultValues` and `onValuesChange`; Base UI's
+ * `items`, a list or a record, are the primitives' text labels, an item of value `null` the
+ * placeholder Base UI shows for no value.
  */
-function Select<Value>({
+function Select<Value, Multiple extends boolean | undefined = false>({
   items,
+  multiple,
   value,
   defaultValue,
   onValueChange,
@@ -70,13 +72,24 @@ function Select<Value>({
   itemToStringLabel,
   ...props
 }: Omit<
-  React.ComponentProps<typeof SelectPrimitive.Root<Value>>,
-  "items" | "value" | "defaultValue" | "onValueChange"
+  RootProps<Value>,
+  | "items"
+  | "value"
+  | "defaultValue"
+  | "onValueChange"
+  | "multiple"
+  | "values"
+  | "defaultValues"
+  | "onValuesChange"
 > & {
   items?: BaseItems
-  value?: Value | null
-  defaultValue?: Value | null
-  onValueChange?: (value: Value, details: ChangeDetails) => void
+  multiple?: Multiple
+  value?: Multiple extends true ? Value[] : Value | null
+  defaultValue?: Multiple extends true ? Value[] : Value | null
+  onValueChange?: (
+    value: Multiple extends true ? Value[] : Value,
+    details: ChangeDetails
+  ) => void
   /** Base UI's object values' keys: the primitives compare values themselves, so taken only. */
   itemToStringValue?: (item: Value) => string
   itemToStringLabel?: (item: Value) => string
@@ -91,19 +104,32 @@ function Select<Value>({
     : undefined
   const empty = list?.find((item) => item.value === null)
   const rich = list?.some((item) => typeof item.label === "object")
-  // The value a function child reads: the caller's when controlled, else the last chosen.
-  const [own, setOwn] = React.useState<unknown>(defaultValue ?? null)
-  const current = value === undefined ? own : value
+  const labels = React.useMemo(
+    () => ({
+      byValue: rich
+        ? new Map(list!.map((item) => [item.value, item.label]))
+        : null,
+      placeholder: empty?.label,
+    }),
+    [list, rich, empty]
+  )
+  const change = onValueChange as
+    | ((value: unknown, details: ChangeDetails) => void)
+    | undefined
+  const values = multiple
+    ? {
+        multiple: true,
+        values: value as readonly Value[] | undefined,
+        defaultValues: defaultValue as readonly Value[] | undefined,
+        onValuesChange: change,
+      }
+    : {
+        value: value as Value | null | undefined,
+        defaultValue: defaultValue as Value | null | undefined,
+        onValueChange: change,
+      }
   return (
-    <Chosen
-      value={{
-        value: current,
-        byValue: rich
-          ? new Map(list!.map((item) => [item.value, item.label]))
-          : null,
-        placeholder: empty?.label,
-      }}
-    >
+    <Labels value={labels}>
       <SelectPrimitive.Root<Value>
         items={list
           ?.filter((item) => item.value !== null)
@@ -113,22 +139,17 @@ function Select<Value>({
               ? itemToStringLabel(item.value as Value)
               : textOf(item.label),
           }))}
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={(next, details) => {
-          setOwn(next)
-          onValueChange?.(next as Value, details)
-        }}
+        {...values}
         {...props}
       />
-    </Chosen>
+    </Labels>
   )
 }
 
 function SelectGroup({
   sx,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.Group>, "className"> & {
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Group>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -141,8 +162,9 @@ function SelectGroup({
 }
 
 /**
- * The trigger's text: the chosen label or the placeholder; a function child receives the value,
- * as Base UI's does, and a label that is more than text shows as Base UI's does (`Chosen`).
+ * The trigger's text: the chosen label, or the placeholder. A function child is the caller's, as
+ * Base UI's; without one, a label that is more than text, an item that is the value itself, and
+ * `multiple`'s labels show as Base UI shows them.
  */
 function SelectValue({
   sx,
@@ -150,7 +172,7 @@ function SelectValue({
   placeholder,
   ...props
 }: Omit<
-  PartProps<typeof SelectPrimitive.Value>,
+  React.ComponentProps<typeof SelectPrimitive.Value>,
   "className" | "children" | "placeholder"
 > & {
   /** Base UI's may be a number (a page size). */
@@ -158,29 +180,27 @@ function SelectValue({
   sx?: Sx
   children?: React.ReactNode | ((value: never) => React.ReactNode)
 }) {
-  const chosen = React.use(Chosen)
-  const none = chosen.value === null || chosen.value === undefined
-  const content =
-    typeof children === "function"
-      ? (children as (value: unknown) => React.ReactNode)(chosen.value)
-      : children !== undefined
-        ? children
-        : chosen.byValue && !none
-          ? chosen.byValue.get(chosen.value)
-          : // An item itself as the value (`value={item}`): its `label`, as Base UI shows it.
-            !none &&
-              typeof chosen.value === "object" &&
-              "label" in (chosen.value as object)
-            ? (chosen.value as { label: React.ReactNode }).label
-            : undefined
+  const labels = React.use(Labels)
+  const empty = placeholder ?? labels.placeholder
+  const shown =
+    children !== undefined
+      ? children
+      : (value: unknown, label: string | readonly string[] | undefined) =>
+          value === null || value === undefined
+            ? empty
+            : Array.isArray(value)
+              ? (label as readonly string[]).join(", ")
+              : (labels.byValue?.get(value) ??
+                // An item that is the value itself: Base UI names it by its `label`.
+                (typeof value === "object" ? labelOf(value) : label))
   return (
     <SelectPrimitive.Value
       data-slot="select-value"
-      placeholder={placeholder ?? chosen.placeholder}
+      placeholder={empty}
       {...props}
       {...styleProps(select.value, sx)}
     >
-      {content}
+      {shown as React.ComponentProps<typeof SelectPrimitive.Value>["children"]}
     </SelectPrimitive.Value>
   )
 }
@@ -190,7 +210,7 @@ function SelectTrigger({
   size = "default",
   children,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.Trigger>, "className"> & {
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Trigger>, "className"> & {
   size?: "sm" | "default"
   sx?: Sx
 }) {
@@ -225,15 +245,18 @@ function SelectContent({
   alignOffset = 0,
   alignItemWithTrigger = true,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.Popup>, "className"> &
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Popup>, "className"> &
   Pick<
     React.ComponentProps<typeof SelectPrimitive.Positioner>,
     "align" | "alignOffset" | "sideOffset" | "alignItemWithTrigger"
-  > & { side?: Side; sx?: Sx }) {
+  > &
+  Pick<React.ComponentProps<typeof SelectPrimitive.Positioner>, "side"> & {
+    sx?: Sx
+  }) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
-        side={useSide(side)}
+        side={side}
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
@@ -258,7 +281,10 @@ function SelectContent({
 function SelectLabel({
   sx,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.GroupLabel>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof SelectPrimitive.GroupLabel>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -274,7 +300,7 @@ function SelectItem({
   sx,
   children,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.Item>, "className"> & {
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Item>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -286,10 +312,8 @@ function SelectItem({
       <SelectPrimitive.ItemText {...styleProps(select.itemText)}>
         {children}
       </SelectPrimitive.ItemText>
-      {/* Base UI's indicator renders as the caller's span; the primitives' takes no `render`
-          (PF-010), so the span's styles are its own. */}
       <SelectPrimitive.ItemIndicator
-        {...styleProps(menuIndicator, select.indicator)}
+        render={<span sx={[menuIndicator, select.indicator]} />}
       >
         <IconPlaceholder
           lucide="CheckIcon"
@@ -306,7 +330,7 @@ function SelectItem({
 function SelectSeparator({
   sx,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.Separator>, "className"> & {
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Separator>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -321,7 +345,10 @@ function SelectSeparator({
 function SelectScrollUpButton({
   sx,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.ScrollUpArrow>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -344,7 +371,10 @@ function SelectScrollUpButton({
 function SelectScrollDownButton({
   sx,
   ...props
-}: Omit<PartProps<typeof SelectPrimitive.ScrollDownArrow>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (

@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { Avatar as AvatarPrimitive } from "@kirana-ui/react/avatar"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -13,7 +12,7 @@ function Avatar({
   sx,
   size = "default",
   ...props
-}: Omit<PartProps<typeof AvatarPrimitive.Root>, "className"> & {
+}: Omit<React.ComponentProps<typeof AvatarPrimitive.Root>, "className"> & {
   size?: "default" | "sm" | "lg"
   sx?: Sx
 }) {
@@ -30,7 +29,9 @@ function Avatar({
 function AvatarImage({
   sx,
   ...props
-}: Omit<PartProps<typeof AvatarPrimitive.Image>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof AvatarPrimitive.Image>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
@@ -43,7 +44,7 @@ function AvatarImage({
 function AvatarFallback({
   sx,
   ...props
-}: Omit<PartProps<typeof AvatarPrimitive.Fallback>, "className"> & {
+}: Omit<React.ComponentProps<typeof AvatarPrimitive.Fallback>, "className"> & {
   sx?: Sx
 }) {
   return (

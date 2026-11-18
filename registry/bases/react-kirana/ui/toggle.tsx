@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { props as styleProps } from "@kirana-style/core"
 import { Toggle as TogglePrimitive } from "@kirana-ui/react/toggle"
@@ -15,7 +15,7 @@ function Toggle({
   variant = "default",
   size = "default",
   ...props
-}: Omit<PartProps<typeof TogglePrimitive>, "className"> &
+}: Omit<React.ComponentProps<typeof TogglePrimitive>, "className"> &
   ToggleVariants & { sx?: Sx }) {
   return (
     <TogglePrimitive

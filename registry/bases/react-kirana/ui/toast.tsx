@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import type { PartProps } from "../../../lib/kirana-render"
 import { Toast as ToastPrimitive, createToaster } from "@kirana-ui/react/toast"
 import type {
   ToastOptions as KiranaOptions,
@@ -32,45 +31,30 @@ type ToastOptions = {
 }
 
 /**
- * What a toast carries that the primitives' options cannot (PF-025): Base UI's action, and a title
- * or description that is more than text. They travel in the record's `data`, which the toast
- * draws from.
- */
-type Carried = {
-  title?: React.ReactNode
-  description?: React.ReactNode
-  action?: ToastOptions["actionProps"]
-  data?: unknown
-}
-
-const text = (node: React.ReactNode) =>
-  typeof node === "string" || typeof node === "number"
-    ? String(node)
-    : undefined
-
-/**
- * Base UI's options as the primitives': its `timeout` is their `duration`; `priority` (Base UI's
- * live region's politeness) has no equivalent and is taken only.
+ * Base UI's options as the primitives': its `timeout` is their `duration`, its `actionProps`
+ * their `action`, and its `priority` their politeness. Base UI's action leaves the toast open,
+ * so pressing it keeps the toast unless its handler closes it.
  */
 function optionsOf(options: ToastOptions): KiranaOptions & { id?: string } {
-  const {
-    timeout,
-    priority,
-    actionProps,
-    onClose,
-    title,
-    description,
-    data,
-    ...rest
-  } = options
-  void priority
-  const carried: Carried = { title, description, action: actionProps, data }
+  const { timeout, priority, actionProps, onClose, ...rest } = options
   return {
     ...rest,
-    title: text(title),
-    description: text(description),
     duration: timeout,
-    data: carried,
+    priority:
+      priority === undefined
+        ? undefined
+        : priority === "high"
+          ? "assertive"
+          : "polite",
+    action: actionProps && {
+      label: actionProps.children,
+      onAction: (details) => {
+        details.cancel()
+        actionProps.onClick?.(
+          details.event as unknown as React.MouseEvent<HTMLButtonElement>
+        )
+      },
+    },
     onClose: onClose && (() => onClose()),
   }
 }
@@ -80,12 +64,12 @@ type PromiseMessage<Value> =
   | ToastOptions
   | ((value: Value) => React.ReactNode | ToastOptions)
 
-/** A promise's message as the primitives': text, or an options object by their names. */
+/** A promise's message as the primitives': a title, or an options object by their names. */
 function messageOf<Value>(message: PromiseMessage<Value>) {
   const one = (value: React.ReactNode | ToastOptions) =>
     typeof value === "object" && value !== null && !React.isValidElement(value)
       ? optionsOf(value as ToastOptions)
-      : (text(value as React.ReactNode) ?? "")
+      : { title: value as React.ReactNode }
   return typeof message === "function"
     ? (value: Value) => one(message(value))
     : one(message)
@@ -149,7 +133,7 @@ function ToastViewport({
   children,
   ...props
 }: Omit<
-  PartProps<typeof ToastPrimitive.Viewport>,
+  React.ComponentProps<typeof ToastPrimitive.Viewport>,
   "className" | "toaster" | "children"
 > & {
   sx?: Sx
@@ -171,7 +155,9 @@ function ToastViewport({
 function Toast({
   sx,
   ...props
-}: Omit<PartProps<typeof ToastPrimitive.Root>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof ToastPrimitive.Root>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <ToastPrimitive.Root
       data-slot="toast"
@@ -184,7 +170,7 @@ function Toast({
 function ToastContent({
   sx,
   ...props
-}: Omit<PartProps<typeof ToastPrimitive.Content>, "className"> & {
+}: Omit<React.ComponentProps<typeof ToastPrimitive.Content>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -199,7 +185,7 @@ function ToastContent({
 function ToastTitle({
   sx,
   ...props
-}: Omit<PartProps<typeof ToastPrimitive.Title>, "className"> & {
+}: Omit<React.ComponentProps<typeof ToastPrimitive.Title>, "className"> & {
   sx?: Sx
 }) {
   return (
@@ -214,7 +200,10 @@ function ToastTitle({
 function ToastDescription({
   sx,
   ...props
-}: Omit<PartProps<typeof ToastPrimitive.Description>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof ToastPrimitive.Description>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -230,7 +219,7 @@ function ToastAction({
   sx,
   render,
   ...props
-}: Omit<PartProps<typeof ToastPrimitive.Action>, "className"> & {
+}: Omit<React.ComponentProps<typeof ToastPrimitive.Action>, "className"> & {
   sx?: Sx
 }) {
   // The part draws as a Button, which takes the part's style in its own `sx`.
@@ -252,7 +241,7 @@ function ToastClose({
   children,
   render,
   ...props
-}: Omit<PartProps<typeof ToastPrimitive.Close>, "className"> & {
+}: Omit<React.ComponentProps<typeof ToastPrimitive.Close>, "className"> & {
   sx?: Sx
 }) {
   // The part draws as a Button, which takes the part's style in its own `sx`.
@@ -358,25 +347,17 @@ function ToastIcon({ type }: { type: string | undefined }) {
   )
 }
 
-/** One toast as Base UI's list draws it, its title, description and action from `data`. */
+/** One toast as Base UI's list draws it: the parts draw its title, description and action. */
 function ToastItem({ item }: { item: ToastRecord }) {
-  const carried = (item.data ?? {}) as Carried
-  const title = carried.title ?? item.title
-  const description = carried.description ?? item.description
-  const action = carried.action
   return (
     <Toast toast={item}>
       <ToastContent>
         <ToastIcon type={item.type} />
         <div sx={styles.body}>
-          {title !== undefined && <ToastTitle>{title}</ToastTitle>}
-          {description !== undefined && (
-            <ToastDescription>{description}</ToastDescription>
-          )}
+          {item.title !== undefined && <ToastTitle />}
+          {item.description !== undefined && <ToastDescription />}
         </div>
-        {action && (
-          <ToastAction onClick={action.onClick}>{action.children}</ToastAction>
-        )}
+        {item.action && <ToastAction />}
         <ToastClose />
       </ToastContent>
     </Toast>

@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { AlertDialog as AlertDialogPrimitive } from "@kirana-ui/react/alert-dialog"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -15,13 +14,13 @@ type El = Omit<React.ComponentProps<"div">, "className"> & { sx?: Sx }
 
 function AlertDialog({
   ...props
-}: PartProps<typeof AlertDialogPrimitive.Root>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />
 }
 
 function AlertDialogTrigger({
   ...props
-}: PartProps<typeof AlertDialogPrimitive.Trigger>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {
   return (
     <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
   )
@@ -29,7 +28,7 @@ function AlertDialogTrigger({
 
 function AlertDialogPortal({
   ...props
-}: PartProps<typeof AlertDialogPrimitive.Portal>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
   )
@@ -38,7 +37,10 @@ function AlertDialogPortal({
 function AlertDialogOverlay({
   sx,
   ...props
-}: Omit<PartProps<typeof AlertDialogPrimitive.Backdrop>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof AlertDialogPrimitive.Backdrop>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -54,7 +56,10 @@ function AlertDialogContent({
   sx,
   size = "default",
   ...props
-}: Omit<PartProps<typeof AlertDialogPrimitive.Popup>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof AlertDialogPrimitive.Popup>,
+  "className"
+> & {
   size?: "default" | "sm"
   sx?: Sx
 }) {
@@ -104,7 +109,10 @@ function AlertDialogMedia({ sx, ...props }: El) {
 function AlertDialogTitle({
   sx,
   ...props
-}: Omit<PartProps<typeof AlertDialogPrimitive.Title>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof AlertDialogPrimitive.Title>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -119,7 +127,10 @@ function AlertDialogTitle({
 function AlertDialogDescription({
   sx,
   ...props
-}: Omit<PartProps<typeof AlertDialogPrimitive.Description>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof AlertDialogPrimitive.Description>,
+  "className"
+> & {
   sx?: Sx
 }) {
   return (
@@ -140,7 +151,7 @@ function AlertDialogCancel({
   variant = "outline",
   size = "default",
   ...props
-}: Omit<PartProps<typeof AlertDialogPrimitive.Close>, "className"> &
+}: Omit<React.ComponentProps<typeof AlertDialogPrimitive.Close>, "className"> &
   Pick<React.ComponentProps<typeof Button>, "variant" | "size" | "sx">) {
   return (
     <AlertDialogPrimitive.Close

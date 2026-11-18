@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { Separator as SeparatorPrimitive } from "@kirana-ui/react/separator"
 import { props as styleProps } from "@kirana-style/core"
@@ -12,7 +12,9 @@ function Separator({
   sx,
   orientation = "horizontal",
   ...props
-}: Omit<PartProps<typeof SeparatorPrimitive>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof SeparatorPrimitive>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <SeparatorPrimitive
       data-slot="separator"

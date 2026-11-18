@@ -1,6 +1,6 @@
 import * as React from "react"
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
@@ -42,10 +42,10 @@ function BubbleContent({
   sx,
   render,
   ...props
-}: Omit<RenderProps<"div">, "className"> & { sx?: Sx }) {
+}: Omit<PartComponentProps<"div">, "className"> & { sx?: Sx }) {
   return useRender({
     defaultTagName: "div",
-    props: mergeProps<"div">(styleProps(bubble.content, sx), props),
+    props: mergeProps(styleProps(bubble.content, sx), props),
     render,
     state: { slot: "bubble-content" },
   })

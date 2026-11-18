@@ -2,9 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
-import { useSide } from "../../../lib/kirana-side"
-import type { Side } from "../../../lib/placement"
 import { ContextMenu as MenuPrimitive } from "@kirana-ui/react/context-menu"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -25,20 +22,24 @@ import {
 } from "../../../styles/menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
 
-function ContextMenu({ ...props }: PartProps<typeof MenuPrimitive.Root>) {
+function ContextMenu({
+  ...props
+}: React.ComponentProps<typeof MenuPrimitive.Root>) {
   return <MenuPrimitive.Root data-slot="context-menu" {...props} />
 }
 
 function ContextMenuPortal({
   ...props
-}: PartProps<typeof MenuPrimitive.Portal>) {
+}: React.ComponentProps<typeof MenuPrimitive.Portal>) {
   return <MenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
 }
 
 function ContextMenuTrigger({
   sx,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Trigger>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Trigger>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <MenuPrimitive.Trigger
       data-slot="context-menu-trigger"
@@ -55,20 +56,17 @@ function ContextMenuContent({
   sideOffset = 0,
   sx,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Popup>, "className"> &
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Popup>, "className"> &
   Pick<
-    PartProps<typeof MenuPrimitive.Positioner>,
-    "align" | "alignOffset" | "sideOffset"
-  > & {
-    /** Base UI\'s sides, the logical two among them (PF-016). */
-    side?: Side
-  } & { sx?: Sx }) {
+    React.ComponentProps<typeof MenuPrimitive.Positioner>,
+    "align" | "alignOffset" | "side" | "sideOffset"
+  > & { sx?: Sx }) {
   return (
     <MenuPrimitive.Portal>
       <MenuPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        side={useSide(side)}
+        side={side}
         sideOffset={sideOffset}
         {...styleProps(menuPositioner)}
       >
@@ -82,7 +80,9 @@ function ContextMenuContent({
   )
 }
 
-function ContextMenuGroup({ ...props }: PartProps<typeof MenuPrimitive.Group>) {
+function ContextMenuGroup({
+  ...props
+}: React.ComponentProps<typeof MenuPrimitive.Group>) {
   return <MenuPrimitive.Group data-slot="context-menu-group" {...props} />
 }
 
@@ -90,7 +90,7 @@ function ContextMenuLabel({
   sx,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.GroupLabel>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.GroupLabel>, "className"> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -109,7 +109,7 @@ function ContextMenuItem({
   inset,
   variant = "default",
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Item>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Item>, "className"> & {
   inset?: boolean
   variant?: "default" | "destructive"
   sx?: Sx
@@ -132,7 +132,7 @@ function ContextMenuItem({
 
 function ContextMenuSub({
   ...props
-}: PartProps<typeof MenuPrimitive.SubmenuRoot>) {
+}: React.ComponentProps<typeof MenuPrimitive.SubmenuRoot>) {
   return <MenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
 }
 
@@ -141,7 +141,10 @@ function ContextMenuSubTrigger({
   inset,
   children,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.SubmenuTrigger>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof MenuPrimitive.SubmenuTrigger>,
+  "className"
+> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -184,7 +187,10 @@ function ContextMenuCheckboxItem({
   children,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.CheckboxItem>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof MenuPrimitive.CheckboxItem>,
+  "className"
+> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -216,11 +222,14 @@ function ContextMenuCheckboxItem({
   )
 }
 
-function ContextMenuRadioGroup({
+function ContextMenuRadioGroup<Value = unknown>({
   ...props
-}: PartProps<typeof MenuPrimitive.RadioGroup>) {
+}: React.ComponentProps<typeof MenuPrimitive.RadioGroup<Value>>) {
   return (
-    <MenuPrimitive.RadioGroup data-slot="context-menu-radio-group" {...props} />
+    <MenuPrimitive.RadioGroup<Value>
+      data-slot="context-menu-radio-group"
+      {...props}
+    />
   )
 }
 
@@ -229,7 +238,7 @@ function ContextMenuRadioItem({
   children,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.RadioItem>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.RadioItem>, "className"> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -264,7 +273,9 @@ function ContextMenuRadioItem({
 function ContextMenuSeparator({
   sx,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Separator>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Separator>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <MenuPrimitive.Separator
       data-slot="context-menu-separator"

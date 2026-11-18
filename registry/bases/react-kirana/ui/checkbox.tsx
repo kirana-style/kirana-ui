@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { Checkbox as CheckboxPrimitive } from "@kirana-ui/react/checkbox"
 import { props as styleProps } from "@kirana-style/core"
@@ -12,7 +12,9 @@ import { checkbox } from "../../../styles/checkbox.styles"
 function Checkbox({
   sx,
   ...props
-}: Omit<PartProps<typeof CheckboxPrimitive.Root>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof CheckboxPrimitive.Root>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"

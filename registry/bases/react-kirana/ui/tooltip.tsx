@@ -2,10 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
-import { useSide } from "../../../lib/kirana-side"
-import type { Side } from "../../../lib/placement"
-
 import { Tooltip as TooltipPrimitive } from "@kirana-ui/react/tooltip"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -32,13 +28,15 @@ function TooltipProvider({
   return <Delays value={{ delay, closeDelay }}>{children}</Delays>
 }
 
-function Tooltip({ ...props }: PartProps<typeof TooltipPrimitive.Root>) {
+function Tooltip({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
   return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
 }
 
 function TooltipTrigger({
   ...props
-}: PartProps<typeof TooltipPrimitive.Trigger>) {
+}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   const delays = React.use(Delays)
   return (
     <TooltipPrimitive.Trigger
@@ -58,20 +56,17 @@ function TooltipContent({
   alignOffset = 0,
   children,
   ...props
-}: Omit<PartProps<typeof TooltipPrimitive.Popup>, "className"> &
+}: Omit<React.ComponentProps<typeof TooltipPrimitive.Popup>, "className"> &
   Pick<
-    PartProps<typeof TooltipPrimitive.Positioner>,
-    "align" | "alignOffset" | "sideOffset"
-  > & {
-    /** Base UI\'s sides, the logical two among them (PF-016). */
-    side?: Side
-  } & { sx?: Sx }) {
+    React.ComponentProps<typeof TooltipPrimitive.Positioner>,
+    "align" | "alignOffset" | "side" | "sideOffset"
+  > & { sx?: Sx }) {
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        side={useSide(side)}
+        side={side}
         sideOffset={sideOffset}
         {...styleProps(tooltip.positioner)}
       >

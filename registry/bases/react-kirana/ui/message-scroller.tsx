@@ -1,7 +1,5 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
-
 import type * as React from "react"
 import { props as styleProps } from "@kirana-style/core"
 import {
@@ -23,7 +21,7 @@ type Own<T extends React.ElementType> = Omit<
 > & { sx?: Sx }
 
 function MessageScrollerProvider(
-  props: PartProps<typeof MessageScrollerPrimitive.Provider>
+  props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>
 ) {
   return <MessageScrollerPrimitive.Provider {...props} />
 }

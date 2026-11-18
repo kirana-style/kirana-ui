@@ -353,34 +353,8 @@ const ALL_ITEMS: Item[] = [
     files: (combination) =>
       combination.base === "ark" ||
       combination.base === "reka" ||
-      combination.base === "bits" ||
-      combination.base === "kirana"
+      combination.base === "bits"
         ? ["lib/placement.ts"]
-        : undefined,
-  },
-  {
-    name: "kirana-render",
-    type: "registry:lib",
-    title: "Kirana render",
-    description:
-      "The render prop for the registry's own parts on Kirana UI Primitives, and the part props typed as their element's.",
-    // `@kirana-ui/react` exports no render step for a plain element, and types a part's other props
-    // `unknown` (PF-002, PF-003).
-    files: (combination) =>
-      combination.framework === "react" && combination.base === "kirana"
-        ? ["lib/kirana-render.ts"]
-        : undefined,
-  },
-  {
-    name: "kirana-side",
-    type: "registry:lib",
-    title: "Kirana side",
-    description:
-      "Base UI's logical sides (inline-start, inline-end) on Kirana UI Primitives' Positioners, by the reading direction.",
-    // The primitives' Positioners take the physical four only (PF-016).
-    files: (combination) =>
-      combination.framework === "react" && combination.base === "kirana"
-        ? ["lib/kirana-side.ts"]
         : undefined,
   },
   {

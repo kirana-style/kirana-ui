@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
 import { Menu as MenuPrimitive } from "@kirana-ui/react/menu"
 import { Menubar as MenubarPrimitive } from "@kirana-ui/react/menubar"
 import { props as styleProps } from "@kirana-style/core"
@@ -30,7 +29,9 @@ import {
 function Menubar({
   sx,
   ...props
-}: Omit<PartProps<typeof MenubarPrimitive>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof MenubarPrimitive>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <MenubarPrimitive
       data-slot="menubar"
@@ -113,7 +114,10 @@ function MenubarCheckboxItem({
   checked,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.CheckboxItem>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof MenuPrimitive.CheckboxItem>,
+  "className"
+> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -146,10 +150,12 @@ function MenubarCheckboxItem({
   )
 }
 
-function MenubarRadioGroup({
+function MenubarRadioGroup<Value = unknown>({
   ...props
-}: React.ComponentProps<typeof DropdownMenuRadioGroup>) {
-  return <DropdownMenuRadioGroup data-slot="menubar-radio-group" {...props} />
+}: React.ComponentProps<typeof DropdownMenuRadioGroup<Value>>) {
+  return (
+    <DropdownMenuRadioGroup<Value> data-slot="menubar-radio-group" {...props} />
+  )
 }
 
 function MenubarRadioItem({
@@ -157,7 +163,7 @@ function MenubarRadioItem({
   children,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.RadioItem>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.RadioItem>, "className"> & {
   inset?: boolean
   sx?: Sx
 }) {

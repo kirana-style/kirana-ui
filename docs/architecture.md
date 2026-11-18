@@ -581,7 +581,11 @@ Worker runs), where a copy per item would count against the Worker's 20,000
 static files. For the same reason their builds group the items' code by
 component, chart kind and block (`previewChunks` in
 `@workspace/vite-config/preview`), a chunk each where each item was its own: a
-page loads its siblings' code too, a few kilobytes. Both read the same query and
+page loads its siblings' code too, a few kilobytes. React's prerendered pages
+import their item from its group the same way (`previewGroups`, in its builds
+only): each base's map still names an item by itself, and the build turns that
+import into one of the group's module, so React's four bases write a chunk per
+group rather than one per item, about 1,100 files where they were 3,900. Both read the same query and
 take the same message (`registry/core/preview.ts`): upstream's `?preset=` and
 `design-system-params`, so shadcn/ui's customizer and ours can drive either, and
 the conformance harness can open one item and preset on both sites. A change of

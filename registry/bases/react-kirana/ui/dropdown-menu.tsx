@@ -2,9 +2,6 @@
 
 import * as React from "react"
 
-import type { PartProps } from "../../../lib/kirana-render"
-import { useSide } from "../../../lib/kirana-side"
-import type { Side } from "../../../lib/placement"
 import { Menu as MenuPrimitive } from "@kirana-ui/react/menu"
 import { props as styleProps } from "@kirana-style/core"
 
@@ -26,19 +23,21 @@ import {
 } from "../../../styles/menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
 
-function DropdownMenu({ ...props }: PartProps<typeof MenuPrimitive.Root>) {
+function DropdownMenu({
+  ...props
+}: React.ComponentProps<typeof MenuPrimitive.Root>) {
   return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />
 }
 
 function DropdownMenuPortal({
   ...props
-}: PartProps<typeof MenuPrimitive.Portal>) {
+}: React.ComponentProps<typeof MenuPrimitive.Portal>) {
   return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
 }
 
 function DropdownMenuTrigger({
   ...props
-}: PartProps<typeof MenuPrimitive.Trigger>) {
+}: React.ComponentProps<typeof MenuPrimitive.Trigger>) {
   return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />
 }
 
@@ -49,20 +48,17 @@ function DropdownMenuContent({
   sideOffset = 4,
   sx,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Popup>, "className"> &
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Popup>, "className"> &
   Pick<
-    PartProps<typeof MenuPrimitive.Positioner>,
-    "align" | "alignOffset" | "sideOffset"
-  > & {
-    /** Base UI\'s sides, the logical two among them (PF-016). */
-    side?: Side
-  } & { sx?: Sx }) {
+    React.ComponentProps<typeof MenuPrimitive.Positioner>,
+    "align" | "alignOffset" | "side" | "sideOffset"
+  > & { sx?: Sx }) {
   return (
     <MenuPrimitive.Portal>
       <MenuPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        side={useSide(side)}
+        side={side}
         sideOffset={sideOffset}
         {...styleProps(menuPositioner)}
       >
@@ -78,7 +74,7 @@ function DropdownMenuContent({
 
 function DropdownMenuGroup({
   ...props
-}: PartProps<typeof MenuPrimitive.Group>) {
+}: React.ComponentProps<typeof MenuPrimitive.Group>) {
   return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
 }
 
@@ -86,7 +82,7 @@ function DropdownMenuLabel({
   sx,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.GroupLabel>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.GroupLabel>, "className"> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -105,7 +101,7 @@ function DropdownMenuItem({
   inset,
   variant = "default",
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Item>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Item>, "className"> & {
   inset?: boolean
   variant?: "default" | "destructive"
   sx?: Sx
@@ -128,7 +124,7 @@ function DropdownMenuItem({
 
 function DropdownMenuSub({
   ...props
-}: PartProps<typeof MenuPrimitive.SubmenuRoot>) {
+}: React.ComponentProps<typeof MenuPrimitive.SubmenuRoot>) {
   return <MenuPrimitive.SubmenuRoot data-slot="dropdown-menu-sub" {...props} />
 }
 
@@ -137,7 +133,10 @@ function DropdownMenuSubTrigger({
   inset,
   children,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.SubmenuTrigger>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof MenuPrimitive.SubmenuTrigger>,
+  "className"
+> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -174,7 +173,7 @@ function DropdownMenuSubContent({
       data-slot="dropdown-menu-sub-content"
       align={align}
       alignOffset={alignOffset}
-      side={useSide(side)}
+      side={side}
       sideOffset={sideOffset}
       {...props}
       sx={[dropdownMenu.subContent, sx]}
@@ -187,7 +186,10 @@ function DropdownMenuCheckboxItem({
   children,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.CheckboxItem>, "className"> & {
+}: Omit<
+  React.ComponentProps<typeof MenuPrimitive.CheckboxItem>,
+  "className"
+> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -217,11 +219,11 @@ function DropdownMenuCheckboxItem({
   )
 }
 
-function DropdownMenuRadioGroup({
+function DropdownMenuRadioGroup<Value = unknown>({
   ...props
-}: PartProps<typeof MenuPrimitive.RadioGroup>) {
+}: React.ComponentProps<typeof MenuPrimitive.RadioGroup<Value>>) {
   return (
-    <MenuPrimitive.RadioGroup
+    <MenuPrimitive.RadioGroup<Value>
       data-slot="dropdown-menu-radio-group"
       {...props}
     />
@@ -233,7 +235,7 @@ function DropdownMenuRadioItem({
   children,
   inset,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.RadioItem>, "className"> & {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.RadioItem>, "className"> & {
   inset?: boolean
   sx?: Sx
 }) {
@@ -263,7 +265,9 @@ function DropdownMenuRadioItem({
 function DropdownMenuSeparator({
   sx,
   ...props
-}: Omit<PartProps<typeof MenuPrimitive.Separator>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof MenuPrimitive.Separator>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <MenuPrimitive.Separator
       data-slot="dropdown-menu-separator"

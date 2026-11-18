@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { Tabs as TabsPrimitive } from "@kirana-ui/react/tabs"
 import { props as styleProps } from "@kirana-style/core"
@@ -8,13 +8,15 @@ import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "../../../lib/sx"
 import { tabs } from "../../../styles/tabs.styles"
 
-function Tabs({
+function Tabs<Value = unknown>({
   sx,
   orientation = "horizontal",
   ...props
-}: Omit<PartProps<typeof TabsPrimitive.Root>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof TabsPrimitive.Root<Value>>, "className"> & {
+  sx?: Sx
+}) {
   return (
-    <TabsPrimitive.Root
+    <TabsPrimitive.Root<Value>
       data-slot="tabs"
       data-orientation={orientation}
       orientation={orientation}
@@ -28,7 +30,7 @@ function TabsList({
   sx,
   variant = "default",
   ...props
-}: Omit<PartProps<typeof TabsPrimitive.List>, "className"> & {
+}: Omit<React.ComponentProps<typeof TabsPrimitive.List>, "className"> & {
   sx?: Sx
   variant?: "default" | "line"
 }) {
@@ -49,7 +51,9 @@ function TabsList({
 function TabsTrigger({
   sx,
   ...props
-}: Omit<PartProps<typeof TabsPrimitive.Tab>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof TabsPrimitive.Tab>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
@@ -62,7 +66,9 @@ function TabsTrigger({
 function TabsContent({
   sx,
   ...props
-}: Omit<PartProps<typeof TabsPrimitive.Panel>, "className"> & { sx?: Sx }) {
+}: Omit<React.ComponentProps<typeof TabsPrimitive.Panel>, "className"> & {
+  sx?: Sx
+}) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"

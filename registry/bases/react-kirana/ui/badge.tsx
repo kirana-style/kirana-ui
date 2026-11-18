@@ -1,5 +1,5 @@
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
@@ -12,10 +12,17 @@ function Badge({
   variant = "default",
   render,
   ...props
-}: Omit<RenderProps<"span">, "className"> & BadgeVariants & { sx?: Sx }) {
+}: Omit<
+  PartComponentProps<
+    "span",
+    { slot: string; variant: BadgeVariants["variant"] }
+  >,
+  "className"
+> &
+  BadgeVariants & { sx?: Sx }) {
   return useRender({
     defaultTagName: "span",
-    props: mergeProps<"span">(styleProps(badge({ variant }), sx), props),
+    props: mergeProps(styleProps(badge({ variant }), sx), props),
     render,
     state: { slot: "badge", variant },
   })

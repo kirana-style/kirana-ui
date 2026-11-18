@@ -1,6 +1,6 @@
 import * as React from "react"
-import { mergeProps, useRender } from "../../../lib/kirana-render"
-import type { RenderProps } from "../../../lib/kirana-render"
+import { mergeProps, useRender } from "@kirana-ui/react/use-render"
+import type { PartComponentProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
@@ -30,10 +30,10 @@ function ButtonGroupText({
   sx,
   render,
   ...props
-}: Omit<RenderProps<"div">, "className"> & { sx?: Sx }) {
+}: Omit<PartComponentProps<"div">, "className"> & { sx?: Sx }) {
   return useRender({
     defaultTagName: "div",
-    props: mergeProps<"div">(styleProps(buttonGroup.text, sx), props),
+    props: mergeProps(styleProps(buttonGroup.text, sx), props),
     render,
     state: { slot: "button-group-text" },
   })

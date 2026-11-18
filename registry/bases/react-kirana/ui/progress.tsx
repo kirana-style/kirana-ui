@@ -1,6 +1,6 @@
 "use client"
 
-import type { PartProps } from "../../../lib/kirana-render"
+import type * as React from "react"
 
 import { Progress as ProgressPrimitive } from "@kirana-ui/react/progress"
 import { props as styleProps } from "@kirana-style/core"
@@ -15,7 +15,7 @@ function Progress({
   children,
   value,
   ...props
-}: Props<PartProps<typeof ProgressPrimitive.Root>>) {
+}: Props<React.ComponentProps<typeof ProgressPrimitive.Root>>) {
   return (
     <ProgressPrimitive.Root
       value={value}
@@ -34,7 +34,7 @@ function Progress({
 function ProgressTrack({
   sx,
   ...props
-}: Props<PartProps<typeof ProgressPrimitive.Track>>) {
+}: Props<React.ComponentProps<typeof ProgressPrimitive.Track>>) {
   return (
     <ProgressPrimitive.Track
       data-slot="progress-track"
@@ -47,7 +47,7 @@ function ProgressTrack({
 function ProgressIndicator({
   sx,
   ...props
-}: Props<PartProps<typeof ProgressPrimitive.Indicator>>) {
+}: Props<React.ComponentProps<typeof ProgressPrimitive.Indicator>>) {
   return (
     <ProgressPrimitive.Indicator
       data-slot="progress-indicator"
@@ -60,7 +60,7 @@ function ProgressIndicator({
 function ProgressLabel({
   sx,
   ...props
-}: Props<PartProps<typeof ProgressPrimitive.Label>>) {
+}: Props<React.ComponentProps<typeof ProgressPrimitive.Label>>) {
   return (
     <ProgressPrimitive.Label
       data-slot="progress-label"
@@ -73,7 +73,7 @@ function ProgressLabel({
 function ProgressValue({
   sx,
   ...props
-}: Props<PartProps<typeof ProgressPrimitive.Value>>) {
+}: Props<React.ComponentProps<typeof ProgressPrimitive.Value>>) {
   return (
     <ProgressPrimitive.Value
       data-slot="progress-value"
