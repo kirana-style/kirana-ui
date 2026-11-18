@@ -856,6 +856,18 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
     and its trigger takes the chevron inside an `as-child` element (`UisdkPart`'s
     `after` slot).
   - **Toast** keeps Base UI's manager over a ui-sdk toaster, as React's.
+- **Vue on Kirana UI Primitives** keeps Vue's Ark UI parts' API (`v-model`,
+  `default-value`, `checked-change` given `{ checked }`) on `@kirana-ui/vue`'s
+  parts, which follow Base UI's: a part is `Checkbox.Root`, its value binds with
+  `v-model:value` and changes with `@value-change="(value, details) => …"`, so a
+  wrapper binds the twin's `v-model` to the part's `value` and emits the twin's
+  events. The plain components are copied from the Ark UI base as they are, and
+  those on Reka UI's `Primitive` take `@kirana-ui/vue/primitive`'s (`as`,
+  `as-child`). The parts write Base UI's attributes, so the `base:` keys draw
+  them on the site and a flattened install keeps them, as for React's Kirana UI
+  base. A part that writes text of its own (the progress value) is given no
+  slot unless the caller gives one, or it draws the empty slot in place of its
+  text.
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on

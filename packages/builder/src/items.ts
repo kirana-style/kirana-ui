@@ -45,6 +45,7 @@ export const FRAMEWORK_BASES = [
   { framework: "vue", base: "ark", bases: "vue-ark" },
   { framework: "vue", base: "reka", bases: "vue-reka" },
   { framework: "vue", base: "uisdk", bases: "vue-uisdk" },
+  { framework: "vue", base: "kirana", bases: "vue-kirana" },
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
   { framework: "svelte", base: "bits", bases: "svelte-bits" },
   { framework: "svelte", base: "uisdk", bases: "svelte-uisdk" },

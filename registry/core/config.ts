@@ -40,7 +40,7 @@ export type Base = (typeof BASES)[number]
 /** Which bases each framework offers; the first is its default. */
 export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
   react: ["base", "aria", "uisdk", "kirana"],
-  vue: ["ark", "reka", "uisdk"],
+  vue: ["ark", "reka", "uisdk", "kirana"],
   svelte: ["ark", "bits", "uisdk"],
   solid: ["ark"],
   angular: ["ng"],
@@ -52,7 +52,7 @@ export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
  * is whole, since a React base's export is about 1,400 of the Worker's 20,000 static files. Their
  * docs pages say so (no shadcn/ui command); Kirana's own items (`/r/<item>.json`) carry them.
  */
-export const PORTING_BASES: readonly string[] = ["react-kirana"]
+export const PORTING_BASES: readonly string[] = ["react-kirana", "vue-kirana"]
 
 export const STYLES = [
   "nova",

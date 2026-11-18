@@ -19,6 +19,7 @@
     "@ark-ui/vue": "catalog:",
     "@base-ui/react": "catalog:",
     "@kirana-ui/react": "0.2.0",
+    "@kirana-ui/vue": "0.2.0",
     "@ui-sdk/core": "catalog:",
     "@ui-sdk/react": "catalog:",
     "@ui-sdk/svelte": "catalog:",

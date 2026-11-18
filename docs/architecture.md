@@ -431,10 +431,15 @@ every component Ark UI carries on Vue, on ui-sdk's own Input OTP and Resizable.
 component Ark UI carries on Svelte. **React's fourth base is Kirana UI
 Primitives** (`registry/bases/react-kirana`, at `/preview/react/kirana/`), the
 family's own headless library (`@kirana-ui/react`), with all 64 components and
-every example, block and chart but the select example's multiple select, which
-its select does not have yet; each part takes its Base UI twin's props. The
+every example, block and chart React's Base UI base has; each part takes its
+Base UI twin's props. The
 primitives write Base UI's attribute names, so a project installed for `kirana`
-keeps Base UI's state keys and needs no keys of its own.
+keeps Base UI's state keys and needs no keys of its own. **Vue's fourth base is Kirana UI
+Primitives too** (`registry/bases/vue-kirana`, at `/preview/vue/kirana/`, on
+`@kirana-ui/vue`), being ported: its parts take their Ark UI twins' props
+(`v-model`, `default-value`, `checked-change` given `{ checked }`), the plain
+components are Vue's own, and the ones on Reka UI's `Primitive` take the
+primitives' (`@kirana-ui/vue/primitive`), with the same `as` and `as-child`.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

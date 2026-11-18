@@ -21,6 +21,7 @@ declare module "virtual:preview-names" {
     | "vue/ark"
     | "vue/reka"
     | "vue/uisdk"
+    | "vue/kirana"
     | "svelte/ark"
     | "svelte/bits"
     | "svelte/uisdk"

@@ -39,6 +39,7 @@ const EXAMPLES = {
   "vue/ark": ["vue-ark", ".vue"],
   "vue/reka": ["vue-reka", ".vue"],
   "vue/uisdk": ["vue-uisdk", ".vue"],
+  "vue/kirana": ["vue-kirana", ".vue"],
   "svelte/ark": ["svelte-ark", ".svelte"],
   "svelte/bits": ["svelte-bits", ".svelte"],
   "svelte/uisdk": ["svelte-uisdk", ".svelte"],
