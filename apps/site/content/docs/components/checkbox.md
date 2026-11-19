@@ -4,18 +4,19 @@ description: A control that allows the user to toggle between checked and not ch
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -25,11 +26,11 @@ keywords:
 
 # Checkbox
 
-<!-- ::preview item="checkbox-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="checkbox" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="checkbox" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -37,7 +38,7 @@ keywords:
 import { Checkbox } from "@/components/ui/checkbox"
 ```
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/kirana,react/base,react/aria,react/uisdk -->
 
 ```tsx
 <Checkbox />
@@ -45,7 +46,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <template>
@@ -55,7 +56,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 ```svelte
 <Checkbox />
@@ -63,7 +64,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 <Checkbox />
@@ -89,7 +90,7 @@ export class Example {}
 
 ## Checked State
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Use `defaultChecked` for uncontrolled checkboxes, or `checked` and
 `onCheckedChange` to control the state.
@@ -125,7 +126,7 @@ export function Example() {
 
 ## Invalid State
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Set `aria-invalid` on the checkbox and `data-invalid` on the field wrapper to
 show the invalid styles.
@@ -139,23 +140,23 @@ show the invalid styles.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-invalid" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-invalid" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Basic
 
 Pair the checkbox with `Field` and `FieldLabel` for proper layout and labeling.
 
-<!-- ::preview item="checkbox-basic" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-basic" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Description
 
 Use `FieldContent` and `FieldDescription` for helper text.
 
-<!-- ::preview item="checkbox-description" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-description" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Use the `disabled` prop to prevent interaction and add the `data-disabled` attribute to the `<Field>` component for disabled styles.
 
@@ -167,23 +168,23 @@ Use the `isDisabled` prop to prevent interaction and add the `data-disabled` att
 
 <!-- ::end:only -->
 
-<!-- ::preview item="checkbox-disabled" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-disabled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Group
 
 Use multiple fields to create a checkbox list.
 
-<!-- ::preview item="checkbox-group" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-group" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Table
 
-<!-- ::preview item="checkbox-table" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="checkbox-table" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="checkbox-rtl" height="320" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

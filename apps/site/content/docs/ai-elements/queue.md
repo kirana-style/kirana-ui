@@ -4,18 +4,19 @@ description: Displays the agent's todo list, split into what is left and what is
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [queue, ai elements, agent, chat]
 
 # Queue
 
-<!-- ::preview item="queue-demo" height="470" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="queue-demo" height="470" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Queue is the agent's todo list. Todos sit in two sections, To do and Completed, and the icon on each todo shows its status. The agent updates the list as it works, so a todo moves from one section to the other when it is done.
 
@@ -34,7 +35,7 @@ Queue is built with `Trace` with a `TraceCollapsible` for each section.
 
 Queue is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -50,7 +51,7 @@ import {
 } from "@/components/ui/trace"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <Trace>
@@ -164,7 +165,7 @@ import {
 
 A todo with a description is a `TraceCollapsible` that opens to show it. A todo without one stays a `TraceLine`.
 
-<!-- ::preview item="queue-descriptions" height="380" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="queue-descriptions" height="380" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ```tsx showLineNumbers
 <TraceCollapsible>
@@ -205,7 +206,7 @@ Map each todo status to a section, an icon and a `TraceLine` status. Set `"runni
 
 If you added Queue from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/queue.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/queue.tsx from AI SDK Elements to kirana/ui's Trace component.

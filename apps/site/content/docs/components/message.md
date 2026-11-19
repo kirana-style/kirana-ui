@@ -4,18 +4,19 @@ description: Displays a message in a conversation, with optional avatar, header,
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -25,7 +26,7 @@ keywords:
 
 # Message
 
-<!-- ::preview item="message-demo" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="message-demo" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 The `Message` component lays out a single message in a conversation. It handles the avatar, alignment, header, and footer around the message surface.
 
@@ -33,7 +34,7 @@ For AI apps, you can render reasoning steps, tool calls and assistant messages u
 
 ## Installation
 
-<!-- ::installation name="message" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="message" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -43,7 +44,7 @@ import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 ```
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/kirana,react/base,react/aria,react/uisdk -->
 
 ```tsx
 <Message>
@@ -63,7 +64,7 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <template>
@@ -85,7 +86,7 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 ```svelte
 <Message>
@@ -105,7 +106,7 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 <Message>
@@ -189,7 +190,7 @@ MessageGroup
 
 Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` on the message to align the avatar to the end of the message.
 
-<!-- ::preview item="message-avatar" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="message-avatar" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 | align   | Description                                         |
 | ------- | --------------------------------------------------- |
@@ -200,23 +201,23 @@ Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` o
 
 Use `MessageGroup` to stack consecutive messages from the same sender. Render an empty `MessageAvatar` on the earlier messages to keep them aligned with the avatar on the last one.
 
-<!-- ::preview item="message-group" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="message-group" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Header and Footer
 
 Use `MessageHeader` for a sender name and `MessageFooter` for metadata such as a delivery or read status.
 
-<!-- ::preview item="message-header-footer" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="message-header-footer" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Actions
 
 Place message-level actions in `MessageFooter`, such as copy, retry, or feedback buttons.
 
-<!-- ::preview item="message-actions" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="message-actions" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Attachment
 
-<!-- ::preview item="message-attachment" height="400" combinations="react/base,react/aria,react/kirana" -->
+<!-- ::preview item="message-attachment" height="400" combinations="react/kirana,react/base,react/aria" -->
 
 ## Accessibility
 

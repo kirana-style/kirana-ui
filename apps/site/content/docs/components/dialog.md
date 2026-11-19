@@ -4,18 +4,19 @@ description: A window overlaid on the page.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,17 +25,17 @@ keywords: [dialog, component, base, aria, ark, svelte, solid, angular]
 
 # Dialog
 
-<!-- ::preview item="dialog-demo" height="420" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="dialog-demo" height="420" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="dialog" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="dialog" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, Kirana UI
+### Base UI, UI SDK, Kirana UI
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -149,7 +150,7 @@ import {
 </Dialog>
 ```
 
-### Solid
+### Solid · Ark UI, Solid · Kirana UI
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -237,7 +238,7 @@ On React Aria, `DialogTrigger` holds both the button and the dialog, which has n
 
 Use the following composition to build a `Dialog`:
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```text
 Dialog
@@ -269,33 +270,33 @@ DialogTrigger
 
 Replace the default close control with your own button.
 
-<!-- ::preview item="dialog-close-button" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="dialog-close-button" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## No Close Button
 
 Use `showCloseButton={false}` to hide the close button.
 
-<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="dialog-no-close-button" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Sticky Footer
 
 Keep actions visible while the content scrolls.
 
-<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="dialog-sticky-footer" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Scrollable Content
 
 Long content can scroll while the header stays in view.
 
-<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="dialog-scrollable-content" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
-<!-- ::start:only react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark -->
+<!-- ::start:only react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="dialog-rtl" height="420" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 <!-- ::end:only -->
 

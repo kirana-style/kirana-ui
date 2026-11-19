@@ -4,16 +4,17 @@ description: A succinct message that is displayed temporarily.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -23,15 +24,15 @@ keywords:
 
 # Toast
 
-<!-- ::preview item="toast-demo" height="300" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-demo" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="toast" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="toast" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 Then add the `Toaster` component to your root layout:
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx
 import { Toaster } from "@/components/ui/toast"
@@ -50,7 +51,7 @@ export default function RootLayout({ children }) {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <script setup lang="ts">
@@ -65,7 +66,7 @@ import { Toaster } from "@/components/ui/toast"
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/uisdk -->
 
 ```svelte
 <script lang="ts">
@@ -84,7 +85,7 @@ import { Toaster } from "@/components/ui/toast"
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 import type { JSX } from "solid-js"
@@ -144,7 +145,7 @@ Set the `type` option to render a status icon. The built-in renderer recognizes
 shadcn/ui's keep the text's but the error's: green for `success`, sky for `info`, orange for
 `warning` and the destructive red for `error`.
 
-<!-- ::preview item="toast-types" height="300" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-types" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Action
 
@@ -167,7 +168,7 @@ const id = toast.add({
 Use `toast.promise` to update one toast as an asynchronous task moves through
 loading, success, and error states.
 
-<!-- ::preview item="toast-promise" height="300" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-promise" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## API Reference
 

@@ -4,18 +4,19 @@ description: Displays the steps the agent takes, as it takes them.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [task, ai elements, agent, chat]
 
 # Task
 
-<!-- ::preview item="task-demo" height="490" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="task-demo" height="490" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Task is a piece of work the agent is doing, such as finding the project files or updating a page. Each step, like a search, a read or an edit, appears under the task when the agent takes it.
 
@@ -47,7 +48,7 @@ Use [Plan](/docs/ai-elements/plan) when the agent decides the steps before it st
 
 Task is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -63,7 +64,7 @@ import {
 } from "@/components/ui/trace"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <Trace>
@@ -163,7 +164,7 @@ const tasks = message.parts.filter((part) => part.type === "data-task")
 
 If you added Task from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/task.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/task.tsx from AI SDK Elements to kirana/ui's Trace component.

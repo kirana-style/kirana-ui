@@ -4,18 +4,19 @@ description: Displays the steps the agent plans to take, and how far it has got.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [plan, ai elements, agent, chat]
 
 # Plan
 
-<!-- ::preview item="plan-demo" height="470" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="plan-demo" height="470" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Plan is the list of steps the agent decides on before it starts, such as the steps of a migration. Each step is done, running or pending, and the title counts how many are done.
 
@@ -36,7 +37,7 @@ When the steps are not known up front, use [Task](/docs/ai-elements/task#task-or
 
 Plan is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -53,7 +54,7 @@ import {
 } from "@/components/ui/trace"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <Trace>
@@ -141,7 +142,7 @@ import {
 
 Put a description above the steps, inside `TraceCollapsibleContent`.
 
-<!-- ::preview item="plan-description" height="350" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="plan-description" height="350" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## AI SDK
 
@@ -163,7 +164,7 @@ const plan = message.parts.find((part) => part.type === "data-plan")
 
 If you added Plan from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/plan.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/plan.tsx from AI SDK Elements to kirana/ui's Trace component.

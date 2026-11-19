@@ -4,18 +4,19 @@ description: A responsive table component.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -25,11 +26,11 @@ keywords:
 
 # Table
 
-<!-- ::preview item="table-demo" height="480" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="table-demo" height="480" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="table" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="table" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -53,7 +54,7 @@ const styles = {
 }
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx
 <Table>
@@ -103,7 +104,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <template>
@@ -131,7 +132,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 ```svelte
 <Table>
@@ -157,7 +158,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 <Table>
@@ -273,13 +274,13 @@ Table
 
 Use the `<TableFooter />` component to add a footer to the table.
 
-<!-- ::preview item="table-footer" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="table-footer" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Actions
 
 A table showing actions for each row using a `<DropdownMenu />` component.
 
-<!-- ::preview item="table-actions" height="360" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="table-actions" height="360" combinations="react/kirana,react/base,react/aria,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,solid/kirana,solid/ark,angular/ng" -->
 
 ## Data Table
 
@@ -289,7 +290,7 @@ You can use the `<Table />` component to build more complex data tables. Combine
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="table-rtl" height="480" combinations="react/base,react/aria,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="table-rtl" height="480" combinations="react/base,react/aria,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

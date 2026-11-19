@@ -4,18 +4,19 @@ description: Autocomplete input with a list of suggestions.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -37,11 +38,11 @@ keywords:
 
 # Combobox
 
-<!-- ::preview item="combobox-demo" height="420" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-demo" height="420" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="combobox" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="combobox" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -56,7 +57,7 @@ import {
 } from "@/components/ui/combobox"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx
 const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
@@ -111,7 +112,7 @@ export function ExampleCombobox() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <script setup lang="ts">
@@ -142,7 +143,7 @@ const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 ```svelte
 <script lang="ts">
@@ -175,7 +176,7 @@ const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 import {
@@ -258,7 +259,7 @@ export class Example {
 
 A single-line input and a flat list (see [Basic](#basic)).
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```text
 Combobox
@@ -289,7 +290,7 @@ Combobox
 
 Multi-select with `multiple`, chips, and a chips input (see [Multiple](#multiple)).
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```text
 Combobox
@@ -324,7 +325,7 @@ Combobox
 
 ### With groups and collection
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Nested items per group using `ComboboxCollection` inside each `ComboboxGroup`, with a separator between groups (see [Groups](#groups)).
 
@@ -373,7 +374,7 @@ Combobox
 
 ## Custom Items
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Use `itemToStringValue` when your items are objects.
 
@@ -480,7 +481,7 @@ export function ExampleComboboxCustomItems() {
 
 Use `multiple` with chips for multi-select behavior.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx
 import * as React from "react"
@@ -595,29 +596,29 @@ export function ExampleComboboxMultiple() {
 
 A simple combobox with a list of frameworks.
 
-<!-- ::preview item="combobox-basic" height="420" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-basic" height="420" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Multiple
 
 A combobox with multiple selection using `multiple` and `ComboboxChips`.
 
-<!-- ::preview item="combobox-multiple" height="420" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-multiple" height="420" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Clear Button
 
 Use the `showClear` prop to show a clear button.
 
-<!-- ::preview item="combobox-clear" height="420" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-clear" height="420" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Groups
 
 Use `ComboboxGroup` and `ComboboxSeparator` to group items.
 
-<!-- ::preview item="combobox-groups" height="760" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-groups" height="760" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Custom Items
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 You can render a custom component inside `ComboboxItem`.
 
@@ -629,11 +630,11 @@ You can render custom component inside `ComboboxItem`.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-custom" height="760" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-custom" height="760" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Invalid
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Use the `aria-invalid` prop to make the combobox invalid.
 
@@ -645,11 +646,11 @@ Use the `isInvalid` prop to make the combobox invalid.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-invalid" height="420" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-invalid" height="420" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Disabled
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Use the `disabled` prop to disable the combobox.
 
@@ -661,11 +662,11 @@ Use the `isDisabled` prop to disable the combobox.
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-disabled" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-disabled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Auto Highlight
 
-<!-- ::start:only react/base,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng -->
+<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng -->
 
 <!-- ::start:only react/base -->
 
@@ -673,19 +674,19 @@ Use the `autoHighlight` prop to automatically highlight the first item on filter
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 Use the `auto-highlight` prop to automatically highlight the first item on filter.
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 Use the `autoHighlight` prop to automatically highlight the first item on filter.
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 Use the `autoHighlight` prop to automatically highlight the first item on filter.
 
@@ -697,13 +698,13 @@ Add `autoHighlight` to the combobox (`<ng-container kuiCombobox autoHighlight>`)
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/base,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-auto-highlight" height="420" combinations="react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
 ## Popup
 
-<!-- ::start:only react/base,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng -->
+<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng -->
 
 <!-- ::start:only react/base -->
 
@@ -711,19 +712,19 @@ You can trigger the combobox from a button or any other component by using the `
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 You can trigger the combobox from a button or any other component by giving `ComboboxTrigger` the element (`as-child`). Move the `ComboboxInput` inside the `ComboboxContent`.
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 You can trigger the combobox from a button or any other component by giving `ComboboxTrigger` the element (its `asChild` snippet, whose second argument is the chevron to render inside it). Move the `ComboboxInput` inside the `ComboboxContent`.
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 You can trigger the combobox from a button or any other component by giving `ComboboxTrigger` the element (its `asChild` function, whose second argument draws the chevron inside it). Move the `ComboboxInput` inside the `ComboboxContent`.
 
@@ -735,7 +736,7 @@ You can trigger the combobox from a button or any other component by putting `ku
 
 <!-- ::end:only -->
 
-<!-- ::preview item="combobox-popup" height="700" combinations="react/base,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-popup" height="700" combinations="react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -743,13 +744,13 @@ You can trigger the combobox from a button or any other component by putting `ku
 
 You can add an addon to the combobox by using the `InputGroupAddon` component inside the `ComboboxInput`.
 
-<!-- ::preview item="combobox-input-group" height="760" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="combobox-input-group" height="760" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="combobox-rtl" height="504" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="combobox-rtl" height="504" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

@@ -4,14 +4,18 @@ description: A collection of links for navigating websites.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/uisdk,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -21,11 +25,11 @@ keywords:
 
 # Navigation Menu
 
-<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="navigation-menu-demo" height="472" wide="true" combinations="react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="navigation-menu" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="navigation-menu" combinations="react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -40,7 +44,7 @@ import {
 } from "@/components/ui/navigation-menu"
 ```
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/kirana,react/base,react/aria,react/uisdk -->
 
 ```tsx
 <NavigationMenu>
@@ -57,7 +61,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <template>
@@ -76,7 +80,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 ```svelte
 <NavigationMenu>
@@ -93,7 +97,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 <NavigationMenu>
@@ -198,7 +202,7 @@ export function NavigationMenuDemo() {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/base,react/uisdk,vue/ark,vue/reka,vue/uisdk,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="navigation-menu-rtl" height="472" wide="true" combinations="react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

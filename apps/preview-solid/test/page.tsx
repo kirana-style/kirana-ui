@@ -14,12 +14,16 @@ import {
   watchPage,
 } from "@workspace/vite-config/browser-page"
 import { LanguageContext } from "@workspace/registry/bases/solid-ark/components/language-selector.tsx"
-import { previews } from "@workspace/registry/bases/solid-ark/previews.ts"
+import { previews as arkPreviews } from "@workspace/registry/bases/solid-ark/previews.ts"
 import { IconLibraryContext } from "@workspace/registry/bases/solid-ark/ui/icon-placeholder.tsx"
+import { LanguageContext as KiranaLanguageContext } from "@workspace/registry/bases/solid-kirana/components/language-selector.tsx"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/solid-kirana/previews.ts"
+import { IconLibraryContext as KiranaIconLibraryContext } from "@workspace/registry/bases/solid-kirana/ui/icon-placeholder.tsx"
 
 import { design } from "../src/design"
 
-export { previews }
+/** Each base's example pages, as the preview's routes hold them. */
+export const BASES = { ark: arkPreviews, kirana: kiranaPreviews }
 
 /** Lets Solid and the item settle: two frames. */
 export const settle = frames
@@ -42,9 +46,17 @@ export async function mountView(view: () => JSX.Element) {
         }}
       >
         <IconLibraryContext.Provider value={() => design().system.iconLibrary}>
-          <LanguageContext.Provider value={() => design().options.language}>
-            {view()}
-          </LanguageContext.Provider>
+          <KiranaIconLibraryContext.Provider
+            value={() => design().system.iconLibrary}
+          >
+            <LanguageContext.Provider value={() => design().options.language}>
+              <KiranaLanguageContext.Provider
+                value={() => design().options.language}
+              >
+                {view()}
+              </KiranaLanguageContext.Provider>
+            </LanguageContext.Provider>
+          </KiranaIconLibraryContext.Provider>
         </IconLibraryContext.Provider>
       </ErrorBoundary>
     ),
@@ -62,10 +74,10 @@ export async function mountView(view: () => JSX.Element) {
   return { container, errors: watch.errors }
 }
 
-/** The example `item` on the page, as its preview page holds it. */
-export async function mountItem(item: string) {
-  const load = previews[item]
-  if (!load) throw new Error(`no ark/${item}`)
+/** The example `item` of `base` on the page, as its preview page holds it. */
+export async function mountItem(base: keyof typeof BASES, item: string) {
+  const load = BASES[base][item]
+  if (!load) throw new Error(`no ${base}/${item}`)
   const { default: Item } = (await load()) as { default: Component }
   return mountView(() => <Item />)
 }

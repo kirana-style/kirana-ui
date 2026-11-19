@@ -88,10 +88,15 @@ export type DocsConfig = {
   frameQuery?: () => string
   /**
    * The framework-and-base pairs a component can be shown in (`{ id: "react/base", label: "Base
-   * UI" }`), in order, the first the default. A tab group whose headings are their labels follows
+   * UI" }`), in the order they are shown. A tab group whose headings are their labels follows
    * the reader's choice.
    */
   combinations?: readonly DocsCombination[]
+  /**
+   * Of the combinations an item has (their ids), the one shown while the reader has chosen none.
+   * Default: the first.
+   */
+  defaultCombination?: (ids: readonly string[]) => string | undefined
   /** Where an item's registry document is served, for the code panel (`::component-code`). */
   registryItem?: (name: string) => string
   /** Which of an item's flattened builds the code panel shows (the design's style). */

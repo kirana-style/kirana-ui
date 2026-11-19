@@ -4,18 +4,19 @@ description: How much of the context window the conversation has used.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [context, ai elements, agent, chat]
 
 # Context
 
-<!-- ::preview item="context-demo" height="250" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="context-demo" height="250" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Context shows how much of the model's context window the conversation has used. It is a [Hover Card](/docs/components/hover-card) with a [Progress](/docs/components/progress) bar.
 
@@ -32,11 +33,11 @@ Context shows how much of the model's context window the conversation has used. 
 
 Context is built with the [Hover Card](/docs/components/hover-card) and [Progress](/docs/components/progress) components.
 
-<!-- ::installation name="hover-card progress" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="hover-card progress" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -136,7 +137,7 @@ const percent = Math.round((used / limit) * 100)
 
 If you added Context from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/context.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Hover Card and Progress. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/context.tsx from AI SDK Elements to kirana/ui's Hover Card and Progress components.

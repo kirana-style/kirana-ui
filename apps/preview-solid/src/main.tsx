@@ -6,7 +6,10 @@ import "@workspace/registry/styles/reset.css"
 import "@workspace/registry/styles/typeset.css"
 import { css, props } from "@kirana-style/core"
 import { LanguageContext } from "@workspace/registry/bases/solid-ark/components/language-selector.tsx"
-import { previews } from "@workspace/registry/bases/solid-ark/previews.ts"
+import { previews as arkPreviews } from "@workspace/registry/bases/solid-ark/previews.ts"
+import { LanguageContext as KiranaLanguageContext } from "@workspace/registry/bases/solid-kirana/components/language-selector.tsx"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/solid-kirana/previews.ts"
+import { IconLibraryContext as KiranaIconLibraryContext } from "@workspace/registry/bases/solid-kirana/ui/icon-placeholder.tsx"
 import { axes } from "@workspace/registry/core/axes.ts"
 import { root } from "@workspace/registry/core/root.ts"
 import { space } from "@workspace/registry/core/scales.ts"
@@ -36,52 +39,74 @@ const list = css({
 })
 
 /**
- * One page per item, as `/preview/solid/ark/<item>`, the showcase and `/create`'s charts; anything
- * else lists them.
+ * One page per item, as `/preview/solid/<base>/<item>` (Ark UI's or Kirana UI's), the showcase and
+ * `/create`'s charts (Ark UI's); anything else lists them.
  */
-const item = location.pathname.match(/\/ark\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
+const route = location.pathname.match(
+  /\/(ark|kirana)\/([a-z0-9-]+?)(?:\.html)?\/?$/
+)
+const base = route?.[1] === "kirana" ? "kirana" : "ark"
+const item = route?.[2]
+const previews = base === "kirana" ? kiranaPreviews : arkPreviews
 // Loaded only on its own page, as the Svelte preview's.
 const load = item ? previews[item] : undefined
 const Current = load ? lazy(load) : undefined
 // Sonner's toaster, as upstream's site mounts it on every page (`top-center`): loaded after the
-// page, since only the items that call `toast()` need it.
+// page, since only the items that call `toast()` need it. Each base's own, since its items call
+// their own `toast()`.
 const Toaster = lazy(() =>
-  import("@workspace/registry/bases/solid-ark/ui/sonner.tsx").then(
-    (module) => ({
-      default: module.Toaster,
-    })
-  )
+  (base === "kirana"
+    ? import("@workspace/registry/bases/solid-kirana/ui/sonner.tsx")
+    : import("@workspace/registry/bases/solid-ark/ui/sonner.tsx")
+  ).then((module) => ({ default: module.Toaster }))
 )
-// The toast's toaster (Ark UI's), as React's preview mounts Base UI's beside every item.
+// The toast's toaster (the base's own), as React's preview mounts Base UI's beside every item.
 const ToastToaster = lazy(() =>
-  import("@workspace/registry/bases/solid-ark/ui/toast.tsx").then((module) => ({
-    default: module.Toaster,
-  }))
+  (base === "kirana"
+    ? import("@workspace/registry/bases/solid-kirana/ui/toast.tsx")
+    : import("@workspace/registry/bases/solid-ark/ui/toast.tsx")
+  ).then((module) => ({ default: module.Toaster }))
 )
 
 render(
   () => (
     <IconLibraryContext.Provider value={() => design().system.iconLibrary}>
-      {/* A right-to-left demo's language, from `?lang=` and the docs page's selector. */}
-      <LanguageContext.Provider value={() => design().options.language}>
-        <Show when={item !== "showcase"} fallback={<Showcase />}>
-          {item === "charts" ? (
-            <Charts />
-          ) : Current ? (
-            <>
-              <Current />
-              <Toaster position="top-center" />
-              <ToastToaster />
-            </>
-          ) : (
-            <nav sx={list}>
-              <For each={[...Object.keys(previews), "showcase"]}>
-                {(name) => <a href={`/preview/solid/ark/${name}`}>{name}</a>}
-              </For>
-            </nav>
-          )}
-        </Show>
-      </LanguageContext.Provider>
+      {/* Each base's copy of the icon library's and the language's contexts. */}
+      <KiranaIconLibraryContext.Provider
+        value={() => design().system.iconLibrary}
+      >
+        {/* A right-to-left demo's language, from `?lang=` and the docs page's selector. */}
+        <LanguageContext.Provider value={() => design().options.language}>
+          <KiranaLanguageContext.Provider
+            value={() => design().options.language}
+          >
+            <Show when={item !== "showcase"} fallback={<Showcase />}>
+              {item === "charts" ? (
+                <Charts />
+              ) : Current ? (
+                <>
+                  <Current />
+                  <Toaster position="top-center" />
+                  <ToastToaster />
+                </>
+              ) : (
+                <nav sx={list}>
+                  <For
+                    each={[
+                      ...Object.keys(previews),
+                      ...(base === "ark" ? ["showcase"] : []),
+                    ]}
+                  >
+                    {(name) => (
+                      <a href={`/preview/solid/${base}/${name}`}>{name}</a>
+                    )}
+                  </For>
+                </nav>
+              )}
+            </Show>
+          </KiranaLanguageContext.Provider>
+        </LanguageContext.Provider>
+      </KiranaIconLibraryContext.Provider>
     </IconLibraryContext.Provider>
   ),
   document.getElementById("app")!

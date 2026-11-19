@@ -4,18 +4,19 @@ description: A message field with attachments and a send button.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [prompt input, ai elements, agent, chat]
 
 # Prompt Input
 
-<!-- ::preview item="prompt-input-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="prompt-input-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Prompt Input is the field the person types into to message the agent. It is an [Input Group](/docs/components/input-group) with a textarea, an attach button, the [Model Selector](/docs/ai-elements/model-selector) menus and a send button. Attached files show as [Attachment](/docs/components/attachment) chips above the text.
 
@@ -32,7 +33,7 @@ Prompt Input is the field the person types into to message the agent. It is an [
 
 Prompt Input is built with the [Input Group](/docs/components/input-group), [Attachment](/docs/components/attachment) and [Dropdown Menu](/docs/components/dropdown-menu) components.
 
-<!-- ::installation name="input-group attachment dropdown-menu" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="input-group attachment dropdown-menu" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -45,7 +46,7 @@ import {
 } from "@/components/ui/input-group"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -174,7 +175,7 @@ The route streams the reply with `result.toUIMessageStreamResponse()`.
 
 If you added Prompt Input from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/prompt-input.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Input Group and Attachment. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/prompt-input.tsx from AI SDK Elements to kirana/ui's Input Group and Attachment components.

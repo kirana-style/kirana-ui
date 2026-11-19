@@ -61,10 +61,11 @@ export function useSavedCombination(): string | null {
 
 /**
  * The combinations an item has (`only`, ids; every one the site knows without it), and the one
- * shown: the saved choice when the item has it, else its first.
+ * shown: the saved choice when the item has it, else the default (`defaultCombination`), else its
+ * first.
  */
 export function useCombination(only?: readonly string[]) {
-  const { combinations = [] } = useDocs()
+  const { combinations = [], defaultCombination } = useDocs()
   const available = combinations.filter(
     (combination) => !only || only.includes(combination.id)
   )
@@ -74,6 +75,11 @@ export function useCombination(only?: readonly string[]) {
   const current =
     available.find((combination) => combination.id === page) ??
     available.find((combination) => combination.id === saved) ??
+    available.find(
+      (combination) =>
+        combination.id ===
+        defaultCombination?.(available.map((each) => each.id))
+    ) ??
     available[0]
   return { available, current }
 }

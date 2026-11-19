@@ -4,18 +4,19 @@ description: Powerful table and datagrids built using TanStack Table.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -35,7 +36,7 @@ keywords:
 
 # Data Table
 
-<!-- ::preview item="data-table-demo" height="460" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="data-table-demo" height="460" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Introduction
 
@@ -67,7 +68,7 @@ This guide will show you how to use [TanStack Table](https://tanstack.com/table)
 
 1. Add the `<Table />` component to your project:
 
-<!-- ::installation name="table" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="table" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 2. Add the `@tanstack/react-table` dependency. This guide uses **TanStack Table v9**:
 
@@ -77,7 +78,7 @@ This guide will show you how to use [TanStack Table](https://tanstack.com/table)
 
 We are going to build a table to show recent payments. Here's what our data looks like:
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 type Payment = {
@@ -317,7 +318,7 @@ export const columns = columnHelper.columns([
 
 Next, we'll create a `<DataTable />` component to render our table.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/data-table.tsx"
 import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table"
@@ -535,7 +536,7 @@ You can use the same approach to format other cells and headers.
 
 ## Row Actions
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Let's add row actions to our table. We'll use a `<DropdownMenu />` component for this.
 
@@ -551,13 +552,13 @@ Let's add row actions to our table. We'll use a `<Dropdown />` component for thi
 
 ### Update columns definition
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Update our columns definition to add a new `actions` column. The `actions` cell returns a `<DropdownMenu />` component.
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/columns.tsx" {2,4-13,19-50}
 import { createColumnHelper } from "@tanstack/react-table"
@@ -754,7 +755,7 @@ The `rowSortingFeature` and sorted row model are already registered in our featu
 
 ### Update `<DataTable>`
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/data-table.tsx" {1,6,15,21-24}
 import * as React from "react"
@@ -858,7 +859,7 @@ export function DataTable<TData extends RowData>({
 
 We can now update the `email` header cell to add sorting controls.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/columns.tsx" {2,6-16}
 import { createColumnHelper } from "@tanstack/react-table"
@@ -992,7 +993,7 @@ Adding column visibility is fairly simple using `@tanstack/react-table` visibili
 
 ### Update `<DataTable>`
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/data-table.tsx" {6,12-17,29-30,38,42,57-84}
 import * as React from "react"
@@ -1213,7 +1214,7 @@ Next, we're going to add row selection to our table.
 
 ### Update column definitions
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/columns.tsx" {4,7-28}
 import { createColumnHelper } from "@tanstack/react-table"
@@ -1272,7 +1273,7 @@ export const columns = columnHelper.columns([
 
 ### Update `<DataTable>`
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="payments/data-table.tsx" {11,20,25}
 export function DataTable<TData extends RowData>({
@@ -1389,4 +1390,4 @@ You can show the number of selected rows using the `table.getFilteredSelectedRow
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="data-table-rtl" height="460" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" direction="rtl" -->
+<!-- ::preview item="data-table-rtl" height="460" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" direction="rtl" -->

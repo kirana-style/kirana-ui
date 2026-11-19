@@ -4,18 +4,19 @@ description: Marks a point in the conversation you can return to.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [checkpoint, ai elements, agent, chat]
 
 # Checkpoint
 
-<!-- ::preview item="checkpoint-demo" height="410" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="checkpoint-demo" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Checkpoint is a point in the conversation you can return to. It is a [Marker](/docs/components/marker) after a turn, with a Restore button. Restore keeps that turn and drops every message after it.
 
@@ -32,13 +33,13 @@ Checkpoint is a point in the conversation you can return to. It is a [Marker](/d
 
 Checkpoint is built with the [Marker](/docs/components/marker) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="marker button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="marker button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
 Render a marker after the turn, with a button that restores it.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -112,7 +113,7 @@ const chat = createChat()
 
 If you added Checkpoint from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/checkpoint.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Marker and Button. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/checkpoint.tsx from AI SDK Elements to kirana/ui's Marker and Button components.

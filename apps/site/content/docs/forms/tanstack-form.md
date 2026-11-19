@@ -3,7 +3,7 @@ title: TanStack Form
 description: Build forms in React using TanStack Form and Zod.
 section: forms
 order: 2
-variants: [react/base, react/aria, react/uisdk, react/kirana]
+variants: [react/kirana, react/base, react/aria, react/uisdk]
 keywords: [tanstack form, forms, zod, validation, field]
 ---
 
@@ -18,7 +18,7 @@ We'll start by building the following form. It has a simple text input and a tex
 > [!NOTE]
 > **Note:** For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in TanStack Form. It is recommended to add basic browser validation in your production code.
 
-<!-- ::preview item="form-tanstack-demo" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-demo" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ## Approach
 
@@ -143,7 +143,7 @@ We are using `onSubmit` to validate the form data here. TanStack Form supports o
 
 We can now build the form using the `form.Field` component from TanStack Form and the `<Field />` component.
 
-<!-- ::demo-source item="form-tanstack-demo" title="form.tsx" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::demo-source item="form-tanstack-demo" title="form.tsx" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ### Done
 
@@ -245,7 +245,7 @@ Display errors next to the field using `<FieldError />`. For styling and accessi
 - For input fields, use `field.state.value` and `field.handleChange` on the `<Input />` component.
 - To show errors, add the `aria-invalid` prop to the `<Input />` component and the `data-invalid` prop to the `<Field />` component.
 
-<!-- ::preview item="form-tanstack-input" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-input" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ```tsx showLineNumbers title="form.tsx" {6,11-14,22}
 <form.Field
@@ -281,7 +281,7 @@ Display errors next to the field using `<FieldError />`. For styling and accessi
 - For textarea fields, use `field.state.value` and `field.handleChange` on the `<Textarea />` component.
 - To show errors, add the `aria-invalid` prop to the `<Textarea />` component and the `data-invalid` prop to the `<Field />` component.
 
-<!-- ::preview item="form-tanstack-textarea" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-textarea" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ```tsx showLineNumbers title="form.tsx" {6,13-16,24}
 const styles = {
@@ -335,9 +335,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-tanstack-select" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-select" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx"
 const styles = {
@@ -441,7 +441,7 @@ const styles = {
 
 ### Checkbox
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 - For checkbox, use `field.state.value` and `field.handleChange` on the `<Checkbox />` component.
 - To show errors, add the `aria-invalid` prop to the `<Checkbox />` component and the `data-invalid` prop to the `<Field />` component.
@@ -459,9 +459,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-tanstack-checkbox" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-checkbox" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx"
 const styles = {
@@ -581,7 +581,7 @@ const styles = {
 
 ### Radio Group
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 - For radio groups, use `field.state.value` and `field.handleChange` on the `<RadioGroup />` component.
 - To show errors, add the `aria-invalid` prop to the `<RadioGroupItem />` component and the `data-invalid` prop to the `<Field />` component.
@@ -595,9 +595,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-tanstack-radiogroup" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-radiogroup" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx" {21,29,35}
 <form.Field
@@ -691,7 +691,7 @@ const styles = {
 
 ### Switch
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 - For switches, use `field.state.value` and `field.handleChange` on the `<Switch />` component.
 - To show errors, add the `aria-invalid` prop to the `<Switch />` component and the `data-invalid` prop to the `<Field />` component.
@@ -705,9 +705,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-tanstack-switch" height="500" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-switch" height="500" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx" {6,14,19-21}
 <form.Field
@@ -776,7 +776,7 @@ const styles = {
 
 Here is an example of a more complex form with multiple fields and validation.
 
-<!-- ::preview item="form-tanstack-complex" height="1100" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-complex" height="1100" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ## Resetting the Form
 
@@ -792,7 +792,7 @@ Use `form.reset()` to reset the form to its default values.
 
 TanStack Form provides powerful array field management with `mode="array"`. This allows you to dynamically add, remove, and update array items with full validation support.
 
-<!-- ::preview item="form-tanstack-array" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-tanstack-array" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 This example demonstrates managing multiple email addresses with array fields. Users can add up to 5 email addresses, remove individual addresses, and each address is validated independently.
 

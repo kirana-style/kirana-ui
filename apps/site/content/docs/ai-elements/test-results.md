@@ -4,18 +4,19 @@ description: Displays a test run by the agent, with its suites and failures.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [test results, ai elements, agent, chat]
 
 # Test Results
 
-<!-- ::preview item="test-results-demo" height="690" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="test-results-demo" height="690" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Test Results is a test run by the agent. The summary line counts what passed and failed. Open it to see each suite, its tests, and the error for each failure.
 
@@ -34,7 +35,7 @@ Test Results is built with `Trace` with a `TraceCollapsible` for the run and for
 
 Test Results is built with the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components.
 
-<!-- ::installation name="trace code-block" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -101,9 +102,9 @@ const styles = {
 
 Group tests by file. Each suite is a collapsible line with a `Trace` of its tests. Open the suites that have a failure.
 
-<!-- ::preview item="test-results-suites" height="600" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="test-results-suites" height="600" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <TraceCollapsible defaultOpen={failed > 0}>
@@ -147,7 +148,7 @@ Group tests by file. Each suite is a collapsible line with a `Trace` of its test
 
 Run the tests as a tool and render its output. The tool states map the same way as in [Tool](/docs/ai-elements/tool#states).
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const tests = part.output.suites.flatMap((suite) => suite.tests)
@@ -201,7 +202,7 @@ return (
 
 If you added Test Results from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/test-results.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace and Code Block. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/test-results.tsx from AI SDK Elements to kirana/ui's Trace and Code Block components.

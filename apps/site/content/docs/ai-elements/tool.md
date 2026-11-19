@@ -4,18 +4,19 @@ description: Displays a tool call the agent makes, from input to output.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [tool, ai elements, agent, chat]
 
 # Tool
 
-<!-- ::preview item="tool-demo" height="490" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="tool-demo" height="490" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Tool is a tool call the agent makes, such as running a command or reading a file. The line follows the call from input to output, including errors and calls that wait for approval.
 
@@ -34,7 +35,7 @@ Tool is built with `Trace` with a `TraceCollapsible` for each call that has outp
 
 Tool is built with the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components.
 
-<!-- ::installation name="trace code-block" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -81,7 +82,7 @@ const styles = {
 
 Trace does not read tool parts. Map each part's `state` to a `status` and a title.
 
-<!-- ::preview item="tool-states" height="300" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="tool-states" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 | Tool part state                                           | `status`                             | Title                                                                |
 | --------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------- |
@@ -170,7 +171,7 @@ A tool that runs on the client stays `input-available` after the chat stops unti
 
 ## Output in a Sheet
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 For long output, wrap the `TraceLine` in a `SheetTrigger` and show the output in the sheet.
 
@@ -182,7 +183,7 @@ For long output, wrap the `TraceLine` in React Aria's `Button` inside a `SheetTr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="tool-sheet" height="410" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="tool-sheet" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 See [Trace](/docs/components/trace#dialog).
 
@@ -190,9 +191,9 @@ See [Trace](/docs/components/trace#dialog).
 
 A pending approval is a question for the person, not a step the agent took, so it sits outside `Trace` as an `Item`. Once the person answers, the tool goes back to being a line. See [Confirmation](/docs/ai-elements/confirmation).
 
-<!-- ::preview item="tool-approval" height="410" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="tool-approval" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 if (part.state === "approval-requested") {
@@ -274,7 +275,7 @@ Pass `sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses
 
 If you added Tool from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/tool.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace and Code Block. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/tool.tsx from AI SDK Elements to kirana/ui's Trace and Code Block components.

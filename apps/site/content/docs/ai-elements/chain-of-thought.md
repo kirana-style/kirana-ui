@@ -4,18 +4,19 @@ description: Displays a summary that expands into the steps an agent took.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [chain of thought, ai elements, agent, chat]
 
 # Chain of Thought
 
-<!-- ::preview item="chain-of-thought-demo" height="610" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="chain-of-thought-demo" height="610" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Chain of Thought is a summary line that expands into the steps an agent took. The summary says what happened, like "Researched in 3 steps". The steps sit inside it, each one a line of its own.
 
@@ -34,7 +35,7 @@ Chain of Thought is built with `Trace` with a `TraceCollapsible` for the summary
 
 Chain of Thought is built with the [Trace](/docs/components/trace), [Code Block](/docs/components/code-block) and [Badge](/docs/components/badge) components.
 
-<!-- ::installation name="trace code-block badge" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace code-block badge" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -50,7 +51,7 @@ import {
 } from "@/components/ui/trace"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <Trace>
@@ -143,7 +144,7 @@ Each step is a `TraceLine`. Set its `status` and write the title in the matching
 | Done, links out   | none        | Read the Image component docs |
 | Failed            | `"error"`   | Failed to search for …        |
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 Add `keepMounted` to the summary's `TraceCollapsibleContent`. Steps keep their open state when the summary closes.
 
@@ -171,7 +172,7 @@ const styles = {
 
 Render each tool part as a step. `running` is true while tool parts stream and before the reply starts. Set the summary's status and title from the steps. The summary opens while the steps run, as in [Trace](/docs/components/trace#open-state).
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const [open, setOpen] = React.useState<boolean>()
@@ -231,7 +232,7 @@ const failed = steps.filter((part) => part.state === "output-error").length
 
 If you added ChainOfThought from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/chain-of-thought.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace and Badge. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/chain-of-thought.tsx from AI SDK Elements to kirana/ui's Trace and Badge components.

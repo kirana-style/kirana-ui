@@ -4,18 +4,19 @@ description: Two menus. One picks the model the agent runs, the other picks how 
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,17 +25,17 @@ keywords: [model selector, ai elements, agent, chat]
 
 # Model Selector
 
-<!-- ::preview item="model-selector-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="model-selector-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Installation
 
 Model Selector is built with the [Dropdown Menu](/docs/components/dropdown-menu) and [Input Group](/docs/components/input-group) components.
 
-<!-- ::installation name="dropdown-menu input-group" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="dropdown-menu input-group" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 import { ArrowUpIcon, ChevronDownIcon } from "lucide-react"
@@ -58,7 +59,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -236,7 +237,7 @@ Each provider reads its own key in `providerOptions` and ignores the rest.
 
 If you added Model Selector from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/model-selector.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Dropdown Menu. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/model-selector.tsx from AI SDK Elements to kirana/ui's Dropdown Menu component.

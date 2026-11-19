@@ -85,6 +85,10 @@ export type DocsConfig = {
     href: string,
     variants: readonly string[]
   ) => string | undefined
+  /**
+   * Of a page's variants, the one its shared URL leads to and the nav lists. Default: the first.
+   */
+  defaultVariant?: (variants: readonly string[]) => string | undefined
 }
 
 export async function generate(config: DocsConfig): Promise<void> {
@@ -297,7 +301,8 @@ export async function generate(config: DocsConfig): Promise<void> {
         label: variants.find((variant) => variant.id === id)!.label,
         href: variantHref(of, id),
       }))
-      for (const [index, id] of ids.entries()) {
+      const defaultId = config.defaultVariant?.(ids) ?? ids[0]
+      for (const id of ids) {
         const known = variants.find((variant) => variant.id === id)!
         const override = overrideOf(file, id)
         // An override without frontmatter takes the source's.
@@ -317,7 +322,7 @@ export async function generate(config: DocsConfig): Promise<void> {
             label: known.label,
             name: known.name,
             of,
-            default: index === 0,
+            default: defaultId === id,
             siblings,
           }
         )

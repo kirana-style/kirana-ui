@@ -4,18 +4,19 @@ description: A short prompt you can send to the agent in one click.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [suggestion, ai elements, agent, chat]
 
 # Suggestion
 
-<!-- ::preview item="suggestion-demo" height="320" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="suggestion-demo" height="320" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Suggestion is a prompt you send without typing. Each one is a [Button](/docs/components/button) with the prompt as its label. Put a row of them above the [Prompt Input](/docs/ai-elements/prompt-input).
 
@@ -32,7 +33,7 @@ Suggestion is a prompt you send without typing. Each one is a [Button](/docs/com
 
 Suggestion is built with the [Button](/docs/components/button) component.
 
-<!-- ::installation name="button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -40,7 +41,7 @@ Suggestion is built with the [Button](/docs/components/button) component.
 import { Button } from "@/components/ui/button"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -118,7 +119,7 @@ sendMessage({ text: suggestion })
 
 If you added Suggestion from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/suggestion.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Button. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/suggestion.tsx from AI SDK Elements to kirana/ui's Button component.

@@ -23,7 +23,7 @@ import type {
 import { DocsLink } from "@/components/docs-link"
 import { FrameworkMenu } from "@/components/frameworks"
 import { NAV, PAGES } from "@/generated/content.gen"
-import { FRAMEWORKS, VARIANTS, frameworkOf } from "@/lib/variants"
+import { FRAMEWORKS, VARIANTS, defaultOf, frameworkOf } from "@/lib/variants"
 import { frameQuery, usePageDesign } from "@/lib/page-design"
 import { loadSearch, search } from "@/lib/search"
 
@@ -149,6 +149,7 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
       `/preview/${combination}/${item}`,
     frameQuery,
     combinations: COMBINATIONS,
+    defaultCombination: defaultOf,
     registryItem: (name) => `/r/${name}.json`,
     // The code installing an item writes, in the reader's style.
     codeStyle: design.system.style,

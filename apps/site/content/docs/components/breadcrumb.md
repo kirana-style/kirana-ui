@@ -4,18 +4,19 @@ description: Displays the path to the current resource using a hierarchy of link
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,17 +25,17 @@ keywords: [breadcrumb, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Breadcrumb
 
-<!-- ::preview item="breadcrumb-demo" height="360" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-demo" height="360" combinations="react/kirana,react/base,react/aria,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,solid/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="breadcrumb" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="breadcrumb" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
 <!-- ::start:tabs -->
 
-### Base UI, ui-sdk, Kirana UI
+### Base UI, UI SDK, Kirana UI
 
 ```tsx
 import {
@@ -104,7 +105,7 @@ On React Aria, the separators are drawn between the items by the list itself: th
 
 Use the following composition to build a `Breadcrumb`:
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```text
 Breadcrumb
@@ -140,37 +141,37 @@ Breadcrumb
 
 A basic breadcrumb with a home link and a components link.
 
-<!-- ::preview item="breadcrumb-basic" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-basic" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Custom separator
 
 Use a custom component as `children` for `<BreadcrumbSeparator />` to create a custom separator.
 
-<!-- ::preview item="breadcrumb-separator" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-separator" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Dropdown
 
 You can compose `<BreadcrumbItem />` with a `<DropdownMenu />` to create a dropdown in the breadcrumb.
 
-<!-- ::preview item="breadcrumb-dropdown" height="400" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-dropdown" height="400" combinations="react/kirana,react/base,react/aria,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,solid/kirana,solid/ark,angular/ng" -->
 
 ## Collapsed
 
 We provide a `<BreadcrumbEllipsis />` component to show a collapsed state when the breadcrumb is too long.
 
-<!-- ::preview item="breadcrumb-ellipsis" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-ellipsis" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Link component
 
 To use a custom link component from your routing library, you can use the `render` prop on `<BreadcrumbLink />`.
 
-<!-- ::preview item="breadcrumb-link" height="400" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="breadcrumb-link" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="breadcrumb-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="breadcrumb-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 
@@ -214,19 +215,19 @@ The `BreadcrumbPage` component displays the current page in the breadcrumb (non-
 | ---- | ---- | ------- |
 | `sx` | `Sx` | -       |
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ### BreadcrumbSeparator
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 The `BreadcrumbSeparator` component displays a separator between breadcrumb items. You can pass custom children to override the default separator icon.
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 | Prop       | Type              | Default |
 | ---------- | ----------------- | ------- |

@@ -46,7 +46,7 @@ library's core with it.
 
 <!-- ::install packages="@kirana-ui/svelte" -->
 
-### Solid
+### Solid · Ark UI
 
 <!-- ::install packages="@kirana-ui/solid" -->
 

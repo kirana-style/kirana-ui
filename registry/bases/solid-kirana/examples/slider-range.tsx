@@ -1,0 +1,25 @@
+import { css } from "@kirana-style/core"
+import { Slider } from "../ui/slider"
+import { containerSize } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+
+export default function SliderRange() {
+  const styles = {
+    mxAutoWFullMaxWXs: css({
+      marginInline: "auto",
+      width: { "*": null, base: "100%" },
+      maxWidth: containerSize.xs,
+    }),
+  }
+
+  return (
+    <div sx={page.example}>
+      <Slider
+        defaultValue={[25, 50]}
+        max={100}
+        step={5}
+        sx={styles.mxAutoWFullMaxWXs}
+      />
+    </div>
+  )
+}

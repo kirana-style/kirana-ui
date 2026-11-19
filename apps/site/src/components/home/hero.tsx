@@ -27,34 +27,32 @@ import solidLogo from "@workspace/docs-ui/brands/solidjs.svg?url"
 import svelteLogo from "@workspace/docs-ui/brands/svelte.svg?url"
 import vueLogo from "@workspace/docs-ui/brands/vue.svg?url"
 import { hue } from "@/components/page/hue"
+import { FRAMEWORKS as VARIANT_FRAMEWORKS } from "@/lib/variants"
+
+/** "Kirana UI, Base UI and React Aria": a list as the page reads it. */
+const LIST = new Intl.ListFormat("en", { type: "conjunction" })
+
+/** Each framework's title on its mark: the framework and its bases, in the variants' order. */
+const titleOf = (id: string) => {
+  const framework = VARIANT_FRAMEWORKS.find((each) => each.id === id)!
+  return `${framework.label}: ${LIST.format(framework.variants.map((variant) => variant.base))}`
+}
 
 /**
- * The frameworks, wired from the engine: React, on Base UI and React Aria; Vue, Svelte and Solid,
- * on Ark UI; Angular, on ng-primitives. Frameworks only: a meta-framework is its framework's (Next.js and TanStack Start are
- * React, Nuxt is Vue), and a build tool (Vite) belongs to none.
+ * The frameworks, wired from the engine, each titled with its bases (`lib/variants.ts`).
+ * Frameworks only: a meta-framework is its framework's (Next.js and TanStack Start are React, Nuxt
+ * is Vue), and a build tool (Vite) belongs to none.
  */
 const FRAMEWORKS = [
   {
-    title: "React: Base UI and React Aria",
+    title: titleOf("react"),
     url: "https://react.dev",
     route: { light: reactLight, dark: reactDark },
   },
-  { title: "Vue: Ark UI", url: "https://vuejs.org", route: vueLogo },
-  {
-    title: "Svelte: Ark UI",
-    url: "https://svelte.dev",
-    route: svelteLogo,
-  },
-  {
-    title: "Solid: Ark UI",
-    url: "https://www.solidjs.com",
-    route: solidLogo,
-  },
-  {
-    title: "Angular: ng-primitives",
-    url: "https://angular.dev",
-    route: angularLogo,
-  },
+  { title: titleOf("vue"), url: "https://vuejs.org", route: vueLogo },
+  { title: titleOf("svelte"), url: "https://svelte.dev", route: svelteLogo },
+  { title: titleOf("solid"), url: "https://www.solidjs.com", route: solidLogo },
+  { title: titleOf("angular"), url: "https://angular.dev", route: angularLogo },
 ] as const
 
 /** The frameworks' row under the engine, in percent of the scene's width, as the Kirana site's fan of agents. */

@@ -4,18 +4,19 @@ description: A composable, themeable and customizable sidebar component.
 section: components
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [sidebar, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" block="true" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" caption="A sidebar that collapses to icons." -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" caption="A sidebar that collapses to icons." -->
 
 Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
@@ -35,11 +36,11 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="sidebar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
-<!-- ::start:only react/base,react/aria -->
+<!-- ::start:only react/kirana,react/base,react/aria,react/uisdk -->
 
 ```tsx
 import {
@@ -66,7 +67,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only vue/ark,vue/reka -->
+<!-- ::start:only vue/kirana,vue/ark,vue/reka,vue/uisdk -->
 
 ```vue
 <script setup lang="ts">
@@ -93,7 +94,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only svelte/ark,svelte/bits -->
+<!-- ::start:only svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk -->
 
 ```svelte
 <script lang="ts">
@@ -120,7 +121,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark -->
 
 ```tsx
 import {
@@ -369,7 +370,7 @@ const styles = {
 }
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="components/app-sidebar.tsx"
 <Sidebar>
@@ -481,7 +482,7 @@ const chevron = css({
 })
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <Collapsible defaultOpen sx={collapsibleScope.anchor}>
@@ -523,7 +524,7 @@ The `SidebarMenu` component is used for building a menu within a `SidebarGroup`.
 
 <!-- ::figure light="/images/sidebar-menu.png" dark="/images/sidebar-menu-dark.png" alt="Sidebar Menu" width="716" height="420" caption="Illustration from shadcn/ui's documentation (MIT)." -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <SidebarMenu>
@@ -561,7 +562,7 @@ The `SidebarMenu` component is used for building a menu within a `SidebarGroup`.
 
 The `SidebarMenuButton` component is used to render a menu button within a `SidebarMenuItem`.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 By default, the `SidebarMenuButton` renders a button but you can use the `render` prop to render a different component such as a `Link` or an `a` tag.
 
@@ -575,7 +576,7 @@ By default, the `SidebarMenuButton` renders a button, but passing an `href` prop
 
 Use the `isActive` prop to mark a menu item as active.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <SidebarMenuButton render={<a href="#" />} isActive>
@@ -599,7 +600,7 @@ Use the `isActive` prop to mark a menu item as active.
 
 The `SidebarMenuAction` component is used to render a menu action within a `SidebarMenuItem`.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 <SidebarMenuItem>
@@ -773,4 +774,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->

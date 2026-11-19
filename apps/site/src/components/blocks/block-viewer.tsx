@@ -44,13 +44,15 @@ import { Icon } from "@workspace/shell/icon"
 import blockNames from "virtual:block-names"
 
 import { frameQuery } from "@/lib/page-design"
-import { VARIANTS } from "@/lib/variants"
+import { VARIANTS, defaultOf } from "@/lib/variants"
 
 /**
  * The frameworks and bases the site documents (`lib/variants.ts`); a block not on the chosen one
  * yet shows React's Base UI.
  */
 const COMBINATIONS = VARIANTS.map((variant) => variant.id)
+/** Shown while the reader has chosen none: React's Base UI. */
+const DEFAULT = defaultOf(COMBINATIONS)!
 
 /** Upstream's widths: desktop, tablet and phone, as shares of the frame's room. */
 const WIDTHS = [
@@ -203,11 +205,11 @@ export function BlocksCombination({ sx }: { sx?: Sx }) {
 
 export function BlockViewer({ block }: { block: Block }) {
   const { current } = useCombination(COMBINATIONS)
-  const chosen = current?.id ?? COMBINATIONS[0]!
+  const chosen = current?.id ?? DEFAULT
   // A block a framework doesn't have yet shows on React's first base.
   const combination = blockNames[chosen]?.includes(block.name)
     ? chosen
-    : COMBINATIONS[0]!
+    : DEFAULT
   const hydrated = React.useSyncExternalStore(
     subscribeNever,
     isClient,

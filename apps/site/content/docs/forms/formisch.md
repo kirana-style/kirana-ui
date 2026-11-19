@@ -3,7 +3,7 @@ title: Formisch
 description: Build forms in React using Formisch and Valibot.
 section: forms
 order: 3
-variants: [react/base, react/aria, react/uisdk, react/kirana]
+variants: [react/kirana, react/base, react/aria, react/uisdk]
 keywords: [formisch, forms, valibot, validation, field]
 ---
 
@@ -18,7 +18,7 @@ We'll build the following form. It has a simple text input and a textarea. On su
 > [!NOTE]
 > **Note:** For the purpose of this demo, we have intentionally disabled browser validation to show how schema validation and form errors work in Formisch. It is recommended to add basic browser validation in your production code.
 
-<!-- ::preview item="form-formisch-demo" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-demo" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ## Approach
 
@@ -163,7 +163,7 @@ The `<Form />` component wraps a native `<form>` element. It calls `event.preven
 
 We can now build the form using the `<Field />` component from Formisch and kirana/ui's `<Field />` component.
 
-<!-- ::demo-source item="form-formisch-demo" title="form.tsx" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::demo-source item="form-formisch-demo" title="form.tsx" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ### Done
 
@@ -257,7 +257,7 @@ Formisch exposes two ways to bind a field to an element:
 - For input fields, spread `field.props` and provide `value={field.input}`.
 - To show errors, add the `aria-invalid` prop to the `<Input />` component and the `data-invalid` prop to the `<Field />` component.
 
-<!-- ::preview item="form-formisch-input" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-input" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ```tsx showLineNumbers title="form.tsx" {5-8}
 <FormischField of={form} path={["username"]}>
@@ -283,7 +283,7 @@ Formisch exposes two ways to bind a field to an element:
 - For textarea fields, spread `field.props` and provide `value={field.input}`.
 - To show errors, add the `aria-invalid` prop to the `<Textarea />` component and the `data-invalid` prop to the `<Field />` component.
 
-<!-- ::preview item="form-formisch-textarea" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-textarea" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ```tsx showLineNumbers title="form.tsx" {7-10}
 const styles = {
@@ -331,9 +331,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-formisch-select" height="500" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-select" height="500" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx"
 const styles = {
@@ -419,7 +419,7 @@ const styles = {
 
 ### Checkbox
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 - For checkbox arrays, read `field.input` and update it from `onCheckedChange` using `field.onChange`.
 - To show errors, add the `aria-invalid` prop to the `<Checkbox />` component and the `data-invalid` prop to the `<Field />` component.
@@ -435,9 +435,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-formisch-checkbox" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-checkbox" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx"
 const styles = {
@@ -545,7 +545,7 @@ const styles = {
 
 ### Radio Group
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 - For radio groups, read `field.input` and call `field.onChange` from `onValueChange`.
 - To show errors, add the `aria-invalid` prop to the `<RadioGroupItem />` component and the `data-invalid` prop to the `<Field />` component.
@@ -559,9 +559,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-formisch-radiogroup" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-radiogroup" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx" {9-13,21}
 <FormischField of={form} path={["plan"]}>
@@ -643,7 +643,7 @@ const styles = {
 
 ### Switch
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 - For switches, read `field.input` and call `field.onChange` from `onCheckedChange`.
 - To show errors, add the `aria-invalid` prop to the `<Switch />` component and the `data-invalid` prop to the `<Field />` component.
@@ -657,9 +657,9 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::preview item="form-formisch-switch" height="500" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-switch" height="500" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers title="form.tsx" {15-19}
 <FormischField of={form} path={["twoFactor"]}>
@@ -722,7 +722,7 @@ const styles = {
 
 Here is an example of a more complex form with multiple fields and validation.
 
-<!-- ::preview item="form-formisch-complex" height="1300" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-complex" height="1300" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ## Resetting the Form
 
@@ -748,7 +748,7 @@ reset(form, { initialInput: serverData, keepInput: true })
 
 Formisch provides a `<FieldArray />` component and a set of helper functions for managing dynamic array fields. Use it whenever you need to add, remove, or reorder items.
 
-<!-- ::preview item="form-formisch-array" height="700" combinations="react/base,react/aria,react/uisdk,react/kirana" -->
+<!-- ::preview item="form-formisch-array" height="700" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 
 ### Using FieldArray
 
