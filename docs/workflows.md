@@ -873,6 +873,17 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   takes `multiple` as the primitives' `values` and hands `SelectValue`'s slot
   `{ value, items }` as the Ark UI twin does; the combobox keeps Base UI's
   items-driven API on the primitives' list, which filters by each item's text.
+- **Svelte on Kirana UI Primitives** starts from the Bits UI base, whose parts
+  already turn the Ark UI twin's props into a library with a `child` snippet:
+  `@kirana-ui/svelte`'s parts take `child({ props, state })` as Bits' do, so
+  most parts are Bits' renamed (`Dialog.Overlay` is `Dialog.Backdrop`,
+  `LinkPreview` is `HoverCard`, `DropdownMenu` is `Menu`), each popup Base UI's
+  Portal > Positioner > Popup, a checkable row's mark the primitives'
+  `CheckboxItemIndicator`. What Bits lacked the base has from the primitives:
+  the drawer (its swipe and snap points the primitives' own, where the Bits base
+  wrote them), the toast (Base UI's manager over `createToaster`), the input
+  OTP's one input over the cells. cmdk's attributes go through a spread
+  (`{...{ "cmdk-item": "" }}`), which Svelte's types allow on a component.
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
@@ -944,8 +955,9 @@ Each framework's preview loads an example only when its page asks for it
 
 `vue-tsc` checks the registry's Vue markup and its demos before the Vue
 preview builds, one base at a time (`apps/preview-vue/tsconfig.vue-ark.json`,
-`-reka`, `-uisdk`: one program for every base outgrew Node's default heap), as
-`vp check` checks React's.
+`-reka`, `-uisdk`, `-kirana`: one program for every base outgrew Node's default
+heap), as `vp check` checks React's; `svelte-check` does the same for Svelte's
+(`apps/preview-svelte/tsconfig.svelte-ark.json`, `-bits`, `-uisdk`, `-kirana`).
 
 ### Following upstream
 

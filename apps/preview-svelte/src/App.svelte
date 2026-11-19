@@ -3,6 +3,7 @@
   import { previews as arkPreviews } from "@workspace/registry/bases/svelte-ark/previews.ts"
   import { previews as bitsPreviews } from "@workspace/registry/bases/svelte-bits/previews.ts"
   import { previews as uisdkPreviews } from "@workspace/registry/bases/svelte-uisdk/previews.ts"
+  import { previews as kiranaPreviews } from "@workspace/registry/bases/svelte-kirana/previews.ts"
   import { space } from "@workspace/registry/core/scales.ts"
 
   import { LANGUAGE } from "@workspace/registry/bases/svelte-ark/components/language-selector/index.ts"
@@ -20,14 +21,20 @@
   setContext<LanguageContext>(LANGUAGE, () => design.current.options.language)
 
   /**
-   * One page per item, as `/preview/svelte/<base>/<item>` (Ark UI's, Bits UI's or ui-sdk's), the showcase
+   * One page per item, as `/preview/svelte/<base>/<item>` (Ark UI's, Bits UI's, ui-sdk's or Kirana UI's), the showcase
    * and `/create`'s charts; anything else lists them.
    */
-  const route = location.pathname.match(/\/(ark|bits|uisdk)\/([a-z0-9-]+?)(?:\.html)?\/?$/)
-  const base = route?.[1] ?? location.pathname.match(/\/(ark|bits|uisdk)\/?$/)?.[1] ?? "ark"
+  const route = location.pathname.match(/\/(ark|bits|uisdk|kirana)\/([a-z0-9-]+?)(?:\.html)?\/?$/)
+  const base = route?.[1] ?? location.pathname.match(/\/(ark|bits|uisdk|kirana)\/?$/)?.[1] ?? "ark"
   const item = route?.[2]
   const previews =
-    base === "bits" ? bitsPreviews : base === "uisdk" ? uisdkPreviews : arkPreviews
+    base === "bits"
+      ? bitsPreviews
+      : base === "uisdk"
+        ? uisdkPreviews
+        : base === "kirana"
+          ? kiranaPreviews
+          : arkPreviews
   // Loaded only on its own page, as the Vue preview's.
   const load = item ? previews[item] : undefined
 
@@ -60,6 +67,10 @@
     {/await}
   {:else if base === "uisdk"}
     {#await import("@workspace/registry/bases/svelte-uisdk/ui/toast/Toaster.svelte") then toaster}
+      <toaster.default />
+    {/await}
+  {:else if base === "kirana"}
+    {#await import("@workspace/registry/bases/svelte-kirana/ui/toast/Toaster.svelte") then toaster}
       <toaster.default />
     {/await}
   {/if}

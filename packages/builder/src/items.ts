@@ -49,6 +49,7 @@ export const FRAMEWORK_BASES = [
   { framework: "svelte", base: "ark", bases: "svelte-ark" },
   { framework: "svelte", base: "bits", bases: "svelte-bits" },
   { framework: "svelte", base: "uisdk", bases: "svelte-uisdk" },
+  { framework: "svelte", base: "kirana", bases: "svelte-kirana" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
 ] as const
@@ -368,7 +369,9 @@ const ALL_ITEMS: Item[] = [
     // `Element.svelte`, with Ark UI's `asChild` (a snippet called with the props function).
     files: (combination) =>
       combination.framework === "svelte" &&
-      (combination.base === "bits" || combination.base === "uisdk")
+      (combination.base === "bits" ||
+        combination.base === "uisdk" ||
+        combination.base === "kirana")
         ? ["lib/svelte/as-child.ts", "lib/svelte/Element.svelte"]
         : undefined,
   },
