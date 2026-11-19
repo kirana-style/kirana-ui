@@ -8,11 +8,10 @@ import { motion } from "@tanstack/charts/motion"
 import { RendererChart } from "@tanstack/charts/react/tooltip"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { scalePoint } from "@tanstack/charts/scales/point"
-import { act } from "react"
 import { createRoot } from "react-dom/client"
 import { expect, it, onTestFinished } from "vite-plus/test"
 
-import { mountItem } from "./page"
+import { act, mountItem } from "./page"
 
 /**
  * The height of the tallest filled path a reader can see in `root`, every frame from `from` until

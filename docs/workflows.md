@@ -884,6 +884,15 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   wrote them), the toast (Base UI's manager over `createToaster`), the input
   OTP's one input over the cells. cmdk's attributes go through a spread
   (`{...{ "cmdk-item": "" }}`), which Svelte's types allow on a component.
+- **Solid on Kirana UI Primitives** is written from the Ark UI base, one file
+  per component, since Solid has no other base: `@kirana-ui/solid`'s parts are
+  React's with accessors (`render={(props, state) => <a {...props()} />}`), so
+  each part follows its `react-kirana` twin's structure and keeps its
+  `solid-ark` twin's props. Ark UI's `asChild` (called with a props function)
+  is a part's `render` through `asRender`, and an element of the design
+  system's own that took `ark.span` renders through `Element`
+  (`lib/solid/element.tsx`). The preview provides each base's icon library and
+  language contexts, since each base has its own copy of them.
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on

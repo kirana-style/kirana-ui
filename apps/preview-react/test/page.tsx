@@ -3,7 +3,7 @@
  * and toasters), and what went wrong while it was on the page.
  */
 import type { ComponentType } from "react"
-import { act } from "react"
+import { act as reactAct } from "react"
 import { createRoot } from "react-dom/client"
 import { onTestFinished } from "vite-plus/test"
 
@@ -15,6 +15,24 @@ import {
 } from "@workspace/vite-config/browser-page"
 
 import { Preview, loadItem } from "../src/preview"
+
+/**
+ * React's `act`, told it is in a test for as long as it runs, as React Testing Library tells it:
+ * React reports an `act` outside an act environment ("The current testing environment is not
+ * configured to support act"), and inside one an update outside `act`, which every real click
+ * the tests make is.
+ */
+export async function act(work: () => unknown) {
+  const scope = globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
+  scope.IS_REACT_ACT_ENVIRONMENT = true
+  try {
+    await reactAct(async () => {
+      await work()
+    })
+  } finally {
+    scope.IS_REACT_ACT_ENVIRONMENT = false
+  }
+}
 
 /** Lets React and the item settle: pending effects, then two frames. */
 export async function settle() {

@@ -22,6 +22,7 @@ import {
   BASE_LABELS,
   FRAMEWORKS,
   FRAMEWORK_BASES,
+  shownBases,
   FRAMEWORK_LABELS,
   MONOREPOS,
   MONOREPO_LABELS,
@@ -619,7 +620,7 @@ export function GetCodeDialog({
               <Cards
                 legend="Base"
                 value={system.base}
-                options={FRAMEWORK_BASES[system.framework].map((base) => ({
+                options={shownBases(system.framework).map((base) => ({
                   value: base,
                   label: BASE_LABELS[base],
                   icon: (

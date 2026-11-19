@@ -237,3 +237,8 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   opened, with a named line to each part, in a frame) and the structure (the nested frames).
 - **`::start:picker`** around a tab group (`markdown/tabs.tsx`): one picker in place of the row of
   tabs, each choice with its framework's mark, for a choice made once for the page.
+- **A default that is not the first** (`defaultVariant` in docs-core's config,
+  `defaultCombination` in the provider's): the variants and combinations keep the order they
+  are shown in, and the one a page's shared URL leads to, and a reader who has chosen nothing
+  sees, is picked from them by the site (its framework's Base UI or Ark UI, though Kirana UI is
+  listed first).

@@ -12,7 +12,7 @@ import { generate } from "@workspace/docs-core/generate.ts"
 import "./generate-primitives.ts"
 
 import { PORTING_BASES } from "@workspace/registry/core/config"
-import { VARIANTS } from "../src/lib/variants.ts"
+import { VARIANTS, defaultOf } from "../src/lib/variants.ts"
 
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
 
@@ -128,6 +128,7 @@ await generate({
   regenerateCommand: "bun run generate:content",
   check: process.argv.includes("--check"),
   variants: VARIANTS,
+  defaultVariant: defaultOf,
   checkVariants: (href, variants) => {
     const component = /^\/docs\/components\/([^/]+)$/.exec(href)?.[1]
     const pattern = /^\/docs\/(ai-elements|forms)\/([^/]+)$/.exec(href)

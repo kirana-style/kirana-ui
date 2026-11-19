@@ -10,6 +10,15 @@ import { FRAMEWORK_BASES } from "@workspace/registry/core/config"
 import type { Base, Framework } from "@workspace/registry/core/config"
 
 export { FRAMEWORK_BASES }
+
+/**
+ * A framework's bases in the order the dialog shows them: Kirana UI first, then the others in the
+ * registry's order (whose first stays the framework's default).
+ */
+export const shownBases = (framework: Framework): readonly Base[] => [
+  ...FRAMEWORK_BASES[framework].filter((base) => base === "kirana"),
+  ...FRAMEWORK_BASES[framework].filter((base) => base !== "kirana"),
+]
 export type { Base, Framework }
 
 export const FRAMEWORKS = [
@@ -32,10 +41,10 @@ export const BASE_LABELS: Record<Base, string> = {
   base: "Base UI",
   aria: "React Aria",
   ark: "Ark UI",
-  ng: "ng-primitives",
+  ng: "NG Primitives",
   reka: "Reka UI",
   bits: "Bits UI",
-  uisdk: "ui-sdk",
+  uisdk: "UI SDK",
   kirana: "Kirana UI",
 }
 

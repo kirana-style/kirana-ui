@@ -4,10 +4,17 @@
  * the scheme `/preview` and the registry use), written from the component's one source
  * (`content/docs/components/<name>.md`, its `variants`, `::only` blocks and per-variant tabs) by
  * the content generator, with an override beside it where a variant differs throughout
- * (`<name>/<framework>-<base>.md`). React's two are labelled by their base; a framework with one
- * is labelled by the framework, and Vue and Svelte, with two, by both.
+ * (`<name>/<framework>-<base>.md`). React's are labelled by their base; a framework with one is
+ * labelled by the framework, and Vue, Svelte and Solid, with more, by both. Each framework's
+ * Kirana UI comes first; what a reader with no choice is shown is `DEFAULT_VARIANTS`' order.
  */
 export const VARIANTS = [
+  {
+    id: "react/kirana",
+    label: "Kirana UI",
+    name: "React with Kirana UI",
+    base: "Kirana UI",
+  },
   {
     id: "react/base",
     label: "Base UI",
@@ -22,14 +29,14 @@ export const VARIANTS = [
   },
   {
     id: "react/uisdk",
-    label: "ui-sdk",
-    name: "React with ui-sdk",
-    base: "ui-sdk",
+    label: "UI SDK",
+    name: "React with UI SDK",
+    base: "UI SDK",
   },
   {
-    id: "react/kirana",
-    label: "Kirana UI",
-    name: "React with Kirana UI",
+    id: "vue/kirana",
+    label: "Vue · Kirana UI",
+    name: "Vue with Kirana UI",
     base: "Kirana UI",
   },
   {
@@ -46,14 +53,14 @@ export const VARIANTS = [
   },
   {
     id: "vue/uisdk",
-    label: "Vue · ui-sdk",
-    name: "Vue with ui-sdk",
-    base: "ui-sdk",
+    label: "Vue · UI SDK",
+    name: "Vue with UI SDK",
+    base: "UI SDK",
   },
   {
-    id: "vue/kirana",
-    label: "Vue · Kirana UI",
-    name: "Vue with Kirana UI",
+    id: "svelte/kirana",
+    label: "Svelte · Kirana UI",
+    name: "Svelte with Kirana UI",
     base: "Kirana UI",
   },
   {
@@ -70,24 +77,51 @@ export const VARIANTS = [
   },
   {
     id: "svelte/uisdk",
-    label: "Svelte · ui-sdk",
-    name: "Svelte with ui-sdk",
-    base: "ui-sdk",
+    label: "Svelte · UI SDK",
+    name: "Svelte with UI SDK",
+    base: "UI SDK",
   },
   {
-    id: "svelte/kirana",
-    label: "Svelte · Kirana UI",
-    name: "Svelte with Kirana UI",
+    id: "solid/kirana",
+    label: "Solid · Kirana UI",
+    name: "Solid with Kirana UI",
     base: "Kirana UI",
   },
-  { id: "solid/ark", label: "Solid", name: "Solid", base: "Ark UI" },
+  {
+    id: "solid/ark",
+    label: "Solid · Ark UI",
+    name: "Solid with Ark UI",
+    base: "Ark UI",
+  },
   {
     id: "angular/ng",
     label: "Angular",
     name: "Angular",
-    base: "ng-primitives",
+    base: "NG Primitives",
   },
 ] as const
+
+/**
+ * What a reader who has chosen nothing is shown, in order: a framework's base before Kirana UI,
+ * React's Base UI first, as shadcn/ui's own links land on its Base UI page.
+ */
+export const DEFAULT_VARIANTS = [
+  "react/base",
+  "react/aria",
+  "react/uisdk",
+  "vue/ark",
+  "vue/reka",
+  "vue/uisdk",
+  "svelte/ark",
+  "svelte/bits",
+  "svelte/uisdk",
+  "solid/ark",
+  "angular/ng",
+] as const
+
+/** Of `ids`, the one a reader who has chosen nothing is shown: `DEFAULT_VARIANTS`' first, else the first. */
+export const defaultOf = (ids: readonly string[]): string | undefined =>
+  DEFAULT_VARIANTS.find((id) => ids.includes(id)) ?? ids[0]
 
 /**
  * The frameworks, in the variants' order, each with its variants: the header's Frameworks menu

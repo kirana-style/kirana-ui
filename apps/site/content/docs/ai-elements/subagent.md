@@ -4,18 +4,19 @@ description: Displays a subagent run, with its tool calls and result.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [subagent, ai elements, agent, chat]
 
 # Subagent
 
-<!-- ::preview item="subagent-demo" height="710" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="subagent-demo" height="710" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Subagent is a line for work the agent hands to a subagent. The run is the title, like "Ran the research agent". Open it for the tool calls the subagent made and what it found.
 
@@ -34,7 +35,7 @@ Subagent is built with `Trace` with a `TraceCollapsible` for the run and a neste
 
 Subagent is built with the [Trace](/docs/components/trace), [Code Block](/docs/components/code-block) and [Badge](/docs/components/badge) components.
 
-<!-- ::installation name="trace code-block badge" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="trace code-block badge" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
@@ -50,7 +51,7 @@ import {
 } from "@/components/ui/trace"
 ```
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -122,13 +123,13 @@ const styles = {
 
 While the subagent runs, the line has `status="running"` and its content shows the tool calls so far. Add the result when the subagent finishes.
 
-<!-- ::preview item="subagent-running" height="200" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="subagent-running" height="200" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Details
 
 Put the task the subagent was given at the top of the content, with its model and tools as [Badge](/docs/components/badge) items. Show how long it ran in a `TraceDescription` after the title.
 
-<!-- ::preview item="subagent-details" height="340" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="subagent-details" height="340" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## AI SDK
 
@@ -147,7 +148,7 @@ Each yield is a preliminary output: the part is `output-available` with `prelimi
 
 If you added Agent from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/agent.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Trace, Code Block and Badge. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/agent.tsx from AI SDK Elements to the shadcn/ui Trace, Code Block and Badge components.

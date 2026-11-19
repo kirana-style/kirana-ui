@@ -51,6 +51,7 @@ export const FRAMEWORK_BASES = [
   { framework: "svelte", base: "uisdk", bases: "svelte-uisdk" },
   { framework: "svelte", base: "kirana", bases: "svelte-kirana" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
+  { framework: "solid", base: "kirana", bases: "solid-kirana" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
 ] as const
 
@@ -341,7 +342,10 @@ const ALL_ITEMS: Item[] = [
           : combination.framework === "svelte"
             ? [...ICON_DATA, "icons/IconPlaceholder.svelte", "icons/svelte.ts"]
             : combination.framework === "solid"
-              ? [...ICON_DATA, "bases/solid-ark/ui/icon-placeholder.tsx"]
+              ? [
+                  ...ICON_DATA,
+                  `bases/${combination.bases}/ui/icon-placeholder.tsx`,
+                ]
               : [...ICON_DATA, "icons/angular.ts"],
   },
   {
@@ -365,15 +369,19 @@ const ALL_ITEMS: Item[] = [
     title: "As child",
     description:
       "A part's element, or the caller's own through an asChild snippet given the props to spread.",
-    // Bits UI and ui-sdk have no element factory: Svelte's parts on them render through
-    // `Element.svelte`, with Ark UI's `asChild` (a snippet called with the props function).
+    // Bits UI, ui-sdk and Kirana UI have no element factory: Svelte's parts on them render
+    // through `Element.svelte`, with Ark UI's `asChild` (a snippet called with the props
+    // function), and Solid's on Kirana UI through `element.tsx`.
     files: (combination) =>
       combination.framework === "svelte" &&
       (combination.base === "bits" ||
         combination.base === "uisdk" ||
         combination.base === "kirana")
         ? ["lib/svelte/as-child.ts", "lib/svelte/Element.svelte"]
-        : undefined,
+        : combination.framework === "solid" && combination.base === "kirana"
+          ? // Kirana UI's Solid adapter has no element factory (PF-033).
+            ["lib/solid/element.tsx"]
+          : undefined,
   },
   {
     name: "control",
@@ -752,15 +760,16 @@ const ALL_ITEMS: Item[] = [
     "A collection of links for navigating websites.",
     ["react", "vue"],
     // React Aria has none; Angular's is the registry's own.
-    ["base", "ark", "ng", "reka", "bits", "uisdk"]
+    ["base", "ark", "ng", "reka", "bits", "uisdk", "kirana"]
   ),
   component(
     "menubar",
     "Menubar",
     "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
-    // No Ark UI menubar; Angular's is the registry's own, on its menus; ui-sdk's is its own.
+    // No Ark UI menubar; Angular's is the registry's own, on its menus; ui-sdk's and Kirana UI's
+    // are their own.
     ["react", "angular"],
-    ["base", "ng", "uisdk"]
+    ["base", "ng", "uisdk", "kirana"]
   ),
   component(
     "accordion",

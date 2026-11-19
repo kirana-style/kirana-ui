@@ -4,18 +4,19 @@ description: The files the agent changed, as a folder tree.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [file tree, ai elements, agent, chat]
 
 # File Tree
 
-<!-- ::preview item="file-tree-demo" height="370" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="file-tree-demo" height="370" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 File Tree is the files the agent changed, shown as folders you can open. A folder is a [Collapsible](/docs/components/collapsible). A file is a [Button](/docs/components/button). For a single file the agent read or edited, use a [Tool](/docs/ai-elements/tool) line instead.
 
@@ -32,13 +33,13 @@ File Tree is the files the agent changed, shown as folders you can open. A folde
 
 File Tree is built with the [Collapsible](/docs/components/collapsible) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="collapsible button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="collapsible button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
 Render nodes recursively. Nest each folder's children in its `CollapsibleContent`.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -84,7 +85,7 @@ if (node.type === "folder") {
 
 <!-- ::end:only -->
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -177,7 +178,7 @@ See [Collapsible](/docs/components/collapsible#file-tree).
 
 If you added File Tree from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/file-tree.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Collapsible and Button. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/file-tree.tsx from AI SDK Elements to kirana/ui's Collapsible and Button components.

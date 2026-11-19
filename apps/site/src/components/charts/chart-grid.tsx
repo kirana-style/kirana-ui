@@ -10,10 +10,12 @@ import { useCombination } from "@workspace/docs-ui/combination.ts"
 import { CombinationPicker } from "@workspace/docs-ui/markdown/preview.tsx"
 import type { ChartItem } from "@workspace/registry/charts"
 import { breakpoint, space } from "@workspace/registry/core/scales"
-import { VARIANTS } from "@/lib/variants"
+import { VARIANTS, defaultOf } from "@/lib/variants"
 
 /** The frameworks and bases the site documents (`lib/variants.ts`): every chart is on each. */
 const COMBINATIONS = VARIANTS.map((variant) => variant.id)
+/** Shown while the reader has chosen none: React's Base UI. */
+const DEFAULT = defaultOf(COMBINATIONS)!
 
 const styles = {
   root: css({ display: "flex", flexDirection: "column", gap: space[6] }),
@@ -61,7 +63,7 @@ export function ChartsCombination() {
 
 export function ChartGrid({ charts }: { charts: readonly ChartItem[] }) {
   const { current } = useCombination(COMBINATIONS)
-  const combination = current?.id ?? COMBINATIONS[0]!
+  const combination = current?.id ?? DEFAULT
   return (
     <div sx={styles.root}>
       <div sx={styles.grid}>

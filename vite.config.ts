@@ -446,6 +446,7 @@ export default defineConfig({
       {
         files: [
           "registry/bases/solid-ark/**",
+          "registry/bases/solid-kirana/**",
           "registry/lib/solid/**",
           "apps/preview-solid/**",
         ],

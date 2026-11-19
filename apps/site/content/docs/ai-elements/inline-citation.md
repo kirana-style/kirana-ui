@@ -4,18 +4,19 @@ description: A source in the sentence that opens on hover.
 section: ai-elements
 variants:
   [
+    react/kirana,
     react/base,
     react/aria,
     react/uisdk,
-    react/kirana,
+    vue/kirana,
     vue/ark,
     vue/reka,
     vue/uisdk,
-    vue/kirana,
+    svelte/kirana,
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
-    svelte/kirana,
+    solid/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,7 +25,7 @@ keywords: [inline citation, ai elements, agent, chat]
 
 # Inline Citation
 
-<!-- ::preview item="inline-citation-demo" height="500" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::preview item="inline-citation-demo" height="500" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 Inline Citation is a source that sits in the sentence it supports. It is a [Hover Card](/docs/components/hover-card) on a [Button](/docs/components/button).
 
@@ -34,11 +35,11 @@ To show a list of sources after the reply, use [Sources](/docs/ai-elements/sourc
 
 Inline Citation is built with the [Hover Card](/docs/components/hover-card) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="hover-card button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
+<!-- ::installation name="hover-card button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
 
 ## Usage
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```tsx showLineNumbers
 const styles = {
@@ -129,7 +130,7 @@ const sources = message.parts.filter((part) => part.type === "source-url")
 
 If you added Inline Citation from [AI SDK Elements](https://elements.ai-sdk.dev), your project has a `components/ai-elements/inline-citation.tsx` wrapper. Paste this prompt into your coding agent to rebuild it on Hover Card and Button. Every export keeps its name and props, so the code that uses it keeps working.
 
-<!-- ::start:only react/base -->
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
 Migrate components/ai-elements/inline-citation.tsx from AI SDK Elements to kirana/ui's Hover Card and Button components.

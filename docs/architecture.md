@@ -444,7 +444,11 @@ primitives' (`@kirana-ui/vue/primitive`), with the same `as` and `as-child`. **S
 well** (`registry/bases/svelte-kirana`, at `/preview/svelte/kirana/`, on
 `@kirana-ui/svelte`), with all 61 of Svelte's components, the toast among them,
 which its Bits UI twin lacks: its parts take the Ark UI twin's props, as the Bits
-UI base's do, and its calendar is Ark UI's, as Vue's is.
+UI base's do, and its calendar is Ark UI's, as Vue's is. **Solid's second base
+is Kirana UI Primitives** (`registry/bases/solid-kirana`, at
+`/preview/solid/kirana/`, on `@kirana-ui/solid`), with all 61 of Solid's
+components: its parts take the Ark UI twin's props, Ark's `asChild` becoming a
+part's `render`, and its calendar is Ark UI's, as Vue's and Svelte's are.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,
