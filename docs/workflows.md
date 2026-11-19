@@ -714,7 +714,9 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   same files on both bases (`registry/bases/vue-reka/` holds copies of
   `vue-ark/`'s). An example uses a part only when that part exists on the
   base; the builder lists a component for a base being ported once its markup
-  is written (`PORTING_BASES` in `packages/builder/src/items.ts`).
+  is written (`PORTING_BASES` in `registry/core/config.ts`), and shadcn/ui's
+  export leaves out the bases being ported and React on Kirana UI
+  (`UNEXPORTED_BASES`).
 - **Reka UI's own keys** (`reka:` in `core/states.ts`, from
   `@kirana-style/states/reka-ui`). Reka writes Radix's attributes: often Ark
   UI's strings (`data-state="open"`, `data-highlighted`), sometimes its own (a
@@ -942,11 +944,10 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   entry; PreviewCard is HoverCard, Radio is RadioGroup's item), Base UI's
   `useRender` and `mergeProps` are `@kirana-ui/react/use-render`'s, and a plain
   part's props are `PartComponentProps<"span", State>` from
-  `@kirana-ui/react/runtime`. While it is being ported it is in
-  `PORTING_BASES` (`registry/core/config.ts`): each component appears as its
-  markup is written, and the base has no shadcn/ui export yet (its component
-  pages show Kirana's command alone), since a React base's export is about
-  1,400 of the Worker's 20,000 static files. It writes no state keys of its own:
+  `@kirana-ui/react/runtime`. It installs with `kirana-style ui`, and has no
+  shadcn/ui export (`UNEXPORTED_BASES` in `registry/core/config.ts`; its
+  component pages show Kirana's command alone): a React base's export is about
+  1,400 of the Worker's 20,000 static files, which the site has no room for. It writes no state keys of its own:
   the builder's flattening keeps a `base:` key for the `kirana` target
   (`writes` in `packages/builder/src/flatten.ts`), and a `kirana:` key in
   `core/states.ts` is only for an attribute that differs. What differs from
@@ -1121,7 +1122,9 @@ Every command in the README's table is a task in the root `vite.config.ts`, run 
 `vp run`, which caches it: when nothing a task reads has changed, it replays the
 task's output and restores the files it wrote. `vp run prepush` runs the lot, side
 by side where nothing orders them (four at a time); the pre-push hook and CI run the
-same tasks.
+same tasks, but for the browser tests, which CI alone runs (a job per engine and
+framework, for the frameworks a change touches): run `vp run browser:<framework>`
+for the one you changed.
 
 | Task                                        | What makes it run again                                                                |
 | ------------------------------------------- | -------------------------------------------------------------------------------------- |

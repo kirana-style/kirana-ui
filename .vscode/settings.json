@@ -11,7 +11,6 @@
   "[json]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
   "[jsonc]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
   "[css]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
-  "oxc.fmt.experimental": true,
   // One config for the whole workspace, as `vp check` applies it.
   "oxc.disableNestedConfig": true,
   "oxc.fmt.disableNestedConfig": true,
@@ -20,6 +19,9 @@
   "oxc.lint.run": "onType",
 
   // ─── TypeScript ───────────────────────────────────────────────────────────────
+  // The language service's memory, in MB: the workspace's many projects (every base's
+  // tsconfig, each preview app's) crash it at the default 3,072.
+  "typescript.tsserver.maxTsServerMemory": 8192,
   // Use the workspace TypeScript version instead of VS Code's bundled one.
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,

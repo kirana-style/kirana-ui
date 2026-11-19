@@ -323,13 +323,14 @@ export default defineConfig({
         cache: { input: ["bun.lock", "scripts/check-licenses.ts"], output: [] },
       },
       // Everything CI requires of a pull request that runs on this machine; the pre-push hook.
+      // But the browser tests (`vp run browser`, about seven minutes for every framework): CI
+      // runs them one job per engine and framework, for the frameworks a change touches.
       prepush: {
         command: "echo All checks passed.",
         dependsOn: [
           "check",
           "styles",
           "test",
-          "browser",
           "licenses",
           "build",
           "registry",

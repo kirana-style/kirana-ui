@@ -32,7 +32,11 @@ export default defineConfig({
   },
   plugins: lazyPlugins(() => [
     kirana(),
-    svelte(),
+    // Its options named, since the browser tests run from the repository's root, where the plugin
+    // would find none and report the demos' kept upstream markup (`svelte.config.js`).
+    svelte({
+      configFile: fileURLToPath(new URL("svelte.config.js", import.meta.url)),
+    }),
     // The fonts from the site's own assets, not a copy per app.
     previewFonts(),
     previewPages({

@@ -49,9 +49,10 @@ const ROOT = join(import.meta.dirname, "..")
 const STATIC = join(ROOT, "apps", "site", "dist", "client")
 
 /**
- * What CI installs: each framework once, React, Vue and Svelte on each of their bases (ui-sdk the
- * third), across the templates, the toolings and the workspaces (a Turborepo, a Vite+ monorepo,
- * each with `packages/ui`), each in another style.
+ * What CI installs: every framework on each of its bases (ui-sdk, then Kirana UI, after the
+ * framework's own), across the templates, the toolings and the workspaces (a Turborepo, a Vite+
+ * monorepo, each with `packages/ui`), each in another style. Solid on ui-sdk is the one base left
+ * out: it needs Solid 2, and no template is on Solid 2 yet (KF-129).
  */
 const DEFAULT = [
   "react-base-nova@vite-react--none--eslint",
@@ -65,6 +66,12 @@ const DEFAULT = [
   "svelte-uisdk-vega@vite-svelte--none--oxlint",
   "solid-ark-mira@tanstack-start-solid--none--oxlint",
   "angular-ng-luma@analog-angular--none--eslint",
+  "react-kirana-sera@vite-react--none--oxlint",
+  "vue-kirana-luma@vite-vue--none--oxlint",
+  "svelte-kirana-mira@vite-svelte--none--oxlint",
+  "solid-kirana-rhea@solid-start--none--oxlint",
+  // Analog, not Angular CLI, whose skeleton does not build after `init` (KF-131).
+  "angular-kirana-nova@analog-angular--none--oxlint",
 ]
 
 /**
