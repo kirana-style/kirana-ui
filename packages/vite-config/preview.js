@@ -51,6 +51,36 @@ export function previewChunks() {
   }
 }
 
+/** What `JSON.stringify` leaves that a script must not hold as written, escaped. */
+const UNSAFE = {
+  "<": "\\u003C",
+  ">": "\\u003E",
+  "/": "\\u002F",
+  "\\": "\\\\",
+  "\b": "\\b",
+  "\f": "\\f",
+  "\n": "\\n",
+  "\r": "\\r",
+  "\t": "\\t",
+  "\0": "\\0",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029",
+}
+
+/**
+ * A string as a JavaScript literal in generated code: `JSON.stringify` with the characters that
+ * could end a script or a line escaped too. The values are the registry's own paths and group
+ * names (`[a-z0-9-]`), never a reader's, but code is built from them, so they are escaped as any
+ * value would be.
+ * @param {string} value
+ */
+function literal(value) {
+  return JSON.stringify(value).replace(
+    /[<>\b\f\n\r\t\0\u2028\u2029]/g,
+    (character) => UNSAFE[/** @type {keyof typeof UNSAFE} */ (character)]
+  )
+}
+
 /**
  * React's items imported a group at a time (`itemGroup`'s groups: every `button-*` example of a
  * base together, a chart kind, a block), in its builds only. Each base's map (`previews.ts`)
@@ -84,7 +114,7 @@ export function previewGroups() {
           if (!items.includes(target)) items.push(target)
           groups.set(group, items)
           const index = items.indexOf(target)
-          return `() => import(${JSON.stringify(PREFIX + group)}).then((m) => ({ default: m.i${index} }))`
+          return `() => import(${literal(PREFIX + group)}).then((m) => ({ default: m.i${index} }))`
         }
       )
       return out === code ? undefined : { code: out, map: null }
@@ -98,7 +128,7 @@ export function previewGroups() {
       return items
         .map(
           (file, index) =>
-            `export { default as i${index} } from ${JSON.stringify(file)}`
+            `export { default as i${index} } from ${literal(file)}`
         )
         .join("\n")
     },

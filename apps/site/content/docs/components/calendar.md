@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -42,7 +43,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="calendar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="calendar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -119,7 +120,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component, signal } from "@angular/core"
@@ -320,7 +321,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ## International Calendars
 
@@ -396,7 +397,7 @@ const cells = css({
 })
 ```
 
-<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng -->
+<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng -->
 
 ## Week Numbers
 
@@ -454,7 +455,7 @@ When using RTL, wrap the calendar in `DirectionProvider` and pass the locale's t
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 When using RTL, pass the locale's tag as `locale`, with `dir`. The week's first day is the locale's (Saturday in Arabic); `weekStartsOn` sets it, `0` for Sunday as react-day-picker's `arSA`:
 
@@ -555,7 +556,7 @@ See the [Ark UI Date Picker](https://ark-ui.com/solid/docs/components/date-picke
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Angular's is the registry's own, drawn as react-day-picker draws React's, with its API in `Date`s: `mode`, `[(selected)]`, `defaultMonth`, `[(month)]`, `numberOfMonths`, `captionLayout`, `disabled`, `modifiers` and `modifiersClassNames`, `showOutsideDays`, `showWeekNumber`, `fixedWeeks`, `locale` (a BCP 47 tag), `weekStartsOn`, `createCalendar` and `formatters`. `<ng-template kuiCalendarDay let-date let-outside="outside">` draws a day's content.
 

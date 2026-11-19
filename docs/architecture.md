@@ -448,7 +448,13 @@ UI base's do, and its calendar is Ark UI's, as Vue's is. **Solid's second base
 is Kirana UI Primitives** (`registry/bases/solid-kirana`, at
 `/preview/solid/kirana/`, on `@kirana-ui/solid`), with all 61 of Solid's
 components: its parts take the Ark UI twin's props, Ark's `asChild` becoming a
-part's `render`, and its calendar is Ark UI's, as Vue's and Svelte's are.
+part's `render`, and its calendar is Ark UI's, as Vue's and Svelte's are. **Angular's
+second base is Kirana UI Primitives too** (`registry/bases/angular-kirana`, at
+`/preview/angular/kirana/`, on `@kirana-ui/angular`): each registry directive
+keeps its selector, inputs and outputs and takes its primitive as a host
+directive, since the primitives' selectors are the registry's (`kuiDialog` …);
+a content part draws the primitives' structural portal in its template around
+the caller's children.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

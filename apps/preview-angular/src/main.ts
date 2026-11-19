@@ -14,6 +14,7 @@ import type { IconLibrary } from "@workspace/registry/core/config"
 import { followPageDesign } from "@workspace/registry/core/preview"
 import { root } from "@workspace/registry/core/root"
 import { LANGUAGE } from "@workspace/registry/bases/angular-ng/components/language-selector"
+import { LANGUAGE as KIRANA_LANGUAGE } from "@workspace/registry/bases/angular-kirana/components/language-selector"
 import type { Language } from "@workspace/registry/core/language"
 import { ICON_LIBRARY } from "@workspace/registry/icons/angular"
 import { page } from "@workspace/registry/styles/page.styles"
@@ -42,6 +43,8 @@ void loadDesignFonts(first.system)
 void bootstrapApplication(App, {
   providers: [
     { provide: ICON_LIBRARY, useValue: iconLibrary.asReadonly() },
+    // Each base's own token: its demos read their base's.
     { provide: LANGUAGE, useValue: language.asReadonly() },
+    { provide: KIRANA_LANGUAGE, useValue: language.asReadonly() },
   ],
 })

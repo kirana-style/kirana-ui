@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [sidebar, component, base, aria, ark, vue, svelte, solid, angular]
@@ -36,7 +37,7 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="sidebar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -148,7 +149,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -347,7 +348,7 @@ export function AppSidebar() {
 | `isMobile`      | `boolean`                 | Whether the sidebar is on mobile.             |
 | `toggleSidebar` | `() => void`              | Toggles the sidebar. Desktop and mobile.      |
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 On Angular, `useSidebar()` is called in a component or directive's constructor (or a field), and its values are signals: `state()`, `open()`, `openMobile()`, `isMobile()`. A part written in one template and projected into a `SidebarProvider` in another still finds it, around its element once drawn. `SidebarMenuButton` takes its tooltip as a string, `<button kuiSidebarMenuButton tooltip="Home">`.
 

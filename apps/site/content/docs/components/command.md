@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -50,7 +51,7 @@ The `<Command />` component uses the [`cmdk`](https://github.com/dip/cmdk) compo
 
 ## Installation
 
-<!-- ::installation name="command" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="command" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -202,7 +203,7 @@ const framed = css({
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -363,7 +364,7 @@ See the [Ark UI Listbox](https://ark-ui.com/solid/docs/components/listbox#api-re
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Angular's is the registry's own, as cmdk's: `<div kuiCommand>` holding `<div kuiCommandInput placeholder="…">` and `<div kuiCommandList>`, each item `<div kuiCommandItem (select)="…">` matched by its `value` (its text when not given) and `keywords`. `shouldFilter` false leaves the filtering to you. `<kui-command-dialog [(open)]>` holds the command's state itself, so its input and list go straight inside it.
 

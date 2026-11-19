@@ -1,8 +1,15 @@
-import { Directive, computed, input } from "@angular/core"
+import {
+  Directive,
+  HostAttributeToken,
+  computed,
+  inject,
+  input,
+} from "@angular/core"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 
 import { buttonGroup } from "../../../styles/button-group.styles"
+import { label } from "../../../styles/label.styles"
 import { separator } from "../../../styles/separator.styles"
 
 type ButtonGroupVariants = NonNullable<Parameters<typeof buttonGroup.root>[0]>
@@ -68,7 +75,16 @@ class ButtonGroupSeparator {
 })
 class ButtonGroupText {
   readonly sx = input<SxInput>()
-  protected readonly part = computed(() => partSx(buttonGroup.text, this.sx()))
+  // On a label (`<label kuiLabel kuiButtonGroupText>`): the label's style under the text's, as
+  // upstream's `asChild` merges a Label's classes with the text's, the text's winning.
+  readonly #label =
+    inject(new HostAttributeToken("kuiLabel"), { optional: true }) !== null
+  protected readonly part = computed(() =>
+    partSx(
+      this.#label ? [label, buttonGroup.text] : buttonGroup.text,
+      this.sx()
+    )
+  )
 }
 
 export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText }

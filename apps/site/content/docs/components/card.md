@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [card, component, base, aria, ark, vue, svelte, solid]
@@ -29,7 +30,7 @@ keywords: [card, component, base, aria, ark, vue, svelte, solid]
 
 ## Installation
 
-<!-- ::installation name="card" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="card" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -157,7 +158,7 @@ import {
 </Card>
 ```
 
-### Angular
+### Angular · NG Primitives, Angular · Kirana UI
 
 ```ts
 import { Component } from "@angular/core"

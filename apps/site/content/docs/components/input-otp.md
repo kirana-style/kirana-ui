@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -34,7 +35,7 @@ Input OTP is built on top of [input-otp](https://github.com/guilhermerodz/input-
 
 ## Installation
 
-<!-- ::installation name="input-otp" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="input-otp" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -129,7 +130,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -251,7 +252,7 @@ See the [input-otp](https://input-otp.rodz.dev) documentation for more informati
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Angular's is the registry's own, drawn as the `input-otp` package React's is built on draws it (one input over the slots): `maxLength`, `[(value)]` or `defaultValue`, `type` (`numeric`, `alphanumeric`, `alphabetic`), `disabled`, and `complete` once every slot is filled.
 

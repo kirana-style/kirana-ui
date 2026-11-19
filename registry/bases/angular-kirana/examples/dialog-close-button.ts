@@ -1,0 +1,99 @@
+import { Component } from "@angular/core"
+import { SxDirective } from "@kirana-style/angular"
+import { css } from "@kirana-style/core"
+import { breakpoint, containerSize, space } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+import { Button } from "../ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+
+const styles = {
+  dialogContent: css({
+    maxWidth: { [breakpoint.sm]: containerSize.md },
+  }),
+  div: css({
+    display: "flex",
+    alignItems: "center",
+    gap: space[2],
+  }),
+  div2: css({
+    display: "grid",
+    flex: "1 1 0%",
+    gap: space[2],
+  }),
+  label: css({
+    borderWidth: { "*": null, base: "0" },
+    clipPath: { "*": null, base: "inset(50%)" },
+    height: { "*": null, base: "1px" },
+    margin: { "*": null, base: "-1px" },
+    overflow: { "*": null, base: "hidden" },
+    padding: { "*": null, base: "0" },
+    position: { "*": null, base: "absolute" },
+    whiteSpace: { "*": null, base: "nowrap" },
+    width: { "*": null, base: "1px" },
+  }),
+  dialogFooter: css({
+    justifyContent: { [breakpoint.sm]: "flex-start" },
+  }),
+}
+
+@Component({
+  selector: "dialog-close-button",
+  imports: [
+    Button,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    Input,
+    Label,
+    SxDirective,
+  ],
+  template: `
+    <div [sx]="page.example">
+      <ng-container kuiDialog>
+        <button kuiButton kuiDialogTrigger variant="outline">Share</button>
+        <div kuiDialogContent [sx]="styles.dialogContent">
+          <div kuiDialogHeader>
+            <h2 kuiDialogTitle>Share link</h2>
+            <p kuiDialogDescription>
+              Anyone who has this link will be able to view this.
+            </p>
+          </div>
+          <div [sx]="styles.div">
+            <div [sx]="styles.div2">
+              <label kuiLabel for="link" [sx]="styles.label">Link</label>
+              <input
+                kuiInput
+                id="link"
+                value="https://ui.shadcn.com/docs/installation"
+                readonly
+              />
+            </div>
+          </div>
+          <div kuiDialogFooter [sx]="styles.dialogFooter">
+            <button kuiButton kuiDialogClose type="button">Close</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  `,
+})
+export default class DialogCloseButton {
+  protected readonly styles = styles
+  protected readonly page = page
+}

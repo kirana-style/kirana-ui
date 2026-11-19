@@ -53,8 +53,9 @@ function optionsOf(options: ToastOptions): KiranaOptions & {
 }
 
 function stepOf<T>(step: PromiseStep<T>) {
+  // A step given as text is its description, as Base UI's (Kirana UI's toaster takes text as a title).
   const one = (value: string | ToastOptions) =>
-    typeof value === "string" ? value : optionsOf(value)
+    optionsOf(typeof value === "string" ? { description: value } : value)
   return typeof step === "function" ? (value: T) => one(step(value)) : one(step)
 }
 

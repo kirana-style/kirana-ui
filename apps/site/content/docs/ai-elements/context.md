@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [context, ai elements, agent, chat]
@@ -33,7 +34,7 @@ Context shows how much of the model's context window the conversation has used. 
 
 Context is built with the [Hover Card](/docs/components/hover-card) and [Progress](/docs/components/progress) components.
 
-<!-- ::installation name="hover-card progress" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::installation name="hover-card progress" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,angular/kirana" -->
 
 ## Usage
 

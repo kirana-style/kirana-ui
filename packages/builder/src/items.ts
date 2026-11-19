@@ -53,6 +53,7 @@ export const FRAMEWORK_BASES = [
   { framework: "solid", base: "ark", bases: "solid-ark" },
   { framework: "solid", base: "kirana", bases: "solid-kirana" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
+  { framework: "angular", base: "kirana", bases: "angular-kirana" },
 ] as const
 
 export const COMBINATIONS: Combination[] = FRAMEWORK_BASES.flatMap((entry) =>
