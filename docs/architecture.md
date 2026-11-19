@@ -454,7 +454,12 @@ second base is Kirana UI Primitives too** (`registry/bases/angular-kirana`, at
 keeps its selector, inputs and outputs and takes its primitive as a host
 directive, since the primitives' selectors are the registry's (`kuiDialog` …);
 a content part draws the primitives' structural portal in its template around
-the caller's children.
+the caller's children. **Solid's third base is ui-sdk**
+(`registry/bases/solid-uisdk`, at `/preview/solid/uisdk/`), on **Solid 2**:
+ui-sdk's Solid adapter needs Solid 2, which Solid's other bases do not run on
+yet, so it builds in an app of its own (`apps/preview-solid2`, served at the
+same URLs by a rewrite), with its own helpers (`registry/lib/solid2`) and Solid
+2 resolved from that app for the registry's files too.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

@@ -33,5 +33,10 @@ updates:
         patterns:
           - "@kirana-style/*"
           - "kirana-style"
+      # ui-sdk's packages at one version: each adapter peers on its own release of `@ui-sdk/core`,
+      # and its betas change their API, so one moved alone breaks the others.
+      ui-sdk:
+        patterns:
+          - "@ui-sdk/*"
       minor-and-patch:
         update-types: [minor, patch]

@@ -52,6 +52,7 @@ export const FRAMEWORK_BASES = [
   { framework: "svelte", base: "kirana", bases: "svelte-kirana" },
   { framework: "solid", base: "ark", bases: "solid-ark" },
   { framework: "solid", base: "kirana", bases: "solid-kirana" },
+  { framework: "solid", base: "uisdk", bases: "solid-uisdk" },
   { framework: "angular", base: "ng", bases: "angular-ng" },
   { framework: "angular", base: "kirana", bases: "angular-kirana" },
 ] as const
@@ -81,6 +82,13 @@ export type Item = {
 }
 
 const react = (combination: Combination) => combination.framework === "react"
+
+/**
+ * Solid's helpers for a combination: Solid 2's (`lib/solid2`, ui-sdk's base, whose adapter needs
+ * Solid 2) or Solid 1's (`lib/solid`, Ark UI's and Kirana UI's).
+ */
+const solidLib = (combination: Combination) =>
+  combination.base === "uisdk" ? "lib/solid2" : "lib/solid"
 
 /**
  * A component's markup: one file for React and Solid (`.tsx`) and Angular (`.ts`, its directives),
@@ -325,7 +333,9 @@ const ALL_ITEMS: Item[] = [
             ? ["lib/vue/uisdk-slot.ts"]
             : combination.framework === "svelte"
               ? ["lib/svelte/uisdk-slot.ts", "lib/svelte/UisdkPart.svelte"]
-              : undefined,
+              : combination.framework === "solid"
+                ? ["lib/solid2/uisdk-part.tsx"]
+                : undefined,
   },
   {
     name: "icon-placeholder",
@@ -382,7 +392,10 @@ const ALL_ITEMS: Item[] = [
         : combination.framework === "solid" && combination.base === "kirana"
           ? // Kirana UI's Solid adapter has no element factory (PF-033).
             ["lib/solid/element.tsx"]
-          : undefined,
+          : combination.framework === "solid" && combination.base === "uisdk"
+            ? // An element of the design system's own takes Ark UI's `asChild` here too.
+              ["lib/solid2/element.tsx"]
+            : undefined,
   },
   {
     name: "control",
@@ -461,7 +474,7 @@ const ALL_ITEMS: Item[] = [
           : combination.framework === "svelte"
             ? ["lib/svelte/use-mobile.svelte.ts"]
             : combination.framework === "solid"
-              ? ["lib/solid/use-mobile.ts"]
+              ? [`${solidLib(combination)}/use-mobile.ts`]
               : ["lib/angular/use-mobile.ts"],
   },
   {
@@ -493,7 +506,7 @@ const ALL_ITEMS: Item[] = [
               ]
             : combination.framework === "solid"
               ? [
-                  "lib/solid/use-highlighted-code.tsx",
+                  `${solidLib(combination)}/use-highlighted-code.tsx`,
                   "lib/highlight-tokens.ts",
                   "styles/highlight.styles.ts",
                 ]

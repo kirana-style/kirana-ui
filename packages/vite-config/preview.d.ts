@@ -12,6 +12,8 @@ export function previewPages(options: {
   base: string
   extension: string
   extra?: readonly string[]
+  /** The app that serves the base, when it is not the framework's own (`solid2`). */
+  app?: string
 }): Plugin
 
 /**

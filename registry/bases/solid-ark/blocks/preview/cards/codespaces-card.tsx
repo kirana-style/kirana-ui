@@ -188,7 +188,7 @@ export function CodespacesCard() {
   // Creating, for two seconds.
   function createCodespace() {
     setIsCreatingCodespace(true)
-    setTimeout(() => (setIsCreatingCodespace(false), 2000))
+    setTimeout(() => setIsCreatingCodespace(false), 2000)
   }
 
   return (

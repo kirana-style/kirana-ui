@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -27,11 +28,11 @@ keywords:
 
 # Switch
 
-<!-- ::preview item="switch-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="switch-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="switch" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
+<!-- ::installation name="switch" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -65,7 +66,7 @@ import { Switch } from "@/components/ui/switch"
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/kirana,solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark,solid/uisdk -->
 
 ```tsx
 <Switch />
@@ -91,13 +92,13 @@ export class Example {}
 
 ## Description
 
-<!-- ::preview item="switch-description" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="switch-description" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Choice Card
 
 Card-style selection where `FieldLabel` wraps the entire `Field` for a clickable card pattern.
 
-<!-- ::preview item="switch-choice-card" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="switch-choice-card" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Disabled
 
@@ -113,7 +114,7 @@ Add the `isDisabled` prop to the `Switch` component to disable the switch. Add t
 
 <!-- ::end:only -->
 
-<!-- ::preview item="switch-disabled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="switch-disabled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Invalid
 
@@ -129,19 +130,19 @@ Add the `data-invalid` prop to the `Switch` component to indicate an invalid sta
 
 <!-- ::end:only -->
 
-<!-- ::preview item="switch-invalid" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="switch-invalid" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Size
 
 Use the `size` prop to change the size of the switch.
 
-<!-- ::preview item="switch-sizes" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="switch-sizes" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="switch-rtl" height="360" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="switch-rtl" height="360" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" direction="rtl" -->
 
 ## API Reference
 

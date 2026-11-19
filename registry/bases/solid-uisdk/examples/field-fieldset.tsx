@@ -1,0 +1,50 @@
+import { css } from "@kirana-style/core"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "../ui/field"
+import { Input } from "../ui/input"
+import { containerSize, space } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+
+export default function FieldFieldset() {
+  const styles = {
+    narrowSm: css({ width: "100%", maxWidth: containerSize.sm }),
+    gridGridCols2Gap4: css({
+      display: "grid",
+      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      gap: { "*": null, base: space[4] },
+    }),
+  }
+
+  return (
+    <div sx={page.example}>
+      <FieldSet sx={styles.narrowSm}>
+        <FieldLegend>Address Information</FieldLegend>
+        <FieldDescription>
+          We need your address to deliver your order.
+        </FieldDescription>
+        <FieldGroup>
+          <Field>
+            <FieldLabel for="street">Street Address</FieldLabel>
+            <Input id="street" type="text" placeholder="123 Main St" />
+          </Field>
+          <div sx={styles.gridGridCols2Gap4}>
+            <Field>
+              <FieldLabel for="city">City</FieldLabel>
+              <Input id="city" type="text" placeholder="New York" />
+            </Field>
+            <Field>
+              <FieldLabel for="zip">Postal Code</FieldLabel>
+              <Input id="zip" type="text" placeholder="90502" />
+            </Field>
+          </div>
+        </FieldGroup>
+      </FieldSet>
+    </div>
+  )
+}

@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -27,11 +28,11 @@ keywords:
 
 # Progress
 
-<!-- ::preview item="progress-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="progress-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="progress" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
+<!-- ::installation name="progress" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -73,7 +74,7 @@ import { Progress } from "@/components/ui/progress"
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/kirana,solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark,solid/uisdk -->
 
 ```tsx
 <Progress value={33} />
@@ -134,19 +135,19 @@ Progress
 
 Use `ProgressLabel` and `ProgressValue` to add a label and value display.
 
-<!-- ::preview item="progress-label" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="progress-label" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Controlled
 
 A progress bar that can be controlled by a slider.
 
-<!-- ::preview item="progress-controlled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="progress-controlled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="progress-rtl" height="360" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="progress-rtl" height="360" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" direction="rtl" -->
 
 ## API Reference
 

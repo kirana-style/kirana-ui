@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -31,11 +32,11 @@ keywords:
 > For a styled select component, see the [Select](/docs/components/select)
 > component.
 
-<!-- ::preview item="native-select-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-demo" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="native-select" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
+<!-- ::installation name="native-select" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -91,7 +92,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/kirana,solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark,solid/uisdk -->
 
 ```tsx
 <NativeSelect>
@@ -161,19 +162,19 @@ NativeSelect
 
 Use `NativeSelectOptGroup` to organize options into categories.
 
-<!-- ::preview item="native-select-groups" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-groups" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Disabled
 
 Add the `disabled` prop to the `NativeSelect` component to disable the select.
 
-<!-- ::preview item="native-select-disabled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-disabled" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Invalid
 
 Use `aria-invalid` to show validation errors and the `data-invalid` attribute to the `Field` component for styling.
 
-<!-- ::preview item="native-select-invalid" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="native-select-invalid" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Native Select vs Select
 
@@ -184,7 +185,7 @@ Use `aria-invalid` to show validation errors and the `data-invalid` attribute to
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="native-select-rtl" height="360" combinations="react/base,react/aria,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="native-select-rtl" height="360" combinations="react/base,react/aria,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" direction="rtl" -->
 
 ## API Reference
 

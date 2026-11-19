@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -38,11 +39,11 @@ keywords:
 
 # Pagination
 
-<!-- ::preview item="pagination-demo" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="pagination-demo" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="pagination" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
+<!-- ::installation name="pagination" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -149,7 +150,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/kirana,solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark,solid/uisdk -->
 
 ```tsx
 <Pagination>
@@ -256,19 +257,19 @@ Pagination
 
 A simple pagination with only page numbers.
 
-<!-- ::preview item="pagination-simple" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="pagination-simple" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Icons Only
 
 Use just the previous and next buttons without page numbers. This is useful for data tables with a rows per page selector.
 
-<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="pagination-icons-only" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="pagination-rtl" height="300" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" direction="rtl" -->
 
 ## API Reference
 

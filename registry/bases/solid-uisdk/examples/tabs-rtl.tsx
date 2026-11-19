@@ -1,0 +1,185 @@
+import { DirectionProvider } from "../ui/direction"
+import { useTranslation } from "../components/language-selector"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { css } from "@kirana-style/core"
+import { theme } from "../../../core/tokens"
+import { containerSize, fontSize, lineHeight } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+import type { Translations } from "../components/language-selector"
+
+export default function TabsRtl() {
+  const styles = {
+    tabs: css({
+      width: { "*": null, base: "100%" },
+      maxWidth: { "*": null, base: containerSize.sm },
+    }),
+    cardContent: css({
+      fontSize: { "*": null, base: fontSize.sm },
+      lineHeight: lineHeight.sm,
+      color: theme.mutedForeground,
+    }),
+    cardContent2: css({
+      fontSize: { "*": null, base: fontSize.sm },
+      lineHeight: lineHeight.sm,
+      color: theme.mutedForeground,
+    }),
+    cardContent3: css({
+      fontSize: { "*": null, base: fontSize.sm },
+      lineHeight: lineHeight.sm,
+      color: theme.mutedForeground,
+    }),
+    cardContent4: css({
+      fontSize: { "*": null, base: fontSize.sm },
+      lineHeight: lineHeight.sm,
+      color: theme.mutedForeground,
+    }),
+  }
+
+  const translations: Translations = {
+    en: {
+      dir: "ltr",
+      values: {
+        overview: "Overview",
+        analytics: "Analytics",
+        reports: "Reports",
+        settings: "Settings",
+        overviewTitle: "Overview",
+        overviewDesc:
+          "View your key metrics and recent project activity. Track progress across all your active projects.",
+        overviewContent: "You have 12 active projects and 3 pending tasks.",
+        analyticsTitle: "Analytics",
+        analyticsDesc:
+          "Track performance and user engagement metrics. Monitor trends and identify growth opportunities.",
+        analyticsContent: "Page views are up 25% compared to last month.",
+        reportsTitle: "Reports",
+        reportsDesc:
+          "Generate and download your detailed reports. Export data in multiple formats for analysis.",
+        reportsContent: "You have 5 reports ready and available to export.",
+        settingsTitle: "Settings",
+        settingsDesc:
+          "Manage your account preferences and options. Customize your experience to fit your needs.",
+        settingsContent: "Configure notifications, security, and themes.",
+      },
+    },
+    ar: {
+      dir: "rtl",
+      values: {
+        overview: "نظرة عامة",
+        analytics: "التحليلات",
+        reports: "التقارير",
+        settings: "الإعدادات",
+        overviewTitle: "نظرة عامة",
+        overviewDesc:
+          "عرض مقاييسك الرئيسية وأنشطة المشروع الأخيرة. تتبع التقدم عبر جميع مشاريعك النشطة.",
+        overviewContent: "لديك ١٢ مشروعًا نشطًا و٣ مهام معلقة.",
+        analyticsTitle: "التحليلات",
+        analyticsDesc:
+          "تتبع مقاييس الأداء ومشاركة المستخدمين. راقب الاتجاهات وحدد فرص النمو.",
+        analyticsContent: "زادت مشاهدات الصفحة بنسبة ٢٥٪ مقارنة بالشهر الماضي.",
+        reportsTitle: "التقارير",
+        reportsDesc:
+          "إنشاء وتنزيل تقاريرك التفصيلية. تصدير البيانات بتنسيقات متعددة للتحليل.",
+        reportsContent: "لديك ٥ تقارير جاهزة ومتاحة للتصدير.",
+        settingsTitle: "الإعدادات",
+        settingsDesc:
+          "إدارة تفضيلات حسابك وخياراته. تخصيص تجربتك لتناسب احتياجاتك.",
+        settingsContent: "تكوين الإشعارات والأمان والسمات.",
+      },
+    },
+    he: {
+      dir: "rtl",
+      values: {
+        overview: "סקירה כללית",
+        analytics: "אנליטיקה",
+        reports: "דוחות",
+        settings: "הגדרות",
+        overviewTitle: "סקירה כללית",
+        overviewDesc:
+          "הצג את המדדים העיקריים שלך ופעילות הפרויקט האחרונה. עקוב אחר התקדמות בכל הפרויקטים הפעילים שלך.",
+        overviewContent: "יש לך 12 פרויקטים פעילים ו-3 משימות ממתינות.",
+        analyticsTitle: "אנליטיקה",
+        analyticsDesc:
+          "עקוב אחר ביצועים ומדדי מעורבות משתמשים. עקוב אחר מגמות וזהה הזדמנויות צמיחה.",
+        analyticsContent: "צפיות בדף עלו ב-25% בהשוואה לחודש שעבר.",
+        reportsTitle: "דוחות",
+        reportsDesc:
+          "צור והורד את הדוחות המפורטים שלך. ייצא נתונים בפורמטים מרובים לניתוח.",
+        reportsContent: "יש לך 5 דוחות מוכנים וזמינים לייצוא.",
+        settingsTitle: "הגדרות",
+        settingsDesc:
+          "נהל את העדפות החשבון והאפשרויות שלך. התאם אישית את החוויה שלך כך שתתאים לצרכים שלך.",
+        settingsContent: "הגדר התראות, אבטחה וערכות נושא.",
+      },
+    },
+  }
+
+  const translation = useTranslation(translations, "ar")
+
+  return (
+    <DirectionProvider locale={translation.locale}>
+      <div sx={page.example}>
+        <Tabs defaultValue="overview" sx={styles.tabs} dir={translation.dir}>
+          <TabsList dir={translation.dir}>
+            <TabsTrigger value="overview">{translation.t.overview}</TabsTrigger>
+            <TabsTrigger value="analytics">
+              {translation.t.analytics}
+            </TabsTrigger>
+            <TabsTrigger value="reports">{translation.t.reports}</TabsTrigger>
+            <TabsTrigger value="settings">{translation.t.settings}</TabsTrigger>
+          </TabsList>
+          <TabsContent value="overview">
+            <Card dir={translation.dir}>
+              <CardHeader>
+                <CardTitle>{translation.t.overviewTitle}</CardTitle>
+                <CardDescription>{translation.t.overviewDesc}</CardDescription>
+              </CardHeader>
+              <CardContent sx={styles.cardContent}>
+                {translation.t.overviewContent}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="analytics">
+            <Card dir={translation.dir}>
+              <CardHeader>
+                <CardTitle>{translation.t.analyticsTitle}</CardTitle>
+                <CardDescription>{translation.t.analyticsDesc}</CardDescription>
+              </CardHeader>
+              <CardContent sx={styles.cardContent2}>
+                {translation.t.analyticsContent}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="reports">
+            <Card dir={translation.dir}>
+              <CardHeader>
+                <CardTitle>{translation.t.reportsTitle}</CardTitle>
+                <CardDescription>{translation.t.reportsDesc}</CardDescription>
+              </CardHeader>
+              <CardContent sx={styles.cardContent3}>
+                {translation.t.reportsContent}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="settings">
+            <Card dir={translation.dir}>
+              <CardHeader>
+                <CardTitle>{translation.t.settingsTitle}</CardTitle>
+                <CardDescription>{translation.t.settingsDesc}</CardDescription>
+              </CardHeader>
+              <CardContent sx={styles.cardContent4}>
+                {translation.t.settingsContent}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DirectionProvider>
+  )
+}

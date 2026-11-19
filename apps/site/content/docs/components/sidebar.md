@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -26,7 +27,7 @@ keywords: [sidebar, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Sidebar
 
-<!-- ::preview item="sidebar-demo" block="true" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" caption="A sidebar that collapses to icons." -->
+<!-- ::preview item="sidebar-demo" block="true" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" caption="A sidebar that collapses to icons." -->
 
 Its open state is kept in a cookie, and on a narrow screen it opens as a sheet.
 
@@ -37,7 +38,7 @@ often contain a lot of moving parts. This one is composable, themeable and custo
 
 ## Installation
 
-<!-- ::installation name="sidebar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
+<!-- ::installation name="sidebar" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -122,7 +123,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/kirana,solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark,solid/uisdk -->
 
 ```tsx
 import {
@@ -775,4 +776,4 @@ const styles = {
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="sidebar-rtl" block="true" combinations="react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" direction="rtl" -->

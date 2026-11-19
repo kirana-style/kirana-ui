@@ -46,6 +46,7 @@ const EXAMPLES = {
   "svelte/kirana": ["svelte-kirana", ".svelte"],
   "solid/ark": ["solid-ark", ".tsx"],
   "solid/kirana": ["solid-kirana", ".tsx"],
+  "solid/uisdk": ["solid-uisdk", ".tsx"],
   "angular/ng": ["angular-ng", ".ts"],
   "angular/kirana": ["angular-kirana", ".ts"],
 } as const
@@ -182,6 +183,16 @@ const PREVIEW_PORTS = {
   angular: 3006,
   // Kirana UI Primitives' own demos, raw and styled three ways (`apps/preview-primitives`).
   primitives: 3008,
+  // Solid on ui-sdk, on Solid 2 (`apps/preview-solid2`): `/preview/solid/uisdk/` (`ROUTED`).
+  solid2: 3009,
+}
+
+/**
+ * A base served by another app than its framework's: its URLs go to that app, rewritten to the
+ * app's own base path (`_redirects` serves the same page in the built site).
+ */
+const ROUTED: Record<string, keyof typeof PREVIEW_PORTS> = {
+  "/preview/solid/uisdk/": "solid2",
 }
 
 /**
@@ -220,18 +231,35 @@ function previewsInDev(): Plugin {
     apply: "serve",
     config: () => ({
       server: {
-        proxy: Object.fromEntries(
-          Object.entries(PREVIEW_PORTS).map(([framework, port]) => [
+        // The routed bases first: Vite takes the first rule a path matches.
+        proxy: Object.fromEntries([
+          ...Object.entries(ROUTED).map(([path, app]) => [
+            path,
+            {
+              target: `http://localhost:${PREVIEW_PORTS[app]}`,
+              ws: true,
+              rewrite: (url: string) =>
+                url.replace(
+                  path,
+                  path.replace(/^\/preview\/[a-z]+\//, `/preview/${app}/`)
+                ),
+            },
+          ]),
+          ...Object.entries(PREVIEW_PORTS).map(([framework, port]) => [
             `/preview/${framework}/`,
             { target: `http://localhost:${port}`, ws: true },
-          ])
-        ),
+          ]),
+        ]),
       },
     }),
     configureServer(server) {
       // Ahead of Vite's own middlewares, the proxy among them: it runs once the server answers.
       server.middlewares.use((request, response, next) => {
-        const framework = request.url?.match(/^\/preview\/([a-z]+)\//)?.[1]
+        const routed = Object.entries(ROUTED).find(([path]) =>
+          request.url?.startsWith(path)
+        )?.[1]
+        const framework =
+          routed ?? request.url?.match(/^\/preview\/([a-z0-9]+)\//)?.[1]
         if (!framework || !(framework in PREVIEW_PORTS)) return next()
         const key = framework as keyof typeof PREVIEW_PORTS
         let starting = ready.get(key)
@@ -277,9 +305,15 @@ export default defineAppConfig({
   pages: TYPESET_PAGES,
   dynamic: isSharedUrl,
   // Each framework's preview app writes its own pages (`@workspace/vite-config/preview`).
-  elsewhere: ["react", "vue", "svelte", "solid", "angular", "primitives"].map(
-    (framework) => `/preview/${framework}/`
-  ),
+  elsewhere: [
+    "react",
+    "vue",
+    "svelte",
+    "solid",
+    "solid2",
+    "angular",
+    "primitives",
+  ].map((framework) => `/preview/${framework}/`),
   plugins: [
     designScript(`${REGISTRY}core/design-script.ts`),
     previewNames(),

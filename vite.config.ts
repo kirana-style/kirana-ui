@@ -75,7 +75,16 @@ const previewOut = (framework: string) =>
  */
 // `primitives` is not the registry's: Kirana UI Primitives' own components, raw and styled three
 // ways, for their docs (`apps/preview-primitives`).
-const PREVIEWS = ["react", "vue", "svelte", "solid", "angular", "primitives"]
+const PREVIEWS = [
+  "react",
+  "vue",
+  "svelte",
+  "solid",
+  // Solid on ui-sdk, on Solid 2 (`apps/preview-solid2`).
+  "solid2",
+  "angular",
+  "primitives",
+]
 
 /**
  * The registry's folders every framework's markup reads (its styles, tokens, icons and helpers):
@@ -94,7 +103,11 @@ const BROWSER_PROJECTS = [
   "apps/preview-vue",
   "apps/preview-svelte",
   "apps/preview-solid",
+  "apps/preview-solid2",
 ]
+
+/** The bases an app's tests mount, by its name: its framework's, or one base's (Solid 2's). */
+const BASES_OF: Record<string, string> = { solid2: "solid-uisdk" }
 
 export default defineConfig({
   // Vitest: the unit tests in Node (`vp run test`), and each preview app's tests in a real browser
@@ -289,7 +302,7 @@ export default defineConfig({
               cache: {
                 input: [
                   ...sourcesIn(
-                    `registry/bases/${framework}-*`,
+                    `registry/bases/${BASES_OF[framework] ?? `${framework}-*`}`,
                     ...REGISTRY_SHARED,
                     "packages/vite-config"
                   ),
@@ -484,8 +497,11 @@ export default defineConfig({
         files: [
           "registry/bases/solid-ark/**",
           "registry/bases/solid-kirana/**",
+          "registry/bases/solid-uisdk/**",
           "registry/lib/solid/**",
+          "registry/lib/solid2/**",
           "apps/preview-solid/**",
+          "apps/preview-solid2/**",
         ],
         rules: {
           "react/immutability": "off",

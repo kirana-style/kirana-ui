@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -26,7 +27,7 @@ keywords: [tool, ai elements, agent, chat]
 
 # Tool
 
-<!-- ::preview item="tool-demo" height="490" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::preview item="tool-demo" height="490" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
 
 Tool is a tool call the agent makes, such as running a command or reading a file. The line follows the call from input to output, including errors and calls that wait for approval.
 
@@ -36,7 +37,7 @@ Tool is built with `Trace` with a `TraceCollapsible` for each call that has outp
 
 Tool is built with the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components.
 
-<!-- ::installation name="trace code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,angular/kirana" -->
+<!-- ::installation name="trace code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" -->
 
 ## Usage
 
@@ -83,7 +84,7 @@ const styles = {
 
 Trace does not read tool parts. Map each part's `state` to a `status` and a title.
 
-<!-- ::preview item="tool-states" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::preview item="tool-states" height="300" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
 
 | Tool part state                                           | `status`                             | Title                                                                |
 | --------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------- |
@@ -184,7 +185,7 @@ For long output, wrap the `TraceLine` in React Aria's `Button` inside a `SheetTr
 
 <!-- ::end:only -->
 
-<!-- ::preview item="tool-sheet" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::preview item="tool-sheet" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
 
 See [Trace](/docs/components/trace#dialog).
 
@@ -192,7 +193,7 @@ See [Trace](/docs/components/trace#dialog).
 
 A pending approval is a question for the person, not a step the agent took, so it sits outside `Trace` as an `Item`. Once the person answers, the tool goes back to being a line. See [Confirmation](/docs/ai-elements/confirmation).
 
-<!-- ::preview item="tool-approval" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::preview item="tool-approval" height="410" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
 
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 

@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -26,7 +27,7 @@ keywords: [plan, ai elements, agent, chat]
 
 # Plan
 
-<!-- ::preview item="plan-demo" height="470" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::preview item="plan-demo" height="470" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
 
 Plan is the list of steps the agent decides on before it starts, such as the steps of a migration. Each step is done, running or pending, and the title counts how many are done.
 
@@ -38,7 +39,7 @@ When the steps are not known up front, use [Task](/docs/ai-elements/task#task-or
 
 Plan is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,angular/kirana" -->
+<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" -->
 
 ## Usage
 
@@ -143,7 +144,7 @@ import {
 
 Put a description above the steps, inside `TraceCollapsibleContent`.
 
-<!-- ::preview item="plan-description" height="350" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::preview item="plan-description" height="350" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
 
 ## AI SDK
 

@@ -1,0 +1,64 @@
+{
+  // Solid 2's JSX (`@solidjs/web`), where `sx` compiles to `class` (`sx.d.ts`, KF-127). Solid 2 and
+  // the packages on it resolve from the Solid 2 preview app, as its build does (`resolve.dedupe`).
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "jsx": "preserve",
+    "jsxImportSource": "@solidjs/web",
+    "types": [],
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "solid-js": [
+        "../../../apps/preview-solid2/node_modules/solid-js/types/index.d.ts"
+      ],
+      "@solidjs/web": [
+        "../../../apps/preview-solid2/node_modules/@solidjs/web/types/index.d.ts"
+      ],
+      "@solidjs/web/jsx-runtime": [
+        "../../../apps/preview-solid2/node_modules/@solidjs/web/types/jsx.d.ts"
+      ],
+      "@solidjs/web/jsx-dev-runtime": [
+        "../../../apps/preview-solid2/node_modules/@solidjs/web/types/jsx.d.ts"
+      ],
+      "@ui-sdk/solid": [
+        "../../../apps/preview-solid2/node_modules/@ui-sdk/solid/dist/index.d.ts"
+      ],
+      "@ui-sdk/solid/*": [
+        "../../../apps/preview-solid2/node_modules/@ui-sdk/solid/dist/*"
+      ],
+      "@ui-sdk/core": [
+        "../../../apps/preview-solid2/node_modules/@ui-sdk/core/dist/index.d.ts"
+      ],
+      "@ui-sdk/core/*": [
+        "../../../apps/preview-solid2/node_modules/@ui-sdk/core/dist/*"
+      ],
+      "solid-sonner": [
+        "../../../apps/preview-solid2/node_modules/solid-sonner/dist/index.d.ts"
+      ],
+      "@dnd-kit/dom": [
+        "../../../apps/preview-solid2/node_modules/@dnd-kit/dom/index.d.ts"
+      ],
+      "@dnd-kit/dom/*": [
+        "../../../apps/preview-solid2/node_modules/@dnd-kit/dom/*.d.ts"
+      ],
+      "@dnd-kit/abstract/*": [
+        "../../../apps/preview-solid2/node_modules/@dnd-kit/abstract/*.d.ts"
+      ],
+      "@tanstack/table-core": [
+        "../../../apps/preview-solid2/node_modules/@tanstack/table-core/dist/index.d.ts"
+      ],
+      "@tanstack/table-core/*": [
+        "../../../apps/preview-solid2/node_modules/@tanstack/table-core/dist/*.d.ts"
+      ]
+    }
+  },
+  "include": [".", "../../lib/solid2"]
+}

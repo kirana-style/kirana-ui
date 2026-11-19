@@ -1,0 +1,35 @@
+{
+  "name": "preview-solid2",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vp dev --port 3008",
+    "build": "vp build"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
+    "@dnd-kit/abstract": "0.5.3",
+    "@dnd-kit/dom": "0.5.3",
+    "@kirana-style/core": "catalog:",
+    "@solidjs/web": "2.0.3",
+    "@tanstack/table-core": "9.3.1",
+    "@ui-sdk/core": "0.1.0-beta.12",
+    "@ui-sdk/solid": "0.1.0-beta.12",
+    "@workspace/fonts": "workspace:*",
+    "@workspace/registry": "workspace:*",
+    "solid-sonner": "1.0.0",
+    "solid-js": "2.0.3"
+  },
+  "devDependencies": {
+    "@kirana-style/vite": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "@workspace/vite-config": "workspace:*",
+    "playwright": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-solid": "3.0.0-next.27",
+    "vite-plus": "catalog:"
+  }
+}

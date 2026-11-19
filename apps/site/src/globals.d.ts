@@ -28,6 +28,7 @@ declare module "virtual:preview-names" {
     | "svelte/kirana"
     | "solid/ark"
     | "solid/kirana"
+    | "solid/uisdk"
     | "angular/ng"
     | "angular/kirana",
     readonly string[]

@@ -94,6 +94,12 @@ export const VARIANTS = [
     base: "Ark UI",
   },
   {
+    id: "solid/uisdk",
+    label: "Solid · UI SDK",
+    name: "Solid with UI SDK",
+    base: "UI SDK",
+  },
+  {
     id: "angular/kirana",
     label: "Angular · Kirana UI",
     name: "Angular with Kirana UI",
@@ -122,6 +128,7 @@ export const DEFAULT_VARIANTS = [
   "svelte/bits",
   "svelte/uisdk",
   "solid/ark",
+  "solid/uisdk",
   "angular/ng",
 ] as const
 

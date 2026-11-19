@@ -126,11 +126,13 @@ function ChartContainer(props: {
           }}
           renderTooltipBody={
             local.tooltip
-              ? ({ points }) => (
+              ? // The context read live: the adapter renders the body once a tooltip and
+                // changes its points under it as the pointer moves.
+                (tip) => (
                   <PointsContext.Provider
                     value={{
                       get points() {
-                        return points
+                        return tip.points
                       },
                     }}
                   >

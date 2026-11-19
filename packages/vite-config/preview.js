@@ -161,16 +161,17 @@ function itemGroup(id) {
  * copy of the page per item would count against the Worker's 20,000 static files. The build fails
  * when the rule for this framework and base is missing. `extra` names the app's own pages
  * (`showcase`, `charts`), which the comparison script reads from here.
- * @param {{ framework: string, base: string, extension: string, extra?: readonly string[] }} options
+ * @param {{ framework: string, base: string, extension: string, extra?: readonly string[], app?: string }} options
  * @returns {import("vite-plus").Plugin}
  */
-export function previewPages({ framework, base }) {
+export function previewPages({ framework, base, app = framework }) {
   const redirects = fileURLToPath(
     new URL("../../apps/site/public/_redirects", import.meta.url)
   )
   // The app's page at its canonical URL, `/preview/<framework>/`: a rewrite to `index.html` would
   // loop, since Cloudflare serves that page at the folder's URL.
-  const rule = `/preview/${framework}/${base}/* /preview/${framework}/ 200`
+  // A base whose app is not the framework's own (Solid on ui-sdk, on Solid 2) is served from its app's.
+  const rule = `/preview/${framework}/${base}/* /preview/${app}/ 200`
   return {
     name: "preview-item-routes",
     apply: "build",
