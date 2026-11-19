@@ -15,6 +15,7 @@ variants:
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
+    svelte/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -23,7 +24,7 @@ keywords: [file tree, ai elements, agent, chat]
 
 # File Tree
 
-<!-- ::preview item="file-tree-demo" height="370" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
+<!-- ::preview item="file-tree-demo" height="370" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
 
 File Tree is the files the agent changed, shown as folders you can open. A folder is a [Collapsible](/docs/components/collapsible). A file is a [Button](/docs/components/button). For a single file the agent read or edited, use a [Tool](/docs/ai-elements/tool) line instead.
 
@@ -31,7 +32,7 @@ File Tree is the files the agent changed, shown as folders you can open. A folde
 
 File Tree is built with the [Collapsible](/docs/components/collapsible) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="collapsible button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
+<!-- ::installation name="collapsible button" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
 
 ## Usage
 

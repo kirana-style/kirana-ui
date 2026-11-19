@@ -74,6 +74,12 @@ export const VARIANTS = [
     name: "Svelte with ui-sdk",
     base: "ui-sdk",
   },
+  {
+    id: "svelte/kirana",
+    label: "Svelte · Kirana UI",
+    name: "Svelte with Kirana UI",
+    base: "Kirana UI",
+  },
   { id: "solid/ark", label: "Solid", name: "Solid", base: "Ark UI" },
   {
     id: "angular/ng",

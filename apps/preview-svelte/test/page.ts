@@ -14,6 +14,7 @@ import {
 import { previews as arkPreviews } from "@workspace/registry/bases/svelte-ark/previews.ts"
 import { previews as bitsPreviews } from "@workspace/registry/bases/svelte-bits/previews.ts"
 import { previews as uisdkPreviews } from "@workspace/registry/bases/svelte-uisdk/previews.ts"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/svelte-kirana/previews.ts"
 
 import Host from "./Host.svelte"
 
@@ -21,6 +22,7 @@ export const BASES = {
   ark: arkPreviews,
   bits: bitsPreviews,
   uisdk: uisdkPreviews,
+  kirana: kiranaPreviews,
 }
 
 /** Lets Svelte and the item settle: pending effects, then two frames. */

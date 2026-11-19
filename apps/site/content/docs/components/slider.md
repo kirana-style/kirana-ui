@@ -15,6 +15,7 @@ variants:
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
+    svelte/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,11 +25,11 @@ keywords:
 
 # Slider
 
-<!-- ::preview item="slider-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="slider" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="slider" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -92,35 +93,35 @@ export class Example {}
 
 Use an array with two values for a range slider.
 
-<!-- ::preview item="slider-range" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-range" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Multiple Thumbs
 
 Use an array with multiple values for multiple thumbs.
 
-<!-- ::preview item="slider-multiple" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-multiple" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Vertical
 
 Use `orientation="vertical"` for a vertical slider.
 
-<!-- ::preview item="slider-vertical" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-vertical" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Controlled
 
-<!-- ::preview item="slider-controlled" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-controlled" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Disabled
 
 Use the `disabled` prop to disable the slider.
 
-<!-- ::preview item="slider-disabled" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="slider-disabled" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="slider-rtl" height="360" combinations="react/base,react/aria,react/uisdk,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

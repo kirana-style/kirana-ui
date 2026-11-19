@@ -5,12 +5,13 @@
   "private": true,
   "scripts": {
     "dev": "vp dev --port 3004",
-    "build": "svelte-check --tsconfig ./tsconfig.svelte.json --fail-on-warnings && vp build"
+    "build": "svelte-check --tsconfig ./tsconfig.svelte-ark.json --fail-on-warnings && svelte-check --tsconfig ./tsconfig.svelte-bits.json --fail-on-warnings && svelte-check --tsconfig ./tsconfig.svelte-uisdk.json --fail-on-warnings && svelte-check --tsconfig ./tsconfig.svelte-kirana.json --fail-on-warnings && vp build"
   },
   "dependencies": {
     "@ai-sdk/svelte": "catalog:",
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
+    "@kirana-ui/svelte": "0.2.0",
     "@kirana-style/core": "catalog:",
     "@ui-sdk/core": "catalog:",
     "@ui-sdk/svelte": "catalog:",

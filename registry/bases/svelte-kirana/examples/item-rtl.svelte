@@ -1,0 +1,107 @@
+<script lang="ts">
+  import { DirectionProvider } from "../ui/direction"
+  import IconPlaceholder from "../../../icons/IconPlaceholder.svelte"
+  import { useTranslation } from "../components/language-selector"
+  import type { Translations } from "../components/language-selector"
+  import { Button } from "../ui/button"
+  import {
+    Item,
+    ItemActions,
+    ItemContent,
+    ItemDescription,
+    ItemMedia,
+    ItemTitle,
+  } from "../ui/item"
+  import { css } from "@kirana-style/core"
+  import { containerSize, space } from "../../../core/scales"
+  import { page } from "../../../styles/page.styles"
+
+  const styles = {
+    div: css({
+      display: "flex",
+      width: "100%",
+      maxWidth: containerSize.md,
+      flexDirection: "column",
+      gap: space[6],
+    }),
+    iconPlaceholder: css({
+      width: space[5],
+      height: space[5],
+    }),
+    iconPlaceholder2: css({
+      width: space[4],
+      height: space[4],
+    }),
+  }
+
+  const translations: Translations = {
+    en: {
+      dir: "ltr",
+      values: {
+        basicItem: "Basic Item",
+        basicItemDesc: "A simple item with title and description.",
+        action: "Action",
+        verifiedTitle: "Your profile has been verified.",
+      },
+    },
+    ar: {
+      dir: "rtl",
+      values: {
+        basicItem: "عنصر أساسي",
+        basicItemDesc: "عنصر بسيط يحتوي على عنوان ووصف.",
+        action: "إجراء",
+        verifiedTitle: "تم التحقق من ملفك الشخصي.",
+      },
+    },
+    he: {
+      dir: "rtl",
+      values: {
+        basicItem: "פריט בסיסי",
+        basicItemDesc: "פריט פשוט עם כותרת ותיאור.",
+        action: "פעולה",
+        verifiedTitle: "הפרופיל שלך אומת.",
+      },
+    },
+  }
+
+  const translation = useTranslation(translations, "ar")
+</script>
+
+<DirectionProvider locale={translation.locale}>
+  <div sx={page.example}>
+    <div sx={styles.div} dir={translation.dir}>
+      <Item variant="outline" dir={translation.dir}>
+        <ItemContent>
+          <ItemTitle>
+            {translation.t.basicItem}
+          </ItemTitle>
+          <ItemDescription>
+            {translation.t.basicItemDesc}
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Button variant="outline" size="sm">
+            {translation.t.action}
+          </Button>
+        </ItemActions>
+      </Item>
+      <Item variant="outline" size="sm" dir={translation.dir}>
+        {#snippet asChild(props)}
+          <a {...props()} href="#">
+            <ItemMedia>
+              <IconPlaceholder lucide="BadgeCheckIcon" tabler="IconRosetteDiscountCheck" hugeicons="CheckmarkBadgeIcon" phosphor="CheckCircleIcon" remixicon="RiCheckboxCircleLine" sx={styles.iconPlaceholder} />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>
+                {translation.t.verifiedTitle}
+              </ItemTitle>
+            </ItemContent>
+            <ItemActions>
+              <IconPlaceholder lucide="ChevronRightIcon" tabler="IconChevronRight" hugeicons="ArrowRight01Icon" phosphor="CaretRightIcon" remixicon="RiArrowRightSLine" sx={styles.iconPlaceholder2} />
+            </ItemActions>
+          </a>
+        {/snippet}
+      </Item>
+    </div>
+  </div>
+</DirectionProvider>

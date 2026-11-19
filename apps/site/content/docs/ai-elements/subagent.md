@@ -15,6 +15,7 @@ variants:
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
+    svelte/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -23,7 +24,7 @@ keywords: [subagent, ai elements, agent, chat]
 
 # Subagent
 
-<!-- ::preview item="subagent-demo" height="710" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
+<!-- ::preview item="subagent-demo" height="710" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
 
 Subagent is a line for work the agent hands to a subagent. The run is the title, like "Ran the research agent". Open it for the tool calls the subagent made and what it found.
 
@@ -33,7 +34,7 @@ Subagent is built with `Trace` with a `TraceCollapsible` for the run and a neste
 
 Subagent is built with the [Trace](/docs/components/trace), [Code Block](/docs/components/code-block) and [Badge](/docs/components/badge) components.
 
-<!-- ::installation name="trace code-block badge" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
+<!-- ::installation name="trace code-block badge" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
 
 ## Usage
 
@@ -121,13 +122,13 @@ const styles = {
 
 While the subagent runs, the line has `status="running"` and its content shows the tool calls so far. Add the result when the subagent finishes.
 
-<!-- ::preview item="subagent-running" height="200" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
+<!-- ::preview item="subagent-running" height="200" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
 
 ## Details
 
 Put the task the subagent was given at the top of the content, with its model and tools as [Badge](/docs/components/badge) items. Show how long it ran in a `TraceDescription` after the title.
 
-<!-- ::preview item="subagent-details" height="340" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk" -->
+<!-- ::preview item="subagent-details" height="340" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/uisdk,vue/kirana,svelte/uisdk,svelte/kirana" -->
 
 ## AI SDK
 

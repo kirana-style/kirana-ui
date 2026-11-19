@@ -15,6 +15,7 @@ variants:
     svelte/ark,
     svelte/bits,
     svelte/uisdk,
+    svelte/kirana,
     solid/ark,
     angular/ng,
   ]
@@ -24,11 +25,11 @@ keywords:
 
 # Kbd
 
-<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-demo" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="kbd" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::installation name="kbd" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Usage
 
@@ -101,31 +102,31 @@ KbdGroup
 
 Use the `KbdGroup` component to group keyboard keys together.
 
-<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-group" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Button
 
 Use the `Kbd` component inside a `Button` component to display a keyboard key inside a button.
 
-<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-button" height="360" combinations="react/base,react/aria,react/uisdk,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Tooltip
 
 You can use the `Kbd` component inside a `Tooltip` component to display a tooltip with a keyboard key.
 
-<!-- ::preview item="kbd-tooltip" height="360" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-tooltip" height="360" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,svelte/ark,svelte/bits,svelte/kirana,solid/ark,angular/ng" -->
 
 ## Input Group
 
 You can use the `Kbd` component inside a `InputGroupAddon` component to display a keyboard key inside an input group.
 
-<!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" -->
+<!-- ::preview item="kbd-input-group" height="360" combinations="react/base,react/aria,react/kirana,vue/ark,vue/reka,vue/uisdk,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" -->
 
 ## RTL
 
 To set the direction, see [Right to left](/docs/design-system/rtl).
 
-<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/ark,angular/ng" direction="rtl" -->
+<!-- ::preview item="kbd-rtl" height="360" combinations="react/base,react/aria,vue/ark,vue/reka,vue/kirana,svelte/ark,svelte/bits,svelte/uisdk,svelte/kirana,solid/ark,angular/ng" direction="rtl" -->
 
 ## API Reference
 

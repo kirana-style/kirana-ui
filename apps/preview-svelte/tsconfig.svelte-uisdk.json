@@ -1,0 +1,16 @@
+{
+  // What `svelte-check` checks before the build, one base at a time (`tsconfig.svelte-*.json`): the
+  // app and that base's Svelte markup, which no other check reads (`vp check` reads TypeScript, not single-file components). TypeScript 6,
+  // since `svelte-check` runs on its JavaScript API, which TypeScript 7 does not have.
+  // One program for every base outgrew Node's default heap at four bases.
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.svelte",
+    "../../registry/bases/svelte-uisdk/**/*.ts",
+    "../../registry/bases/svelte-uisdk/**/*.svelte",
+    "../../registry/icons/IconPlaceholder.svelte",
+    "../../registry/lib/svelte/**/*.ts",
+    "../../registry/lib/svelte/**/*.svelte"
+  ]
+}

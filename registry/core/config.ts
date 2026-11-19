@@ -41,7 +41,7 @@ export type Base = (typeof BASES)[number]
 export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
   react: ["base", "aria", "uisdk", "kirana"],
   vue: ["ark", "reka", "uisdk", "kirana"],
-  svelte: ["ark", "bits", "uisdk"],
+  svelte: ["ark", "bits", "uisdk", "kirana"],
   solid: ["ark"],
   angular: ["ng"],
 }

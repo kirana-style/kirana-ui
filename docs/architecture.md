@@ -440,7 +440,11 @@ Primitives too** (`registry/bases/vue-kirana`, at `/preview/vue/kirana/`, on
 React's is react-day-picker, until Kirana UI's chooses several days and months): its parts take their Ark UI twins' props
 (`v-model`, `default-value`, `checked-change` given `{ checked }`), the plain
 components are Vue's own, and the ones on Reka UI's `Primitive` take the
-primitives' (`@kirana-ui/vue/primitive`), with the same `as` and `as-child`.
+primitives' (`@kirana-ui/vue/primitive`), with the same `as` and `as-child`. **Svelte's fourth base is Kirana UI Primitives as
+well** (`registry/bases/svelte-kirana`, at `/preview/svelte/kirana/`, on
+`@kirana-ui/svelte`), with all 61 of Svelte's components, the toast among them,
+which its Bits UI twin lacks: its parts take the Ark UI twin's props, as the Bits
+UI base's do, and its calendar is Ark UI's, as Vue's is.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,

@@ -37,6 +37,9 @@ const modules = {
   uisdk: import.meta.glob<Record<string, unknown>>(
     "../../../registry/bases/svelte-uisdk/ui/*/index.ts"
   ),
+  kirana: import.meta.glob<Record<string, unknown>>(
+    "../../../registry/bases/svelte-kirana/ui/*/index.ts"
+  ),
 }
 
 /** One base's parts for the fixture, by their export names. */

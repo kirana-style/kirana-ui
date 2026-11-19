@@ -25,6 +25,7 @@ declare module "virtual:preview-names" {
     | "svelte/ark"
     | "svelte/bits"
     | "svelte/uisdk"
+    | "svelte/kirana"
     | "solid/ark"
     | "angular/ng",
     readonly string[]
