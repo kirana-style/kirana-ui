@@ -562,7 +562,7 @@
     "@ui-sdk/core": "0.1.0-beta.2",
     "@ui-sdk/react": "0.1.0-beta.2",
     "@ui-sdk/svelte": "0.1.0-beta.2",
-    "@ui-sdk/vue": "0.1.0-beta.2",
+    "@ui-sdk/vue": "0.1.0-beta.5",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitest/browser-playwright": "5.1.0",
     "ai": "^7.0.164",
@@ -1594,7 +1594,7 @@
 
     "@ui-sdk/svelte": ["@ui-sdk/svelte@0.1.0-beta.2", "", { "peerDependencies": { "@ui-sdk/core": "^0.1.0-beta.2", "svelte": ">=5.33" } }, "sha512-LhjaeAIHUNuwKbQoBLT0urV7MaHU2yJqB12S4Q24iPm6tORv9j+0ONaY34+pPz7DpjQs9b3JJovaqyRjcdn0Dg=="],
 
-    "@ui-sdk/vue": ["@ui-sdk/vue@0.1.0-beta.2", "", { "peerDependencies": { "@nuxt/kit": "^4.0.0 || ^5.0.0-0", "@nuxt/schema": "^4.0.0 || ^5.0.0-0", "@ui-sdk/core": "^0.1.0-beta.2", "nuxt": "^4.0.0 || ^5.0.0-0", "vue": ">=3.5" }, "optionalPeers": ["@nuxt/kit", "@nuxt/schema", "nuxt"] }, "sha512-KbtbgxykcKgrsgkrsygJ3R0txzyKQjAga/DcmQ1txNcMIPIPyndNmvW/9MIuoL/JUuwxwpoapmuhYVb4TUsq1Q=="],
+    "@ui-sdk/vue": ["@ui-sdk/vue@0.1.0-beta.5", "", { "peerDependencies": { "@nuxt/kit": "^4.0.0 || ^5.0.0-0", "@nuxt/schema": "^4.0.0 || ^5.0.0-0", "@ui-sdk/core": "^0.1.0-beta.5", "nuxt": "^4.0.0 || ^5.0.0-0", "vue": ">=3.5" }, "optionalPeers": ["@nuxt/kit", "@nuxt/schema", "nuxt"] }, "sha512-nt7DzUYByRAKABHEWWFzRQbkTDofE7yndq2QaSiMC1itTmmoucpVYZrDZqCpqRCHy4L6TTG+S83XUEk7nA463Q=="],
 
     "@vercel/oidc": ["@vercel/oidc@3.2.0", "", {}, "sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug=="],
 
