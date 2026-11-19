@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -225,7 +226,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ## On Angular
 
@@ -303,7 +304,7 @@ If you are porting a shadcn/ui chart written with Recharts, as every chart in [t
 
 ## Installation
 
-<!-- ::installation name="chart" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="chart" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 The chart colours are the design's tokens, `theme.chart1` to `theme.chart5`, which the chart colours axis sets ([Colours and theming](/docs/design-system/theming)): there is nothing to add to your CSS.
 

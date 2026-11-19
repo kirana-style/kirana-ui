@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [dialog, component, base, aria, ark, svelte, solid, angular]
@@ -29,7 +30,7 @@ keywords: [dialog, component, base, aria, ark, svelte, solid, angular]
 
 ## Installation
 
-<!-- ::installation name="dialog" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="dialog" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -180,7 +181,7 @@ import {
 </Dialog>
 ```
 
-### Angular
+### Angular · NG Primitives, Angular · Kirana UI
 
 ```ts
 import { Component } from "@angular/core"

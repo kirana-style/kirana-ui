@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -30,7 +31,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="radio-group" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="radio-group" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -115,7 +116,7 @@ const styles = {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"

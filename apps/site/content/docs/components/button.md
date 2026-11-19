@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [button, component, base, aria, ark, vue, svelte, solid, angular]
@@ -35,7 +36,7 @@ A button drawn on a link keeps the link's role: on Base UI, `render={<a href="/"
 
 ## Installation
 
-<!-- ::installation name="button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -93,7 +94,7 @@ export function Example() {
 }
 ```
 
-### Angular
+### Angular · NG Primitives, Angular · Kirana UI
 
 ```ts
 import { Component } from "@angular/core"

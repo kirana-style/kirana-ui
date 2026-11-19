@@ -2,13 +2,13 @@ import { Component, signal } from "@angular/core"
 import type { Type } from "@angular/core"
 import { NgComponentOutlet } from "@angular/common"
 import { css, props } from "@kirana-style/core"
-import { Toaster } from "@workspace/registry/bases/angular-ng/ui/sonner"
-import { Toaster as ToastToaster } from "@workspace/registry/bases/angular-ng/ui/toast"
-import { previews } from "@workspace/registry/bases/angular-ng/previews"
+import { previews as ngPreviews } from "@workspace/registry/bases/angular-ng/previews"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/angular-kirana/previews"
 import { space } from "@workspace/registry/core/scales"
 
 import { Charts } from "./charts"
 import { Showcase } from "./showcase"
+import { KiranaToasters, NgToasters } from "./toasters"
 
 const list = css({
   display: "flex",
@@ -18,14 +18,20 @@ const list = css({
 })
 
 /**
- * One page per item, as `/preview/angular/ng/<item>`, and the showcase; the root lists them. An
- * item that is not there, or fails to load, says so rather than showing the list.
+ * One page per item, as `/preview/angular/<base>/<item>` (NG Primitives' or Kirana UI's), and the
+ * showcase (NG Primitives'); the root lists them. An item that is not there, or fails to load, says
+ * so rather than showing the list.
  */
-const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
+const route = location.pathname.match(
+  /\/(ng|kirana)\/([a-z0-9-]+?)(?:\.html)?\/?$/
+)
+const base = route?.[1] === "kirana" ? "kirana" : "ng"
+const item = route?.[2]
+const previews = base === "kirana" ? kiranaPreviews : ngPreviews
 
 @Component({
   selector: "preview-root",
-  imports: [Charts, NgComponentOutlet, Showcase, Toaster, ToastToaster],
+  imports: [Charts, KiranaToasters, NgComponentOutlet, NgToasters, Showcase],
   template: `
     @if (item === "showcase") {
       <preview-showcase />
@@ -39,13 +45,16 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
            Toast's, as React's Base UI pages do; loaded after the page, since only the items that
            show a toast need them. -->
       @defer (on idle) {
-        <kui-toaster position="top-center" />
-        <kui-toast-toaster />
+        @if (base === "kirana") {
+          <preview-kirana-toasters />
+        } @else {
+          <preview-ng-toasters />
+        }
       }
     } @else if (!item) {
       <nav [class]="list">
         @for (name of names; track name) {
-          <a [href]="'/preview/angular/ng/' + name">{{ name }}</a>
+          <a [href]="'/preview/angular/' + base + '/' + name">{{ name }}</a>
         }
       </nav>
     }
@@ -53,10 +62,14 @@ const item = location.pathname.match(/\/ng\/([a-z0-9-]+?)(?:\.html)?\/?$/)?.[1]
 })
 export class App {
   protected readonly item = item
+  protected readonly base = base
   // Loaded only on its own page, as the other previews'.
   protected readonly current = signal<Type<unknown> | null>(null)
   protected readonly failure = signal<string | null>(null)
-  protected readonly names = [...Object.keys(previews), "showcase", "charts"]
+  protected readonly names = [
+    ...Object.keys(previews),
+    ...(base === "ng" ? ["showcase", "charts"] : []),
+  ]
   protected readonly list = props(list).className
 
   constructor() {

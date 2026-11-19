@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [confirmation, ai elements, agent, chat]
@@ -33,7 +34,7 @@ Confirmation asks the person for a yes or no before a tool runs. The question is
 
 Confirmation is built with the [Item](/docs/components/item) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="item button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::installation name="item button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,angular/kirana" -->
 
 ## Usage
 

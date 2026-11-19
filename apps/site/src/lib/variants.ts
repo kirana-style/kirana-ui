@@ -5,7 +5,7 @@
  * (`content/docs/components/<name>.md`, its `variants`, `::only` blocks and per-variant tabs) by
  * the content generator, with an override beside it where a variant differs throughout
  * (`<name>/<framework>-<base>.md`). React's are labelled by their base; a framework with one is
- * labelled by the framework, and Vue, Svelte and Solid, with more, by both. Each framework's
+ * labelled by the framework, and the others, with more, by both. Each framework's
  * Kirana UI comes first; what a reader with no choice is shown is `DEFAULT_VARIANTS`' order.
  */
 export const VARIANTS = [
@@ -94,9 +94,15 @@ export const VARIANTS = [
     base: "Ark UI",
   },
   {
+    id: "angular/kirana",
+    label: "Angular · Kirana UI",
+    name: "Angular with Kirana UI",
+    base: "Kirana UI",
+  },
+  {
     id: "angular/ng",
-    label: "Angular",
-    name: "Angular",
+    label: "Angular · NG Primitives",
+    name: "Angular with NG Primitives",
     base: "NG Primitives",
   },
 ] as const

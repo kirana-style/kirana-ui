@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [sheet, component, base, aria, ark, vue, svelte, solid, angular]
@@ -31,7 +32,7 @@ A sheet slides in from the side its `side` names: `top`, `right`, `bottom` or `l
 
 ## Installation
 
-<!-- ::installation name="sheet" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="sheet" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -186,7 +187,7 @@ import {
 </Sheet>
 ```
 
-### Angular
+### Angular · NG Primitives, Angular · Kirana UI
 
 ```ts
 import { Component } from "@angular/core"

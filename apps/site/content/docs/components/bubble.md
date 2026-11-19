@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -34,7 +35,7 @@ For full-featured chat interfaces, use the [`Message`](/docs/components/message)
 
 ## Installation
 
-<!-- ::installation name="bubble" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="bubble" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -104,7 +105,7 @@ import { Bubble, BubbleContent, BubbleReactions } from "@/components/ui/bubble"
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"

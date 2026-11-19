@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -34,7 +35,7 @@ For AI apps, you can render reasoning steps, tool calls and assistant messages u
 
 ## Installation
 
-<!-- ::installation name="message" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="message" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -126,7 +127,7 @@ import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"

@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [inline citation, ai elements, agent, chat]
@@ -35,7 +36,7 @@ To show a list of sources after the reply, use [Sources](/docs/ai-elements/sourc
 
 Inline Citation is built with the [Hover Card](/docs/components/hover-card) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="hover-card button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::installation name="hover-card button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,angular/kirana" -->
 
 ## Usage
 

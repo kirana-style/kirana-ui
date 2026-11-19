@@ -893,6 +893,16 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   system's own that took `ark.span` renders through `Element`
   (`lib/solid/element.tsx`). The preview provides each base's icon library and
   language contexts, since each base has its own copy of them.
+- **Angular on Kirana UI Primitives** keeps the NG Primitives base's directives:
+  the primitives' selectors are the registry's own (`[kuiDialogTrigger]`), so a
+  registry directive takes its primitive through `hostDirectives`, exposing its
+  inputs and outputs under the registry's names, and a file never imports a
+  registry part and a primitive with the same selector into one component. A
+  part the primitives make structural (a portal, a panel, an indicator) cannot
+  be put around the caller's element by an attribute: the registry's part is a
+  component whose template draws it around `<ng-content />`, its own element
+  `display: contents` (`ui/dialog.ts` is the pattern). A model's change output
+  is typed with `undefined` (`openChange.emit(!!$event)`).
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
@@ -1137,9 +1147,9 @@ In CI, every job restores the cache `main` last saved (other branches only
 restore), so a pull request rebuilds only what it changed. The build job hands the
 registry it built to four install jobs, which install
 `scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`). The lint runs
-apart from the format and type check, in four jobs too: the Kirana rules read the
+apart from the format and type check, in six jobs: the Kirana rules read the
 whole project's diagnostics once per file, on one thread, so it is most of
-`vp run check`'s time, and `scripts/lint-shard.ts --shard <i>/4` lints a share of
+`vp run check`'s time, and `scripts/lint-shard.ts --shard <i>/6` lints a share of
 the files Git tracks, grouped by folder (`--list` prints it). Locally,
 `vp run check` still runs the whole lint.
 
@@ -1163,7 +1173,11 @@ in their group. The second found the Ark UI and Reka UI tooltip triggers
 submitting their form; their `TooltipTrigger` passes `type="button"`.
 
 The engines are `BROWSERS` (`chromium` unless it says otherwise): the pre-push
-hook runs Chromium, CI one job per engine, Chromium, Firefox and WebKit. A first
+hook runs Chromium. `vp run browser:<framework>` runs one app's tests
+(`browser:vue`), and CI runs one job per engine and framework, Chromium, Firefox
+and WebKit, for the frameworks the change needs: `scripts/ci-changes.sh` picks
+those whose bases, helpers or preview app it touches, none for the docs alone,
+and every one for anything shared or on a push to `main`. A first
 run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
 a test:
 

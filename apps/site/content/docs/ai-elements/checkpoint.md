@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [checkpoint, ai elements, agent, chat]
@@ -33,7 +34,7 @@ Checkpoint is a point in the conversation you can return to. It is a [Marker](/d
 
 Checkpoint is built with the [Marker](/docs/components/marker) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="marker button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana" -->
+<!-- ::installation name="marker button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,angular/kirana" -->
 
 ## Usage
 

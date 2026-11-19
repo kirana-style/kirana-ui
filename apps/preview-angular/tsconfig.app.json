@@ -22,5 +22,9 @@
     "strictTemplates": true
   },
   "files": ["src/main.ts"],
-  "include": ["src/**/*.ts", "../../registry/bases/angular-ng/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "../../registry/bases/angular-ng/**/*.ts",
+    "../../registry/bases/angular-kirana/**/*.ts"
+  ]
 }

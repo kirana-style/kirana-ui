@@ -268,6 +268,9 @@ export const resizable = {
     // react-resizable-panels' on ui-sdk: React's part keeps that library, and Vue's ui-sdk Resizable
     // writes its `data-group` and `data-separator` (`ui/resizable` in `bases/vue-uisdk`).
     uisdk: '[data-group][aria-orientation="vertical"]',
+    // Kirana UI Primitives give the group and its handles the group's `data-orientation`, as Ark's:
+    // Base UI's key (react-resizable-panels') never matches them.
+    kirana: '[data-orientation="vertical"]',
   },
   across: {
     base: '[data-separator][aria-orientation="horizontal"]',
@@ -276,6 +279,7 @@ export const resizable = {
     reka: '[data-orientation="vertical"]',
     bits: '[data-direction="vertical"]',
     uisdk: '[data-separator][aria-orientation="horizontal"]',
+    kirana: '[data-orientation="vertical"]',
   },
 } as const satisfies Record<string, StateKeys>
 

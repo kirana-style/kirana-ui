@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -32,7 +33,7 @@ The `Item` component is a straightforward flex container that can house nearly a
 
 ## Installation
 
-<!-- ::installation name="item" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="item" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -125,7 +126,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"

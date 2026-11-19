@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid, angular]
@@ -31,7 +32,7 @@ keywords: [tabs, component, base, aria, ark, ark, vue, svelte, solid, angular]
 
 ## Installation
 
-<!-- ::installation name="tabs" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="tabs" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -130,7 +131,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 </Tabs>
 ```
 
-### Angular
+### Angular · NG Primitives, Angular · Kirana UI
 
 ```ts
 import { Component } from "@angular/core"

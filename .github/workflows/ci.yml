@@ -1,7 +1,8 @@
 name: ci
 
 # What a pull request must keep true: the workspace checks itself (format, lint with the Kirana
-# rules, types, licences, tests), the preview apps' tests pass in Chromium, Firefox and WebKit,
+# rules, types, licences, tests), the preview apps' tests pass in Chromium, Firefox and WebKit
+# (for the frameworks the change touches),
 # every app builds with 0 compiler errors, and the registry installs into a project per framework. The push to `main` keeps the caches warm: only `main` saves them.
 
 on:
@@ -26,6 +27,26 @@ concurrency:
 # package, so no job needs Rust.
 
 jobs:
+  # Which frameworks' browser tests this change needs (`scripts/ci-changes.sh`): those whose bases,
+  # helpers or preview app it touches, none for the docs alone, every one for anything shared and on
+  # every push to `main`. Plain shell on two fetched commits, so it answers in seconds.
+  changes:
+    runs-on: ubuntu-26.04
+    name: changes
+    timeout-minutes: 5
+    outputs:
+      frameworks: ${{ steps.frameworks.outputs.frameworks }}
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+
+      - name: Frameworks to test
+        id: frameworks
+        run: bash scripts/ci-changes.sh
+
   check:
     runs-on: ubuntu-26.04
     name: format, types and tests
@@ -65,16 +86,16 @@ jobs:
   # Oxlint with the Kirana rules (@kirana-style/eslint-plugin), a warning failing it like an error.
   # The rules read the whole project's diagnostics once per file, on one thread (KF-123), so the
   # lint is most of `vp run check`'s time: `scripts/lint-shard.ts` splits the files Git tracks into
-  # four shares, by folder, linted side by side. Locally, `vp run check` still lints them all.
+  # six shares, by folder, linted side by side. Locally, `vp run check` still lints them all.
   lint:
     runs-on: ubuntu-26.04
-    name: lint (${{ matrix.shard }}/4)
+    name: lint (${{ matrix.shard }}/6)
     timeout-minutes: 20
 
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6]
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -87,7 +108,7 @@ jobs:
 
       # The type-aware rules read the site's docs content, as the types do.
       - name: Lint
-        run: vp run content && bun scripts/lint-shard.ts --shard ${{ matrix.shard }}/4
+        run: vp run content && bun scripts/lint-shard.ts --shard ${{ matrix.shard }}/6
 
   build:
     runs-on: ubuntu-26.04
@@ -139,17 +160,21 @@ jobs:
 
   # The preview apps' tests in a real browser (`apps/<app>/test/`, `vp run browser`): every example
   # page mounted and every trigger pressed on each framework and base, no error and no form submitted;
-  # the chart's entrance. Once for each engine, side by side, each job installing only its own.
+  # the chart's entrance. One job per engine and framework, side by side (`vp run browser:<framework>`),
+  # each installing only its engine; the frameworks are the ones this change needs (`changes`).
   browser:
     runs-on: ubuntu-26.04
-    name: browser tests (${{ matrix.browser }})
+    name: browser tests (${{ matrix.framework }}, ${{ matrix.browser }})
+    needs: changes
+    if: needs.changes.outputs.frameworks != '[]'
     timeout-minutes: 20
 
     strategy:
-      # One engine's failure does not hide what the others would have said.
+      # One engine's or framework's failure does not hide what the others would have said.
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
+        framework: ${{ fromJSON(needs.changes.outputs.frameworks) }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -158,7 +183,7 @@ jobs:
 
       - uses: ./.github/actions/setup
         with:
-          scope: -${{ matrix.browser }}
+          scope: -${{ matrix.browser }}-${{ matrix.framework }}
 
       # The engine at the version the lockfile's Playwright asks for, with its system libraries.
       - name: Browser
@@ -167,7 +192,7 @@ jobs:
       - name: Browser tests
         env:
           BROWSERS: ${{ matrix.browser }}
-        run: vp run browser
+        run: vp run browser:${{ matrix.framework }}
 
   # The registry installed with Kirana's own installer, as Get Code has a reader do it: a skeleton
   # per framework started with Get Code's own command (`kirana-style ui init --template` from the
@@ -208,7 +233,7 @@ jobs:
   result:
     name: ci result
     if: always()
-    needs: [check, lint, browser, build, install]
+    needs: [changes, check, lint, browser, build, install]
     runs-on: ubuntu-26.04
     timeout-minutes: 5
 

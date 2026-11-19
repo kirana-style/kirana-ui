@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -36,7 +37,7 @@ The `Resizable` component is built on top of
 
 ## Installation
 
-<!-- ::installation name="resizable" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="resizable" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -111,7 +112,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -172,7 +173,7 @@ See the [react-resizable-panels](https://github.com/bvaughn/react-resizable-pane
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Angular's is the registry's own, drawing `react-resizable-panels`' markup: the group's `orientation` and `layoutChange` (every panel's size, in percent), each panel's `defaultSize`, `minSize` and `maxSize`, and the handle's `withHandle`.
 

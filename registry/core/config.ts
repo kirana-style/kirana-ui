@@ -43,7 +43,7 @@ export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
   vue: ["ark", "reka", "uisdk", "kirana"],
   svelte: ["ark", "bits", "uisdk", "kirana"],
   solid: ["ark", "kirana"],
-  angular: ["ng"],
+  angular: ["ng", "kirana"],
 }
 
 /**

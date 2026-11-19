@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -34,7 +35,7 @@ Sonner is built and maintained by [emilkowalski](https://twitter.com/emilkowalsk
 
 ## Installation
 
-<!-- ::installation name="sonner" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="sonner" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 Then add the `Toaster` to your root layout:
 
@@ -66,7 +67,7 @@ import { toast } from "sonner"
 toast("Event has been created.")
 ```
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 On Angular, `toast()` comes from `ngx-sonner`, Sonner's Angular port, and the toaster is
 mounted once, at the app's root:
@@ -110,7 +111,7 @@ Use the `position` prop to change the position of the toast.
 
 See the [Sonner API Reference](https://sonner.emilkowal.ski/getting-started) for more information.
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 See the [ngx-sonner](https://github.com/tutkli/ngx-sonner) documentation: Sonner's Angular port, which takes Sonner's options but not its `icons`.
 

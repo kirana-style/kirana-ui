@@ -2,7 +2,7 @@
 title: Menubar
 description: A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
 section: components
-variants: [react/kirana, react/base, react/uisdk, angular/ng]
+variants: [react/kirana, react/base, react/uisdk, angular/kirana, angular/ng]
 keywords: [menubar, menu, desktop, commands, component, base, angular]
 ---
 
@@ -12,7 +12,7 @@ keywords: [menubar, menu, desktop, commands, component, base, angular]
 
 ## Installation
 
-<!-- ::installation name="menubar" combinations="react/kirana,react/base,react/uisdk,angular/ng" -->
+<!-- ::installation name="menubar" combinations="react/kirana,react/base,react/uisdk,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -54,7 +54,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"

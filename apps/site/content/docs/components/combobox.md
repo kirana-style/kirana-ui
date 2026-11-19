@@ -18,6 +18,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -42,7 +43,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="combobox" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="combobox" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -207,7 +208,7 @@ export function Example() {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -666,7 +667,7 @@ Use the `isDisabled` prop to disable the combobox.
 
 ## Auto Highlight
 
-<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng -->
+<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng -->
 
 <!-- ::start:only react/base -->
 
@@ -692,7 +693,7 @@ Use the `autoHighlight` prop to automatically highlight the first item on filter
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Add `autoHighlight` to the combobox (`<ng-container kuiCombobox autoHighlight>`) to highlight the first item on filter.
 
@@ -704,7 +705,7 @@ Add `autoHighlight` to the combobox (`<ng-container kuiCombobox autoHighlight>`)
 
 ## Popup
 
-<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng -->
+<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng -->
 
 <!-- ::start:only react/base -->
 
@@ -730,7 +731,7 @@ You can trigger the combobox from a button or any other component by giving `Com
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 You can trigger the combobox from a button or any other component by putting `kuiComboboxTrigger` on it (`<button kuiButton kuiComboboxTrigger>`), which draws the chevron inside it. Move the `kuiComboboxInput` inside the `kuiComboboxContent`.
 

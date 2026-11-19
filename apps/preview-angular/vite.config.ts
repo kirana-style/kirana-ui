@@ -48,7 +48,11 @@ export default defineConfig({
   // the first page asks for one, rather than found then, when Vite re-bundles and the lazy import
   // fails until the page reloads.
   optimizeDeps: {
-    entries: ["index.html", "../../registry/bases/angular-ng/**/*.ts"],
+    entries: [
+      "index.html",
+      "../../registry/bases/angular-ng/**/*.ts",
+      "../../registry/bases/angular-kirana/**/*.ts",
+    ],
   },
   plugins: [
     angular({ tsconfig: "tsconfig.app.json" }),
@@ -59,5 +63,6 @@ export default defineConfig({
       extension: ".ts",
       extra: ["showcase", "charts"],
     }),
+    previewPages({ framework: "angular", base: "kirana", extension: ".ts" }),
   ],
 })

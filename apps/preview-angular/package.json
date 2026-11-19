@@ -18,6 +18,7 @@
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",
+    "@kirana-ui/angular": "0.2.0",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "ng-primitives": "catalog:",

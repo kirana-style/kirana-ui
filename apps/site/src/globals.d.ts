@@ -28,7 +28,8 @@ declare module "virtual:preview-names" {
     | "svelte/kirana"
     | "solid/ark"
     | "solid/kirana"
-    | "angular/ng",
+    | "angular/ng"
+    | "angular/kirana",
     readonly string[]
   >
   export default names

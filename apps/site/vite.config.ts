@@ -47,6 +47,7 @@ const EXAMPLES = {
   "solid/ark": ["solid-ark", ".tsx"],
   "solid/kirana": ["solid-kirana", ".tsx"],
   "angular/ng": ["angular-ng", ".ts"],
+  "angular/kirana": ["angular-kirana", ".ts"],
 } as const
 
 /**

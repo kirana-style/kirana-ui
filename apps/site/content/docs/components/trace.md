@@ -19,6 +19,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords: [trace, chat, component, base, aria, ark, vue, svelte, solid, angular]
@@ -54,7 +55,7 @@ Every pattern below is a composition of `Trace` parts. See [AI Elements](/docs/a
 
 ## Installation
 
-<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 ## Usage
 
@@ -126,7 +127,7 @@ import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace"
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -250,7 +251,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```html
 <div kuiTrace>
@@ -648,7 +649,7 @@ The button that opens and closes the row. Put a `TraceLine` inside it. It adds a
 
 The detail of a row that expands.
 
-<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng -->
+<!-- ::start:only react/kirana,react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng -->
 
 | Prop          | Type      | Default | Description                                                                 |
 | ------------- | --------- | ------- | --------------------------------------------------------------------------- |

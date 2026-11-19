@@ -16,6 +16,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -28,7 +29,7 @@ keywords:
 
 ## Installation
 
-<!-- ::installation name="toast" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="toast" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 Then add the `Toaster` component to your root layout:
 
@@ -104,7 +105,7 @@ export function Layout(props: { children?: JSX.Element }) {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"

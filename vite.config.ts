@@ -77,6 +77,17 @@ const previewOut = (framework: string) =>
 // ways, for their docs (`apps/preview-primitives`).
 const PREVIEWS = ["react", "vue", "svelte", "solid", "angular", "primitives"]
 
+/**
+ * The registry's folders every framework's markup reads (its styles, tokens, icons and helpers):
+ * a change there runs every framework's browser tests, a change to one base only its own.
+ */
+const REGISTRY_SHARED = [
+  "registry/core",
+  "registry/styles",
+  "registry/lib",
+  "registry/icons",
+]
+
 /** The preview apps with browser tests (`apps/<app>/test/`), each a Vitest project of its own. */
 const BROWSER_PROJECTS = [
   "apps/preview-react",
@@ -266,6 +277,32 @@ export default defineConfig({
           env: ["BROWSERS"],
         },
       },
+      // One framework's preview tests alone (`browser:vue`), for CI's jobs per engine and framework:
+      // its app and its bases, the registry's shared folders and the browser helpers.
+      ...Object.fromEntries(
+        BROWSER_PROJECTS.map((app) => {
+          const framework = app.replace("apps/preview-", "")
+          return [
+            `browser:${framework}`,
+            {
+              command: `vp test run --project browser-${framework}`,
+              cache: {
+                input: [
+                  ...sourcesIn(
+                    `registry/bases/${framework}-*`,
+                    ...REGISTRY_SHARED,
+                    "packages/vite-config"
+                  ),
+                  "registry/*.{ts,js,json}",
+                  `${app}/**/*.{ts,tsx,vue,svelte,json}`,
+                ],
+                output: [],
+                env: ["BROWSERS"],
+              },
+            },
+          ]
+        })
+      ),
       // Every installed JavaScript dependency's licence against the policy in the script; it
       // changes only with the lockfile.
       licenses: {

@@ -19,6 +19,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    angular/kirana,
     angular/ng,
   ]
 keywords:
@@ -35,13 +36,13 @@ keywords:
 
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
-<!-- ::installation name="code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 <!-- ::end:only -->
 
 <!-- ::start:only react/aria -->
 
-<!-- ::installation name="code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="code-block" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 <!-- ::end:only -->
 
@@ -128,7 +129,7 @@ import {
 
 <!-- ::end:only -->
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 ```ts
 import { Component } from "@angular/core"
@@ -438,7 +439,7 @@ To set the direction, see [Right to left](/docs/design-system/rtl). Code always 
 
 `useHighlightedCode` highlights with [TanStack Highlight](https://tanstack.com/highlight) (MIT), in place of upstream's Shiki, and returns one React node per line for `CodeBlockLine`. Add it beside the code block:
 
-<!-- ::installation name="use-highlighted-code" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::installation name="use-highlighted-code" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
 
 <!-- ::preview item="code-block-highlighting" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
 
@@ -605,7 +606,7 @@ A row below the content, such as for a Show More button.
 
 Every part takes Kirana's `sx` in place of `className`: a style, or an array of them, merged with the part's own.
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Angular's parts sit on the elements they draw: `<div kuiCodeBlock>`, `<pre kuiCodeBlockContent>`, `<span kuiCodeBlockLine>`, `<button kuiCodeBlockCopyButton>`. A template cannot split its content into lines, so a numbered block takes its text as `code` (`<pre kuiCodeBlockContent lineNumbers [code]="output">`), or draws its own `CodeBlockLine`s. A `<pre>` keeps every space in its template, so write its lines on one line, as the examples do.
 
@@ -624,7 +625,7 @@ Returns one React node per line, highlighted from the first render. A language t
 | `code`     | `string` | The code to highlight. A trailing newline is ignored.        |
 | `language` | `string` | A language or alias from `lib/highlighter.tsx`, or `"ansi"`. |
 
-<!-- ::start:only angular/ng -->
+<!-- ::start:only angular/kirana,angular/ng -->
 
 Angular's takes both as functions, so a signal works, and returns a signal of each line's tokens, which `HighlightedLine` draws (`lib/angular/use-highlighted-code.ts`):
 
