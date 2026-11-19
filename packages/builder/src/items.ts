@@ -155,7 +155,7 @@ const PORTING: Framework[] = ["svelte", "solid", "angular"]
 // A base while it is ported against React's pages (`registry/core/config.ts`): its components
 // appear as their markup is written. Vue on Reka UI and Svelte on Bits UI are whole (P8; Bits UI
 // has no toast, which the toast's item leaves out by its bases), and so are React, Vue and Svelte
-// on ui-sdk (P9-02 to P9-04); React on Kirana UI Primitives is being ported (P10).
+// on ui-sdk (P9-02 to P9-05), and every Kirana UI Primitives base (P10). None is being ported now.
 export { PORTING_BASES }
 
 function ported(name: string, combination: Combination): boolean {

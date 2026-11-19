@@ -316,6 +316,9 @@ export function buildCombination(
  * Each package's version range as the registry package declares it, a `catalog:` read from the
  * workspace's catalog: Kirana's `versionsFrom` (`ui build`), on `registry/`. A package the registry
  * does not declare (a font's, which only `packages/fonts` lists) takes the catalog's range.
+ * One range per package for every base (KF-130): Solid on ui-sdk's packages on Solid 2 are in the
+ * catalog only, and its items name `solid-sonner` 0.3, Ark UI's, where it uses 1.0 (no installs
+ * yet, KF-129).
  */
 export function versionsFrom(root: string) {
   const declared = kiranaVersionsFrom(join(root, "registry"))

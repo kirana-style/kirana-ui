@@ -11,15 +11,15 @@ import { generate } from "@workspace/docs-core/generate.ts"
 // is read.
 import "./generate-primitives.ts"
 
-import { PORTING_BASES } from "@workspace/registry/core/config"
+import { UNEXPORTED_BASES } from "@workspace/registry/core/config"
 import { VARIANTS, defaultOf } from "../src/lib/variants.ts"
 
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
 
-/** Whether shadcn/ui's export has the variant: React's, once its base is whole (`PORTING_BASES`). */
+/** Whether shadcn/ui's export has the variant: React's, but for `UNEXPORTED_BASES`. */
 const shadcnExport = (variant: string) =>
   variant.startsWith("react/") &&
-  !PORTING_BASES.includes(variant.replace("/", "-"))
+  !UNEXPORTED_BASES.includes(variant.replace("/", "-"))
 
 /**
  * Pages that are guides to building a component from others, as upstream's: no item of their own,

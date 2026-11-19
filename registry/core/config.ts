@@ -48,11 +48,22 @@ export const FRAMEWORK_BASES: Record<Framework, readonly Base[]> = {
 
 /**
  * The bases being ported, as `<framework>-<base>` (their folder in `bases/`): each component
- * appears as its markup is written, and none has shadcn/ui's export (`/r/shadcn/`) until the base
- * is whole, since a React base's export is about 1,400 of the Worker's 20,000 static files. Their
- * docs pages say so (no shadcn/ui command); Kirana's own items (`/r/<item>.json`) carry them.
+ * appears as its markup is written. None is today: every base is whole.
  */
-export const PORTING_BASES: readonly string[] = ["react-kirana", "solid-uisdk"]
+export const PORTING_BASES: readonly string[] = []
+
+/**
+ * The bases shadcn/ui's export (`/r/shadcn/`) leaves out, as `<framework>-<base>`: those being
+ * ported, and React on Kirana UI, whole but held back for room: a React base's export is eight
+ * combinations of about 173 files, some 1,400 of the Worker's 20,000 static files, and the site
+ * is at 19,200 without it (Cloudflare's paid plan allows 100,000). Their docs pages say so (no
+ * shadcn/ui command); Kirana's own items (`/r/<item>.json`), which `kirana-style ui` installs,
+ * carry them.
+ */
+export const UNEXPORTED_BASES: readonly string[] = [
+  ...PORTING_BASES,
+  "react-kirana",
+]
 
 export const STYLES = [
   "nova",
