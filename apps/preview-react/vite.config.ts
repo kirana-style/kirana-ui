@@ -7,6 +7,7 @@ import react from "@vitejs/plugin-react"
 import { browserDeps, browserTest } from "@workspace/vite-config/browser"
 import {
   designScript,
+  previewFonts,
   previewGroups,
   previewOutDir,
 } from "@workspace/vite-config/preview"
@@ -83,6 +84,8 @@ export default defineConfig({
     react(),
     // An item's chunk is its group's, in the builds (`previewGroups`).
     previewGroups(),
+    // The fonts from the site's own assets, not a copy per app.
+    previewFonts(),
   ]),
   optimizeDeps: browserDeps([
     "test/**/*.{ts,tsx}",

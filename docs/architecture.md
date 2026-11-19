@@ -603,7 +603,11 @@ Vue component cannot render inside the React site. Each non-React preview is one
 page, its app's, which reads the item from the path: the site's `_redirects`
 serves it at every `/preview/<framework>/<base>/<item>` (a 200 rewrite, so no
 Worker runs), where a copy per item would count against the Worker's 20,000
-static files. For the same reason their builds group the items' code by
+static files. For the same reason a preview takes the design's fonts from the
+site's own assets (`previewFonts`): every app bundles the same `@fontsource`
+files under the same hashed names, so a preview's font URLs point at the site's
+`/assets/<name>` and its own copies are left out, about 140 files an app. And
+their builds group the items' code by
 component, chart kind and block (`previewChunks` in
 `@workspace/vite-config/preview`), a chunk each where each item was its own: a
 page loads its siblings' code too, a few kilobytes. React's prerendered pages

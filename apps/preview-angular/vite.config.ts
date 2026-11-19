@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url"
 import { kiranaAngular } from "@kirana-style/angular/vite"
 import {
   previewChunks,
+  previewFonts,
   previewOutDir,
   previewPages,
 } from "@workspace/vite-config/preview"
@@ -57,6 +58,8 @@ export default defineConfig({
   plugins: [
     angular({ tsconfig: "tsconfig.app.json" }),
     kiranaAngular(),
+    // The fonts from the site's own assets, not a copy per app.
+    previewFonts(),
     previewPages({
       framework: "angular",
       base: "ng",
