@@ -586,7 +586,24 @@ const ALL_ITEMS: Item[] = [
             markupOf("chart", combination),
             "styles/chart.styles.ts",
             "lib/chart.ts",
+            // TanStack Charts' Solid adapter is Solid 1's; Solid 2's is the registry's (LF-032).
+            ...(combination.framework === "solid" &&
+            combination.base === "uisdk"
+              ? ["lib/solid2/charts.tsx"]
+              : []),
           ]
+        : undefined,
+  },
+  {
+    // A data table's core on Solid 2, where `@tanstack/solid-table` is Solid 1's (LF-032).
+    name: "table-solid2",
+    type: "registry:lib",
+    title: "Table (Solid 2)",
+    description:
+      "TanStack Table's core bridged to Solid 2's signals, for the data tables on Solid 2.",
+    files: (combination) =>
+      combination.framework === "solid" && combination.base === "uisdk"
+        ? ["lib/solid2/table.tsx"]
         : undefined,
   },
   component(

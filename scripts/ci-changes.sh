@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Which frameworks' browser tests a change needs, for ci.yml's browser jobs: the frameworks as a
 # JSON list (`frameworks=`), and the jobs as a matrix (`matrix=`, one per engine and framework, the
-# longest split by base: React and Svelte in WebKit, two bases a job), written to $GITHUB_OUTPUT.
+# longest split by base: React and Svelte in WebKit, Vue in Firefox and WebKit, two bases a job),
+# written to $GITHUB_OUTPUT.
 #
 # A pull request runs the frameworks whose files it touches: a base (`registry/bases/vue-*`), a
 # framework's helpers (`registry/lib/vue/`) or its preview app. What no browser test reads (the
@@ -24,6 +25,10 @@ matrix() {
       if [ "$engine" = webkit ] && [ "$framework" = react ]; then
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"react\",\"bases\":\"base|aria\"}")
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"react\",\"bases\":\"uisdk|kirana\"}")
+      elif [ "$engine" != chromium ] && [ "$framework" = vue ]; then
+        # Vue's four bases in one Firefox page ran it out of memory, and WebKit hung.
+        jobs+=("{\"browser\":\"$engine\",\"framework\":\"vue\",\"bases\":\"ark|reka\"}")
+        jobs+=("{\"browser\":\"$engine\",\"framework\":\"vue\",\"bases\":\"uisdk|kirana\"}")
       elif [ "$engine" = webkit ] && [ "$framework" = svelte ]; then
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"svelte\",\"bases\":\"ark|bits\"}")
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"svelte\",\"bases\":\"uisdk|kirana\"}")
