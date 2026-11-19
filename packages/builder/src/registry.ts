@@ -32,6 +32,8 @@ const FRAMEWORK_PACKAGES = new Set([
   "vue",
   "svelte",
   "solid-js",
+  // Solid 2's DOM runtime, which a Solid 2 project has as `solid-js`'s companion.
+  "@solidjs/web",
   "@angular/core",
 ])
 

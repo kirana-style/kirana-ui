@@ -809,427 +809,427 @@
     {
       "element": "input[data-slot=\"radio-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
     },
     {
       "element": "input[data-slot=\"checkbox-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
     },
     {
       "element": "input[data-slot=\"switch-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
     },
     {
       "element": "input[data-slot=\"slider-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
     },
     {
       "element": "input[data-slot=\"slider-thumb-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
     },
     {
       "element": "input[data-slot=\"select-form-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's hidden form input carries a slot of its own; Base UI's has none, so the harness walks it on ui-sdk alone"
     },
     {
       "element": "h3[data-slot=\"accordion-header\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's accordion header carries a slot of its own; Base UI's `h3` has none"
     },
     {
       "element": "div[data-slot=\"slider-control\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's slider control carries a slot of its own; Base UI's has none"
     },
     {
       "element": "div[data-slot=\"slider-thumb\"]",
       "property": "margin-left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk places a thumb along its track by its inline margins, where Base UI uses `left`: the thumbs land in the same place (measured), but at a track's ends ui-sdk centres a thumb on its value where Base UI keeps it inside the track (`thumbAlignment=\"edge\"`, which ui-sdk has no option for), 3px apart"
     },
     {
       "element": "div[data-slot=\"slider-thumb\"]",
       "property": "margin-right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk places a thumb along its track by its inline margins, where Base UI uses `left`: the thumbs land in the same place (measured), but at a track's ends ui-sdk centres a thumb on its value where Base UI keeps it inside the track (`thumbAlignment=\"edge\"`, which ui-sdk has no option for), 3px apart"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk keeps a tooltip's content in the page from the start, hidden, so it names or describes its trigger before focus reaches it; Base UI mounts it on opening"
     },
     {
       "element": "div[data-slot=\"tooltip-arrow\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "the hidden tooltip content's arrow, as the content"
     },
     {
       "element": "kbd[data-slot=\"kbd\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/(tooltip|kbd)-example",
+      "route": "(react|vue|svelte|solid)/uisdk/(tooltip|kbd)-example",
       "reason": "a shortcut inside a hidden tooltip content, as the content"
     },
     {
       "element": "div[data-slot=\"scroll-area-corner\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk renders a scroll area's scrollbars, thumbs and corner whether or not its content overflows, hidden while it does not; Base UI mounts them where it does"
     },
     {
       "element": "div[data-slot=\"scroll-area-scrollbar\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk renders a scroll area's scrollbars, thumbs and corner whether or not its content overflows, hidden while it does not; Base UI mounts them where it does"
     },
     {
       "element": "div[data-slot=\"scroll-area-thumb\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk renders a scroll area's scrollbars, thumbs and corner whether or not its content overflows, hidden while it does not; Base UI mounts them where it does"
     },
     {
       "element": "div[data-slot=\"navigation-menu-viewport\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk keeps its navigation menu's viewport in the page while every panel is closed, hidden; Base UI mounts its positioner on opening"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"dropdown-menu-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"tooltip-content\"]",
       "property": "display",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "the tooltip's `inline-flex` on a fixed element computes to `flex` (ui-sdk's content is the fixed element; Base UI's positioner is)"
     },
     {
       "element": "div[data-slot=\"drawer-viewport\"]",
       "property": "*",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's drawer viewport is its own full-screen element in the top layer, laid out by ui-sdk (a flex column placing the drawer at its side) and drawing nothing; Base UI's is the registry's fixed, block viewport. The drawer inside matches"
     },
     {
       "element": "div[data-slot=\"drawer-popup\"]",
       "property": "transform",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "at rest both are the identity: Base UI's swipe writes `transform`, ui-sdk's `translate`"
     },
     {
       "element": "div[data-slot=\"drawer-popup\"]",
       "property": "translate",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "at rest both are the identity: Base UI's swipe writes `transform`, ui-sdk's `translate`"
     },
     {
       "element": "span[data-slot=\"select-item-text\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk names a select item's text and indicator; Base UI's carry no slot, the same elements otherwise"
     },
     {
       "element": "span[data-slot=\"select-item-indicator\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk names a select item's text and indicator; Base UI's carry no slot, the same elements otherwise"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/dashboard-01",
+      "route": "(react|vue|svelte|solid)/uisdk/dashboard-01",
       "reason": "ui-sdk mounts a select's content, hidden, to read the chosen item's label when its value changes and it has no `items`: the dashboard's time range moves to the last 7 days on a phone; Base UI reads the label from the item's children on opening"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/dashboard-01",
+      "route": "(react|vue|svelte|solid)/uisdk/dashboard-01",
       "reason": "the hidden content's items, as the content"
     },
     {
       "element": "tr[data-slot=\"table-row\"]",
       "property": "background-color",
-      "route": "(react|vue|svelte)/uisdk/dashboard-01",
+      "route": "(react|vue|svelte|solid)/uisdk/dashboard-01",
       "reason": "the row whose link opened the drawer, under the pointer: ui-sdk's modal drawer makes the page behind it inert, so the row loses `:hover`; behind Base UI's it keeps it until the pointer moves"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "(element)",
-      "route": "svelte/uisdk/",
+      "route": "(svelte|solid)/uisdk/",
       "reason": "ui-sdk's Svelte select mounts its content, hidden, at once to read the chosen item's label when it has no `items` (its Vue select reads it without the content; React's and Vue's mount it only when the value changes, as on dashboard-01)"
     },
     {
       "element": "div[data-slot=\"select-group\"]",
       "property": "(element)",
-      "route": "svelte/uisdk/",
+      "route": "(svelte|solid)/uisdk/",
       "reason": "the hidden content's groups, as the content"
     },
     {
       "element": "div[data-slot=\"select-item\"]",
       "property": "(element)",
-      "route": "svelte/uisdk/",
+      "route": "(svelte|solid)/uisdk/",
       "reason": "the hidden content's items, as the content"
     },
     {
       "element": "section[data-slot=\"toast-viewport\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's toast region stays in the page while it holds no toast; Base UI's viewport mounts with its first"
     },
     {
       "element": "ol[data-slot=\"toast-list\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's toast region holds its toasts in a list, which stays in the page while empty; Base UI's toasts are the viewport's children"
     },
     {
       "element": "input[data-slot=\"combobox-form-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's combobox submits its value through hidden inputs, as its select does (`select-form-input`)"
     },
     {
       "element": "input[data-slot=\"combobox-value-input\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's combobox submits its value through hidden inputs, as its select does (`select-form-input`)"
     },
     {
       "element": "button[data-slot=\"collapsible-trigger\"]",
       "property": "rotate",
-      "route": "(react|vue|svelte)/uisdk/sidebar-inset-example",
+      "route": "(react|vue|svelte|solid)/uisdk/sidebar-inset-example",
       "reason": "the example turns its chevron on `[data-open]`, which ui-sdk's collapsible trigger writes when open; Base UI's writes `data-panel-open`, so on Base UI (and upstream's Base UI page) it never turns"
     },
     {
       "element": "div[data-slot=\"combobox-chip\"]",
       "property": "cursor",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "ui-sdk disables a chip's remove button in a disabled combobox (`disabled`), which the chip's `:has(:disabled)` cursor reads; Base UI's stays enabled"
     },
     {
       "element": "div[data-slot=\"popover-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"popover-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"popover-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"popover-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"popover-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"context-menu-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"menubar-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"menubar-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"menubar-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"menubar-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"menubar-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"combobox-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"combobox-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"combobox-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"combobox-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"combobox-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"menubar-content\"]",
       "property": "max-height",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "the room below the trigger (`--available-height`) as ui-sdk measures it from its own placement, 3px from Base UI's"
     },
     {
@@ -1259,128 +1259,176 @@
     {
       "element": "span[data-slot=\"menu-item-indicator\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk names a menu's and a combobox's item indicator; Base UI's carry no slot, the same elements otherwise"
     },
     {
       "element": "span[data-slot=\"combobox-item-indicator\"]",
       "property": "(element)",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk names a menu's and a combobox's item indicator; Base UI's carry no slot, the same elements otherwise"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "transition-property",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's select has no `alignItemWithTrigger`: its popup opens beside the trigger, with the popup's motion, where Base UI's over the trigger has none"
     },
     {
       "element": "div[data-slot=\"select-content\"]",
       "property": "display",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "a closed select's popup, kept in the page by both: ui-sdk's hidden (`display: none`), Base UI's out of view"
     },
     {
       "element": "div[data-slot=\"input-group\"]",
       "property": "border-top-color",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "div[data-slot=\"input-group\"]",
       "property": "border-right-color",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "div[data-slot=\"input-group\"]",
       "property": "border-bottom-color",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "div[data-slot=\"input-group\"]",
       "property": "border-left-color",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "div[data-slot=\"input-group\"]",
       "property": "box-shadow",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "input[data-slot=\"input-group-control\"]",
       "property": "outline-width",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "div[data-slot=\"combobox-item\"]",
       "property": "background-color",
-      "route": "(react|vue|svelte)/uisdk/combobox-example",
+      "route": "(react|vue|svelte|solid)/uisdk/combobox-example",
       "reason": "the combobox whose input is inside its popup (\"Combobox in Popup\"): ui-sdk leaves focus where it was when the trigger opens it and highlights no item, where Base UI focuses the popup's input (its ring) and highlights the chosen item"
     },
     {
       "element": "div[data-slot=\"hover-card-content\"]",
       "property": "position",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"hover-card-content\"]",
       "property": "top",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"hover-card-content\"]",
       "property": "right",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"hover-card-content\"]",
       "property": "bottom",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "div[data-slot=\"hover-card-content\"]",
       "property": "left",
-      "route": "(react|vue|svelte)/uisdk/",
+      "route": "(react|vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's content places itself, with no positioner: it is the fixed element with the insets, where Base UI's popup sits static or relative in its positioner, which has them; the box is in the same place"
     },
     {
       "element": "input[data-slot=\"checkbox-input\"]",
       "property": "(element)",
-      "route": "(vue|svelte)/uisdk/",
+      "route": "(vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's checkbox and switch submit through a hidden input of their own, named by ui-sdk; Base UI's input carries no slot"
     },
     {
       "element": "input[data-slot=\"switch-input\"]",
       "property": "(element)",
-      "route": "(vue|svelte)/uisdk/",
+      "route": "(vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's checkbox and switch submit through a hidden input of their own, named by ui-sdk; Base UI's input carries no slot"
     },
     {
       "element": "input[data-slot=\"otp-input-control\"]",
       "property": "(element)",
-      "route": "(vue|svelte)/uisdk/",
+      "route": "(vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk's code input types into a hidden input of its own, which it names; React's `input-otp` names its input with the registry's slot"
     },
     {
       "element": "div[data-slot=\"resizable-panel\"]",
       "property": "flex-grow",
-      "route": "(vue|svelte)/uisdk/",
+      "route": "(vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk sizes a panel by its basis (`flex: 1 1 25%`), react-resizable-panels by its growth (`flex: 25 1 0px`): the same widths"
     },
     {
       "element": "div[data-slot=\"resizable-panel\"]",
       "property": "flex-basis",
-      "route": "(vue|svelte)/uisdk/",
+      "route": "(vue|svelte|solid)/uisdk/",
       "reason": "ui-sdk sizes a panel by its basis (`flex: 1 1 25%`), react-resizable-panels by its growth (`flex: 25 1 0px`): the same widths"
+    },
+    {
+      "element": "textarea[data-slot=\"select-form-input\"]",
+      "property": "(element)",
+      "route": "solid/uisdk/",
+      "reason": "ui-sdk's Solid adapter submits the value through a hidden textarea under a slot of its own; Base UI's hidden input has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "textarea[data-slot=\"combobox-form-input\"]",
+      "property": "(element)",
+      "route": "solid/uisdk/",
+      "reason": "ui-sdk's Solid adapter submits the value through a hidden textarea under a slot of its own; Base UI's hidden input has none, so the harness walks it on ui-sdk alone"
+    },
+    {
+      "element": "div[data-slot=\"carousel-content\"]",
+      "property": "overflow-x",
+      "route": "solid/uisdk/",
+      "reason": "ui-sdk scrolls its carousel natively (Embla has no Solid 2 adapter), its viewport writing `overflow-x: auto` inline (`hidden` only without dragging), where Embla translates the row inside a clipped viewport"
+    },
+    {
+      "element": "div[data-slot=\"carousel-content\"]",
+      "property": "position",
+      "route": "solid/uisdk/",
+      "reason": "ui-sdk writes `position: relative` inline on its carousel viewport, which it measures each slide against while scrolled; nothing inside is placed against it"
+    },
+    {
+      "element": "div[data-slot=\"carousel-content\"]",
+      "property": "top",
+      "route": "solid/uisdk/",
+      "reason": "the inline `position: relative`'s offsets, all 0"
+    },
+    {
+      "element": "div[data-slot=\"carousel-content\"]",
+      "property": "right",
+      "route": "solid/uisdk/",
+      "reason": "the inline `position: relative`'s offsets, all 0"
+    },
+    {
+      "element": "div[data-slot=\"carousel-content\"]",
+      "property": "bottom",
+      "route": "solid/uisdk/",
+      "reason": "the inline `position: relative`'s offsets, all 0"
+    },
+    {
+      "element": "div[data-slot=\"carousel-content\"]",
+      "property": "left",
+      "route": "solid/uisdk/",
+      "reason": "the inline `position: relative`'s offsets, all 0"
     }
   ]
 }

@@ -101,7 +101,7 @@ export async function POST(request: Request) {
   createEffect(() => {
     const value = length()
     clearTimeout(timeout)
-    if (value < total) timeout = setTimeout(() => (setLength(value + 3), 16))
+    if (value < total) timeout = setTimeout(() => setLength(value + 3), 16)
     return () => clearTimeout(timeout)
   })
 

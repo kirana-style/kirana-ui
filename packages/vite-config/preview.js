@@ -82,6 +82,44 @@ function literal(value) {
 }
 
 /**
+ * The design's fonts from the site's own assets: every preview app bundles the same `@fontsource`
+ * files (`packages/fonts`), and so does the site, under the same content-hashed names. Each
+ * preview's font URLs point at the site's copies (`/assets/<name>`) and its own are left out of its
+ * build, saving each app its ~140 files of the Worker's 20,000. A font the site lacks fails the build
+ * (the site builds first: each \`build:<framework>\` depends on \`build:site\`).
+ * @returns {import("vite-plus").Plugin}
+ */
+export function previewFonts() {
+  const SITE_ASSETS = fileURLToPath(
+    new URL("../../apps/site/dist/client/assets/", import.meta.url)
+  )
+  const FONT = /\.(woff2?|ttf|otf)$/
+  const nameOf = (/** @type {string} */ fileName) =>
+    fileName.slice(fileName.lastIndexOf("/") + 1)
+  return {
+    name: "preview-fonts",
+    apply: "build",
+    config: () => ({
+      experimental: {
+        renderBuiltUrl: (/** @type {string} */ fileName) =>
+          FONT.test(fileName) ? `/assets/${nameOf(fileName)}` : undefined,
+      },
+    }),
+    generateBundle(_, bundle) {
+      for (const [key, file] of Object.entries(bundle)) {
+        if (file.type !== "asset" || !FONT.test(file.fileName)) continue
+        const name = nameOf(file.fileName)
+        if (!existsSync(SITE_ASSETS + name))
+          this.error(
+            `${name}: the site's assets have no such font, so this preview cannot use theirs`
+          )
+        delete bundle[key]
+      }
+    },
+  }
+}
+
+/**
  * React's items imported a group at a time (`itemGroup`'s groups: every `button-*` example of a
  * base together, a chart kind, a block), in its builds only. Each base's map (`previews.ts`)
  * imports an item by itself, `() => import("./examples/button-demo")`, which in React's build is a
@@ -161,16 +199,17 @@ function itemGroup(id) {
  * copy of the page per item would count against the Worker's 20,000 static files. The build fails
  * when the rule for this framework and base is missing. `extra` names the app's own pages
  * (`showcase`, `charts`), which the comparison script reads from here.
- * @param {{ framework: string, base: string, extension: string, extra?: readonly string[] }} options
+ * @param {{ framework: string, base: string, extension: string, extra?: readonly string[], app?: string }} options
  * @returns {import("vite-plus").Plugin}
  */
-export function previewPages({ framework, base }) {
+export function previewPages({ framework, base, app = framework }) {
   const redirects = fileURLToPath(
     new URL("../../apps/site/public/_redirects", import.meta.url)
   )
   // The app's page at its canonical URL, `/preview/<framework>/`: a rewrite to `index.html` would
   // loop, since Cloudflare serves that page at the folder's URL.
-  const rule = `/preview/${framework}/${base}/* /preview/${framework}/ 200`
+  // A base whose app is not the framework's own (Solid on ui-sdk, on Solid 2) is served from its app's.
+  const rule = `/preview/${framework}/${base}/* /preview/${app}/ 200`
   return {
     name: "preview-item-routes",
     apply: "build",

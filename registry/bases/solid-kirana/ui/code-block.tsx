@@ -139,7 +139,7 @@ function CodeBlockCopyButton(props: {
       .then(() => {
         setCopied(true)
         clearTimeout(timeout)
-        timeout = setTimeout(() => (setCopied(false), 2000))
+        timeout = setTimeout(() => setCopied(false), 2000)
       })
       .catch(() => {})
   }

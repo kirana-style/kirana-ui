@@ -56,7 +56,7 @@ Wrap the button in a \`DialogTrigger\` and put the settings form in \`DialogCont
   // Back to "Copy" two seconds after a copy.
   createEffect(() => {
     if (!copied()) return
-    const timeout = setTimeout(() => (setCopied(false), 2000))
+    const timeout = setTimeout(() => setCopied(false), 2000)
     return () => clearTimeout(timeout)
   })
 

@@ -9,6 +9,7 @@ import {
 } from "@workspace/vite-config/browser"
 import {
   previewChunks,
+  previewFonts,
   previewOutDir,
   previewPages,
 } from "@workspace/vite-config/preview"
@@ -32,6 +33,8 @@ export default defineConfig({
   plugins: lazyPlugins(() => [
     kirana(),
     svelte(),
+    // The fonts from the site's own assets, not a copy per app.
+    previewFonts(),
     previewPages({
       framework: "svelte",
       base: "ark",

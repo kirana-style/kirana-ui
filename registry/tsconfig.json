@@ -23,6 +23,8 @@
     ".flat",
     "bases/solid-ark",
     "lib/solid",
+    "bases/solid-uisdk",
+    "lib/solid2",
     "lib/svelte",
     "bases/angular-ng"
   ]

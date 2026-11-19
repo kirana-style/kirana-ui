@@ -23,7 +23,9 @@ import { alpha, radius, surface, theme } from "../core/tokens"
 
 const { vega, lyra, maia, mira, luma, rhea, sera } = axes.style
 
-const ACTIVE = '[data-active="true"]'
+// The active slot: `input-otp` writes `data-active="true"` (or `"false"`), ui-sdk's and Kirana UI's
+// code inputs a bare `data-active`, so the key takes any `data-active` but `"false"`.
+const ACTIVE = '[data-active]:not([data-active="false"])'
 const INVALID = '[aria-invalid="true"]'
 
 /** Each style's corner at a group's ends. */

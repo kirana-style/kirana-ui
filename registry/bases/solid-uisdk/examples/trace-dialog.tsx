@@ -1,0 +1,108 @@
+import { For } from "solid-js"
+import { IconPlaceholder } from "../ui/icon-placeholder"
+import { css } from "@kirana-style/core"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
+import { Trace, TraceIcon, TraceLine, TraceTitle } from "../ui/trace"
+import { containerSize } from "../../../core/scales"
+import { page } from "../../../styles/page.styles"
+import { visuallyHidden } from "../../../styles/visually-hidden.styles"
+
+export default function TraceDialog() {
+  const styles = {
+    narrow: css({ maxWidth: containerSize.sm }),
+  }
+
+  const results = [
+    {
+      title: "Caching build outputs",
+      url: "https://nextjs.org/docs/app/guides/caching",
+    },
+    {
+      title: "Image optimization reference",
+      url: "https://nextjs.org/docs/app/api-reference/components/image",
+    },
+    {
+      title: "Deploy hooks and cache keys",
+      url: "https://vercel.com/docs/deploy-hooks",
+    },
+  ]
+
+  return (
+    <div sx={page.example}>
+      <Trace sx={styles.narrow}>
+        <Dialog>
+          <DialogTrigger>
+            <TraceLine>
+              <TraceIcon>
+                <IconPlaceholder
+                  lucide="GlobeIcon"
+                  tabler="IconGlobe"
+                  hugeicons="Globe02Icon"
+                  phosphor="GlobeIcon"
+                  remixicon="RiGlobeLine"
+                />
+              </TraceIcon>
+              <TraceTitle>Searched the web for cache keys</TraceTitle>
+              <TraceIcon>
+                <IconPlaceholder
+                  lucide="ChevronRightIcon"
+                  tabler="IconChevronRight"
+                  hugeicons="ArrowRight01Icon"
+                  phosphor="CaretRightIcon"
+                  remixicon="RiArrowRightSLine"
+                />
+              </TraceIcon>
+            </TraceLine>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Searched the web for cache keys</DialogTitle>
+              <DialogDescription>
+                Three results were used in the response.
+              </DialogDescription>
+            </DialogHeader>
+            <Trace>
+              <For each={results}>
+                {(result) => (
+                  <a href={result.url} target="_blank" rel="noreferrer">
+                    <TraceLine>
+                      <TraceIcon>
+                        <IconPlaceholder
+                          lucide="GlobeIcon"
+                          tabler="IconGlobe"
+                          hugeicons="Globe02Icon"
+                          phosphor="GlobeIcon"
+                          remixicon="RiGlobeLine"
+                        />
+                      </TraceIcon>
+                      <TraceTitle>
+                        {result.title}{" "}
+                        <span sx={visuallyHidden}>(opens in a new tab)</span>
+                      </TraceTitle>
+                      <TraceIcon>
+                        <IconPlaceholder
+                          lucide="ArrowUpRightIcon"
+                          tabler="IconArrowUpRight"
+                          hugeicons="ArrowUpRightIcon"
+                          phosphor="ArrowUpRightIcon"
+                          remixicon="RiArrowRightUpLine"
+                        />
+                      </TraceIcon>
+                    </TraceLine>
+                  </a>
+                )}
+              </For>
+            </Trace>
+          </DialogContent>
+        </Dialog>
+      </Trace>
+    </div>
+  )
+}

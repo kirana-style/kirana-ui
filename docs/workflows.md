@@ -903,6 +903,17 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   component whose template draws it around `<ng-content />`, its own element
   `display: contents` (`ui/dialog.ts` is the pattern). A model's change output
   is typed with `undefined` (`openChange.emit(!!$event)`).
+- **Solid on ui-sdk** runs on Solid 2, in its own app (`apps/preview-solid2`,
+  `/preview/solid2/`, which `_redirects` and the site's dev server serve at
+  `/preview/solid/uisdk/`): its Vite config dedupes `solid-js` and
+  `@solidjs/web` so the registry's files resolve Solid 2 from it, and the base's
+  tsconfig points them there for the types. Its files are the Ark UI base's
+  moved to Solid 2 (`splitProps` → `omit`, `mergeProps` → `merge`, `onMount` →
+  `onSettled`, `createEffect` → its two-function form or `createTrackedEffect`,
+  `solid-js/web` → `@solidjs/web`); its parts render through `UisdkPart`
+  (`lib/solid2/uisdk-part.tsx`). Kirana compiles it with `jsx: "solid"` set in
+  the app's `kirana.config.ts`, and `sx` is typed on Solid 2's JSX by the base's
+  `sx.d.ts`, until Kirana reads Solid 2 itself.
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
@@ -1177,7 +1188,9 @@ hook runs Chromium. `vp run browser:<framework>` runs one app's tests
 (`browser:vue`), and CI runs one job per engine and framework, Chromium, Firefox
 and WebKit, for the frameworks the change needs: `scripts/ci-changes.sh` picks
 those whose bases, helpers or preview app it touches, none for the docs alone,
-and every one for anything shared or on a push to `main`. A first
+and every one for anything shared or on a push to `main`. The longest jobs, React's and Svelte's in WebKit,
+are split in two by base (`vp test run --project browser-react -t "^(base|aria) > "`,
+the bases' `describe`). A first
 run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
 a test:
 

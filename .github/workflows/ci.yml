@@ -36,6 +36,7 @@ jobs:
     timeout-minutes: 5
     outputs:
       frameworks: ${{ steps.frameworks.outputs.frameworks }}
+      matrix: ${{ steps.frameworks.outputs.matrix }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -161,10 +162,11 @@ jobs:
   # The preview apps' tests in a real browser (`apps/<app>/test/`, `vp run browser`): every example
   # page mounted and every trigger pressed on each framework and base, no error and no form submitted;
   # the chart's entrance. One job per engine and framework, side by side (`vp run browser:<framework>`),
-  # each installing only its engine; the frameworks are the ones this change needs (`changes`).
+  # each installing only its engine; the frameworks are the ones this change needs, and the longest
+  # jobs (React's and Svelte's in WebKit) are split in two by base (`changes`' matrix).
   browser:
     runs-on: ubuntu-26.04
-    name: browser tests (${{ matrix.framework }}, ${{ matrix.browser }})
+    name: browser tests (${{ matrix.framework }}${{ matrix.bases && format(' {0}', matrix.bases) || '' }}, ${{ matrix.browser }})
     needs: changes
     if: needs.changes.outputs.frameworks != '[]'
     timeout-minutes: 20
@@ -173,8 +175,7 @@ jobs:
       # One engine's or framework's failure does not hide what the others would have said.
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, webkit]
-        framework: ${{ fromJSON(needs.changes.outputs.frameworks) }}
+        include: ${{ fromJSON(needs.changes.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -183,16 +184,25 @@ jobs:
 
       - uses: ./.github/actions/setup
         with:
-          scope: -${{ matrix.browser }}-${{ matrix.framework }}
+          scope: -${{ matrix.browser }}-${{ matrix.framework }}${{ matrix.bases && '-half' || '' }}
 
       # The engine at the version the lockfile's Playwright asks for, with its system libraries.
       - name: Browser
         run: bunx playwright install --with-deps ${{ matrix.browser }}
 
+      # A whole framework through its cached task; a share of its bases straight through Vitest,
+      # filtered by the bases' `describe` (`-t`, which `vp run` does not pass on).
       - name: Browser tests
         env:
           BROWSERS: ${{ matrix.browser }}
-        run: vp run browser:${{ matrix.framework }}
+          FRAMEWORK: ${{ matrix.framework }}
+          BASES: ${{ matrix.bases }}
+        run: |
+          if [ -z "$BASES" ]; then
+            vp run "browser:$FRAMEWORK"
+          else
+            vp test run --project "browser-$FRAMEWORK" -t "^($BASES) > "
+          fi
 
   # The registry installed with Kirana's own installer, as Get Code has a reader do it: a skeleton
   # per framework started with Get Code's own command (`kirana-style ui init --template` from the

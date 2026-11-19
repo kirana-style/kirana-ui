@@ -12,6 +12,8 @@ export function previewPages(options: {
   base: string
   extension: string
   extra?: readonly string[]
+  /** The app that serves the base, when it is not the framework's own (`solid2`). */
+  app?: string
 }): Plugin
 
 /**
@@ -35,3 +37,9 @@ export function previewChunks(): {
   }
 }
 export function previewGroups(): Plugin
+
+/**
+ * The design's fonts from the site's own assets (`/assets/<name>`), left out of this preview's
+ * build; a font the site lacks fails it.
+ */
+export function previewFonts(): Plugin

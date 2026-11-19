@@ -16,6 +16,7 @@ variants:
     svelte/uisdk,
     solid/kirana,
     solid/ark,
+    solid/uisdk,
     angular/kirana,
     angular/ng,
   ]
@@ -25,11 +26,11 @@ keywords:
 
 # Toast
 
-<!-- ::preview item="toast-demo" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-demo" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Installation
 
-<!-- ::installation name="toast" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/kirana,angular/ng" -->
+<!-- ::installation name="toast" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
 Then add the `Toaster` component to your root layout:
 
@@ -86,7 +87,7 @@ import { Toaster } from "@/components/ui/toast"
 
 <!-- ::end:only -->
 
-<!-- ::start:only solid/kirana,solid/ark -->
+<!-- ::start:only solid/kirana,solid/ark,solid/uisdk -->
 
 ```tsx
 import type { JSX } from "solid-js"
@@ -146,7 +147,7 @@ Set the `type` option to render a status icon. The built-in renderer recognizes
 shadcn/ui's keep the text's but the error's: green for `success`, sky for `info`, orange for
 `warning` and the destructive red for `error`.
 
-<!-- ::preview item="toast-types" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-types" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## Action
 
@@ -169,7 +170,7 @@ const id = toast.add({
 Use `toast.promise` to update one toast as an asynchronous task moves through
 loading, success, and error states.
 
-<!-- ::preview item="toast-promise" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,angular/ng" -->
+<!-- ::preview item="toast-promise" height="300" combinations="react/base,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
 
 ## API Reference
 

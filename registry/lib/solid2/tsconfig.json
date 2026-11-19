@@ -1,0 +1,5 @@
+{
+  // Solid 2's helpers type-check as the Solid 2 base does (`bases/solid-uisdk`): Solid 2 from its app.
+  "extends": "../../bases/solid-uisdk/tsconfig.json",
+  "include": [".", "../../bases/solid-uisdk/sx.d.ts"]
+}

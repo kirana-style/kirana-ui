@@ -1,0 +1,43 @@
+{
+  // The app with Solid 2's JSX (`@solidjs/web`); the registry's Solid 2 markup checks with its own
+  // tsconfig (`registry/bases/solid-uisdk`), which resolves Solid 2 from here.
+  "extends": "../../registry/bases/solid-uisdk/tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@workspace/registry/*": ["../../registry/*"],
+      "solid-js": ["./node_modules/solid-js/types/index.d.ts"],
+      "@solidjs/web": ["./node_modules/@solidjs/web/types/index.d.ts"],
+      "@solidjs/web/jsx-runtime": [
+        "./node_modules/@solidjs/web/types/jsx.d.ts"
+      ],
+      "@solidjs/web/jsx-dev-runtime": [
+        "./node_modules/@solidjs/web/types/jsx.d.ts"
+      ],
+      "@ui-sdk/solid": ["./node_modules/@ui-sdk/solid/dist/index.d.ts"],
+      "@ui-sdk/solid/*": ["./node_modules/@ui-sdk/solid/dist/*"],
+      "@ui-sdk/core": ["./node_modules/@ui-sdk/core/dist/index.d.ts"],
+      "@ui-sdk/core/*": ["./node_modules/@ui-sdk/core/dist/*"],
+      "solid-sonner": ["./node_modules/solid-sonner/dist/index.d.ts"],
+      "@dnd-kit/dom": ["./node_modules/@dnd-kit/dom/index.d.ts"],
+      "@dnd-kit/dom/*": ["./node_modules/@dnd-kit/dom/*.d.ts"],
+      "@dnd-kit/abstract/*": ["./node_modules/@dnd-kit/abstract/*.d.ts"],
+      "@tanstack/table-core": [
+        "./node_modules/@tanstack/table-core/dist/index.d.ts"
+      ],
+      "@tanstack/table-core/*": [
+        "./node_modules/@tanstack/table-core/dist/*.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx",
+    "../../registry/bases/solid-uisdk/sx.d.ts",
+    "vite.config.ts",
+    "kirana.config.ts"
+  ]
+}

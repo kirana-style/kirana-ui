@@ -11,7 +11,7 @@ export default function ProgressDemo() {
   const [progress, setProgress] = createSignal(13)
 
   onMount(() => {
-    setTimeout(() => (setProgress(66), 500))
+    setTimeout(() => setProgress(66), 500)
   })
 
   return (
