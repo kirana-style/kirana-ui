@@ -436,19 +436,21 @@ Base UI twin's props. The
 primitives write Base UI's attribute names, so a project installed for `kirana`
 keeps Base UI's state keys and needs no keys of its own. **Vue's fourth base is Kirana UI
 Primitives too** (`registry/bases/vue-kirana`, at `/preview/vue/kirana/`, on
-`@kirana-ui/vue`), with all of Vue's 61 components (its calendar Ark UI's, as
-React's is react-day-picker, until Kirana UI's chooses several days and months): its parts take their Ark UI twins' props
+`@kirana-ui/vue`), with all of Vue's 61 components: its parts take their Ark UI twins' props
 (`v-model`, `default-value`, `checked-change` given `{ checked }`), the plain
 components are Vue's own, and the ones on Reka UI's `Primitive` take the
 primitives' (`@kirana-ui/vue/primitive`), with the same `as` and `as-child`. **Svelte's fourth base is Kirana UI Primitives as
 well** (`registry/bases/svelte-kirana`, at `/preview/svelte/kirana/`, on
 `@kirana-ui/svelte`), with all 61 of Svelte's components, the toast among them,
 which its Bits UI twin lacks: its parts take the Ark UI twin's props, as the Bits
-UI base's do, and its calendar is Ark UI's, as Vue's is. **Solid's second base
+UI base's do. **Solid's second base
 is Kirana UI Primitives** (`registry/bases/solid-kirana`, at
 `/preview/solid/kirana/`, on `@kirana-ui/solid`), with all 61 of Solid's
 components: its parts take the Ark UI twin's props, Ark's `asChild` becoming a
-part's `render`, and its calendar is Ark UI's, as Vue's and Svelte's are. **Angular's
+part's `render`. Every Kirana UI base draws the calendar with the primitives' own
+Calendar (several days, several months, the month held by the caller), as
+react-day-picker's markup and attributes, so `calendar.styles.ts` serves them
+unchanged. **Angular's
 second base is Kirana UI Primitives too** (`registry/bases/angular-kirana`, at
 `/preview/angular/kirana/`, on `@kirana-ui/angular`): each registry directive
 keeps its selector, inputs and outputs and takes its primitive as a host
@@ -459,7 +461,10 @@ the caller's children. **Solid's third base is ui-sdk**
 ui-sdk's Solid adapter needs Solid 2, which Solid's other bases do not run on
 yet, so it builds in an app of its own (`apps/preview-solid2`, served at the
 same URLs by a rewrite), with its own helpers (`registry/lib/solid2`) and Solid
-2 resolved from that app for the registry's files too.
+2 resolved from that app for the registry's files too. A project installs it
+from Get Code's Solid 2 template (`vite-solid2`, from Kirana's example of the
+same name), the one Solid template it runs on and the one base that template
+takes.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,
@@ -573,7 +578,9 @@ workspace the components live in `packages/ui` (`init --workspace`), the app
 imports them as `@workspace/ui/*`, and the tooling's configuration sits at the
 root over every package. Adding a template, a tool or a workspace kind is an
 entry in the catalog and its layer: the dialog, the build and the install check
-read the catalog. Installed so, each combination
+read the catalog. A template and a base on a framework's other major say so in
+it (`RUNTIMES`: Solid 2, for `vite-solid2` and Solid on ui-sdk), and go only
+with each other. Installed so, each combination
 renders the site's preview pages, value for value. A style module imports only
 what every framework installs: a control's width inside a Field is in
 `control.ts`, not in Field's own module, since Vue has no Field yet.

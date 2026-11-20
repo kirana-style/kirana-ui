@@ -13,6 +13,8 @@ import * as Aria from "@kirana-style/states/react-aria"
 import * as Ark from "@kirana-style/states/ark-ui"
 import * as Reka from "@kirana-style/states/reka-ui"
 import * as Bits from "@kirana-style/states/bits-ui"
+import * as KiranaUi from "@kirana-style/states/kirana-ui"
+import * as UiSdk from "@kirana-style/states/ui-sdk"
 import type { KiranaConfig } from "@kirana-style/core/config"
 
 // A type, which Node erases: the configuration still loads no module of its own.
@@ -55,6 +57,8 @@ export const registryConfig = {
       ...Ark.exclusive,
       ...Reka.exclusive,
       ...Bits.exclusive,
+      ...UiSdk.exclusive,
+      ...KiranaUi.exclusive,
       // React Aria's separator writes `aria-orientation`, which no vocabulary names (`orientation`).
       [orientation.horizontal.base, orientation.vertical.aria],
       [orientation.vertical.base, orientation.horizontal.aria],

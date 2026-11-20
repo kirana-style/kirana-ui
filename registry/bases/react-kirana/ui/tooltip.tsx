@@ -40,9 +40,6 @@ function TooltipTrigger({
   const delays = React.use(Delays)
   return (
     <TooltipPrimitive.Trigger
-      // Kirana UI's tooltip trigger is a `<button>` with no `type`, which submits the form it sits
-      // in, where its popover trigger says `type="button"` (PF-029).
-      type="button"
       data-slot="tooltip-trigger"
       delay={delays.delay}
       closeDelay={delays.closeDelay}

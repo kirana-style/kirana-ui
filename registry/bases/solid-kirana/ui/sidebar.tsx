@@ -27,7 +27,8 @@ import { useIsMobile } from "../../../lib/solid/use-mobile"
 import { Separator } from "./separator"
 import { IconPlaceholder } from "./icon-placeholder"
 import { Button } from "./button"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid/element"
@@ -207,16 +208,16 @@ function SidebarGroupAction(props: {
     "children",
   ])
   return (
-    <Element
+    <Primitive
       as="button"
       data-slot="sidebar-group-action"
       data-sidebar="group-action"
       {...rest}
       {...styleProps(local.class, sidebar.groupAction, local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 
@@ -253,16 +254,16 @@ function SidebarGroupLabel(props: {
     "children",
   ])
   return (
-    <Element
+    <Primitive
       as="div"
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
       {...rest}
       {...styleProps(local.class, sidebar.groupLabel, local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 
@@ -352,7 +353,7 @@ function SidebarMenuAction(props: {
     ["asChild", "showOnHover", "class", "sx", "children"]
   )
   return (
-    <Element
+    <Primitive
       as="button"
       data-slot="sidebar-menu-action"
       data-sidebar="menu-action"
@@ -363,10 +364,10 @@ function SidebarMenuAction(props: {
         local.showOnHover && sidebar.menuActionOnHover,
         local.sx
       )}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 
@@ -442,7 +443,7 @@ function SidebarMenuButton(props: {
         >
           <TooltipTrigger
             asChild={(childProps) => (
-              <Element
+              <Primitive
                 as="button"
                 {...childProps()}
                 data-slot="sidebar-menu-button"
@@ -458,10 +459,10 @@ function SidebarMenuButton(props: {
                   SIZES[local.size],
                   local.sx
                 )}
-                asChild={local.asChild}
+                render={asRender(local.asChild)}
               >
                 {local.children}
-              </Element>
+              </Primitive>
             )}
           />
           <TooltipContent side="right" align="center">
@@ -469,7 +470,7 @@ function SidebarMenuButton(props: {
           </TooltipContent>
         </Tooltip>
       ) : (
-        <Element
+        <Primitive
           as="button"
           data-slot="sidebar-menu-button"
           data-sidebar="menu-button"
@@ -483,10 +484,10 @@ function SidebarMenuButton(props: {
             SIZES[local.size],
             local.sx
           )}
-          asChild={local.asChild}
+          render={asRender(local.asChild)}
         >
           {local.children}
-        </Element>
+        </Primitive>
       )}
     </>
   )
@@ -578,7 +579,7 @@ function SidebarMenuSubButton(props: {
     ["asChild", "size", "isActive", "class", "sx", "children"]
   )
   return (
-    <Element
+    <Primitive
       as="a"
       data-slot="sidebar-menu-sub-button"
       data-sidebar="menu-sub-button"
@@ -586,10 +587,10 @@ function SidebarMenuSubButton(props: {
       data-active={local.isActive ? "" : undefined}
       {...rest}
       {...styleProps(local.class, sidebar.menuSubButton, local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

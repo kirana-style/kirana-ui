@@ -8,14 +8,14 @@
  */
 import { Component } from "@angular/core"
 import {
-  KuiToastAction,
-  KuiToastClose,
-  KuiToastContent,
-  KuiToastDescription,
-  KuiToastList,
-  KuiToastRoot,
-  KuiToastTitle,
-  KuiToastViewport,
+  KpToastAction,
+  KpToastClose,
+  KpToastContent,
+  KpToastDescription,
+  KpToastList,
+  KpToastRoot,
+  KpToastTitle,
+  KpToastViewport,
   createToaster,
 } from "@kirana-ui/angular"
 import type {
@@ -163,32 +163,32 @@ export const toast = {
   imports: [
     Button,
     IconPlaceholder,
-    KuiToastAction,
-    KuiToastClose,
-    KuiToastContent,
-    KuiToastDescription,
-    KuiToastList,
-    KuiToastRoot,
-    KuiToastTitle,
-    KuiToastViewport,
+    KpToastAction,
+    KpToastClose,
+    KpToastContent,
+    KpToastDescription,
+    KpToastList,
+    KpToastRoot,
+    KpToastTitle,
+    KpToastViewport,
     SxDirective,
   ],
   host: { style: "display: contents" },
   template: `
     <div
-      kuiToastViewport
+      kpToastViewport
       data-slot="toast-viewport"
       [toaster]="toaster"
       [sx]="styles.viewport"
     >
       <div
-        *kuiToastList="let item"
-        kuiToastRoot
+        *kpToastList="let item"
+        kpToastRoot
         data-slot="toast"
         [toast]="item"
         [sx]="styles.root"
       >
-        <div kuiToastContent data-slot="toast-content" [sx]="styles.content">
+        <div kpToastContent data-slot="toast-content" [sx]="styles.content">
           @if (icons.includes(item.type ?? "")) {
             <span data-slot="toast-icon" [sx]="styles.icon">
               @switch (item.type) {
@@ -257,15 +257,11 @@ export const toast = {
           }
           <div [sx]="styles.body">
             @if (item.title !== undefined) {
-              <h2
-                kuiToastTitle
-                data-slot="toast-title"
-                [sx]="styles.title"
-              ></h2>
+              <h2 kpToastTitle data-slot="toast-title" [sx]="styles.title"></h2>
             }
             @if (item.description !== undefined) {
               <p
-                kuiToastDescription
+                kpToastDescription
                 data-slot="toast-description"
                 [sx]="styles.description"
               ></p>
@@ -274,7 +270,7 @@ export const toast = {
           @if (item.action; as action) {
             <button
               kuiButton
-              kuiToastAction
+              kpToastAction
               variant="outline"
               size="sm"
               [attr.data-slot]="'toast-action'"
@@ -285,7 +281,7 @@ export const toast = {
           }
           <button
             kuiButton
-            kuiToastClose
+            kpToastClose
             variant="ghost"
             size="icon-sm"
             [attr.data-slot]="'toast-close'"

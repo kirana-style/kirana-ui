@@ -65,8 +65,9 @@ export const angularCli: AppSkeleton = {
   </body>
 </html>
 `,
-    "src/main.ts": `import "@kirana-style/core/stylesheet.css"
-import { bootstrapApplication } from "@angular/platform-browser"
+    // No stylesheet import: Kirana's builders list `.kirana/kirana.css` in angular.json's
+    // `styles`, where `init` lists the design system's stylesheets and fonts after it.
+    "src/main.ts": `import { bootstrapApplication } from "@angular/platform-browser"
 
 import { App } from "./app/app"
 
@@ -137,7 +138,9 @@ export class App {
       target: "ES2022",
       module: "preserve",
       skipLibCheck: true,
-      allowImportingTsExtensions: true,
+      // Not `allowImportingTsExtensions`, which needs `noEmit` (TS5096), while the build's
+      // tsconfig extends this one and emits: `kirana.config.ts`'s import of the design system
+      // ends in `.ts`, and `init` allows it with `rewriteRelativeImportExtensions`.
     },
     angularCompilerOptions: {
       strictInjectionParameters: true,

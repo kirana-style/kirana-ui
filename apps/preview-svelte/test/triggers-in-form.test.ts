@@ -14,7 +14,7 @@ import {
 } from "@workspace/vite-config/browser-page"
 
 import TriggersInForm from "./TriggersInForm.svelte"
-import { settle, styles } from "./page"
+import { settle } from "./page"
 
 const PARTS = [
   "button",
@@ -67,7 +67,6 @@ const complete = (Object.keys(modules) as (keyof typeof modules)[]).filter(
 describe.each(complete)("%s", (base) => {
   it("no trigger submits the form it sits in", async () => {
     const ui = await partsOf(base)
-    await styles()
     const watch = watchPage()
     const container = document.createElement("div")
     document.body.append(container)
@@ -79,7 +78,6 @@ describe.each(complete)("%s", (base) => {
       watch.stop()
     })
     await settle()
-    await styles()
     // Every trigger the fixture has: its own button and the child of each `asChild`.
     expect(triggers(container).length).toBeGreaterThanOrEqual(8)
     await pressTriggers(container, {

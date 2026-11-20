@@ -1,6 +1,7 @@
 import { mergeProps, splitProps } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import { marker } from "../../../styles/marker.styles"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
@@ -21,7 +22,7 @@ function Marker(props: {
     ["variant", "asChild", "class", "sx", "children"]
   )
   return (
-    <Element
+    <Primitive
       as="div"
       data-slot="marker"
       data-variant={local.variant}
@@ -32,10 +33,10 @@ function Marker(props: {
         marker.root({ variant: local.variant }),
         local.sx
       )}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

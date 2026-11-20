@@ -8,14 +8,14 @@ import {
   input,
 } from "@angular/core"
 import {
-  KuiDialog,
-  KuiDialogBackdrop,
-  KuiDialogClose,
-  KuiDialogDescription,
-  KuiDialogPopup,
-  KuiDialogPortal,
-  KuiDialogTitle,
-  KuiDialogTrigger,
+  KpDialog,
+  KpDialogBackdrop,
+  KpDialogClose,
+  KpDialogDescription,
+  KpDialogPopup,
+  KpDialogPortal,
+  KpDialogTitle,
+  KpDialogTrigger,
 } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -24,7 +24,7 @@ import { drawer } from "../../../styles/drawer.styles"
 
 /**
  * A drawer: `<ng-container kuiDrawer swipeDirection="right">` around its trigger and content,
- * drawing no element, as Base UI's root: Kirana UI's (`kuiDrawer`, a `KuiDialog` that comes from
+ * drawing no element, as Base UI's root: Kirana UI's (`kuiDrawer`, a `KpDialog` that comes from
  * an edge), its `[(open)]`, `defaultOpen`, `swipeDirection` (the edge it leaves by, `down` by
  * default), `snapPoints` and `modal` (`false` leaves the page usable) its own, the swipe and the
  * snap points with them; `showSwipeHandle` is the registry's. Kirana UI's selectors are the
@@ -35,7 +35,7 @@ import { drawer } from "../../../styles/drawer.styles"
   selector: "[kuiDrawer]",
   hostDirectives: [
     {
-      directive: KuiDialog,
+      directive: KpDialog,
       inputs: ["open", "defaultOpen", "swipeDirection", "snapPoints", "modal"],
       outputs: ["openChange"],
     },
@@ -43,7 +43,7 @@ import { drawer } from "../../../styles/drawer.styles"
 })
 class Drawer {
   readonly showSwipeHandle = input(false, { transform: booleanAttribute })
-  readonly #root = inject(KuiDialog, { self: true })
+  readonly #root = inject(KpDialog, { self: true })
   /** What its content reads of it: whether it is modal, its swipe's axis, its snap points. */
   readonly isModal = computed(() => this.#root.modal())
   readonly axis = computed(() => {
@@ -57,7 +57,7 @@ class Drawer {
 @Directive({
   selector: "[kuiDrawerTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTrigger],
+  hostDirectives: [KpDialogTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element.
     "[attr.data-slot]": "'drawer-trigger'",
@@ -78,7 +78,7 @@ class DrawerPortal {}
 @Directive({
   selector: "[kuiDrawerClose]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     "[attr.data-slot]": "'drawer-close'",
     "[class]": "part().class",
@@ -100,14 +100,14 @@ class DrawerClose {
  */
 @Component({
   selector: "[kuiDrawerContent]",
-  imports: [KuiDialogBackdrop, KuiDialogPopup, KuiDialogPortal],
+  imports: [KpDialogBackdrop, KpDialogPopup, KpDialogPortal],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
-    <ng-template kuiDialogPortal>
+    <ng-template kpDialogPortal>
       @if (root.isModal()) {
         <div
-          kuiDialogBackdrop
+          kpDialogBackdrop
           data-slot="drawer-overlay"
           [attr.data-snap-points]="root.hasSnapPoints() ? '' : null"
           [class]="overlay"
@@ -121,7 +121,7 @@ class DrawerClose {
         [class]="viewport"
       >
         <div
-          kuiDialogPopup
+          kpDialogPopup
           data-slot="drawer-popup"
           [attr.data-swipe-axis]="root.axis()"
           [attr.data-snap-points]="root.hasSnapPoints() ? '' : null"
@@ -190,7 +190,7 @@ class DrawerFooter {
 @Directive({
   selector: "h2[kuiDrawerTitle]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTitle],
+  hostDirectives: [KpDialogTitle],
   host: {
     "data-slot": "drawer-title",
     "[class]": "part().class",
@@ -206,7 +206,7 @@ class DrawerTitle {
 @Directive({
   selector: "p[kuiDrawerDescription]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogDescription],
+  hostDirectives: [KpDialogDescription],
   host: {
     "data-slot": "drawer-description",
     "[class]": "part().class",

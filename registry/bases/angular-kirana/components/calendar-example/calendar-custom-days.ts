@@ -2,10 +2,11 @@ import { Component, signal } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
 import { addDays } from "date-fns"
-import { Calendar } from "../../ui/calendar"
+import { Calendar, CalendarDayTemplate } from "../../ui/calendar"
 import type { DateRange } from "../../ui/calendar"
 import { breakpoint, spacing } from "../../../../core/scales"
 import { calendarCtx } from "../../../../core/context"
+import { buttonLabel } from "../../../../styles/button.styles"
 import { Example } from "../../components/example"
 import { Card, CardContent } from "../../ui/card"
 
@@ -27,7 +28,14 @@ const styles = {
 
 @Component({
   selector: "kui-calendar-custom-days",
-  imports: [Calendar, Card, CardContent, Example, SxDirective],
+  imports: [
+    Calendar,
+    CalendarDayTemplate,
+    Card,
+    CardContent,
+    Example,
+    SxDirective,
+  ],
   host: { style: "display: contents" },
   template: `
     <div kuiExample title="Custom Days">
@@ -44,7 +52,10 @@ const styles = {
             [formatters]="formatters"
           >
             <ng-template kuiCalendarDay let-date="date" let-outside="outside">
-              {{ date.getDate() }}
+              <!-- The day as React's Button draws its text: in a trimmed label. -->
+              <span data-slot="button-label" [sx]="label">{{
+                date.getDate()
+              }}</span>
               @if (!outside) {
                 <span>{{
                   date.getDay() === 0 || date.getDay() === 6 ? "$120" : "$100"
@@ -67,4 +78,5 @@ export class CalendarCustomDays {
     to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
   })
   protected readonly styles = styles
+  protected readonly label = buttonLabel
 }

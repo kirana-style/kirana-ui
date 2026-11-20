@@ -1,10 +1,10 @@
 import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import * as React from "react"
 import { addDays, format } from "date-fns"
-import type { DateRange } from "react-day-picker"
 
 import { Button } from "../ui/button"
 import { Calendar } from "../ui/calendar"
+import type { DateRange } from "../ui/calendar"
 import { Field, FieldLabel } from "../ui/field"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { css } from "@kirana-style/core"

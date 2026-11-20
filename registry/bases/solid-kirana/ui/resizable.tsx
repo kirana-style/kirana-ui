@@ -37,8 +37,7 @@ function ResizableHandle(props: {
     ["id", "withHandle", "class", "sx"]
   )
   // Ark's required `id`, the two panels it sits between (`"a:b"`), is declared and left out:
-  // Kirana UI's handle knows them by its place between the panels. A handle never shrinks
-  // (PF-030).
+  // Kirana UI's handle knows them by its place between the panels. A handle never shrinks.
   return (
     <Resizable.Handle
       data-slot="resizable-handle"
@@ -73,8 +72,7 @@ function ResizablePanel(props: {
     "children",
   ])
   // Ark's required `id`, one of the group's `panels`: its share and limits come from there. It is
-  // not the element's id, which several groups on a page would repeat. A panel shrinks below its
-  // content, so its share holds (PF-030).
+  // not the element's id, which several groups on a page would repeat.
   const sizes = useContext(PanelSizesContext)
   const own = () => sizes?.(local.id) ?? {}
   return (
@@ -96,7 +94,7 @@ function ResizablePanel(props: {
  * Kirana UI's resizable group, with Solid's Ark UI parts' props: the panels by id (`panels`, each
  * with its limits) and their shares in order (`defaultSize`), which each panel takes as its own,
  * and `onResize` given the shares as `{ size }`. The group clips its panels, and a group inside
- * another's panel shrinks with it (PF-030).
+ * another's panel shrinks with it.
  */
 function ResizablePanelGroup(props: {
   panels: readonly PanelEntry[]

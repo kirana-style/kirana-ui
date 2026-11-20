@@ -14,6 +14,7 @@ import { tanstackStart } from "./tanstack-start.ts"
 import { tanstackStartSolid } from "./tanstack-start-solid.ts"
 import { viteReact } from "./vite-react.ts"
 import { viteSolid } from "./vite-solid.ts"
+import { viteSolid2 } from "./vite-solid2.ts"
 import { viteSvelte } from "./vite-svelte.ts"
 import { viteVue } from "./vite-vue.ts"
 
@@ -31,6 +32,7 @@ export const APPS: Record<Template, AppSkeleton> = {
   "vite-solid": viteSolid,
   "solid-start": solidStart,
   "tanstack-start-solid": tanstackStartSolid,
+  "vite-solid2": viteSolid2,
   "analog-angular": analogAngular,
   "angular-cli": angularCli,
 }

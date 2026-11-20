@@ -1,10 +1,10 @@
 import { Component, Directive, computed, input } from "@angular/core"
 import {
-  KuiAccordion,
-  KuiAccordionHeader,
-  KuiAccordionItem,
-  KuiAccordionPanel,
-  KuiAccordionTrigger,
+  KpAccordion,
+  KpAccordionHeader,
+  KpAccordionItem,
+  KpAccordionPanel,
+  KpAccordionTrigger,
 } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -14,7 +14,7 @@ import { accordion } from "../../../styles/accordion.styles"
 
 /**
  * An accordion: `<div kuiAccordion [defaultValue]="['shipping']" multiple>`, on Kirana UI's
- * accordion (`KuiAccordion`). Base UI's API: its value is a list of the open items' values, one
+ * accordion (`KpAccordion`). Base UI's API: its value is a list of the open items' values, one
  * item open at a time unless `multiple`, and an open item closes again on its trigger; its
  * `defaultValue`, `multiple`, `disabled` and `orientation` are the primitive's.
  */
@@ -22,7 +22,7 @@ import { accordion } from "../../../styles/accordion.styles"
   selector: "[kuiAccordion]",
   hostDirectives: [
     {
-      directive: KuiAccordion,
+      directive: KpAccordion,
       inputs: ["defaultValue", "multiple", "disabled", "orientation"],
     },
   ],
@@ -40,12 +40,12 @@ class Accordion {
 
 /**
  * One of its sections: `<div kuiAccordionItem value="shipping">`, Kirana UI's item
- * (`KuiAccordionItem`, `data-open` while open): its `value` and `disabled` are the primitive's.
+ * (`KpAccordionItem`, `data-open` while open): its `value` and `disabled` are the primitive's.
  */
 @Directive({
   selector: "[kuiAccordionItem]",
   hostDirectives: [
-    { directive: KuiAccordionItem, inputs: ["value", "disabled"] },
+    { directive: KpAccordionItem, inputs: ["value", "disabled"] },
   ],
   providers: [provideSxPart()],
   host: {
@@ -61,21 +61,21 @@ class AccordionItem {
 
 /**
  * Its heading and the heading's button, with the chevrons that show which way it goes:
- * `<h3 kuiAccordionTrigger>Shipping</h3>` is Kirana UI's header (`KuiAccordionHeader`) and draws
+ * `<h3 kuiAccordionTrigger>Shipping</h3>` is Kirana UI's header (`KpAccordionHeader`) and draws
  * its trigger inside (`kuiAccordionTrigger`, `data-panel-open` while open), as React's draws the
  * header around the trigger; the caller's content and `sx` go to the button.
  */
 @Component({
   selector: "h3[kuiAccordionTrigger]",
-  imports: [IconPlaceholder, KuiAccordionTrigger, SxDirective],
-  hostDirectives: [KuiAccordionHeader],
+  imports: [IconPlaceholder, KpAccordionTrigger, SxDirective],
+  hostDirectives: [KpAccordionHeader],
   providers: [provideSxPart()],
   host: {
     "[class]": "part().class",
     "[style]": "part().style",
   },
   template: `
-    <button kuiAccordionTrigger data-slot="accordion-trigger" [sx]="trigger()">
+    <button kpAccordionTrigger data-slot="accordion-trigger" [sx]="trigger()">
       <ng-content />
       <svg
         iconPlaceholder
@@ -112,18 +112,18 @@ class AccordionTrigger {
 
 /**
  * What a section shows when open: `<div kuiAccordionContent>`. Kirana UI's panel is structural
- * (`*kuiAccordionPanel`, out of the page while closed, moving over `--accordion-panel-height`),
+ * (`*kpAccordionPanel`, out of the page while closed, moving over `--accordion-panel-height`),
  * which an attribute cannot put around its own element: the part draws it, and inside it the part
  * that takes the caller's content and `sx`, as React's, its own element drawing nothing.
  */
 @Component({
   selector: "[kuiAccordionContent]",
-  imports: [KuiAccordionPanel, SxDirective],
+  imports: [KpAccordionPanel, SxDirective],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiAccordionPanel
+      *kpAccordionPanel
       data-slot="accordion-content"
       [class]="part().class"
       [style]="part().style"

@@ -1,6 +1,7 @@
 import { mergeProps, splitProps } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import { badge } from "../../../styles/badge.styles"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
@@ -21,16 +22,16 @@ function Badge(props: {
     ["variant", "asChild", "class", "sx", "children"]
   )
   return (
-    <Element
+    <Primitive
       as="span"
       data-slot="badge"
       data-variant={local.variant}
       {...rest}
       {...styleProps(local.class, badge({ variant: local.variant }), local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

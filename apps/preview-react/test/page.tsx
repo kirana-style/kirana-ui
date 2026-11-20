@@ -7,12 +7,7 @@ import { act as reactAct } from "react"
 import { createRoot } from "react-dom/client"
 import { onTestFinished } from "vite-plus/test"
 
-import stylesheet from "@kirana-style/core/stylesheet.css?url"
-import {
-  frames,
-  refreshStyles,
-  watchPage,
-} from "@workspace/vite-config/browser-page"
+import { frames, watchPage } from "@workspace/vite-config/browser-page"
 
 import { Preview, loadItem } from "../src/preview"
 
@@ -39,9 +34,6 @@ export async function settle() {
   await act(async () => frames())
 }
 
-/** Kirana's stylesheet with every module compiled so far (`refreshStyles`, KF-124). */
-export const styles = () => refreshStyles(stylesheet)
-
 /**
  * The item `base/item` on the page, unmounted when the test ends. `errors` collects every error
  * the page raised meanwhile (a thrown render, a rejected promise, React's own reports) and every
@@ -56,7 +48,6 @@ export async function mountItem(base: string, item: string) {
     import("@workspace/registry/bases/react-base/ui/sonner"),
     import("@workspace/registry/bases/react-base/ui/toast"),
   ])
-  await styles()
   const watch = watchPage()
   const container = document.createElement("div")
   document.body.append(container)
@@ -67,7 +58,6 @@ export async function mountItem(base: string, item: string) {
   await act(async () => root.render(<Preview base={base} Item={Item} />))
   await settle()
   // What the item loaded on mounting (a toaster, a lazy part) has compiled by now.
-  await styles()
   await settle()
   let mounted = true
   const unmount = async () => {

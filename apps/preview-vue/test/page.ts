@@ -6,12 +6,7 @@ import type { Component } from "vue"
 import { computed, createApp, nextTick } from "vue"
 import { onTestFinished } from "vite-plus/test"
 
-import stylesheet from "@kirana-style/core/stylesheet.css?url"
-import {
-  frames,
-  refreshStyles,
-  watchPage,
-} from "@workspace/vite-config/browser-page"
+import { frames, watchPage } from "@workspace/vite-config/browser-page"
 import { previews as arkPreviews } from "@workspace/registry/bases/vue-ark/previews.ts"
 import { previews as rekaPreviews } from "@workspace/registry/bases/vue-reka/previews.ts"
 import { previews as uisdkPreviews } from "@workspace/registry/bases/vue-uisdk/previews.ts"
@@ -35,15 +30,11 @@ export async function settle() {
   await nextTick()
 }
 
-/** Kirana's stylesheet with every module compiled so far (`refreshStyles`, KF-124). */
-export const styles = () => refreshStyles(stylesheet)
-
 /** `component` mounted on the page with the preview's providers, unmounted when the test ends. */
 export async function mountComponent(
   component: Component,
   props: Record<string, unknown> = {}
 ) {
-  await styles()
   const watch = watchPage()
   const container = document.createElement("div")
   document.body.append(container)
@@ -56,7 +47,6 @@ export async function mountComponent(
   app.mount(container)
   await settle()
   // What the item loaded on mounting has compiled by now.
-  await styles()
   await settle()
   onTestFinished(() => {
     app.unmount()

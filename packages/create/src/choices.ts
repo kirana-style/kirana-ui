@@ -7,9 +7,11 @@
  * first one that does, and the dialog shows what it offers from `allowed`.
  */
 import {
+  BASE_RUNTIMES,
   FRAMEWORK_BASES,
   MONOREPOS,
   TEMPLATES,
+  TEMPLATE_RUNTIMES,
   TOOLINGS,
   frameworkOf,
 } from "./catalog.ts"
@@ -27,6 +29,31 @@ export type ProjectChoices = {
   rtl: boolean
 }
 
+/** Whether a base and a template run on the same major of their framework (`RUNTIMES`). */
+export function fits(framework: Framework, base: Base, template: Template) {
+  return BASE_RUNTIMES[framework]?.[base] === TEMPLATE_RUNTIMES[template]
+}
+
+/** The framework's templates a base runs on: Solid on ui-sdk on the Solid 2 one alone. */
+export function templatesFor(
+  framework: Framework,
+  base: Base
+): readonly Template[] {
+  return (TEMPLATES[framework] as readonly Template[]).filter((template) =>
+    fits(framework, base, template)
+  )
+}
+
+/** The framework's bases a template runs: the Solid 2 one ui-sdk alone. */
+export function basesFor(
+  framework: Framework,
+  template: Template
+): readonly Base[] {
+  return FRAMEWORK_BASES[framework].filter((base) =>
+    fits(framework, base, template)
+  )
+}
+
 /** Templates built by Vite: the ones Vite+ (`vp build`, its monorepo) can run. */
 const VITE_TEMPLATES: readonly Template[] = [
   "vite-react",
@@ -38,6 +65,7 @@ const VITE_TEMPLATES: readonly Template[] = [
   "vite-solid",
   "solid-start",
   "tanstack-start-solid",
+  "vite-solid2",
   "analog-angular",
 ]
 
@@ -89,19 +117,27 @@ export const DEFAULT_CHOICES: ProjectChoices = {
   rtl: false,
 }
 
-/** Every rule applied, in order: the template follows the framework, the base too, then the monorepo and the tooling. */
+/**
+ * Every rule applied, in order: the base follows the framework (or, given none, the template asked
+ * for), the template the base, then the monorepo and the tooling. The base is the design's, so it
+ * wins over a template it does not run on.
+ */
 export function resolveChoices(
   partial: Partial<ProjectChoices>
 ): ProjectChoices {
   const framework = partial.framework ?? DEFAULT_CHOICES.framework
-  const templates = TEMPLATES[framework] as readonly Template[]
-  const template =
-    partial.template && templates.includes(partial.template)
+  const asked =
+    partial.template &&
+    (TEMPLATES[framework] as readonly Template[]).includes(partial.template)
       ? partial.template
-      : templates[0]!
+      : undefined
   const bases = FRAMEWORK_BASES[framework]
   const base =
-    partial.base && bases.includes(partial.base) ? partial.base : bases[0]!
+    partial.base && bases.includes(partial.base)
+      ? partial.base
+      : ((asked && basesFor(framework, asked)[0]) ?? bases[0]!)
+  const templates = templatesFor(framework, base)
+  const template = asked && templates.includes(asked) ? asked : templates[0]!
   const monorepos = monoreposFor(template)
   const monorepo =
     partial.monorepo && monorepos.includes(partial.monorepo)

@@ -380,22 +380,22 @@ const ALL_ITEMS: Item[] = [
     title: "As child",
     description:
       "A part's element, or the caller's own through an asChild snippet given the props to spread.",
-    // Bits UI, ui-sdk and Kirana UI have no element factory: Svelte's parts on them render
-    // through `Element.svelte`, with Ark UI's `asChild` (a snippet called with the props
-    // function), and Solid's on Kirana UI through `element.tsx`.
+    // Bits UI and ui-sdk have no element factory: Svelte's parts on them render through
+    // `Element.svelte`, with Ark UI's `asChild` (a snippet called with the props function).
+    // Kirana UI's parts draw a plain element with the adapter's `Primitive`, taking Ark UI's
+    // `asChild` through `as-child.ts` on Svelte and `element.tsx` on Solid.
     files: (combination) =>
       combination.framework === "svelte" &&
-      (combination.base === "bits" ||
-        combination.base === "uisdk" ||
-        combination.base === "kirana")
+      (combination.base === "bits" || combination.base === "uisdk")
         ? ["lib/svelte/as-child.ts", "lib/svelte/Element.svelte"]
-        : combination.framework === "solid" && combination.base === "kirana"
-          ? // Kirana UI's Solid adapter has no element factory (PF-033).
-            ["lib/solid/element.tsx"]
-          : combination.framework === "solid" && combination.base === "uisdk"
-            ? // An element of the design system's own takes Ark UI's `asChild` here too.
-              ["lib/solid2/element.tsx"]
-            : undefined,
+        : combination.framework === "svelte" && combination.base === "kirana"
+          ? ["lib/svelte/as-child.ts"]
+          : combination.framework === "solid" && combination.base === "kirana"
+            ? ["lib/solid/element.tsx"]
+            : combination.framework === "solid" && combination.base === "uisdk"
+              ? // An element of the design system's own takes Ark UI's `asChild` here too.
+                ["lib/solid2/element.tsx"]
+              : undefined,
   },
   {
     name: "control",

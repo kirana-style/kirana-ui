@@ -21,11 +21,12 @@ import {
 import type { Manifest } from "./manifest.ts"
 import { gitignore, workspaceLayer } from "./monorepo.ts"
 import { ignored, toolingLayer, vitePlusOptions } from "./tooling.ts"
+import { VITE_PLUS_VITE } from "./versions.ts"
 
 export type Versions = {
   /** Kirana's release: `@kirana-style/*`, `kirana-style` and the lint plugins. */
   kirana: string
-  /** Vite+'s. */
+  /** Vite+'s release, recorded in the templates' index (`vite` resolves to `VITE_PLUS_VITE`). */
   vitePlus: string
 }
 
@@ -164,7 +165,7 @@ function appFiles(
       ? [
           {
             name: "vite",
-            version: `npm:@voidzero-dev/vite-plus-core@${versions.vitePlus}`,
+            version: VITE_PLUS_VITE,
           },
         ]
       : []),

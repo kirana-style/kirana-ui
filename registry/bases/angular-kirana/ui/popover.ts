@@ -8,13 +8,13 @@ import {
   numberAttribute,
 } from "@angular/core"
 import {
-  KuiPopover,
-  KuiPopoverDescription,
-  KuiPopoverPopup,
-  KuiPopoverPortal,
-  KuiPopoverPositioner,
-  KuiPopoverTitle,
-  KuiPopoverTrigger,
+  KpPopover,
+  KpPopoverDescription,
+  KpPopoverPopup,
+  KpPopoverPortal,
+  KpPopoverPositioner,
+  KpPopoverTitle,
+  KpPopoverTrigger,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
@@ -25,15 +25,13 @@ import { popupMotion } from "../../../styles/overlay.styles"
 
 /**
  * A popover: `<ng-container kuiPopover>` around its trigger and content, drawing no element, as
- * Base UI's root: Kirana UI's (`KuiPopover`), its `[(open)]` and `defaultOpen` its own. Kirana UI's
- * selectors are the registry's, so a part takes its primitive as a host directive and a file
- * imports only one of the two.
+ * Base UI's root: Kirana UI's (`KpPopover`), its `[(open)]` and `defaultOpen` its own. Each part takes its primitive as a host directive.
  */
 @Directive({
   selector: "[kuiPopover]",
   hostDirectives: [
     {
-      directive: KuiPopover,
+      directive: KpPopover,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -45,7 +43,7 @@ class Popover {}
 @Directive({
   selector: "[kuiPopoverTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiPopoverTrigger],
+  hostDirectives: [KpPopoverTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
     // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
@@ -68,7 +66,7 @@ class PopoverTrigger {
  */
 @Component({
   selector: "[kuiPopoverContent]",
-  imports: [KuiPopoverPopup, KuiPopoverPortal, KuiPopoverPositioner],
+  imports: [KpPopoverPopup, KpPopoverPortal, KpPopoverPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -77,9 +75,9 @@ class PopoverTrigger {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiPopoverPortal>
+    <ng-template kpPopoverPortal>
       <div
-        kuiPopoverPositioner
+        kpPopoverPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -87,7 +85,7 @@ class PopoverTrigger {
         [class]="positioner"
       >
         <div
-          kuiPopoverPopup
+          kpPopoverPopup
           data-slot="popover-content"
           [attr.dir]="host.getAttribute('dir')"
           [class]="part().class"
@@ -132,7 +130,7 @@ class PopoverHeader {
 @Directive({
   selector: "h2[kuiPopoverTitle]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiPopoverTitle],
+  hostDirectives: [KpPopoverTitle],
   host: {
     "data-slot": "popover-title",
     "[class]": "part().class",
@@ -148,7 +146,7 @@ class PopoverTitle {
 @Directive({
   selector: "p[kuiPopoverDescription]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiPopoverDescription],
+  hostDirectives: [KpPopoverDescription],
   host: {
     "data-slot": "popover-description",
     "[class]": "part().class",

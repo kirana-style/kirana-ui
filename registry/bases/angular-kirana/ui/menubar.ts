@@ -1,11 +1,10 @@
 /**
- * Menubar on Kirana UI's (`KuiMenubar`), as React's is the primitives' menubar over their menu:
- * `<div kuiMenubar>` around a `<ng-container kuiMenubarMenu>` per menu, each a `KuiMenu` that is one
+ * Menubar on Kirana UI's (`KpMenubar`), as React's is the primitives' menubar over their menu:
+ * `<div kuiMenubar>` around a `<ng-container kuiMenubarMenu>` per menu, each a `KpMenu` that is one
  * of the bar's items, with a trigger and its content. The bar's keys, its one tab stop and the
  * pointer moving from one open menu to the next are the primitives'. Its rows are DropdownMenu's
  * with `menubar.styles.ts` laid over them; its checkbox and radio rows are Base UI's own, the check
- * at the start. Kirana UI's selectors are the registry's, so a part takes its primitive as a host
- * directive and a file imports only one of the two.
+ * at the start. Each part takes its primitive as a host directive.
  */
 import {
   Component,
@@ -20,23 +19,23 @@ import {
   output,
 } from "@angular/core"
 import {
-  KuiMenu,
-  KuiMenubar,
-  KuiMenuCheckboxItem,
-  KuiMenuCheckboxItemIndicator,
-  KuiMenuGroup,
-  KuiMenuGroupLabel,
-  KuiMenuItem,
-  KuiMenuPopup,
-  KuiMenuPortal,
-  KuiMenuPositioner,
-  KuiMenuRadioGroup,
-  KuiMenuRadioItem,
-  KuiMenuRadioItemIndicator,
-  KuiMenuSeparator,
-  KuiMenuSubmenuRoot,
-  KuiMenuSubmenuTrigger,
-  KuiMenuTrigger,
+  KpMenu,
+  KpMenubar,
+  KpMenuCheckboxItem,
+  KpMenuCheckboxItemIndicator,
+  KpMenuGroup,
+  KpMenuGroupLabel,
+  KpMenuItem,
+  KpMenuPopup,
+  KpMenuPortal,
+  KpMenuPositioner,
+  KpMenuRadioGroup,
+  KpMenuRadioItem,
+  KpMenuRadioItemIndicator,
+  KpMenuSeparator,
+  KpMenuSubmenuRoot,
+  KpMenuSubmenuTrigger,
+  KpMenuTrigger,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
@@ -62,7 +61,7 @@ import { popupMotion } from "../../../styles/overlay.styles"
 @Directive({
   selector: "[kuiMenubar]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenubar],
+  hostDirectives: [KpMenubar],
   host: {
     "data-slot": "menubar",
     "[class]": "part().class",
@@ -79,7 +78,7 @@ class Menubar {
   selector: "[kuiMenubarMenu]",
   hostDirectives: [
     {
-      directive: KuiMenu,
+      directive: KpMenu,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -95,7 +94,7 @@ class MenubarPortal {}
 @Directive({
   selector: "[kuiMenubarTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuTrigger],
+  hostDirectives: [KpMenuTrigger],
   host: {
     "[attr.data-slot]": "'menubar-trigger'",
     type: "button",
@@ -124,7 +123,7 @@ function carried(element: HTMLElement) {
  */
 @Component({
   selector: "[kuiMenubarContent]",
-  imports: [KuiMenuPopup, KuiMenuPortal, KuiMenuPositioner],
+  imports: [KpMenuPopup, KpMenuPortal, KpMenuPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -133,9 +132,9 @@ function carried(element: HTMLElement) {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiMenuPortal>
+    <ng-template kpMenuPortal>
       <div
-        kuiMenuPositioner
+        kpMenuPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -143,7 +142,7 @@ function carried(element: HTMLElement) {
         [class]="positioner"
       >
         <div
-          kuiMenuPopup
+          kpMenuPopup
           data-slot="menubar-content"
           [attr.dir]="attr('dir')"
           [attr.data-lang]="attr('data-lang')"
@@ -175,7 +174,7 @@ class MenubarContent {
 /** A group of items, named by its label. */
 @Directive({
   selector: "[kuiMenubarGroup]",
-  hostDirectives: [KuiMenuGroup],
+  hostDirectives: [KpMenuGroup],
   host: { "data-slot": "menubar-group" },
 })
 class MenubarGroup {}
@@ -184,7 +183,7 @@ class MenubarGroup {}
 @Directive({
   selector: "[kuiMenubarLabel]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuGroupLabel],
+  hostDirectives: [KpMenuGroupLabel],
   host: {
     "data-slot": "menubar-label",
     "[attr.data-inset]": "inset() ? 'true' : null",
@@ -205,7 +204,7 @@ class MenubarLabel {
   selector: "[kuiMenubarItem]",
   providers: [provideSxPart()],
   hostDirectives: [
-    { directive: KuiMenuItem, inputs: ["disabled", "closeOnClick"] },
+    { directive: KpMenuItem, inputs: ["disabled", "closeOnClick"] },
   ],
   host: {
     "data-slot": "menubar-item",
@@ -239,11 +238,11 @@ class MenubarItem {
  */
 @Component({
   selector: "[kuiMenubarCheckboxItem]",
-  imports: [IconPlaceholder, KuiMenuCheckboxItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpMenuCheckboxItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
     {
-      directive: KuiMenuCheckboxItem,
+      directive: KpMenuCheckboxItem,
       inputs: ["defaultChecked", "disabled", "closeOnClick"],
     },
   ],
@@ -255,7 +254,7 @@ class MenubarItem {
   },
   template: `
     <span [sx]="indicator">
-      <span *kuiMenuCheckboxItemIndicator aria-hidden="true">
+      <span *kpMenuCheckboxItemIndicator aria-hidden="true">
         <svg
           iconPlaceholder
           lucide="CheckIcon"
@@ -287,7 +286,7 @@ class MenubarCheckboxItem {
   )
 
   constructor() {
-    const item = inject(KuiMenuCheckboxItem)
+    const item = inject(KpMenuCheckboxItem)
     effect(() => {
       const checked = this.checked()
       if (checked !== undefined) item.checked.set(checked)
@@ -303,7 +302,7 @@ class MenubarCheckboxItem {
   selector: "[kuiMenubarRadioGroup]",
   hostDirectives: [
     {
-      directive: KuiMenuRadioGroup,
+      directive: KpMenuRadioGroup,
       inputs: ["value", "defaultValue"],
       outputs: ["valueChange"],
     },
@@ -315,11 +314,11 @@ class MenubarRadioGroup {}
 /** One of its items: `<div kuiMenubarRadioItem value="andy">`; it leaves the menu open. */
 @Component({
   selector: "[kuiMenubarRadioItem]",
-  imports: [IconPlaceholder, KuiMenuRadioItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpMenuRadioItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
     {
-      directive: KuiMenuRadioItem,
+      directive: KpMenuRadioItem,
       inputs: ["value", "disabled", "closeOnClick"],
     },
   ],
@@ -331,7 +330,7 @@ class MenubarRadioGroup {}
   },
   template: `
     <span [sx]="indicator">
-      <span *kuiMenuRadioItemIndicator aria-hidden="true">
+      <span *kpMenuRadioItemIndicator aria-hidden="true">
         <svg
           iconPlaceholder
           lucide="CheckIcon"
@@ -358,7 +357,7 @@ class MenubarRadioItem {
 @Directive({
   selector: "[kuiMenubarSeparator]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuSeparator],
+  hostDirectives: [KpMenuSeparator],
   host: {
     "data-slot": "menubar-separator",
     "[class]": "part().class",
@@ -390,7 +389,7 @@ class MenubarShortcut {
 /** A menu inside the menu: `<ng-container kuiMenubarSub>` around its trigger and content. */
 @Directive({
   selector: "[kuiMenubarSub]",
-  hostDirectives: [KuiMenuSubmenuRoot],
+  hostDirectives: [KpMenuSubmenuRoot],
 })
 class MenubarSub {}
 
@@ -399,7 +398,7 @@ class MenubarSub {}
   selector: "[kuiMenubarSubTrigger]",
   imports: [IconPlaceholder, SxDirective],
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuSubmenuTrigger],
+  hostDirectives: [KpMenuSubmenuTrigger],
   host: {
     "data-slot": "menubar-sub-trigger",
     "[attr.data-inset]": "inset() ? 'true' : null",
@@ -434,16 +433,16 @@ class MenubarSubTrigger {
 /** A submenu, beside its trigger: drawn as the content is, in its own portal. */
 @Component({
   selector: "[kuiMenubarSubContent]",
-  imports: [KuiMenuPopup, KuiMenuPortal, KuiMenuPositioner],
+  imports: [KpMenuPopup, KpMenuPortal, KpMenuPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiMenuPortal>
+    <ng-template kpMenuPortal>
       <div
-        kuiMenuPositioner
+        kpMenuPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -451,7 +450,7 @@ class MenubarSubTrigger {
         [class]="positioner"
       >
         <div
-          kuiMenuPopup
+          kpMenuPopup
           data-slot="menubar-sub-content"
           [attr.dir]="attr('dir')"
           [attr.data-lang]="attr('data-lang')"

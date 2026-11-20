@@ -40,7 +40,7 @@
 
 <Otp.Root
   length={maxLength}
-  mode={type === "numeric" ? "numeric" : type === "alphabetic" ? "text" : "alphanumeric"}
+  mode={type}
   {defaultValue}
   {value}
   {disabled}

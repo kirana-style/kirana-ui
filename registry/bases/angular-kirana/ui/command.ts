@@ -1,5 +1,5 @@
 /**
- * cmdk's command menu on Kirana UI's (`KuiCommand`): the items come from the markup, what is typed
+ * cmdk's command menu on Kirana UI's (`KpCommand`): the items come from the markup, what is typed
  * filters them by their text (or their `value`, as cmdk's) and keywords, groups with no match leave,
  * the arrows move the highlight (`data-highlighted`) and Enter or a press chooses; choosing an item
  * calls its `select`, heard through the root's `itemSelected`. The markup keeps cmdk's attributes
@@ -12,23 +12,22 @@ import {
   InjectionToken,
   booleanAttribute,
   computed,
-  effect,
   inject,
   input,
   output,
-  signal,
   viewChild,
 } from "@angular/core"
 import type { ElementRef } from "@angular/core"
 import {
-  KuiCommand,
-  KuiCommandEmpty,
-  KuiCommandGroup,
-  KuiCommandGroupHeading,
-  KuiCommandInput,
-  KuiCommandItem,
-  KuiCommandList,
-  KuiCommandSeparator,
+  KpCommand,
+  KpCommandEmpty,
+  KpCommandGroup,
+  KpCommandGroupHeading,
+  KpCommandInput,
+  KpCommandItem,
+  KpCommandList,
+  KpCommandSeparator,
+  hostInputs,
 } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -49,14 +48,13 @@ let next = 0
 
 /**
  * What a command's root hands its items: each item's `select`, by the value it gave Kirana UI's
- * item, run when the root reports that value chosen; and whether it filters (`shouldFilter`).
+ * item, run when the root reports that value chosen.
  */
 class CommandState {
-  readonly shouldFilter = signal(true)
   readonly #entries = new Set<{ key: () => string; select: () => void }>()
 
   /** Hears its root's choices. */
-  listen(root: KuiCommand) {
+  listen(root: KpCommand) {
     root.itemSelected.subscribe(({ value }) => {
       for (const entry of this.#entries)
         if (entry.key() === value) entry.select()
@@ -77,34 +75,13 @@ const provideCommand = () => ({
 })
 
 /**
- * Kirana UI's command root, its `filter` given by the registry's `shouldFilter`: `null`, every
- * item shown, while it is false. A host directive's input cannot be bound by the directive it is
- * on (PF-035), so this root extends Kirana UI's and redeclares `filter`, read from the state the
- * registry's root fills; Kirana UI's parts find their root by its class, which this one stands for.
- */
-@Directive({
-  providers: [{ provide: KuiCommand, useExisting: CommandRoot }],
-})
-class CommandRoot extends KuiCommand {
-  readonly #state = inject(COMMAND)
-  override readonly filter = computed(() =>
-    this.#state.shouldFilter() ? undefined : null
-  ) as unknown as KuiCommand["filter"]
-
-  constructor() {
-    super()
-    this.#state.listen(this)
-  }
-}
-
-/**
  * The menu: `<div kuiCommand>`, holding its input and list, on Kirana UI's root. `shouldFilter`
- * false leaves the filtering to the caller.
+ * false leaves the filtering to the caller: Kirana UI's `filter` is then `null`, every item shown.
  */
 @Directive({
   selector: "[kuiCommand]",
   providers: [provideSxPart(), provideCommand()],
-  hostDirectives: [CommandRoot],
+  hostDirectives: [KpCommand],
   host: {
     "data-slot": "command",
     "cmdk-root": "",
@@ -119,14 +96,16 @@ class Command {
   protected readonly part = computed(() => partSx(command.root, this.sx()))
 
   constructor() {
-    const state = inject(COMMAND)
-    effect(() => state.shouldFilter.set(this.shouldFilter()))
+    hostInputs(KpCommand, {
+      filter: computed(() => (this.shouldFilter() ? undefined : null)),
+    })
+    inject(COMMAND).listen(inject(KpCommand))
   }
 }
 
 /**
  * A command in a dialog: `<kui-command-dialog [(open)]>` around its input and list, as React's
- * `CommandDialog`; its element is Kirana UI's command root (`CommandRoot`), drawing nothing. Its title and
+ * `CommandDialog`; its element is Kirana UI's command root (`KpCommand`), drawing nothing. Its title and
  * description are for screen readers.
  */
 @Component({
@@ -140,7 +119,7 @@ class Command {
     SxDirective,
   ],
   providers: [provideCommand()],
-  hostDirectives: [CommandRoot],
+  hostDirectives: [KpCommand],
   host: { style: "display: contents" },
   template: `
     <ng-container
@@ -176,6 +155,10 @@ class CommandDialog {
   protected readonly content = computed(
     () => [command.dialog, this.sx()] as SxInput
   )
+
+  constructor() {
+    inject(COMMAND).listen(inject(KpCommand))
+  }
 }
 
 /**
@@ -183,12 +166,12 @@ class CommandDialog {
  * in an input group with its search icon. The caller's `sx` goes on the input, as React's.
  */
 @Component({
-  selector: "[kuiCommandInput]:not(ng-template):not([data-kui-inner])",
+  selector: "[kuiCommandInput]",
   imports: [
     IconPlaceholder,
     InputGroup,
     InputGroupAddon,
-    KuiCommandInput,
+    KpCommandInput,
     SxDirective,
   ],
   host: {
@@ -198,8 +181,7 @@ class CommandDialog {
   template: `
     <div kuiInputGroup [sx]="group">
       <input
-        kuiCommandInput
-        data-kui-inner
+        kpCommandInput
         data-slot="command-input"
         cmdk-input
         autocomplete="off"
@@ -237,7 +219,7 @@ class CommandInput {
 @Component({
   selector: "[kuiCommandList]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiCommandList],
+  hostDirectives: [KpCommandList],
   host: {
     "data-slot": "command-list",
     "cmdk-list": "",
@@ -253,17 +235,17 @@ class CommandList {
 }
 
 /**
- * What it says when nothing matches: Kirana UI's structural `*kuiCommandEmpty`, in the page only
+ * What it says when nothing matches: Kirana UI's structural `*kpCommandEmpty`, in the page only
  * then, drawn here; its own element draws nothing.
  */
 @Component({
-  selector: "[kuiCommandEmpty]:not(ng-template):not([data-kui-inner])",
-  imports: [KuiCommandEmpty],
+  selector: "[kuiCommandEmpty]",
+  imports: [KpCommandEmpty],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiCommandEmpty
+      *kpCommandEmpty
       data-slot="command-empty"
       cmdk-empty
       role="presentation"
@@ -282,9 +264,9 @@ class CommandEmpty {
 /** A group of items under its `heading`, gone while none of them matches. */
 @Component({
   selector: "[kuiCommandGroup]",
-  imports: [KuiCommandGroupHeading],
+  imports: [KpCommandGroupHeading],
   providers: [provideSxPart()],
-  hostDirectives: [KuiCommandGroup],
+  hostDirectives: [KpCommandGroup],
   host: {
     "data-slot": "command-group",
     "cmdk-group": "",
@@ -293,7 +275,7 @@ class CommandEmpty {
   },
   template: `
     @if (heading()) {
-      <div kuiCommandGroupHeading cmdk-group-heading>{{ heading() }}</div>
+      <div kpCommandGroupHeading cmdk-group-heading>{{ heading() }}</div>
     }
     <div cmdk-group-items><ng-content /></div>
   `,
@@ -308,7 +290,7 @@ class CommandGroup {
 @Directive({
   selector: "[kuiCommandSeparator]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiCommandSeparator],
+  hostDirectives: [KpCommandSeparator],
   host: {
     "data-slot": "command-separator",
     "cmdk-separator": "",
@@ -323,20 +305,19 @@ class CommandSeparator {
 
 /**
  * An item: `<div kuiCommandItem (select)="…">`. Its `value` is what it is matched by and known as,
- * its text when not given; `keywords` match too. Kirana UI's item needs a value, which a cmdk item
- * may leave out, so it is drawn here, inside an element that draws nothing, and given the caller's
- * value or one of its own.
+ * its text when not given; `keywords` match too. Kirana UI's item needs a value (a required input,
+ * which a host directive must expose), which a cmdk item may leave out, so it is drawn here,
+ * inside an element that draws nothing, and given the caller's value or one of its own.
  */
 @Component({
-  selector: "[kuiCommandItem]:not(ng-template):not([data-kui-inner])",
-  imports: [IconPlaceholder, KuiCommandItem, SxDirective],
+  selector: "[kuiCommandItem]",
+  imports: [IconPlaceholder, KpCommandItem, SxDirective],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
       #row
-      kuiCommandItem
-      data-kui-inner
+      kpCommandItem
       data-slot="command-item"
       cmdk-item
       [value]="key()"
@@ -406,7 +387,6 @@ export {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandRoot,
   CommandSeparator,
   CommandShortcut,
 }

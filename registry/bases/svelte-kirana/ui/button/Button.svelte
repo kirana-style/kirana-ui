@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Sx } from "@kirana-style/core"
   import type { ClassValue } from "svelte/elements"
-  import Element from "../../../../lib/svelte/Element.svelte"
+  import { Primitive } from "@kirana-ui/svelte/primitive"
+  import { propsFn } from "../../../../lib/svelte/as-child"
   import type { PropsFn } from "../../../../lib/svelte/as-child"
   import { props as styleProps } from "@kirana-style/core"
   import type { Snippet } from "svelte"
@@ -41,13 +42,18 @@
   const labels = textLabels("button-label", styleProps(buttonLabel).className ?? "")
 </script>
 
-<Element
+<!-- `asChild` (Ark UI's, given the props as a function) as the primitive's `child`. -->
+{#snippet composed({ props }: { props: Record<string, unknown> })}
+  {@render asChild?.(propsFn(props))}
+{/snippet}
+
+<Primitive
   as="button"
   data-slot="button"
-  {asChild}
+  child={asChild && composed}
   {...rest}
   sx={[button({ variant, size }), className as Sx]}
   {@attach labelText ? labels : undefined}
 >
   {@render children?.()}
-</Element>
+</Primitive>

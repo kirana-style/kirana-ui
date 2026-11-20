@@ -1,10 +1,10 @@
 import { Component, computed, input } from "@angular/core"
 import {
-  KuiScrollArea,
-  KuiScrollAreaCorner,
-  KuiScrollAreaScrollbar,
-  KuiScrollAreaThumb,
-  KuiScrollAreaViewport,
+  KpScrollArea,
+  KpScrollAreaCorner,
+  KpScrollAreaScrollbar,
+  KpScrollAreaThumb,
+  KpScrollAreaViewport,
 } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -14,24 +14,24 @@ import { scrollArea } from "../../../styles/scroll-area.styles"
 /**
  * A scrollbar and its thumb: the area's own vertical one, or `<div kuiScrollBar
  * orientation="horizontal">` inside the area for a horizontal one. Kirana UI's scrollbar is
- * structural (`*kuiScrollAreaScrollbar`, in the page only while its axis overflows, placed against
+ * structural (`*kpScrollAreaScrollbar`, in the page only while its axis overflows, placed against
  * the area, its thumb sized and moved by the library), which an attribute cannot put around its own
  * element: the part draws it, its own element drawing nothing.
  */
 @Component({
   selector: "[kuiScrollBar]",
-  imports: [KuiScrollAreaScrollbar, KuiScrollAreaThumb],
+  imports: [KpScrollAreaScrollbar, KpScrollAreaThumb],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiScrollAreaScrollbar="orientation()"
+      *kpScrollAreaScrollbar="orientation()"
       data-slot="scroll-area-scrollbar"
       [class]="part().class"
       [style]="part().style"
     >
       <div
-        kuiScrollAreaThumb
+        kpScrollAreaThumb
         data-slot="scroll-area-thumb"
         [class]="thumb"
       ></div>
@@ -49,15 +49,15 @@ class ScrollBar {
 
 /**
  * A box that scrolls with its own thin scrollbars: `<div kuiScrollArea>`, on Kirana UI's scroll
- * area (`KuiScrollArea`): the viewport scrolls natively (its own scrollbars hidden by the styles),
+ * area (`KpScrollArea`): the viewport scrolls natively (its own scrollbars hidden by the styles),
  * holding the caller's content directly, as React's; a vertical scrollbar and the corner come with
  * it, and a caller's horizontal `ScrollBar` is drawn beside the viewport, where the library places
  * scrollbars.
  */
 @Component({
   selector: "[kuiScrollArea]",
-  imports: [KuiScrollAreaCorner, KuiScrollAreaViewport, ScrollBar],
-  hostDirectives: [KuiScrollArea],
+  imports: [KpScrollAreaCorner, KpScrollAreaViewport, ScrollBar],
+  hostDirectives: [KpScrollArea],
   providers: [provideSxPart()],
   host: {
     "data-slot": "scroll-area",
@@ -66,7 +66,7 @@ class ScrollBar {
   },
   template: `
     <div
-      kuiScrollAreaViewport
+      kpScrollAreaViewport
       data-slot="scroll-area-viewport"
       [class]="viewport"
     >
@@ -74,7 +74,7 @@ class ScrollBar {
     </div>
     <ng-content select="[kuiScrollBar]" />
     <div kuiScrollBar></div>
-    <div *kuiScrollAreaCorner></div>
+    <div *kpScrollAreaCorner></div>
   `,
 })
 class ScrollArea {

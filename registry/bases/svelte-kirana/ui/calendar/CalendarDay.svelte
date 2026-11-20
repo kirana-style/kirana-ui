@@ -1,78 +1,140 @@
 <script lang="ts">
-  /** A day's cell and its button, as react-day-picker draws them, from Ark UI's cell state. */
-  import type { ClassValue } from "svelte/elements"
+  /**
+   * A day's cell and its button, as react-day-picker draws them, from Kirana UI's cell state: the
+   * cell part's props spread first, then day-picker's attributes over them (the primitive marks a
+   * state by presence, `data-selected=""`, where the style module reads day-picker's `="true"`).
+   */
+  import { Calendar as CalendarPrimitive } from "@kirana-ui/svelte/calendar"
+  import type { CalendarDay, PartEvent } from "@kirana-ui/svelte"
+  import { props as styleProps } from "@kirana-style/core"
   import type { Snippet } from "svelte"
-
-  import { DatePickerTableCellTrigger } from "@ark-ui/svelte"
-  import type { DateValue } from "@ark-ui/svelte"
 
   import { calendar } from "../../../../styles/calendar.styles"
   import { Button } from "../button"
+  import { fromIso } from "./matcher"
 
   let {
+    cellProps,
     day,
-    state: cell,
+    state,
+    copy,
     mode,
-    disabled,
-    hidden,
-    beyond = false,
+    unavailable,
+    empty,
+    required,
     second,
+    focused,
     locale,
-    class: className,
+    modifierClass,
+    ondeselect,
+    onfocused,
     children,
-    ...rest
   }: {
-    day: DateValue
-    state: {
-    selected: boolean
-    inRange: boolean
-    firstInRange: boolean
-    lastInRange: boolean
-    today: boolean
-    outsideRange: boolean
-    focused: boolean
-    valueText: string
-    }
+    /** The cell part's props, to spread on the cell. */
+    cellProps: Record<string, unknown>
+    day: CalendarDay
+    /** The cell's state, as the primitive gives it. */
+    state: Record<string, unknown>
+    /** A copy's place in the selection: the primitive never marks a copy chosen (PF-046). */
+    copy: { selected: boolean; start: boolean; end: boolean } | null
     mode: "single" | "multiple" | "range"
-    disabled: boolean
-    /** Outside days hidden (`showOutsideDays={false}`). */
-    hidden: boolean
-    /** Past the dropdown's years, which react-day-picker leaves empty. */
-    beyond?: boolean
+    unavailable: boolean
+    /** Outside days hidden (`showOutsideDays={false}`), or past the dropdown's years. */
+    empty: boolean
+    required: boolean
     /** The row's first day is its second cell, beside week numbers. */
     second: boolean
+    /** Focused as react-day-picker's `focused`: the day that has the focus. */
+    focused: boolean
     locale?: string
-    class?: ClassValue | null
+    modifierClass?: string
+    ondeselect: () => void
+    onfocused: (on: boolean) => void
     /** The day's button content, given its date: the calendar's own, or the caller's `day`. */
-    children?: Snippet<[{ date: Date; value: DateValue; outside: boolean }]>
-    [attribute: string]: unknown
+    children?: Snippet<[{ date: Date; value: string; outside: boolean }]>
   } = $props()
 
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const date = $derived(day.toDate(timeZone))
-  const iso = $derived(
-    `${day.year}-${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}`
-  )
+  const date = $derived(fromIso(day.date))
   const range = $derived(mode === "range")
-  const middle = $derived(cell.inRange && !cell.firstInRange && !cell.lastInRange)
+  const selected = $derived(!!state.selected || !!copy)
+  const start = $derived(range && (!!state.rangeStart || !!copy?.start))
+  const end = $derived(range && (!!state.rangeEnd || !!copy?.end))
+  const middle = $derived(range && selected && !start && !end)
+  const disabled = $derived(unavailable || (!!state.disabled && !empty))
   const flag = (on: boolean) => (on ? "true" : undefined)
-  const empty = $derived((cell.outsideRange && hidden) || !!beyond)
-  // Focused as react-day-picker's `focused`: the day that has the focus, not Ark's roving target.
-  let focusedNow = $state(false)
+  // Each modifier's class beside the day's, as react-day-picker joins them.
+  const classes = $derived(
+    [
+      cellProps.class as string | undefined,
+      styleProps(calendar.day).className,
+      start && styleProps(calendar.rangeStart).className,
+      middle && styleProps(calendar.rangeMiddle).className,
+      end && styleProps(calendar.rangeEnd).className,
+      !!state.today && styleProps(calendar.today).className,
+      day.outside && styleProps(calendar.outside).className,
+      disabled && styleProps(calendar.disabled).className,
+      empty && styleProps(calendar.hidden).className,
+      modifierClass,
+    ]
+      .filter(Boolean)
+      .join(" ")
+  )
+
+  function press(event: MouseEvent) {
+    // react-day-picker takes a single day away when it is pressed again (PF-047), unless `required`;
+    // Kirana UI's keeps it (PF-047).
+    if (mode !== "single" || !selected || required) return
+    ;(event as PartEvent<MouseEvent>).preventKiranaHandler()
+    ondeselect()
+  }
 </script>
 
-<td role="gridcell" data-day={iso} aria-selected={flag(cell.selected || cell.inRange)} data-selected={flag(cell.selected || cell.inRange)} data-today={flag(cell.today)} data-outside={flag(cell.outsideRange)} data-disabled={flag(disabled)} data-hidden={flag(empty)} data-focused={flag(focusedNow)} class={className} sx={[
-      calendar.day, range && cell.firstInRange && calendar.rangeStart, range && middle && calendar.rangeMiddle, range && cell.lastInRange && calendar.rangeEnd, cell.today && calendar.today, cell.outsideRange && calendar.outside, disabled && calendar.disabled, empty && calendar.hidden, ]} {...rest}>
+<td
+  {...cellProps}
+  role="gridcell"
+  aria-selected={flag(selected)}
+  data-day={day.date}
+  data-month={day.outside ? day.date.slice(0, 7) : undefined}
+  data-selected={flag(selected)}
+  data-today={flag(!!state.today)}
+  data-outside={flag(day.outside)}
+  data-disabled={flag(disabled)}
+  data-hidden={flag(empty)}
+  data-focused={flag(focused)}
+  data-outside-month={undefined}
+  data-unavailable={undefined}
+  data-range-start={undefined}
+  data-range-end={undefined}
+  class={classes}
+>
   {#if !empty}
-    <DatePickerTableCellTrigger>
-      {#snippet asChild(props)}
-        <Button {...props()} class={props().class} style={props().style} onfocus={() => { focusedNow = true }} onblur={() => { focusedNow = false }} variant="ghost" size="icon" disabled={disabled} data-day={date.toLocaleDateString(locale)} data-selected-single={flag(cell.selected && !range)} data-range-start={range ? String(cell.firstInRange) : undefined} data-range-end={range ? String(cell.lastInRange) : undefined} data-range-middle={range ? String(middle) : undefined} aria-label={cell.valueText} sx={[
-          calendar.dayButton,
-          second ? calendar.dayButtonSecond : calendar.dayButtonFirst,
-        ]}>
-          {@render children?.({ date: date, value: day, outside: cell.outsideRange })}
+    <CalendarPrimitive.Day
+      date={day.date}
+      onclick={press}
+      onfocus={() => onfocused(true)}
+      onblur={() => onfocused(false)}
+    >
+      {#snippet child({ props })}
+        <Button
+          {...props}
+          class={props.class as string}
+          style={props.style as string}
+          variant="ghost"
+          size="icon"
+          data-day={date.toLocaleDateString(locale)}
+          data-selected-single={flag(selected && !range)}
+          data-range-start={range ? String(start) : undefined}
+          data-range-end={range ? String(end) : undefined}
+          data-range-middle={range ? String(middle) : undefined}
+          data-selected={undefined}
+          data-today={undefined}
+          data-outside-month={undefined}
+          data-unavailable={undefined}
+          sx={[calendar.dayButton, second ? calendar.dayButtonSecond : calendar.dayButtonFirst]}
+        >
+          {@render children?.({ date, value: day.date, outside: day.outside })}
         </Button>
       {/snippet}
-    </DatePickerTableCellTrigger>
+    </CalendarPrimitive.Day>
   {/if}
 </td>

@@ -22,38 +22,16 @@ export const sveltekit: AppSkeleton = {
   </body>
 </html>
 `,
-    // `init` reads no `.svelte` file as the script importing Kirana's stylesheet, so it prints the
-    // design system's reset and the font as imports to add here by hand (KF-113, 0.4.1): the
-    // reset is known, the font comes with the preset.
+    // Where SvelteKit imports Kirana's stylesheet: `init` imports the design system's reset and
+    // the fonts here after it, and writes `src/hooks.server.ts`, which gives the static app.html's
+    // `<html>` the design system's styles.
     "src/routes/+layout.svelte": `<script lang="ts">
   import "@kirana-style/core/stylesheet.css"
-  import "@/components/ui/reset.css"
 
   let { children } = $props()
 </script>
 
 {@render children()}
-`,
-    // `app.html` is static, so `<html>`'s classes come from the server hook: what `init` writes
-    // into a Vite app's entry, for SvelteKit's render (KF-113, 0.4.1).
-    "src/hooks.server.ts": `import { props } from "@kirana-style/core"
-import type { Handle } from "@sveltejs/kit/hooks"
-
-import { htmlStyles } from "@/lib/kirana/document"
-
-/**
- * The design system's styles on the document element, which the static app.html cannot take
- * itself. The tag is matched, not written: a source holding the tag's text reads as the document
- * to \`kirana-style ui init\`, which would set the attributes here instead of in app.html.
- */
-export const handle: Handle = ({ event, resolve }) =>
-  resolve(event, {
-    transformPageChunk: ({ html }) =>
-      html.replace(
-        /<html(?=[\\s>])/,
-        (tag) => \`\${tag} class="\${props(htmlStyles).className}"\`
-      ),
-  })
 `,
     "src/routes/+layout.ts": `// A static site: every page is rendered at build time. Drop it for a server.
 export const prerender = true

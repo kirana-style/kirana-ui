@@ -12,14 +12,14 @@ import {
   previewOutDir,
   previewPages,
 } from "@workspace/vite-config/preview"
-import solid from "vite-plugin-solid"
+import solid from "@solidjs/vite-plugin"
 import { defineConfig, lazyPlugins } from "vite-plus"
 import { playwright } from "vite-plus/test/browser-playwright"
 
 /**
  * Solid on ui-sdk, on Solid 2: the registry's `solid-uisdk` items on their own page, compiled by
- * Kirana's adapter (`jsx: "solid"` in `kirana.config.ts`, KF-127) and then Solid 2's plugin (a
- * pre-release, the only one for Solid 2). Solid 1's apps stay on Solid 1 (`apps/preview-solid`):
+ * Kirana's adapter (Solid's, detected from `jsxImportSource: "@solidjs/web"`) and then Solid 2's plugin
+ * (`@solidjs/vite-plugin`). Solid 1's apps stay on Solid 1 (`apps/preview-solid`):
  * Solid 2 and the packages on it resolve from this app, for the registry's files too
  * (`resolve.dedupe`). Built into the `ui` Worker's static files at `/preview/solid2/`, which the
  * site's `_redirects` serves at `/preview/solid/uisdk/<item>`.

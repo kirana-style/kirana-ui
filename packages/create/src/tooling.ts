@@ -37,17 +37,25 @@ export const KIRANA_RULES: Record<string, "error" | ["error", object]> = {
 /**
  * ESLint's spelling: Kirana's recommended config, then what this repository turns off; and the
  * rules the registry's components mark for Oxlint where they break them on purpose (an `any` at a
- * library's boundary, a state set in an effect as upstream does), which ESLint cannot read.
+ * library's boundary, a state set in an effect as upstream does), which ESLint cannot read. A
+ * name starting with `_` is unused on purpose, as Oxlint reads it (a key dropped from a rest
+ * spread: `const { id: _id, ...rest } = options`).
  */
+const UNUSED = `"@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],`
 const ESLINT_RULES = `rules: {
       "kirana/diagnostics": ["error", { ignore: ["relation-unused"] }],
       "kirana/no-dark-variant": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      ${UNUSED}
     },`
 const ESLINT_REACT_RULES = `rules: {
       "kirana/diagnostics": ["error", { ignore: ["relation-unused"] }],
       "kirana/no-dark-variant": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      ${UNUSED}
       "react-hooks/immutability": "off",
       "react-hooks/set-state-in-effect": "off",
       // A component's file exports its variants and hooks too, as shadcn/ui's do.
@@ -210,6 +218,7 @@ export default defineConfig([
       "kirana/diagnostics": ["error", { ignore: ["relation-unused"] }],
       "kirana/no-dark-variant": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      ${UNUSED}
       "@angular-eslint/no-output-native": "off",
       "@angular-eslint/no-input-rename": "off",
     },

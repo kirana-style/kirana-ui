@@ -1,9 +1,8 @@
 /**
- * Base UI's navigation menu on Kirana UI's (`KuiNavigationMenu`): a bar of items, each trigger
+ * Base UI's navigation menu on Kirana UI's (`KpNavigationMenu`): a bar of items, each trigger
  * showing its content on hover or press, the open content drawn in one popup that follows the open
  * trigger and takes the content's size, in a portal, as Base UI's positioner, popup and viewport.
- * Kirana UI's selectors are the registry's, so a part takes its primitive as a host directive and a
- * file imports only one of the two.
+ * Each part takes its primitive as a host directive.
  */
 import {
   Component,
@@ -14,16 +13,16 @@ import {
   input,
 } from "@angular/core"
 import {
-  KuiNavigationMenu,
-  KuiNavigationMenuContent,
-  KuiNavigationMenuItem,
-  KuiNavigationMenuLink,
-  KuiNavigationMenuList,
-  KuiNavigationMenuPopup,
-  KuiNavigationMenuPortal,
-  KuiNavigationMenuPositioner,
-  KuiNavigationMenuTrigger,
-  KuiNavigationMenuViewport,
+  KpNavigationMenu,
+  KpNavigationMenuContent,
+  KpNavigationMenuItem,
+  KpNavigationMenuLink,
+  KpNavigationMenuList,
+  KpNavigationMenuPopup,
+  KpNavigationMenuPortal,
+  KpNavigationMenuPositioner,
+  KpNavigationMenuTrigger,
+  KpNavigationMenuViewport,
 } from "@kirana-ui/angular"
 import type { Align } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
@@ -39,22 +38,22 @@ import { navigationMenu } from "../../../styles/navigation-menu.styles"
 @Component({
   selector: "nav[kuiNavigationMenu]",
   imports: [
-    KuiNavigationMenuPopup,
-    KuiNavigationMenuPortal,
-    KuiNavigationMenuPositioner,
-    KuiNavigationMenuViewport,
+    KpNavigationMenuPopup,
+    KpNavigationMenuPortal,
+    KpNavigationMenuPositioner,
+    KpNavigationMenuViewport,
   ],
   providers: [provideSxPart()],
-  hostDirectives: [KuiNavigationMenu],
+  hostDirectives: [KpNavigationMenu],
   host: {
     "data-slot": "navigation-menu",
     "[class]": "part().class",
     "[style]": "part().style",
   },
   template: `<ng-content />
-    <ng-template kuiNavigationMenuPortal>
+    <ng-template kpNavigationMenuPortal>
       <div
-        kuiNavigationMenuPositioner
+        kpNavigationMenuPositioner
         [side]="'bottom'"
         [sideOffset]="8"
         [align]="align()"
@@ -62,8 +61,8 @@ import { navigationMenu } from "../../../styles/navigation-menu.styles"
         [attr.dir]="attr('dir')"
         [class]="positioner"
       >
-        <nav kuiNavigationMenuPopup [class]="popup">
-          <div kuiNavigationMenuViewport [class]="viewport"></div>
+        <nav kpNavigationMenuPopup [class]="popup">
+          <div kpNavigationMenuViewport [class]="viewport"></div>
         </nav>
       </div>
     </ng-template>`,
@@ -89,7 +88,7 @@ class NavigationMenu {
 @Directive({
   selector: "ul[kuiNavigationMenuList]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiNavigationMenuList],
+  hostDirectives: [KpNavigationMenuList],
   host: {
     "data-slot": "navigation-menu-list",
     "[class]": "part().class",
@@ -107,7 +106,7 @@ class NavigationMenuList {
 @Directive({
   selector: "li[kuiNavigationMenuItem]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiNavigationMenuItem],
+  hostDirectives: [KpNavigationMenuItem],
   host: {
     "data-slot": "navigation-menu-item",
     "[class]": "part().class",
@@ -126,7 +125,7 @@ class NavigationMenuItem {
   selector: "button[kuiNavigationMenuTrigger]",
   imports: [IconPlaceholder, SxDirective],
   providers: [provideSxPart()],
-  hostDirectives: [KuiNavigationMenuTrigger],
+  hostDirectives: [KpNavigationMenuTrigger],
   host: {
     type: "button",
     "data-slot": "navigation-menu-trigger",
@@ -157,16 +156,15 @@ class NavigationMenuTrigger {
  * An item's content: `<div kuiNavigationMenuContent>`, shown in the menu's viewport while its item
  * is open. Kirana UI's content is a structural part, drawn in the viewport: this element stays in
  * its item, drawing nothing, and draws Kirana UI's in its template, its children projected into it.
- * Its selector leaves out the `<ng-template>` its own template writes, which Kirana UI's matches.
  */
 @Component({
-  selector: "[kuiNavigationMenuContent]:not(ng-template)",
-  imports: [KuiNavigationMenuContent],
+  selector: "[kuiNavigationMenuContent]",
+  imports: [KpNavigationMenuContent],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiNavigationMenuContent
+      *kpNavigationMenuContent
       data-slot="navigation-menu-content"
       [attr.dir]="attr('dir')"
       [attr.data-lang]="attr('data-lang')"
@@ -194,7 +192,7 @@ class NavigationMenuContent {
 @Directive({
   selector: "[kuiNavigationMenuLink]",
   providers: [provideSxPart()],
-  hostDirectives: [{ directive: KuiNavigationMenuLink, inputs: ["active"] }],
+  hostDirectives: [{ directive: KpNavigationMenuLink, inputs: ["active"] }],
   host: {
     "[attr.data-slot]": "'navigation-menu-link'",
     "[class]": "part().class",

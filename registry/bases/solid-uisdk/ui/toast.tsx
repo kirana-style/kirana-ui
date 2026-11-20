@@ -190,9 +190,7 @@ function Toaster(props: {
 }) {
   const local = merge({ limit: 3 }, props)
   const rest = omit(local, "limit", "class", "sx")
-  // A constant, not an arrow: Kirana inlines a static `styleProps(…)` into an object literal and
-  // leaves an arrow's body unparenthesised, which Solid 2's compiler rejects (KF-128).
-  const root = styleProps(styles.root)
+  const root = () => styleProps(styles.root)
   return (
     <UisdkPart
       part={ToastRegion}
@@ -211,8 +209,8 @@ function Toaster(props: {
           part={Toast}
           slotName="toast"
           tag="li"
-          class={root.class}
-          style={{ ...root.style, ...STACK }}
+          class={root().class}
+          style={{ ...root().style, ...STACK }}
         >
           {(state: { front: boolean; expanded: boolean }) => (
             // Base UI's attributes on its content: behind the front toast, and the stack expanded.

@@ -1,5 +1,5 @@
 import { Component, computed, input } from "@angular/core"
-import { KuiSwitch, KuiSwitchThumb } from "@kirana-ui/angular"
+import { KpSwitch, KpSwitchThumb } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 
@@ -7,25 +7,25 @@ import { keepAriaInvalid } from "../../../lib/angular/control"
 import { switchStyles } from "../../../styles/switch.styles"
 
 /**
- * A switch: `<span kuiSwitch id="…" [(checked)]="on">`, on Kirana UI's switch (`KuiSwitch`), which
+ * A switch: `<span kuiSwitch id="…" [(checked)]="on">`, on Kirana UI's switch (`KpSwitch`), which
  * writes `role="switch"`, `aria-checked` and `data-checked`, and draws the hidden native checkbox
- * inside, which a `<label for>` and a form reach: the `id` and `name` are that input's (`kuiId`,
+ * inside, which a `<label for>` and a form reach: the `id` and `name` are that input's (`kpId`,
  * `name`), so the box gives its own element's `id` up. Its `[(checked)]`, `defaultChecked`,
  * `disabled` and `required` are the primitive's; `aria-invalid` marks it, as upstream's demos do.
  */
 @Component({
   selector: "span[kuiSwitch]",
-  imports: [KuiSwitchThumb, SxDirective],
+  imports: [KpSwitchThumb, SxDirective],
   hostDirectives: [
     {
-      directive: KuiSwitch,
+      directive: KpSwitch,
       inputs: [
         "checked",
         "defaultChecked",
         "disabled",
         "required",
         "name",
-        "kuiId: id",
+        "kpId: id",
       ],
       outputs: ["checkedChange"],
     },
@@ -39,11 +39,7 @@ import { switchStyles } from "../../../styles/switch.styles"
     "[class]": "part().class",
     "[style]": "part().style",
   },
-  template: `<span
-    kuiSwitchThumb
-    data-slot="switch-thumb"
-    [sx]="thumb"
-  ></span>`,
+  template: `<span kpSwitchThumb data-slot="switch-thumb" [sx]="thumb"></span>`,
 })
 class Switch {
   readonly ariaInvalid = input<string | boolean | undefined>(undefined, {

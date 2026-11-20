@@ -12,7 +12,7 @@
     "@ark-ui/vue": "catalog:",
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
-    "@kirana-ui/vue": "0.2.0",
+    "@kirana-ui/vue": "0.3.0",
     "@kirana-style/core": "catalog:",
     "@ui-sdk/core": "catalog:",
     "@ui-sdk/vue": "catalog:",

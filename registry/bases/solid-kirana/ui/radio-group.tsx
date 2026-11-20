@@ -44,8 +44,8 @@ function RadioGroup(props: {
 }
 
 /**
- * The item holds the hidden native radio, so an `id` on it is what a `<Label for>` beside it
- * reaches, and `aria-invalid` marks it as upstream's demos do.
+ * The item holds the hidden native radio, which an `id` given to it goes on, so a `<Label for>`
+ * beside it reaches the radio; `aria-invalid` marks it as upstream's demos do.
  */
 function RadioGroupItem(props: {
   value: string

@@ -63,7 +63,7 @@ export const TEMPLATES = {
   ],
   vue: ["vite-vue", "nuxt"],
   svelte: ["vite-svelte", "sveltekit"],
-  solid: ["vite-solid", "solid-start", "tanstack-start-solid"],
+  solid: ["vite-solid", "solid-start", "tanstack-start-solid", "vite-solid2"],
   angular: ["analog-angular", "angular-cli"],
 } as const satisfies Record<Framework, readonly string[]>
 
@@ -83,9 +83,32 @@ export const TEMPLATE_LABELS: Record<Template, string> = {
   "vite-solid": "Vite",
   "solid-start": "SolidStart",
   "tanstack-start-solid": "TanStack Start",
+  "vite-solid2": "Vite · Solid 2",
   "analog-angular": "Analog",
   "angular-cli": "Angular CLI",
 }
+
+/**
+ * A major of a framework that only some templates and bases run on: Solid 2 (`solid-js` 2 with
+ * `@solidjs/web`), which ui-sdk's Solid adapter requires, while Solid's other bases (Ark UI, and
+ * Kirana UI, whose `@kirana-ui/solid` peers `solid-js` ^1.9) and its other templates are on
+ * Solid 1. A template and a base go together when both name the same runtime or neither names one
+ * (`templatesFor`, `basesFor` in `choices.ts`).
+ */
+export const RUNTIMES = ["solid2"] as const
+export type Runtime = (typeof RUNTIMES)[number]
+
+export const RUNTIME_LABELS: Record<Runtime, string> = { solid2: "Solid 2" }
+
+/** The templates on a runtime of their own; the rest are on their framework's other major. */
+export const TEMPLATE_RUNTIMES: Partial<Record<Template, Runtime>> = {
+  "vite-solid2": "solid2",
+}
+
+/** The bases that need a runtime, per framework: Solid on ui-sdk needs Solid 2. */
+export const BASE_RUNTIMES: Partial<
+  Record<Framework, Partial<Record<Base, Runtime>>>
+> = { solid: { uisdk: "solid2" } }
 
 /** A template's framework. */
 export function frameworkOf(template: Template): Framework {

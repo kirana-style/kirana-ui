@@ -11,22 +11,22 @@ import {
   output,
 } from "@angular/core"
 import {
-  KuiMenu,
-  KuiMenuCheckboxItem,
-  KuiMenuCheckboxItemIndicator,
-  KuiMenuGroup,
-  KuiMenuGroupLabel,
-  KuiMenuItem,
-  KuiMenuPopup,
-  KuiMenuPortal,
-  KuiMenuPositioner,
-  KuiMenuRadioGroup,
-  KuiMenuRadioItem,
-  KuiMenuRadioItemIndicator,
-  KuiMenuSeparator,
-  KuiMenuSubmenuRoot,
-  KuiMenuSubmenuTrigger,
-  KuiMenuTrigger,
+  KpMenu,
+  KpMenuCheckboxItem,
+  KpMenuCheckboxItemIndicator,
+  KpMenuGroup,
+  KpMenuGroupLabel,
+  KpMenuItem,
+  KpMenuPopup,
+  KpMenuPortal,
+  KpMenuPositioner,
+  KpMenuRadioGroup,
+  KpMenuRadioItem,
+  KpMenuRadioItemIndicator,
+  KpMenuSeparator,
+  KpMenuSubmenuRoot,
+  KpMenuSubmenuTrigger,
+  KpMenuTrigger,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
@@ -51,15 +51,14 @@ import { popupMotion } from "../../../styles/overlay.styles"
 
 /**
  * A menu opened from a button: `<ng-container kuiDropdownMenu>` around its trigger and content,
- * drawing no element, as Base UI's root: Kirana UI's menu (`KuiMenu`), its `[(open)]` and
- * `defaultOpen` its own. Kirana UI's selectors are the registry's, so a part takes its primitive as
- * a host directive and a file imports only one of the two.
+ * drawing no element, as Base UI's root: Kirana UI's menu (`KpMenu`), its `[(open)]` and
+ * `defaultOpen` its own. Each part takes its primitive as a host directive.
  */
 @Directive({
   selector: "[kuiDropdownMenu]",
   hostDirectives: [
     {
-      directive: KuiMenu,
+      directive: KpMenu,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -75,7 +74,7 @@ class DropdownMenuPortal {}
 @Directive({
   selector: "[kuiDropdownMenuTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuTrigger],
+  hostDirectives: [KpMenuTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
     // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
@@ -105,7 +104,7 @@ function carried(element: HTMLElement) {
  */
 @Component({
   selector: "[kuiDropdownMenuContent]",
-  imports: [KuiMenuPopup, KuiMenuPortal, KuiMenuPositioner],
+  imports: [KpMenuPopup, KpMenuPortal, KpMenuPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -114,9 +113,9 @@ function carried(element: HTMLElement) {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiMenuPortal>
+    <ng-template kpMenuPortal>
       <div
-        kuiMenuPositioner
+        kpMenuPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -124,7 +123,7 @@ function carried(element: HTMLElement) {
         [class]="positioner"
       >
         <div
-          kuiMenuPopup
+          kpMenuPopup
           data-slot="dropdown-menu-content"
           [attr.dir]="attr('dir')"
           [attr.data-lang]="attr('data-lang')"
@@ -153,7 +152,7 @@ class DropdownMenuContent {
 /** A group of items, named by its label. */
 @Directive({
   selector: "[kuiDropdownMenuGroup]",
-  hostDirectives: [KuiMenuGroup],
+  hostDirectives: [KpMenuGroup],
   host: { "data-slot": "dropdown-menu-group" },
 })
 class DropdownMenuGroup {}
@@ -162,7 +161,7 @@ class DropdownMenuGroup {}
 @Directive({
   selector: "[kuiDropdownMenuLabel]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuGroupLabel],
+  hostDirectives: [KpMenuGroupLabel],
   host: {
     "data-slot": "dropdown-menu-label",
     "[attr.data-inset]": "inset() ? 'true' : null",
@@ -184,7 +183,7 @@ class DropdownMenuLabel {
   providers: [provideSxPart()],
   hostDirectives: [
     // `closeOnClick`: whether a press closes the menu (Base UI's), as Kirana UI's item takes it.
-    { directive: KuiMenuItem, inputs: ["disabled", "closeOnClick"] },
+    { directive: KpMenuItem, inputs: ["disabled", "closeOnClick"] },
   ],
   host: {
     "data-slot": "dropdown-menu-item",
@@ -213,7 +212,7 @@ class DropdownMenuItem {
 /** A menu inside the menu: `<ng-container kuiDropdownMenuSub>` around its trigger and content. */
 @Directive({
   selector: "[kuiDropdownMenuSub]",
-  hostDirectives: [KuiMenuSubmenuRoot],
+  hostDirectives: [KpMenuSubmenuRoot],
 })
 class DropdownMenuSub {}
 
@@ -222,7 +221,7 @@ class DropdownMenuSub {}
   selector: "[kuiDropdownMenuSubTrigger]",
   imports: [IconPlaceholder, SxDirective],
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuSubmenuTrigger],
+  hostDirectives: [KpMenuSubmenuTrigger],
   host: {
     "data-slot": "dropdown-menu-sub-trigger",
     "[attr.data-inset]": "inset() ? 'true' : null",
@@ -254,7 +253,7 @@ class DropdownMenuSubTrigger {
 /** A submenu, beside its trigger: drawn as the content is, in its own portal. */
 @Component({
   selector: "[kuiDropdownMenuSubContent]",
-  imports: [KuiMenuPopup, KuiMenuPortal, KuiMenuPositioner],
+  imports: [KpMenuPopup, KpMenuPortal, KpMenuPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -263,9 +262,9 @@ class DropdownMenuSubTrigger {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiMenuPortal>
+    <ng-template kpMenuPortal>
       <div
-        kuiMenuPositioner
+        kpMenuPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -273,7 +272,7 @@ class DropdownMenuSubTrigger {
         [class]="positioner"
       >
         <div
-          kuiMenuPopup
+          kpMenuPopup
           data-slot="dropdown-menu-sub-content"
           [attr.dir]="attr('dir')"
           [attr.data-lang]="attr('data-lang')"
@@ -308,11 +307,11 @@ class DropdownMenuSubContent {
  */
 @Component({
   selector: "[kuiDropdownMenuCheckboxItem]",
-  imports: [IconPlaceholder, KuiMenuCheckboxItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpMenuCheckboxItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
     {
-      directive: KuiMenuCheckboxItem,
+      directive: KpMenuCheckboxItem,
       inputs: ["defaultChecked", "disabled", "closeOnClick"],
     },
   ],
@@ -324,7 +323,7 @@ class DropdownMenuSubContent {
   },
   template: `
     <span data-slot="dropdown-menu-checkbox-item-indicator" [sx]="indicator">
-      <span *kuiMenuCheckboxItemIndicator>
+      <span *kpMenuCheckboxItemIndicator>
         <svg
           iconPlaceholder
           lucide="CheckIcon"
@@ -356,7 +355,7 @@ class DropdownMenuCheckboxItem {
   )
 
   constructor() {
-    const item = inject(KuiMenuCheckboxItem)
+    const item = inject(KpMenuCheckboxItem)
     effect(() => {
       const checked = this.checked()
       if (checked !== undefined) item.checked.set(checked)
@@ -372,7 +371,7 @@ class DropdownMenuCheckboxItem {
   selector: "[kuiDropdownMenuRadioGroup]",
   hostDirectives: [
     {
-      directive: KuiMenuRadioGroup,
+      directive: KpMenuRadioGroup,
       inputs: ["value", "defaultValue"],
       outputs: ["valueChange"],
     },
@@ -384,11 +383,11 @@ class DropdownMenuRadioGroup {}
 /** One of its items: `<div kuiDropdownMenuRadioItem value="top">`; it leaves the menu open. */
 @Component({
   selector: "[kuiDropdownMenuRadioItem]",
-  imports: [IconPlaceholder, KuiMenuRadioItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpMenuRadioItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
     {
-      directive: KuiMenuRadioItem,
+      directive: KpMenuRadioItem,
       inputs: ["value", "disabled", "closeOnClick"],
     },
   ],
@@ -400,7 +399,7 @@ class DropdownMenuRadioGroup {}
   },
   template: `
     <span data-slot="dropdown-menu-radio-item-indicator" [sx]="indicator">
-      <span *kuiMenuRadioItemIndicator>
+      <span *kpMenuRadioItemIndicator>
         <svg
           iconPlaceholder
           lucide="CheckIcon"
@@ -427,7 +426,7 @@ class DropdownMenuRadioItem {
 @Directive({
   selector: "[kuiDropdownMenuSeparator]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuSeparator],
+  hostDirectives: [KpMenuSeparator],
   host: {
     "data-slot": "dropdown-menu-separator",
     "[class]": "part().class",

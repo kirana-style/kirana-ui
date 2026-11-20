@@ -4,7 +4,8 @@
   import type { Snippet } from "svelte"
   import type { PropsFn } from "../../../../lib/svelte/as-child"
 
-  import Element from "../../../../lib/svelte/Element.svelte"
+  import { Primitive } from "@kirana-ui/svelte/primitive"
+  import { propsFn } from "../../../../lib/svelte/as-child"
 
   import { sidebar } from "../../../../styles/sidebar.styles"
   import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip"
@@ -46,13 +47,18 @@
   }
 </script>
 
+<!-- `asChild` (Ark UI's, given the props as a function) as the primitive's `child`. -->
+{#snippet composed({ props }: { props: Record<string, unknown> })}
+  {@render child?.(propsFn(props))}
+{/snippet}
+
 {#if label}
   <Tooltip disabled={ctx.state !== 'collapsed' || ctx.isMobile || label.hidden}>
     <TooltipTrigger>
       {#snippet asChild(props)}
-        <Element {...props()} class={props().class} style={props().style} as="button" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size={size} data-active={isActive ? '' : undefined} {...rest} sx={[sidebar.menuButton, VARIANTS[variant], SIZES[size], className as Sx]} asChild={child}>
+        <Primitive {...props()} class={props().class} style={props().style} as="button" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size={size} data-active={isActive ? '' : undefined} {...rest} sx={[sidebar.menuButton, VARIANTS[variant], SIZES[size], className as Sx]} child={child && composed}>
           {@render children?.()}
-        </Element>
+        </Primitive>
       {/snippet}
     </TooltipTrigger>
     <TooltipContent side="right" align="center">
@@ -60,7 +66,7 @@
     </TooltipContent>
   </Tooltip>
 {:else}
-  <Element as="button" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size={size} data-active={isActive ? '' : undefined} {...rest} sx={[sidebar.menuButton, VARIANTS[variant], SIZES[size], className as Sx]} asChild={child}>
+  <Primitive as="button" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size={size} data-active={isActive ? '' : undefined} {...rest} sx={[sidebar.menuButton, VARIANTS[variant], SIZES[size], className as Sx]} child={child && composed}>
     {@render children?.()}
-  </Element>
+  </Primitive>
 {/if}

@@ -2,7 +2,8 @@ import { mergeProps, splitProps } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { buttonGroup } from "../../../styles/button-group.styles"
 import { Separator } from "./separator"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid/element"
@@ -75,15 +76,15 @@ function ButtonGroupText(props: {
     "children",
   ])
   return (
-    <Element
+    <Primitive
       as="div"
       data-slot="button-group-text"
       {...rest}
       {...styleProps(local.class, buttonGroup.text, local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

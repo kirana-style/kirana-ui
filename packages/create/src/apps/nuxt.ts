@@ -7,8 +7,8 @@ export const nuxt: AppSkeleton = {
   title: "Kirana on Nuxt",
   // Nuxt maps `@/*` and `~/*` to `app/` itself, in the tsconfigs `nuxt prepare` writes.
   source: null,
-  // Nuxt renders `<html>` from `<Html>` in app.vue, which `init` does not read as the document:
-  // it prints the attributes and styles to put there (KF-112, 0.4.1).
+  // Nuxt renders `<html>` from the `<Html>` app.vue renders, where `init` sets the design
+  // system's attributes and `:sx`.
   document: "app/app.vue",
   output: ".output/public",
   files: {
@@ -34,18 +34,14 @@ const styles = {
 </script>
 
 <template>
-  <!-- Nuxt's <Html> renders the document's <html>: the design system's attributes and styles go here. -->
-  <Html lang="en">
-    <Body>
-      <main :sx="styles.main">
-        <div>
-          <h1>${WELCOME.heading}</h1>
-          <p>${WELCOME.text}</p>
-          <code :sx="styles.command">${WELCOME.command}</code>
-        </div>
-      </main>
-    </Body>
-  </Html>
+  <Html lang="en" />
+  <main :sx="styles.main">
+    <div>
+      <h1>${WELCOME.heading}</h1>
+      <p>${WELCOME.text}</p>
+      <code :sx="styles.command">${WELCOME.command}</code>
+    </div>
+  </main>
 </template>
 `,
   },

@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from "@angular/core"
-import { KuiCheckbox, KuiCheckboxIndicator } from "@kirana-ui/angular"
+import { KpCheckbox, KpCheckboxIndicator } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 
@@ -9,10 +9,10 @@ import { checkbox } from "../../../styles/checkbox.styles"
 
 /**
  * A checkbox: `<span kuiCheckbox id="…" [checked]="on" (checkedChange)="…">`, on Kirana UI's
- * checkbox (`KuiCheckbox`), which writes `role="checkbox"`, `aria-checked`, `data-checked` and
+ * checkbox (`KpCheckbox`), which writes `role="checkbox"`, `aria-checked`, `data-checked` and
  * `data-indeterminate`, mounts its indicator while checked or indeterminate, and draws the hidden
  * native checkbox inside, which a `<label for>` and a form reach: the `id` and `name` are that
- * input's (`kuiId`, `name`), so the box gives its own element's `id` up. Its `checked`,
+ * input's (`kpId`, `name`), so the box gives its own element's `id` up. Its `checked`,
  * `defaultChecked`, `indeterminate`, `disabled` and `required` are the primitive's.
  *
  * `checkedChange` is the registry's, a `boolean` as upstream's callers take it: the primitive's
@@ -23,10 +23,10 @@ import { checkbox } from "../../../styles/checkbox.styles"
  */
 @Component({
   selector: "span[kuiCheckbox]",
-  imports: [IconPlaceholder, KuiCheckboxIndicator, SxDirective],
+  imports: [IconPlaceholder, KpCheckboxIndicator, SxDirective],
   hostDirectives: [
     {
-      directive: KuiCheckbox,
+      directive: KpCheckbox,
       inputs: [
         "checked",
         "defaultChecked",
@@ -34,7 +34,7 @@ import { checkbox } from "../../../styles/checkbox.styles"
         "disabled",
         "required",
         "name",
-        "kuiId: id",
+        "kpId: id",
       ],
     },
   ],
@@ -47,7 +47,7 @@ import { checkbox } from "../../../styles/checkbox.styles"
     "[style]": "part().style",
   },
   template: `
-    <span *kuiCheckboxIndicator data-slot="checkbox-indicator" [sx]="indicator">
+    <span *kpCheckboxIndicator data-slot="checkbox-indicator" [sx]="indicator">
       <svg
         iconPlaceholder
         lucide="CheckIcon"
@@ -70,7 +70,7 @@ class Checkbox {
   protected readonly part = computed(() => partSx(checkbox.root, this.sx()))
 
   constructor() {
-    const box = inject(KuiCheckbox)
+    const box = inject(KpCheckbox)
     box.checkedChanged.subscribe(({ checked }) => {
       if (box.indeterminate()) this.indeterminateChange.emit(false)
       this.checkedChange.emit(checked)
