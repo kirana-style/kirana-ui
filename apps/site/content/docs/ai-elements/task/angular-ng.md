@@ -1,6 +1,6 @@
 # Task
 
-<!-- ::preview item="task-demo" height="490" combinations="angular/ng" -->
+<!-- ::preview item="task-demo" height="490" combinations="angular/ng" runtimes="ai-sdk,tanstack-ai" -->
 
 Task is a piece of work the agent is doing, such as finding the project files or updating a page. Each step, like a search, a read or an edit, appears under the task when the agent takes it.
 
@@ -55,7 +55,9 @@ Set the task's status from its steps. Write the title in the present tense while
 
 Put several tasks in one `Trace`. Keep the running task open, and close each task once it is done.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Stream each task as a data part with its own `id`. The AI SDK replaces a data part with the same `id`, so writing a task again with a new step updates it in place.
 
@@ -70,6 +72,34 @@ const stream = createUIMessageStream({
 ```ts showLineNumbers
 const tasks = message.parts.filter((part) => part.type === "data-task")
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI streams no data parts. The agent reports each task with a tool, `updateTask` in this example, sending the task's `id`, title and steps each time. Render the last call for each `id`, so writing a task again with a new step updates it in place.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const updateTask = toolDefinition({
+  name: "updateTask",
+  description: "Report a task's progress.",
+  inputSchema: taskSchema,
+  outputSchema: z.string(),
+}).server(async () => "Updated the task.")
+
+const stream = chat({ adapter, messages, threadId, tools: [updateTask] })
+```
+
+```ts showLineNumbers
+const tasks = new Map<string, Task>()
+for (const part of message.parts) {
+  if (part.type === "tool-call" && part.name === "updateTask" && part.input) {
+    tasks.set(part.input.id, part.input)
+  }
+}
+```
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

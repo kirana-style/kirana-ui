@@ -48,7 +48,9 @@ import { LANGUAGE_MESSAGE } from "@workspace/registry/core/preview"
 import { Icon } from "@workspace/shell/icon"
 
 import { fontSize, lineHeight, radius, spacing, theme } from "../tokens.ts"
+import { itemOn, useRuntime } from "../runtime.ts"
 import { DemoCode } from "./demo-code.tsx"
+import { RuntimePicker } from "./runtime.tsx"
 
 const styles = {
   root: css({ marginBlockEnd: spacing[5] }),
@@ -112,6 +114,16 @@ const styles = {
   picker: css({
     marginBlockEnd: spacing[2],
   }),
+  // The framework's picker and the chat runtime's, in one row above the box.
+  pickers: css({
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: spacing[2],
+    marginBlockEnd: spacing[2],
+  }),
+  inRow: css({ marginBlockEnd: { "*": null, base: 0 } }),
   missing: css({
     marginBlockEnd: spacing[5],
     color: theme.mutedForeground,
@@ -133,8 +145,8 @@ const BASE_NAMES: Record<string, string> = {
   ark: "Ark UI",
   reka: "Reka UI",
   bits: "Bits UI",
-  ng: "ng-primitives",
-  uisdk: "ui-sdk",
+  ng: "NG Primitives",
+  uisdk: "UI SDK",
   kirana: "Kirana UI",
 }
 
@@ -204,9 +216,10 @@ const isClient = () => true
 const isServer = () => false
 
 export function MarkdownPreview({
-  item,
+  item: named,
   height = "360",
   combinations,
+  runtimes,
   direction,
   surface,
   code,
@@ -217,6 +230,11 @@ export function MarkdownPreview({
   item?: string
   height?: string
   combinations?: string
+  /**
+   * `ai-sdk,tanstack-ai`: a chat demo, on the reader's chat runtime (`runtime.ts`), the TanStack AI
+   * one its twin `<item>-tanstack-ai`; a picker beside the framework's chooses it.
+   */
+  runtimes?: string
   /** `rtl`: a right-to-left demo, read in the language its bar chooses (Arabic first). */
   direction?: string
   /** `true`: upstream's `bg-surface` under the demo. */
@@ -231,6 +249,9 @@ export function MarkdownPreview({
   wide?: string
 }) {
   const { previewSrc, frameQuery } = useDocs()
+  const runtime = useRuntime()
+  const chat = Boolean(runtimes)
+  const item = named && chat ? itemOn(named, runtime) : named
   const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
   const only = combinationList(combinations)
   const { available, current } = useCombination(only)
@@ -268,7 +289,18 @@ export function MarkdownPreview({
   }
   return (
     <div sx={styles.root} data-slot="markdown-preview">
-      {only ? (
+      {chat ? (
+        <div sx={styles.pickers}>
+          {only ? (
+            <CombinationPicker
+              available={available}
+              current={current}
+              sx={styles.inRow}
+            />
+          ) : null}
+          <RuntimePicker />
+        </div>
+      ) : only ? (
         <CombinationPicker available={available} current={current} />
       ) : null}
       <div sx={styles.box}>

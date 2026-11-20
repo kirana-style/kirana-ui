@@ -27,7 +27,7 @@ keywords: [test results, ai elements, agent, chat]
 
 # Test Results
 
-<!-- ::preview item="test-results-demo" height="690" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
+<!-- ::preview item="test-results-demo" height="690" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" runtimes="ai-sdk,tanstack-ai" -->
 
 Test Results is a test run by the agent. The summary line counts what passed and failed. Open it to see each suite, its tests, and the error for each failure.
 
@@ -146,9 +146,9 @@ Group tests by file. Each suite is a collapsible line with a `Trace` of its test
 
 <!-- ::end:only -->
 
-## AI SDK
+## In a Chat
 
-Run the tests as a tool and render its output. The tool states map the same way as in [Tool](/docs/ai-elements/tool#states).
+Run the tests as a tool and render its output, on the AI SDK or TanStack AI. The tool states map the same way as in [Tool](/docs/ai-elements/tool#states).
 
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 

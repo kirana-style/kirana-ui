@@ -111,7 +111,8 @@ const running = (message: ChatMessage, part: ReadFilePart) =>
 
 function advance() {
   if (nextMessage.value) void sendMessage(nextMessage.value)
-  else messages.value = initialMessages
+  // A fresh copy: the AI SDK's Vue chat adds to the array it was given, in place (LF-043).
+  else messages.value = chat.get(0)
 }
 </script>
 

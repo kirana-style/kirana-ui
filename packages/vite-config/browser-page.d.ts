@@ -26,5 +26,11 @@ export function pressTriggers(
   }
 ): Promise<void>
 
+/**
+ * Resolves once the page's stylesheets have stopped changing for `quiet` ms (at most `limit` ms):
+ * Kirana's development stylesheet grows as modules compile, and a change ends a chart's entrance.
+ */
+export function stylesSettled(quiet?: number, limit?: number): Promise<void>
+
 /** Two animation frames. */
 export function frames(): Promise<void>

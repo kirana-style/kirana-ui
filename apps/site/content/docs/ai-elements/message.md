@@ -86,7 +86,9 @@ Put actions in `MessageFooter`. It follows the message alignment, so on the pers
 
 The reply streams as markdown. Render it with [Streamdown](https://streamdown.ai) and route fenced code to a [Code Block](/docs/components/code-block#markdown), so code in the reply gets line numbers and a copy button.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Branch on the message role. The person's turn is the bubble. The agent's turn is the reply, and `regenerate` with the message id runs it again.
 
@@ -173,6 +175,102 @@ return (
 ```
 
 <!-- ::end:only -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+Branch on the message role. The person's turn is the bubble. The agent's turn is the reply, and `reload` runs the last reply again, so show Retry on the last one.
+
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
+
+```tsx showLineNumbers
+const styles = {
+  content: css({ gap: { "*": null, base: space[2] } }),
+}
+
+const { messages, reload } = useChat({ connection, threadId })
+
+if (message.role === "user") {
+  return (
+    <Message align="end">
+      <MessageContent>
+        <Bubble align="end" variant="muted">
+          <BubbleContent>{text}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  )
+}
+
+return (
+  <Message>
+    <MessageContent sx={styles.content}>
+      <Markdown>{text}</Markdown>
+      {message === messages.at(-1) && (
+        <MessageFooter>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Retry"
+            onClick={() => reload()}
+          >
+            <RefreshCcwIcon />
+          </Button>
+        </MessageFooter>
+      )}
+    </MessageContent>
+  </Message>
+)
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+```tsx showLineNumbers
+const styles = {
+  content: css({ gap: { "*": null, base: space[2] } }),
+}
+
+const { messages, reload } = useChat({ connection, threadId })
+
+if (message.role === "user") {
+  return (
+    <Message align="end">
+      <MessageContent>
+        <Bubble align="end" variant="muted">
+          <BubbleContent>{text}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  )
+}
+
+return (
+  <Message>
+    <MessageContent sx={styles.content}>
+      <Markdown>{text}</Markdown>
+      {message === messages.at(-1) && (
+        <MessageFooter>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Retry"
+            onPress={() => reload()}
+          >
+            <RefreshCcwIcon />
+          </Button>
+        </MessageFooter>
+      )}
+    </MessageContent>
+  </Message>
+)
+```
+
+<!-- ::end:only -->
+
+<!-- ::end:runtime -->
 
 ## Migrating from AI SDK Elements
 

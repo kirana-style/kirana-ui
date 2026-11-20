@@ -187,6 +187,7 @@ const chat = createChat()
   .assistant(
     '`MessageScrollerContent` sets `role="log"` and `aria-relevant="additions"` by default, so screen readers announce new messages as they stream in.\n\nThe scroll button is a real `<button>` with an sr-only label, and it\'s removed from the tab order when you\'re already at the bottom — no ghost focus stops.'
   )
+// A fresh copy each time: `@ai-sdk/vue` pushes into the array it is given, so the first one fills up (LF-043).
 const initialMessages = chat.get(0)
 const transport = chat.transport({ delayMs: 20 })
 
@@ -241,7 +242,7 @@ function send() {
                   size="icon"
                   aria-label="Reset conversation"
                   :disabled="isBusy"
-                  @click="messages = initialMessages"
+                  @click="messages = chat.get(0)"
                 >
                   <IconPlaceholder
                     lucide="RotateCwIcon"

@@ -1,6 +1,6 @@
 # Plan
 
-<!-- ::preview item="plan-demo" height="470" combinations="vue/kirana" -->
+<!-- ::preview item="plan-demo" height="470" combinations="vue/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 Plan is the list of steps the agent decides on before it starts, such as the steps of a migration. Each step is done, running or pending, and the title counts how many are done.
 
@@ -31,7 +31,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="plan-demo" parts="true" combinations="vue/kirana" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="plan-demo-tanstack-ai" parts="true" combinations="vue/kirana" -->
+
+<!-- ::end:runtime -->
 
 ## Details
 
@@ -39,7 +49,9 @@ Put a description above the steps, inside `TraceCollapsibleContent`.
 
 <!-- ::preview item="plan-description" height="350" combinations="vue/kirana" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Stream the plan as a data part with a fixed `id`. The AI SDK replaces a data part with the same `id`, so it updates in place.
 
@@ -54,6 +66,32 @@ const stream = createUIMessageStream({
 ```ts showLineNumbers
 const plan = message.parts.find((part) => part.type === "data-plan")
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI streams no data parts. The agent writes its plan with a tool, `updatePlan` in this example. Each call sends the whole plan, so render the last call whose input has arrived: a call's `input` is set once its arguments are complete.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const updatePlan = toolDefinition({
+  name: "updatePlan",
+  description: "Write the plan before you start, and again as each step moves.",
+  inputSchema: planSchema,
+  outputSchema: z.string(),
+}).server(async () => "Updated the plan.")
+
+const stream = chat({ adapter, messages, threadId, tools: [updatePlan] })
+```
+
+```ts showLineNumbers
+const plan = message.parts
+  .filter((part) => part.type === "tool-call")
+  .filter((part) => part.name === "updatePlan")
+  .at(-1)?.input
+```
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

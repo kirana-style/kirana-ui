@@ -18,7 +18,9 @@ The example draws each step with its own parts, which you copy beside it:
 
 <!-- ::demo-source item="inline-citation-demo" parts="true" combinations="solid/kirana" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 A `source-url` part is the citation. Set `sendSources: true` on `toUIMessageStreamResponse()`, or write the part yourself.
 
@@ -36,3 +38,21 @@ const sources = message.parts.filter((part) => part.type === "source-url")
 ```
 
 `title` is optional. Fall back to the URL's hostname.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI's messages have no source parts. The citation is a result of the agent's search tool: read it from the `output` of its `tool-call` part.
+
+```ts showLineNumbers
+const sources = message.parts.flatMap((part) =>
+  part.type === "tool-call" && part.name === "searchWeb"
+    ? (part.output?.results ?? [])
+    : []
+)
+```
+
+The tool's `outputSchema` types the results. If a result can come without a `title`, fall back to the URL's hostname.
+
+<!-- ::end:runtime -->

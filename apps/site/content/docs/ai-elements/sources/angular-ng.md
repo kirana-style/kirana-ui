@@ -1,6 +1,6 @@
 # Sources
 
-<!-- ::preview item="sources-demo" height="460" combinations="angular/ng" -->
+<!-- ::preview item="sources-demo" height="460" combinations="angular/ng" runtimes="ai-sdk,tanstack-ai" -->
 
 Sources is a line that lists the links the agent used for a reply. It says how many there are, like "Used 3 sources", and opens into a link for each one.
 
@@ -30,7 +30,9 @@ The example draws each step with its own parts, which you copy beside it:
 
 <!-- ::demo-source item="sources-demo" parts="true" combinations="angular/ng" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Collect the `source-url` parts of a message and render them after the text. The agent can cite the same page more than once, so dedupe them by `url`.
 
@@ -44,6 +46,28 @@ const sources = message.parts
 ```
 
 `title` is optional on a `source-url` part. Fall back to the hostname of the URL.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI has no source parts. The sources a reply used are what its search tool returned, `searchWeb` in this example: collect them from the tool's output and render them after the text. The agent can cite the same page more than once, so dedupe them by `url`.
+
+```ts showLineNumbers
+const sources = message.parts
+  .filter((part) => part.type === "tool-call")
+  .flatMap((part) =>
+    part.name === "searchWeb" ? (part.output?.sources ?? []) : []
+  )
+  .filter(
+    (source, index, all) =>
+      all.findIndex((other) => other.url === source.url) === index
+  )
+```
+
+`title` is optional in the tool's output schema. Fall back to the hostname of the URL.
+
+<!-- ::end:runtime -->
 
 ## Accessibility
 

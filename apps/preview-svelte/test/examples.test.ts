@@ -13,8 +13,12 @@ import { BASES, mountItem, settle } from "./page"
 
 for (const base of Object.keys(BASES) as (keyof typeof BASES)[]) {
   describe(base, () => {
-    const examples = Object.keys(BASES[base]).filter((item) =>
-      item.endsWith("-example")
+    // And the chat demos on TanStack AI and the helpers' demos, which have no `-example` page.
+    const examples = Object.keys(BASES[base]).filter(
+      (item) =>
+        item.endsWith("-example") ||
+        item.endsWith("-tanstack-ai") ||
+        item.endsWith("-helper-demo")
     )
     it.each(examples)("%s renders and every trigger works", async (item) => {
       const { container, errors } = await mountItem(base, item)

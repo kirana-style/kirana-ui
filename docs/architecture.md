@@ -615,8 +615,8 @@ site's own assets (`previewFonts`): every app bundles the same `@fontsource`
 files under the same hashed names, so a preview's font URLs point at the site's
 `/assets/<name>` and its own copies are left out, about 140 files an app. And
 their builds group the items' code by
-component, chart kind and block (`previewChunks` in
-`@workspace/vite-config/preview`), a chunk each where each item was its own: a
+component, chart kind and block, a demo's own parts (`components/<demo>/`) with it
+(`previewChunks` in `@workspace/vite-config/preview`), a chunk each where each item was its own: a
 page loads its siblings' code too, a few kilobytes. React's prerendered pages
 import their item from its group the same way (`previewGroups`, in its builds
 only): each base's map still names an item by itself, and the build turns that

@@ -1,6 +1,6 @@
 # Queue
 
-<!-- ::preview item="queue-demo" height="470" combinations="angular/kirana" -->
+<!-- ::preview item="queue-demo" height="470" combinations="angular/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 Queue is the agent's todo list. Todos sit in two sections, To do and Completed, and the icon on each todo shows its status. The agent updates the list as it works, so a todo moves from one section to the other when it is done.
 
@@ -36,7 +36,9 @@ A todo with a description is a `TraceCollapsible` that opens to show it. A todo 
 
 <!-- ::preview item="queue-descriptions" height="380" combinations="angular/kirana" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 The agent writes its todos with a tool, `writeTodos` in this example. Each call sends the whole list, so render the last call and skip one whose input is still streaming.
 
@@ -46,6 +48,21 @@ const todos = message.parts
   .filter((part) => part.state !== "input-streaming")
   .at(-1)?.input?.todos
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+The agent writes its todos with a tool, `writeTodos` in this example. Each call sends the whole list, so render the last call whose input has arrived: a call's `input` is set once its arguments are complete.
+
+```ts showLineNumbers
+const todos = message.parts
+  .filter((part) => part.type === "tool-call")
+  .filter((part) => part.name === "writeTodos" && part.input !== undefined)
+  .at(-1)?.input?.todos
+```
+
+<!-- ::end:runtime -->
 
 Map each todo status to a section, an icon and a `TraceLine` status. Set `"running"` on the todo in progress only while the chat streams, so its title stops shimmering when the agent stops.
 

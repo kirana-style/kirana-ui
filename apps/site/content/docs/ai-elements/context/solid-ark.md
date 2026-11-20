@@ -14,7 +14,9 @@ Context is built with the [Hover Card](/docs/components/hover-card) and [Progres
 
 The code under the preview is the whole example, in one file.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Read usage from the metadata on the agent's message. `messageMetadata` runs when the stream finishes.
 
@@ -35,3 +37,32 @@ const percent = Math.round((used / limit) * 100)
 ```
 
 `limit` is the model's context window. The AI SDK does not send it, so set it from the model you use.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI reports a run's token usage on its `RUN_FINISHED` event. Read it in `onChunk` and keep it beside the chat.
+
+```ts showLineNumbers
+const [usage, setUsage] = createSignal<TokenUsage>()
+
+const { messages } = useChat({
+  connection: fetchServerSentEvents("/api/chat"),
+  threadId: "chat",
+  onChunk: (chunk) => {
+    if (
+      chunk.type === "RUN_FINISHED" &&
+      chunk.usage &&
+      !Array.isArray(chunk.usage)
+    )
+      setUsage(chunk.usage)
+  },
+})
+
+const percent = () => Math.round(((usage()?.totalTokens ?? 0) / limit) * 100)
+```
+
+`limit` is the model's context window. TanStack AI does not send it, so set it from the model you use.
+
+<!-- ::end:runtime -->

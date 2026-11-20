@@ -1,6 +1,6 @@
 # Sources
 
-<!-- ::preview item="sources-demo" height="460" combinations="vue/kirana" -->
+<!-- ::preview item="sources-demo" height="460" combinations="vue/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 Sources is a line that lists the links the agent used for a reply. It says how many there are, like "Used 3 sources", and opens into a link for each one.
 
@@ -28,9 +28,21 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="sources-demo" parts="true" combinations="vue/kirana" -->
 
-## AI SDK
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="sources-demo-tanstack-ai" parts="true" combinations="vue/kirana" -->
+
+<!-- ::end:runtime -->
+
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Collect the `source-url` parts of a message and render them after the text. The agent can cite the same page more than once, so dedupe them by `url`.
 
@@ -44,6 +56,28 @@ const sources = message.parts
 ```
 
 `title` is optional on a `source-url` part. Fall back to the hostname of the URL.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI has no source parts: the sources are what a search tool returned, `searchWeb` in this example. Collect them from the output of its `tool-call` parts and render them after the text. The agent can cite the same page more than once, so dedupe them by `url`.
+
+```ts showLineNumbers
+const sources = message.parts
+  .filter((part) => part.type === "tool-call")
+  .flatMap((part) =>
+    part.name === "searchWeb" ? (part.output?.sources ?? []) : []
+  )
+  .filter(
+    (source, index, all) =>
+      all.findIndex((other) => other.url === source.url) === index
+  )
+```
+
+Give each source an optional `title` in the tool's output schema, and fall back to the hostname of the URL.
+
+<!-- ::end:runtime -->
 
 ## Accessibility
 

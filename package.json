@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@kirana-style/eslint-plugin": "catalog:",
+    "@tanstack/intent": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:",
     "kirana-style": "catalog:",
@@ -109,9 +110,17 @@
       "@shadcn/helpers": "^0.3.0",
       "@shadcn/react": "^0.3.1",
       "@sveltejs/vite-plugin-svelte": "^7.3.1",
+      "@tanstack/ai": "^1.7.0",
+      "@tanstack/ai-angular": "^1.2.0",
+      "@tanstack/ai-client": "^1.2.0",
+      "@tanstack/ai-react": "^1.1.0",
+      "@tanstack/ai-solid": "^1.1.0",
+      "@tanstack/ai-svelte": "^1.1.0",
+      "@tanstack/ai-vue": "^1.1.0",
       "@tanstack/angular-table": "^9.3.2",
       "@tanstack/charts": "^1.5.0",
       "@tanstack/highlight": "^1.2.12",
+      "@tanstack/intent": "0.5.6",
       "@tanstack/markdown": "^1.2.0",
       "@tanstack/react-form": "^1.33.5",
       "@tanstack/react-router": "^1.170.46",
@@ -179,5 +188,10 @@
   },
   "overrides": {
     "vite": "catalog:"
+  },
+  "intent": {
+    "skills": [
+      "@tanstack/ai"
+    ]
   }
 }

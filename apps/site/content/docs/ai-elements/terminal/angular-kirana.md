@@ -1,6 +1,6 @@
 # Terminal
 
-<!-- ::preview item="terminal-demo" height="710" combinations="angular/kirana" -->
+<!-- ::preview item="terminal-demo" height="710" combinations="angular/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 Terminal is a shell command the agent runs, such as a lint, a test run or a build. The line shows the command, and its output streams in underneath while it runs.
 
@@ -49,7 +49,9 @@ The command is a tool call, so its states map the same way as in [Tool](/docs/ai
 
 Open the line once the first output arrives, so the output is visible while the command runs. Leave it open or closed after that, as in [Trace](/docs/components/trace#open-state).
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 A tool result arrives only once the command exits. To stream the output while it runs, write it from the tool as a data part with the tool call's id. The AI SDK replaces a data part that has the same id, so the output grows in place.
 
@@ -74,6 +76,44 @@ function getOutput(message: ChatMessage, toolCallId: string) {
   return ""
 }
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+A tool result arrives only once the command exits. To stream the output while it runs, emit it from the tool as a custom event, which carries the tool call's id.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const runCommand = runCommandDef.server(async ({ command }, context) => {
+  let output = ""
+  for await (const line of run(command)) {
+    output += line
+    context?.emitCustomEvent("terminal", { output })
+  }
+  return { exitCode: 0 }
+})
+```
+
+On the client, keep the latest output of each tool call in a signal.
+
+```ts showLineNumbers
+protected readonly outputs = signal<Record<string, string>>({})
+
+protected readonly chat = injectChat({
+  connection,
+  threadId,
+  onCustomEvent: (eventType, data, { toolCallId }) => {
+    if (eventType === "terminal" && toolCallId) {
+      const { output } = data as { output: string }
+      this.outputs.update((current) => ({ ...current, [toolCallId]: output }))
+    }
+  },
+})
+```
+
+The demo's [TanStack AI helper](/docs/helpers/tanstack-ai) sends no custom events, so there the output arrives with the result.
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

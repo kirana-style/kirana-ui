@@ -8,7 +8,7 @@ keywords: [chat, ai elements, agent, chat]
 
 # Chat
 
-<!-- ::preview item="chat-demo" height="840" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
+<!-- ::preview item="chat-demo" height="840" combinations="react/kirana,react/base,react/aria,react/uisdk" runtimes="ai-sdk,tanstack-ai" -->
 
 Chat is the thread of a conversation with the agent. Each turn is a [Message](/docs/ai-elements/message) inside [Message Scroller](/docs/components/message-scroller). The person's message is the scroll anchor, so a new question settles near the top and the reply streams in under it. The field is a [Prompt Input](/docs/ai-elements/prompt-input).
 
@@ -45,7 +45,9 @@ Chat is built with the [Message Scroller](/docs/components/message-scroller), [M
 
 See [Message Scroller](/docs/components/message-scroller).
 
-## AI SDK Helper
+## Helpers
+
+<!-- ::start:runtime ai-sdk -->
 
 To build without a model, script the conversation with [`createChat`](https://ui.shadcn.com/docs/helpers/ai-sdk) (`@shadcn/helpers`). Each agent turn streams reasoning, a tool call and a reply. `chat.next()` fills the field with the next scripted message, and a string `fallback` replies once the script runs out.
 
@@ -67,6 +69,39 @@ const transport = chat.transport({
 
 const nextMessage = chat.next(messages)
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+To build without a model, script the conversation with the [TanStack AI helper](https://ui.shadcn.com/docs/helpers/tanstack-ai) (`@shadcn/helpers`). Each agent turn streams thinking, a tool call and a reply. `chat.next()` fills the field with the next scripted message, `append` sends it, and a string `fallback` replies once the script runs out.
+
+```ts showLineNumbers
+const chat = createChat()
+  .user("Add a dark mode toggle to the settings page.")
+  .assistant(({ writer }) => {
+    writer.reasoning("I need to know how themes are set up first.")
+    writer
+      .tool("runCommand", { input: { command: "rg -l ThemeProvider app" } })
+      .output({ stdout: "app/layout.tsx" })
+    writer.text("next-themes is already set up, so I added a ModeToggle.")
+  })
+
+const connection = chat.transport({
+  fallback:
+    "This demo only knows the scripted turns. Press reset to start over.",
+})
+
+const { messages, append } = useChat({
+  initialMessages: chat.get(0),
+  connection,
+  threadId: "chat",
+})
+
+const nextMessage = chat.next(messages)
+```
+
+<!-- ::end:runtime -->
 
 ## Migrating from AI SDK Elements
 
