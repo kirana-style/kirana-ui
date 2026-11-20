@@ -22,10 +22,24 @@ The code under the preview is the whole example, in one file.
 
 The row scrolls sideways when the suggestions do not fit. `scrollFadeX` (the registry's scroll-fade styles) fades the edge that has more to show, and `flexShrink: 0` keeps each label on one line.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 The label is the message. Send it as is.
 
 ```ts showLineNumbers
 sendMessage({ text: suggestion })
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+The label is the message. Send it as is.
+
+```ts showLineNumbers
+chat.sendMessage(suggestion)
+```
+
+<!-- ::end:runtime -->

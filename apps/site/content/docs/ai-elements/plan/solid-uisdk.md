@@ -1,6 +1,6 @@
 # Plan
 
-<!-- ::preview item="plan-demo" height="470" combinations="solid/uisdk" -->
+<!-- ::preview item="plan-demo" runtimes="ai-sdk,tanstack-ai" height="470" combinations="solid/uisdk" -->
 
 Plan is the list of steps the agent decides on before it starts, such as the steps of a migration. Each step is done, running or pending, and the title counts how many are done.
 
@@ -31,7 +31,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="plan-demo" parts="true" combinations="solid/uisdk" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="plan-demo-tanstack-ai" parts="true" combinations="solid/uisdk" -->
+
+<!-- ::end:runtime -->
 
 ## Details
 
@@ -39,7 +49,9 @@ Put a description above the steps, inside `TraceCollapsibleContent`.
 
 <!-- ::preview item="plan-description" height="350" combinations="solid/uisdk" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Stream the plan as a data part with a fixed `id`. The AI SDK replaces a data part with the same `id`, so it updates in place.
 
@@ -54,6 +66,37 @@ const stream = createUIMessageStream({
 ```ts showLineNumbers
 const plan = message.parts.find((part) => part.type === "data-plan")
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI's messages have no data parts. Have the agent write the whole plan with a tool each time a step moves, and draw the latest call.
+
+```ts showLineNumbers title="lib/tools.ts"
+const updatePlan = toolDefinition({
+  name: "updatePlan",
+  description: "Write the plan, with each step's status.",
+  inputSchema: z.object({
+    title: z.string(),
+    steps: z.array(
+      z.object({
+        title: z.string(),
+        status: z.enum(["done", "running", "pending"]),
+      })
+    ),
+  }),
+})
+```
+
+```ts showLineNumbers
+const plan = message.parts
+  .filter((part) => part.type === "tool-call")
+  .filter((part) => part.name === "updatePlan" && part.state === "complete")
+  .at(-1)?.input
+```
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

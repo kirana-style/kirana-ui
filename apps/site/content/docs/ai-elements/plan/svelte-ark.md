@@ -1,6 +1,6 @@
 # Plan
 
-<!-- ::preview item="plan-demo" height="470" combinations="svelte/ark" -->
+<!-- ::preview item="plan-demo" runtimes="ai-sdk,tanstack-ai" height="470" combinations="svelte/ark" -->
 
 Plan is the list of steps the agent decides on before it starts, such as the steps of a migration. Each step is done, running or pending, and the title counts how many are done.
 
@@ -31,7 +31,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="plan-demo" parts="true" combinations="svelte/ark" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="plan-demo-tanstack-ai" parts="true" combinations="svelte/ark" -->
+
+<!-- ::end:runtime -->
 
 ## Details
 
@@ -39,7 +49,9 @@ Put a description above the steps, inside `TraceCollapsibleContent`.
 
 <!-- ::preview item="plan-description" height="350" combinations="svelte/ark" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Stream the plan as a data part with a fixed `id`. The AI SDK replaces a data part with the same `id`, so it updates in place.
 
@@ -54,6 +66,40 @@ const stream = createUIMessageStream({
 ```ts showLineNumbers
 const plan = message.parts.find((part) => part.type === "data-plan")
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI has no data part. Give the agent a tool that takes the whole plan, and draw the plan from its last call. Skip a call whose input is still streaming.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const updatePlan = toolDefinition({
+  name: "updatePlan",
+  description: "Write the plan, and write it again when a step changes.",
+  inputSchema: z.object({
+    title: z.string(),
+    steps: z.array(
+      z.object({
+        title: z.string(),
+        status: z.enum(["pending", "running", "done"]),
+      })
+    ),
+  }),
+}).server(async () => "Updated the plan.")
+```
+
+```ts showLineNumbers
+const plan = message.parts
+  .filter((part) => part.type === "tool-call" && part.name === "updatePlan")
+  .filter(
+    (part) =>
+      part.state !== "awaiting-input" && part.state !== "input-streaming"
+  )
+  .at(-1)?.input
+```
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

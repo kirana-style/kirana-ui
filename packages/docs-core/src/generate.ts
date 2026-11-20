@@ -258,7 +258,7 @@ export async function generate(config: DocsConfig): Promise<void> {
     const variants = config.variants ?? []
     const read = async (file: string) =>
       withFacts(
-        stripNotes(await readFile(file, "utf8")),
+        runtimeBlocks(stripNotes(await readFile(file, "utf8"))),
         config.facts ?? {},
         relative(root, file)
       )
@@ -547,13 +547,15 @@ export const SEARCH: readonly SearchRecord[] = ${JSON.stringify(
   const body = (page: Built) =>
     plainLinks(
       plainBlocks(
-        plainComponents(
-          plainInstall(
-            withoutTitle(
-              page.source.replace(/^---\n[\s\S]*?\n---\n/, "").trim()
-            )
-          ),
-          config.plain ?? {}
+        plainRuntimes(
+          plainComponents(
+            plainInstall(
+              withoutTitle(
+                page.source.replace(/^---\n[\s\S]*?\n---\n/, "").trim()
+              )
+            ),
+            config.plain ?? {}
+          )
         )
       ),
       SITE
@@ -710,6 +712,33 @@ export function stripNotes(markdown: string): string {
  */
 export function withoutTitle(markdown: string): string {
   return markdown.replace(/^# [^\n]*\n+/, "")
+}
+
+/**
+ * `<!-- ::start:runtime tanstack-ai -->` … `<!-- ::end:runtime -->`: what a page says for one chat
+ * runtime (`ai-sdk`, `tanstack-ai`), shown when the reader has chosen it (`runtime.ts` in
+ * docs-ui). The short form names the runtime; it becomes the block's `name` attribute here, which
+ * is how a block's markers take their arguments.
+ */
+export function runtimeBlocks(markdown: string): string {
+  return markdown.replace(
+    /<!--\s*::start:runtime\s+([\w-]+)\s*-->/g,
+    '<!-- ::start:runtime name="$1" -->'
+  )
+}
+
+/** Each runtime's name, as a twin heads its block. */
+const RUNTIME_NAMES: Record<string, string> = {
+  "ai-sdk": "the AI SDK",
+  "tanstack-ai": "TanStack AI",
+}
+
+/** A twin keeps every runtime's block, each headed by the runtime it is for. */
+export function plainRuntimes(markdown: string): string {
+  return markdown.replace(
+    /^[ \t]*<!--\s*::start:runtime\s+name="([\w-]+)"\s*-->[ \t]*$/gm,
+    (_match, name: string) => `With ${RUNTIME_NAMES[name] ?? name}:`
+  )
 }
 
 /**

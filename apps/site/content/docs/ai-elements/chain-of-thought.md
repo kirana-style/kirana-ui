@@ -27,7 +27,7 @@ keywords: [chain of thought, ai elements, agent, chat]
 
 # Chain of Thought
 
-<!-- ::preview item="chain-of-thought-demo" height="610" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" -->
+<!-- ::preview item="chain-of-thought-demo" height="610" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk" runtimes="ai-sdk,tanstack-ai" -->
 
 Chain of Thought is a summary line that expands into the steps an agent took. The summary says what happened, like "Researched in 3 steps". The steps sit inside it, each one a line of its own.
 
@@ -170,7 +170,9 @@ const styles = {
 </TraceCollapsibleContent>
 ```
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Render each tool part as a step. `running` is true while tool parts stream and before the reply starts. Set the summary's status and title from the steps. The summary opens while the steps run, as in [Trace](/docs/components/trace#open-state).
 
@@ -229,6 +231,70 @@ const failed = steps.filter((part) => part.state === "output-error").length
 <!-- ::end:only -->
 
 `StepLine` renders one tool part as a `TraceLine`, as in [Tool](/docs/ai-elements/tool#states).
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+Render each `tool-call` part as a step. `running` is true while tool calls stream and before the reply starts. Set the summary's status and title from the steps. The summary opens while the steps run, as in [Trace](/docs/components/trace#open-state).
+
+<!-- ::start:only react/kirana,react/base,react/uisdk -->
+
+```tsx showLineNumbers
+const [open, setOpen] = React.useState<boolean>()
+const running = streaming && !answering
+const failed = steps.filter((part) => part.state === "error").length
+
+<TraceCollapsible open={open ?? running} onOpenChange={setOpen}>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={running ? "running" : failed > 0 ? "error" : undefined}>
+      <TraceTitle>
+        {running ? "Researching" : `Researched in ${steps.length} steps`}
+      </TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent keepMounted>
+    <Trace>
+      {steps.map((part) => (
+        <StepLine key={part.id} part={part} streaming={streaming} />
+      ))}
+    </Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+<!-- ::end:only -->
+
+<!-- ::start:only react/aria -->
+
+```tsx showLineNumbers
+const [open, setOpen] = React.useState<boolean>()
+const running = streaming && !answering
+const failed = steps.filter((part) => part.state === "error").length
+
+<TraceCollapsible isExpanded={open ?? running} onExpandedChange={setOpen}>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={running ? "running" : failed > 0 ? "error" : undefined}>
+      <TraceTitle>
+        {running ? "Researching" : `Researched in ${steps.length} steps`}
+      </TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>
+      {steps.map((part) => (
+        <StepLine key={part.id} part={part} streaming={streaming} />
+      ))}
+    </Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+<!-- ::end:only -->
+
+`StepLine` renders one tool call as a `TraceLine`, as in [Tool](/docs/ai-elements/tool#states).
+
+<!-- ::end:runtime -->
 
 ## Migrating from AI SDK Elements
 

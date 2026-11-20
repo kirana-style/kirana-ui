@@ -1,6 +1,6 @@
 # Test Results
 
-<!-- ::preview item="test-results-demo" height="690" combinations="solid/uisdk" -->
+<!-- ::preview item="test-results-demo" runtimes="ai-sdk,tanstack-ai" height="690" combinations="solid/uisdk" -->
 
 Test Results is a test run by the agent. The summary line counts what passed and failed. Open it to see each suite, its tests, and the error for each failure.
 
@@ -29,7 +29,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="test-results-demo" parts="true" combinations="solid/uisdk" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="test-results-demo-tanstack-ai" parts="true" combinations="solid/uisdk" -->
+
+<!-- ::end:runtime -->
 
 ## Suites
 
@@ -37,9 +47,19 @@ Group tests by file. Each suite is a collapsible line with a `Trace` of its test
 
 <!-- ::preview item="test-results-suites" height="600" combinations="solid/uisdk" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Run the tests as a tool and render its output. The tool states map the same way as in [Tool](/docs/ai-elements/tool#states).
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+Run the tests as a tool and render the `output` of its `tool-call` part. The tool states map the same way as in [Tool](/docs/ai-elements/tool#states).
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

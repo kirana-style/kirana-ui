@@ -18,7 +18,9 @@ The example draws each step with its own parts, which you copy beside it:
 
 <!-- ::demo-source item="inline-citation-demo" parts="true" combinations="angular/ng" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 A `source-url` part is the citation. Set `sendSources: true` on `toUIMessageStreamResponse()`, or write the part yourself.
 
@@ -36,3 +38,21 @@ const sources = message.parts.filter((part) => part.type === "source-url")
 ```
 
 `title` is optional. Fall back to the URL's hostname.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI has no source parts. The citation is what the agent's search tool returned, `searchWeb` in this example: read it from the tool call's `output`.
+
+```ts showLineNumbers
+const sources = message.parts
+  .filter((part) => part.type === "tool-call")
+  .flatMap((part) =>
+    part.name === "searchWeb" ? (part.output?.sources ?? []) : []
+  )
+```
+
+`title` is optional in the tool's output schema. Fall back to the URL's hostname.
+
+<!-- ::end:runtime -->

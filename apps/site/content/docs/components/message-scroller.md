@@ -8,7 +8,7 @@ keywords: [message-scroller, chat, component, base, aria]
 
 # Message Scroller
 
-<!-- ::preview item="message-scroller-demo" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" -->
+<!-- ::preview item="message-scroller-demo" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" runtimes="ai-sdk,tanstack-ai" -->
 
 ## What Makes a Great Streaming Chat Experience
 
@@ -208,7 +208,7 @@ conversation restarted on a blank page.
 
 Adjust the peek amount in the example below to see how it affects the conversation.
 
-<!-- ::preview item="message-scroller-previous-context" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" -->
+<!-- ::preview item="message-scroller-previous-context" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" runtimes="ai-sdk,tanstack-ai" -->
 
 ### Following the Live Edge
 
@@ -229,7 +229,7 @@ follow-output takes over from the anchor.
 </MessageScrollerProvider>
 ```
 
-<!-- ::preview item="message-scroller-streaming" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" -->
+<!-- ::preview item="message-scroller-streaming" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" runtimes="ai-sdk,tanstack-ai" -->
 
 Calling `scrollToEnd`, or pressing `MessageScrollerButton`, re-engages
 follow-output when `autoScroll` is enabled, so a reader who scrolled away can
@@ -313,7 +313,7 @@ same place while history loads above them.
 
 This is enabled by default through `preserveScrollOnPrepend`.
 
-<!-- ::preview item="message-scroller-load-history" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" -->
+<!-- ::preview item="message-scroller-load-history" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" runtimes="ai-sdk,tanstack-ai" -->
 
 Use stable `messageId` values for message rows. That gives the scroller a
 specific row to preserve instead of guessing from whichever pixel happens to sit
@@ -333,7 +333,7 @@ its final position so it feels like it rises from the live edge of the viewport.
 const MotionMessageScrollerItem = motion.create(MessageScrollerItem)
 ```
 
-<!-- ::preview item="message-scroller-animation" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" -->
+<!-- ::preview item="message-scroller-animation" height="688" combinations="react/base,react/aria,react/uisdk" surface="true" runtimes="ai-sdk,tanstack-ai" -->
 
 Avoid animating height, margin, or padding for row entrances; those changes can
 fight the scroller's positioning work. If the reader prefers reduced motion,
@@ -355,7 +355,7 @@ import { useMessageScroller } from "@/components/ui/message-scroller"
 const { scrollToMessage, scrollToEnd, scrollToStart } = useMessageScroller()
 ```
 
-<!-- ::preview item="message-scroller-commands" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" code="false" -->
+<!-- ::preview item="message-scroller-commands" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" code="false" runtimes="ai-sdk,tanstack-ai" -->
 
 `scrollToMessage` targets the `messageId` on `MessageScrollerItem`, so rows that
 need to be addressable should have stable ids. `scrollToMessage` returns `false`
@@ -380,7 +380,7 @@ import { useMessageScrollerVisibility } from "@/components/ui/message-scroller"
 const { currentAnchorId, visibleMessageIds } = useMessageScrollerVisibility()
 ```
 
-<!-- ::preview item="message-scroller-visibility" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" code="false" -->
+<!-- ::preview item="message-scroller-visibility" height="688" combinations="react/kirana,react/base,react/aria,react/uisdk" surface="true" code="false" runtimes="ai-sdk,tanstack-ai" -->
 
 `currentAnchorId` answers "where am I" by reporting the current anchored turn,
 and it stays set after that anchor scrolls above the viewport. `visibleMessageIds`

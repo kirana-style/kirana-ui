@@ -7,7 +7,11 @@ import { act as reactAct } from "react"
 import { createRoot } from "react-dom/client"
 import { onTestFinished } from "vite-plus/test"
 
-import { frames, watchPage } from "@workspace/vite-config/browser-page"
+import {
+  frames,
+  stylesSettled,
+  watchPage,
+} from "@workspace/vite-config/browser-page"
 
 import { Preview, loadItem } from "../src/preview"
 
@@ -42,12 +46,14 @@ export async function settle() {
 export async function mountItem(base: string, item: string) {
   const Item = (await loadItem(base, item)) as ComponentType | undefined
   if (!Item) throw new Error(`no ${base}/${item}`)
-  // The toasters `Preview` loads lazily, compiled before the stylesheet is taken: a stylesheet
-  // that changes after mounting restyles the page, and a chart's entrance ends at a repaint.
+  // The toasters `Preview` loads lazily, compiled before the item mounts, and Kirana's stylesheet
+  // left to settle once they and the item have: a stylesheet that changes after mounting restyles
+  // the page, and a chart's entrance ends at a repaint (LF-005).
   await Promise.all([
     import("@workspace/registry/bases/react-base/ui/sonner"),
     import("@workspace/registry/bases/react-base/ui/toast"),
   ])
+  await stylesSettled()
   const watch = watchPage()
   const container = document.createElement("div")
   document.body.append(container)

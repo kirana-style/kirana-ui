@@ -39,6 +39,16 @@ Put actions in `MessageFooter`. It follows the message alignment, so on the pers
 
 The reply streams as markdown. Render it with [Streamdown](https://streamdown.ai) and route fenced code to a [Code Block](/docs/components/code-block#markdown), so code in the reply gets line numbers and a copy button.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Branch on the message role. The person's turn is the bubble. The agent's turn is the reply, and `regenerate` with the message id runs it again.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+Branch on the message role. The person's turn is the bubble. The agent's turn is the reply, and `reload` runs the latest one again.
+
+<!-- ::end:runtime -->

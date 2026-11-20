@@ -1,6 +1,6 @@
 # Terminal
 
-<!-- ::preview item="terminal-demo" height="710" combinations="solid/uisdk" -->
+<!-- ::preview item="terminal-demo" runtimes="ai-sdk,tanstack-ai" height="710" combinations="solid/uisdk" -->
 
 Terminal is a shell command the agent runs, such as a lint, a test run or a build. The line shows the command, and its output streams in underneath while it runs.
 
@@ -29,7 +29,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="terminal-demo" parts="true" combinations="solid/uisdk" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="terminal-demo-tanstack-ai" parts="true" combinations="solid/uisdk" -->
+
+<!-- ::end:runtime -->
 
 ## Exit Code
 
@@ -49,7 +59,9 @@ The command is a tool call, so its states map the same way as in [Tool](/docs/ai
 
 Open the line once the first output arrives, so the output is visible while the command runs. Leave it open or closed after that, as in [Trace](/docs/components/trace#open-state).
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 A tool result arrives only once the command exits. To stream the output while it runs, write it from the tool as a data part with the tool call's id. The AI SDK replaces a data part that has the same id, so the output grows in place.
 
@@ -74,6 +86,27 @@ function getOutput(message: ChatMessage, toolCallId: string) {
   return ""
 }
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI streams a tool's input, not its output: the result, with the command's output, arrives once the command exits. Draw the line as running until then, and the output from the `tool-call` part's `output`.
+
+```ts showLineNumbers title="lib/tools.ts"
+const runCommand = toolDefinition({
+  name: "runCommand",
+  description: "Run a shell command in the project.",
+  inputSchema: z.object({ command: z.string() }),
+  outputSchema: z.object({ output: z.string(), exitCode: z.number() }),
+})
+```
+
+```ts showLineNumbers
+const output = part.output?.output ?? ""
+```
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

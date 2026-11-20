@@ -260,8 +260,17 @@ export function demoParts(
 /** Every item the docs preview (`<!-- ::preview item="…" -->`), from their markdown sources. */
 export function previewedItems(markdown: readonly string[]): string[] {
   const items = new Set<string>()
-  for (const text of markdown)
-    for (const match of text.matchAll(/::preview item="([^"]+)"/g))
+  for (const text of markdown) {
+    for (const match of text.matchAll(/::preview item="([^"]+)"([^>]*)-->/g)) {
       items.add(match[1]!)
+      // A chat demo shown on either chat runtime (`runtimes="ai-sdk,tanstack-ai"`): its TanStack
+      // AI twin, which the preview draws when the reader has chosen it, has its code too.
+      if (/\sruntimes="[^"]*tanstack-ai/.test(match[2]!))
+        items.add(`${match[1]}-tanstack-ai`)
+    }
+    // A demo whose code a page shows without its preview (a runtime block's own).
+    for (const match of text.matchAll(/::demo-source item="([^"]+)"/g))
+      items.add(match[1]!)
+  }
   return [...items].sort()
 }

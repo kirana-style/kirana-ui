@@ -1,6 +1,6 @@
 # Stack Trace
 
-<!-- ::preview item="stack-trace-demo" height="680" combinations="vue/reka" -->
+<!-- ::preview item="stack-trace-demo" height="680" combinations="vue/reka" runtimes="ai-sdk,tanstack-ai" -->
 
 Stack Trace is a line for a tool call that failed. The error is the title, like "Failed: TypeError". Open it for the stack frames, which can link to the file and line.
 
@@ -28,7 +28,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="stack-trace-demo" parts="true" combinations="vue/reka" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="stack-trace-demo-tanstack-ai" parts="true" combinations="vue/reka" -->
+
+<!-- ::end:runtime -->
 
 The title truncates, so repeat the full error at the top of the content. Frames from `node_modules` stay muted, so your own frames stand out.
 
@@ -38,7 +48,9 @@ Turn your own frames into links that open the file at the line. Fold the framewo
 
 <!-- ::preview item="stack-trace-frames" height="380" combinations="vue/reka" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 When a tool throws, its part is `output-error`. By default `errorText` is only the error message, with no frames. Return `error.stack` from `onError` in `toUIMessageStreamResponse` to send them.
 
@@ -48,6 +60,26 @@ return result.toUIMessageStreamResponse({
     error instanceof Error ? (error.stack ?? error.message) : String(error),
 })
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+When a server tool throws, its call ends in `error`, and its `tool-result` part's `error` is only the error's message, with no frames. To send them, catch the error in the tool and throw one whose message is the stack.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const runCommand = runCommandDef.server(async ({ command }) => {
+  try {
+    return await run(command)
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? (error.stack ?? error.message) : String(error)
+    )
+  }
+})
+```
+
+<!-- ::end:runtime -->
 
 A stack shows file paths from your server, so only send it in development.
 

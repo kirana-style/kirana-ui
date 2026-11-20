@@ -1,6 +1,6 @@
 # Terminal
 
-<!-- ::preview item="terminal-demo" height="710" combinations="vue/reka" -->
+<!-- ::preview item="terminal-demo" height="710" combinations="vue/reka" runtimes="ai-sdk,tanstack-ai" -->
 
 Terminal is a shell command the agent runs, such as a lint, a test run or a build. The line shows the command, and its output streams in underneath while it runs.
 
@@ -29,7 +29,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="terminal-demo" parts="true" combinations="vue/reka" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="terminal-demo-tanstack-ai" parts="true" combinations="vue/reka" -->
+
+<!-- ::end:runtime -->
 
 ## Exit Code
 
@@ -49,7 +59,9 @@ The command is a tool call, so its states map the same way as in [Tool](/docs/ai
 
 Open the line once the first output arrives, so the output is visible while the command runs. Leave it open or closed after that, as in [Trace](/docs/components/trace#open-state).
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 A tool result arrives only once the command exits. To stream the output while it runs, write it from the tool as a data part with the tool call's id. The AI SDK replaces a data part that has the same id, so the output grows in place.
 
@@ -74,6 +86,39 @@ function getOutput(message: ChatMessage, toolCallId: string) {
   return ""
 }
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+A tool result arrives only once the command exits. TanStack AI streams no data parts: to stream the output while the command runs, emit it from the tool with `emitCustomEvent`, and keep it for each tool call from `useChat`'s `onCustomEvent`.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const runCommand = runCommandDef.server(async ({ command }, context) => {
+  const output = await run(command, (text) =>
+    context?.emitCustomEvent("terminal", { output: text })
+  )
+  return { exitCode: output.exitCode, output: output.text }
+})
+```
+
+```ts showLineNumbers
+const outputs = ref<Record<string, string>>({})
+
+useChat({
+  connection,
+  threadId,
+  onCustomEvent: (eventType, data, { toolCallId }) => {
+    if (eventType === "terminal" && toolCallId) {
+      outputs.value[toolCallId] = (data as { output: string }).output
+    }
+  },
+})
+```
+
+The [TanStack AI helper](/docs/helpers/tanstack-ai) (`@shadcn/helpers`) that the example runs on emits no custom events, so its output arrives with the result, once the command exits.
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

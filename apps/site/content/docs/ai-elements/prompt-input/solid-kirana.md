@@ -44,7 +44,9 @@ onKeyDown={(event) => {
 }}
 ```
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Send the text and the `FileList` from the file input.
 
@@ -53,3 +55,29 @@ sendMessage({ text, files })
 ```
 
 The route streams the reply with `result.toUIMessageStreamResponse()`.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+Send the text and each file as a content part: an image as an `image` part, anything else as a `document`.
+
+```ts showLineNumbers
+const parts = await Promise.all(
+  Array.from(files, async (file): Promise<ContentPart> => {
+    const value = btoa(
+      String.fromCharCode(...new Uint8Array(await file.arrayBuffer()))
+    )
+    const source = { type: "data" as const, value, mimeType: file.type }
+    return file.type.startsWith("image/")
+      ? { type: "image", source }
+      : { type: "document", source }
+  })
+)
+
+sendMessage({ content: [{ type: "text", content: text }, ...parts] })
+```
+
+The route streams the reply with `toServerSentEventsResponse(stream)`.
+
+<!-- ::end:runtime -->

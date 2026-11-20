@@ -28,7 +28,7 @@ keywords: [trace, chat, component, base, aria, ark, vue, svelte, solid, angular]
 
 # Trace
 
-<!-- ::preview item="trace-demo" height="560" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
+<!-- ::preview item="trace-demo" height="560" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" runtimes="ai-sdk,tanstack-ai" -->
 
 `Trace` is a list of lines. Each line has an icon, a title, and an optional description and status. A line can expand to show more detail, link to a page, or open a dialog or sheet.
 
@@ -303,7 +303,7 @@ Trace
 - Rows that expand, link out, or open a dialog, sheet, drawer or popover
 - `running`, `error` and `pending` states, with a shimmer while running
 - Nested rows, so a summary expands into steps and a step into its output
-- Works with reasoning, tool and source parts from the AI SDK
+- Works with the AI SDK's reasoning, tool and source parts, and TanStack AI's thinking and tool call parts
 - Keyboard and screen reader support from the trigger that wraps each row
 - Customizable styling through the `sx` prop on every part
 
@@ -532,17 +532,17 @@ Three levels: the turn, a summary, and the rows. Text between steps sits between
 
 ## Reasoning
 
-Render a `reasoning` part from the AI SDK. The row is a `TraceLine` until the first text arrives. See [Open State](#open-state).
+Render a reasoning part: the AI SDK's `reasoning`, or TanStack AI's `thinking`. The row is a `TraceLine` until the first text arrives. See [Open State](#open-state).
 
-<!-- ::preview item="trace-thinking" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
+<!-- ::preview item="trace-thinking" height="360" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" runtimes="ai-sdk,tanstack-ai" -->
 
 See [Reasoning](/docs/ai-elements/reasoning) for more examples.
 
 ## Tool
 
-Render tool parts from the AI SDK. Map the tool part as in [Tool](/docs/ai-elements/tool#states).
+Render tool parts: the AI SDK's `tool-<name>`, or TanStack AI's `tool-call`. Map the part as in [Tool](/docs/ai-elements/tool#states).
 
-<!-- ::preview item="trace-tool-calls" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/ng" -->
+<!-- ::preview item="trace-tool-calls" height="400" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" runtimes="ai-sdk,tanstack-ai" -->
 
 See [Tool](/docs/ai-elements/tool) for more examples.
 

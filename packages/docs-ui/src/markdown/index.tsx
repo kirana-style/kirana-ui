@@ -33,6 +33,7 @@ import { useDocs } from "../provider.tsx"
 import { Anatomy } from "./anatomy.tsx"
 import { Callout, InCallout } from "./callout.tsx"
 import { PrimitiveDemo } from "./primitive-demo.tsx"
+import { MarkdownRuntime } from "./runtime.tsx"
 import { PropsTable } from "./props-table.tsx"
 import { ComponentsList } from "./components-list.tsx"
 import { SectionCards } from "./section-cards.tsx"
@@ -391,6 +392,7 @@ export function createMarkdownComponents(
       anatomy: Anatomy as CommentRegistry[string],
       props: PropsTable as CommentRegistry[string],
       "primitive-demo": PrimitiveDemo as unknown as CommentRegistry[string],
+      runtime: MarkdownRuntime as unknown as CommentRegistry[string],
       ...components,
     }),
   }

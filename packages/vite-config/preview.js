@@ -179,14 +179,16 @@ export function previewGroups() {
  */
 function itemGroup(id) {
   const match =
-    /\/registry\/bases\/([a-z-]+)\/(examples|charts|blocks)\/([a-z0-9-]+)/.exec(
+    /\/registry\/bases\/([a-z-]+)\/(examples|charts|blocks|components)\/([a-z0-9-]+)/.exec(
       id.replaceAll("\\", "/")
     )
   if (!match) return null
   const [, base, kind, name] = match
   if (kind === "blocks") return `${base}-block-${name}`
   // `chart-area-default` → `area`; an example by its component's first word (`alert-dialog-demo`
-  // → `alert`: a group, not a component, so a shared first word only joins two groups).
+  // → `alert`: a group, not a component, so a shared first word only joins two groups). A demo's
+  // own parts (`components/<demo>/…`, a chat demo's TanStack AI twin's among them) join its group,
+  // where each file was a chunk of its own.
   const words = name.split("-")
   return kind === "charts"
     ? `${base}-chart-${words[1] ?? words[0]}`

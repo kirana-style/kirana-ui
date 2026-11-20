@@ -1,6 +1,6 @@
 # Stack Trace
 
-<!-- ::preview item="stack-trace-demo" height="680" combinations="angular/ng" -->
+<!-- ::preview item="stack-trace-demo" height="680" combinations="angular/ng" runtimes="ai-sdk,tanstack-ai" -->
 
 Stack Trace is a line for a tool call that failed. The error is the title, like "Failed: TypeError". Open it for the stack frames, which can link to the file and line.
 
@@ -38,7 +38,9 @@ Turn your own frames into links that open the file at the line. Fold the framewo
 
 <!-- ::preview item="stack-trace-frames" height="380" combinations="angular/ng" -->
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 When a tool throws, its part is `output-error`. By default `errorText` is only the error message, with no frames. Return `error.stack` from `onError` in `toUIMessageStreamResponse` to send them.
 
@@ -50,6 +52,28 @@ return result.toUIMessageStreamResponse({
 ```
 
 A stack shows file paths from your server, so only send it in development.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+When a tool throws, its call is `error`, and the `tool-result` part after it holds the error's message in `error`, with no frames. To send them, catch the error in the tool and throw one whose message is the stack.
+
+```ts showLineNumbers title="app/api/chat/route.ts"
+const runCommand = runCommandDef.server(async ({ command }) => {
+  try {
+    return await run(command)
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? (error.stack ?? error.message) : String(error)
+    )
+  }
+})
+```
+
+A stack shows file paths from your server, so only send it in development.
+
+<!-- ::end:runtime -->
 
 Map the other tool states as in [Tool](/docs/ai-elements/tool#states).
 

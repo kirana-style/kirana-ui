@@ -54,11 +54,22 @@ function Button({ sx, variant, size, children, ...props }: ButtonProps) {
   // role, where Base UI would announce it as a button.
   const link =
     props.nativeButton === false ? { role: props.role ?? "link" } : null
+  // Kirana UI's button writes `type="button"` over the caller's, so a submit button would never
+  // submit its form (PF-052): the caller's `type` is drawn last, through `render`.
+  const typed =
+    props.type && props.type !== "button" && !props.render
+      ? {
+          render: (rendered: React.ComponentProps<"button">) => (
+            <button {...rendered} type={props.type} />
+          ),
+        }
+      : null
   return (
     <ButtonPrimitive
       data-slot="button"
       {...props}
       {...link}
+      {...typed}
       {...styleProps(button({ variant, size }), sx)}
     >
       {typeof children === "function" ? children : withLabels(children)}

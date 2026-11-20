@@ -1,6 +1,6 @@
 # Checkpoint
 
-<!-- ::preview item="checkpoint-demo" height="410" combinations="svelte/kirana" -->
+<!-- ::preview item="checkpoint-demo" runtimes="ai-sdk,tanstack-ai" height="410" combinations="svelte/kirana" -->
 
 Checkpoint is a point in the conversation you can return to. It is a [Marker](/docs/components/marker) after a turn, with a Restore button. Restore keeps that turn and drops every message after it.
 
@@ -18,7 +18,9 @@ See [Marker](/docs/components/marker#separator).
 
 The code under the preview is the whole example, in one file.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Restore replaces the thread with the messages up to and including that turn. Every later turn is removed. Send a new message to continue from there.
 
@@ -27,9 +29,24 @@ const index = messages.findIndex((message) => message.id === messageId)
 setMessages(messages.slice(0, index + 1))
 ```
 
-## AI SDK Helper
+<!-- ::end:runtime -->
 
-To script a checkpoint with [`createChat`](https://ui.shadcn.com/docs/helpers/ai-sdk) (`@shadcn/helpers`), write it as a data part on the agent's turn. Send the same `id` again only when you mean to update that checkpoint.
+<!-- ::start:runtime tanstack-ai -->
+
+Restore replaces the thread with the messages up to and including that turn. Every later turn is removed. Send a new message to continue from there.
+
+```ts showLineNumbers
+const index = chat.messages.findIndex((message) => message.id === messageId)
+chat.setMessages(chat.messages.slice(0, index + 1))
+```
+
+<!-- ::end:runtime -->
+
+## Helpers
+
+<!-- ::start:runtime ai-sdk -->
+
+To script a checkpoint with [`createChat`](/docs/helpers/ai-sdk) (`@shadcn/helpers`), write it as a data part on the agent's turn. Send the same `id` again only when you mean to update that checkpoint.
 
 ```ts showLineNumbers
 const chat = createChat()
@@ -47,3 +64,27 @@ const chat = createChat()
     writer.text("Updated the Button page to say Action.")
   })
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI has no data part, so the example's agent marks a checkpoint by calling a tool. To script it with [`createChat`](/docs/helpers/tanstack-ai) (`@shadcn/helpers/tanstack-ai`), write the call on the agent's turn and draw the marker from its input.
+
+```ts showLineNumbers
+const chat = createChat()
+  .user("Rename the button component to action.")
+  .assistant(({ writer }) => {
+    writer.text("Renamed Button to Action in components/ui/button.tsx.")
+    writer.tool("saveCheckpoint", {
+      input: { label: "Button renamed" },
+      output: { id: "rename" },
+    })
+  })
+  .user("Update the docs to match.")
+  .assistant(({ writer }) => {
+    writer.text("Updated the Button page to say Action.")
+  })
+```
+
+<!-- ::end:runtime -->

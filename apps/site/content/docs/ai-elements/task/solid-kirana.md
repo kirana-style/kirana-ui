@@ -1,6 +1,6 @@
 # Task
 
-<!-- ::preview item="task-demo" height="490" combinations="solid/kirana" -->
+<!-- ::preview item="task-demo" runtimes="ai-sdk,tanstack-ai" height="490" combinations="solid/kirana" -->
 
 Task is a piece of work the agent is doing, such as finding the project files or updating a page. Each step, like a search, a read or an edit, appears under the task when the agent takes it.
 
@@ -41,7 +41,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="task-demo" parts="true" combinations="solid/kirana" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="task-demo-tanstack-ai" parts="true" combinations="solid/kirana" -->
+
+<!-- ::end:runtime -->
 
 ## Status
 
@@ -55,7 +65,9 @@ Set the task's status from its steps. Write the title in the present tense while
 
 Put several tasks in one `Trace`. Keep the running task open, and close each task once it is done.
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Stream each task as a data part with its own `id`. The AI SDK replaces a data part with the same `id`, so writing a task again with a new step updates it in place.
 
@@ -70,6 +82,27 @@ const stream = createUIMessageStream({
 ```ts showLineNumbers
 const tasks = message.parts.filter((part) => part.type === "data-task")
 ```
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+TanStack AI's messages have no data parts. Have the agent write a task, with its `id`, through a tool each time one of its steps moves, and draw each task's latest call.
+
+```ts showLineNumbers
+const tasks = new Map<string, Task>()
+for (const part of message.parts) {
+  if (
+    part.type === "tool-call" &&
+    part.name === "updateTask" &&
+    part.state === "complete" &&
+    part.input
+  )
+    tasks.set(part.input.id, part.input)
+}
+```
+
+<!-- ::end:runtime -->
 
 ## API Reference
 

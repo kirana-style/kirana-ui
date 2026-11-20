@@ -164,6 +164,30 @@ cascade does and Kirana's per-entry merge does not:
 
 What the codemod should do itself is logged for Kirana.
 
+### Adding a chat demo
+
+A chat demo (an AI Elements pattern, a Message Scroller or Trace demo) streams a scripted
+conversation through `@shadcn/helpers`, with no model or network. It is written twice, beside
+each other in the base's `examples/`: `<demo>` on the AI SDK (`lib/ai.ts`, the framework's AI SDK
+chat) and `<demo>-tanstack-ai` on TanStack AI (`lib/tanstack-ai.ts`, the framework's
+`@tanstack/ai-*` package; on Solid 2, `lib/solid2/tanstack-chat.ts` over `@tanstack/ai-client`),
+the same UI and the same conversation. A twin's parts live in `components/<demo>-tanstack-ai/`,
+since a demo's code shows the files of its own folder. What TanStack AI's connection cannot carry
+is drawn the closest honest way and said in the page: a source or data part becomes a tool call's
+output, an approval is TanStack AI's `needsApproval` interrupt, a `thinking` part counts as
+running while it is the streaming message's last part.
+
+On the page, the demo's preview names both runtimes, `<!-- ::preview item="<demo>"
+runtimes="ai-sdk,tanstack-ai" … -->`, and a toggle beside the framework's picker swaps the twin
+in, the reader's choice for the whole site. Text for one runtime sits between
+`<!-- ::start:runtime ai-sdk -->` (or `tanstack-ai`) and `<!-- ::end:runtime -->`, under a heading
+both share (`## In a Chat`, `## Helpers`), never a heading inside a block. The builder publishes
+each twin's code beside its demo's (`/r/demos/`).
+
+TanStack AI's own guidance comes with the package: `vp exec intent load @tanstack/ai#ai-core`
+(and its sub-skills, `#ai-core/chat-experience`, `#ai-core/tool-calling`), through TanStack
+Intent, which `package.json#intent.skills` allows for `@tanstack/ai` alone.
+
 ### Adding a chart
 
 A chart is ported from upstream's `registry/new-york-v4/charts/<name>.tsx` (the one place upstream

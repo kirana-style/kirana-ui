@@ -101,6 +101,9 @@ function pressable(element) {
   return (
     element.isConnected &&
     !element.closest("a[href]") &&
+    // In a section that is closing: inert at once, while its height still animates (Firefox on
+    // CI paints it slowly), so the trigger has a box but nothing can press it.
+    !element.closest("[inert]") &&
     !element.matches(":disabled, [aria-disabled='true'], [data-disabled]") &&
     box.width > 0 &&
     box.height > 0 &&
@@ -207,6 +210,41 @@ async function closed(container) {
   for (let tries = 0; tries < 20 && open(); tries++) {
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
+}
+
+/**
+ * Resolves once the page's stylesheets have stopped changing for `quiet` ms (at most `limit` ms):
+ * in development Kirana's stylesheet grows in place as each module compiles, and a change restyles
+ * the page, which ends a chart's entrance at once (LF-005). A mount waits for it, once its item's
+ * modules have been imported, so a first run, which compiles everything, behaves as a later one.
+ */
+export function stylesSettled(quiet = 300, limit = 5000) {
+  return new Promise((resolve) => {
+    let timer
+    const done = () => {
+      observer.disconnect()
+      clearTimeout(timer)
+      clearTimeout(cap)
+      resolve(undefined)
+    }
+    const observer = new MutationObserver((records) => {
+      if (!records.some((record) => isStyle(record.target))) return
+      clearTimeout(timer)
+      timer = setTimeout(done, quiet)
+    })
+    const isStyle = (node) =>
+      node.nodeName === "STYLE" ||
+      node.nodeName === "LINK" ||
+      node.parentNode?.nodeName === "STYLE"
+    observer.observe(document.head, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+    })
+    timer = setTimeout(done, quiet)
+    const cap = setTimeout(done, limit)
+  })
 }
 
 /** Two animation frames: what a press or a mount needs to show its result. */

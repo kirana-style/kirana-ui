@@ -1,6 +1,6 @@
 # Test Results
 
-<!-- ::preview item="test-results-demo" height="690" combinations="vue/kirana" -->
+<!-- ::preview item="test-results-demo" height="690" combinations="vue/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 Test Results is a test run by the agent. The summary line counts what passed and failed. Open it to see each suite, its tests, and the error for each failure.
 
@@ -29,7 +29,17 @@ import {
 
 The example draws each step with its own parts, which you copy beside it:
 
+<!-- ::start:runtime ai-sdk -->
+
 <!-- ::demo-source item="test-results-demo" parts="true" combinations="vue/kirana" -->
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+<!-- ::demo-source item="test-results-demo-tanstack-ai" parts="true" combinations="vue/kirana" -->
+
+<!-- ::end:runtime -->
 
 ## Suites
 
@@ -37,7 +47,7 @@ Group tests by file. Each suite is a collapsible line with a `Trace` of its test
 
 <!-- ::preview item="test-results-suites" height="600" combinations="vue/kirana" -->
 
-## AI SDK
+## In a Chat
 
 Run the tests as a tool and render its output. The tool states map the same way as in [Tool](/docs/ai-elements/tool#states).
 

@@ -44,7 +44,9 @@ onKeyDown={(event) => {
 }}
 ```
 
-## AI SDK
+## In a Chat
+
+<!-- ::start:runtime ai-sdk -->
 
 Send the text and the `FileList` from the file input.
 
@@ -53,3 +55,22 @@ sendMessage({ text, files })
 ```
 
 The route streams the reply with `result.toUIMessageStreamResponse()`.
+
+<!-- ::end:runtime -->
+
+<!-- ::start:runtime tanstack-ai -->
+
+Send the text, and each file as a content part: TanStack AI's `sendMessage` takes a string or multimodal content.
+
+```ts showLineNumbers
+this.chat.sendMessage({
+  content: [
+    { type: "text", content: text },
+    { type: "image", source: { type: "url", value: url, mimeType: file.type } },
+  ],
+})
+```
+
+The route streams the reply with `toServerSentEventsResponse(stream)`.
+
+<!-- ::end:runtime -->

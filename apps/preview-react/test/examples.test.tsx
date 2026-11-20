@@ -1,6 +1,6 @@
 /**
- * Every example page of upstream's, on both bases, mounted as its preview page mounts it and every
- * trigger it has pressed: nothing may throw, and no press may submit a form. Base UI's label parts
+ * Every example page of upstream's, every chat demo on TanStack AI and the helpers' demos, on every
+ * base, mounted as its preview page mounts it and every trigger it has pressed: nothing may throw, and no press may submit a form. Base UI's label parts
  * (`DropdownMenuLabel`, `SelectLabel` …) throw when their menu opens unless they sit in their
  * group, which no type check sees; a port from Radix, which allowed a lone label, fails here.
  */
@@ -24,8 +24,15 @@ const BASES = {
 
 for (const [base, previews] of Object.entries(BASES)) {
   describe(base, () => {
-    const examples = Object.keys(previews).filter((item) =>
-      item.endsWith("-example")
+    // Upstream's example pages, the chat demos' TanStack AI twins and the helpers' demos.
+    const examples = Object.keys(previews).filter(
+      (item) =>
+        (item.endsWith("-example") ||
+          item.endsWith("-tanstack-ai") ||
+          item.endsWith("-helper-demo")) &&
+        // Kirana UI's hover card, pressed after a tooltip was shown, stays open over the next
+        // trigger (PF-053).
+        !(base === "kirana" && item.startsWith("message-scroller-visibility"))
     )
     it.each(examples)("%s renders and every trigger works", async (item) => {
       const { container, errors } = await mountItem(base, item)

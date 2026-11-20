@@ -254,6 +254,8 @@ export const previews: Record<
   "code-block-languages": () => import("./examples/code-block-languages"),
   "code-block-line-numbers": () => import("./examples/code-block-line-numbers"),
   "code-block-markdown": () => import("./examples/code-block-markdown"),
+  "code-block-markdown-tanstack-ai": () =>
+    import("./examples/code-block-markdown-tanstack-ai"),
   "code-block-rtl": () => import("./examples/code-block-rtl"),
   "code-block-show-more": () => import("./examples/code-block-show-more"),
   "code-block-show-more-scroll": () =>
@@ -497,26 +499,42 @@ export const previews: Record<
     import("./examples/message-scroller-anchoring"),
   "message-scroller-animation": () =>
     import("./examples/message-scroller-animation"),
+  "message-scroller-animation-tanstack-ai": () =>
+    import("./examples/message-scroller-animation-tanstack-ai"),
   "message-scroller-commands": () =>
     import("./examples/message-scroller-commands"),
+  "message-scroller-commands-tanstack-ai": () =>
+    import("./examples/message-scroller-commands-tanstack-ai"),
   "message-scroller-demo": () => import("./examples/message-scroller-demo"),
+  "message-scroller-demo-tanstack-ai": () =>
+    import("./examples/message-scroller-demo-tanstack-ai"),
   "message-scroller-example": () =>
     import("./examples/message-scroller-example"),
+  "message-scroller-example-tanstack-ai": () =>
+    import("./examples/message-scroller-example-tanstack-ai"),
   "message-scroller-group-chat": () =>
     import("./examples/message-scroller-group-chat"),
   "message-scroller-load-history": () =>
     import("./examples/message-scroller-load-history"),
+  "message-scroller-load-history-tanstack-ai": () =>
+    import("./examples/message-scroller-load-history-tanstack-ai"),
   "message-scroller-opening-position": () =>
     import("./examples/message-scroller-opening-position"),
   "message-scroller-previous-context": () =>
     import("./examples/message-scroller-previous-context"),
+  "message-scroller-previous-context-tanstack-ai": () =>
+    import("./examples/message-scroller-previous-context-tanstack-ai"),
   "message-scroller-scrollable": () =>
     import("./examples/message-scroller-scrollable"),
   "message-scroller-state": () => import("./examples/message-scroller-state"),
   "message-scroller-streaming": () =>
     import("./examples/message-scroller-streaming"),
+  "message-scroller-streaming-tanstack-ai": () =>
+    import("./examples/message-scroller-streaming-tanstack-ai"),
   "message-scroller-visibility": () =>
     import("./examples/message-scroller-visibility"),
+  "message-scroller-visibility-tanstack-ai": () =>
+    import("./examples/message-scroller-visibility-tanstack-ai"),
   "native-select-demo": () => import("./examples/native-select-demo"),
   "native-select-disabled": () => import("./examples/native-select-disabled"),
   "native-select-example": () => import("./examples/native-select-example"),
@@ -724,6 +742,7 @@ export const previews: Record<
   "trace-collapsible": () => import("./examples/trace-collapsible"),
   "trace-commit": () => import("./examples/trace-commit"),
   "trace-demo": () => import("./examples/trace-demo"),
+  "trace-demo-tanstack-ai": () => import("./examples/trace-demo-tanstack-ai"),
   "trace-description": () => import("./examples/trace-description"),
   "trace-dialog": () => import("./examples/trace-dialog"),
   "trace-example": () => import("./examples/trace-example"),
@@ -736,39 +755,69 @@ export const previews: Record<
   "trace-status": () => import("./examples/trace-status"),
   "trace-steps": () => import("./examples/trace-steps"),
   "trace-thinking": () => import("./examples/trace-thinking"),
+  "trace-thinking-tanstack-ai": () =>
+    import("./examples/trace-thinking-tanstack-ai"),
   "trace-tool-calls": () => import("./examples/trace-tool-calls"),
+  "trace-tool-calls-tanstack-ai": () =>
+    import("./examples/trace-tool-calls-tanstack-ai"),
   "trace-turn": () => import("./examples/trace-turn"),
   "chain-of-thought-demo": () => import("./examples/chain-of-thought-demo"),
+  "chain-of-thought-demo-tanstack-ai": () =>
+    import("./examples/chain-of-thought-demo-tanstack-ai"),
   "chat-demo": () => import("./examples/chat-demo"),
+  "chat-demo-tanstack-ai": () => import("./examples/chat-demo-tanstack-ai"),
   "checkpoint-demo": () => import("./examples/checkpoint-demo"),
+  "checkpoint-demo-tanstack-ai": () =>
+    import("./examples/checkpoint-demo-tanstack-ai"),
   "confirmation-demo": () => import("./examples/confirmation-demo"),
+  "confirmation-demo-tanstack-ai": () =>
+    import("./examples/confirmation-demo-tanstack-ai"),
   "context-demo": () => import("./examples/context-demo"),
   "file-tree-demo": () => import("./examples/file-tree-demo"),
   "inline-citation-demo": () => import("./examples/inline-citation-demo"),
   "message-pattern": () => import("./examples/message-pattern"),
   "model-selector-demo": () => import("./examples/model-selector-demo"),
   "plan-demo": () => import("./examples/plan-demo"),
+  "plan-demo-tanstack-ai": () => import("./examples/plan-demo-tanstack-ai"),
   "plan-description": () => import("./examples/plan-description"),
   "prompt-input-demo": () => import("./examples/prompt-input-demo"),
   "queue-demo": () => import("./examples/queue-demo"),
+  "queue-demo-tanstack-ai": () => import("./examples/queue-demo-tanstack-ai"),
   "queue-descriptions": () => import("./examples/queue-descriptions"),
   "reasoning-demo": () => import("./examples/reasoning-demo"),
+  "reasoning-demo-tanstack-ai": () =>
+    import("./examples/reasoning-demo-tanstack-ai"),
   "reasoning-duration": () => import("./examples/reasoning-duration"),
   "sources-demo": () => import("./examples/sources-demo"),
+  "sources-demo-tanstack-ai": () =>
+    import("./examples/sources-demo-tanstack-ai"),
   "stack-trace-demo": () => import("./examples/stack-trace-demo"),
+  "stack-trace-demo-tanstack-ai": () =>
+    import("./examples/stack-trace-demo-tanstack-ai"),
   "stack-trace-frames": () => import("./examples/stack-trace-frames"),
   "subagent-demo": () => import("./examples/subagent-demo"),
+  "subagent-demo-tanstack-ai": () =>
+    import("./examples/subagent-demo-tanstack-ai"),
   "subagent-details": () => import("./examples/subagent-details"),
   "subagent-running": () => import("./examples/subagent-running"),
   "suggestion-demo": () => import("./examples/suggestion-demo"),
   "task-demo": () => import("./examples/task-demo"),
+  "task-demo-tanstack-ai": () => import("./examples/task-demo-tanstack-ai"),
   "terminal-demo": () => import("./examples/terminal-demo"),
+  "terminal-demo-tanstack-ai": () =>
+    import("./examples/terminal-demo-tanstack-ai"),
   "terminal-error": () => import("./examples/terminal-error"),
   "test-results-demo": () => import("./examples/test-results-demo"),
+  "test-results-demo-tanstack-ai": () =>
+    import("./examples/test-results-demo-tanstack-ai"),
   "test-results-suites": () => import("./examples/test-results-suites"),
   "tool-approval": () => import("./examples/tool-approval"),
+  "tool-approval-tanstack-ai": () =>
+    import("./examples/tool-approval-tanstack-ai"),
   "tool-demo": () => import("./examples/tool-demo"),
+  "tool-demo-tanstack-ai": () => import("./examples/tool-demo-tanstack-ai"),
   "tool-sheet": () => import("./examples/tool-sheet"),
+  "tool-sheet-tanstack-ai": () => import("./examples/tool-sheet-tanstack-ai"),
   "tool-states": () => import("./examples/tool-states"),
   "typography-blockquote": () => import("./examples/typography-blockquote"),
   "typography-demo": () => import("./examples/typography-demo"),
@@ -785,4 +834,6 @@ export const previews: Record<
   "typography-rtl": () => import("./examples/typography-rtl"),
   "typography-small": () => import("./examples/typography-small"),
   "typography-table": () => import("./examples/typography-table"),
+  "ai-sdk-helper-demo": () => import("./examples/ai-sdk-helper-demo"),
+  "tanstack-ai-helper-demo": () => import("./examples/tanstack-ai-helper-demo"),
 }
