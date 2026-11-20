@@ -10,7 +10,7 @@ Sources is built with `Trace` with a `TraceCollapsible` for the list.
 
 Sources is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="solid/kirana" -->
+<!-- ::installation name="trace" combinations="solid/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

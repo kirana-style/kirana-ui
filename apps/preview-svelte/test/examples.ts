@@ -11,7 +11,13 @@ import { pressTriggers } from "@workspace/vite-config/browser-page"
 
 import { BASES, mountItem, settle } from "./page"
 
-for (const base of Object.keys(BASES) as (keyof typeof BASES)[]) {
+/**
+ * `base`'s example pages, chat demos and helper demos, each mounted and every trigger pressed. Each
+ * base has a test file of its own (`examples.<base>.test.ts`): a file is a page of its own, so a
+ * base's memory is released before the next one's, where every base in one page ran a browser out
+ * of it.
+ */
+export function testExamples(base: keyof typeof BASES) {
   describe(base, () => {
     // And the chat demos on TanStack AI and the helpers' demos, which have no `-example` page.
     const examples = Object.keys(BASES[base]).filter(

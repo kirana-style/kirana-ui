@@ -13,6 +13,7 @@ import "./generate-primitives.ts"
 
 import { UNEXPORTED_BASES } from "@workspace/registry/core/config"
 import { VARIANTS, defaultOf } from "../src/lib/variants.ts"
+import { RUNTIMES, runtimePackages } from "@workspace/docs-ui/runtime.ts"
 
 import { FRAMEWORK_BASES, ITEMS } from "../../../packages/builder/src/items.ts"
 
@@ -210,7 +211,7 @@ await generate({
       `[Preview: ${item}](https://ui.kirana.style/preview/${combinations?.split(",")[0] ?? "react/base"}/${item})`,
     // The Installation section: the command, then where the manual steps' files are. A pattern
     // names the components it is built from, the first its own.
-    installation: ({ name = "", combinations }) => {
+    installation: ({ name = "", combinations, runtimes }) => {
       const variant = combinations?.split(",")[0] ?? "react/base"
       const names = name.split(/\s+/).filter(Boolean)
       const first = names[0] ?? name
@@ -230,6 +231,21 @@ await generate({
           : []),
         "",
         `To install it by hand, copy its files from [${first}.json](/r/${first}.json), every framework and base in every style, into a project set up with \`kirana-style ui init\`.`,
+        // An AI Elements pattern: the chat runtime's packages, each runtime's (the page's switch).
+        ...(runtimes
+          ? RUNTIMES.flatMap((runtime) => {
+              const { packages, note } = runtimePackages(runtime.id, variant)
+              return [
+                "",
+                `Then the chat runtime, with ${runtime.id === "ai-sdk" ? "the AI SDK" : runtime.label}:`,
+                "",
+                "```bash",
+                `npm install ${packages}`,
+                "```",
+                ...(note ? ["", note] : []),
+              ]
+            })
+          : []),
       ].join("\n")
     },
     // The code panel reads the item's registry document in the browser; the twin links to it, and

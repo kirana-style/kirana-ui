@@ -35,7 +35,7 @@ Confirmation asks the person for a yes or no before a tool runs. The question is
 
 Confirmation is built with the [Item](/docs/components/item) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="item button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" -->
+<!-- ::installation name="item button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

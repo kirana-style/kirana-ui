@@ -10,7 +10,7 @@ Queue is built with `Trace` with a `TraceCollapsible` for each section.
 
 Queue is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="solid/uisdk" -->
+<!-- ::installation name="trace" combinations="solid/uisdk" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

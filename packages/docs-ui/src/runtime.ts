@@ -55,3 +55,29 @@ export function useRuntime(): Runtime {
 /** The item a preview draws on `runtime`: the AI SDK's as named, TanStack AI's its twin. */
 export const itemOn = (item: string, runtime: Runtime) =>
   runtime === "tanstack-ai" ? `${item}-tanstack-ai` : item
+
+/**
+ * The packages a project installs to chat on `runtime` in `combination`'s framework (`react/base`),
+ * beside the component, and what the demo does where no adapter exists: what the chat demos import.
+ */
+export function runtimePackages(
+  runtime: Runtime,
+  combination: string
+): { packages: string; note?: string } {
+  const [framework = "react", base] = combination.split("/")
+  if (runtime === "tanstack-ai") {
+    // Solid on UI SDK is on Solid 2, which `@tanstack/ai-solid` does not support yet.
+    if (framework === "solid" && base === "uisdk")
+      return {
+        packages: "@tanstack/ai @tanstack/ai-client",
+        note: "`@tanstack/ai-solid` is on Solid 1, so the demo's `useChat` is a few lines over `@tanstack/ai-client`'s `ChatClient` with Solid 2's signals, in its code.",
+      }
+    return { packages: `@tanstack/ai @tanstack/ai-${framework}` }
+  }
+  if (framework === "solid" || framework === "angular")
+    return {
+      packages: "ai",
+      note: "The AI SDK has no current adapter for this framework, so the demo's `Chat` is the AI SDK's `AbstractChat` over the framework's signals, in its code.",
+    }
+  return { packages: `ai @ai-sdk/${framework}` }
+}
