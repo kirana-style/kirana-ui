@@ -9,12 +9,13 @@ import {
   numberAttribute,
 } from "@angular/core"
 import {
-  KuiTooltip,
-  KuiTooltipArrow,
-  KuiTooltipPopup,
-  KuiTooltipPortal,
-  KuiTooltipPositioner,
-  KuiTooltipTrigger,
+  KpTooltip,
+  KpTooltipArrow,
+  KpTooltipPopup,
+  KpTooltipPortal,
+  KpTooltipPositioner,
+  KpTooltipTrigger,
+  hostInputs,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
@@ -49,50 +50,45 @@ class TooltipProvider {
   readonly delay = input(0, { transform: numberAttribute })
 }
 
+/** The delay the tooltips inside the nearest `TooltipProvider` open after, read like a signal. */
+const useTooltipDelay = () => inject(TOOLTIP_DELAY)
+
 /**
  * A tooltip: `<ng-container kuiTooltip>` around its trigger and content, drawing no element:
- * Kirana UI's root (`KuiTooltip`), its `[(open)]`, `defaultOpen`, `closeDelay` and `disabled` its
- * own.
- *
- * Its `delay` defaults to the provider's (0), where Kirana UI's waits 600 ms. A host directive's
- * input takes no default from the directive it is on, so this root extends Kirana UI's and
- * redeclares the input, read when the root is made: a provider's bound `[delay]` set in the same
- * template comes too late for it, a static `delay="…"` does not (PF-035: no default for a host
- * directive's input, and no provider for the tooltips' delay). Kirana UI's trigger finds its root
- * by its class, which this one stands for.
+ * Kirana UI's root (`KpTooltip`), its `[(open)]`, `defaultOpen`, `delay`, `closeDelay` and
+ * `disabled` its own. Its `delay` defaults to the provider's (0), where Kirana UI's waits 600 ms.
  */
 @Directive({
   selector: "[kuiTooltip]",
-  providers: [{ provide: KuiTooltip, useExisting: Tooltip }],
+  hostDirectives: [
+    {
+      directive: KpTooltip,
+      inputs: ["open", "defaultOpen", "delay", "closeDelay", "disabled"],
+      outputs: ["openChange", "openChanged"],
+    },
+  ],
 })
-class Tooltip extends KuiTooltip {
-  override readonly delay = input<number | undefined, unknown>(
-    inject(TOOLTIP_DELAY)(),
-    { transform: numberAttribute }
-  )
+class Tooltip {
+  constructor() {
+    hostInputs(KpTooltip, { delay: useTooltipDelay() })
+  }
 }
 
 /** What it describes, opening it on hover and on keyboard focus. */
 @Directive({
   selector: "[kuiTooltipTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiTooltipTrigger],
+  hostDirectives: [KpTooltipTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
     // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
     "[attr.data-slot]": "'tooltip-trigger'",
-    // Kirana UI's tooltip trigger leaves a `<button>` without a `type`, which submits the form it
-    // sits in, where its popover trigger says `type="button"` (PF-029).
-    "[attr.type]": "isButton ? 'button' : null",
     "[class]": "part().class",
     "[style]": "part().style",
   },
 })
 class TooltipTrigger {
   readonly sx = input<SxInput>()
-  protected readonly isButton =
-    inject<ElementRef<HTMLElement>>(ElementRef).nativeElement.tagName ===
-    "BUTTON"
   protected readonly part = computed(() => partSx(undefined, this.sx()))
 }
 
@@ -106,10 +102,10 @@ class TooltipTrigger {
 @Component({
   selector: "[kuiTooltipContent]",
   imports: [
-    KuiTooltipArrow,
-    KuiTooltipPopup,
-    KuiTooltipPortal,
-    KuiTooltipPositioner,
+    KpTooltipArrow,
+    KpTooltipPopup,
+    KpTooltipPortal,
+    KpTooltipPositioner,
   ],
   providers: [provideSxPart()],
   host: {
@@ -119,9 +115,9 @@ class TooltipTrigger {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiTooltipPortal>
+    <ng-template kpTooltipPortal>
       <div
-        kuiTooltipPositioner
+        kpTooltipPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -129,14 +125,14 @@ class TooltipTrigger {
         [class]="positioner"
       >
         <div
-          kuiTooltipPopup
+          kpTooltipPopup
           data-slot="tooltip-content"
           [attr.dir]="host.getAttribute('dir')"
           [class]="part().class"
           [style]="part().style"
         >
           <ng-content />
-          <div kuiTooltipArrow [class]="arrow"></div>
+          <div kpTooltipArrow [class]="arrow"></div>
         </div>
       </div>
     </ng-template>
@@ -157,4 +153,10 @@ class TooltipContent {
   )
 }
 
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  useTooltipDelay,
+}

@@ -2,10 +2,6 @@ import { IconPlaceholder } from "../../../icons/icon-placeholder"
 import * as React from "react"
 import { format } from "date-fns"
 import { arSA, he } from "date-fns/locale"
-import {
-  arSA as arSADayPicker,
-  he as heDayPicker,
-} from "react-day-picker/locale"
 
 import { useTranslation } from "../components/language-selector"
 import type { Translations } from "../components/language-selector"
@@ -52,11 +48,6 @@ const translations: Translations = {
   },
 }
 
-const dayPickerLocales = {
-  ar: arSADayPicker,
-  he: heDayPicker,
-} as const
-
 const dateFnsLocales = {
   ar: arSA,
   he: he,
@@ -69,10 +60,6 @@ export default function DatePickerRtl() {
   const dateFnsLocale =
     dir === "rtl"
       ? dateFnsLocales[language as keyof typeof dateFnsLocales]
-      : undefined
-  const dayPickerLocale =
-    dir === "rtl"
-      ? dayPickerLocales[language as keyof typeof dayPickerLocales]
       : undefined
 
   return (
@@ -109,7 +96,7 @@ export default function DatePickerRtl() {
             onSelect={setDate}
             defaultMonth={date}
             dir={dir}
-            locale={dayPickerLocale}
+            locale={dateFnsLocale}
           />
         </PopoverContent>
       </Popover>

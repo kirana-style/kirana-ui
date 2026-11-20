@@ -1,6 +1,7 @@
 import { mergeProps, splitProps } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import { item } from "../../../styles/item.styles"
 import { Separator } from "./separator"
 import type { JSX } from "solid-js"
@@ -23,7 +24,7 @@ function Item(props: {
     ["variant", "size", "asChild", "class", "sx", "children"]
   )
   return (
-    <Element
+    <Primitive
       as="div"
       data-slot="item"
       data-variant={local.variant}
@@ -35,10 +36,10 @@ function Item(props: {
         item.root({ variant: local.variant, size: local.size }),
         local.sx
       )}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

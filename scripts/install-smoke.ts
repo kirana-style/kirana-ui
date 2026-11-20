@@ -26,7 +26,6 @@ import {
   readdirSync,
   rmSync,
   statSync,
-  writeFileSync,
 } from "node:fs"
 import { createServer } from "node:http"
 import type { AddressInfo } from "node:net"
@@ -51,8 +50,8 @@ const STATIC = join(ROOT, "apps", "site", "dist", "client")
 /**
  * What CI installs: every framework on each of its bases (ui-sdk, then Kirana UI, after the
  * framework's own), across the templates, the toolings and the workspaces (a Turborepo, a Vite+
- * monorepo, each with `packages/ui`), each in another style. Solid on ui-sdk is the one base left
- * out: it needs Solid 2, and no template is on Solid 2 yet (KF-129).
+ * monorepo, each with `packages/ui`), each in another style; Solid on ui-sdk on the one template
+ * on Solid 2, which its base needs.
  */
 const DEFAULT = [
   "react-base-nova@vite-react--none--eslint",
@@ -65,13 +64,13 @@ const DEFAULT = [
   "vue-uisdk-maia@vite-vue--none--oxlint",
   "svelte-uisdk-vega@vite-svelte--none--oxlint",
   "solid-ark-mira@tanstack-start-solid--none--oxlint",
+  "solid-uisdk-luma@vite-solid2--none--oxlint",
   "angular-ng-luma@analog-angular--none--eslint",
   "react-kirana-sera@vite-react--none--oxlint",
   "vue-kirana-luma@vite-vue--none--oxlint",
   "svelte-kirana-mira@vite-svelte--none--oxlint",
   "solid-kirana-rhea@solid-start--none--oxlint",
-  // Analog, not Angular CLI, whose skeleton does not build after `init` (KF-131).
-  "angular-kirana-nova@analog-angular--none--oxlint",
+  "angular-kirana-nova@angular-cli--none--eslint",
 ]
 
 /**
@@ -340,71 +339,6 @@ async function run(cwd: string, command: string, ...args: string[]) {
 }
 
 /**
- * What `init` leaves to the reader where no file renders `<html>` (Nuxt, whose `<Html>` component
- * in app.vue `init` does not read as the document, KF-112): its "by hand" lines, done as the
- * Installation page says: the attributes on `<Html>`, and `:sx="htmlStyles"` with its import.
- */
-function byHand(app: string, document: string, output: string) {
-  // The lines are the app's, prefixed in a workspace.
-  const lines = output.replace(/^by hand: app: /gm, "by hand: ")
-  // An import after Kirana's stylesheet (a font's, in a `.svelte` layout `init` does not read,
-  // KF-113): into the file that imports the stylesheet.
-  for (const match of lines.matchAll(
-    /^by hand: import "([^"]+)" after Kirana's stylesheet$/gm
-  )) {
-    const entry = filesOf(app).find((file) =>
-      readFileSync(join(app, file), "utf8").includes(
-        '"@kirana-style/core/stylesheet.css"'
-      )
-    )
-    if (!entry) {
-      console.error(
-        `install: init left ${match[1]} by hand, and no file of ${app} imports Kirana's stylesheet`
-      )
-      process.exit(1)
-    }
-    const text = readFileSync(join(app, entry), "utf8")
-    if (!text.includes(`"${match[1]}"`))
-      writeFileSync(
-        join(app, entry),
-        text.replace(
-          /^(\s*)import "@kirana-style\/core\/stylesheet.css"\n/m,
-          `$&$1import "${match[1]}"\n`
-        )
-      )
-    console.log(`install: by hand, ${entry}: import "${match[1]}"`)
-  }
-  const attributes = /^by hand: set <html>'s attributes: (.+)$/m.exec(
-    lines
-  )?.[1]
-  const styles =
-    /^by hand: give <html> the design system's styles: <html sx=\{(\w+)\}>, with (import .+)$/m.exec(
-      lines
-    )
-  if (!attributes && !styles) return
-  // SvelteKit's skeleton gives `<html>` its styles in `hooks.server.ts` (KF-113).
-  if (!attributes && existsSync(join(app, "src/hooks.server.ts"))) return
-  const file = join(app, document)
-  let text = readFileSync(file, "utf8")
-  if (!/<Html[\s>]/.test(text)) {
-    console.error(
-      `install: init left <html> by hand, and ${document} has no <Html>`
-    )
-    process.exit(1)
-  }
-  text = text.replace(
-    /<Html(?=[\s>])/,
-    `<Html${attributes ? ` ${attributes}` : ""}${styles ? ` :sx="${styles[1]}"` : ""}`
-  )
-  if (styles)
-    text = text.replace(/<script setup lang="ts">\n/, `$&${styles[2]}\n`)
-  writeFileSync(file, text)
-  console.log(
-    `install: by hand, ${document}: <Html ${attributes ?? ""}${styles ? ` :sx="${styles[1]}"` : ""}>`
-  )
-}
-
-/**
  * The combinations asked for, else the default list; `--shard <i>/<n>` keeps every n-th of the
  * default list from the i-th, so CI installs it on n runners side by side.
  */
@@ -452,7 +386,7 @@ for (const asked of selected(process.argv.slice(2))) {
   const choices = { ...skeleton, base: system.base, pointer: true, rtl: false }
   // Get Code's command, under Bun: the skeleton fetched from this checkout's templates, installed,
   // the design system installed with the preset, `data-pointer` on `<html>`.
-  const initOutput = await run(
+  await run(
     folder,
     "bunx",
     `${REGISTRY_PACKAGE}@${kirana}`,
@@ -468,7 +402,6 @@ for (const asked of selected(process.argv.slice(2))) {
   // Where the components and the lockfile are: the package of a workspace.
   const project = workspace ? join(root, WORKSPACE.uiPath) : root
   const example = APPS[skeleton.template]
-  byHand(app, example.document, initOutput)
   if (
     !/<html[^>]*\bdata-pointer\b/i.test(
       readFileSync(join(app, example.document), "utf8")
@@ -480,15 +413,28 @@ for (const asked of selected(process.argv.slice(2))) {
     process.exit(1)
   }
   // The preset's font is Inter: `init` installs its item, which imports the family's stylesheet
-  // in the app.
+  // in the app (on the Angular CLI, lists it in angular.json's `styles`), and its package in the
+  // app's manifest, also in a workspace.
   if (
     !filesOf(app).some((file) =>
-      readFileSync(join(app, file), "utf8").includes(
-        '"@fontsource-variable/inter"'
+      /"@fontsource-variable\/inter(?:\/[^"]*\.css)?"/.test(
+        readFileSync(join(app, file), "utf8")
       )
     )
   ) {
     console.error(`install: init did not import the preset's font in ${app}`)
+    process.exit(1)
+  }
+  const manifest = JSON.parse(
+    readFileSync(join(app, "package.json"), "utf8")
+  ) as Record<string, Record<string, string> | undefined>
+  if (
+    !manifest.dependencies?.["@fontsource-variable/inter"] &&
+    !manifest.devDependencies?.["@fontsource-variable/inter"]
+  ) {
+    console.error(
+      `install: init did not add the preset's font's package to ${join(app, "package.json")}`
+    )
     process.exit(1)
   }
   const items = itemsOf(framework, base)

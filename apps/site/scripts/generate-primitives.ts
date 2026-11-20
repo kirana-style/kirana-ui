@@ -42,6 +42,8 @@ const DESCRIPTIONS: Record<string, string> = {
     "Slides that scroll one at a time, with buttons and the arrow keys.",
   Checkbox:
     "A box that is checked, unchecked or indeterminate, and a form's own control.",
+  CheckboxGroup:
+    "Several checkboxes that share one value, a list of what is checked, and a parent that checks them all.",
   Collapsible: "A panel that a button opens and closes.",
   Combobox:
     "A text input that filters a list to choose one value from, or several.",

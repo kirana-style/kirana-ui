@@ -115,6 +115,7 @@ Each component comes with the ones it needs, and its files land under
 | Vue       | Ark UI                | `vite-vue`, `nuxt`                                                                                 | 61         |
 | Svelte    | Ark UI                | `vite-svelte`, `sveltekit`                                                                         | 61         |
 | Solid     | Ark UI                | `vite-solid`, `solid-start`, `tanstack-start-solid`                                                | 61         |
+| Solid     | UI SDK (Solid 2)      | `vite-solid2`                                                                                      | 61         |
 | Angular   | ng-primitives         | `analog-angular`, `angular-cli`                                                                    | 62         |
 
 Every framework has the blocks and the charts too. Each template is named after Kirana's
@@ -124,12 +125,17 @@ install where the project does not say. Astro's components are React islands
 (`composer install` and `php artisan key:generate` set the PHP side up, `vite build` needs
 none of it).
 
-Two templates leave `init` a step for you, which it prints at the end. On Nuxt, no file
-renders `<html>`: put the attributes it lists on the `<Html>` in `app/app.vue`, with
-`:sx="htmlStyles"` and its import. On SvelteKit, `init` does not read `+layout.svelte` as
-the file importing Kirana's stylesheet: add the font's import it names after that
-stylesheet (the skeleton already imports the reset there, and sets `<html>`'s styles in
-`src/hooks.server.ts`). Both are on Kirana's list.
+Solid on UI SDK runs on Solid 2 (`solid-js` 2 with `@solidjs/web`), which Solid's other
+bases and templates do not: it installs into `vite-solid2`, Kirana's Vite + Solid 2 example,
+and Get Code offers that template with it alone.
+
+Where a template has no file that renders `<html>`, `init` sets the document up the
+framework's way. On Nuxt it puts the attributes and `:sx="htmlStyles"` on the `<Html>` in
+`app/app.vue`. On SvelteKit it imports the reset and the fonts in `src/routes/+layout.svelte`
+and writes `src/hooks.server.ts`, which gives every page's `<html>` the design system's
+styles. On the Angular CLI it lists the stylesheets and the fonts in `angular.json`'s
+`styles`, after Kirana's, and sets `<html>`'s classes in `src/document.ts`, which `main.ts`
+imports.
 
 ## Monorepos
 
@@ -177,9 +183,9 @@ Each skeleton CI installs with Get Code's own command from an empty folder gets 
 component its framework has, then its `format`, `lint`, `typecheck` and `build` scripts
 run, it moves to another design with `ui preset` and back, and its lockfile is checked:
 React on Vite with ESLint and React Router in a Turborepo with Oxlint, Nuxt with Biome,
-SvelteKit in a Vite+ monorepo, TanStack Start on Solid with Oxlint and Analog with ESLint,
-on every change to this repository. The other templates were installed and built by hand
-when they were added.
+SvelteKit in a Vite+ monorepo, TanStack Start on Solid with Oxlint, Vite on Solid 2 with
+Oxlint, Analog with ESLint and the Angular CLI with ESLint, on every change to this
+repository. The other templates were installed and built by hand when they were added.
 
 An icon is your icon library's own component where the library has a package for
 your framework. Where it has none, and on Angular for every library, `ui add`

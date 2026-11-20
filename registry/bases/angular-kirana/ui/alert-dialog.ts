@@ -7,14 +7,14 @@ import {
   input,
 } from "@angular/core"
 import {
-  KuiAlertDialog,
-  KuiDialogBackdrop,
-  KuiDialogClose,
-  KuiDialogDescription,
-  KuiDialogPopup,
-  KuiDialogPortal,
-  KuiDialogTitle,
-  KuiDialogTrigger,
+  KpAlertDialog,
+  KpDialogBackdrop,
+  KpDialogClose,
+  KpDialogDescription,
+  KpDialogPopup,
+  KpDialogPortal,
+  KpDialogTitle,
+  KpDialogTrigger,
 } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -28,16 +28,15 @@ type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
 /**
  * A dialog that asks for an answer: `<ng-container kuiAlertDialog>` around its trigger and content,
- * drawing no element, as Base UI's root: Kirana UI's (`KuiAlertDialog`), always modal, a press
+ * drawing no element, as Base UI's root: Kirana UI's (`KpAlertDialog`), always modal, a press
  * outside it never closing it, its `[(open)]` and `defaultOpen` its own. Its parts are a dialog's,
- * which find it as their root. Kirana UI's selectors are the registry's, so a part takes its
- * primitive as a host directive and a file imports only one of the two.
+ * which find it as their root. Each part takes its primitive as a host directive.
  */
 @Directive({
   selector: "[kuiAlertDialog]",
   hostDirectives: [
     {
-      directive: KuiAlertDialog,
+      directive: KpAlertDialog,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -49,7 +48,7 @@ class AlertDialog {}
 @Directive({
   selector: "[kuiAlertDialogTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTrigger],
+  hostDirectives: [KpDialogTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element.
     "[attr.data-slot]": "'alert-dialog-trigger'",
@@ -70,7 +69,7 @@ class AlertDialogPortal {}
 @Directive({
   selector: "[kuiAlertDialogClose]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     "[attr.data-slot]": "'alert-dialog-close'",
     "[class]": "part().class",
@@ -90,18 +89,18 @@ class AlertDialogClose {
  */
 @Component({
   selector: "[kuiAlertDialogContent]",
-  imports: [KuiDialogBackdrop, KuiDialogPopup, KuiDialogPortal],
+  imports: [KpDialogBackdrop, KpDialogPopup, KpDialogPortal],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
-    <ng-template kuiDialogPortal>
+    <ng-template kpDialogPortal>
       <div
-        kuiDialogBackdrop
+        kpDialogBackdrop
         data-slot="alert-dialog-overlay"
         [class]="overlay"
       ></div>
       <div
-        kuiDialogPopup
+        kpDialogPopup
         data-slot="alert-dialog-content"
         [attr.data-size]="size()"
         [attr.dir]="host.getAttribute('dir')"
@@ -205,7 +204,7 @@ class AlertDialogAction {
 @Directive({
   selector: "button[kuiAlertDialogCancel]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     type: "button",
     "data-slot": "alert-dialog-cancel",
@@ -230,7 +229,7 @@ class AlertDialogCancel {
 @Directive({
   selector: "h2[kuiAlertDialogTitle]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTitle],
+  hostDirectives: [KpDialogTitle],
   host: {
     "data-slot": "alert-dialog-title",
     "[class]": "part().class",
@@ -246,7 +245,7 @@ class AlertDialogTitle {
 @Directive({
   selector: "p[kuiAlertDialogDescription]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogDescription],
+  hostDirectives: [KpDialogDescription],
   host: {
     "data-slot": "alert-dialog-description",
     "[class]": "part().class",

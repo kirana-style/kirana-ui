@@ -8,12 +8,7 @@ import { Errored, Loading } from "solid-js"
 import { render } from "@solidjs/web"
 import { onTestFinished } from "vite-plus/test"
 
-import stylesheet from "@kirana-style/core/stylesheet.css?url"
-import {
-  frames,
-  refreshStyles,
-  watchPage,
-} from "@workspace/vite-config/browser-page"
+import { frames, watchPage } from "@workspace/vite-config/browser-page"
 import { LanguageContext } from "@workspace/registry/bases/solid-uisdk/components/language-selector.tsx"
 import { previews as uisdkPreviews } from "@workspace/registry/bases/solid-uisdk/previews.ts"
 import { IconLibraryContext } from "@workspace/registry/bases/solid-uisdk/ui/icon-placeholder.tsx"
@@ -26,12 +21,8 @@ export const BASES = { uisdk: uisdkPreviews }
 /** Lets Solid and the item settle: two frames. */
 export const settle = frames
 
-/** Kirana's stylesheet with every module compiled so far (`refreshStyles`, KF-124). */
-export const styles = () => refreshStyles(stylesheet)
-
 /** `view` on the page in the preview's contexts, disposed when the test ends. */
 export async function mountView(view: () => JSX.Element) {
-  await styles()
   const watch = watchPage()
   const container = document.createElement("div")
   document.body.append(container)
@@ -56,7 +47,6 @@ export async function mountView(view: () => JSX.Element) {
   )
   await settle()
   // What the item loaded on mounting has compiled by now.
-  await styles()
   await settle()
   onTestFinished(() => {
     dispose()

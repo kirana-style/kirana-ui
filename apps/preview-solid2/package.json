@@ -24,12 +24,12 @@
   },
   "devDependencies": {
     "@kirana-style/vite": "catalog:",
+    "@solidjs/vite-plugin": "^3.0.1",
     "@vitest/browser-playwright": "catalog:",
     "@workspace/vite-config": "workspace:*",
     "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-solid": "3.0.0-next.27",
     "vite-plus": "catalog:"
   }
 }

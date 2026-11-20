@@ -26,8 +26,5 @@ export function pressTriggers(
   }
 ): Promise<void>
 
-/** Kirana's stylesheet as it stands now, fetched from `url` and put on the page. */
-export function refreshStyles(url: string): Promise<void>
-
 /** Two animation frames. */
 export function frames(): Promise<void>

@@ -23,17 +23,20 @@ export function slotRender<State>(
   render?: RenderProp<State>
 ): RenderProp<State> {
   if (render === undefined) return createElement(tag, { "data-slot": slot })
-  if (isValidElement(render))
-    return (render.props as { "data-slot"?: string })["data-slot"] === undefined
-      ? cloneElement(render, { "data-slot": slot })
-      : render
-  return (props, state) =>
-    cloneElement(
-      render(props, state) as ReactElement<Record<string, unknown>>,
-      {
+  // A function first: ui-sdk's `RenderProp` (0.1.0-beta.12) is `ReactElement<any>` or a function,
+  // which `isValidElement` does not narrow.
+  if (typeof render === "function")
+    return (props, state) =>
+      cloneElement(
+        render(props, state) as ReactElement<Record<string, unknown>>,
+        { "data-slot": slot }
+      )
+  return isValidElement<{ "data-slot"?: string }>(render) &&
+    render.props["data-slot"] !== undefined
+    ? render
+    : cloneElement(render as ReactElement<Record<string, unknown>>, {
         "data-slot": slot,
-      }
-    )
+      })
 }
 
 /**

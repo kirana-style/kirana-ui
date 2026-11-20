@@ -1,12 +1,10 @@
 /**
- * A design system's own element (a badge, an item, a breadcrumb's link) composed as a part is: drawn
- * as `as`, or through the caller's `asChild` (Ark UI's, which every Solid base takes), given the
- * props to spread. Kirana UI's Solid adapter has no such element (PF-033): React's has `useRender`
- * and Vue's `Primitive`.
+ * Ark UI's `asChild`, which every Solid base takes, on Kirana UI's parts: their `render`, and that
+ * of `Primitive` (`@kirana-ui/solid/primitive`), the adapter's element for a design system's own
+ * (a badge, an item, a breadcrumb's link) composed as a part is.
  */
-import { mergeProps, Show, splitProps } from "solid-js"
+import { mergeProps } from "solid-js"
 import type { JSX } from "solid-js"
-import { Dynamic } from "solid-js/web"
 
 type Tag = keyof JSX.IntrinsicElements
 
@@ -26,24 +24,4 @@ export function asRender<T extends Tag>(asChild: AsChild<T> | undefined) {
       (userProps) =>
         mergeProps(userProps ?? {}, props()) as JSX.HTMLAttributes<any>
     )
-}
-
-/** `as` with the props it is given, or the caller's own element through `asChild`. */
-export function Element<T extends Tag>(
-  props: { as: T; asChild?: AsChild<T> } & Record<string, unknown>
-) {
-  const [local, rest] = splitProps(props, ["as", "asChild"])
-  return (
-    <Show
-      when={local.asChild}
-      fallback={<Dynamic component={local.as as Tag} {...rest} />}
-    >
-      {(asChild) =>
-        asChild()(
-          (userProps) =>
-            mergeProps(userProps ?? {}, rest) as JSX.HTMLAttributes<any>
-        )
-      }
-    </Show>
-  )
 }

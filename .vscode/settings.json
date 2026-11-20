@@ -19,12 +19,9 @@
   "oxc.lint.run": "onType",
 
   // ─── TypeScript ───────────────────────────────────────────────────────────────
-  // The language service's memory, in MB: the workspace's many projects (every base's
-  // tsconfig, each preview app's) crash it at the default 3,072.
-  "typescript.tsserver.maxTsServerMemory": 8192,
-  // Use the workspace TypeScript version instead of VS Code's bundled one.
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // VS Code's own TypeScript, not the workspace's: TypeScript 7 (the native compiler) ships no
+  // `tsserver.js`, so a `typescript.tsdk` pointing at it leaves the editor without a language
+  // service. The type check itself runs on TypeScript 7 (`vp check`, through tsrs).
   // Align quote style with vite.config.ts → fmt (double quotes, no semi)
   "typescript.preferences.quoteStyle": "double",
   "javascript.preferences.quoteStyle": "double",

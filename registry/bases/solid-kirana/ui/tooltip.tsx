@@ -94,11 +94,8 @@ function TooltipTrigger(props: {
     "sx",
     "children",
   ])
-  // `type="button"`: Kirana UI's tooltip trigger is a `<button>` without one, which submits the
-  // form it sits in (PF-029).
   return (
     <TooltipPrimitive.Trigger
-      type="button"
       data-slot="tooltip-trigger"
       {...rest}
       {...styleProps(local.class, local.sx)}

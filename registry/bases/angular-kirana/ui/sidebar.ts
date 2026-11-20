@@ -12,13 +12,12 @@ import {
   input,
   output,
   signal,
-  untracked,
 } from "@angular/core"
 import type { Signal } from "@angular/core"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
 import type { SxInput } from "@kirana-style/angular"
-import { KuiTooltip, KuiTooltipTrigger } from "@kirana-ui/angular"
+import { KpTooltip, KpTooltipTrigger, hostInputs } from "@kirana-ui/angular"
 
 import { IconPlaceholder } from "../../../icons/angular"
 // The registry's own: Kirana UI has no media-query helper (React's `useIsMobile`).
@@ -36,7 +35,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./sheet"
-import { Tooltip, TooltipContent } from "./tooltip"
+import { TooltipContent, useTooltipDelay } from "./tooltip"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -641,17 +640,16 @@ const MENU_BUTTON_SIZES = {
 /**
  * A row's button: `<button kuiSidebarMenuButton isActive>` (or on an `<a>`). With `tooltip`, it
  * names itself in a tooltip to its right while the sidebar is collapsed to its icons: the button is
- * the registry's tooltip root (`Tooltip`, Kirana UI's with the provider's `delay` of 0) and Kirana
- * UI's trigger (`KuiTooltipTrigger`, whose slot and classes would otherwise meet the button's), the
- * registry's `TooltipContent` drawing the tip. A host directive's `disabled` cannot be bound from
- * here (PF-035), so an opening is refused (`details.cancel()`) while there is no tip to show, and
- * a button with none never reads as open.
+ * Kirana UI's tooltip root (`KpTooltip`, given the provider's `delay` of 0) and trigger
+ * (`KpTooltipTrigger`, whose slot and classes would otherwise meet the button's), the registry's
+ * `TooltipContent` drawing the tip. The tooltip is disabled while there is no tip to show, so a
+ * button with none never reads as open.
  */
 @Component({
   selector: "[kuiSidebarMenuButton]",
   imports: [TooltipContent],
   providers: [provideSxPart()],
-  hostDirectives: [Tooltip, KuiTooltipTrigger],
+  hostDirectives: [KpTooltip, KpTooltipTrigger],
   host: {
     "[attr.data-slot]": "'sidebar-menu-button'",
     "data-sidebar": "menu-button",
@@ -698,8 +696,9 @@ class SidebarMenuButton {
       !this.label()?.hidden &&
       this.context.state() === "collapsed" &&
       !this.context.isMobile()
-    inject(KuiTooltip).openChanged.subscribe(({ open, details }) => {
-      if (open && !untracked(shown)) details.cancel()
+    hostInputs(KpTooltip, {
+      delay: useTooltipDelay(),
+      disabled: computed(() => !shown()),
     })
   }
 }

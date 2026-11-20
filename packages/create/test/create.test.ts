@@ -2,14 +2,16 @@ import { describe, expect, it } from "vite-plus/test"
 
 import { DEFAULT_DESIGN_SYSTEM } from "@workspace/registry/core/config"
 
-import { TEMPLATES } from "../src/catalog.ts"
+import { FRAMEWORK_BASES, TEMPLATES } from "../src/catalog.ts"
 import {
   DEFAULT_CHOICES,
+  basesFor,
   everySkeleton,
   isResolved,
   parseSkeletonId,
   resolveChoices,
   skeletonId,
+  templatesFor,
 } from "../src/choices.ts"
 import { commandLines, projectSteps } from "../src/commands.ts"
 import { composeProject } from "../src/compose.ts"
@@ -45,13 +47,46 @@ describe("choices", () => {
     expect(isResolved(DEFAULT_CHOICES)).toBe(true)
   })
 
+  it("puts Solid on ui-sdk on Solid 2's template, and that template on it alone", () => {
+    expect(templatesFor("solid", "uisdk")).toEqual(["vite-solid2"])
+    expect(templatesFor("solid", "ark")).not.toContain("vite-solid2")
+    expect(templatesFor("solid", "kirana")).not.toContain("vite-solid2")
+    expect(basesFor("solid", "vite-solid2")).toEqual(["uisdk"])
+    expect(basesFor("solid", "vite-solid")).toEqual(["ark", "kirana"])
+    // The base is the design's: a template it does not run on moves to one it does.
+    expect(
+      resolveChoices({
+        framework: "solid",
+        base: "uisdk",
+        template: "solid-start",
+      })
+    ).toMatchObject({ base: "uisdk", template: "vite-solid2" })
+    expect(
+      resolveChoices({
+        framework: "solid",
+        base: "ark",
+        template: "vite-solid2",
+      })
+    ).toMatchObject({ base: "ark", template: "vite-solid" })
+    // Given no base, the template asked for picks one it runs.
+    expect(
+      resolveChoices({ framework: "solid", template: "vite-solid2" })
+    ).toMatchObject({ base: "uisdk", template: "vite-solid2" })
+    // Every other framework's bases take every template.
+    for (const framework of ["react", "vue", "svelte", "angular"] as const)
+      for (const template of TEMPLATES[framework])
+        expect(basesFor(framework, template)).toEqual(
+          FRAMEWORK_BASES[framework]
+        )
+  })
+
   it("names every skeleton once, and reads the name back", () => {
     const all = everySkeleton()
     const ids = all.map(skeletonId)
     expect(new Set(ids).size).toBe(ids.length)
-    // 15 templates: 10 on Vite (3 monorepos; none takes 4 toolings, turbo 3, vite-plus 1), 5 not
+    // 16 templates: 11 on Vite (3 monorepos; none takes 4 toolings, turbo 3, vite-plus 1), 5 not
     // (2 monorepos × 3 toolings); SvelteKit alone takes no Vite+ tooling (svelte-check).
-    expect(all).toHaveLength(10 * (4 + 3 + 1) - 1 + 5 * (3 + 3))
+    expect(all).toHaveLength(11 * (4 + 3 + 1) - 1 + 5 * (3 + 3))
     expect(parseSkeletonId("sveltekit--none--vite-plus")).toBeUndefined()
     expect(parseSkeletonId("sveltekit--vite-plus--vite-plus")).toBeDefined()
     for (const skeleton of all) {
@@ -128,10 +163,34 @@ describe("compose", () => {
       check: "vp check",
     })
     expect(manifest.devDependencies.vite).toBe(
-      "npm:@voidzero-dev/vite-plus-core@1.5.0"
+      "npm:@voidzero-dev/vite-plus-core@8.3.8000"
     )
     expect(vitePlus.get("vite.config.ts")).toContain('from "vite-plus"')
     expect(vitePlus.get("vite.config.ts")).toContain("kirana/diagnostics")
+  })
+
+  it("writes Solid 2's packages and JSX for its template, in the app and packages/ui", () => {
+    const files = composeProject(
+      { template: "vite-solid2", monorepo: "turbo", tooling: "oxlint" },
+      versions
+    )
+    for (const path of ["apps/web", "packages/ui"]) {
+      const manifest = JSON.parse(files.get(`${path}/package.json`)!)
+      expect(manifest.dependencies["solid-js"]).toMatch(/^\^2\./)
+      expect(manifest.dependencies["@solidjs/web"]).toMatch(/^\^2\./)
+      expect(
+        JSON.parse(files.get(`${path}/tsconfig.json`)!).compilerOptions
+          .jsxImportSource
+      ).toBe("@solidjs/web")
+    }
+    expect(
+      JSON.parse(files.get("apps/web/package.json")!).devDependencies[
+        "@solidjs/vite-plugin"
+      ]
+    ).toMatch(/^\^3\./)
+    expect(files.get("apps/web/vite.config.ts")).toContain(
+      'from "@solidjs/vite-plugin"'
+    )
   })
 
   it("puts the app in a workspace's apps/web, the components in packages/ui", () => {
@@ -141,6 +200,9 @@ describe("compose", () => {
     )
     expect(turbo.has("turbo.json")).toBe(true)
     expect(turbo.has("pnpm-workspace.yaml")).toBe(true)
+    // A font's package goes into the app that imports it (`init`): nothing hoisted.
+    expect(turbo.get("pnpm-workspace.yaml")).not.toContain("publicHoistPattern")
+    expect(turbo.has("bunfig.toml")).toBe(false)
     const root = JSON.parse(turbo.get("package.json")!)
     expect(root.scripts).toMatchObject({
       build: "turbo build",

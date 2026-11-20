@@ -1,5 +1,5 @@
 import * as React from "react"
-import { arSA, he } from "react-day-picker/locale"
+import { arSA, he } from "date-fns/locale"
 
 import { useTranslation } from "../components/language-selector"
 import type { Translations } from "../components/language-selector"

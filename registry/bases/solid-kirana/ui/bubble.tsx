@@ -1,7 +1,8 @@
 import { mergeProps, splitProps } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { bubble } from "../../../styles/bubble.styles"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid/element"
@@ -52,15 +53,15 @@ function BubbleContent(props: {
     "children",
   ])
   return (
-    <Element
+    <Primitive
       as="div"
       data-slot="bubble-content"
       {...rest}
       {...styleProps(local.class, bubble.content, local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

@@ -7,7 +7,7 @@ import {
   numberAttribute,
   output,
 } from "@angular/core"
-import { KuiToggle, KuiToggleGroup } from "@kirana-ui/angular"
+import { KpToggle, KpToggleGroup } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 
@@ -26,7 +26,7 @@ const TOGGLE_GROUP = new InjectionToken<GroupContext>("kui toggle group")
 
 /**
  * Toggles that work as one: `<div kuiToggleGroup [defaultValue]="['bold']" multiple>`, on Kirana
- * UI's toggle group (`KuiToggleGroup`), Base UI's API: its value is the pressed items' values, one
+ * UI's toggle group (`KpToggleGroup`), Base UI's API: its value is the pressed items' values, one
  * at a time unless `multiple`; its `value`, `defaultValue`, `multiple`, `disabled` and
  * `orientation` are the primitive's. `variant`, `size` and `spacing` (steps of 0.25rem between the
  * items, 0 joining them) reach the items.
@@ -39,7 +39,7 @@ const TOGGLE_GROUP = new InjectionToken<GroupContext>("kui toggle group")
   selector: "[kuiToggleGroup]",
   hostDirectives: [
     {
-      directive: KuiToggleGroup,
+      directive: KpToggleGroup,
       inputs: ["value", "defaultValue", "multiple", "disabled", "orientation"],
     },
   ],
@@ -77,7 +77,7 @@ class ToggleGroup {
   protected readonly part = computed(() => partSx(toggleGroup.root, this.sx()))
 
   constructor() {
-    inject(KuiToggleGroup).valueChanged.subscribe(({ value }) =>
+    inject(KpToggleGroup).valueChanged.subscribe(({ value }) =>
       this.valueChange.emit(value as string[])
     )
   }
@@ -85,12 +85,12 @@ class ToggleGroup {
 
 /**
  * One of its toggles: `<button kuiToggleGroupItem value="bold">`, Kirana UI's toggle
- * (`KuiToggle`) with a `value`, which makes it one of the group's: its `value` and `disabled` are
+ * (`KpToggle`) with a `value`, which makes it one of the group's: its `value` and `disabled` are
  * the primitive's.
  */
 @Directive({
   selector: "button[kuiToggleGroupItem]",
-  hostDirectives: [{ directive: KuiToggle, inputs: ["value", "disabled"] }],
+  hostDirectives: [{ directive: KpToggle, inputs: ["value", "disabled"] }],
   providers: [provideSxPart()],
   host: {
     "data-slot": "toggle-group-item",

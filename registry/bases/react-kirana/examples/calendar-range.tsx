@@ -2,9 +2,9 @@ import { css } from "@kirana-style/core"
 
 import * as React from "react"
 import { addDays } from "date-fns"
-import type { DateRange } from "react-day-picker"
 
 import { Calendar } from "../ui/calendar"
+import type { DateRange } from "../ui/calendar"
 import { radius, theme } from "../../../core/tokens"
 import { page } from "../../../styles/page.styles"
 

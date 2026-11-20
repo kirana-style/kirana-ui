@@ -32,6 +32,11 @@ export const calendarDayScope = relation("calendar-day")
 
 const FOCUSED = calendarDayScope.within('[data-focused="true"]')
 /**
+ * A disabled day: react-day-picker's button is `disabled` (Button's `disabled:opacity-50
+ * disabled:pointer-events-none`); Kirana UI's stays focusable, its cell saying it.
+ */
+const DISABLED = calendarDayScope.within('[data-disabled="true"]')
+/**
  * A selected cell at a row's end: on Base UI the `td`, on React Aria its child (`:not(td)`, or the
  * React Aria read would match a Base UI cell in the month's last row).
  */
@@ -365,6 +370,8 @@ export const calendar = {
     fontWeight: { "*": null, base: fontWeight.normal },
     borderColor: { [FOCUSED]: theme.ring },
     boxShadow: { [FOCUSED]: `0 0 0 3px ${alpha.ring50}` },
+    opacity: { [DISABLED]: 0.5 },
+    pointerEvents: { [DISABLED]: "none" },
     backgroundColor: {
       '[data-selected-single="true"]': theme.primary,
       '[data-range-start="true"]': theme.primary,

@@ -1,24 +1,19 @@
 import { Component, Directive, computed, input } from "@angular/core"
-import {
-  KuiTabs,
-  KuiTabsList,
-  KuiTabsPanel,
-  KuiTabsTab,
-} from "@kirana-ui/angular"
+import { KpTabs, KpTabsList, KpTabsPanel, KpTabsTab } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 
 import { tabs } from "../../../styles/tabs.styles"
 
 /**
- * Tabs: `<div kuiTabs defaultValue="overview">`, on Kirana UI's tabs (`KuiTabs`), which write
+ * Tabs: `<div kuiTabs defaultValue="overview">`, on Kirana UI's tabs (`KpTabs`), which write
  * their `data-orientation`: its `[(value)]`, `defaultValue` and `orientation` are the primitive's.
  */
 @Directive({
   selector: "[kuiTabs]",
   hostDirectives: [
     {
-      directive: KuiTabs,
+      directive: KpTabs,
       inputs: ["value", "defaultValue", "orientation"],
       outputs: ["valueChange"],
     },
@@ -36,12 +31,12 @@ class Tabs {
 }
 
 /**
- * The row of tabs, Kirana UI's list (`KuiTabsList`, `role="tablist"`), filled or underlined
+ * The row of tabs, Kirana UI's list (`KpTabsList`, `role="tablist"`), filled or underlined
  * (`variant="line"`).
  */
 @Directive({
   selector: "[kuiTabsList]",
-  hostDirectives: [KuiTabsList],
+  hostDirectives: [KpTabsList],
   providers: [provideSxPart()],
   host: {
     "data-slot": "tabs-list",
@@ -62,12 +57,12 @@ class TabsList {
 }
 
 /**
- * A tab: `<button kuiTabsTrigger value="overview">`, Kirana UI's tab (`KuiTabsTab`, `data-active`
+ * A tab: `<button kuiTabsTrigger value="overview">`, Kirana UI's tab (`KpTabsTab`, `data-active`
  * while chosen): its `value` and `disabled` are the primitive's.
  */
 @Directive({
   selector: "button[kuiTabsTrigger]",
-  hostDirectives: [{ directive: KuiTabsTab, inputs: ["value", "disabled"] }],
+  hostDirectives: [{ directive: KpTabsTab, inputs: ["value", "disabled"] }],
   providers: [provideSxPart()],
   host: {
     "data-slot": "tabs-trigger",
@@ -82,17 +77,17 @@ class TabsTrigger {
 
 /**
  * A tab's panel: `<div kuiTabsContent value="overview">`. Kirana UI's panel is structural
- * (`*kuiTabsPanel`, in the page only while its tab is chosen), which an attribute cannot put around
+ * (`*kpTabsPanel`, in the page only while its tab is chosen), which an attribute cannot put around
  * its own element: the part draws it around the caller's content, its own element drawing nothing.
  */
 @Component({
   selector: "[kuiTabsContent]",
-  imports: [KuiTabsPanel],
+  imports: [KpTabsPanel],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiTabsPanel="value()"
+      *kpTabsPanel="value()"
       data-slot="tabs-content"
       [class]="part().class"
       [style]="part().style"

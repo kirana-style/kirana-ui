@@ -8,8 +8,8 @@
  * The tooling's configuration sits at the root, over `apps/*` and `packages/*` alike.
  */
 import type { AppSkeleton, Dependency } from "./app.ts"
-import type { Framework, Monorepo, Tooling } from "./catalog.ts"
-import { PROJECT, WORKSPACE } from "./catalog.ts"
+import type { Framework, Monorepo, Runtime, Tooling } from "./catalog.ts"
+import { PROJECT, TEMPLATE_RUNTIMES, WORKSPACE } from "./catalog.ts"
 import {
   dependencyMap,
   kiranaPackages,
@@ -24,7 +24,7 @@ import {
   toolingLayer,
   vitePlusOptions,
 } from "./tooling.ts"
-import { PACKAGE_MANAGER } from "./versions.ts"
+import { PACKAGE_MANAGER, VITE_PLUS_VITE, solid2 } from "./versions.ts"
 
 export const GITIGNORE = `node_modules
 dist
@@ -48,16 +48,14 @@ export function gitignore(app: AppSkeleton): string {
 
 const WORKSPACES = ["apps/*", "packages/*"]
 
-/** The font items' packages (`font-<name>`: `@fontsource-variable/inter` …). */
-const FONT_PACKAGES = ["@fontsource-variable/*", "@fontsource/*"]
-
 /**
  * What `packages/ui` needs of its own to hold and type-check the framework's components: the
  * framework at runtime, its types and type checker, and the compiler options its components are
- * written for (the same the apps have). `ui add` adds each component's own packages to it.
+ * written for (the same the apps have), per framework, or per runtime where its template is on
+ * one of its own (Solid 2's). `ui add` adds each component's own packages to it.
  */
 const UI_PACKAGE: Record<
-  Framework,
+  Framework | Runtime,
   {
     dependencies: Dependency[]
     devDependencies: Dependency[]
@@ -146,6 +144,23 @@ export default { preprocess: vitePreprocess() }
       types: ["@kirana-style/core/solid"],
     },
   },
+  solid2: {
+    dependencies: [solid2("solid-js"), solid2("@solidjs/web")],
+    devDependencies: ["typescript"],
+    typecheck: "tsc --noEmit",
+    compilerOptions: {
+      target: "ES2022",
+      module: "ESNext",
+      moduleResolution: "bundler",
+      jsx: "preserve",
+      jsxImportSource: "@solidjs/web",
+      strict: true,
+      noEmit: true,
+      skipLibCheck: true,
+      allowImportingTsExtensions: true,
+      types: ["@kirana-style/core/solid"],
+    },
+  },
   angular: {
     dependencies: ["@angular/common", "@angular/core", "rxjs", "tslib"],
     devDependencies: ["typescript"],
@@ -174,7 +189,7 @@ function uiPackage(
   app: AppSkeleton,
   versions: { kirana: string }
 ): Record<string, string> {
-  const spec = UI_PACKAGE[app.framework]
+  const spec = UI_PACKAGE[TEMPLATE_RUNTIMES[app.template] ?? app.framework]
   const {
     compilerOptions,
     typecheck,
@@ -227,12 +242,7 @@ export function workspaceLayer(
   if (monorepo === "none") return {}
   const ignores = ignored(app)
   const common = {
-    // A font's package goes into `packages/ui` with the components, but its stylesheet is
-    // imported by the app, which pnpm's and Bun's isolated installs then cannot resolve: the
-    // font packages are hoisted to the root until `init` and `add` put them in the app (KF-111,
-    // 0.4.1).
-    "pnpm-workspace.yaml": `packages:\n${WORKSPACES.map((entry) => `  - "${entry}"`).join("\n")}\npublicHoistPattern:\n${FONT_PACKAGES.map((entry) => `  - "${entry}"`).join("\n")}\n`,
-    "bunfig.toml": `[install]\npublicHoistPattern = [${FONT_PACKAGES.map((entry) => `"${entry}"`).join(", ")}]\n`,
+    "pnpm-workspace.yaml": `packages:\n${WORKSPACES.map((entry) => `  - "${entry}"`).join("\n")}\n`,
     ".gitignore": `${GITIGNORE}\n# What the app writes\n${ignores
       .filter((entry) => !GITIGNORE.includes(`${entry}\n`))
       .map((entry) => `apps/${PROJECT.app}/${entry}`)
@@ -303,7 +313,7 @@ ${about}
     "vite-plus",
     {
       name: "vite",
-      version: `npm:@voidzero-dev/vite-plus-core@${versions.vitePlus}`,
+      version: VITE_PLUS_VITE,
     },
     { name: "@kirana-style/eslint-plugin", version: versions.kirana },
   ]

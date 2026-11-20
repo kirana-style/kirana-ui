@@ -1,5 +1,6 @@
 {
-  // Solid 2's JSX (`@solidjs/web`), where `sx` compiles to `class` (`sx.d.ts`, KF-127). Solid 2 and
+  // Solid 2's JSX (`@solidjs/web`), where `sx` compiles to `class` (`@kirana-style/core/solid` types
+  // it on Solid 2's JSX too, and Kirana detects Solid from `jsxImportSource`). Solid 2 and
   // the packages on it resolve from the Solid 2 preview app, as its build does (`resolve.dedupe`).
   "compilerOptions": {
     "target": "ES2022",
@@ -9,7 +10,7 @@
     "verbatimModuleSyntax": true,
     "jsx": "preserve",
     "jsxImportSource": "@solidjs/web",
-    "types": [],
+    "types": ["@kirana-style/core/solid"],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,

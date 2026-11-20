@@ -239,7 +239,7 @@ export default defineConfig({
       },
       // Format, lint with the Kirana rules, and types. A lint warning fails it, as in CI, so
       // warnings cannot pile up; each check runs whatever an earlier one found, so one run lists
-      // every problem. Lint is most of its time: the Kirana rules' setup per file (KF-123).
+      // every problem. Under a minute for the whole repository.
       check: {
         command: "vp check --deny-warnings --continue-on-error",
         dependsOn: ["content"],

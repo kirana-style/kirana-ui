@@ -1,8 +1,8 @@
 /**
  * A tooltip or popover trigger in a form never submits it, as its own button or through `asChild`
  * with the registry's Button, on each base. Ark UI's tooltip trigger is a `<button>` with no type,
- * which submits the form (LF-021), and so is Kirana UI's (PF-029): `TooltipTrigger` passes
- * `type="button"`.
+ * which submits the form (LF-021): its `TooltipTrigger` passes `type="button"`. Kirana UI's was
+ * too until its 0.3.0, whose trigger writes `type="button"` itself (PF-029); this test holds that.
  */
 import { describe, expect, it } from "vite-plus/test"
 import { page, userEvent } from "vite-plus/test/browser"

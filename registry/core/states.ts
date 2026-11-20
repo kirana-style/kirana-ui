@@ -14,6 +14,7 @@ import * as Ark from "@kirana-style/states/ark-ui"
 import * as NgPrimitives from "@kirana-style/states/ng-primitives"
 import * as Reka from "@kirana-style/states/reka-ui"
 import * as Bits from "@kirana-style/states/bits-ui"
+import * as UiSdk from "@kirana-style/states/ui-sdk"
 
 /**
  * Each base's key for a state. `ng` is ng-primitives, Angular's base, which writes Base UI's
@@ -25,10 +26,10 @@ import * as Bits from "@kirana-style/states/bits-ui"
  * `data-ending-style` on its popups and panels, so its motion is Base UI's transitions. `uisdk` is
  * ui-sdk (P9), one core for React, Vue, Svelte and Solid, which writes Base UI's names nearly
  * everywhere (`data-open`, `data-closed`, `data-starting-style`, `data-checked`, `data-highlighted`)
- * and a few of its own (`data-selected` on a tab, `data-pressed` on a toggle). Kirana has no ui-sdk
- * vocabulary yet, so its keys are written here as selectors, from each component's Data Attributes
- * in ui-sdk's docs (0.1.0-beta.2), each checked in the browser: the vocabulary's keys once a release
- * carries KF-125 (found on 0.4.1).
+ * and a few of its own (`data-selected` on a tab, `data-pressed` on a toggle). Its keys are
+ * `@kirana-style/states/ui-sdk`'s; where that vocabulary names no such attribute on the part (a
+ * menu item's `data-highlighted`, a toast's swipe direction …), ui-sdk still writes it, each checked
+ * in the browser, so it is written here as a selector until the vocabulary has it (KF-133).
  */
 export type StateKeys = {
   base?: string
@@ -66,13 +67,13 @@ export const overlay = {
     base: Base.Dialog.Popup.startingStyle,
     aria: Aria.Modal.entering,
     bits: Bits.Dialog.Content.startingStyle,
-    uisdk: "[data-starting-style]",
+    uisdk: UiSdk.Dialog.Content.startingStyle,
   },
   ending: {
     base: Base.Dialog.Popup.endingStyle,
     aria: Aria.Modal.exiting,
     bits: Bits.Dialog.Content.endingStyle,
-    uisdk: "[data-ending-style]",
+    uisdk: UiSdk.Dialog.Content.endingStyle,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -91,31 +92,30 @@ export const presence = {
 
 /** The side a popup opened on, against its trigger. React Aria has no logical sides. */
 export const side = {
-  // Bits UI's popups write the physical side as Base UI's do (`data-side`). Its vocabulary names it
-  // only on the arrows, the same strings: the contents' keys once a release fixes KF-117 (found on 0.4.1).
+  // Bits UI's popups write the physical side as Base UI's do (`data-side`).
   top: {
     base: Base.Menu.Popup.side.top,
     aria: Aria.Popover.placement.top,
-    bits: Bits.Popover.Arrow.side.top,
-    uisdk: '[data-side="top"]',
+    bits: Bits.Popover.Content.side.top,
+    uisdk: UiSdk.Menu.Content.side.top,
   },
   bottom: {
     base: Base.Menu.Popup.side.bottom,
     aria: Aria.Popover.placement.bottom,
-    bits: Bits.Popover.Arrow.side.bottom,
-    uisdk: '[data-side="bottom"]',
+    bits: Bits.Popover.Content.side.bottom,
+    uisdk: UiSdk.Menu.Content.side.bottom,
   },
   left: {
     base: Base.Menu.Popup.side.left,
     aria: Aria.Popover.placement.left,
-    bits: Bits.Popover.Arrow.side.left,
-    uisdk: '[data-side="left"]',
+    bits: Bits.Popover.Content.side.left,
+    uisdk: UiSdk.Menu.Content.side.left,
   },
   right: {
     base: Base.Menu.Popup.side.right,
     aria: Aria.Popover.placement.right,
-    bits: Bits.Popover.Arrow.side.right,
-    uisdk: '[data-side="right"]',
+    bits: Bits.Popover.Content.side.right,
+    uisdk: UiSdk.Menu.Content.side.right,
   },
   inlineStart: { base: Base.Menu.Popup.side.inlineStart },
   inlineEnd: { base: Base.Menu.Popup.side.inlineEnd },
@@ -137,7 +137,7 @@ export const item = {
     ark: Ark.Menu.Item.disabled,
     reka: Reka.DropdownMenu.Item.disabled,
     bits: Bits.DropdownMenu.Item.disabled,
-    uisdk: "[data-disabled]",
+    uisdk: UiSdk.Menu.Item.disabled,
   },
   /** A submenu trigger whose submenu is open. */
   open: {
@@ -147,7 +147,7 @@ export const item = {
     reka: Reka.DropdownMenu.SubTrigger.state.open,
     // Bits UI names a submenu's trigger by its menu (`data-dropdown-menu-sub-trigger` …).
     bits: '[data-state="open"]',
-    uisdk: "[data-open]",
+    uisdk: UiSdk.Menu.Trigger.open,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -159,7 +159,7 @@ export const tab = {
     ark: Ark.Tabs.Trigger.selected,
     reka: Reka.Tabs.Trigger.state.active,
     bits: Bits.Tabs.Trigger.state.active,
-    uisdk: "[data-selected]",
+    uisdk: UiSdk.Tabs.Tab.selected,
   },
   disabled: {
     base: Base.Tabs.Tab.disabled,
@@ -167,7 +167,7 @@ export const tab = {
     ark: Ark.Tabs.Trigger.disabled,
     reka: Reka.Tabs.Trigger.disabled,
     bits: Bits.Tabs.Trigger.disabled,
-    uisdk: "[data-disabled]",
+    uisdk: UiSdk.Tabs.Tab.disabled,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -202,7 +202,7 @@ export const disclosure = {
     ng: NgPrimitives.Collapsible.Root.open,
     reka: Reka.Collapsible.Root.state.open,
     bits: Bits.Collapsible.Root.state.open,
-    uisdk: "[data-open]",
+    uisdk: UiSdk.Collapsible.Root.open,
   },
 } as const satisfies Record<string, StateKeys>
 
@@ -220,16 +220,22 @@ export const accordion = {
     ark: Ark.Accordion.Item.state.open,
     reka: Reka.Accordion.Item.state.open,
     bits: Bits.Accordion.Item.state.open,
-    uisdk: "[data-open]",
+    uisdk: UiSdk.Accordion.Item.open,
   },
   /** An open item on either base: `data-open:`, React Aria's `data-expanded:`. */
   expanded: {
     base: Base.Accordion.Item.open,
     aria: Aria.Disclosure.expanded,
-    uisdk: "[data-open]",
+    uisdk: UiSdk.Accordion.Item.open,
   },
-  panelOpen: { base: Base.Accordion.Panel.open, uisdk: "[data-open]" },
-  panelClosed: { base: Base.Accordion.Panel.closed, uisdk: "[data-closed]" },
+  panelOpen: {
+    base: Base.Accordion.Panel.open,
+    uisdk: UiSdk.Accordion.Panel.open,
+  },
+  panelClosed: {
+    base: Base.Accordion.Panel.closed,
+    uisdk: UiSdk.Accordion.Panel.closed,
+  },
   /** Ark UI's content, which moves over its own `--height` (`accordion.contentArk`). */
   contentOpen: {
     ark: Ark.Accordion.ItemContent.state.open,
@@ -294,15 +300,18 @@ export const toast = {
   expanded: {
     base: Base.Toast.Root.expanded,
     reka: "[data-expanded]",
-    uisdk: "[data-expanded]",
+    uisdk: UiSdk.Toast.Root.expanded,
   },
   limited: { base: Base.Toast.Root.limited, reka: "[data-limited]" },
   starting: {
     base: Base.Toast.Root.startingStyle,
     reka: "[data-starting-style]",
-    uisdk: "[data-starting-style]",
+    uisdk: UiSdk.Toast.Root.startingStyle,
   },
-  ending: { base: Base.Toast.Root.endingStyle, uisdk: "[data-ending-style]" },
+  ending: {
+    base: Base.Toast.Root.endingStyle,
+    uisdk: UiSdk.Toast.Root.endingStyle,
+  },
   swipeUp: {
     base: Base.Toast.Root.swipeDirection.up,
     uisdk: '[data-swipe-direction="up"]',
@@ -322,7 +331,7 @@ export const toast = {
   contentExpanded: {
     base: Base.Toast.Content.expanded,
     reka: "[data-expanded]",
-    uisdk: "[data-expanded]",
+    uisdk: UiSdk.Toast.Root.expanded,
   },
   behind: {
     base: Base.Toast.Content.behind,
@@ -335,11 +344,11 @@ export const toast = {
 export const collapsiblePanel = {
   starting: {
     base: Base.Collapsible.Panel.startingStyle,
-    uisdk: "[data-starting-style]",
+    uisdk: UiSdk.Collapsible.Panel.startingStyle,
   },
   ending: {
     base: Base.Collapsible.Panel.endingStyle,
-    uisdk: "[data-ending-style]",
+    uisdk: UiSdk.Collapsible.Panel.endingStyle,
   },
   // Ark UI's content, opening or leaving: its motion is keyframes over the `--height` it sets.
   open: {
@@ -372,7 +381,7 @@ export const check = {
     ark: Ark.Checkbox.Control.state.checked,
     reka: Reka.Checkbox.Root.state.checked,
     bits: Bits.Checkbox.Root.state.checked,
-    uisdk: "[data-checked]",
+    uisdk: UiSdk.Checkbox.Root.checked,
   },
   focusVisible: {
     base: ":focus-visible",
@@ -449,7 +458,7 @@ export const placeholder = {
     ark: Ark.Select.Trigger.placeholderShown,
     reka: Reka.Select.Trigger.placeholder,
     bits: Bits.Select.Trigger.placeholder,
-    uisdk: "[data-placeholder]",
+    uisdk: UiSdk.Select.Trigger.placeholder,
   },
   value: { aria: Aria.SelectValue.placeholder },
 } as const satisfies Record<string, StateKeys>

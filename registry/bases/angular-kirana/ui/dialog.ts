@@ -8,14 +8,14 @@ import {
   input,
 } from "@angular/core"
 import {
-  KuiDialog,
-  KuiDialogBackdrop,
-  KuiDialogClose,
-  KuiDialogDescription,
-  KuiDialogPopup,
-  KuiDialogPortal,
-  KuiDialogTitle,
-  KuiDialogTrigger,
+  KpDialog,
+  KpDialogBackdrop,
+  KpDialogClose,
+  KpDialogDescription,
+  KpDialogPopup,
+  KpDialogPortal,
+  KpDialogTitle,
+  KpDialogTrigger,
 } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -29,15 +29,14 @@ import { buttonLabels } from "./button"
 
 /**
  * A dialog: `<ng-container kuiDialog>` around its trigger and content, drawing no element, as Base
- * UI's root: Kirana UI's (`KuiDialog`), its `[(open)]`, `defaultOpen`, `modal` and `dismissible`
- * its own. Kirana UI's selectors are the registry's, so a part takes its primitive as a host
- * directive and a file imports only one of the two.
+ * UI's root: Kirana UI's (`KpDialog`), its `[(open)]`, `defaultOpen`, `modal` and `dismissible`
+ * its own. Each part takes its primitive as a host directive.
  */
 @Directive({
   selector: "[kuiDialog]",
   hostDirectives: [
     {
-      directive: KuiDialog,
+      directive: KpDialog,
       inputs: ["open", "defaultOpen", "modal", "dismissible"],
       outputs: ["openChange"],
     },
@@ -49,7 +48,7 @@ class Dialog {}
 @Directive({
   selector: "[kuiDialogTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTrigger],
+  hostDirectives: [KpDialogTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element.
     "[attr.data-slot]": "'dialog-trigger'",
@@ -70,7 +69,7 @@ class DialogPortal {}
 @Directive({
   selector: "[kuiDialogClose]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     "[attr.data-slot]": "'dialog-close'",
     "[class]": "part().class",
@@ -86,7 +85,7 @@ class DialogClose {
 @Component({
   selector: "button[kuiDialogCornerClose]",
   imports: [IconPlaceholder, SxDirective],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     type: "button",
     "data-slot": "dialog-close",
@@ -120,19 +119,14 @@ class DialogCornerClose {
  */
 @Component({
   selector: "[kuiDialogContent]",
-  imports: [
-    DialogCornerClose,
-    KuiDialogBackdrop,
-    KuiDialogPopup,
-    KuiDialogPortal,
-  ],
+  imports: [DialogCornerClose, KpDialogBackdrop, KpDialogPopup, KpDialogPortal],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
-    <ng-template kuiDialogPortal>
-      <div kuiDialogBackdrop data-slot="dialog-overlay" [class]="overlay"></div>
+    <ng-template kpDialogPortal>
+      <div kpDialogBackdrop data-slot="dialog-overlay" [class]="overlay"></div>
       <div
-        kuiDialogPopup
+        kpDialogPopup
         data-slot="dialog-content"
         [attr.dir]="host.getAttribute('dir')"
         [class]="part().class"
@@ -178,7 +172,7 @@ class DialogHeader {
 /** The footer's Close button, an outline Button that closes the dialog. */
 @Directive({
   selector: "button[kuiDialogFooterClose]",
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     type: "button",
     "data-slot": "button",
@@ -220,7 +214,7 @@ class DialogFooter {
 @Directive({
   selector: "h2[kuiDialogTitle]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTitle],
+  hostDirectives: [KpDialogTitle],
   host: {
     "data-slot": "dialog-title",
     "[class]": "part().class",
@@ -235,7 +229,7 @@ class DialogTitle {
 @Directive({
   selector: "p[kuiDialogDescription]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogDescription],
+  hostDirectives: [KpDialogDescription],
   host: {
     "data-slot": "dialog-description",
     "[class]": "part().class",

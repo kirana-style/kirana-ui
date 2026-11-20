@@ -20,6 +20,7 @@ import {
 
 import {
   BASE_LABELS,
+  BASE_RUNTIMES,
   FRAMEWORKS,
   FRAMEWORK_BASES,
   shownBases,
@@ -27,8 +28,10 @@ import {
   MONOREPOS,
   MONOREPO_LABELS,
   RUNNERS,
+  RUNTIME_LABELS,
   TEMPLATES,
   TEMPLATE_LABELS,
+  TEMPLATE_RUNTIMES,
   TOOLINGS,
   TOOLING_LABELS,
 } from "@workspace/create/catalog.ts"
@@ -41,9 +44,11 @@ import type {
   Tooling,
 } from "@workspace/create/catalog.ts"
 import {
+  basesFor,
   checkerReadsViteConfig,
   monoreposFor,
   resolveChoices,
+  templatesFor,
   toolingsFor,
 } from "@workspace/create/choices.ts"
 import {
@@ -177,6 +182,7 @@ const TEMPLATE_ICONS: Record<Template, SvglIcon> = {
   "vite-solid": VITE,
   "solid-start": SOLID,
   "tanstack-start-solid": TANSTACK,
+  "vite-solid2": VITE,
   "analog-angular": ANGULAR,
   "angular-cli": ANGULAR,
 }
@@ -223,6 +229,22 @@ const REASONS = {
   turbo: "A Turborepo runs ESLint, Oxlint or Biome.",
   checker:
     "This template's type checker reads the Vite config and cannot load Vite+'s: choose the Vite+ monorepo.",
+}
+
+/**
+ * Why a template is not offered with the base (`RUNTIMES`): it is on a major the base does not run
+ * on (Solid 2, for Solid on UI SDK alone), or the base needs one the template is not on.
+ */
+function runtimeReason(framework: Framework, base: Base, template: Template) {
+  const own = TEMPLATE_RUNTIMES[template]
+  if (own)
+    return `On ${RUNTIME_LABELS[own]}, for ${basesFor(framework, template)
+      .map((each) => BASE_LABELS[each])
+      .join(" or ")} alone.`
+  const needed = BASE_RUNTIMES[framework]?.[base]
+  return needed
+    ? `${BASE_LABELS[base]} needs ${RUNTIME_LABELS[needed]}, which this template is not on.`
+    : undefined
 }
 
 const styles = {
@@ -565,6 +587,8 @@ export function GetCodeDialog({
     if (framework !== system.framework)
       onChange({ ...system, framework, base: FRAMEWORK_BASES[framework][0]! })
   }
+  // The templates the base runs on (Solid on UI SDK on Solid 2's alone); the others stay shown.
+  const templatesOffered = templatesFor(system.framework, choices.base)
   const monorepos = monoreposFor(choices.template)
   const toolings = toolingsFor(choices.template, choices.monorepo)
   const runners: readonly Runner[] =
@@ -608,6 +632,9 @@ export function GetCodeDialog({
                   icon: (
                     <BrandIcon icon={TEMPLATE_ICONS[template]} scheme="dark" />
                   ),
+                  disabled: templatesOffered.includes(template)
+                    ? undefined
+                    : runtimeReason(system.framework, choices.base, template),
                 }))}
                 onChange={(template) =>
                   setTemplates((chosen) => ({

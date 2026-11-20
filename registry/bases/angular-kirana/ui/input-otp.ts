@@ -12,10 +12,11 @@ import {
   viewChild,
 } from "@angular/core"
 import {
-  KuiOtp,
-  KuiOtpCaret,
-  KuiOtpInput,
-  KuiOtpSlot,
+  KpOtp,
+  KpOtpCaret,
+  KpOtpInput,
+  KpOtpSlot,
+  hostInputs,
 } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -25,33 +26,22 @@ import { inputOtp } from "../../../styles/input-otp.styles"
 
 /**
  * A one-time code: `<div kuiInputOTP [maxLength]="6" [(value)]="code">` around its groups and
- * slots, on Kirana UI's code input (`KuiOtp`): one input laid over the slots, unseen, takes the
+ * slots, on Kirana UI's code input (`KpOtp`): one input laid over the slots, unseen, takes the
  * typing, pasting and autofill, and the slots show its characters, the one at the cursor
  * `data-active` with a caret while empty. Its `maxLength` (Kirana UI's `length`), `[(value)]`,
  * `defaultValue`, `disabled`, `name`, `id` (the input's) and `complete` (Kirana UI's `completed`) are the primitive's,
- * and `type` is Kirana UI's `mode`: any character (`text`, the default), `numeric` or `alphanumeric`
- * (upstream's `pattern`). `containerSx` styles this element, `sx` the input, which takes
- * `required` and `aria-invalid`.
- *
- * A directive of the registry's cannot give a primitive it takes as a host directive a value of
- * its own (PF-035): `OtpRoot` stands in for Kirana UI's code input with `mode` defaulting to any
- * character (`text`), as upstream's `input-otp` takes any without a `pattern`. Kirana UI's `mode` has
- * no letters-only value (PF-038).
+ * and `type` is Kirana UI's `mode`: any character (`text`, the default, as upstream's `input-otp`
+ * takes any without a `pattern`), `numeric`, `alphabetic` or `alphanumeric` (upstream's `pattern`).
+ * `containerSx` styles this element, `sx` the input, which takes `required` and `aria-invalid`.
  */
-@Directive({ providers: [{ provide: KuiOtp, useExisting: OtpRoot }] })
-export class OtpRoot extends KuiOtp {
-  override readonly mode = input<
-    "numeric" | "alphanumeric" | "text" | undefined
-  >("text")
-}
 
 /** The code input, as React's `InputOTP`: see above. */
 @Component({
   selector: "div[kuiInputOTP]",
-  imports: [KuiOtpInput],
+  imports: [KpOtpInput],
   hostDirectives: [
     {
-      directive: OtpRoot,
+      directive: KpOtp,
       inputs: [
         "length: maxLength",
         "value",
@@ -59,7 +49,7 @@ export class OtpRoot extends KuiOtp {
         "mode: type",
         "disabled",
         "name",
-        "kuiId: id",
+        "kpId: id",
       ],
       outputs: ["valueChange", "completed: complete"],
     },
@@ -82,7 +72,7 @@ export class OtpRoot extends KuiOtp {
     <ng-content />
     <input
       #field
-      kuiOtpInput
+      kpOtpInput
       data-slot="input-otp"
       spellcheck="false"
       [attr.required]="required() ? '' : null"
@@ -111,6 +101,7 @@ class InputOTP {
     viewChild.required<ElementRef<HTMLInputElement>>("field")
 
   constructor() {
+    hostInputs(KpOtp, { mode: () => "text" })
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
     // Measured once rendered, then as it resizes (an observer waits for a frame to be drawn).
     const measure = () => this.rootHeight.set(`${host.clientHeight}px`)
@@ -142,14 +133,14 @@ class InputOTPGroup {
 }
 
 /**
- * One character's slot: `<div kuiInputOTPSlot [index]="0">`, Kirana UI's slot (`KuiOtpSlot`), which
+ * One character's slot: `<div kuiInputOTPSlot [index]="0">`, Kirana UI's slot (`KpOtpSlot`), which
  * writes its character before its caret and marks itself `data-active`; the caret
- * (`*kuiOtpCaret`) is drawn while it is the active, empty one.
+ * (`*kpOtpCaret`) is drawn while it is the active, empty one.
  */
 @Component({
   selector: "[kuiInputOTPSlot]",
-  imports: [KuiOtpCaret, SxDirective],
-  hostDirectives: [{ directive: KuiOtpSlot, inputs: ["index"] }],
+  imports: [KpOtpCaret, SxDirective],
+  hostDirectives: [{ directive: KpOtpSlot, inputs: ["index"] }],
   providers: [provideSxPart()],
   host: {
     "data-slot": "input-otp-slot",
@@ -157,7 +148,7 @@ class InputOTPGroup {
     "[style]": "part().style",
   },
   template: `
-    <div *kuiOtpCaret [sx]="caret"><div [sx]="caretLine"></div></div>
+    <div *kpOtpCaret [sx]="caret"><div [sx]="caretLine"></div></div>
   `,
 })
 class InputOTPSlot {

@@ -2,7 +2,8 @@ import { mergeProps, splitProps } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { attachment } from "../../../styles/attachment.styles"
 import { Button } from "./button"
-import { Element } from "../../../lib/solid/element"
+import { Primitive } from "@kirana-ui/solid/primitive"
+import { asRender } from "../../../lib/solid/element"
 import type { JSX } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid/element"
@@ -205,16 +206,16 @@ function AttachmentTrigger(props: {
     "children",
   ])
   return (
-    <Element
+    <Primitive
       as="button"
       data-slot="attachment-trigger"
       type={local.asChild ? local.type : (local.type ?? "button")}
       {...rest}
       {...styleProps(local.class, attachment.trigger, local.sx)}
-      asChild={local.asChild}
+      render={asRender(local.asChild)}
     >
       {local.children}
-    </Element>
+    </Primitive>
   )
 }
 

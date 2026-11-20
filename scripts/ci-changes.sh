@@ -25,10 +25,15 @@ matrix() {
       if [ "$engine" = webkit ] && [ "$framework" = react ]; then
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"react\",\"bases\":\"base|aria\"}")
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"react\",\"bases\":\"uisdk|kirana\"}")
-      elif [ "$engine" != chromium ] && [ "$framework" = vue ]; then
-        # Vue's four bases in one Firefox page ran it out of memory, and WebKit hung.
-        jobs+=("{\"browser\":\"$engine\",\"framework\":\"vue\",\"bases\":\"ark|reka\"}")
-        jobs+=("{\"browser\":\"$engine\",\"framework\":\"vue\",\"bases\":\"uisdk|kirana\"}")
+      elif [ "$engine" = firefox ] && [ "$framework" = vue ]; then
+        # Vue's bases in one Firefox page run it out of memory, two of them still did: one a job.
+        for base in ark reka uisdk kirana; do
+          jobs+=("{\"browser\":\"firefox\",\"framework\":\"vue\",\"bases\":\"$base\"}")
+        done
+      elif [ "$engine" = webkit ] && [ "$framework" = vue ]; then
+        # Vue's four bases in one WebKit page hung: two a job.
+        jobs+=("{\"browser\":\"webkit\",\"framework\":\"vue\",\"bases\":\"ark|reka\"}")
+        jobs+=("{\"browser\":\"webkit\",\"framework\":\"vue\",\"bases\":\"uisdk|kirana\"}")
       elif [ "$engine" = webkit ] && [ "$framework" = svelte ]; then
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"svelte\",\"bases\":\"ark|bits\"}")
         jobs+=("{\"browser\":\"$engine\",\"framework\":\"svelte\",\"bases\":\"uisdk|kirana\"}")

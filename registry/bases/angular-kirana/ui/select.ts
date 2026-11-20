@@ -14,22 +14,22 @@ import {
   untracked,
 } from "@angular/core"
 import {
-  KuiSelect,
-  KuiSelectGroup,
-  KuiSelectGroupLabel,
-  KuiSelectInput,
-  KuiSelectItem,
-  KuiSelectItemIndicator,
-  KuiSelectItemText,
-  KuiSelectList,
-  KuiSelectPopup,
-  KuiSelectPortal,
-  KuiSelectPositioner,
-  KuiSelectScrollDownArrow,
-  KuiSelectScrollUpArrow,
-  KuiSelectSeparator,
-  KuiSelectTrigger,
-  KuiSelectValue,
+  KpSelect,
+  KpSelectGroup,
+  KpSelectGroupLabel,
+  KpSelectInput,
+  KpSelectItem,
+  KpSelectItemIndicator,
+  KpSelectItemText,
+  KpSelectList,
+  KpSelectPopup,
+  KpSelectPortal,
+  KpSelectPositioner,
+  KpSelectScrollDownArrow,
+  KpSelectScrollUpArrow,
+  KpSelectSeparator,
+  KpSelectTrigger,
+  KpSelectValue,
 } from "@kirana-ui/angular"
 import type { Align, SelectShown, Side } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
@@ -68,18 +68,17 @@ const SELECT = new InjectionToken<SelectState>("kui select")
 
 /**
  * A select: `<ng-container kuiSelect [items]="fruits" [(value)]="fruit">` around its trigger and
- * content, drawing no element, as Base UI's root: Kirana UI's (`KuiSelect`), its `disabled` and
+ * content, drawing no element, as Base UI's root: Kirana UI's (`KpSelect`), its `disabled` and
  * `multiple` its own. Base UI's `value`, `defaultValue` and `valueChange` are a list with
  * `multiple`, where Kirana UI's are `values`, `defaultValues` and `valuesChange`: this root takes
  * Base UI's and hands them to the one that holds them. `items` are Base UI's: a `{ label, value }`
  * list, whose entry with a `null` value is the placeholder, read by the value part; without them the
- * items' own text names the value, as Kirana UI's does. Kirana UI's selectors are the registry's, so
- * a part takes its primitive as a host directive and a file imports only one of the two.
+ * items' own text names the value, as Kirana UI's does. Each part takes its primitive as a host directive.
  */
 @Directive({
   selector: "[kuiSelect]",
   providers: [{ provide: SELECT, useFactory: () => new SelectState() }],
-  hostDirectives: [{ directive: KuiSelect, inputs: ["disabled", "multiple"] }],
+  hostDirectives: [{ directive: KpSelect, inputs: ["disabled", "multiple"] }],
 })
 class Select {
   readonly items = input<readonly SelectEntry[] | undefined>()
@@ -89,7 +88,7 @@ class Select {
 
   constructor() {
     const state = inject(SELECT)
-    const root = inject(KuiSelect)
+    const root = inject(KpSelect)
     let first = true
     effect(() => {
       const items = this.items() ?? null
@@ -125,7 +124,7 @@ class Select {
   selector: "button[kuiSelectTrigger]",
   imports: [IconPlaceholder, SxDirective],
   providers: [provideSxPart()],
-  hostDirectives: [KuiSelectTrigger],
+  hostDirectives: [KpSelectTrigger],
   host: {
     "data-slot": "select-trigger",
     type: "button",
@@ -152,7 +151,7 @@ class Select {
 class SelectTrigger {
   readonly size = input<"sm" | "default">("default")
   readonly sx = input<SxInput>()
-  protected readonly root = inject(KuiSelect)
+  protected readonly root = inject(KpSelect)
   protected readonly icon = select.triggerIcon
   protected readonly part = computed(() => partSx(select.trigger, this.sx()))
 }
@@ -166,14 +165,14 @@ class SelectTrigger {
 @Component({
   selector: "span[kuiSelectValue]",
   exportAs: "kuiSelectValue",
-  imports: [KuiSelectValue],
+  imports: [KpSelectValue],
   providers: [provideSxPart()],
   // Kirana UI's value element is the one drawn: a select whose popup opens over the trigger
   // (`alignItemWithTrigger`) lines its chosen item up with that element's box, so the box is the
   // design's, and this element draws none.
   host: { style: "display: contents" },
   template: `<span
-    *kuiSelectValue="let shown"
+    *kpSelectValue="let shown"
     data-slot="select-value"
     [attr.data-placeholder]="values().length ? null : ''"
     [class]="part().class"
@@ -238,13 +237,13 @@ function carried(element: HTMLElement) {
   selector: "[kuiSelectContent]",
   imports: [
     IconPlaceholder,
-    KuiSelectInput,
-    KuiSelectList,
-    KuiSelectPopup,
-    KuiSelectPortal,
-    KuiSelectPositioner,
-    KuiSelectScrollDownArrow,
-    KuiSelectScrollUpArrow,
+    KpSelectInput,
+    KpSelectList,
+    KpSelectPopup,
+    KpSelectPortal,
+    KpSelectPositioner,
+    KpSelectScrollDownArrow,
+    KpSelectScrollUpArrow,
   ],
   providers: [provideSxPart()],
   host: {
@@ -254,9 +253,9 @@ function carried(element: HTMLElement) {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiSelectPortal>
+    <ng-template kpSelectPortal>
       <div
-        kuiSelectPositioner
+        kpSelectPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -265,7 +264,7 @@ function carried(element: HTMLElement) {
         [class]="positioner"
       >
         <div
-          kuiSelectPopup
+          kpSelectPopup
           data-slot="select-content"
           [attr.data-align-trigger]="alignItemWithTrigger()"
           [attr.dir]="attr('dir')"
@@ -274,7 +273,7 @@ function carried(element: HTMLElement) {
           [style]="part().style"
         >
           <div
-            *kuiSelectScrollUpArrow
+            *kpSelectScrollUpArrow
             data-slot="select-scroll-up-button"
             [class]="scrollUp"
           >
@@ -287,9 +286,9 @@ function carried(element: HTMLElement) {
               remixicon="RiArrowUpSLine"
             ></svg>
           </div>
-          <div kuiSelectList><ng-content /></div>
+          <div kpSelectList><ng-content /></div>
           <div
-            *kuiSelectScrollDownArrow
+            *kpSelectScrollDownArrow
             data-slot="select-scroll-down-button"
             [class]="scrollDown"
           >
@@ -305,7 +304,7 @@ function carried(element: HTMLElement) {
         </div>
       </div>
     </ng-template>
-    <input kuiSelectInput tabindex="-1" aria-hidden="true" [class]="hidden" />
+    <input kpSelectInput tabindex="-1" aria-hidden="true" [class]="hidden" />
   `,
 })
 class SelectContent {
@@ -335,7 +334,7 @@ class SelectContent {
 @Directive({
   selector: "[kuiSelectGroup]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiSelectGroup],
+  hostDirectives: [KpSelectGroup],
   host: {
     "data-slot": "select-group",
     "[class]": "part().class",
@@ -351,7 +350,7 @@ class SelectGroup {
 @Directive({
   selector: "[kuiSelectLabel]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiSelectGroupLabel],
+  hostDirectives: [KpSelectGroupLabel],
   host: {
     "data-slot": "select-label",
     "[class]": "part().class",
@@ -371,20 +370,20 @@ class SelectLabel {
   selector: "[kuiSelectItem]",
   imports: [
     IconPlaceholder,
-    KuiSelectItemIndicator,
-    KuiSelectItemText,
+    KpSelectItemIndicator,
+    KpSelectItemText,
     SxDirective,
   ],
   providers: [provideSxPart()],
-  hostDirectives: [{ directive: KuiSelectItem, inputs: ["value", "disabled"] }],
+  hostDirectives: [{ directive: KpSelectItem, inputs: ["value", "disabled"] }],
   host: {
     "data-slot": "select-item",
     "[class]": "part().class",
     "[style]": "part().style",
   },
   template: `
-    <div kuiSelectItemText [sx]="itemText"><ng-content /></div>
-    <span *kuiSelectItemIndicator [sx]="indicator">
+    <div kpSelectItemText [sx]="itemText"><ng-content /></div>
+    <span *kpSelectItemIndicator [sx]="indicator">
       <svg
         iconPlaceholder
         lucide="CheckIcon"
@@ -409,7 +408,7 @@ class SelectItem {
 @Directive({
   selector: "[kuiSelectSeparator]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiSelectSeparator],
+  hostDirectives: [KpSelectSeparator],
   host: {
     "data-slot": "select-separator",
     "[class]": "part().class",

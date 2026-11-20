@@ -8,11 +8,11 @@ import {
   numberAttribute,
 } from "@angular/core"
 import {
-  KuiHoverCard,
-  KuiHoverCardPopup,
-  KuiHoverCardPortal,
-  KuiHoverCardPositioner,
-  KuiHoverCardTrigger,
+  KpHoverCard,
+  KpHoverCardPopup,
+  KpHoverCardPortal,
+  KpHoverCardPositioner,
+  KpHoverCardTrigger,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
@@ -23,15 +23,14 @@ import { popupMotion } from "../../../styles/overlay.styles"
 
 /**
  * A card that opens while the pointer rests on its trigger: `<ng-container kuiHoverCard>`, drawing
- * no element, as Base UI's preview card: Kirana UI's root (`KuiHoverCard`), its `[(open)]` and
- * `defaultOpen` its own. Kirana UI's selectors are the registry's, so a part takes its primitive
- * as a host directive and a file imports only one of the two.
+ * no element, as Base UI's preview card: Kirana UI's root (`KpHoverCard`), its `[(open)]` and
+ * `defaultOpen` its own. Each part takes its primitive as a host directive.
  */
 @Directive({
   selector: "[kuiHoverCard]",
   hostDirectives: [
     {
-      directive: KuiHoverCard,
+      directive: KpHoverCard,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -48,7 +47,7 @@ class HoverCard {}
   selector: "[kuiHoverCardTrigger]",
   providers: [provideSxPart()],
   hostDirectives: [
-    { directive: KuiHoverCardTrigger, inputs: ["delay", "closeDelay"] },
+    { directive: KpHoverCardTrigger, inputs: ["delay", "closeDelay"] },
   ],
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
@@ -72,7 +71,7 @@ class HoverCardTrigger {
  */
 @Component({
   selector: "[kuiHoverCardContent]",
-  imports: [KuiHoverCardPopup, KuiHoverCardPortal, KuiHoverCardPositioner],
+  imports: [KpHoverCardPopup, KpHoverCardPortal, KpHoverCardPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -81,9 +80,9 @@ class HoverCardTrigger {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiHoverCardPortal>
+    <ng-template kpHoverCardPortal>
       <div
-        kuiHoverCardPositioner
+        kpHoverCardPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -91,7 +90,7 @@ class HoverCardTrigger {
         [class]="positioner"
       >
         <div
-          kuiHoverCardPopup
+          kpHoverCardPopup
           data-slot="hover-card-content"
           [attr.dir]="host.getAttribute('dir')"
           [class]="part().class"

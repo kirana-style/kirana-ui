@@ -891,9 +891,9 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   React's with accessors (`render={(props, state) => <a {...props()} />}`), so
   each part follows its `react-kirana` twin's structure and keeps its
   `solid-ark` twin's props. Ark UI's `asChild` (called with a props function)
-  is a part's `render` through `asRender`, and an element of the design
-  system's own that took `ark.span` renders through `Element`
-  (`lib/solid/element.tsx`). The preview provides each base's icon library and
+  is a part's `render` through `asRender` (`lib/solid/element.tsx`), and an
+  element of the design system's own that took `ark.span` is the primitives'
+  `Primitive` (`@kirana-ui/solid/primitive`), with their merge rule. The preview provides each base's icon library and
   language contexts, since each base has its own copy of them.
 - **Angular on Kirana UI Primitives** keeps the NG Primitives base's directives:
   the primitives' selectors are the registry's own (`[kuiDialogTrigger]`), so a
@@ -913,9 +913,12 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   moved to Solid 2 (`splitProps` → `omit`, `mergeProps` → `merge`, `onMount` →
   `onSettled`, `createEffect` → its two-function form or `createTrackedEffect`,
   `solid-js/web` → `@solidjs/web`); its parts render through `UisdkPart`
-  (`lib/solid2/uisdk-part.tsx`). Kirana compiles it with `jsx: "solid"` set in
-  the app's `kirana.config.ts`, and `sx` is typed on Solid 2's JSX by the base's
-  `sx.d.ts`, until Kirana reads Solid 2 itself.
+  (`lib/solid2/uisdk-part.tsx`). Kirana knows Solid 2 from
+  `jsxImportSource: "@solidjs/web"`, which the app's own `tsconfig.json` names
+  (Kirana does not read it from a tsconfig it extends), and
+  `@kirana-style/core/solid` types `sx` on Solid 2's JSX; the app builds with
+  `@solidjs/vite-plugin`, Solid 2's Vite plugin. A project installs it on Get
+  Code's Solid 2 template (`vite-solid2`), the only one the catalog offers it.
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
@@ -1160,12 +1163,9 @@ vp run --last-details      # the last run's summary again
 In CI, every job restores the cache `main` last saved (other branches only
 restore), so a pull request rebuilds only what it changed. The build job hands the
 registry it built to four install jobs, which install
-`scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`). The lint runs
-apart from the format and type check, in six jobs: the Kirana rules read the
-whole project's diagnostics once per file, on one thread, so it is most of
-`vp run check`'s time, and `scripts/lint-shard.ts --shard <i>/6` lints a share of
-the files Git tracks, grouped by folder (`--list` prints it). Locally,
-`vp run check` still runs the whole lint.
+`scripts/install-smoke.ts`'s list side by side (`--shard <i>/4`). `vp run check`
+(Oxfmt, Oxlint with the Kirana rules, the type check through tsrs) runs whole in
+one job: it takes under a minute.
 
 ## Browser tests
 

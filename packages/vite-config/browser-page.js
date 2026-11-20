@@ -40,7 +40,7 @@ export function watchPage() {
 
 /**
  * The attributes of `<html>` and `<body>`, and the children of `<head>` and `<body>`, now; calling
- * it restores them. Kirana's live stylesheet stays (`refreshStyles`).
+ * it restores them.
  */
 function snapshot() {
   const elements = [document.documentElement, document.body]
@@ -65,8 +65,7 @@ function snapshot() {
       ...document.head.children,
       ...document.body.children,
     ]) {
-      if (!children.has(child) && !child.matches("style[data-kirana-live]"))
-        child.remove()
+      if (!children.has(child)) child.remove()
     }
   }
 }
@@ -208,32 +207,6 @@ async function closed(container) {
   for (let tries = 0; tries < 20 && open(); tries++) {
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
-}
-
-/**
- * Puts Kirana's stylesheet on the page as it stands now. In development the plugin fills
- * `@kirana-style/core/stylesheet.css` with every module compiled so far and sends the page its
- * updates, which do not reach Vitest's test frame: the page keeps the stylesheet the setup loaded,
- * before any item compiled, and every item draws unstyled (KF-124). So each mount fetches it again,
- * once its item's modules have compiled; `url` is the app's `stylesheet.css?url` import.
- */
-let refreshes = 0
-
-export async function refreshStyles(url) {
-  // A query of its own each time: Vite strips `t` and serves the stylesheet it cached, which the
-  // plugin replaces only once its updates go out, 50 ms after the last transform.
-  const query = `direct&kirana-test=${++refreshes}`
-  const response = await fetch(`${url}${url.includes("?") ? "&" : "?"}${query}`)
-  let style = document.querySelector("style[data-kirana-live]")
-  if (!style) {
-    style = document.createElement("style")
-    style.dataset.kiranaLive = ""
-    document.head.append(style)
-  }
-  // Only when it changed: a new stylesheet restyles the page, and a chart's entrance ends at a
-  // repaint (LF-005).
-  const text = await response.text()
-  if (style.textContent !== text) style.textContent = text
 }
 
 /** Two animation frames: what a press or a mount needs to show its result. */

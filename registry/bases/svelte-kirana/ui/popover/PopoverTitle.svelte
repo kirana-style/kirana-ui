@@ -3,7 +3,8 @@
   import type { ClassValue } from "svelte/elements"
   import type { Snippet } from "svelte"
 
-  import Element from "../../../../lib/svelte/Element.svelte"
+  import { Primitive } from "@kirana-ui/svelte/primitive"
+  import { propsFn } from "../../../../lib/svelte/as-child"
   import type { AsChild } from "../../../../lib/svelte/as-child"
   import { popover } from "../../../../styles/popover.styles"
 
@@ -21,6 +22,11 @@
   } = $props()
 </script>
 
-<Element as="h2" {asChild} data-slot="popover-title" {...rest} sx={[popover.title, className as Sx]}>
+<!-- `asChild` (Ark UI's, given the props as a function) as the primitive's `child`. -->
+{#snippet composed({ props }: { props: Record<string, unknown> })}
+  {@render asChild?.(propsFn(props))}
+{/snippet}
+
+<Primitive as="h2" child={asChild && composed} data-slot="popover-title" {...rest} sx={[popover.title, className as Sx]}>
   {@render children?.()}
-</Element>
+</Primitive>

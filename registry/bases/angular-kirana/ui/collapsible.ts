@@ -1,22 +1,22 @@
 import { Component, Directive, computed, input } from "@angular/core"
 import {
-  KuiCollapsible,
-  KuiCollapsiblePanel,
-  KuiCollapsibleTrigger,
+  KpCollapsible,
+  KpCollapsiblePanel,
+  KpCollapsibleTrigger,
 } from "@kirana-ui/angular"
 import { partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
 
 /**
  * A section that opens and closes: `<div kuiCollapsible [(open)]="open">`, on Kirana UI's
- * collapsible (`KuiCollapsible`), which writes `data-open` and `data-closed`: its `[(open)]`,
+ * collapsible (`KpCollapsible`), which writes `data-open` and `data-closed`: its `[(open)]`,
  * `defaultOpen` and `disabled` are the primitive's.
  */
 @Directive({
   selector: "[kuiCollapsible]",
   hostDirectives: [
     {
-      directive: KuiCollapsible,
+      directive: KpCollapsible,
       inputs: ["open", "defaultOpen", "disabled"],
       outputs: ["openChange"],
     },
@@ -36,14 +36,14 @@ class Collapsible {
 }
 
 /**
- * The button that opens and closes it, Kirana UI's trigger (`KuiCollapsibleTrigger`: `aria-expanded`,
+ * The button that opens and closes it, Kirana UI's trigger (`KpCollapsibleTrigger`: `aria-expanded`,
  * `data-panel-open`). Its slot is the element's, unless another part is the one React renders it
  * into (`<button kuiCollapsibleTrigger kuiSidebarGroupLabel dataSlot="sidebar-group-label">`, where
  * React's label renders the trigger): that part's.
  */
 @Directive({
   selector: "[kuiCollapsibleTrigger]",
-  hostDirectives: [KuiCollapsibleTrigger],
+  hostDirectives: [KpCollapsibleTrigger],
   providers: [provideSxPart()],
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
@@ -61,18 +61,18 @@ class CollapsibleTrigger {
 
 /**
  * What it shows when open: `<div kuiCollapsibleContent>`. Kirana UI's panel is structural
- * (`*kuiCollapsiblePanel`, out of the page while closed, `--collapsible-panel-height` its height
+ * (`*kpCollapsiblePanel`, out of the page while closed, `--collapsible-panel-height` its height
  * while it moves), which an attribute cannot put around its own element: the part draws it around
  * the caller's content, its own element drawing nothing.
  */
 @Component({
   selector: "[kuiCollapsibleContent]",
-  imports: [KuiCollapsiblePanel],
+  imports: [KpCollapsiblePanel],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiCollapsiblePanel
+      *kpCollapsiblePanel
       data-slot="collapsible-content"
       [class]="part().class"
       [style]="part().style"

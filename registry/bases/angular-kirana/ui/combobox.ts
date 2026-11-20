@@ -1,5 +1,5 @@
 /**
- * Kirana UI's combobox (`KuiCombobox`) with Base UI's items-driven API: `items` (strings, objects
+ * Kirana UI's combobox (`KpCombobox`) with Base UI's items-driven API: `items` (strings, objects
  * with a `label` and `value`, or groups with their own `items`) go to `ComboboxList` and
  * `ComboboxCollection`, which draw each through the caller's `<ng-template let-item>`, and their
  * labels to Kirana UI's `items`, so the input shows a chosen item before the list opens; Kirana UI
@@ -27,23 +27,24 @@ import {
 } from "@angular/core"
 import type { Signal } from "@angular/core"
 import {
-  KuiCombobox,
-  KuiComboboxChip,
-  KuiComboboxChipRemove,
-  KuiComboboxChips,
-  KuiComboboxClear,
-  KuiComboboxEmpty,
-  KuiComboboxGroup,
-  KuiComboboxGroupLabel,
-  KuiComboboxInput,
-  KuiComboboxItem,
-  KuiComboboxItemIndicator,
-  KuiComboboxList,
-  KuiComboboxPopup,
-  KuiComboboxPortal,
-  KuiComboboxPositioner,
-  KuiComboboxSeparator,
-  KuiComboboxTrigger,
+  KpCombobox,
+  KpComboboxChip,
+  KpComboboxChipRemove,
+  KpComboboxChips,
+  KpComboboxClear,
+  KpComboboxEmpty,
+  KpComboboxGroup,
+  KpComboboxGroupLabel,
+  KpComboboxInput,
+  KpComboboxItem,
+  KpComboboxItemIndicator,
+  KpComboboxList,
+  KpComboboxPopup,
+  KpComboboxPortal,
+  KpComboboxPositioner,
+  KpComboboxSeparator,
+  KpComboboxTrigger,
+  hostInputs,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
@@ -91,7 +92,7 @@ type Source = {
 class ComboboxState {
   readonly source = signal<Source | undefined>(undefined)
   /** Kirana UI's root, once it is made. */
-  root!: KuiCombobox
+  root!: KpCombobox
   /** Whether the popup is anchored to the chips (`data-chips`). */
   readonly chips = signal(false)
   /** What was chosen since, while the caller does not hold `value`. */
@@ -135,38 +136,11 @@ const IN_CONTENT = new InjectionToken<boolean>("kui combobox in content")
 const useCombobox = () => inject(COMBOBOX)
 
 /**
- * Kirana UI's root, its `items`, `defaultValue` and `defaultValues` given by the registry's root:
- * the labels of its items, and its `defaultValue` as one value or, with `multiple`, a list. A host
- * directive's inputs cannot be bound by the directive it is on (PF-035), so this root extends Kirana
- * UI's and redeclares them, read from the state the registry's root fills; Kirana UI's parts find
- * their root by its class, which this one stands for.
- */
-@Directive({
-  providers: [{ provide: KuiCombobox, useExisting: ComboboxRoot }],
-})
-class ComboboxRoot extends KuiCombobox {
-  readonly #state = inject(COMBOBOX)
-  override readonly items = computed(() =>
-    this.#state.labels()
-  ) as unknown as KuiCombobox["items"]
-  override readonly defaultValue = computed(() =>
-    this.multiple() ? null : (this.#state.source()?.defaultValue() ?? null)
-  ) as unknown as KuiCombobox["defaultValue"]
-  override readonly defaultValues = computed(() =>
-    this.multiple() ? list(this.#state.source()?.defaultValue()) : undefined
-  ) as unknown as KuiCombobox["defaultValues"]
-
-  constructor() {
-    super()
-    this.#state.root = this
-  }
-}
-
-/**
  * The combobox: `<ng-container kuiCombobox [items]="…" [(value)]="…">` around its input (or
  * trigger) and content, drawing no element, as Base UI's root; `multiple`, `autoHighlight` and
- * `disabled` are Kirana UI's own. `#combo="kuiCombobox"` reads its state, `combo.selected()` the
- * chosen items.
+ * `disabled` are Kirana UI's own. Kirana UI's root is given the labels of its items as its `items`,
+ * and its `defaultValue` as one value or, with `multiple`, a list (`defaultValues`).
+ * `#combo="kuiCombobox"` reads its state, `combo.selected()` the chosen items.
  */
 @Directive({
   selector: "[kuiCombobox]",
@@ -174,7 +148,7 @@ class ComboboxRoot extends KuiCombobox {
   providers: [{ provide: COMBOBOX, useFactory: () => new ComboboxState() }],
   hostDirectives: [
     {
-      directive: ComboboxRoot,
+      directive: KpCombobox,
       inputs: ["multiple", "autoHighlight", "disabled"],
     },
   ],
@@ -196,7 +170,15 @@ class Combobox {
   constructor() {
     const state = this.state
     state.source.set(this)
-    const root = state.root
+    const root = inject(KpCombobox)
+    state.root = root
+    hostInputs(KpCombobox, {
+      items: () => state.labels(),
+      defaultValue: () =>
+        root.multiple() ? null : (this.defaultValue() ?? null),
+      defaultValues: () =>
+        root.multiple() ? list(this.defaultValue()) : undefined,
+    })
     // What is chosen, as Kirana UI reports it about to change, reported in the items' shape.
     root.valueChanged.subscribe(({ value }) => {
       if (root.multiple()) return
@@ -257,7 +239,7 @@ const CHEVRON = `<svg
   selector: "[kuiComboboxTrigger]",
   imports: [IconPlaceholder, SxDirective],
   providers: [provideSxPart()],
-  hostDirectives: [KuiComboboxTrigger],
+  hostDirectives: [KpComboboxTrigger],
   host: {
     type: "button",
     "[attr.data-slot]": "'combobox-trigger'",
@@ -281,13 +263,13 @@ class ComboboxTrigger {
  * searches.
  */
 @Component({
-  selector: "[kuiComboboxInput]:not(ng-template):not([data-kui-inner])",
+  selector: "[kuiComboboxInput]",
   imports: [
     IconPlaceholder,
     InputGroupAddon,
-    KuiComboboxClear,
-    KuiComboboxInput,
-    KuiComboboxTrigger,
+    KpComboboxClear,
+    KpComboboxInput,
+    KpComboboxTrigger,
     SxDirective,
   ],
   providers: [provideSxPart()],
@@ -300,8 +282,7 @@ class ComboboxTrigger {
   },
   template: `
     <input
-      kuiComboboxInput
-      data-kui-inner
+      kpComboboxInput
       data-slot="input-group-control"
       [attr.placeholder]="placeholder() ?? null"
       [attr.aria-invalid]="ariaInvalid() ?? null"
@@ -311,7 +292,7 @@ class ComboboxTrigger {
     <div kuiInputGroupAddon align="inline-end">
       @if (showTrigger() && !inContent) {
         <button
-          kuiComboboxTrigger
+          kpComboboxTrigger
           type="button"
           tabindex="-1"
           data-slot="input-group-button"
@@ -325,7 +306,7 @@ class ComboboxTrigger {
       }
       @if (showClear()) {
         <button
-          *kuiComboboxClear
+          *kpComboboxClear
           type="button"
           tabindex="-1"
           data-slot="combobox-clear"
@@ -386,13 +367,13 @@ class ComboboxInput {
  */
 @Component({
   selector: "[kuiComboboxContent]",
-  imports: [KuiComboboxPopup, KuiComboboxPortal, KuiComboboxPositioner],
+  imports: [KpComboboxPopup, KpComboboxPortal, KpComboboxPositioner],
   providers: [provideSxPart(), { provide: IN_CONTENT, useValue: true }],
   host: { style: "display: contents" },
   template: `
-    <ng-template kuiComboboxPortal>
+    <ng-template kpComboboxPortal>
       <div
-        kuiComboboxPositioner
+        kpComboboxPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -400,7 +381,7 @@ class ComboboxInput {
         [class]="positioner"
       >
         <div
-          kuiComboboxPopup
+          kpComboboxPopup
           data-slot="combobox-content"
           [attr.data-chips]="String(state.chips())"
           [class]="part().class"
@@ -427,17 +408,17 @@ class ComboboxContent {
 }
 
 /**
- * What it says while nothing matches: Kirana UI's structural `*kuiComboboxEmpty`, drawn here; its
+ * What it says while nothing matches: Kirana UI's structural `*kpComboboxEmpty`, drawn here; its
  * own element draws nothing.
  */
 @Component({
-  selector: "[kuiComboboxEmpty]:not(ng-template):not([data-kui-inner])",
-  imports: [KuiComboboxEmpty],
+  selector: "[kuiComboboxEmpty]",
+  imports: [KpComboboxEmpty],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      *kuiComboboxEmpty
+      *kpComboboxEmpty
       data-slot="combobox-empty"
       role="status"
       aria-live="polite"
@@ -462,7 +443,7 @@ class ComboboxEmpty {
   selector: "[kuiComboboxList]",
   imports: [NgTemplateOutlet],
   providers: [provideSxPart()],
-  hostDirectives: [KuiComboboxList],
+  hostDirectives: [KpComboboxList],
   host: {
     "data-slot": "combobox-list",
     "[class]": "part().class",
@@ -489,7 +470,7 @@ class ComboboxList {
     provideSxPart(),
     { provide: COMBOBOX_GROUP, useFactory: () => inject(ComboboxGroup).items },
   ],
-  hostDirectives: [KuiComboboxGroup],
+  hostDirectives: [KpComboboxGroup],
   host: {
     "data-slot": "combobox-group",
     "[class]": "part().class",
@@ -525,7 +506,7 @@ class ComboboxCollection {
 @Directive({
   selector: "[kuiComboboxLabel]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiComboboxGroupLabel],
+  hostDirectives: [KpComboboxGroupLabel],
   host: {
     "data-slot": "combobox-label",
     "[class]": "part().class",
@@ -540,27 +521,16 @@ class ComboboxLabel {
 }
 
 /**
- * Kirana UI's item, its `label` the root's label of its value, as Base UI's `itemToStringLabel`
- * names it (the item's text otherwise holds all it draws). A host directive's input cannot be bound
- * by the directive it is on (PF-035), so this item extends Kirana UI's and redeclares `label`.
+ * An item: `<div kuiComboboxItem [value]="item">`, the item itself as the combobox's `items` hold
+ * it. Kirana UI's item is given the root's label of its value as its `label`, as Base UI's
+ * `itemToStringLabel` names it (the item's text otherwise holds all it draws).
  */
-@Directive({
-  providers: [{ provide: KuiComboboxItem, useExisting: ComboboxItemRoot }],
-})
-class ComboboxItemRoot extends KuiComboboxItem {
-  readonly #state = inject(COMBOBOX)
-  override readonly label = computed(() =>
-    this.#state.label(this.value())
-  ) as unknown as KuiComboboxItem["label"]
-}
-
-/** An item: `<div kuiComboboxItem [value]="item">`, the item itself as the combobox's `items` hold it. */
 @Component({
   selector: "[kuiComboboxItem]",
-  imports: [IconPlaceholder, KuiComboboxItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpComboboxItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
-    { directive: ComboboxItemRoot, inputs: ["value", "disabled"] },
+    { directive: KpComboboxItem, inputs: ["value", "disabled"] },
   ],
   host: {
     "data-slot": "combobox-item",
@@ -569,7 +539,7 @@ class ComboboxItemRoot extends KuiComboboxItem {
   },
   template: `
     <ng-content />
-    <span *kuiComboboxItemIndicator aria-hidden="true" [sx]="indicator">
+    <span *kpComboboxItemIndicator aria-hidden="true" [sx]="indicator">
       <svg
         iconPlaceholder
         lucide="CheckIcon"
@@ -587,13 +557,19 @@ class ComboboxItem {
   protected readonly part = computed(() =>
     partSx([menuRowBase, menuCheckableRowPadding, combobox.item], this.sx())
   )
+
+  constructor() {
+    const state = useCombobox()
+    const item = inject(KpComboboxItem)
+    hostInputs(KpComboboxItem, { label: () => state.label(item.value()) })
+  }
 }
 
 /** A line between groups. */
 @Directive({
   selector: "[kuiComboboxSeparator]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiComboboxSeparator],
+  hostDirectives: [KpComboboxSeparator],
   host: {
     "data-slot": "combobox-separator",
     "data-orientation": "horizontal",
@@ -610,7 +586,7 @@ class ComboboxSeparator {
 @Directive({
   selector: "[kuiComboboxChips]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiComboboxChips],
+  hostDirectives: [KpComboboxChips],
   host: {
     "data-slot": "combobox-chips",
     "[class]": "part().class",
@@ -632,14 +608,13 @@ class ComboboxChips {
  * inside an element that draws nothing.
  */
 @Component({
-  selector: "[kuiComboboxChip]:not(ng-template):not([data-kui-inner])",
-  imports: [IconPlaceholder, KuiComboboxChip, KuiComboboxChipRemove],
+  selector: "[kuiComboboxChip]",
+  imports: [IconPlaceholder, KpComboboxChip, KpComboboxChipRemove],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
     <div
-      kuiComboboxChip
-      data-kui-inner
+      kpComboboxChip
       data-slot="combobox-chip"
       [value]="value()"
       [class]="part().class"
@@ -648,7 +623,7 @@ class ComboboxChips {
       <ng-content />
       @if (showRemove()) {
         <button
-          kuiComboboxChipRemove
+          kpComboboxChipRemove
           type="button"
           data-slot="combobox-chip-remove"
           [class]="remove"
@@ -681,7 +656,7 @@ class ComboboxChip {
 @Directive({
   selector: "input[kuiComboboxChipsInput]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiComboboxInput],
+  hostDirectives: [KpComboboxInput],
   host: {
     "data-slot": "combobox-chip-input",
     "[class]": "part().class",
@@ -706,10 +681,8 @@ export {
   ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
-  ComboboxItemRoot,
   ComboboxLabel,
   ComboboxList,
-  ComboboxRoot,
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxValue,

@@ -19,7 +19,7 @@ import {
 } from "@kirana-style/registry"
 import { registryItemSchema, registrySchema } from "@shadcn/registry/schema"
 
-import type { Combination, Item } from "./items"
+import type { Combination, Framework, Item } from "./items"
 import { ITEMS, installedPath } from "./items"
 
 export const SCHEMA_ITEM = "https://ui.shadcn.com/schema/registry-item.json"
@@ -224,7 +224,7 @@ export function buildCombination(
   registry: string,
   combination: Combination,
   contentOf: (source: string) => string,
-  versions: (name: string) => string | undefined
+  versions: Versions
 ) {
   const built = new Map<Item, BuiltFile[]>()
   for (const item of ITEMS) {
@@ -254,7 +254,11 @@ export function buildCombination(
       item.name,
       owner,
       `@/registry/${combination.id}`,
-      versions
+      (name) =>
+        versions(name, {
+          framework: combination.framework,
+          base: combination.base,
+        })
     )
     problems.push(
       ...found.problems.map((problem) => `${combination.id}/${problem}`)
@@ -312,18 +316,23 @@ export function buildCombination(
   return { items, index, problems }
 }
 
+/** A package's version range, for a framework and base when one is given. */
+export type Versions = (
+  name: string,
+  combination?: { framework: Framework; base: string }
+) => string | undefined
+
 /**
  * Each package's version range as the registry package declares it, a `catalog:` read from the
- * workspace's catalog: Kirana's `versionsFrom` (`ui build`), on `registry/`. A package the registry
- * does not declare (a font's, which only `packages/fonts` lists) takes the catalog's range.
- * One range per package for every base (KF-130): Solid on ui-sdk's packages on Solid 2 are in the
- * catalog only, and its items name `solid-sonner` 0.3, Ark UI's, where it uses 1.0 (no installs
- * yet, KF-129).
+ * workspace's catalog: Kirana's `versionsFrom` (`ui build`), on `registry/`. For a framework and
+ * base, a base's own `package.json` comes first (`bases/solid-uisdk/package.json`: Solid 2's
+ * packages, where Solid's other bases take Solid 1's). A package the registry does not declare (a
+ * font's, which only `packages/fonts` lists) takes the catalog's range.
  */
-export function versionsFrom(root: string) {
+export function versionsFrom(root: string): Versions {
   const declared = kiranaVersionsFrom(join(root, "registry"))
   const catalog: Record<string, string> =
     JSON.parse(readFileSync(join(root, "package.json"), "utf8")).workspaces
       ?.catalog ?? {}
-  return (name: string) => declared(name) ?? catalog[name]
+  return (name, combination) => declared(name, combination) ?? catalog[name]
 }

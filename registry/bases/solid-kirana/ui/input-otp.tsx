@@ -35,13 +35,6 @@ function InputOTP(props: {
     ["maxLength", "onValueChange", "type", "class", "sx", "children"],
     ["defaultValue", "value", "disabled", "name", "form"]
   )
-  const mode = () =>
-    local.type === "numeric"
-      ? "numeric"
-      : local.type === "alphabetic"
-        ? "text"
-        : "alphanumeric"
-
   // The container's height, which the input's font follows (`--root-height`), as `input-otp`
   // measures it.
   const [height, setHeight] = createSignal(0)
@@ -55,7 +48,7 @@ function InputOTP(props: {
     <Otp.Root
       ref={measure}
       length={local.maxLength}
-      mode={mode()}
+      mode={local.type ?? "alphanumeric"}
       {...root}
       onValueChange={(value: string) => local.onValueChange?.({ value })}
       class={own.class}

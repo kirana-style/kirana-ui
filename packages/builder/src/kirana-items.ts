@@ -15,7 +15,12 @@ import { join } from "node:path"
 import { hashOf } from "@kirana-style/registry"
 
 import { AXIS_ATTRIBUTES } from "../../../registry/core/attributes"
-import { AXES, FONTS, FONT_INFO } from "../../../registry/core/config"
+import {
+  AXES,
+  FONTS,
+  FONT_INFO,
+  FRAMEWORK_BASES,
+} from "../../../registry/core/config"
 import { LAYOUTS } from "../../../registry/core/preset"
 import type { Combination, Framework, Item } from "./items"
 import { COMBINATIONS, ITEMS, installedPath } from "./items"
@@ -25,7 +30,7 @@ import {
   paletteModule,
   readPaletteModule,
 } from "./palette-modules"
-import type { BuiltFile } from "./registry"
+import type { BuiltFile, Versions } from "./registry"
 import { dependenciesOf, ownersOf, rewriteImports, sourcesOf } from "./registry"
 
 export const KIRANA_ITEM = "https://kirana.style/schema/registry-item.json"
@@ -171,6 +176,8 @@ export type KiranaIndex = {
   $schema: string
   name: string
   homepage: string
+  /** The base `kirana-style ui` installs for a framework when the project names none. */
+  defaultBase: Partial<Record<Framework, string>>
   items: (Pick<
     KiranaItem,
     "name" | "type" | "title" | "description" | "version"
@@ -239,7 +246,7 @@ function common(lists: readonly Map<string, string>[]): Packages {
  */
 export function buildKiranaRegistry(
   registry: string,
-  versions: (name: string) => string | undefined,
+  versions: Versions,
   version: string,
   kirana: string,
   /** A style module as the builder flattened and checked it for a combination, if it did. */
@@ -328,7 +335,10 @@ export function buildKiranaRegistry(
         item.name,
         owner,
         "@/registry",
-        versions
+        (name) => {
+          const [framework, base] = key.split("/") as [Framework, string]
+          return versions(name, { framework, base })
+        }
       )
       problems.push(...result.problems.map((problem) => `${key}: ${problem}`))
       return { key, ...result }
@@ -444,6 +454,14 @@ export function buildKiranaRegistry(
     $schema: KIRANA_INDEX,
     name: "Kirana UI",
     homepage: "https://ui.kirana.style",
+    // Each framework's first base (`FRAMEWORK_BASES`), the one the site, Get Code and a preset with
+    // no base take: the registry's choice, which `kirana-style ui` reads from here.
+    defaultBase: Object.fromEntries(
+      Object.entries(FRAMEWORK_BASES).map(([framework, bases]) => [
+        framework,
+        bases[0],
+      ])
+    ),
     items: items.map((item) => ({
       name: item.name,
       type: item.type,

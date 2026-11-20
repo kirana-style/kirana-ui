@@ -70,16 +70,39 @@ export const VERSIONS = {
   "angular-eslint": "^22.6.0",
   prettier: "^3.9.10",
   "prettier-plugin-svelte": "^4.1.1",
-  // Oxlint and Oxfmt at the releases Vite+ 1.6.0 runs, which this repository's own checks pass on.
-  oxlint: "~1.93.0",
-  oxfmt: "~0.78.0",
+  // Oxlint and Oxfmt at the releases Vite+ 1.7.0 runs, which this repository's own checks pass on.
+  oxlint: "~1.94.0",
+  oxfmt: "~0.79.0",
   "@biomejs/biome": "^2.6.6",
   turbo: "^2.11.10",
-  "vite-plus": "1.6.0",
-  "@voidzero-dev/vite-plus-core": "1.6.0",
+  "vite-plus": "1.7.0",
+  // From 1.7.0 the core's version names the Vite it bundles (8.3.8), no longer Vite+'s own.
+  "@voidzero-dev/vite-plus-core": "8.3.8000",
 } as const
 
 export type Versioned = keyof typeof VERSIONS
+
+/**
+ * What a Vite+ project's `vite` resolves to: Vite+'s core, at the version that names the Vite it
+ * bundles (not Vite+'s own release since 1.7.0).
+ */
+export const VITE_PLUS_VITE = `npm:@voidzero-dev/vite-plus-core@${VERSIONS["@voidzero-dev/vite-plus-core"]}`
+
+/**
+ * Solid 2's packages, for the Solid 2 template (`vite-solid2`, which Solid on ui-sdk needs): its
+ * `solid-js` cannot share Solid 1's entry above, so a skeleton names each as `{ name, version }`
+ * (`solid2("solid-js")`). Looked up on 2026-11-20.
+ */
+export const SOLID_2 = {
+  "solid-js": "^2.0.3",
+  "@solidjs/web": "^2.0.3",
+  "@solidjs/vite-plugin": "^3.0.1",
+} as const
+
+export const solid2 = (name: keyof typeof SOLID_2) => ({
+  name,
+  version: SOLID_2[name],
+})
 
 /**
  * What a Turborepo's root writes for `packageManager`, which turbo needs: `kirana-style ui init

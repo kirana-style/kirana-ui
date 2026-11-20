@@ -27,9 +27,7 @@
     {/snippet}
   </Tooltip.Trigger>
 {:else}
-  <!-- `type="button"`: Kirana UI's tooltip trigger is a `<button>` without one, which submits the
-       form it sits in (PF-029). -->
-  <Tooltip.Trigger type="button" data-slot="tooltip-trigger" {...rest} sx={className as Sx}>
+  <Tooltip.Trigger data-slot="tooltip-trigger" {...rest} sx={className as Sx}>
     {@render children?.()}
   </Tooltip.Trigger>
 {/if}

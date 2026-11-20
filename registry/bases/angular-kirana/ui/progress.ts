@@ -1,10 +1,10 @@
 import { Component, Directive, computed, input } from "@angular/core"
 import {
-  KuiProgress,
-  KuiProgressIndicator,
-  KuiProgressLabel,
-  KuiProgressTrack,
-  KuiProgressValue,
+  KpProgress,
+  KpProgressIndicator,
+  KpProgressLabel,
+  KpProgressTrack,
+  KpProgressValue,
 } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -12,7 +12,7 @@ import type { SxInput } from "@kirana-style/angular"
 import { progress } from "../../../styles/progress.styles"
 
 /**
- * A progress bar: `<div kuiProgress [value]="60">`, on Kirana UI's progress (`KuiProgress`), which
+ * A progress bar: `<div kuiProgress [value]="60">`, on Kirana UI's progress (`KpProgress`), which
  * writes `role="progressbar"`, its `aria-value*` and `data-progressing`, `data-complete` and
  * `data-indeterminate`: its `value`, `min` and `max` are the primitive's. Its content (a label, a
  * value) comes first, then the track and indicator it draws, as React's; the indicator's width is
@@ -20,8 +20,8 @@ import { progress } from "../../../styles/progress.styles"
  */
 @Component({
   selector: "[kuiProgress]",
-  imports: [KuiProgressIndicator, KuiProgressTrack, SxDirective],
-  hostDirectives: [{ directive: KuiProgress, inputs: ["value", "min", "max"] }],
+  imports: [KpProgressIndicator, KpProgressTrack, SxDirective],
+  hostDirectives: [{ directive: KpProgress, inputs: ["value", "min", "max"] }],
   providers: [provideSxPart()],
   host: {
     "data-slot": "progress",
@@ -30,9 +30,9 @@ import { progress } from "../../../styles/progress.styles"
   },
   template: `
     <ng-content />
-    <div kuiProgressTrack data-slot="progress-track" [sx]="track">
+    <div kpProgressTrack data-slot="progress-track" [sx]="track">
       <div
-        kuiProgressIndicator
+        kpProgressIndicator
         data-slot="progress-indicator"
         [sx]="indicator"
       ></div>
@@ -49,7 +49,7 @@ class Progress {
 /** Its label, which names the bar (`aria-labelledby`). */
 @Directive({
   selector: "span[kuiProgressLabel]",
-  hostDirectives: [KuiProgressLabel],
+  hostDirectives: [KpProgressLabel],
   providers: [provideSxPart()],
   host: {
     "data-slot": "progress-label",
@@ -63,12 +63,12 @@ class ProgressLabel {
 }
 
 /**
- * Its value as text (`60%`), which Kirana UI's part (`KuiProgressValue`) writes as the element's
+ * Its value as text (`60%`), which Kirana UI's part (`KpProgressValue`) writes as the element's
  * text, in place of any content.
  */
 @Directive({
   selector: "span[kuiProgressValue]",
-  hostDirectives: [KuiProgressValue],
+  hostDirectives: [KpProgressValue],
   providers: [provideSxPart()],
   host: {
     "data-slot": "progress-value",

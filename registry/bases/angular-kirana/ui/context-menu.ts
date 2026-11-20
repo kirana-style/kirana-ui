@@ -11,22 +11,22 @@ import {
   output,
 } from "@angular/core"
 import {
-  KuiContextMenuTrigger,
-  KuiMenu,
-  KuiMenuCheckboxItem,
-  KuiMenuCheckboxItemIndicator,
-  KuiMenuGroup,
-  KuiMenuGroupLabel,
-  KuiMenuItem,
-  KuiMenuPopup,
-  KuiMenuPortal,
-  KuiMenuPositioner,
-  KuiMenuRadioGroup,
-  KuiMenuRadioItem,
-  KuiMenuRadioItemIndicator,
-  KuiMenuSeparator,
-  KuiMenuSubmenuRoot,
-  KuiMenuSubmenuTrigger,
+  KpContextMenuTrigger,
+  KpMenu,
+  KpMenuCheckboxItem,
+  KpMenuCheckboxItemIndicator,
+  KpMenuGroup,
+  KpMenuGroupLabel,
+  KpMenuItem,
+  KpMenuPopup,
+  KpMenuPortal,
+  KpMenuPositioner,
+  KpMenuRadioGroup,
+  KpMenuRadioItem,
+  KpMenuRadioItemIndicator,
+  KpMenuSeparator,
+  KpMenuSubmenuRoot,
+  KpMenuSubmenuTrigger,
 } from "@kirana-ui/angular"
 import type { Align, Side } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
@@ -50,7 +50,7 @@ import { popupMotion } from "../../../styles/overlay.styles"
 
 /**
  * A menu opened by a right click: `<ng-container kuiContextMenu>` around its trigger and content,
- * drawing no element, as Base UI's root: Kirana UI's menu (`KuiMenu`, which `kuiContextMenu` makes
+ * drawing no element, as Base UI's root: Kirana UI's menu (`KpMenu`, which `kuiContextMenu` makes
  * a context menu), its `[(open)]` and `defaultOpen` its own. Kirana UI's selectors are the
  * registry's, so a part takes its primitive as a host directive and a file imports only one of the
  * two.
@@ -59,7 +59,7 @@ import { popupMotion } from "../../../styles/overlay.styles"
   selector: "[kuiContextMenu]",
   hostDirectives: [
     {
-      directive: KuiMenu,
+      directive: KpMenu,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -78,7 +78,7 @@ class ContextMenuPortal {}
 @Directive({
   selector: "[kuiContextMenuTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiContextMenuTrigger],
+  hostDirectives: [KpContextMenuTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element (`<button kuiButton
     // kui…Trigger>`), as Base UI keeps a trigger's own on the element it renders.
@@ -111,7 +111,7 @@ function carried(element: HTMLElement) {
  */
 @Component({
   selector: "[kuiContextMenuContent]",
-  imports: [KuiMenuPopup, KuiMenuPortal, KuiMenuPositioner],
+  imports: [KpMenuPopup, KpMenuPortal, KpMenuPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -120,9 +120,9 @@ function carried(element: HTMLElement) {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiMenuPortal>
+    <ng-template kpMenuPortal>
       <div
-        kuiMenuPositioner
+        kpMenuPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -130,7 +130,7 @@ function carried(element: HTMLElement) {
         [class]="positioner"
       >
         <div
-          kuiMenuPopup
+          kpMenuPopup
           data-slot="context-menu-content"
           [attr.dir]="attr('dir')"
           [attr.data-lang]="attr('data-lang')"
@@ -159,7 +159,7 @@ class ContextMenuContent {
 /** A group of items, named by its label. */
 @Directive({
   selector: "[kuiContextMenuGroup]",
-  hostDirectives: [KuiMenuGroup],
+  hostDirectives: [KpMenuGroup],
   host: { "data-slot": "context-menu-group" },
 })
 class ContextMenuGroup {}
@@ -168,7 +168,7 @@ class ContextMenuGroup {}
 @Directive({
   selector: "[kuiContextMenuLabel]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuGroupLabel],
+  hostDirectives: [KpMenuGroupLabel],
   host: {
     "data-slot": "context-menu-label",
     "[attr.data-inset]": "inset() ? 'true' : null",
@@ -190,7 +190,7 @@ class ContextMenuLabel {
   providers: [provideSxPart()],
   hostDirectives: [
     // `closeOnClick`: whether a press closes the menu (Base UI's), as Kirana UI's item takes it.
-    { directive: KuiMenuItem, inputs: ["disabled", "closeOnClick"] },
+    { directive: KpMenuItem, inputs: ["disabled", "closeOnClick"] },
   ],
   host: {
     "data-slot": "context-menu-item",
@@ -219,7 +219,7 @@ class ContextMenuItem {
 /** A menu inside the menu: `<ng-container kuiContextMenuSub>` around its trigger and content. */
 @Directive({
   selector: "[kuiContextMenuSub]",
-  hostDirectives: [KuiMenuSubmenuRoot],
+  hostDirectives: [KpMenuSubmenuRoot],
 })
 class ContextMenuSub {}
 
@@ -228,7 +228,7 @@ class ContextMenuSub {}
   selector: "[kuiContextMenuSubTrigger]",
   imports: [IconPlaceholder, SxDirective],
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuSubmenuTrigger],
+  hostDirectives: [KpMenuSubmenuTrigger],
   host: {
     "data-slot": "context-menu-sub-trigger",
     "[attr.data-inset]": "inset() ? 'true' : null",
@@ -260,7 +260,7 @@ class ContextMenuSubTrigger {
 /** A submenu, beside its trigger: drawn as the content is, in its own portal. */
 @Component({
   selector: "[kuiContextMenuSubContent]",
-  imports: [KuiMenuPopup, KuiMenuPortal, KuiMenuPositioner],
+  imports: [KpMenuPopup, KpMenuPortal, KpMenuPositioner],
   providers: [provideSxPart()],
   host: {
     style: "display: contents",
@@ -269,9 +269,9 @@ class ContextMenuSubTrigger {
     "[attr.align]": "null",
   },
   template: `
-    <ng-template kuiMenuPortal>
+    <ng-template kpMenuPortal>
       <div
-        kuiMenuPositioner
+        kpMenuPositioner
         [side]="side()"
         [align]="align()"
         [sideOffset]="sideOffset()"
@@ -279,7 +279,7 @@ class ContextMenuSubTrigger {
         [class]="positioner"
       >
         <div
-          kuiMenuPopup
+          kpMenuPopup
           data-slot="context-menu-sub-content"
           [attr.dir]="attr('dir')"
           [attr.data-lang]="attr('data-lang')"
@@ -314,11 +314,11 @@ class ContextMenuSubContent {
  */
 @Component({
   selector: "[kuiContextMenuCheckboxItem]",
-  imports: [IconPlaceholder, KuiMenuCheckboxItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpMenuCheckboxItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
     {
-      directive: KuiMenuCheckboxItem,
+      directive: KpMenuCheckboxItem,
       inputs: ["defaultChecked", "disabled", "closeOnClick"],
     },
   ],
@@ -330,7 +330,7 @@ class ContextMenuSubContent {
   },
   template: `
     <span [sx]="indicator">
-      <span *kuiMenuCheckboxItemIndicator>
+      <span *kpMenuCheckboxItemIndicator>
         <svg
           iconPlaceholder
           lucide="CheckIcon"
@@ -365,7 +365,7 @@ class ContextMenuCheckboxItem {
   )
 
   constructor() {
-    const item = inject(KuiMenuCheckboxItem)
+    const item = inject(KpMenuCheckboxItem)
     effect(() => {
       const checked = this.checked()
       if (checked !== undefined) item.checked.set(checked)
@@ -381,7 +381,7 @@ class ContextMenuCheckboxItem {
   selector: "[kuiContextMenuRadioGroup]",
   hostDirectives: [
     {
-      directive: KuiMenuRadioGroup,
+      directive: KpMenuRadioGroup,
       inputs: ["value", "defaultValue"],
       outputs: ["valueChange"],
     },
@@ -393,11 +393,11 @@ class ContextMenuRadioGroup {}
 /** One of its items: `<div kuiContextMenuRadioItem value="top">`; it leaves the menu open. */
 @Component({
   selector: "[kuiContextMenuRadioItem]",
-  imports: [IconPlaceholder, KuiMenuRadioItemIndicator, SxDirective],
+  imports: [IconPlaceholder, KpMenuRadioItemIndicator, SxDirective],
   providers: [provideSxPart()],
   hostDirectives: [
     {
-      directive: KuiMenuRadioItem,
+      directive: KpMenuRadioItem,
       inputs: ["value", "disabled", "closeOnClick"],
     },
   ],
@@ -409,7 +409,7 @@ class ContextMenuRadioGroup {}
   },
   template: `
     <span [sx]="indicator">
-      <span *kuiMenuRadioItemIndicator>
+      <span *kpMenuRadioItemIndicator>
         <svg
           iconPlaceholder
           lucide="CheckIcon"
@@ -439,7 +439,7 @@ class ContextMenuRadioItem {
 @Directive({
   selector: "[kuiContextMenuSeparator]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiMenuSeparator],
+  hostDirectives: [KpMenuSeparator],
   host: {
     "data-slot": "context-menu-separator",
     "[class]": "part().class",

@@ -8,14 +8,14 @@ import {
   input,
 } from "@angular/core"
 import {
-  KuiDialog,
-  KuiDialogBackdrop,
-  KuiDialogClose,
-  KuiDialogDescription,
-  KuiDialogPopup,
-  KuiDialogPortal,
-  KuiDialogTitle,
-  KuiDialogTrigger,
+  KpDialog,
+  KpDialogBackdrop,
+  KpDialogClose,
+  KpDialogDescription,
+  KpDialogPopup,
+  KpDialogPortal,
+  KpDialogTitle,
+  KpDialogTrigger,
 } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -28,13 +28,13 @@ import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 /**
  * A panel that slides in from a side: `<ng-container kuiSheet>` around its trigger and content,
  * drawing no element, a dialog as Base UI's it is built on: Kirana UI's dialog root
- * (`KuiDialog`), its `[(open)]` and `defaultOpen` its own.
+ * (`KpDialog`), its `[(open)]` and `defaultOpen` its own.
  */
 @Directive({
   selector: "[kuiSheet]",
   hostDirectives: [
     {
-      directive: KuiDialog,
+      directive: KpDialog,
       inputs: ["open", "defaultOpen"],
       outputs: ["openChange"],
     },
@@ -46,7 +46,7 @@ class Sheet {}
 @Directive({
   selector: "[kuiSheetTrigger]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTrigger],
+  hostDirectives: [KpDialogTrigger],
   host: {
     // Bound, so it wins over the slot of a part on the same element.
     "[attr.data-slot]": "'sheet-trigger'",
@@ -67,7 +67,7 @@ class SheetPortal {}
 @Directive({
   selector: "[kuiSheetClose]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     "[attr.data-slot]": "'sheet-close'",
     "[class]": "part().class",
@@ -83,7 +83,7 @@ class SheetClose {
 @Component({
   selector: "button[kuiSheetCornerClose]",
   imports: [IconPlaceholder, SxDirective],
-  hostDirectives: [KuiDialogClose],
+  hostDirectives: [KpDialogClose],
   host: {
     type: "button",
     "data-slot": "sheet-close",
@@ -118,19 +118,14 @@ class SheetCornerClose {
  */
 @Component({
   selector: "[kuiSheetContent]",
-  imports: [
-    SheetCornerClose,
-    KuiDialogBackdrop,
-    KuiDialogPopup,
-    KuiDialogPortal,
-  ],
+  imports: [SheetCornerClose, KpDialogBackdrop, KpDialogPopup, KpDialogPortal],
   providers: [provideSxPart()],
   host: { style: "display: contents" },
   template: `
-    <ng-template kuiDialogPortal>
-      <div kuiDialogBackdrop data-slot="sheet-overlay" [class]="overlay"></div>
+    <ng-template kpDialogPortal>
+      <div kpDialogBackdrop data-slot="sheet-overlay" [class]="overlay"></div>
       <div
-        kuiDialogPopup
+        kpDialogPopup
         [attr.data-slot]="popupSlot() ?? 'sheet-content'"
         [attr.data-sidebar]="popupSidebar()"
         [attr.data-mobile]="popupMobile()"
@@ -198,7 +193,7 @@ class SheetFooter {
 @Directive({
   selector: "h2[kuiSheetTitle]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogTitle],
+  hostDirectives: [KpDialogTitle],
   host: {
     "data-slot": "sheet-title",
     "[class]": "part().class",
@@ -214,7 +209,7 @@ class SheetTitle {
 @Directive({
   selector: "p[kuiSheetDescription]",
   providers: [provideSxPart()],
-  hostDirectives: [KuiDialogDescription],
+  hostDirectives: [KpDialogDescription],
   host: {
     "data-slot": "sheet-description",
     "[class]": "part().class",

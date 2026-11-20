@@ -4,7 +4,8 @@
   import type { Snippet } from "svelte"
   import type { PropsFn } from "../../../../lib/svelte/as-child"
 
-  import Element from "../../../../lib/svelte/Element.svelte"
+  import { Primitive } from "@kirana-ui/svelte/primitive"
+  import { propsFn } from "../../../../lib/svelte/as-child"
 
   import { badge } from "../../../../styles/badge.styles"
 
@@ -24,6 +25,11 @@
   type BadgeVariants = NonNullable<Parameters<typeof badge>[0]>
 </script>
 
-<Element as="span" data-slot="badge" data-variant={variant} {...rest} sx={[badge({ variant }), className as Sx]} {asChild}>
+<!-- `asChild` (Ark UI's, given the props as a function) as the primitive's `child`. -->
+{#snippet composed({ props }: { props: Record<string, unknown> })}
+  {@render asChild?.(propsFn(props))}
+{/snippet}
+
+<Primitive as="span" data-slot="badge" data-variant={variant} {...rest} sx={[badge({ variant }), className as Sx]} child={asChild && composed}>
   {@render children?.()}
-</Element>
+</Primitive>
