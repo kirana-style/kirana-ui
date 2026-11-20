@@ -15,14 +15,21 @@ import { previews as kiranaPreviews } from "@workspace/registry/bases/react-kira
 
 import { mountItem, settle } from "./page"
 
-const BASES = {
+export const BASES = {
   base: basePreviews,
   aria: ariaPreviews,
   uisdk: uisdkPreviews,
   kirana: kiranaPreviews,
 }
 
-for (const [base, previews] of Object.entries(BASES)) {
+/**
+ * `base`'s example pages, chat demos and helper demos, each mounted and every trigger pressed. Each
+ * base has a test file of its own (`examples.<base>.test.tsx`): a file is a page of its own, so a
+ * base's memory is released before the next one's, where four bases in one page ran a browser out
+ * of it.
+ */
+export function testExamples(base: keyof typeof BASES) {
+  const previews = BASES[base]
   describe(base, () => {
     // Upstream's example pages, the chat demos' TanStack AI twins and the helpers' demos.
     const examples = Object.keys(previews).filter(

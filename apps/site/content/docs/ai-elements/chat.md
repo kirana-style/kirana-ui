@@ -16,7 +16,7 @@ Chat is the thread of a conversation with the agent. Each turn is a [Message](/d
 
 Chat is built with the [Message Scroller](/docs/components/message-scroller), [Message](/docs/components/message), [Bubble](/docs/components/bubble), and [Input Group](/docs/components/input-group) components.
 
-<!-- ::installation name="message-scroller message bubble input-group" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
+<!-- ::installation name="message-scroller message bubble input-group" combinations="react/kirana,react/base,react/aria,react/uisdk" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

@@ -23,7 +23,7 @@ Use [Plan](/docs/ai-elements/plan) when the agent decides the steps before it st
 
 Task is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="vue/kirana" -->
+<!-- ::installation name="trace" combinations="vue/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

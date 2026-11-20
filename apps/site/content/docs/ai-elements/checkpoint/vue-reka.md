@@ -8,7 +8,7 @@ Checkpoint is a point in the conversation you can return to. It is a [Marker](/d
 
 Checkpoint is built with the [Marker](/docs/components/marker) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="marker button" combinations="vue/reka" -->
+<!-- ::installation name="marker button" combinations="vue/reka" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

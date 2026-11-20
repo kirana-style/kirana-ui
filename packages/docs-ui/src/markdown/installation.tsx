@@ -40,6 +40,8 @@ import type { RegistryItem } from "./component-code.tsx"
 import { InstallTabs } from "./install-tabs.tsx"
 import { CombinationPicker } from "./preview.tsx"
 import { UNEXPORTED_BASES } from "@workspace/registry/core/config"
+import { RUNTIMES, runtimePackages, useRuntime } from "../runtime.ts"
+import type { Runtime } from "../runtime.ts"
 
 /** What `kirana-style ui init` installs: never a manual step of its own. */
 const FROM_INIT = new Set(["kirana", "sx"])
@@ -47,6 +49,8 @@ const FROM_INIT = new Set(["kirana", "sx"])
 const styles = {
   root: css({ marginBlockEnd: spacing[5] }),
   tabs: css({ marginBlockEnd: spacing[4] }),
+  // The chat runtime's step, under the component's install.
+  runtime: css({ marginBlockStart: spacing[5] }),
   note: css({
     marginBlockEnd: spacing[3],
     color: theme.mutedForeground,
@@ -145,9 +149,15 @@ const escape = (source: string) =>
 export function Installation({
   name,
   combinations,
+  runtimes,
 }: {
   name?: string
   combinations?: string
+  /**
+   * `ai-sdk,tanstack-ai`: an AI Elements pattern, so a last step installs the reader's chat
+   * runtime (`runtime.ts`) for the framework shown.
+   */
+  runtimes?: string
 }) {
   const { registryItem, codeStyle, Link } = useDocs()
   const { available, current } = useCombination(combinationList(combinations))
@@ -155,6 +165,7 @@ export function Installation({
   const [loaded, setLoaded] = useState<Loaded | null>(null)
   const [failed, setFailed] = useState(false)
   const [highlight, setHighlight] = useState<Highlight>()
+  const runtime = useRuntime()
 
   // The documents and the highlighter load when the reader opens the manual steps.
   useEffect(() => {
@@ -227,6 +238,34 @@ export function Installation({
           picker={<CombinationPicker available={available} current={current} />}
         />
       )}
+      {runtimes ? (
+        <RuntimeStep
+          runtime={runtime}
+          combination={current?.id ?? "react/base"}
+        />
+      ) : null}
+    </div>
+  )
+}
+
+/** The chat runtime's packages, under the component's install: the reader's runtime, for the framework shown. */
+function RuntimeStep({
+  runtime,
+  combination,
+}: {
+  runtime: Runtime
+  combination: string
+}) {
+  const { packages, note } = runtimePackages(runtime, combination)
+  const label = RUNTIMES.find((each) => each.id === runtime)?.label
+  return (
+    <div sx={styles.runtime} data-slot="installation-runtime">
+      <p sx={styles.note}>
+        Then the chat runtime, {runtime === "ai-sdk" ? "the AI SDK" : label}{" "}
+        (the switch at the top of the page):
+      </p>
+      <InstallTabs packages={packages} />
+      {note ? <p sx={styles.note}>{note}</p> : null}
     </div>
   )
 }

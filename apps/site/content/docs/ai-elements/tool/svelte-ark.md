@@ -10,7 +10,7 @@ Tool is built with `Trace` with a `TraceCollapsible` for each call that has outp
 
 Tool is built with the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components.
 
-<!-- ::installation name="trace code-block" combinations="svelte/ark" -->
+<!-- ::installation name="trace code-block" combinations="svelte/ark" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 
