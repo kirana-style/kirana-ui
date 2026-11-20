@@ -244,7 +244,8 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   listed first).
 - **A chat runtime, chosen once for the site** (`runtime.ts`, `markdown/runtime.tsx`): the AI SDK
   or TanStack AI, kept as the framework is. A preview with `runtimes="ai-sdk,tanstack-ai"` draws
-  its item on the reader's runtime (TanStack AI's is the twin `<item>-tanstack-ai`), with a toggle
-  beside the framework's picker; `<!-- ::start:runtime tanstack-ai -->` … `<!-- ::end:runtime -->`
+  its item on the reader's runtime (TanStack AI's is the twin `<item>-tanstack-ai`); the switch, tabs
+  as the bases are, is at the end of the page's bases row (`::frameworks runtimes`, set by
+  docs-core when the page shows a chat demo); `<!-- ::start:runtime tanstack-ai -->` … `<!-- ::end:runtime -->`
   is a page's text for one runtime, the others hidden but kept for search, and headed by its
   runtime in the markdown twin (docs-core's `runtimeBlocks`, `plainRuntimes`).

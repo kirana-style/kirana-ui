@@ -86,8 +86,12 @@ export function narrow(
       ` combinations="${variant}"`
     )} -->`
   })
-  // The links to the other variants, under the title.
-  out = out.replace(/^(# .+)$/m, "$1\n\n<!-- ::frameworks -->")
+  // The links to the other variants, under the title; with the chat runtime's switch beside them
+  // when the page shows a chat demo on either runtime.
+  const runtimes = /\sruntimes="|::start:runtime\b/.test(out)
+    ? ' runtimes="ai-sdk,tanstack-ai"'
+    : ""
+  out = out.replace(/^(# .+)$/m, `$1\n\n<!-- ::frameworks${runtimes} -->`)
   return out.replace(/\n{3,}/g, "\n\n")
 }
 

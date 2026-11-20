@@ -50,7 +50,6 @@ import { Icon } from "@workspace/shell/icon"
 import { fontSize, lineHeight, radius, spacing, theme } from "../tokens.ts"
 import { itemOn, useRuntime } from "../runtime.ts"
 import { DemoCode } from "./demo-code.tsx"
-import { RuntimePicker } from "./runtime.tsx"
 
 const styles = {
   root: css({ marginBlockEnd: spacing[5] }),
@@ -114,16 +113,7 @@ const styles = {
   picker: css({
     marginBlockEnd: spacing[2],
   }),
-  // The framework's picker and the chat runtime's, in one row above the box.
-  pickers: css({
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    gap: spacing[2],
-    marginBlockEnd: spacing[2],
-  }),
-  inRow: css({ marginBlockEnd: { "*": null, base: 0 } }),
+
   missing: css({
     marginBlockEnd: spacing[5],
     color: theme.mutedForeground,
@@ -232,7 +222,7 @@ export function MarkdownPreview({
   combinations?: string
   /**
    * `ai-sdk,tanstack-ai`: a chat demo, on the reader's chat runtime (`runtime.ts`), the TanStack AI
-   * one its twin `<item>-tanstack-ai`; a picker beside the framework's chooses it.
+   * one its twin `<item>-tanstack-ai`; the switch is in the row of the page's bases.
    */
   runtimes?: string
   /** `rtl`: a right-to-left demo, read in the language its bar chooses (Arabic first). */
@@ -289,18 +279,7 @@ export function MarkdownPreview({
   }
   return (
     <div sx={styles.root} data-slot="markdown-preview">
-      {chat ? (
-        <div sx={styles.pickers}>
-          {only ? (
-            <CombinationPicker
-              available={available}
-              current={current}
-              sx={styles.inRow}
-            />
-          ) : null}
-          <RuntimePicker />
-        </div>
-      ) : only ? (
+      {only ? (
         <CombinationPicker available={available} current={current} />
       ) : null}
       <div sx={styles.box}>

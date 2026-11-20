@@ -23,13 +23,16 @@ import { BaseLogo, hasBaseLogo } from "../base-logos.tsx"
 import { chooseCombination } from "../combination.ts"
 import { PageContext } from "../page-context.ts"
 import { useDocs } from "../provider.tsx"
+import { RuntimePicker } from "./runtime.tsx"
 import { spacing, theme } from "../tokens.ts"
 
 const styles = {
   row: css({
     display: "flex",
+    flexWrap: "wrap",
     alignItems: "center",
     gap: spacing[4],
+    rowGap: spacing[2],
     marginBlockEnd: spacing[6],
   }),
   root: css({
@@ -38,6 +41,8 @@ const styles = {
     scrollbarWidth: "none",
   }),
   // `ml-auto size-4 shrink-0 text-muted-foreground opacity-80`.
+  // The chat runtime's switch, at the row's end; the base's mark after it.
+  runtime: css({ marginInlineStart: "auto" }),
   logo: css({
     display: "grid",
     marginInlineStart: "auto",
@@ -47,9 +52,15 @@ const styles = {
     color: theme.mutedForeground,
     opacity: 0.8,
   }),
+  logoAfter: css({ marginInlineStart: { "*": null, base: 0 } }),
 }
 
-export function MarkdownFrameworks() {
+export function MarkdownFrameworks({
+  runtimes,
+}: {
+  /** `ai-sdk,tanstack-ai`: the page shows a chat demo, so the chat runtime's switch is here. */
+  runtimes?: string
+}) {
   const { Link, combinations = [] } = useDocs()
   const variant = use(PageContext)?.variant
   if (!variant) return null
@@ -61,7 +72,7 @@ export function MarkdownFrameworks() {
     sibling.id.startsWith(`${framework}/`)
   )
   const mark = base && hasBaseLogo(base)
-  if (bases.length < 2 && !mark) return null
+  if (bases.length < 2 && !mark && !runtimes) return null
   return (
     <div sx={styles.row} data-slot="frameworks">
       {bases.length > 1 ? (
@@ -85,8 +96,9 @@ export function MarkdownFrameworks() {
           </TabsList>
         </Tabs>
       ) : null}
+      {runtimes ? <RuntimePicker sx={styles.runtime} /> : null}
       {mark && base ? (
-        <span sx={styles.logo}>
+        <span sx={[styles.logo, runtimes ? styles.logoAfter : null]}>
           <BaseLogo base={base} />
         </span>
       ) : null}

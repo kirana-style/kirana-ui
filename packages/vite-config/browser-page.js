@@ -101,6 +101,9 @@ function pressable(element) {
   return (
     element.isConnected &&
     !element.closest("a[href]") &&
+    // In a section that is closing: inert at once, while its height still animates (Firefox on
+    // CI paints it slowly), so the trigger has a box but nothing can press it.
+    !element.closest("[inert]") &&
     !element.matches(":disabled, [aria-disabled='true'], [data-disabled]") &&
     box.width > 0 &&
     box.height > 0 &&
