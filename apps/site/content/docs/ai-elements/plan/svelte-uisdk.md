@@ -12,7 +12,7 @@ When the steps are not known up front, use [Task](/docs/ai-elements/task#task-or
 
 Plan is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="svelte/uisdk" -->
+<!-- ::installation name="trace" combinations="svelte/uisdk" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

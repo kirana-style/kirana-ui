@@ -249,3 +249,7 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   docs-core when the page shows a chat demo); `<!-- ::start:runtime tanstack-ai -->` … `<!-- ::end:runtime -->`
   is a page's text for one runtime, the others hidden but kept for search, and headed by its
   runtime in the markdown twin (docs-core's `runtimeBlocks`, `plainRuntimes`).
+- **The chat runtime's packages in an installation** (`::installation … runtimes="ai-sdk,tanstack-ai"`):
+  under the component's install, a step installs the reader's chat runtime for the framework shown
+  (`runtimePackages` in `runtime.ts`: `ai` and `@ai-sdk/<framework>`, or `@tanstack/ai` and
+  `@tanstack/ai-<framework>`, with what a framework without an adapter does instead).

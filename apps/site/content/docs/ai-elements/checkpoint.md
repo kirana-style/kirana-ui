@@ -35,7 +35,7 @@ Checkpoint is a point in the conversation you can return to. It is a [Marker](/d
 
 Checkpoint is built with the [Marker](/docs/components/marker) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="marker button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" -->
+<!-- ::installation name="marker button" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

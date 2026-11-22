@@ -1199,11 +1199,11 @@ mode through Vite+'s Playwright provider, each app's project compiled with that
 app's own plugins, so the registry's components compile with Kirana as on the
 site. They hold what neither types nor JSDOM can:
 
-| Test                      | What it holds                                                                                                                                             |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `examples.test.*`         | Every `-example` page on every base mounts without an error, and every trigger on it can be pressed: no error, no form submitted                          |
-| `triggers-in-form.test.*` | A trigger inside a form, as its own button and through `asChild`, never submits it                                                                        |
-| `chart-entrance.test.tsx` | Chart's entrance grows through its 1.5 s; a canary fails once TanStack Charts keeps an entrance through a repaint, when `ChartContainer`'s remount can go |
+| Test                      | What it holds                                                                                                                                                                                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `examples.<base>.test.*`  | Every `-example` page, chat demo and helper demo of a base mounts without an error, and every trigger on it can be pressed: no error, no form submitted; a file per base (`examples.ts` holds the test), so a base's page and its memory are let go before the next |
+| `triggers-in-form.test.*` | A trigger inside a form, as its own button and through `asChild`, never submits it                                                                                                                                                                                  |
+| `chart-entrance.test.tsx` | Chart's entrance grows through its 1.5 s; a canary fails once TanStack Charts keeps an entrance through a repaint, when `ChartContainer`'s remount can go                                                                                                           |
 
 The first catches what a port from Radix carries: Base UI's label parts
 (`DropdownMenuLabel`, `SelectLabel` …) throw when their menu opens unless they sit

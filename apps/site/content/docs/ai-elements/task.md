@@ -50,7 +50,7 @@ Use [Plan](/docs/ai-elements/plan) when the agent decides the steps before it st
 
 Task is built with the [Trace](/docs/components/trace) component.
 
-<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" -->
+<!-- ::installation name="trace" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/uisdk,svelte/kirana,svelte/uisdk,solid/kirana,solid/uisdk,angular/kirana" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 

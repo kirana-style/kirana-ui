@@ -8,7 +8,7 @@ Confirmation asks the person for a yes or no before a tool runs. The question is
 
 Confirmation is built with the [Item](/docs/components/item) and [Button](/docs/components/button) components.
 
-<!-- ::installation name="item button" combinations="vue/ark" -->
+<!-- ::installation name="item button" combinations="vue/ark" runtimes="ai-sdk,tanstack-ai" -->
 
 ## Usage
 
