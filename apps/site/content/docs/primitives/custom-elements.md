@@ -59,9 +59,29 @@ A change is an event named for its callback (`open-change`, `value-change`, `che
 with the value and the same `details` as on the frameworks. Preventing it refuses the change.
 
 A part's own options are `kui-` attributes: `kui-value` for an item, `kui-disabled`, `kui-index`,
-`kui-label`, and a positioner's `kui-side`, `kui-align`, `kui-side-offset`, `kui-align-offset`,
-`kui-collision-padding` and `kui-anchor` (the id of the element the popup is placed against, when
-that is not its trigger). The component's id is `kui-id`.
+`kui-label`. The component's id is `kui-id`.
+
+A positioner takes its options the same way:
+
+| Attribute                                                | What it says                                                     |
+| -------------------------------------------------------- | ---------------------------------------------------------------- |
+| `kui-side`, `kui-align`                                  | The side of the anchor, and where along it                       |
+| `kui-side-offset`, `kui-align-offset`                    | Pixels from the anchor, and along the side                       |
+| `kui-collision-padding`                                  | Pixels kept from the edges it is held inside                     |
+| `kui-collision-boundary`                                 | The id of the element it is held inside                          |
+| `kui-anchor`                                             | The id of the element it is placed against, when not its trigger |
+| `kui-sticky`, `kui-arrow-padding`, `kui-position-method` | As the options of the same names on the frameworks               |
+
+What an attribute cannot say (an offset as a function, a boundary as a rectangle, a padding for
+each side, `collisionAvoidance`) is the `positioning` property of the custom element, read as
+the popup comes into the page. An attribute on the positioner comes before the same option
+there.
+
+```js
+document.querySelector("kui-popover").positioning = {
+  sideOffset: ({ anchor }) => anchor.height / 2,
+}
+```
 
 TypeScript knows each element by its tag: `document.querySelector("kui-dialog")` has its props as
 properties and its events with their `detail`. The types they name are exported by the package
@@ -75,8 +95,9 @@ menu is its submenu.
 
 ## Lists
 
-A list the component draws (a calendar's weeks, a toast for each message, pagination's pages) is
-written once, as a template where the list goes:
+A list the component draws (a calendar's months and weeks, a toast for each message, pagination's
+pages, a combobox's `collection` of the items given as data) is written once, as a template where
+the list goes:
 
 ```html
 <kui-pagination count="200">

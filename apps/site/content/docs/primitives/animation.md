@@ -50,7 +50,11 @@ A part with no motion leaves at once.
 | ---------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Panels     | `Accordion.Panel`, `Collapsible.Panel`, `Tabs.Panel`                                                                     |
 | Indicators | `Checkbox.Indicator`, `RadioGroup.Indicator`, and the item indicators of Select, Combobox, Listbox, Menu and ContextMenu |
-| Others     | `ScrollArea.Scrollbar`, `Combobox.Clear`, `Autocomplete.Clear`                                                           |
+| Others     | `ScrollArea.Scrollbar`, `Combobox.Clear`, `Autocomplete.Clear`, `Avatar.Image`                                           |
 
 A popup, a backdrop and a toast do not take it: they are in the page only while they are open. On
 a custom element's part it is `kui-keep-mounted`.
+
+`Avatar.Image` with `keepMounted` is not hidden by the library: the element loads its picture
+itself (so `loading="lazy"` works), and until it has it is `aria-hidden` with `data-loading`, or
+`data-error` when it could not. Style it by those.

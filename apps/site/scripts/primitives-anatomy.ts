@@ -115,7 +115,7 @@ function tidy(snippet: string, indent: number): string {
  */
 const ownId = (snippet: string) =>
   snippet.replace(
-    /^(<[\w.-]+(?:\s+[\w-]+)?)\s+(?:id|kui-id|\[kuiId\])="[^"]*"/,
+    /^(<[\w.-]+(?:\s+[\w-]+)?)\s+(?:id|kui-id|\[kpId\])="[^"]*"/,
     "$1"
   )
 
@@ -159,14 +159,14 @@ for (const { name, first } of components()) {
     new RegExp(`<${literal(tag)}(?=[\\s>/])`),
   ]
   const directive = (suffix: string) =>
-    new RegExp(`\\skui${name}${suffix}(?=[\\s=>\\]/])`)
+    new RegExp(`\\skp${name}${suffix}(?=[\\s=>\\]/])`)
   const entry: Partial<Record<Framework, string>> = {
     react: find("react", jsx),
     vue: find("vue", jsx),
     svelte: find("svelte", jsx),
     solid: find("solid", jsx),
     angular: find("angular", [
-      ...(id ? [new RegExp(`\\skui${name}\\s[^>]*\\[kuiId\\]="'${id}'"`)] : []),
+      ...(id ? [new RegExp(`\\skp${name}\\s[^>]*\\[kpId\\]="'${id}'"`)] : []),
       ...["", "Root", "Group", "Viewport", "Textarea", "Trigger"].map(
         (suffix) => directive(suffix)
       ),
