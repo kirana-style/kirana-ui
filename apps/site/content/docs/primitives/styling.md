@@ -143,6 +143,23 @@ export function Details() {
 - **Kirana**: a state is a condition on a value, written as its attribute selector. The parts do
   not read `sx`, so a style reaches a part through `props()`.
 
+## What the library leaves to your design
+
+The library writes a style only where the length is the value itself (a progress bar's width, a
+panel's share). A few layouts need a line or two from the design to work at all:
+
+| Component                   | Your design gives                                                                                                                                                                             |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A popup with an `Arrow`     | `position: relative` on the popup, so the arrow is placed in it through its entrance and after                                                                                                |
+| Resizable                   | `display: flex` on the group (`flex-direction: column` when vertical), `flex-shrink: 0` on a handle, and a panel's `overflow`. A panel's share (`flex`, with its minimums) is written for you |
+| A group nested in a panel   | `min-width: 0` and `min-height: 0` on the inner group                                                                                                                                         |
+| `Dialog.Viewport`           | A fixed box over the page with `overflow: auto`, the popup inside it                                                                                                                          |
+| `Avatar.Image` kept mounted | Its look while `[data-loading]` and `[data-error]`: the library does not hide it                                                                                                              |
+| Scroll Area                 | Where a scrollbar sits and how big its track is; the thumb's size and place are written for you                                                                                               |
+
+An avatar's root says how its picture is doing, to style the whole of it:
+`[data-image-loading-status="loaded"]`, `"loading"`, `"error"` or `"idle"`.
+
 ## The contract as data
 
 `@kirana-ui/vocabulary` publishes every part's states and variables, generated from the

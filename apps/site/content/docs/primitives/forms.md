@@ -24,8 +24,63 @@ library:
 ```
 
 `form` names a form the control is not inside, by its id. `disabled` and `required` are the
-control's props. `readOnly` is a prop of Checkbox, Switch, RadioGroup, NumberField, DateField,
-DatePicker and Calendar; Select, Combobox and Slider have none.
+control's props.
+
+## Read only
+
+`readOnly` shows a control as it is: it keeps its focus and its place in the form, its value is
+submitted, and it cannot be changed. These take it, and no other component:
+
+| Control                                              | Read only, it                                                        |
+| ---------------------------------------------------- | -------------------------------------------------------------------- |
+| Checkbox, Switch, RadioGroup, NumberField, DateField | Takes no press and no key that would change it                       |
+| Slider                                               | Moves no thumb, by key or pointer                                    |
+| Select, Combobox, Autocomplete                       | Still opens, and its list can be gone through; no item can be chosen |
+| Calendar                                             | Its days can be moved through, and none can be chosen                |
+| DatePicker                                           | Does not open                                                        |
+
+A read-only part has `data-readonly`, to style it.
+
+## A group of checkboxes
+
+[Checkbox Group](/docs/primitives/components/checkbox-group) holds the values of the checkboxes
+checked inside it as one list. A checkbox marked `parent` stands for all of them: it is checked
+when every one is, mixed when some are, and a press on it sets them all.
+
+```tsx
+<CheckboxGroup defaultValue={["mail"]} allValues={["mail", "push", "text"]}>
+  <Checkbox.Root parent>
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  <Checkbox.Root name="notify" value="mail">
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  <Checkbox.Root name="notify" value="push">
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  <Checkbox.Root name="notify" value="text">
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+</CheckboxGroup>
+```
+
+Each box is submitted under its own `name` with its `value`; the parent is not submitted.
+
+## A label for one radio
+
+An `id` on `RadioGroup.Item` goes on its native radio, as on Checkbox and Switch, so a label
+written beside it reaches it:
+
+```tsx
+<RadioGroup.Item value="free" id="plan-free" />
+<label htmlFor="plan-free">Free</label>
+```
+
+## A calendar in a form
+
+A [Calendar](/docs/primitives/components/calendar) with a `name` is submitted through its
+`Calendar.Input` part: a day; the first and the last day of a range, as two entries; each day
+of a list (`mode="multiple"`).
 
 ## Field
 

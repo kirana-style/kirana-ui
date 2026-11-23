@@ -72,6 +72,11 @@ A step's `action` is one of the actions its kind of component takes. `setValue`,
 
 An agent finds a control by its accessible name, so give every control one.
 
+A read-only control is listed with none of the actions that would change it: a read-only select
+keeps `open` and `close`, since its list can still be read. A combobox, a number field and an
+input also say so (`readOnly: true`), and a step that asks one of them to change fails with
+"… is read only".
+
 ## It asks the way a person does
 
 A step is a press, typed text or a key on the part's own element. So a change an agent makes
