@@ -1,10 +1,9 @@
 import { Button as ButtonPrimitive } from "@kirana-ui/solid/button"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
-import { splitProps } from "solid-js"
+import { mergeProps, splitProps } from "solid-js"
 import type { JSX } from "solid-js"
 
-import { asRender } from "../../../lib/solid/element"
 import type { AsChild } from "../../../lib/solid/element"
 import { button, buttonLabel } from "../../../styles/button.styles"
 
@@ -65,6 +64,22 @@ function labelRuns(element: HTMLElement) {
 }
 
 /**
+ * A caller's own element as the button (`asChild`, a link for the most part): its props merged
+ * under the part's, as `asRender` does, then its role, a link's unless it names one: Kirana UI's
+ * button writes `role="button"` over the caller's (PF-056), where Base UI's keeps a link a link.
+ */
+function linkRender(asChild: AsChild<"button"> | undefined) {
+  if (!asChild) return undefined
+  return (props: () => Record<string, unknown>) =>
+    asChild((userProps) => {
+      const user = (userProps ?? {}) as Record<string, unknown>
+      return mergeProps(user, props(), {
+        role: (user.role as string | undefined) ?? "link",
+      }) as JSX.HTMLAttributes<any>
+    })
+}
+
+/**
  * Kirana UI's button, which a caller renders as its own element (`asChild`, Ark UI's render
  * function, as Vue's `as-child`), given the button's props and a native button's keyboard. A
  * caller's `sx` merges after the button's own, so it wins.
@@ -94,7 +109,7 @@ function Button(props: ButtonProps) {
     <ButtonPrimitive
       data-slot="button"
       nativeButton={local.asChild ? false : undefined}
-      render={asRender(local.asChild)}
+      render={linkRender(local.asChild)}
       {...rest}
       {...styleProps(
         local.class,

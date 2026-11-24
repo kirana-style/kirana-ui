@@ -121,6 +121,7 @@ export default defineConfig({
             "registry/**/*.test.ts",
             "packages/*/{src,test}/**/*.test.ts",
             "apps/site/src/**/*.test.ts",
+            "scripts/**/*.test.ts",
           ],
         },
       },
@@ -365,6 +366,8 @@ export default defineConfig({
       "bun.lock",
       ".agents/**",
       ".claude/**",
+      // The primitives' skill, copied from their package byte for byte (`scripts/skills.ts`).
+      "skills/kirana-ui-primitives/**",
     ],
   },
   lint: {

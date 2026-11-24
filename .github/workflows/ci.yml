@@ -162,22 +162,76 @@ jobs:
         with:
           scope: -${{ matrix.browser }}-${{ matrix.framework }}${{ matrix.bases && '-half' || '' }}
 
+      # The engine's build, kept per Playwright version (the lockfile) and engine, so most jobs
+      # download nothing; every job still installs the engine's system libraries.
+      - name: Browser cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-${{ hashFiles('bun.lock') }}
+          restore-keys: playwright-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-
+
+      # The engine's system libraries as apt downloaded them (some 50 to 100 MB of fonts and
+      # codecs), kept so a job installs them from here rather than the runner's Ubuntu mirror,
+      # which can crawl (59 packages in 15 minutes, where other jobs took 30 seconds). Restored
+      # here, saved straight after the install below, so a job whose tests fail still keeps them.
+      - name: System libraries cache
+        id: apt-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/apt-archives
+          key: apt-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-${{ hashFiles('bun.lock') }}
+          restore-keys: apt-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-
+
       # The engine at the version the lockfile's Playwright asks for, with its system libraries.
+      # apt takes the packages it already has from ~/apt-archives and downloads only the rest; on
+      # a stalled connection it gives up after 30 seconds and retries, five times, and it waits
+      # for the package lock rather than failing on it. Nothing kills apt from outside: a killed
+      # install left apt running, holding the lock for the next attempt.
       - name: Browser
-        run: bunx playwright install --with-deps ${{ matrix.browser }}
+        timeout-minutes: 15
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          mkdir -p "$HOME/apt-archives/partial"
+          printf '%s\n' "Dir::Cache::Archives \"$HOME/apt-archives/\";" \
+            'APT::Keep-Downloaded-Packages "true";' 'Binary::apt-get::APT::Keep-Downloaded-Packages "true";' \
+            'Acquire::Retries "5";' 'Acquire::http::Timeout "30";' 'Acquire::https::Timeout "30";' \
+            'DPkg::Lock::Timeout "600";' | sudo tee /etc/apt/apt.conf.d/99-ci >/dev/null
+          bunx playwright install --with-deps "$BROWSER"
+          # Readable for the cache to save, without apt's own lock file.
+          sudo rm -f "$HOME/apt-archives/lock"
+          sudo chmod -R a+rX "$HOME/apt-archives"
+          # Ubuntu 24.04 and later keep unprivileged user namespaces from processes AppArmor does
+          # not name, and Firefox's content sandbox needs them. Lifted for this job's browsers.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Save the system libraries
+        if: steps.apt-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/apt-archives
+          key: apt-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-${{ hashFiles('bun.lock') }}
 
       # A whole framework through its cached task; a share of its bases straight through Vitest,
-      # filtered by the bases' `describe` (`-t`, which `vp run` does not pass on).
+      # by their files and their `describe` (which `vp run` does not pass on).
       - name: Browser tests
         env:
           BROWSERS: ${{ matrix.browser }}
+          # Firefox without its content sandbox on CI's runner, in case the namespaces stay closed.
+          MOZ_DISABLE_CONTENT_SANDBOX: "1"
           FRAMEWORK: ${{ matrix.framework }}
           BASES: ${{ matrix.bases }}
         run: |
           if [ -z "$BASES" ]; then
             vp run "browser:$FRAMEWORK"
           else
-            vp test run --project "browser-$FRAMEWORK" -t "^($BASES) > "
+            # The bases' own files by name (`examples.<base>.`, and `triggers-in-form`, whose
+            # bases load lazily), not `-t` alone: `-t` still imports every file, so every base's
+            # examples, into the one page (Vue's UI SDK job peaked at 3.3 GB in Firefox; its own
+            # file alone, 1.5 GB). `-t` then keeps only these bases' tests.
+            files=$(echo "$BASES" | tr '|' '\n' | sed 's/.*/examples.&./')
+            vp test run --project "browser-$FRAMEWORK" $files triggers-in-form -t "^($BASES) > "
           fi
 
   # The registry installed with Kirana's own installer, as Get Code has a reader do it: a skeleton

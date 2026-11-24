@@ -179,6 +179,22 @@ one component anchors is read by another you may not have installed); Biome's re
 rules less the ten the ports trip as upstream's code does (a span with `role="link"`, an
 index key, `import * as React` read for types …), listed in its `biome.json`.
 
+Two of Kirana's rules are a project's own policy and stay off: `restricted-properties` (its
+list is yours) and `use-logical-properties`. If you turn the second on, leave the installed
+components out of it: they keep shadcn/ui's physical sides where shadcn/ui does (a dialog
+centred with `left: 50%`, a sheet pinned to the side it opens from, the right-to-left examples),
+so they behave in a right-to-left page as shadcn/ui's do.
+
+```js
+// eslint.config.js: after the Kirana preset
+{ files: ["src/components/ui/**"], rules: { "kirana/use-logical-properties": "off" } }
+```
+
+`ui add` checks each file it would write against what it installed: a file your formatter has
+reformatted since counts as changed, and `ui add` stops before writing over it. Run it with
+`--overwrite` when the only change is formatting, or format the components once, after the
+first `ui add`, with your formatter set to leave them as written.
+
 Each skeleton CI installs with Get Code's own command from an empty folder gets every
 component its framework has, then its `format`, `lint`, `typecheck` and `build` scripts
 run, it moves to another design with `ui preset` and back, and its lockfile is checked:

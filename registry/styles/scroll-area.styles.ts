@@ -34,6 +34,9 @@ export const scrollArea = {
   viewport: css({
     width: "100%",
     height: "100%",
+    // A `maxHeight` on the root caps the viewport, which then scrolls: `height: 100%` alone reads
+    // a root of no set height as no limit, and the content overflowed it.
+    maxHeight: "inherit",
     borderRadius: "inherit",
     transitionProperty: "color, box-shadow",
     transitionDuration: duration[150],

@@ -236,6 +236,31 @@ function SelectTrigger({
   )
 }
 
+/**
+ * The page's scroll held while a popup that opens over its trigger is open, as Base UI's select
+ * holds it: that popup is placed once, `fixed`, and the page scrolling under it would leave it
+ * behind its trigger. Kirana UI's select does not hold it (PF-055). Mounted inside the popup, so it
+ * holds exactly while the popup is in the page; the scrollbar's width is kept as padding, so the
+ * page does not shift.
+ */
+function ScrollLock() {
+  React.useEffect(() => {
+    const html = document.documentElement
+    const gap = window.innerWidth - html.clientWidth
+    const before = {
+      overflow: html.style.overflow,
+      padding: html.style.paddingInlineEnd,
+    }
+    html.style.overflow = "hidden"
+    if (gap > 0) html.style.paddingInlineEnd = `${gap}px`
+    return () => {
+      html.style.overflow = before.overflow
+      html.style.paddingInlineEnd = before.padding
+    }
+  }, [])
+  return null
+}
+
 function SelectContent({
   sx,
   children,
@@ -269,6 +294,7 @@ function SelectContent({
           {...props}
           {...styleProps(popupMotion, menuSurface, select.content, sx)}
         >
+          {alignItemWithTrigger ? <ScrollLock /> : null}
           <SelectScrollUpButton />
           <SelectPrimitive.List>{children}</SelectPrimitive.List>
           <SelectScrollDownButton />
