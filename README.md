@@ -80,6 +80,11 @@ export function Save() {
 }
 ```
 
+A coding agent works better with the skills: `npx skills add kirana-style/kirana-ui` (and
+`kirana-style/kirana` for Kirana's styles) installs them for Claude Code, Cursor, Codex and the
+other agents [`skills`](https://github.com/vercel-labs/skills) supports
+([Agent skills](https://ui.kirana-style.workers.dev/docs/agent-skills)).
+
 ## Repository
 
 | Path                                     | Contents                                                                           |
@@ -94,6 +99,7 @@ export function Save() {
 | `packages/shell`, `fonts`, `vite-config` | The site's shell and colour mode, the font families, the shared Vite config        |
 | `upstream`, `conformance`                | What each item was ported from, and the reviewed differences from shadcn/ui's site |
 | `scripts`                                | Kirana's version, licences, the install smoke test, conformance                    |
+| `skills`                                 | The agent skills `npx skills add kirana-style/kirana-ui` installs                  |
 
 ## Development
 

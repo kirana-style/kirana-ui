@@ -43,6 +43,19 @@ component never knows which colours are on. Translucent shades, shadcn/ui's
 `bg-primary/80`, are tokens too (`alpha.primary80`), mixed with `color-mix()` from
 the same variables.
 
+## A theme on part of the page
+
+Popups (a select's list, a menu, a dialog, a tooltip) are drawn at the end of `<body>`, so
+they read the theme, the direction and the colour scheme set on `<html>`, which
+`kirana-style ui init` puts there. A theme, a `dir` or a `color-scheme` set on one section of the
+page does not reach the popups its components open. Set them on `<html>` when you can. When a
+section must differ, draw its popups inside it:
+
+- **Kirana UI:** wrap the section in `PortalProvider` from `@kirana-ui/react` (and each
+  framework's adapter), its `container` the section's element: every popup inside it, and the
+  popups those open, is drawn there.
+- **The other bases:** their popups follow `<html>`; give the section's theme to the page.
+
 ## In your project
 
 A project has its own design's colours only. Each colour axis is two files in

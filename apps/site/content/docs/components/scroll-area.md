@@ -177,6 +177,17 @@ const styles = {
 
 <!-- ::end:only -->
 
+## Height
+
+Give the root a `height` or a `maxHeight`: the viewport takes it and scrolls what goes past it.
+With `maxHeight`, the area is as tall as its content up to that height.
+
+```tsx
+const styles = { list: css({ maxHeight: spacing[72] }) }
+
+<ScrollArea sx={styles.list}>…</ScrollArea>
+```
+
 ## Composition
 
 <!-- ::start:only react/kirana,react/base,react/uisdk -->

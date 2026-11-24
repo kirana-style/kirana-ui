@@ -3,6 +3,8 @@
 import * as React from "react"
 
 import { Button as ButtonPrimitive } from "@kirana-ui/react/button"
+import { mergeProps } from "@kirana-ui/react/use-render"
+import type { RenderedProps } from "@kirana-ui/react/runtime"
 import { props as styleProps } from "@kirana-style/core"
 
 import type { Sx } from "../../../lib/sx"
@@ -50,26 +52,41 @@ function withLabels(children: React.ReactNode) {
 }
 
 function Button({ sx, variant, size, children, ...props }: ButtonProps) {
-  // `nativeButton={false}` is a button drawn on a link (`render={<a href>}`): it keeps the link's
-  // role, where Base UI would announce it as a button.
-  const link =
-    props.nativeButton === false ? { role: props.role ?? "link" } : null
-  // Kirana UI's button writes `type="button"` over the caller's, so a submit button would never
-  // submit its form (PF-052): the caller's `type` is drawn last, through `render`.
-  const typed =
-    props.type && props.type !== "button" && !props.render
-      ? {
-          render: (rendered: React.ComponentProps<"button">) => (
-            <button {...rendered} type={props.type} />
+  // What the caller means and Kirana UI's button writes over (PF-052, PF-056): `type="submit"` or
+  // `"reset"`, else a submit button never submits its form; and, on a link drawn as a button
+  // (`nativeButton={false}`, `render={<a href>}`), the link's role, where it writes
+  // `role="button"`. They are drawn last, through `render`: on the caller's own element, its props
+  // merged with the part's as the primitive would, or on a `<button>`.
+  const own: Record<string, string> = {
+    ...(props.nativeButton === false ? { role: props.role ?? "link" } : {}),
+    ...(props.type && props.type !== "button" ? { type: props.type } : {}),
+  }
+  const caller = props.render
+  const drawn = Object.keys(own).length
+    ? {
+        render: (
+          rendered: RenderedProps,
+          state: Parameters<
+            Extract<typeof caller, (...args: never) => unknown>
+          >[1]
+        ) =>
+          typeof caller === "function" ? (
+            caller({ ...rendered, ...own }, state)
+          ) : React.isValidElement<Record<string, unknown>>(caller) ? (
+            React.cloneElement(caller, {
+              ...mergeProps(caller.props, rendered),
+              ...own,
+            })
+          ) : (
+            <button {...rendered} {...own} />
           ),
-        }
-      : null
+      }
+    : null
   return (
     <ButtonPrimitive
       data-slot="button"
       {...props}
-      {...link}
-      {...typed}
+      {...drawn}
       {...styleProps(button({ variant, size }), sx)}
     >
       {typeof children === "function" ? children : withLabels(children)}
