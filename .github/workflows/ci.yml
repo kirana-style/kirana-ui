@@ -162,9 +162,31 @@ jobs:
         with:
           scope: -${{ matrix.browser }}-${{ matrix.framework }}${{ matrix.bases && '-half' || '' }}
 
+      # The engine's build, kept per Playwright version (the lockfile) and engine, so most jobs
+      # download nothing; every job still installs the engine's system libraries.
+      - name: Browser cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-${{ hashFiles('bun.lock') }}
+          restore-keys: playwright-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-
+
       # The engine at the version the lockfile's Playwright asks for, with its system libraries.
+      # The runner's download or apt install can stall (Solid 2's WebKit job hung 19 minutes, twice,
+      # where the other WebKit jobs took 30 to 40 seconds): each attempt is cut at three minutes and
+      # tried again, up to three times, instead of failing the job at its time limit.
       - name: Browser
-        run: bunx playwright install --with-deps ${{ matrix.browser }}
+        timeout-minutes: 10
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          for attempt in 1 2 3; do
+            if timeout --kill-after=10 180 bunx playwright install --with-deps "$BROWSER"; then
+              exit 0
+            fi
+            echo "::warning::installing $BROWSER failed or stalled (attempt $attempt of 3)"
+          done
+          exit 1
 
       # A whole framework through its cached task; a share of its bases straight through Vitest,
       # filtered by the bases' `describe` (`-t`, which `vp run` does not pass on).
