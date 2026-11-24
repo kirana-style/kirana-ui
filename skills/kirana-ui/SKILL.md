@@ -1,6 +1,6 @@
 ---
 name: kirana-ui
-description: Build interfaces with Kirana UI, the shadcn/ui components rebuilt on Kirana (installed with kirana-style ui from the @kirana registry) for React, Vue, Svelte, Solid and Angular, on Kirana UI Primitives, Base UI, React Aria, Ark UI, Reka UI, Bits UI, ui-sdk or NG Primitives. Use whenever a project has kirana-style.lock.json, components under components/ui from the @kirana registry, or asks to add, restyle, theme, compose or debug a Kirana UI component, a block, a chart or an AI Elements chat pattern. It is not shadcn/ui on Tailwind: no className strings, no cn(), no dark: variant.
+description: "Build interfaces with Kirana UI, the shadcn/ui components rebuilt on Kirana (installed with kirana-style ui from the @kirana registry) for React, Vue, Svelte, Solid and Angular, on Kirana UI Primitives, Base UI, React Aria, Ark UI, Reka UI, Bits UI, ui-sdk or NG Primitives. Use whenever a project has kirana-style.lock.json, components under components/ui from the @kirana registry, or asks to add, restyle, theme, compose or debug a Kirana UI component, a block, a chart or an AI Elements chat pattern. It is not shadcn/ui on Tailwind: no className strings, no cn(), no dark: variant."
 ---
 
 # Kirana UI
@@ -26,9 +26,10 @@ Before writing anything, find out what it is built with. Do not assume React or 
 2. `npx kirana-style ui view <item>` for what a component installs on this framework and base;
    `npx kirana-style ui search <query>` for what exists. Never invent a component or a prop:
    if the registry has no such item, say so.
-3. `npx kirana-style export` for the design system's real tokens (`theme.primary`,
-   `spacing[4]`, `radius.md` …). Use those names; never hard-code a colour or a size the tokens
-   have.
+3. `npx kirana-style export` for the design system's real tokens. They are imported from the
+   files `init` wrote: `theme` and `radius` from `@/lib/kirana/tokens` (`theme.primary`,
+   `radius.md`), the scales from `@/lib/kirana/scales` (`spacing(4)`, a function). Use those
+   names; never hard-code a colour or a size the tokens have.
 
 ## Adding components
 
@@ -37,8 +38,12 @@ npx kirana-style ui add button dialog          # with every item they need
 npx kirana-style ui add dialog --dry-run       # what it would write, first
 ```
 
-- Files land at the project's aliases (`@/components/ui/dialog.tsx` …), each recorded with its
-  hash in `kirana-style.lock.json`. Packages install with the project's package manager.
+- Files land at the project's aliases, each recorded with its hash in `kirana-style.lock.json`:
+  `@/components/ui/dialog.tsx` on React and Solid, `dialog.ts` on Angular (its parts are
+  directives: `Button`, used as `<button kuiButton>`), a folder with an `index.ts` on Vue and
+  Svelte (`@/components/ui/dialog/Dialog.vue`). Either way a part is imported from the item's
+  name: `import { Button } from "@/components/ui/button"`. Read the file `add` wrote for the parts and
+  props it exports. Packages install with the project's package manager.
 - `add` runs `kirana-style check` on what it wrote. A failure there is a real problem: read it.
 - Change the design with `npx kirana-style ui preset <code>`, never by editing every file.
 - `ui diff`, `ui outdated` and `ui update` compare with the registry; `update` keeps what the

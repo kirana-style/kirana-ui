@@ -15,6 +15,7 @@ import {
 } from "../src/choices.ts"
 import { commandLines, projectSteps } from "../src/commands.ts"
 import { composeProject } from "../src/compose.ts"
+import { AGENTS_NOTE, agentPrompt } from "../src/prompt.ts"
 import { tar, untar } from "../src/tar.ts"
 
 const versions = { kirana: "0.4.1", vitePlus: "1.5.0" }
@@ -295,6 +296,52 @@ describe("commands", () => {
     expect(commandLines(workspace, "pnpm")[0]).toMatch(/^pnpm dlx /)
     expect(commandLines(workspace, "bun")[0]).toMatch(/^bunx /)
     expect(commandLines(workspace, "yarn")[0]).toMatch(/^yarn dlx /)
+  })
+
+  it("writes a prompt an agent can follow, in the runner's own commands", () => {
+    const choices = resolveChoices({ framework: "vue", base: "reka" })
+    const prompt = agentPrompt(choices, DEFAULT_DESIGN_SYSTEM, "pnpm")
+    // What it sets up is named as the dialog names it.
+    expect(prompt).toMatch(/^Set up Kirana UI for me: Vue on .+, with Reka UI /)
+    // The one command is Get Code's, word for word.
+    expect(prompt).toContain(
+      commandLines(
+        projectSteps(choices, {
+          ...DEFAULT_DESIGN_SYSTEM,
+          framework: "vue",
+          base: "reka",
+        }),
+        "pnpm"
+      )[0]
+    )
+    // Every command is the runner's: nothing left in npm's spelling.
+    expect(prompt).toContain(
+      "pnpm dlx skills add kirana-style/kirana-ui --skill kirana-ui --yes"
+    )
+    expect(prompt).toContain("pnpm exec kirana-style ui add button")
+    expect(prompt).not.toMatch(/\bnpx\b/)
+    expect(prompt).toContain(AGENTS_NOTE)
+    // The design is the choices' own: a page's preset on another framework would win over the
+    // flags, since a preset's code carries its framework and base.
+    const elsewhere = agentPrompt(
+      choices,
+      { ...DEFAULT_DESIGN_SYSTEM, framework: "react", base: "base" },
+      "pnpm"
+    )
+    expect(elsewhere).toBe(prompt)
+    expect(prompt).toContain(".agents/skills/kirana-ui/SKILL.md")
+    // It stops where a step fails, and never touches a project it was not asked about.
+    expect(prompt).toContain("stop and ask me before you change it")
+    expect(prompt).toContain("Do not work around it")
+    expect(prompt).not.toContain("\u2014")
+    // In a workspace the component is added from the app.
+    const workspace = agentPrompt(
+      resolveChoices({ monorepo: "vite-plus" }),
+      DEFAULT_DESIGN_SYSTEM,
+      "vp"
+    )
+    expect(workspace).toContain("my-app/apps/web")
+    expect(workspace).toContain("packages/ui")
   })
 
   it("offers every template of the catalog a skeleton", () => {

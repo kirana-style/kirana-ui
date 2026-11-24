@@ -4,9 +4,12 @@
  * from `@workspace/create`'s catalog (the framework, then its templates and bases, where the app
  * sits: alone, in a Turborepo or a Vite+ monorepo, and what lints, formats and type-checks it:
  * ESLint + Prettier, Oxlint + Oxfmt, Biome or Vite+), the pointer and right-to-left as switches,
- * and the commands for each runner (npm, pnpm, Yarn, Bun, and Vite+'s `vp`, which a Vite+ project
- * is locked to); or the command that brings an existing project to the design. Dark, as upstream's
- * are, and wider than its other dialogs, for the cards.
+ * and the commands for each runner (the docs' package managers, drawn as their install blocks'
+ * pills and following the same remembered choice: npm, pnpm, Yarn, Bun, Vite+'s `vp`, which a
+ * Vite+ project is locked to, and Deno); or the command that brings an existing project to the design. Dark, as upstream's
+ * are, and wider than its other dialogs, for the cards. And Copy Prompt, the same cards for the
+ * framework, its template and its base, then the prompt a reader pastes into a coding agent
+ * (`@workspace/create/prompt.ts`): the page's design, never changed from here.
  */
 import * as React from "react"
 import { css } from "@kirana-style/core"
@@ -57,6 +60,7 @@ import {
   projectSteps,
 } from "@workspace/create/commands.ts"
 import type { Step } from "@workspace/create/commands.ts"
+import { agentPrompt } from "@workspace/create/prompt.ts"
 import { openPreset } from "@/lib/create"
 import type { DesignSystem } from "@workspace/registry/core/config"
 import {
@@ -85,6 +89,10 @@ import {
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
 import { BaseLogo } from "@workspace/docs-ui/base-logos.tsx"
+import {
+  PackageManagerTabs,
+  usePackageManager,
+} from "@workspace/docs-ui/markdown/install-tabs.tsx"
 import {
   ANGULAR,
   REACT,
@@ -392,7 +400,6 @@ const styles = {
     paddingInline: space[1],
     paddingBlock: space[1],
   }),
-  managers: css({ fontFamily: fontFamily.mono }),
   locked: css({
     paddingInline: space[2],
     fontSize: fontSize.xs,
@@ -412,6 +419,26 @@ const styles = {
     lineHeight: "1.7",
     whiteSpace: "pre",
     scrollbarWidth: "none",
+  }),
+  // The prompt: read before it is copied, so it wraps and scrolls in its own height.
+  prompt: css({
+    whiteSpace: "pre-wrap",
+    overflowWrap: "anywhere",
+    maxHeight: "min(24svh, 16rem)",
+    overflowY: "auto",
+    fontSize: fontSize.xs,
+    scrollbarWidth: "thin",
+  }),
+  // Copy Prompt's choices: shorter than Get Code's, for the prompt under them.
+  promptBody: css({ maxHeight: { "*": null, base: "min(38svh, 30rem)" } }),
+  header: css({
+    display: "grid",
+    gap: space[1],
+    paddingInline: space[6],
+    paddingBlock: space[4],
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: theme.border,
   }),
   full: css({ width: "100%" }),
   group: css({ display: "grid", gap: space[2] }),
@@ -504,16 +531,24 @@ function Switch({
  */
 function Command({
   steps,
+  text,
+  label = "Copy Command",
   runners = RUNNERS,
 }: {
   /** The steps, for the runner. */
-  steps: (runner: Runner) => readonly Step[]
+  steps?: (runner: Runner) => readonly Step[]
+  /** Or the whole text for the runner (Copy Prompt's), shown wrapped. */
+  text?: (runner: Runner) => string
+  label?: string
   runners?: readonly Runner[]
 }) {
-  const [chosen, setChosen] = React.useState<Runner>("npm")
+  // The reader's package manager, as the docs' install blocks remember it.
+  const chosen = usePackageManager()
   const [copied, setCopied] = React.useState(false)
   const runner = runners.includes(chosen) ? chosen : runners[0]!
-  const command = commandLines(steps(runner), runner).join("\n")
+  const command = text
+    ? text(runner)
+    : commandLines(steps?.(runner) ?? [], runner).join("\n")
   const copy = () =>
     void navigator.clipboard.writeText(command).then(() => {
       setCopied(true)
@@ -523,27 +558,18 @@ function Command({
     <>
       <div sx={styles.command}>
         <div sx={styles.commandBar}>
-          <Tabs
-            value={runner}
-            onValueChange={(next) => setChosen(next as Runner)}
-          >
-            <TabsList sx={styles.managers}>
-              {runners.map((name) => (
-                <TabsTrigger key={name} value={name}>
-                  {name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          <PackageManagerTabs managers={runners} value={runner} scheme="dark" />
           {runners.length === 1 ? (
             <span sx={styles.locked}>A Vite+ project runs with vp.</span>
           ) : null}
         </div>
-        <pre sx={styles.code}>{command}</pre>
+        <pre sx={[styles.code, text ? styles.prompt : null]} tabIndex={0}>
+          {command}
+        </pre>
       </div>
       <Button onClick={copy} sx={styles.full}>
         <Icon icon={copied ? Tick02Icon : Copy01Icon} />
-        {copied ? "Copied" : "Copy Command"}
+        {copied ? "Copied" : label}
       </Button>
     </>
   )
@@ -752,6 +778,100 @@ export function GetCodeDialog({
             </div>
           </TabsContent>
         </Tabs>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+/**
+ * Copy Prompt: what to set up (the framework, its template, its base), and the prompt for a coding
+ * agent, in the reader's design. Controlled, so the page that opens it can load it on demand.
+ */
+export function CopyPromptDialog({
+  system,
+  open,
+  onOpenChange,
+}: {
+  system: DesignSystem
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  // The dialog's own choice, starting from the page's: choosing here changes no page.
+  const [framework, setFramework] = React.useState<Framework>(system.framework)
+  const [bases, setBases] = React.useState<Partial<Record<Framework, Base>>>({
+    [system.framework]: system.base,
+  })
+  const [templates, setTemplates] = React.useState<
+    Partial<Record<Framework, Template>>
+  >({})
+  const choices = resolveChoices({
+    framework,
+    base: bases[framework] ?? FRAMEWORK_BASES[framework][0]!,
+    template: templates[framework],
+  })
+  const design = { ...system, framework, base: choices.base }
+  const templatesOffered = templatesFor(framework, choices.base)
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent sx={[styles.dark, styles.content]}>
+        <DialogHeader sx={styles.header}>
+          <DialogTitle>Copy Prompt</DialogTitle>
+          <DialogDescription>
+            Choose what to set up, then paste the prompt into your coding agent
+            in an empty folder.
+          </DialogDescription>
+        </DialogHeader>
+        <div sx={[styles.body, styles.promptBody]}>
+          <Cards
+            legend="Framework"
+            value={framework}
+            options={FRAMEWORKS.map((each) => ({
+              value: each,
+              label: FRAMEWORK_LABELS[each],
+              icon: <BrandIcon icon={FRAMEWORK_ICONS[each]} scheme="dark" />,
+            }))}
+            onChange={setFramework}
+          />
+          <div sx={styles.rule} />
+          <Cards
+            legend="Template"
+            value={choices.template}
+            options={TEMPLATES[framework].map((template) => ({
+              value: template,
+              label: TEMPLATE_LABELS[template],
+              icon: <BrandIcon icon={TEMPLATE_ICONS[template]} scheme="dark" />,
+              disabled: templatesOffered.includes(template)
+                ? undefined
+                : runtimeReason(framework, choices.base, template),
+            }))}
+            onChange={(template) =>
+              setTemplates((chosen) => ({ ...chosen, [framework]: template }))
+            }
+          />
+          <div sx={styles.rule} />
+          <Cards
+            legend="Base"
+            value={choices.base}
+            options={shownBases(framework).map((base) => ({
+              value: base,
+              label: BASE_LABELS[base],
+              icon: (
+                <span sx={styles.mark}>
+                  <BaseLogo base={base} scheme="dark" />
+                </span>
+              ),
+            }))}
+            onChange={(base) =>
+              setBases((chosen) => ({ ...chosen, [framework]: base }))
+            }
+          />
+        </div>
+        <div sx={styles.footer}>
+          <Command
+            text={(runner) => agentPrompt(choices, design, runner)}
+            label="Copy Prompt"
+          />
+        </div>
       </DialogContent>
     </Dialog>
   )
