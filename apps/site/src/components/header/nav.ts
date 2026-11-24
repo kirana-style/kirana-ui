@@ -186,7 +186,7 @@ export const MENUS: readonly Menu[] = [
           },
           {
             title: "Components",
-            description: "The 48 primitives, each with its parts",
+            description: "Every primitive, each with its parts",
             href: "/docs/primitives/components",
             icon: DashboardSquare01Icon,
             scene: "still-water",
