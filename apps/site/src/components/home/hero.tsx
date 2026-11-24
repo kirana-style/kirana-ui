@@ -1,5 +1,6 @@
 /**
- * The home page's hero, as the Kirana site's: the claim and the ways in on the left; on the right
+ * The home page's hero, as the Kirana site's: the claim (what an agent does with it, then what it
+ * is: shadcn/ui's design, credited, on every framework) and the ways in on the left; on the right
  * the heritage street in pixels (not Kirana's highlands), dissolving towards the words, and on them Kirana's "one engine" drawing:
  * every framework the plan covers and the hosts it installs into, wired into Kirana, marks only.
  * The headline is set as Kirana's, in EB Garamond with its italic.
@@ -195,16 +196,16 @@ export function Hero() {
           <div sx={styles.copy}>
             <p sx={styles.label}>
               <span sx={styles.pixel} aria-hidden="true" />
-              Components, compiled
+              Components, for you and your agent
             </p>
             <h1 sx={styles.title}>
-              shadcn/ui&apos;s components,
-              <em sx={styles.titleAccent}>styled by kirana.</em>
+              A design system your agent builds with,{" "}
+              <em sx={styles.titleAccent}>and drives.</em>
             </h1>
             <p sx={styles.lede}>
-              Every component, block and style of shadcn/ui, rebuilt on
-              Kirana&apos;s compiled styles, for React, Vue, Svelte, Solid and
-              Angular.
+              shadcn/ui&apos;s components, blocks and styles for React, Vue,
+              Svelte, Solid and Angular, on the headless library you already
+              use. Kirana&apos;s compiler checks every style an agent writes.
             </p>
             <div sx={styles.actions}>
               <CreateCta />
