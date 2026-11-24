@@ -2,7 +2,7 @@
 title: Test what an agent can do
 description: A test that mounts a screen, gives it to the agent bridge and holds what an agent may and may not do there, so a change to the screen cannot quietly widen it.
 section: ai
-order: 8
+order: 3.2
 keywords:
   [
     agent bridge,

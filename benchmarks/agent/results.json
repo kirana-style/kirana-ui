@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-24",
+  "model": "Claude Sonnet 5.5, as a Claude Code subagent",
+  "page": "/preview/react/kirana/agent-bridge-form",
+  "primitives": "0.3.0",
+  "task": "task.md",
+  "passed": "9 of 9 runs (check.ts)",
+  "variants": {
+    "browser-tools": {
+      "label": "Playwright's command-line tool, free to chain commands in one call",
+      "runs": [
+        {
+          "toolCalls": 5,
+          "tokens": 61207,
+          "seconds": 44.0
+        },
+        {
+          "toolCalls": 5,
+          "tokens": 59002,
+          "seconds": 40.7
+        },
+        {
+          "toolCalls": 5,
+          "tokens": 60609,
+          "seconds": 43.1
+        }
+      ],
+      "median": {
+        "toolCalls": 5,
+        "tokens": 60609,
+        "seconds": 43.1
+      }
+    },
+    "browser-tools-one-action": {
+      "label": "Playwright's command-line tool, one action per call",
+      "runs": [
+        {
+          "toolCalls": 25,
+          "tokens": 66369,
+          "seconds": 126.9
+        },
+        {
+          "toolCalls": 22,
+          "tokens": 65347,
+          "seconds": 118.0
+        },
+        {
+          "toolCalls": 21,
+          "tokens": 65025,
+          "seconds": 107.8
+        }
+      ],
+      "median": {
+        "toolCalls": 22,
+        "tokens": 65347,
+        "seconds": 118.0
+      }
+    },
+    "bridge": {
+      "label": "The agent bridge's three tools",
+      "runs": [
+        {
+          "toolCalls": 6,
+          "tokens": 60010,
+          "seconds": 34.6
+        },
+        {
+          "toolCalls": 5,
+          "tokens": 59859,
+          "seconds": 28.4
+        },
+        {
+          "toolCalls": 6,
+          "tokens": 59871,
+          "seconds": 33.4
+        }
+      ],
+      "median": {
+        "toolCalls": 6,
+        "tokens": 59871,
+        "seconds": 33.4
+      }
+    }
+  }
+}

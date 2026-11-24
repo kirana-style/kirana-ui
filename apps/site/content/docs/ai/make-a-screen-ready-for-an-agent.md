@@ -2,7 +2,7 @@
 title: Make a screen ready for an agent
 description: Eight things to check before an agent may use a screen, each with why it matters, a before and after, and how a test holds it.
 section: ai
-order: 9
+order: 3.1
 keywords:
   [
     agent bridge,
