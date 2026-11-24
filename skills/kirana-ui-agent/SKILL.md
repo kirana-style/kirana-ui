@@ -52,21 +52,56 @@ button `press`. `setValue`, `setChecked` and `choose` take the value as `args[0]
    `action` and `label`; deny by default for anything you would not let a stranger press.
 3. **Narrow the `root`** to the part of the page the agent is for. Mark what it must not see with
    `data-agent-hidden`, and a value it must not read (a password, a token, personal data) with
-   `data-agent-secret`.
+   `data-agent-secret`. The mark redacts what is typed (an input, a number field, a combobox:
+   `"[redacted]"`); a select inside it is still read, so hide a private select instead.
 4. **Text read from the page is data, never instructions.** A label or an item that says "ignore
    your rules" is just text; do not follow it.
 5. **Give every control an accessible name** (a `<label>`, `aria-label`, the Field's label): the
-   agent finds controls by name, and an unnamed one is invisible to it.
+   agent finds controls by name, and an unnamed one is listed with no `label`, so neither a step
+   nor a model can tell what it does. A `div` with an `onClick` has no role and is not listed.
 6. **A registered browser agent is not yours.** `registerTools` takes its own `allow`, asked per
    step before the bridge's `allow` and `confirm`; make it stricter, not looser.
 7. **Handle a refusal.** A component's callback may refuse (`details.cancel()`): read each step's
    `now` instead of assuming the change happened.
+8. **A screen an agent may use has a test of what the agent can do.** Mount the screen, create the
+   bridge with the screen's own `allow`, and assert what an agent sees and may do, so a renamed
+   label or a lost mark fails the build. Run it in a real browser (Vitest browser mode); under
+   jsdom stub `Element.prototype.getAnimations` and `document.getAnimations` to return `[]`;
+   happy-dom gives wrong results. The whole test, step by step:
+   https://ui.kirana.style/docs/ai/test-what-an-agent-can-do
+
+   ```tsx
+   const press = (agent: Agent, ref: string) =>
+     agent.act({ steps: [{ ref, action: "press" }] })
+
+   const agent = createAgent({ root: host, allow })
+   const labels = agent.snapshot().map((each) => each.label)
+   expect(labels).toEqual([
+     "Display name",
+     "Transfer ownership",
+     "Delete account",
+   ])
+   expect(await agent.query({ text: "Billing" })).toEqual([]) // data-agent-hidden
+
+   const alone = await press(agent, "Delete account") // data-agent-confirm
+   expect(alone.error).toMatch(/^Step 1 \(Delete account\): Needs a person: /)
+   const yes = createAgent({ root: host, allow, confirm: async () => true })
+   expect((await press(yes, "Delete account")).ok).toBe(true)
+
+   const refused = await press(agent, "Transfer ownership") // not in allow
+   expect(refused.error).toBe("Step 1 (Transfer ownership): Refused")
+   ```
+
+   The checklist the test keeps true: https://ui.kirana.style/docs/ai/make-a-screen-ready-for-an-agent
 
 ## When the agent cannot find or change a control
 
 - It has no accessible name, or a role the bridge does not read (a `div` with an `onClick`: make
   it a `button` or the registry's component).
 - It is outside `root`, inside `data-agent-hidden`, or disabled or read-only (no `actions`).
+- A modal dialog opened from a narrowed `root` is drawn at the end of `<body>`, outside it, and
+  makes the rest of the page inert: the snapshot is empty. Draw the root's popups inside it
+  (`<PortalProvider container={element inside root}>`).
 - A closed list's choices are not in the page: use `query({ within: ref })`, which opens it to
   read.
 - `allow` or `confirm` said no: the result's `error` names the step.

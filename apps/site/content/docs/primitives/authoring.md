@@ -84,5 +84,8 @@ createX(props: ReadonlySignal<XProps>, around?) => { ...signals, ...parts, mount
   do not. Its `set(value, details)` calls the change callback, which may `details.cancel()`.
 - **A change says why**: `details(reason, event)` carries the reason, the event and its source.
 
+[Build a component](/docs/primitives/build-a-component) walks through one from an empty folder: a
+reactions bar, with its state, its arrow keys, its names and three ways to style it.
+
 The guide in the repository builds a rating end to end, on every framework, and its example is a
 test: [docs/authoring.md](https://github.com/kirana-style/primitives/blob/main/docs/authoring.md).

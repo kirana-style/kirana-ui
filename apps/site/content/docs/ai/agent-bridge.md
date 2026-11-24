@@ -187,6 +187,64 @@ const remove = registerTools(agent, {
 })
 ```
 
+## On each headless library
+
+The bridge reads a page by its ARIA roles, so nothing is registered and it is not tied to one
+library. How much of a page it can use depends on what that library's markup says. This is the
+bridge at 0.3.0 on this site's own demo of each control, for every framework and base the registry
+has: is the control found, does it have a name an agent can use, and does one action change what
+the next snapshot says.
+
+| Framework and base      | Input | Switch       | Checkbox     | Toggle | Radio group | Select    | Tabs      | Slider             | Disclosure | Dialog    |
+| ----------------------- | ----- | ------------ | ------------ | ------ | ----------- | --------- | --------- | ------------------ | ---------- | --------- |
+| React · Kirana UI       | yes   | yes, unnamed | yes, unnamed | yes    | no effect   | yes       | yes       | unnamed, no effect | yes        | yes       |
+| React · Base UI         | yes   | yes          | yes          | yes    | yes         | yes       | yes       | not found          | yes        | no effect |
+| React · React Aria      | yes   | no effect    | not found    | yes    | no effect   | not found | yes       | not found          | yes        | yes       |
+| React · UI SDK          | yes   | yes          | yes          | yes    | yes         | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Vue · Kirana UI         | yes   | yes, unnamed | yes, unnamed | yes    | no effect   | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Vue · Ark UI            | yes   | not found    | not found    | yes    | no effect   | yes       | yes       | unnamed, no effect | no effect  | yes       |
+| Vue · Reka UI           | yes   | yes          | yes          | yes    | yes         | no effect | no effect | unnamed, no effect | yes        | yes       |
+| Vue · UI SDK            | yes   | yes          | yes          | yes    | yes         | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Svelte · Kirana UI      | yes   | yes, unnamed | yes, unnamed | yes    | no effect   | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Svelte · Ark UI         | yes   | not found    | not found    | yes    | no effect   | yes       | yes       | unnamed, no effect | no effect  | yes       |
+| Svelte · Bits UI        | yes   | yes          | yes          | yes    | yes         | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Svelte · UI SDK         | yes   | yes          | yes          | yes    | yes         | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Solid · Kirana UI       | yes   | yes, unnamed | yes, unnamed | yes    | no effect   | yes       | yes       | yes, unnamed       | yes        | yes       |
+| Solid · Ark UI          | yes   | not found    | not found    | yes    | no effect   | yes       | yes       | unnamed, no effect | no effect  | yes       |
+| Solid · UI SDK          | yes   | yes          | yes          | yes    | yes         | yes       | yes       | unnamed, no effect | yes        | yes       |
+| Angular · Kirana UI     | yes   | yes, unnamed | yes, unnamed | yes    | no effect   | yes       | yes       | yes, unnamed       | yes        | yes       |
+| Angular · NG Primitives | yes   | yes, unnamed | yes, unnamed | yes    | yes         | yes       | yes       | not found          | yes        | yes       |
+
+| Result             | What it means                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------- |
+| yes                | Found, named, and the action took effect                                                 |
+| yes, unnamed       | The action took effect, but the control has no name: an agent reaches it by its ref only |
+| no effect          | Found and named, and the action changed nothing (or its choices could not be read)       |
+| unnamed, no effect | Found, with no name, and the action changed nothing                                      |
+| not found          | The bridge does not see a control of that kind on the page                               |
+
+What the table says, plainly:
+
+- **Inputs, toggles and dialogs work nearly everywhere.** Selects, tabs and disclosures work on most.
+- **A slider is set on Solid and Angular only.** Elsewhere the bridge moves it one step and still
+  reports success. Do not ask an agent to set a slider yet; use a number input.
+- **A radio group's choices are not read on the Kirana UI base** or on Ark UI and React Aria, so
+  an agent cannot choose one by its value there.
+- **A switch or a checkbox named by a `<label for>` has no name on the Kirana UI base.** Name it
+  with `aria-labelledby` or `aria-label` on the control itself, as the demo above does.
+
+Each gap is recorded against the bridge. The table is made by `scripts/agent-bridge-bases.ts` in
+this site's repository, which you can run against the built site.
+
+## Where to go next
+
+| Guide                                                                         | For                                                        |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [Make a screen ready for an agent](/docs/ai/make-a-screen-ready-for-an-agent) | The checklist before an agent is let onto a screen         |
+| [Test what an agent can do](/docs/ai/test-what-an-agent-can-do)               | A test that keeps the checklist true                       |
+| [Run the model on your server](/docs/ai/run-the-model-on-your-server)         | A model on your server driving the page through the bridge |
+| [WebMCP](/docs/ai/webmcp)                                                     | Offering the tools to the browser's own agent              |
+
 ## What is not here
 
 There is no published benchmark of the bridge yet; when there is one, its method will be beside
