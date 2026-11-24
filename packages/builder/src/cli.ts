@@ -11,7 +11,9 @@
  *   (`compose.ts`), and validated against shadcn/ui's schema; written for React's combinations
  *   alone, which its CLI installs (the other frameworks install with `kirana-style ui`, and the
  *   Worker serves at most 20,000 static files): `<out>/shadcn/<combination>/<item>.json`,
- *   `<out>/shadcn/<combination>/registry.json` and `<out>/shadcn/index.json`.
+ *   `<out>/shadcn/<combination>/registry.json` and `<out>/shadcn/index.json`;
+ * - for A2UI, the components an agent may compose a screen from (`registry/a2ui/manifest.ts`):
+ *   `<out>/a2ui/manifest.json` and the A2UI v1.0 catalog `<out>/a2ui/catalog.json` (`a2ui.ts`).
  */
 import { spawnSync } from "node:child_process"
 import {
@@ -37,6 +39,7 @@ import { compositionProbes, compositionsOf } from "./compose"
 import type { DemoCode, DemoParts } from "./demos"
 import { demoCode, demoParts, previewedItems } from "./demos"
 import { evaluate, installStub, tagStates } from "./evaluate"
+import { writeA2ui } from "./a2ui"
 import { classifier, flattenHandle, flattenRecipe } from "./flatten"
 import { generate } from "./generate"
 import { UNEXPORTED_BASES } from "../../../registry/core/config"
@@ -380,6 +383,9 @@ for (const item of demos) {
   demoCount += 1
 }
 
+// The A2UI manifest and catalog, from data alone (its tests hold it to the markup and styles).
+const a2uiComponents = writeA2ui(values.out!).components
+
 const seconds = ((performance.now() - started) / 1000).toFixed(1)
 if (problems.length) {
   console.error(problems.join("\n"))
@@ -389,5 +395,5 @@ if (problems.length) {
   process.exit(1)
 }
 console.log(
-  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; for shadcn/ui, ${COMBINATIONS.length} combinations and ${itemCount} items checked, React's ${COMBINATIONS.filter((combination) => combination.framework === "react" && !UNEXPORTED_BASES.includes(combination.bases)).length} written; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
+  `registry: ${own.items.length} Kirana items, checked with @kirana-style/registry; ${demoCount} demos' code; an A2UI catalog of ${a2uiComponents} components; for shadcn/ui, ${COMBINATIONS.length} combinations and ${itemCount} items checked, React's ${COMBINATIONS.filter((combination) => combination.framework === "react" && !UNEXPORTED_BASES.includes(combination.bases)).length} written; Kirana agreed on ${roundTrips} round trips and ${winnerChecks} flattened properties, ${compositionCount} compositions included (${session?.queries.count ?? 0} traces, one session); ${seconds}s`
 )

@@ -15,8 +15,11 @@
     "@workspace/registry": "workspace:*"
   },
   "devDependencies": {
+    "@a2ui/agent": "0.2.1",
+    "@a2ui/web_core": "0.16.1",
     "@types/bun": "^1.4.4",
     "@types/node": "catalog:",
+    "ajv": "8.20.0",
     "typescript": "catalog:",
     "vite-plus": "catalog:"
   }
