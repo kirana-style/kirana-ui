@@ -171,28 +171,33 @@ jobs:
           key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-${{ hashFiles('bun.lock') }}
           restore-keys: playwright-${{ runner.os }}-${{ runner.arch }}-${{ matrix.browser }}-
 
-      # The engine at the version the lockfile's Playwright asks for, with its system libraries.
-      # The runner's download or apt install can stall (Solid 2's WebKit job hung 19 minutes, twice,
-      # where the other WebKit jobs took 30 to 40 seconds): each attempt is cut at three minutes and
-      # tried again, up to three times, instead of failing the job at its time limit.
+      # The engine at the version the lockfile's Playwright asks for, with its system libraries
+      # from apt (Firefox's and WebKit's are some 50 MB of fonts and codecs). The runner's mirror can
+      # be slow or stall: apt gives up on a stalled connection after 30 seconds and tries again,
+      # five times, and waits for the package lock rather than failing on it. Nothing kills apt
+      # from outside: a killed install left apt running, holding the lock for the next attempt.
       - name: Browser
-        timeout-minutes: 10
+        timeout-minutes: 15
         env:
           BROWSER: ${{ matrix.browser }}
         run: |
-          for attempt in 1 2 3; do
-            if timeout --kill-after=10 180 bunx playwright install --with-deps "$BROWSER"; then
-              exit 0
-            fi
-            echo "::warning::installing $BROWSER failed or stalled (attempt $attempt of 3)"
-          done
-          exit 1
+          printf '%s\n' 'Acquire::Retries "5";' 'Acquire::http::Timeout "30";' \
+            'Acquire::https::Timeout "30";' 'DPkg::Lock::Timeout "600";' |
+            sudo tee /etc/apt/apt.conf.d/99-ci >/dev/null
+          bunx playwright install --with-deps "$BROWSER"
+          # Ubuntu 24.04 and later keep unprivileged user namespaces from processes AppArmor does
+          # not name, and Firefox's content sandbox needs them: its page process then dies, which
+          # Vitest reports as a crash "out of memory" (Firefox peaks near 3.3 GB a base, a quarter
+          # of the runner's). Lifted for this job's browsers alone.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
       # A whole framework through its cached task; a share of its bases straight through Vitest,
       # filtered by the bases' `describe` (`-t`, which `vp run` does not pass on).
       - name: Browser tests
         env:
           BROWSERS: ${{ matrix.browser }}
+          # Firefox without its content sandbox on CI's runner, in case the namespaces stay closed.
+          MOZ_DISABLE_CONTENT_SANDBOX: "1"
           FRAMEWORK: ${{ matrix.framework }}
           BASES: ${{ matrix.bases }}
         run: |

@@ -163,7 +163,7 @@ describe("compose", () => {
       check: "vp check",
     })
     expect(manifest.devDependencies.vite).toBe(
-      "npm:@voidzero-dev/vite-plus-core@8.3.8000"
+      "npm:@voidzero-dev/vite-plus-core@8.3.8001"
     )
     expect(vitePlus.get("vite.config.ts")).toContain('from "vite-plus"')
     expect(vitePlus.get("vite.config.ts")).toContain("kirana/diagnostics")

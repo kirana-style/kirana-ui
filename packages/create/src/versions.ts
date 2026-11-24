@@ -70,14 +70,14 @@ export const VERSIONS = {
   "angular-eslint": "^22.6.0",
   prettier: "^3.9.10",
   "prettier-plugin-svelte": "^4.1.1",
-  // Oxlint and Oxfmt at the releases Vite+ 1.7.0 runs, which this repository's own checks pass on.
+  // Oxlint and Oxfmt at the releases Vite+ 1.8.0 runs, which this repository's own checks pass on.
   oxlint: "~1.94.0",
   oxfmt: "~0.79.0",
   "@biomejs/biome": "^2.6.6",
   turbo: "^2.11.10",
-  "vite-plus": "1.7.0",
+  "vite-plus": "1.8.0",
   // From 1.7.0 the core's version names the Vite it bundles (8.3.8), no longer Vite+'s own.
-  "@voidzero-dev/vite-plus-core": "8.3.8000",
+  "@voidzero-dev/vite-plus-core": "8.3.8001",
 } as const
 
 export type Versioned = keyof typeof VERSIONS
