@@ -4,8 +4,10 @@
  * agent runs and what the compiler really answers (`kirana-style check --format json`, for a
  * width written without its unit); Drive shows a step of the agent bridge reaching the control it
  * names; Compose, which is being built, is drawn dashed. Every command and call in a drawing is on
- * the docs page its card links to.
+ * the docs page its card links to. Under the cards the bridge runs for real: the registry's own
+ * demo (`agent-bridge-demo`, on the Kirana UI base), framed in the reader's design.
  */
+import { useSyncExternalStore } from "react"
 import { css } from "@kirana-style/core"
 import {
   ChartAreaIcon,
@@ -29,7 +31,20 @@ import {
   Tile,
   Window,
 } from "@/components/scenery/kit"
-import { breakpoint, space } from "@workspace/registry/core/scales"
+import { hue } from "@/components/page/hue"
+import { frameQuery } from "@/lib/page-design"
+import {
+  breakpoint,
+  fontFamily,
+  fontSize,
+  lineHeight,
+  space,
+} from "@workspace/registry/core/scales"
+import { radius, theme } from "@workspace/registry/core/tokens"
+
+const subscribeNever = () => () => {}
+const isClient = () => true
+const isServer = () => false
 
 const styles = {
   grid: css({
@@ -39,6 +54,54 @@ const styles = {
       base: "minmax(0, 1fr)",
       [breakpoint.xl]: "repeat(3, minmax(0, 1fr))",
     },
+  }),
+  // The live demo: a frame of its own under the cards, with a bar that says what it is.
+  live: css({
+    overflow: "hidden",
+    borderRadius: radius["3xl"],
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.border,
+    backgroundColor: theme.card,
+  }),
+  liveBar: css({
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: space[3],
+    paddingInline: { base: space[4], [breakpoint.md]: space[5] },
+    paddingBlock: space[3],
+    borderBlockEndWidth: "1px",
+    borderBlockEndStyle: "solid",
+    borderBlockEndColor: theme.border,
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.sm,
+    color: theme.foreground,
+  }),
+  liveMark: css({
+    display: "inline-flex",
+    alignItems: "center",
+    gap: space[2],
+    fontFamily: fontFamily.mono,
+    fontSize: fontSize.xs,
+    letterSpacing: "0.04em",
+    textTransform: "uppercase",
+    color: hue.base,
+  }),
+  dot: css({
+    width: "0.5rem",
+    height: "0.5rem",
+    borderRadius: radius.full,
+    backgroundColor: hue.base,
+  }),
+  liveNote: css({ marginInlineStart: "auto", color: theme.mutedForeground }),
+  // The form and the panel side by side from `md`, one under the other below it.
+  frame: css({
+    display: "block",
+    width: "100%",
+    height: { base: "94rem", [breakpoint.md]: "44rem" },
+    borderWidth: 0,
+    backgroundColor: theme.background,
   }),
   // A drawing wider than its card is shrunk to it, layout and all: on a phone, and where three
   // stand in a row.
@@ -152,6 +215,36 @@ function ComposeArt() {
   )
 }
 
+/** The bridge's demo, framed: made once hydrated, in the reader's design. */
+function Live() {
+  const hydrated = useSyncExternalStore(subscribeNever, isClient, isServer)
+  const query = hydrated ? frameQuery() : ""
+  return (
+    <div sx={styles.live}>
+      <p sx={styles.liveBar}>
+        <span sx={styles.liveMark}>
+          <span sx={styles.dot} aria-hidden="true" />
+          Live
+        </span>
+        The agent bridge, running on this page
+        <span sx={styles.liveNote}>
+          No model: five fixed steps through agent.act()
+        </span>
+      </p>
+      {hydrated ? (
+        <iframe
+          title="The agent bridge filling a settings form"
+          loading="lazy"
+          src={`/preview/react/kirana/agent-bridge-demo${query ? `?${query}` : ""}`}
+          sx={styles.frame}
+        />
+      ) : (
+        <div sx={styles.frame} />
+      )}
+    </div>
+  )
+}
+
 export function Agents() {
   return (
     <PageSection
@@ -189,6 +282,7 @@ export function Agents() {
           links={[{ title: "Where it stands", href: "/docs/ai/generative-ui" }]}
         />
       </div>
+      <Live />
     </PageSection>
   )
 }

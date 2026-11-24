@@ -25,6 +25,12 @@ keywords:
 writes on its element (roles, states, names), so it is one bridge for every framework, custom
 elements included, and nothing has to be registered.
 
+Here it is running. The form is an ordinary one; the panel beside it shows what an agent reads from
+it, and "Run the steps" plays five fixed steps through `act`, with no model. The last step presses a
+button marked as needing a person, so you are asked.
+
+<!-- ::preview item="agent-bridge-demo" height="1120" combinations="react/kirana" -->
+
 It is an entry of the package you installed: `@kirana-ui/react/agent`, `@kirana-ui/vue/agent`,
 and the same on Svelte, Solid, Angular and `@kirana-ui/web`.
 
