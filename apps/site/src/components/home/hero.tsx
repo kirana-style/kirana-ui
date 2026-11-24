@@ -9,6 +9,7 @@ import { Link } from "@tanstack/react-router"
 import { css, props as styleProps } from "@kirana-style/core"
 
 import { Rail } from "@/components/page/rail"
+import { CopyPrompt } from "@/components/copy-prompt"
 import { CreateCta, SecondaryCta } from "@/components/cta"
 import { DISPLAY, SERIF } from "@/components/kirana-type"
 import { At, Scene, Stage, Tile } from "@/components/scenery/kit"
@@ -209,6 +210,7 @@ export function Hero() {
             </p>
             <div sx={styles.actions}>
               <CreateCta />
+              <CopyPrompt pill />
               <SecondaryCta
                 render={
                   <Link

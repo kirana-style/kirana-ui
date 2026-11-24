@@ -8,6 +8,10 @@
  * `exec="kirana-style check"` how it runs one the project has, and `create="vite-plus …"` how it
  * scaffolds with a `create-` package; the commands are in
  * `@workspace/docs-core/package-managers.ts`, which the markdown twin reads too.
+ *
+ * The pills and the remembered choice are exported (`PackageManagerTabs`, `usePackageManager`), so
+ * a dialog that writes a command (Get Code, Copy Prompt) offers the same managers, drawn the same,
+ * and follows the same choice.
  */
 import { useSyncExternalStore } from "react"
 import { css } from "@kirana-style/core"
@@ -23,6 +27,7 @@ import {
   TabsTrigger,
 } from "@workspace/registry/bases/react-base/ui/tabs"
 import { tab, when } from "@workspace/registry/core/states"
+import type { Sx } from "@workspace/registry/lib/sx"
 import { alpha, breakpoint, fontFamily, spacing, theme } from "../tokens.ts"
 
 import { BrandIcon, PACKAGE_MANAGER_ICONS } from "../brand-icon.tsx"
@@ -131,6 +136,63 @@ function subscribe(onChange: () => void) {
   return () => window.removeEventListener(EVENT, onChange)
 }
 
+/** The package manager the reader chose, npm until they do; every block and dialog follows it. */
+export function usePackageManager(): Manager {
+  // npm on the server; the saved choice after hydration.
+  return useSyncExternalStore<Manager>(subscribe, stored, () => "npm")
+}
+
+function choose(next: Manager) {
+  try {
+    localStorage.setItem(KEY, next)
+  } catch {}
+  window.dispatchEvent(new Event(EVENT))
+}
+
+/**
+ * The managers as pills, the chosen one remembered. `managers` narrows what is offered (a Vite+
+ * project runs with `vp` alone); `value` is then the one shown as chosen. `scheme` is the ground
+ * the pills stand on where it is not the page's (a dialog that is always dark).
+ */
+export function PackageManagerTabs({
+  managers = PACKAGE_MANAGERS,
+  value,
+  scheme,
+  sx,
+}: {
+  managers?: readonly Manager[]
+  value: Manager
+  scheme?: "light" | "dark"
+  sx?: Sx
+}) {
+  return (
+    <Tabs
+      value={value}
+      onValueChange={(next) => choose(next as Manager)}
+      sx={[styles.tabs, sx]}
+    >
+      <TabsList aria-label="Package manager" sx={styles.pills}>
+        {managers.map((name) => (
+          <TabsTrigger
+            key={name}
+            value={name}
+            aria-label={name}
+            title={PACKAGE_MANAGER_ICONS[name].title}
+            sx={styles.pill}
+          >
+            <BrandIcon
+              icon={PACKAGE_MANAGER_ICONS[name]}
+              size="0.875rem"
+              scheme={scheme}
+            />
+            <span sx={styles.label}>{name}</span>
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  )
+}
+
 export function InstallTabs({
   packages = "",
   dev = "",
@@ -144,15 +206,7 @@ export function InstallTabs({
   exec?: string
   create?: string
 }) {
-  // npm on the server; the saved choice after hydration, followed across blocks.
-  const manager = useSyncExternalStore<Manager>(subscribe, stored, () => "npm")
-
-  const choose = (next: Manager) => {
-    try {
-      localStorage.setItem(KEY, next)
-    } catch {}
-    window.dispatchEvent(new Event(EVENT))
-  }
+  const manager = usePackageManager()
 
   const command = installLines(manager, {
     packages,
@@ -165,26 +219,7 @@ export function InstallTabs({
   return (
     <div sx={styles.root} data-slot="install-tabs">
       <div sx={styles.bar}>
-        <Tabs
-          value={manager}
-          onValueChange={(value) => choose(value as Manager)}
-          sx={styles.tabs}
-        >
-          <TabsList aria-label="Package manager" sx={styles.pills}>
-            {PACKAGE_MANAGERS.map((name) => (
-              <TabsTrigger
-                key={name}
-                value={name}
-                aria-label={name}
-                title={PACKAGE_MANAGER_ICONS[name].title}
-                sx={styles.pill}
-              >
-                <BrandIcon icon={PACKAGE_MANAGER_ICONS[name]} size="0.875rem" />
-                <span sx={styles.label}>{name}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        <PackageManagerTabs value={manager} />
         <CopyButton source={command} sx={styles.copy} />
       </div>
       <div sx={styles.panel}>{command}</div>

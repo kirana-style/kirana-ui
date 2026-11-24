@@ -40,6 +40,18 @@ kirana/ui installs with `kirana-style ui`, Kirana's registry client. It sets Kir
 up where a project lacks it, installs the design system and wires it in, and then
 copies each component you add into your project.
 
+## With a coding agent
+
+Choose a framework, its template and its base, copy the prompt, and paste it into your coding
+agent in an empty folder:
+
+<!-- ::copy-prompt -->
+
+The prompt holds the same one command as below, written for your package manager, and what an
+agent needs around it: the [agent skills](/docs/agent-skills) to install and read first, a line
+to leave in the project's `AGENTS.md`, a first component, the checks to run, and to stop and ask
+you where a step fails instead of working around it.
+
 ## A new project
 
 [Get Code](/create), on the Create page, writes the command for the project you choose:

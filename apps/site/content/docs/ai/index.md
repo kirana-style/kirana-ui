@@ -18,6 +18,10 @@ checks, for the version you installed.
 
 [Agents build with it](/docs/ai/agents-build)
 
+To start a project that way, copy a prompt for your framework and paste it into your coding agent:
+
+<!-- ::copy-prompt -->
+
 ## Agents use what you build
 
 `createAgent()` reads the components on a page built with Kirana UI and asks them to act, through

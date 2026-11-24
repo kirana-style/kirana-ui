@@ -10,7 +10,7 @@
  *   bun scripts/skills.ts --check   check only: fails when the copy is behind the package
  *
  * A skill is checked as `npx skills` reads it: `SKILL.md` with `name` (its folder's) and a
- * `description` of at most 1024 characters, and every `references/…` file it names present.
+ * `description` of at most 1024 characters that YAML reads as text, and every `references/…` file it names present.
  */
 import { cpSync, existsSync, readFileSync, readdirSync, rmSync } from "node:fs"
 import { dirname, join, relative } from "node:path"
@@ -57,6 +57,16 @@ export function problems(): string[] {
       out.push(`${name}: its name is ${field("name")}, not its folder's`)
     const description = field("description") ?? ""
     if (!description) out.push(`${name}: no description`)
+    // As YAML reads it: an unquoted value holding ": " is a nested mapping and one holding " #"
+    // ends there, and `npx skills add` skips a skill whose frontmatter does not parse, still
+    // saying "Done".
+    for (const key of ["name", "description"]) {
+      const value = field(key) ?? ""
+      if (!/^["'>|]/.test(value) && /: | #/.test(value))
+        out.push(
+          `${name}: its ${key} holds ": " or " #" unquoted, which YAML does not read as text`
+        )
+    }
     if (description.length > 1024)
       out.push(
         `${name}: the description is ${description.length} characters (at most 1024)`

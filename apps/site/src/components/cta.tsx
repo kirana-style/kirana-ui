@@ -173,22 +173,29 @@ export function PrimaryCta({
   )
 }
 
-/** The action beside "Create": the same pill, outlined. `render` is the link it draws on. */
+/**
+ * The action beside "Create": the same pill, outlined. `render` is the link it draws on; without
+ * one it is a button, and `onClick` what it does.
+ */
 export function SecondaryCta({
   size = "lg",
   render,
+  onClick,
   children,
   sx,
 }: {
   size?: Size
-  render: ReactElement
+  render?: ReactElement
+  onClick?: () => void
   children: ReactNode
   sx?: Sx
 }) {
   return (
     <Button
       variant="outline"
-      nativeButton={false}
+      nativeButton={!render}
+      type={render ? undefined : "button"}
+      onClick={onClick}
       sx={[
         styles.pill,
         styles[size],

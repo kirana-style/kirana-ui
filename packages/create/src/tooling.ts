@@ -148,6 +148,15 @@ export default defineConfig([
     },
     ${ESLINT_RULES}
   },
+  // The registry's components keep shadcn/ui's names (Button.vue, Card.vue) and their own layout.
+  {
+    files: ["**/components/ui/**/*.vue"],
+    rules: {
+      "vue/multi-word-component-names": "off",
+      "vue/max-attributes-per-line": "off",
+      "vue/singleline-html-element-content-newline": "off",
+    },
+  },
 ])
 `
     case "svelte":

@@ -6,6 +6,8 @@
  * and the install check runs them: adding a template, a monorepo or a tool is an entry here and its
  * layer, nothing in the dialog.
  */
+import { PACKAGE_MANAGERS } from "@workspace/docs-core/package-managers.ts"
+import type { PackageManager } from "@workspace/docs-core/package-managers.ts"
 import { FRAMEWORK_BASES } from "@workspace/registry/core/config"
 import type { Base, Framework } from "@workspace/registry/core/config"
 
@@ -144,11 +146,12 @@ export const TOOLING_LABELS: Record<Tooling, string> = {
 }
 
 /**
- * The command lines are written for one of these; `vp` is Vite+'s, whose `vpx` runs a package
- * through pnpm, so a template it starts names pnpm as its package manager.
+ * The command lines are written for one of these: the package managers the docs' install blocks
+ * offer, the same list. `vp` is Vite+'s, whose `vpx` runs a package through pnpm, so a template it
+ * starts names pnpm as its package manager.
  */
-export const RUNNERS = ["npm", "pnpm", "yarn", "bun", "vp"] as const
-export type Runner = (typeof RUNNERS)[number]
+export const RUNNERS = PACKAGE_MANAGERS
+export type Runner = PackageManager
 
 /** The folder a new project is written to, and the app's name inside a workspace. */
 export const PROJECT = { directory: "my-app", app: "web" } as const

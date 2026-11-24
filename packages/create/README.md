@@ -44,3 +44,12 @@ which `init` fills; a workspace root's `kirana-template.project` names the app);
 
 Every combination is composed in the tests (`test/create.test.ts`), so a layer that breaks another's
 assumptions shows there before the site builds.
+
+## The prompt for a coding agent
+
+`src/prompt.ts` (`agentPrompt`) writes Copy Prompt's text from the same choices: the one command
+(`projectSteps`), the skills to install by name, the line an agent leaves in `AGENTS.md`, a first
+component and the checks, each command in the runner's own spelling. The design it encodes takes
+its framework and base from the choices, since a preset's code carries both. A change to the
+command or to a skill's name changes the prompt with it; the test in `test/create.test.ts` holds
+both.
