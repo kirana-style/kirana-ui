@@ -215,6 +215,8 @@ jobs:
 
       # A whole framework through its cached task; a share of its bases straight through Vitest,
       # by their files and their `describe` (which `vp run` does not pass on).
+      # Through `scripts/ci-browser.sh`, which runs the tests once more when the engine's page
+      # crashed before they could answer, and never when a test failed.
       - name: Browser tests
         env:
           BROWSERS: ${{ matrix.browser }}
@@ -224,14 +226,14 @@ jobs:
           BASES: ${{ matrix.bases }}
         run: |
           if [ -z "$BASES" ]; then
-            vp run "browser:$FRAMEWORK"
+            bash scripts/ci-browser.sh vp run "browser:$FRAMEWORK"
           else
             # The bases' own files by name (`examples.<base>.`, and `triggers-in-form`, whose
             # bases load lazily), not `-t` alone: `-t` still imports every file, so every base's
             # examples, into the one page (Vue's UI SDK job peaked at 3.3 GB in Firefox; its own
             # file alone, 1.5 GB). `-t` then keeps only these bases' tests.
             files=$(echo "$BASES" | tr '|' '\n' | sed 's/.*/examples.&./')
-            vp test run --project "browser-$FRAMEWORK" $files triggers-in-form -t "^($BASES) > "
+            bash scripts/ci-browser.sh vp test run --project "browser-$FRAMEWORK" $files triggers-in-form -t "^($BASES) > "
           fi
 
   # The registry installed with Kirana's own installer, as Get Code has a reader do it: a skeleton
