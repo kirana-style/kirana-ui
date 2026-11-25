@@ -26,7 +26,7 @@ components. What it can find, read and do there is decided by the screen's marku
 you give `createAgent`. Walk this list with your team before an agent uses a screen, then keep it
 true with [a test](/docs/ai/test-what-an-agent-can-do).
 
-Every result quoted below is what the bridge in `@kirana-ui/react` 0.3.0 returned, run in Chromium.
+Every result quoted below is what the bridge in `@kirana-ui/react` 0.4.0 returned, run in Chromium.
 
 ## The checklist
 
@@ -45,8 +45,8 @@ Every result quoted below is what the bridge in `@kirana-ui/react` 0.3.0 returne
 
 A step names a control by its label (`{ ref: "Theme", action: "setValue", args: ["Dark"] }`), and
 the model chooses a control by reading its label. The bridge takes the name from `aria-label`,
-`aria-labelledby`, a `<label>` for the control or around it, an input's placeholder, or the
-control's own text.
+`aria-labelledby`, a `<label>` for the control or around it (for a switch, a checkbox or a radio,
+a label for its hidden input counts too), an input's placeholder, or the control's own text.
 
 Before: an icon button and a `div` that acts on a click.
 
@@ -71,7 +71,7 @@ After: a name on the button, and a real button for the action.
 
 ```json
 {
-  "ref": "c3",
+  "ref": "c2",
   "component": "button",
   "label": "Delete project",
   "actions": ["press"]
@@ -79,7 +79,8 @@ After: a name on the button, and a real button for the action.
 ```
 
 Two controls with the same name cannot be told apart by name: a step on it fails with
-`Step 1 (Archive): "Archive" names 2 components: c2, c3. Use a ref.` Give each its own name.
+`Step 1 (Archive): "Archive" names 2 components: c3 (button "Archive"), c4 (button "Archive"). Use a ref.`
+Give each its own name.
 
 ## A consequence is marked with a sentence a person can answer
 
@@ -119,10 +120,11 @@ The snapshot now carries the sentence, and a step on the button fails until a pe
 
 ## A secret is marked or typed as one
 
-A value read by the bridge goes to the model. An input is read as `[redacted]` when it is inside
-`data-agent-secret`, when its `type` is `password`, or when its `autocomplete` is
-`current-password`, `new-password`, `one-time-code` or a card field (`cc-…`). The agent can still
-type into it.
+A value read by the bridge goes to the model. A control inside `data-agent-secret` is listed with
+its name and its actions, and its value is read as `[redacted]` (a switch or a checkbox there does
+not say whether it is checked). An input is read the same way when its `type` is `password`, or
+when its `autocomplete` is `current-password`, `new-password`, `one-time-code` or a card field
+(`cc-…`). The agent can still type into it, or set it.
 
 Before:
 
@@ -162,10 +164,10 @@ After:
 }
 ```
 
-The mark redacts what is typed: an input, a number field, a combobox. A select inside
-`data-agent-secret` is still read (a select of customers marked so was read back as
-`"value": "Acme Ltd"`), and so is a control's label. Keep a secret out of labels, and hide a
-select whose choice is private (next item).
+The mark covers what a control holds, not what it is called: a control's label is still read.
+And a list's choices are still read by `query({ within })`: a select of customers marked so was
+read back as `"value": "[redacted]"` in a snapshot, and its choices, "Acme Ltd" and "Globex", by
+`query`. Keep a secret out of labels, and hide a list whose choices are private (next item).
 
 ## What the agent should not see is hidden
 
@@ -223,29 +225,31 @@ const agent = createAgent({
 })
 ```
 
-Popups are drawn at the end of `<body>`, outside that element. A select inside the root still
-works, because the bridge finds its list through the trigger. A modal dialog does not: it is
-outside the root, and while it is open the rest of the page, the root included, is inert. With a
-dialog open, an agent narrowed to `#settings` read an empty snapshot (`[]`). Draw the root's
-popups inside it with `PortalProvider`:
+Popups are drawn at the end of `<body>`, outside that element. The bridge still reads what was
+opened from inside the root (a dialog, a menu, a select's list), through the `aria-controls` of what
+opened it. With a dialog opened from `#settings`, the agent narrowed to it read the dialog and its
+controls, and nothing else: while a modal dialog is open the rest of the page, the root included,
+is inert, and leaves the snapshot. The step that opened it said so:
 
-```tsx
-import { PortalProvider } from "@kirana-ui/react"
-
-function Settings() {
-  const [popups, setPopups] = useState<HTMLElement | null>(null)
-  return (
-    <div id="settings">
-      <PortalProvider container={popups}>
-        {/* the form and its dialogs */}
-      </PortalProvider>
-      <div ref={setPopups} />
-    </div>
-  )
+```json
+{
+  "ref": "c2",
+  "action": "open",
+  "now": {
+    "ref": "c2",
+    "component": "disclosure",
+    "label": "Edit profile",
+    "open": true,
+    "actions": ["close", "toggle"]
+  },
+  "opened": [{ "ref": "c3", "component": "dialog", "label": "Edit profile" }],
+  "appeared": [
+    { "ref": "c4", "component": "input", "label": "Display name" },
+    { "ref": "c5", "component": "button", "label": "Close" }
+  ],
+  "gone": [{ "ref": "c1", "component": "select", "label": "Theme" }]
 }
 ```
-
-With the popups' container inside the root, the same agent read the open dialog and its controls.
 
 ## `allow` denies by default
 

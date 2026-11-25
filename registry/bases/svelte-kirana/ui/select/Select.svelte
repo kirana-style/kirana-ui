@@ -8,8 +8,8 @@
 
   /**
    * Kirana UI's select, with Svelte's Ark UI parts' props: `items` (an item of value `null` names
-   * the placeholder), `value` (bindable) and `defaultValue`, a list with `multiple`, as Kirana UI's
-   * `values`; `onValueChange` gets `{ value }`.
+   * the placeholder), `value` (bindable) and `defaultValue`, a list with `multiple`;
+   * `onValueChange` gets `{ value }`.
    */
   let {
     items,
@@ -67,8 +67,8 @@
   <Select.Root
     multiple
     items={labels}
-    values={chosen}
-    onValuesChange={(next: unknown[]) => report(next as string[])}
+    value={chosen}
+    onValueChange={(next: unknown[]) => report(next as string[])}
     {...rest}
   >
     {@render children?.()}

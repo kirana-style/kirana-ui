@@ -22,9 +22,9 @@ Type checks do not catch it. shadcn/ui's own examples sometimes have a lone labe
 ## A select's list stays put while the page scrolls
 
 A list opened over its trigger (`alignItemWithTrigger`, the default) is placed once. Base UI holds
-the page's scroll while it is open; on the Kirana UI base the registry's React Select holds it
-itself. If a project's own select drifts, keep `alignItemWithTrigger` and make sure the installed
-`select` is the registry's current one (`ui diff select`), or pass `alignItemWithTrigger={false}`.
+the page's scroll while it is open, and so do the Kirana UI primitives. If a project's own select
+drifts, keep `alignItemWithTrigger` and make sure the installed `select` is the registry's current
+one (`ui diff select`), or pass `alignItemWithTrigger={false}`.
 
 ## A link drawn as a button is announced as a button
 

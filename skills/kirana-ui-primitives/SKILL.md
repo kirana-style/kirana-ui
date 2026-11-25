@@ -52,15 +52,17 @@ from one core. The package for a framework is all a project installs.
 4. A value is controlled when given (`value` + `onValueChange`) and the component's own
    otherwise (`defaultValue`). A callback beside a value the component holds is
    `(value, details)`, and `details.cancel()` keeps the value as it was. A callback that
-   reports something that happened (`onComplete`, `onClearErrors`, `onMonthChange`) takes only
-   that.
+   reports something that happened (`onClearErrors`, `onMonthChange`) takes only that. The
+   names are Base UI's: `loopFocus`, `disablePointerDismissal`, a multiple Select's or
+   Combobox's list in `value`, One-Time Code's `validationType` and `onValueComplete`, a
+   toast's `timeout`; the older names still work and are marked deprecated.
 5. A control with a `name` is submitted with its form and follows the form's reset. Wrap it
    in `Field` for a label, a description and validation. `readOnly` and `keepMounted` are
    props of the parts `llms.txt` lists them for, and of no others.
 
 Per framework: React takes `render` for another element; Vue takes `as` / `as-child`, binds
 with `v-model:value` and names props in kebab case; Svelte takes a `child` snippet and
-`bind:value`; Solid takes `as` and `render`; Angular's parts are directives on your own
+`bind:value`; Solid (2, with `@solidjs/web`) takes `as` and `render`; Angular's parts are directives on your own
 elements (`<button kpDialogTrigger>`), bound with `[(value)]`, with `[kpId]` for an id, and
 a part that comes and goes is structural (`*kpDialogPortal`, `*kpTabsPanel`: the list is in
 `llms.txt`); custom elements name each part with `kui-part` inside `<kui-dialog>`.
@@ -136,7 +138,25 @@ component's ref, kind, label, state and actions), `act({ steps: [{ ref, action, 
 through the component's own handlers: its callback runs with `details.source === "agent"`
 and may cancel. Give every control an accessible name (a `<label>`, `aria-label`): it is how
 an agent finds it. Mark a destructive control `data-agent-confirm="what it does"`, private
-regions `data-agent-hidden`, secrets `data-agent-secret`. `allow(action)` is the policy,
+regions `data-agent-hidden`, secrets `data-agent-secret` (whatever is inside is listed with its
+name and its actions, never its value, its choices or whether it is checked). A bridge given a
+`root` also reads what was opened from inside it (a dialog, a menu, a select's list), by the
+`aria-controls` of what opened it. A step names its control by ref, by its label, by words of
+the label, by the text of its row or by one of its choices; a name two controls answer to
+fails with both. `subscribe((changed, changes) => …)` says of each change its `key`, `value`,
+`previous`, `source` and `reason`; `record()` keeps a person's changes in `history()` beside
+the agent's, each with its `source` and a sentence (`text`), and `undoSource("agent")` takes
+back only the agent's. `stage({ steps })` shows a suggestion in the controls and gives
+`revert()` and `keep()`. `act` takes a `signal`; `timeout` bounds a wait for `allow` or
+`confirm`. A component of your own is read through `kinds` (`AgentKind`: a selector, `read`,
+`perform`). A slider's `setValue` fails with what the slider holds when
+its range or step does not hold the value asked for, and so does a spin button's (a Date or
+Time Field's part, typed as a person types it). The thumbs of a range named by their group
+are told apart by their place (`"Price, 1 of 2"`). A list of several values (a listbox, a
+select with `multiple`, a tree) says `values` and takes a list in `setValue`; a closed
+select's are known once its list has been read. A tree is one component: its shown nodes
+are its `items` (with `level` below the top and `open` for a branch), and `setValue`,
+`open` and `close` take a node's name. `allow(action)` is the policy,
 asked for every step; `confirm(action)` is a person's answer, asked for a step on something
 marked `data-agent-confirm`, and without it such a step fails with "Needs a person" whatever
 `allow` says. Never write `confirm: () => true`: open a dialog and resolve with what the

@@ -257,15 +257,8 @@ export default function AgentBridgeDemo() {
               </Field>
               <Field>
                 <div sx={styles.row}>
-                  <FieldLabel id="bridge-alerts-label" htmlFor="bridge-alerts">
-                    Alerts
-                  </FieldLabel>
-                  {/* PF-058: a label's `for` reaches the switch's hidden input, not the
-                      element with its role, which is named here itself. */}
-                  <Switch
-                    id="bridge-alerts"
-                    aria-labelledby="bridge-alerts-label"
-                  />
+                  <FieldLabel htmlFor="bridge-alerts">Alerts</FieldLabel>
+                  <Switch id="bridge-alerts" />
                 </div>
               </Field>
               <Field>

@@ -72,7 +72,7 @@ Then, in `my-assistant`, install the primitives and your runtime:
 
 <!-- ::end:tabs -->
 
-This page was run with `@kirana-ui/react` 0.3.0, `ai` 7.0.177, `@ai-sdk/react` 4.0.181,
+This page was checked with `@kirana-ui/react` 0.4.0, `ai` 7.0.177, `@ai-sdk/react` 4.0.181,
 `@ai-sdk/anthropic` 4.0.107, `@tanstack/ai` 1.7.0, `@tanstack/ai-react` 1.1.0 and
 `@tanstack/ai-anthropic` 1.2.1.
 
@@ -109,11 +109,7 @@ the bridge's method of that name:
 
 ```ts title="src/bridge.ts" showLineNumbers
 import { createAgent } from "@kirana-ui/react/agent"
-import type {
-  AgentResult,
-  AgentStep,
-  AgentStepResult,
-} from "@kirana-ui/react/agent"
+import type { AgentStep } from "@kirana-ui/react/agent"
 
 export const agent = createAgent({
   // Your policy, asked before every step.
@@ -134,47 +130,19 @@ export function runBridgeTool(
       (input ?? {}) as { text?: string; within?: string; kind?: string }
     )
   }
-  if (name === "act")
-    return actUntilStopped(input as { steps: AgentStep[] }, signal)
-  throw new Error(`There is no tool named ${name}`)
-}
-
-/**
- * `act` one step at a time, so that once the turn is stopped no further step
- * runs. The step already running finishes.
- */
-async function actUntilStopped(
-  request: { steps: AgentStep[] },
-  signal?: AbortSignal
-): Promise<AgentResult> {
-  const steps: AgentStepResult[] = []
-  for (const [at, step] of request.steps.entries()) {
-    if (signal?.aborted) {
-      return {
-        ok: false,
-        steps,
-        error: `Step ${at + 1} (${step.ref}): Stopped`,
-      }
-    }
-    const result = await agent.act({ steps: [step] })
-    steps.push(...result.steps)
-    if (!result.ok) {
-      // The bridge numbers this one step as step 1: give its place in the request.
-      return {
-        ok: false,
-        steps,
-        error: result.error?.replace(/^Step 1\b/, `Step ${at + 1}`),
-      }
-    }
+  if (name === "act") {
+    // The turn's signal: once it aborts, no further step runs.
+    const { steps } = input as { steps: AgentStep[] }
+    return agent.act({ steps, signal })
   }
-  return { ok: true, steps }
+  throw new Error(`There is no tool named ${name}`)
 }
 ```
 
-`act` takes no signal in 0.3.0, so `actUntilStopped` runs the model's steps one call at a time and
-checks the turn's signal between them. [Stopping a turn](#stopping-a-turn) says what that gives
-you. `window.confirm` keeps the example short: in your app, show the mark's text in a dialog of
-your own and resolve with the person's answer.
+`act` takes the turn's `signal`: once it aborts, the steps not yet run do not run, and the result
+says which step was stopped (`Step 2 (Email alerts): Stopped`). [Stopping a turn](#stopping-a-turn)
+says what that gives you. `window.confirm` keeps the example short: in your app, show the mark's
+text in a dialog of your own and resolve with the person's answer.
 
 ## 3. The server
 
@@ -533,16 +501,19 @@ Then send "Reset my settings". The bridge asks `confirm` first, and the browser'
 
 ## Stopping a turn
 
-`act` takes no signal in 0.3.0: once a call to `act` starts, it runs all of its steps. That is why
-`runBridgeTool` sends `act` one step at a time. With it, Stop does this:
+`runBridgeTool` hands the turn's signal to `act`. With it, Stop does this:
 
-| When the person presses Stop                | What happens                                                                                                         |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| The model is still writing                  | The request is closed, which ends the model's call on your server (`abortSignal`, `abortController`)                 |
-| A tool call has arrived and not started     | It does not run. The AI SDK records it as stopped; TanStack AI drops it                                              |
-| A step is running, or waiting for `confirm` | That step finishes: a dialog stays open until the person answers it. No step after it runs                           |
-| Results are waiting to go back              | They are not sent: the model does not take another step until the person writes again                                |
-| A change was already made                   | It stays. `agent.undo()` takes the agent's last change back, through the same handlers; a press cannot be taken back |
+| When the person presses Stop               | What happens                                                                                                                                                                                                          |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The model is still writing                 | The request is closed, which ends the model's call on your server (`abortSignal`, `abortController`)                                                                                                                  |
+| A tool call has arrived and not started    | It does not run. The AI SDK records it as stopped; TanStack AI drops it                                                                                                                                               |
+| A step is running                          | That step finishes. No step after it runs, and `act` resolves with `ok: false` and the step that was stopped                                                                                                          |
+| A step is waiting for `allow` or `confirm` | The wait ends and the step fails with "Stopped", where your `confirm` answers with a promise. `window.confirm` holds the page until it is answered, so there the step waits for the person, and no step after it runs |
+| Results are waiting to go back             | They are not sent: the model does not take another step until the person writes again                                                                                                                                 |
+| A change was already made                  | It stays. `agent.undo()` takes the agent's last change back, through the same handlers; a press cannot be taken back                                                                                                  |
+
+A dialog of your own that asks the person is yours to close when the turn stops: the bridge stops
+waiting for it, and does not know it is there.
 
 ## What stays safe, and what your server must still check
 
@@ -578,10 +549,10 @@ it to one part of the page. See [Make a screen ready for an agent](/docs/ai/make
 
 ## What was not run here
 
-The code on this page was type-checked and built with the versions above, and run in Chromium
-against a stand-in for the model's API: the model's tool call ran in the page, the switch turned
-on, and the result went back to the model for both runtimes. A real model was not called, and
-Stop during a running step was not exercised.
+The code on this page was type-checked with the versions above. The bridge's part of Stop was
+run in Chromium: aborted while `confirm` waited, `act` resolved with "Stopped" at that step and
+ran no step after it. The chat itself, against a stand-in for the model's API, was not run with
+these versions; a real model was not called, and Stop during a running step was not exercised.
 
 ## Next
 

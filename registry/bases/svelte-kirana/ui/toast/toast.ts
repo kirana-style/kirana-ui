@@ -24,17 +24,16 @@ type PromiseStep<T> =
 export const toaster = createToaster({ limit: 3 })
 
 /**
- * Base UI's options as Kirana UI's: its `timeout` is their `duration` (`0` for one that stays), its
- * `actionProps` their `action`, its `priority` their politeness. Base UI's action leaves the toast
- * open: pressing it keeps the toast unless its handler closes it.
+ * Base UI's options as Kirana UI's: its `actionProps` are their `action`, its `priority` their
+ * politeness; `timeout` is the same on both (`0` for one that stays). Base UI's action leaves the
+ * toast open: pressing it keeps the toast unless its handler closes it.
  */
 function optionsOf(options: ToastOptions): KiranaOptions & {
   id?: string
 } {
-  const { timeout, priority, actionProps, onClose, ...rest } = options
+  const { priority, actionProps, onClose, ...rest } = options
   return {
     ...rest,
-    duration: timeout === 0 ? Infinity : timeout,
     priority:
       priority === undefined
         ? undefined

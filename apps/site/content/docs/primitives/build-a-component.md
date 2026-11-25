@@ -112,7 +112,7 @@ export interface ReactionsProps {
     | undefined
   disabled?: boolean | undefined
   /** Whether the arrows wrap from the last reaction to the first. Default `true`. */
-  loop?: boolean | undefined
+  loopFocus?: boolean | undefined
 }
 
 /** What `Reactions.Reaction` takes of its own. */
@@ -218,7 +218,7 @@ function Root({
   defaultValue,
   onValueChange,
   disabled,
-  loop,
+  loopFocus,
   ...rest
 }: RootProps) {
   const bar = useController(createReactions, {
@@ -226,7 +226,7 @@ function Root({
     defaultValue,
     onValueChange,
     disabled,
-    loop,
+    loopFocus,
   })
   return (
     <BarContext.Provider value={bar}>
@@ -330,7 +330,7 @@ const Root = defineComponent({
     value: optional(String as PropType<string | null>),
     defaultValue: optional(String as PropType<string | null>),
     disabled: Boolean,
-    loop: optional(Boolean),
+    loopFocus: optional(Boolean),
   },
   emits: {
     "update:value": (_value: string | null) => true,
@@ -342,7 +342,7 @@ const Root = defineComponent({
         value: props.value,
         defaultValue: props.defaultValue,
         disabled: props.disabled,
-        loop: props.loop,
+        loopFocus: props.loopFocus,
         onValueChange(value: string | null, details: ChangeDetails) {
           emit("valueChange", value, details)
           if (!details.canceled) emit("update:value", value)
@@ -391,7 +391,7 @@ export const Reactions = { Root, Reaction }
 | `partComponent(name, tag, resolve)` | Draws the part's element with your attributes under the part's, and attaches it |
 | `optional(type)`                    | A prop that is "not given" when absent, where Vue would make a boolean `false`  |
 
-`optional(Boolean)` matters for `loop`: Vue makes an absent `Boolean` prop `false`, which would
+`optional(Boolean)` matters for `loopFocus`: Vue makes an absent `Boolean` prop `false`, which would
 turn the wrapping off rather than leave the default.
 
 ```vue title="src/ReactionsBar.vue"
@@ -545,7 +545,7 @@ export function createReactions(props: ReadonlySignal<ReactionsProps>) {
         onKeyDown(event: KeyboardEvent) {
           stop.roving.move(event, {
             orientation: "horizontal",
-            loop: props.peek().loop ?? true,
+            loop: props.peek().loopFocus ?? true,
           })
         },
       })),
@@ -604,12 +604,12 @@ export function createReaction(
 }
 ```
 
-| Key           | What happens                                                |
-| ------------- | ----------------------------------------------------------- |
-| Tab           | Enters the bar on the reaction last focused, or leaves it   |
-| Right / Left  | Next / previous reaction, wrapping at the ends (`loop`)     |
-| Home / End    | First / last reaction                                       |
-| Space / Enter | Picks or unpicks the focused reaction (it is a real button) |
+| Key           | What happens                                                 |
+| ------------- | ------------------------------------------------------------ |
+| Tab           | Enters the bar on the reaction last focused, or leaves it    |
+| Right / Left  | Next / previous reaction, wrapping at the ends (`loopFocus`) |
+| Home / End    | First / last reaction                                        |
+| Space / Enter | Picks or unpicks the focused reaction (it is a real button)  |
 
 `stop.roving.move` reads the reading direction of the element it moves from: in a page or a
 section with `dir="rtl"`, Right moves to the previous reaction and Left to the next. A disabled
@@ -672,7 +672,7 @@ export function createReactions(props: ReadonlySignal<ReactionsProps>) {
         onKeyDown(event: KeyboardEvent) {
           stop.roving.move(event, {
             orientation: "horizontal",
-            loop: props.peek().loop ?? true,
+            loop: props.peek().loopFocus ?? true,
           })
         },
       })),
@@ -1036,15 +1036,15 @@ Playwright).
 
 ## What can go wrong
 
-| What you see                                                         | Why, and what to do                                                                                                                                                                                      |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Cannot find module '@kirana-ui/core/authoring'`                     | Your package manager keeps packages you did not name out of reach. Install `@kirana-ui/core`, at your framework package's version                                                                        |
-| `faults` says `button has data-picked, which no vocabulary names`    | `faults` was given `known()` alone. Pass your definition: `known(reactions)`                                                                                                                             |
-| A type error on `useController(within(createReaction, bar), …)`      | Written inside the call, `within`'s types are not inferred and the props become `object`. Put `within(…)` in a constant first, as in step 3. Vue's `controller` takes it inline                          |
-| The arrows go the wrong way under a `DirectionProvider`              | Your component reads the reading direction from the page's `dir`, not from the provider (a component of your own cannot reach the provider's signal). Set `dir="rtl"` on the page or a section around it |
-| `<Reactions.Reaction> must be inside <Reactions.Root>`               | A reaction was drawn outside a root. Every reaction goes inside one                                                                                                                                      |
-| On Vue, `loop` is off though you did not set it                      | The prop was declared `Boolean`, which Vue makes `false` when absent. Declare it `optional(Boolean)`                                                                                                     |
-| Kirana's styles lose to Tailwind's preflight in an app that has both | The cascade layer declared first is the weakest. Import your Tailwind stylesheet before `@kirana-style/core/stylesheet.css`                                                                              |
+| What you see                                                         | Why, and what to do                                                                                                                                                                                                                                                                                                                                |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Cannot find module '@kirana-ui/core/authoring'`                     | Your package manager keeps packages you did not name out of reach. Install `@kirana-ui/core`, at your framework package's version                                                                                                                                                                                                                  |
+| `faults` says `button has data-picked, which no vocabulary names`    | `faults` was given `known()` alone. Pass your definition: `known(reactions)`                                                                                                                                                                                                                                                                       |
+| A type error on `useController(within(createReaction, bar), …)`      | Written inside the call, `within`'s types are not inferred and the props become `object`. Put `within(…)` in a constant first, as in step 3. Vue's `controller` takes it inline                                                                                                                                                                    |
+| The arrows go the wrong way under a `DirectionProvider`              | Your component reads the reading direction from the page's `dir`. To follow a provider, give the bar's controller a second argument, `around`, made with `within(createReactions, { direction: useDirectionAround() })` (`useDirectionAround` is in your framework's runtime entry), and pass `direction: around?.direction` to `stop.roving.move` |
+| `<Reactions.Reaction> must be inside <Reactions.Root>`               | A reaction was drawn outside a root. Every reaction goes inside one                                                                                                                                                                                                                                                                                |
+| On Vue, `loopFocus` is off though you did not set it                 | The prop was declared `Boolean`, which Vue makes `false` when absent. Declare it `optional(Boolean)`                                                                                                                                                                                                                                               |
+| Kirana's styles lose to Tailwind's preflight in an app that has both | The cascade layer declared first is the weakest. Import your Tailwind stylesheet before `@kirana-style/core/stylesheet.css`                                                                                                                                                                                                                        |
 
 ## Where to go next
 

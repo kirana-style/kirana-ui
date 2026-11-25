@@ -34,12 +34,9 @@ export function testExamples(base: keyof typeof BASES) {
     // Upstream's example pages, the chat demos' TanStack AI twins and the helpers' demos.
     const examples = Object.keys(previews).filter(
       (item) =>
-        (item.endsWith("-example") ||
-          item.endsWith("-tanstack-ai") ||
-          item.endsWith("-helper-demo")) &&
-        // Kirana UI's hover card, pressed after a tooltip was shown, stays open over the next
-        // trigger (PF-053).
-        !(base === "kirana" && item.startsWith("message-scroller-visibility"))
+        item.endsWith("-example") ||
+        item.endsWith("-tanstack-ai") ||
+        item.endsWith("-helper-demo")
     )
     it.each(examples)("%s renders and every trigger works", async (item) => {
       const { container, errors } = await mountItem(base, item)

@@ -7,8 +7,8 @@ import { COMBOBOX } from "./context"
 /**
  * Kirana UI's combobox, with Base UI's items-driven API as Vue's Ark UI parts take it: `items` go
  * to the list's slot (Kirana UI filters the items by their text), and their labels to Kirana UI's
- * `items`, so the input shows a chosen item before the list opens; `multiple` takes `v-model` and
- * `default-value` as Kirana UI's `values`. The values are the items themselves.
+ * `items`, so the input shows a chosen item before the list opens; `multiple` makes `v-model` and
+ * `default-value` lists. The values are the items themselves.
  */
 const props = defineProps<{
   items?: readonly unknown[]
@@ -58,11 +58,11 @@ provide(COMBOBOX, { items, label, selected })
     v-if="multiple"
     multiple
     :items="labels"
-    :default-values="list(defaultValue)"
-    :values="modelValue === undefined ? undefined : list(modelValue)"
+    :default-value="list(defaultValue)"
+    :value="modelValue === undefined ? undefined : list(modelValue)"
     :auto-highlight="autoHighlight"
     :disabled="disabled"
-    @values-change="report"
+    @value-change="report"
   >
     <slot />
   </Combobox.Root>

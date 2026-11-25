@@ -447,7 +447,10 @@ UI base's do. **Solid's second base
 is Kirana UI Primitives** (`registry/bases/solid-kirana`, at
 `/preview/solid/kirana/`, on `@kirana-ui/solid`), with all 61 of Solid's
 components: its parts take the Ark UI twin's props, Ark's `asChild` becoming a
-part's `render`. Every Kirana UI base draws the calendar with the primitives' own
+part's `render`. It stays on `@kirana-ui/solid` 0.3.0, the last release on
+Solid 1, where the other Kirana UI bases follow the site's pin: the adapter needs
+Solid 2 from 0.4.0, and the base moves there with the app that runs Solid 2
+(`apps/preview-solid2`). Every Kirana UI base draws the calendar with the primitives' own
 Calendar (several days, several months, the month held by the caller), as
 react-day-picker's markup and attributes, so `calendar.styles.ts` serves them
 unchanged. **Angular's

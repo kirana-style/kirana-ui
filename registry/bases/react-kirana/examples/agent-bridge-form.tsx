@@ -186,19 +186,11 @@ export default function AgentBridgeForm() {
                 onChange={(event) => set("retention", event.target.value)}
               />
             </Field>
-            {/* PF-058: a label's `for` reaches a switch's or a checkbox's hidden input, not the
-                element with its role, so each is named here itself. */}
             <Field>
               <div sx={styles.row}>
-                <FieldLabel
-                  id="settings-alerts-label"
-                  htmlFor="settings-alerts"
-                >
-                  Alerts
-                </FieldLabel>
+                <FieldLabel htmlFor="settings-alerts">Alerts</FieldLabel>
                 <Switch
                   id="settings-alerts"
-                  aria-labelledby="settings-alerts-label"
                   checked={settings.alerts}
                   onCheckedChange={(checked) => set("alerts", checked)}
                 />
@@ -206,15 +198,9 @@ export default function AgentBridgeForm() {
             </Field>
             <Field>
               <div sx={styles.row}>
-                <FieldLabel
-                  id="settings-digest-label"
-                  htmlFor="settings-digest"
-                >
-                  Weekly digest
-                </FieldLabel>
+                <FieldLabel htmlFor="settings-digest">Weekly digest</FieldLabel>
                 <Switch
                   id="settings-digest"
-                  aria-labelledby="settings-digest-label"
                   checked={settings.digest}
                   onCheckedChange={(checked) => set("digest", checked)}
                 />
@@ -222,15 +208,11 @@ export default function AgentBridgeForm() {
             </Field>
             <Field>
               <div sx={styles.row}>
-                <FieldLabel
-                  id="settings-review-label"
-                  htmlFor="settings-review"
-                >
+                <FieldLabel htmlFor="settings-review">
                   Require a review before deploys
                 </FieldLabel>
                 <Checkbox
                   id="settings-review"
-                  aria-labelledby="settings-review-label"
                   checked={settings.review}
                   onCheckedChange={(checked) => set("review", checked === true)}
                 />

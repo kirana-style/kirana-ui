@@ -1217,7 +1217,11 @@ and WebKit, for the frameworks the change needs: `scripts/ci-changes.sh` picks
 those whose bases, helpers or preview app it touches, none for the docs alone,
 and every one for anything shared or on a push to `main`. The longest jobs, React's and Svelte's in WebKit,
 are split in two by base (`vp test run --project browser-react -t "^(base|aria) > "`,
-the bases' `describe`). A first
+the bases' `describe`). CI runs each through `scripts/ci-browser.sh`: when an
+engine's page crashes (Vitest ends with `VITEST_BROWSER_CONNECTION_CLOSED`, and
+its usual reporter has named no test by then), the tests run a second time with
+each test named as it finishes, and the engine's own last lines are printed, so
+the run says which test the page was on. A test that fails is never run again. A first
 run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
 a test:
 
@@ -1287,7 +1291,9 @@ these documents in the same change so the next person inherits the better one.
 
 `/docs/primitives` and `/docs/ai` document Kirana UI Primitives
 ([kirana-style/primitives](https://github.com/kirana-style/primitives)), which the site installs
-from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
+from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`). The pages are written from that
+pin for every framework; the registry's Solid base alone is built on `@kirana-ui/solid` 0.3.0
+(`registry/package.json`) until it moves to Solid 2.
 
 - **A page per component is generated, not written**: `apps/site/scripts/generate-primitives.ts`
   runs before the content is read and writes `content/docs/primitives/components/*.md`, their

@@ -17,7 +17,6 @@ import {
   KpSelect,
   KpSelectGroup,
   KpSelectGroupLabel,
-  KpSelectInput,
   KpSelectItem,
   KpSelectItemIndicator,
   KpSelectItemText,
@@ -47,7 +46,6 @@ import {
 } from "../../../styles/menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { select } from "../../../styles/select.styles"
-import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 
 /** An entry of a select's `items`, as Base UI takes them: the one whose value is `null` is the placeholder. */
 export type SelectEntry = { label: string; value: unknown; disabled?: boolean }
@@ -69,9 +67,8 @@ const SELECT = new InjectionToken<SelectState>("kui select")
 /**
  * A select: `<ng-container kuiSelect [items]="fruits" [(value)]="fruit">` around its trigger and
  * content, drawing no element, as Base UI's root: Kirana UI's (`KpSelect`), its `disabled` and
- * `multiple` its own. Base UI's `value`, `defaultValue` and `valueChange` are a list with
- * `multiple`, where Kirana UI's are `values`, `defaultValues` and `valuesChange`: this root takes
- * Base UI's and hands them to the one that holds them. `items` are Base UI's: a `{ label, value }`
+ * `multiple` its own. Its `value`, `defaultValue` and `valueChange` are a list with `multiple`,
+ * as Base UI's and Kirana UI's are. `items` are Base UI's: a `{ label, value }`
  * list, whose entry with a `null` value is the placeholder, read by the value part; without them the
  * items' own text names the value, as Kirana UI's does. Each part takes its primitive as a host directive.
  */
@@ -101,17 +98,13 @@ class Select {
         first = false
         if (next === undefined) return
         state.chosen.set(next)
-        if (multiple) root.values.set(Array.isArray(next) ? next : [])
-        else root.value.set(next)
+        root.value.set(multiple && !Array.isArray(next) ? [] : next)
       })
     })
+    // With `multiple`, the list there would then be.
     root.valueChanged.subscribe(({ value }) => {
       state.chosen.set(value)
       this.valueChange.emit(value)
-    })
-    root.valuesChanged.subscribe(({ values }) => {
-      state.chosen.set(values)
-      this.valueChange.emit(values)
     })
   }
 }
@@ -231,13 +224,12 @@ function carried(element: HTMLElement) {
  * below the trigger, `side`, `align` and their offsets as Base UI's. Kirana UI's portal is a
  * structural part, which an attribute cannot put around its own element: the content draws the
  * portal, the positioner, the popup with its scroll arrows and list in its template, its children
- * projected into the list, and the input that submits the value beside them.
+ * projected into the list. The trigger draws the input that submits the value.
  */
 @Component({
   selector: "[kuiSelectContent]",
   imports: [
     IconPlaceholder,
-    KpSelectInput,
     KpSelectList,
     KpSelectPopup,
     KpSelectPortal,
@@ -304,7 +296,6 @@ function carried(element: HTMLElement) {
         </div>
       </div>
     </ng-template>
-    <input kpSelectInput tabindex="-1" aria-hidden="true" [class]="hidden" />
   `,
 })
 class SelectContent {
@@ -316,7 +307,6 @@ class SelectContent {
   readonly sx = input<SxInput>()
   protected readonly attr = carried(inject(ElementRef).nativeElement)
   protected readonly positioner = partSx(menuPositioner, undefined).class
-  protected readonly hidden = partSx(visuallyHidden, undefined).class
   protected readonly scrollUp = partSx(
     [select.scrollButton, select.scrollUp],
     undefined

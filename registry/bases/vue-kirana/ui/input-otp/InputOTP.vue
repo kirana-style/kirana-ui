@@ -38,7 +38,7 @@ onBeforeUnmount(() => observer?.disconnect())
   <Otp.Root
     ref="root"
     :length="maxLength"
-    mode="alphanumeric"
+    validation-type="alphanumeric"
     :default-value="defaultValue"
     :value="model"
     :style="{ '--root-height': `${height}px` }"

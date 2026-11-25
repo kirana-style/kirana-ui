@@ -27,9 +27,6 @@ export type Matcher =
 const day = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
 
-/** A local date's day, as a time: two dates of one day are equal. */
-export const startOfDay = day
-
 export const pad = (n: number, width = 2) => String(n).padStart(width, "0")
 
 /** A local `Date` as Kirana UI's calendar's `YYYY-MM-DD`. */

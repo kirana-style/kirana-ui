@@ -40,7 +40,7 @@
 
 <Otp.Root
   length={maxLength}
-  mode={type}
+  validationType={type === "alphabetic" ? "alpha" : type}
   {defaultValue}
   {value}
   {disabled}

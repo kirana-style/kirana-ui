@@ -8,6 +8,7 @@ import {
   computed,
   inject,
   input,
+  output,
   signal,
   viewChild,
 } from "@angular/core"
@@ -29,11 +30,21 @@ import { inputOtp } from "../../../styles/input-otp.styles"
  * slots, on Kirana UI's code input (`KpOtp`): one input laid over the slots, unseen, takes the
  * typing, pasting and autofill, and the slots show its characters, the one at the cursor
  * `data-active` with a caret while empty. Its `maxLength` (Kirana UI's `length`), `[(value)]`,
- * `defaultValue`, `disabled`, `name`, `id` (the input's) and `complete` (Kirana UI's `completed`) are the primitive's,
- * and `type` is Kirana UI's `mode`: any character (`text`, the default, as upstream's `input-otp`
- * takes any without a `pattern`), `numeric`, `alphabetic` or `alphanumeric` (upstream's `pattern`).
+ * `defaultValue`, `disabled`, `name` and `id` (the input's) are the primitive's, `complete` is told
+ * the code once Kirana UI's `valueCompleted` is, and `type` is Kirana UI's `validationType`: any
+ * character (`text`, the default, as upstream's `input-otp` takes any without a `pattern`, Kirana
+ * UI's `none`), `numeric`, `alphabetic` (Kirana UI's `alpha`) or `alphanumeric` (upstream's
+ * `pattern`).
  * `containerSx` styles this element, `sx` the input, which takes `required` and `aria-invalid`.
  */
+
+/** Kirana UI's `validationType` for each of upstream's `type`s. */
+const VALIDATION = {
+  text: "none",
+  numeric: "numeric",
+  alphabetic: "alpha",
+  alphanumeric: "alphanumeric",
+} as const
 
 /** The code input, as React's `InputOTP`: see above. */
 @Component({
@@ -46,12 +57,11 @@ import { inputOtp } from "../../../styles/input-otp.styles"
         "length: maxLength",
         "value",
         "defaultValue",
-        "mode: type",
         "disabled",
         "name",
         "kpId: id",
       ],
-      outputs: ["valueChange", "completed: complete"],
+      outputs: ["valueChange"],
     },
   ],
   providers: [provideSxPart()],
@@ -83,6 +93,10 @@ import { inputOtp } from "../../../styles/input-otp.styles"
   `,
 })
 class InputOTP {
+  readonly type = input<"text" | "numeric" | "alphabetic" | "alphanumeric">(
+    "text"
+  )
+  readonly complete = output<string>()
   readonly required = input(false, { transform: booleanAttribute })
   readonly ariaInvalid = input<string | boolean | undefined>(undefined, {
     alias: "aria-invalid",
@@ -101,7 +115,12 @@ class InputOTP {
     viewChild.required<ElementRef<HTMLInputElement>>("field")
 
   constructor() {
-    hostInputs(KpOtp, { mode: () => "text" })
+    hostInputs(KpOtp, {
+      validationType: computed(() => VALIDATION[this.type()]),
+    })
+    inject(KpOtp).valueCompleted.subscribe(({ value }) =>
+      this.complete.emit(value)
+    )
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
     // Measured once rendered, then as it resizes (an observer waits for a frame to be drawn).
     const measure = () => this.rootHeight.set(`${host.clientHeight}px`)

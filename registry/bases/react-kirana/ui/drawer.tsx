@@ -31,19 +31,17 @@ function useDrawer() {
 }
 
 /**
- * Base UI's Drawer root on the primitives': the same open, modal, swipe and snap-point props, and
- * Base UI's `disablePointerDismissal` as the primitives' `dismissible`, inverted.
+ * Base UI's Drawer root on the primitives': the same open, modal, swipe, snap-point and
+ * dismissal props.
  */
 function Drawer({
   modal = true,
   showSwipeHandle = false,
   snapPoints,
   swipeDirection = "down",
-  disablePointerDismissal,
   ...props
 }: RootProps & {
   showSwipeHandle?: boolean
-  disablePointerDismissal?: boolean
 }) {
   const hasSnapPoints = snapPoints != null && snapPoints.length > 0
   const contextValue = React.useMemo(
@@ -58,11 +56,6 @@ function Drawer({
         modal={modal}
         snapPoints={snapPoints}
         swipeDirection={swipeDirection}
-        dismissible={
-          disablePointerDismissal === undefined
-            ? undefined
-            : !disablePointerDismissal
-        }
         {...props}
       />
     </DrawerContext.Provider>

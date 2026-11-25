@@ -144,18 +144,18 @@ on email alerts: the switch turns on, through its own `onCheckedChange`, which h
 
 ## What the browser's agent sees
 
-Three tools, with the names, descriptions and schemas of `agentTools`, and two hints each:
+Three tools, with the names, descriptions and schemas of `agentTools`, and hints for the browser:
 
-| Tool       | What it does                                                     | `readOnlyHint` | `untrustedContentHint` |
-| ---------- | ---------------------------------------------------------------- | -------------- | ---------------------- |
-| `snapshot` | Lists the components, their state and the actions each takes now | `true`         | `true`                 |
-| `query`    | Finds components by label or kind, or the choices of one list    | `true`         | `true`                 |
-| `act`      | Runs steps on components, in order                               | `false`        | `true`                 |
+| Tool       | What it does                                                     | `readOnlyHint` | `untrustedContentHint` | `consequentialHint` |
+| ---------- | ---------------------------------------------------------------- | -------------- | ---------------------- | ------------------- |
+| `snapshot` | Lists the components, their state and the actions each takes now | `true`         | `true`                 | not given           |
+| `query`    | Finds components by label or kind, or the choices of one list    | `true`         | `true`                 | not given           |
+| `act`      | Runs steps on components, in order                               | `false`        | `true`                 | `true`              |
 
 `untrustedContentHint` tells the browser that what a tool returns may hold text a user wrote: page
 text is data, never instructions. The tools' descriptions say so to the model as well.
-`readOnlyHint` is `true` for `query` too, though `query` with `within` opens a closed list to read
-its choices.
+`consequentialHint` tells it that `act` changes the page. `readOnlyHint` is `true` for `query`
+too, though `query` with `within` opens a closed list to read its choices.
 
 On the page above, `snapshot` returns:
 
@@ -235,10 +235,10 @@ the error is ignored and the first tools, on the first bridge, stay.
 
 ## What was not run here
 
-The code on this page was type-checked and built with `@kirana-ui/react` 0.3.0, and run in
-Chromium with a stand-in for `document.modelContext`: the three tools were registered with the
-hints above, `act` turned the switch on, the press was refused by `registerTools`'s `allow`, and
-the removal aborted the signal all three were registered with. It was not run against a browser's own agent.
+The code on this page was type-checked with `@kirana-ui/react` 0.4.0, and run in Chromium with a
+stand-in for `document.modelContext`: the three tools were registered with the hints above,
+`snapshot` returned what is shown above, `act` turned the switch on, the press was refused by
+`registerTools`'s `allow`, and the removal aborted the signal all three were registered with. It was not run against a browser's own agent.
 
 ## Next
 

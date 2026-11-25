@@ -62,15 +62,14 @@
 </script>
 
 <!-- Kirana UI's drawer: the swipe, the snap points and the nested drawers are its own, and it
-     writes Base UI's variables for the styles. Base UI's `disablePointerDismissal` is its
-     `dismissible`, inverted. -->
+     writes Base UI's variables for the styles. -->
 <Drawer.Root
   open={current}
   onOpenChange={(next: boolean) => setOpen(next)}
   {modal}
   {snapPoints}
   {swipeDirection}
-  dismissible={disablePointerDismissal ? false : undefined}
+  {disablePointerDismissal}
 >
   {@render children?.()}
 </Drawer.Root>

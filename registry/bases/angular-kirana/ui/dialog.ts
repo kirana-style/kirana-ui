@@ -29,7 +29,7 @@ import { buttonLabels } from "./button"
 
 /**
  * A dialog: `<ng-container kuiDialog>` around its trigger and content, drawing no element, as Base
- * UI's root: Kirana UI's (`KpDialog`), its `[(open)]`, `defaultOpen`, `modal` and `dismissible`
+ * UI's root: Kirana UI's (`KpDialog`), its `[(open)]`, `defaultOpen`, `modal` and `disablePointerDismissal`
  * its own. Each part takes its primitive as a host directive.
  */
 @Directive({
@@ -37,7 +37,7 @@ import { buttonLabels } from "./button"
   hostDirectives: [
     {
       directive: KpDialog,
-      inputs: ["open", "defaultOpen", "modal", "dismissible"],
+      inputs: ["open", "defaultOpen", "modal", "disablePointerDismissal"],
       outputs: ["openChange"],
     },
   ],

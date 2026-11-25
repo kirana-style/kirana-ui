@@ -4,7 +4,7 @@
  * `ComboboxCollection`, which draw each through the caller's `<ng-template let-item>`, and their
  * labels to Kirana UI's `items`, so the input shows a chosen item before the list opens; Kirana UI
  * filters the items by their labels, hides a group with none shown, highlights, chooses and places
- * the popup. A value, or a list of them (`multiple`, Kirana UI's `values`), is the items
+ * the popup. A value, or a list of them (`multiple`), is the items
  * themselves, in the shape they were given.
  */
 import { NgTemplateOutlet } from "@angular/common"
@@ -92,7 +92,7 @@ type Source = {
 class ComboboxState {
   readonly source = signal<Source | undefined>(undefined)
   /** Kirana UI's root, once it is made. */
-  root!: KpCombobox
+  root!: KpCombobox<unknown, boolean>
   /** Whether the popup is anchored to the chips (`data-chips`). */
   readonly chips = signal(false)
   /** What was chosen since, while the caller does not hold `value`. */
@@ -139,7 +139,7 @@ const useCombobox = () => inject(COMBOBOX)
  * The combobox: `<ng-container kuiCombobox [items]="…" [(value)]="…">` around its input (or
  * trigger) and content, drawing no element, as Base UI's root; `multiple`, `autoHighlight` and
  * `disabled` are Kirana UI's own. Kirana UI's root is given the labels of its items as its `items`,
- * and its `defaultValue` as one value or, with `multiple`, a list (`defaultValues`).
+ * and its `defaultValue` as one value or, with `multiple`, a list.
  * `#combo="kuiCombobox"` reads its state, `combo.selected()` the chosen items.
  */
 @Directive({
@@ -175,27 +175,27 @@ class Combobox {
     hostInputs(KpCombobox, {
       items: () => state.labels(),
       defaultValue: () =>
-        root.multiple() ? null : (this.defaultValue() ?? null),
-      defaultValues: () =>
-        root.multiple() ? list(this.defaultValue()) : undefined,
+        root.multiple()
+          ? list(this.defaultValue())
+          : (this.defaultValue() ?? null),
     })
-    // What is chosen, as Kirana UI reports it about to change, reported in the items' shape.
+    // What is chosen, as Kirana UI reports it about to change (with `multiple`, the list there
+    // would then be), reported in the items' shape.
     root.valueChanged.subscribe(({ value }) => {
-      if (root.multiple()) return
+      if (root.multiple()) {
+        state.chosen.set(list(value))
+        this.valueChange.emit(list(value))
+        return
+      }
       state.chosen.set(list(value))
       this.valueChange.emit(value ?? null)
-    })
-    root.valuesChanged.subscribe(({ values }) => {
-      state.chosen.set([...values])
-      this.valueChange.emit([...values])
     })
     // A value the caller holds goes to Kirana UI's.
     effect(() => {
       const controlled = this.value()
       if (controlled === undefined) return
       untracked(() => {
-        if (root.multiple()) root.values.set(list(controlled))
-        else root.value.set(controlled)
+        root.value.set(root.multiple() ? list(controlled) : controlled)
       })
     })
   }

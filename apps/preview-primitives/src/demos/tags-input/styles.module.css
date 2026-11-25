@@ -1,0 +1,118 @@
+.field {
+  display: grid;
+  gap: 0.25rem;
+  width: 18rem;
+}
+
+.label {
+  font-weight: 500;
+}
+
+/* The tags and the input, drawn as one control. */
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+/* While focus is on a tag or in the input. */
+.root[data-focused] {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* A tag's text and its input take no `display` here, so the library's `hidden` attribute holds. */
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding-right: 0.25rem;
+  padding-left: 0.5rem;
+  border-radius: 0.375rem;
+  background: var(--raised);
+  color: var(--ink);
+}
+
+/* Reached with the arrows, or edited in place (two presses, or Enter). */
+.tag:focus-visible,
+.tag[data-editing] {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.tagInput {
+  width: 6rem;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline-style: none;
+}
+
+.remove {
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--quiet);
+  font: inherit;
+  cursor: pointer;
+}
+
+.remove:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.remove:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 0;
+}
+
+.icon {
+  display: block;
+  vertical-align: middle;
+}
+
+.input {
+  flex: 1 1 6rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0 0.25rem;
+  border: 0 solid;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  outline-style: none;
+}
+
+.input::placeholder {
+  color: var(--quiet);
+  opacity: 1;
+}
+
+.hint {
+  margin: 0;
+  color: var(--quiet);
+}

@@ -49,10 +49,6 @@ function Slider({
           <SliderPrimitive.Thumb
             data-slot="slider-thumb"
             key={index}
-            // PF-059: the root's name does not reach a thumb, the element with the slider's role,
-            // so it is given to each here (until a release names its thumbs from its root).
-            aria-label={props["aria-label"]}
-            aria-labelledby={props["aria-labelledby"]}
             {...styleProps(slider.thumb)}
           />
         ))}
