@@ -1,31 +1,51 @@
 #!/usr/bin/env bash
-# Runs a browser test command for ci.yml's browser jobs, and runs it once more when the browser's
-# page crashed before the tests could say anything: `bash scripts/ci-browser.sh <command …>`.
+# Runs a framework's browser tests for ci.yml's browser jobs, and once more, saying more, when
+# the browser's page crashed: `bash scripts/ci-browser.sh <framework> [vitest arguments …]`.
+#
+# With no arguments the first run is the framework's cached task (`vp run browser:<framework>`);
+# with some (a share of its bases: files and `-t`), Vitest itself.
 #
 # A page crash is the engine's, not a test's: Vitest ends the run with
-# `VITEST_BROWSER_CONNECTION_CLOSED` and no result. Firefox's page does this now and then within
-# seconds of starting, on a runner and on a desk alike, whatever the tests are (LF-045). Only that
-# is run again, once, and it is said as a warning on the run, so how often it happens stays in
-# sight. A test that fails is never run again: Vitest's `retry` stays off.
-#
-# The engine's own output (Playwright's `pw:browser` log) is kept out of the job's log and
-# printed for a run that crashed, which is where the cause would be.
+# `VITEST_BROWSER_CONNECTION_CLOSED` and the usual reporter has named no test by then. Firefox's
+# page does this on CI's runners (LF-045), for a cause not yet found. So a run that crashed is
+# run a second time with every test named as it finishes (`--reporter=verbose`), and what the
+# engine itself said (Playwright's `pw:browser` log) is printed after it: the last test named and
+# those lines are where the cause is. The second run also passes when the crash was a passing
+# one, with a warning on the run. A test that fails is never run again: Vitest's `retry` stays off.
 set -uo pipefail
 
+framework=$1
+shift
 log=$(mktemp)
-attempts=2
 
-for attempt in $(seq 1 "$attempts"); do
+# Runs a command with the engine's own output kept in the log and out of the job's.
+run() {
   DEBUG="${DEBUG:+$DEBUG,}pw:browser" "$@" 2>&1 | tee "$log" | grep --line-buffered -v ' pw:browser '
-  status=${PIPESTATUS[0]}
-  [ "$status" -eq 0 ] && exit 0
-  # Anything but the crash is the tests' own answer.
-  grep -q 'VITEST_BROWSER_CONNECTION_CLOSED' "$log" || exit "$status"
-  echo "::group::The browser's own output before its page crashed (attempt $attempt)"
-  grep ' pw:browser ' "$log" | tail -n 80
-  echo "::endgroup::"
-  if [ "$attempt" -lt "$attempts" ]; then
-    echo "::warning::The browser's page crashed before the tests ran (attempt $attempt of $attempts): running them once more."
-  fi
-done
+  return "${PIPESTATUS[0]}"
+}
+
+# What the engine said last, in the open: a folded group is easy to miss and is not copied.
+engine() {
+  echo "The browser's own last lines before its page crashed ($1 run):"
+  grep ' pw:browser ' "$log" | tail -n 40
+}
+
+if [ "$#" -eq 0 ]; then
+  run vp run "browser:$framework"
+else
+  run vp test run --project "browser-$framework" "$@"
+fi
+status=$?
+[ "$status" -eq 0 ] && exit 0
+# Anything but the crash is the tests' own answer.
+grep -q 'VITEST_BROWSER_CONNECTION_CLOSED' "$log" || exit "$status"
+
+engine first
+echo "::warning::The browser's page crashed during the $framework tests: running them once more, each test named."
+run vp test run --project "browser-$framework" "$@" --reporter=verbose
+status=$?
+if [ "$status" -ne 0 ] && grep -q 'VITEST_BROWSER_CONNECTION_CLOSED' "$log"; then
+  engine second
+  echo "::error::The browser's page crashed twice. The last test named above is the one it was on."
+fi
 exit "$status"

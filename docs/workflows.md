@@ -1218,10 +1218,10 @@ those whose bases, helpers or preview app it touches, none for the docs alone,
 and every one for anything shared or on a push to `main`. The longest jobs, React's and Svelte's in WebKit,
 are split in two by base (`vp test run --project browser-react -t "^(base|aria) > "`,
 the bases' `describe`). CI runs each through `scripts/ci-browser.sh`: when an
-engine's page crashes before the tests can answer (Vitest ends with
-`VITEST_BROWSER_CONNECTION_CLOSED`; Firefox's does now and then, within seconds
-of starting), the tests run once more, with a warning on the run and the
-engine's own output printed. A test that fails is never run again. A first
+engine's page crashes (Vitest ends with `VITEST_BROWSER_CONNECTION_CLOSED`, and
+its usual reporter has named no test by then), the tests run a second time with
+each test named as it finishes, and the engine's own last lines are printed, so
+the run says which test the page was on. A test that fails is never run again. A first
 run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
 a test:
 
