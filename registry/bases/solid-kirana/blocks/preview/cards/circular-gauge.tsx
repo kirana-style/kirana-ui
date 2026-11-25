@@ -1,4 +1,4 @@
-import { createMemo, splitProps } from "solid-js"
+import { createMemo } from "solid-js"
 import { css } from "@kirana-style/core"
 import { duration, easing } from "../../../../../core/scales"
 import type { Sx } from "@kirana-style/core"
@@ -8,7 +8,7 @@ export function CircularGauge(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["percentage", "sx", "class"])
+  const local = props
   const styles = {
     circularGaugeSvg: css({
       rotate: "calc(90deg * -1)",

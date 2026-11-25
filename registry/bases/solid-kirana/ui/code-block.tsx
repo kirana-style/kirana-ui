@@ -1,17 +1,10 @@
-import {
-  For,
-  createMemo,
-  createSignal,
-  mergeProps,
-  onCleanup,
-  splitProps,
-} from "solid-js"
+import { For, createMemo, createSignal, merge, onCleanup, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { codeBlock } from "../../../styles/code-block.styles"
 import { IconPlaceholder } from "./icon-placeholder"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { button } from "../../../styles/button.styles"
 
@@ -23,10 +16,8 @@ function CodeBlock(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default", size: "default" } as const, props),
-    ["variant", "size", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default", size: "default" } as const, props)
+  const rest = omit(local, "variant", "size", "class", "sx", "children")
   return (
     <div
       data-slot="code-block"
@@ -46,7 +37,8 @@ function CodeBlockActions(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="code-block-actions"
@@ -72,12 +64,19 @@ function CodeBlockContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { wrap: false, lineNumbers: false, startLine: 1 } as const,
-      props
-    ),
-    ["wrap", "lineNumbers", "startLine", "code", "class", "sx", "children"]
+  const local = merge(
+    { wrap: false, lineNumbers: false, startLine: 1 } as const,
+    props
+  )
+  const rest = omit(
+    local,
+    "wrap",
+    "lineNumbers",
+    "startLine",
+    "code",
+    "class",
+    "sx",
+    "children"
   )
   const own = () =>
     styleProps(
@@ -125,10 +124,8 @@ function CodeBlockCopyButton(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "ghost", size: "icon-xs" } as const, props),
-    ["value", "variant", "size", "class", "sx"]
-  )
+  const local = merge({ variant: "ghost", size: "icon-xs" } as const, props)
+  const rest = omit(local, "value", "variant", "size", "class", "sx")
   const [copied, setCopied] = createSignal(false)
   let timeout: ReturnType<typeof setTimeout> | undefined
   onCleanup(() => clearTimeout(timeout))
@@ -187,7 +184,8 @@ function CodeBlockFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="code-block-footer"
@@ -205,7 +203,8 @@ function CodeBlockHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="code-block-header"
@@ -224,10 +223,8 @@ function CodeBlockLine(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" } as const, props),
-    ["variant", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default" } as const, props)
+  const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <span
       data-slot="code-block-line"
@@ -248,7 +245,8 @@ function CodeBlockTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="code-block-title"

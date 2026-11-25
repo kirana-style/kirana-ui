@@ -1,5 +1,4 @@
 import { StatusIcon } from "./status-icon"
-import { splitProps } from "solid-js"
 import {
   TraceCollapsible,
   TraceCollapsibleContent,
@@ -8,7 +7,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "../../ui/trace"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { Status } from "./types"
 
@@ -22,15 +21,7 @@ export function Step(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "title",
-    "status",
-    "defaultOpen",
-    "content",
-    "children",
-    "sx",
-    "class",
-  ])
+  const local = props
 
   return (
     <>

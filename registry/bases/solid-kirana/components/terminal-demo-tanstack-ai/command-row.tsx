@@ -1,4 +1,4 @@
-import { createMemo, createSignal, splitProps, untrack } from "solid-js"
+import { createMemo, createSignal, untrack } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { CodeBlock, CodeBlockContent } from "../../ui/code-block"
 import {
@@ -22,14 +22,7 @@ export function CommandRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "part",
-    "result",
-    "streaming",
-    "defaultOpen",
-    "sx",
-    "class",
-  ])
+  const local = props
   const styles = {
     commandRowCodeBlockContent: css({
       maxHeight: { "*": null, base: space[64] },

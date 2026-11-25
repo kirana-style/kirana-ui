@@ -3,7 +3,7 @@ import { NavMain } from "./nav-main"
 import { NavSecondary } from "./nav-secondary"
 import { NavWorkspaces } from "./nav-workspaces"
 import { TeamSwitcher } from "./team-switcher"
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import {
   Sidebar,
   SidebarContent,
@@ -18,7 +18,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     appSidebarNavSecondary: css({
       marginTop: "auto",

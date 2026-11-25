@@ -1,5 +1,5 @@
 import { StatusIcon } from "./status-icon"
-import { Index, createMemo, createSignal, splitProps } from "solid-js"
+import { For, createMemo, createSignal } from "solid-js"
 import {
   Trace,
   TraceCollapsible,
@@ -18,7 +18,7 @@ export function TaskRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["task", "streaming", "sx", "class"])
+  const local = props
   function getStepStatus(
     status: Task["steps"][number]["status"],
     streaming: boolean
@@ -60,13 +60,13 @@ export function TaskRow(props: {
       </TraceCollapsibleTrigger>
       <TraceCollapsibleContent keepMounted>
         <Trace>
-          <Index each={steps()}>
+          <For keyed={false} each={steps()}>
             {(step) => (
               <TraceLine status={step().status}>
                 <TraceTitle>{step().title}</TraceTitle>
               </TraceLine>
             )}
-          </Index>
+          </For>
         </Trace>
       </TraceCollapsibleContent>
     </TraceCollapsible>

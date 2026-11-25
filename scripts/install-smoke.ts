@@ -50,8 +50,8 @@ const STATIC = join(ROOT, "apps", "site", "dist", "client")
 /**
  * What CI installs: every framework on each of its bases (ui-sdk, then Kirana UI, after the
  * framework's own), across the templates, the toolings and the workspaces (a Turborepo, a Vite+
- * monorepo, each with `packages/ui`), each in another style; Solid on ui-sdk on the one template
- * on Solid 2, which its base needs.
+ * monorepo, each with `packages/ui`), each in another style; Solid on ui-sdk and on Kirana UI on
+ * the one template on Solid 2, which those bases need.
  */
 const DEFAULT = [
   "react-base-nova@vite-react--none--eslint",
@@ -69,7 +69,7 @@ const DEFAULT = [
   "react-kirana-sera@vite-react--none--oxlint",
   "vue-kirana-luma@vite-vue--none--oxlint",
   "svelte-kirana-mira@vite-svelte--none--oxlint",
-  "solid-kirana-rhea@solid-start--none--oxlint",
+  "solid-kirana-rhea@vite-solid2--none--oxlint",
   "angular-kirana-nova@angular-cli--none--eslint",
 ]
 

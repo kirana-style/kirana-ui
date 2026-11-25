@@ -2,14 +2,15 @@ import {
   createContext,
   createMemo,
   createSignal,
-  mergeProps,
+  merge,
+  omit,
   Show,
-  splitProps,
+  untrack,
   useContext,
 } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Select as SelectPrimitive } from "@kirana-ui/solid/select"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { select } from "../../../styles/select.styles"
 import {
   menuCheckableRowPadding,
@@ -22,9 +23,10 @@ import {
 } from "../../../styles/menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { IconPlaceholder } from "./icon-placeholder"
-import type { Accessor, JSX } from "solid-js"
+import type { Accessor } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /** An entry of the select: its value and text (`null`, the placeholder). */
 type Entry = { label: string; value: string | null; disabled?: boolean }
@@ -71,15 +73,15 @@ const SelectContext = createContext<{
   placeholder: () => string | undefined
   /** An `item`'s value: the collection's, or its own `value`. */
   toValue: (item: unknown) => string | null
-}>()
+} | null>(null)
 
 /**
  * Kirana UI's select, taking the Ark UI parts' props: `items` as Base UI's select takes them (an
  * entry whose `value` is `null` is the placeholder) or a `collection` of the caller's own
- * (`createListCollection`), `value` and `defaultValue`, a list with `multiple` (Kirana UI's
- * `values`), and `onValueChange`, given `{ value }` in the shape the caller gave it. The items are
- * read from the markup; `items` only names the values before the list has opened. It renders no
- * element; the rest (`disabled`, `name`, `required`, `open` …) goes to Kirana UI's root.
+ * (`createListCollection`), `value` and `defaultValue`, a list with `multiple`, and
+ * `onValueChange`, given `{ value }` in the shape the caller gave it. The items are read from the
+ * markup; `items` only names the values before the list has opened. It renders no element; the
+ * rest (`disabled`, `name`, `required`, `open` …) goes to Kirana UI's root.
  */
 function Select<
   V extends string | string[] | null = string | string[] | null,
@@ -98,18 +100,19 @@ function Select<
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "items",
     "collection",
     "defaultValue",
     "value",
     "multiple",
     "onValueChange",
-    "children",
-  ])
+    "children"
+  )
   const entries = createMemo<readonly Entry[]>(() => {
-    if (local.items) return local.items
-    const collection = local.collection
+    if (props.items) return props.items
+    const collection = props.collection
     if (!collection) return []
     return collection.items.map((item) => ({
       value: collection.itemToValue(item),
@@ -124,7 +127,7 @@ function Select<
       .map((entry) => ({ value: entry.value as string, label: entry.label }))
   )
   const toValue = (item: unknown) => {
-    if (local.collection) return local.collection.itemToValue(item)
+    if (props.collection) return props.collection.itemToValue(item)
     const value = (item as { value?: string | null } | undefined)?.value
     return value ?? null
   }
@@ -136,21 +139,21 @@ function Select<
         ? [next]
         : [...next]
   // The select's own value while the caller keeps none. Read once, as Base UI reads a default.
-  const [own, setOwn] = createSignal(list(local.defaultValue))
-  const chosen = () => (local.value === undefined ? own() : list(local.value))
+  const [own, setOwn] = createSignal(untrack(() => list(props.defaultValue)))
+  const chosen = () => (props.value === undefined ? own() : list(props.value))
   /** A value reported in the shape the caller gave it: one, or the list. */
   const report = (next: string[]) => {
     setOwn(next)
     const told =
-      local.multiple ||
-      Array.isArray(local.value) ||
-      Array.isArray(local.defaultValue)
+      props.multiple ||
+      Array.isArray(props.value) ||
+      Array.isArray(props.defaultValue)
         ? next
         : (next[0] ?? null)
-    local.onValueChange?.({ value: told as V })
+    props.onValueChange?.({ value: told as V })
   }
   return (
-    <SelectContext.Provider
+    <SelectContext
       value={{
         entries,
         placeholder: () =>
@@ -159,7 +162,7 @@ function Select<
       }}
     >
       <Show
-        when={local.multiple}
+        when={props.multiple}
         fallback={
           <SelectPrimitive.Root<string | null>
             {...rest}
@@ -167,21 +170,21 @@ function Select<
             value={chosen()[0] ?? null}
             onValueChange={(next) => report(next === null ? [] : [next])}
           >
-            {local.children}
+            {props.children}
           </SelectPrimitive.Root>
         }
       >
-        <SelectPrimitive.Root<string>
+        <SelectPrimitive.Root<string, true>
           {...rest}
           multiple
           items={labels()}
-          values={chosen()}
-          onValuesChange={(next) => report(next)}
+          value={chosen()}
+          onValueChange={(next) => report(next)}
         >
-          {local.children}
+          {props.children}
         </SelectPrimitive.Root>
       </Show>
-    </SelectContext.Provider>
+    </SelectContext>
   )
 }
 
@@ -197,27 +200,33 @@ function SelectContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        side: "bottom",
-        sideOffset: 4,
-        align: "center",
-        alignOffset: 0,
-        alignItemWithTrigger: true,
-      } as const,
-      props
-    ),
-    [
-      "side",
-      "sideOffset",
-      "align",
-      "alignOffset",
-      "alignItemWithTrigger",
-      "class",
-      "sx",
-      "children",
-    ]
+  const local = merge(props, {
+    get side() {
+      return props.side ?? ("bottom" as const)
+    },
+    get sideOffset() {
+      return props.sideOffset ?? 4
+    },
+    get align() {
+      return props.align ?? ("center" as const)
+    },
+    get alignOffset() {
+      return props.alignOffset ?? 0
+    },
+    get alignItemWithTrigger() {
+      return props.alignItemWithTrigger ?? true
+    },
+  })
+  const rest = omit(
+    local,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "alignItemWithTrigger",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <SelectPrimitive.Portal>
@@ -257,20 +266,15 @@ function SelectGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <SelectPrimitive.Group
       data-slot="select-group"
       {...rest}
-      {...styleProps(local.class, select.group, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, select.group, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </SelectPrimitive.Group>
   )
 }
@@ -284,26 +288,27 @@ function SelectItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "item",
     "value",
     "disabled",
     "class",
     "sx",
-    "children",
-  ])
+    "children"
+  )
   // Its entry: Base UI's `value` (`null` for the placeholder's), or an `item` of the select's
   // collection or items. `unknown`: a caller's items are of its own type.
   const context = useContext(SelectContext)
   const value = () =>
-    local.value !== undefined
-      ? local.value
-      : local.item !== undefined
-        ? (context?.toValue(local.item) ?? null)
+    props.value !== undefined
+      ? props.value
+      : props.item !== undefined
+        ? (context?.toValue(props.item) ?? null)
         : null
   // Disabled by its own prop, or by its entry, as Ark's collection disables it.
   const disabled = () =>
-    local.disabled ??
+    props.disabled ??
     context?.entries().find((entry) => entry.value === value())?.disabled
   return (
     <SelectPrimitive.Item
@@ -312,15 +317,15 @@ function SelectItem(props: {
       disabled={disabled()}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuCheckableRowPadding,
         select.item,
-        local.sx
+        props.sx
       )}
     >
       <SelectPrimitive.ItemText {...styleProps(select.itemText)}>
-        {local.children}
+        {props.children}
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
         {...styleProps(menuIndicator, select.indicator)}
@@ -344,21 +349,16 @@ function SelectLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   // The group's label: inside its group, as Base UI's label must be.
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
       {...rest}
-      {...styleProps(local.class, menuLabel, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, menuLabel, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </SelectPrimitive.GroupLabel>
   )
 }
@@ -370,19 +370,19 @@ function SelectScrollButton(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["direction", "class", "sx"])
+  const rest = omit(props, "direction", "class", "sx")
   return (
     <Show
-      when={local.direction === "up"}
+      when={props.direction === "up"}
       fallback={
         <SelectPrimitive.ScrollDownArrow
           data-slot="select-scroll-down-button"
           {...rest}
           {...styleProps(
-            local.class,
+            props.class,
             select.scrollButton,
             select.scrollDown,
-            local.sx
+            props.sx
           )}
         >
           <IconPlaceholder
@@ -399,10 +399,10 @@ function SelectScrollButton(props: {
         data-slot="select-scroll-up-button"
         {...rest}
         {...styleProps(
-          local.class,
+          props.class,
           select.scrollButton,
           select.scrollUp,
-          local.sx
+          props.sx
         )}
       >
         <IconPlaceholder
@@ -422,12 +422,12 @@ function SelectSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
       {...rest}
-      {...styleProps(local.class, menuSeparator, select.separator, local.sx)}
+      {...styleProps(props.class, menuSeparator, select.separator, props.sx)}
     />
   )
 }
@@ -442,10 +442,12 @@ function SelectTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "default" } as const, props),
-    ["size", "asChild", "class", "sx", "children"]
-  )
+  const local = merge(props, {
+    get size() {
+      return props.size ?? ("default" as const)
+    },
+  })
+  const rest = omit(local, "size", "asChild", "class", "sx", "children")
   // `type="button"`: a trigger in a form opens the list and submits nothing.
   return (
     <SelectPrimitive.Trigger
@@ -479,12 +481,7 @@ function SelectValue(props: {
   children?: (state: { value: string[]; items: unknown[] }) => JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "placeholder",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "placeholder", "class", "sx", "children")
   const context = useContext(SelectContext)
   const toList = (next: unknown): unknown[] =>
     next === null || next === undefined
@@ -509,16 +506,16 @@ function SelectValue(props: {
         ),
       }
     }
-    return <>{local.children?.(state())}</>
+    return <>{props.children?.(state())}</>
   }
   return (
     <SelectPrimitive.Value
       data-slot="select-value"
-      placeholder={local.placeholder ?? context?.placeholder()}
+      placeholder={props.placeholder ?? context?.placeholder()}
       {...rest}
-      {...styleProps(local.class, select.value, local.sx)}
+      {...styleProps(props.class, select.value, props.sx)}
     >
-      {local.children ? draw : undefined}
+      {props.children ? draw : undefined}
     </SelectPrimitive.Value>
   )
 }

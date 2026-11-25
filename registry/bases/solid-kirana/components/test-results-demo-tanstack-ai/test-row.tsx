@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { CodeBlock, CodeBlockContent } from "../../ui/code-block"
 import {
@@ -15,7 +14,7 @@ import type { Sx } from "@kirana-style/core"
 import type { Test } from "./types"
 
 export function TestRow(props: { test: Test; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["test", "sx", "class"])
+  const local = props
   const styles = {
     testRowCodeBlockContent: css({
       maxHeight: { "*": null, base: space[64] },

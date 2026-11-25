@@ -80,7 +80,7 @@ const PREVIEWS = [
   "vue",
   "svelte",
   "solid",
-  // Solid on ui-sdk, on Solid 2 (`apps/preview-solid2`).
+  // Solid on ui-sdk and on Kirana UI, on Solid 2 (`apps/preview-solid2`).
   "solid2",
   "angular",
   "primitives",
@@ -106,8 +106,11 @@ const BROWSER_PROJECTS = [
   "apps/preview-solid2",
 ]
 
-/** The bases an app's tests mount, by its name: its framework's, or one base's (Solid 2's). */
-const BASES_OF: Record<string, string> = { solid2: "solid-uisdk" }
+/** The bases an app's tests mount, by its name: its framework's, or the ones on its major of Solid. */
+const BASES_OF: Record<string, string> = {
+  solid: "solid-ark",
+  solid2: "solid-{uisdk,kirana}",
+}
 
 export default defineConfig({
   // Vitest: the unit tests in Node (`vp run test`), and each preview app's tests in a real browser

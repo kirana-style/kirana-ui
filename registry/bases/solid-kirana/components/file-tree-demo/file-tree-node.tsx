@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For } from "solid-js"
 import { css, props as styleProps, select } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { Button } from "../../ui/button"
@@ -22,13 +22,7 @@ export function FileTreeNode(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "node",
-    "selected",
-    "onselect",
-    "sx",
-    "class",
-  ])
+  const local = props
   const styles = {
     fileTreeNodeButton: css({
       width: { "*": null, base: "100%" },

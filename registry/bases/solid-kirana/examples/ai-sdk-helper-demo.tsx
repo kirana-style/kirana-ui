@@ -1,6 +1,6 @@
 import { MessageRow } from "../components/ai-sdk-helper-demo/message-row"
-import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js"
-import { Chat } from "../../../lib/solid/chat"
+import { For, Show, createEffect, createMemo, createSignal } from "solid-js"
+import { Chat } from "../../../lib/solid2/chat"
 import { css } from "@kirana-style/core"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { IconPlaceholder } from "../ui/icon-placeholder"
@@ -186,10 +186,10 @@ export default function AiSdkHelperDemo() {
       )
       .join("")
   createEffect(
-    on(transcript, () => {
-      const element = viewport()
+    () => [transcript(), viewport()] as const,
+    ([, element]) => {
       if (element && pinned) element.scrollTop = element.scrollHeight
-    })
+    }
   )
 
   return (
@@ -266,7 +266,7 @@ export default function AiSdkHelperDemo() {
                 <div
                   role="log"
                   aria-relevant="additions"
-                  aria-busy={busy()}
+                  aria-busy={busy() ? "true" : "false"}
                   sx={styles.transcript}
                 >
                   <For each={messages()}>

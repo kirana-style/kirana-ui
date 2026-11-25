@@ -84,11 +84,16 @@ export type Item = {
 const react = (combination: Combination) => combination.framework === "react"
 
 /**
- * Solid's helpers for a combination: Solid 2's (`lib/solid2`, ui-sdk's base, whose adapter needs
- * Solid 2) or Solid 1's (`lib/solid`, Ark UI's and Kirana UI's).
+ * Whether a combination is on Solid 2: Solid on ui-sdk and on Kirana UI, whose adapters need it.
+ * Solid on Ark UI is Solid 1's.
  */
+const solid2 = (combination: Combination) =>
+  combination.framework === "solid" &&
+  (combination.base === "uisdk" || combination.base === "kirana")
+
+/** Solid's helpers for a combination: Solid 2's (`lib/solid2`) or Solid 1's (`lib/solid`). */
 const solidLib = (combination: Combination) =>
-  combination.base === "uisdk" ? "lib/solid2" : "lib/solid"
+  solid2(combination) ? "lib/solid2" : "lib/solid"
 
 /**
  * A component's markup: one file for React and Solid (`.tsx`) and Angular (`.ts`, its directives),
@@ -390,12 +395,10 @@ const ALL_ITEMS: Item[] = [
         ? ["lib/svelte/as-child.ts", "lib/svelte/Element.svelte"]
         : combination.framework === "svelte" && combination.base === "kirana"
           ? ["lib/svelte/as-child.ts"]
-          : combination.framework === "solid" && combination.base === "kirana"
-            ? ["lib/solid/element.tsx"]
-            : combination.framework === "solid" && combination.base === "uisdk"
-              ? // An element of the design system's own takes Ark UI's `asChild` here too.
-                ["lib/solid2/element.tsx"]
-              : undefined,
+          : solid2(combination)
+            ? // An element of the design system's own takes Ark UI's `asChild` here too.
+              ["lib/solid2/element.tsx"]
+            : undefined,
   },
   {
     name: "control",
@@ -587,10 +590,7 @@ const ALL_ITEMS: Item[] = [
             "styles/chart.styles.ts",
             "lib/chart.ts",
             // TanStack Charts' Solid adapter is Solid 1's; Solid 2's is the registry's (LF-032).
-            ...(combination.framework === "solid" &&
-            combination.base === "uisdk"
-              ? ["lib/solid2/charts.tsx"]
-              : []),
+            ...(solid2(combination) ? ["lib/solid2/charts.tsx"] : []),
           ]
         : undefined,
   },
@@ -602,9 +602,7 @@ const ALL_ITEMS: Item[] = [
     description:
       "TanStack Table's core bridged to Solid 2's signals, for the data tables on Solid 2.",
     files: (combination) =>
-      combination.framework === "solid" && combination.base === "uisdk"
-        ? ["lib/solid2/table.tsx"]
-        : undefined,
+      solid2(combination) ? ["lib/solid2/table.tsx"] : undefined,
   },
   component(
     "card",

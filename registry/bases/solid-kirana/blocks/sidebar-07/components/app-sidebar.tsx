@@ -2,7 +2,7 @@ import { NavMain } from "./nav-main"
 import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 import { TeamSwitcher } from "./team-switcher"
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +17,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const data = {
     user: {
       name: "kirana",

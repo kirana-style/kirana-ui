@@ -1,12 +1,12 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Accordion as AccordionPrimitive } from "@kirana-ui/solid/accordion"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { accordion } from "../../../styles/accordion.styles"
 import { IconPlaceholder } from "./icon-placeholder"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's accordion, with Solid's Ark UI part's props: `multiple`, and a value that is always
@@ -23,24 +23,25 @@ function Accordion(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "onValueChange",
     "asChild",
     "class",
     "sx",
-    "children",
-  ])
+    "children"
+  )
   return (
     <AccordionPrimitive.Root
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="accordion"
       {...rest}
       onValueChange={(value: unknown[]) =>
-        local.onValueChange?.({ value: value as string[] })
+        props.onValueChange?.({ value: value as string[] })
       }
-      {...styleProps(local.class, accordion.root, local.sx)}
+      {...styleProps(props.class, accordion.root, props.sx)}
     >
-      {local.children}
+      {props.children}
     </AccordionPrimitive.Root>
   )
 }
@@ -52,29 +53,24 @@ function AccordionContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   // Base UI's panel variables, which Kirana UI's panel writes, as React's part reads them.
   return (
     <AccordionPrimitive.Panel
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="accordion-content"
       {...rest}
       {...styleProps(accordion.content, accordion.contentBase)}
     >
       <div
         {...styleProps(
-          local.class,
+          props.class,
           accordion.contentInner,
           accordion.contentInnerBase,
-          local.sx
+          props.sx
         )}
       >
-        {local.children}
+        {props.children}
       </div>
     </AccordionPrimitive.Panel>
   )
@@ -88,23 +84,17 @@ function AccordionItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "value",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "value", "asChild", "class", "sx", "children")
   // Ark's required `value` is declared here and passed on, so a project's type checker sees it.
   return (
     <AccordionPrimitive.Item
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="accordion-item"
-      value={local.value}
+      value={props.value}
       {...rest}
-      {...styleProps(local.class, accordion.item, local.sx)}
+      {...styleProps(props.class, accordion.item, props.sx)}
     >
-      {local.children}
+      {props.children}
     </AccordionPrimitive.Item>
   )
 }
@@ -115,15 +105,15 @@ function AccordionTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <AccordionPrimitive.Header {...styleProps(accordion.header)}>
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         {...rest}
-        {...styleProps(local.class, accordion.trigger, local.sx)}
+        {...styleProps(props.class, accordion.trigger, props.sx)}
       >
-        {local.children}
+        {props.children}
         <IconPlaceholder
           lucide="ChevronDownIcon"
           tabler="IconChevronDown"

@@ -1,8 +1,8 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "./icon-placeholder"
 import { nativeSelect } from "../../../styles/native-select.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function NativeSelect(
@@ -17,10 +17,8 @@ function NativeSelect(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "default" } as const, props),
-    ["value", "size", "class", "sx", "children"]
-  )
+  const local = merge({ size: "default" } as const, props)
+  const rest = omit(local, "value", "size", "class", "sx", "children")
   /** `value` on the select, as on a native one; the caller's `sx` is the wrapper's. */
   return (
     <div
@@ -57,7 +55,8 @@ function NativeSelectOptGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <optgroup
       data-slot="native-select-optgroup"
@@ -75,7 +74,8 @@ function NativeSelectOption(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <option
       data-slot="native-select-option"

@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { Label } from "../../../ui/label"
 import {
   Select,
@@ -13,7 +12,7 @@ import type { Sx } from "@kirana-style/core"
 import type { Item } from "./table"
 
 export function ReviewerCell(props: { item: Item; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["item", "sx", "class"])
+  const local = props
   const reviewers = [
     { label: "Eddie Lake", value: "Eddie Lake" },
     { label: "Jamik Tashpulatov", value: "Jamik Tashpulatov" },

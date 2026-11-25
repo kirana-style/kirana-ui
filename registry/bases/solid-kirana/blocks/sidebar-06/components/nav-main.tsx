@@ -1,4 +1,4 @@
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   DropdownMenu,
@@ -33,7 +33,8 @@ export function NavMain(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["items", "class", "sx"])
+  const local = props
+  const rest = omit(props, "items", "class", "sx")
   const styles = {
     sidebarMenuButton: css({
       backgroundColor: { '[aria-expanded="true"]': theme.muted },

@@ -1,8 +1,8 @@
-import { For, createMemo, splitProps } from "solid-js"
+import { For, createMemo, omit } from "solid-js"
 import {
   HighlightedLine,
   useHighlightedCode,
-} from "../../../../lib/solid/use-highlighted-code"
+} from "../../../../lib/solid2/use-highlighted-code"
 import { CodeBlockContent, CodeBlockLine } from "../../ui/code-block"
 import type { Sx } from "@kirana-style/core"
 
@@ -13,7 +13,8 @@ export function FileCode(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["code", "language", "class", "sx"])
+  const local = props
+  const rest = omit(props, "code", "language", "class", "sx")
   const lines = createMemo(() => useHighlightedCode(local.code, local.language))
 
   return (

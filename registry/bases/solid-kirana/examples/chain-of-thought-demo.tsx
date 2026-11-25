@@ -1,6 +1,6 @@
 import { ChainOfThought } from "../components/chain-of-thought-demo/chain-of-thought"
 import { For, Show, createMemo } from "solid-js"
-import { Chat } from "../../../lib/solid/chat"
+import { Chat } from "../../../lib/solid2/chat"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"

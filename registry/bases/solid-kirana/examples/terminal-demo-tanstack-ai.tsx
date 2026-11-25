@@ -1,6 +1,6 @@
 import { CommandRow } from "../components/terminal-demo-tanstack-ai/command-row"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -132,7 +132,7 @@ export default function TerminalDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -148,7 +148,7 @@ export default function TerminalDemoTanstackAi() {
                   <MessageContent sx={styles.messageContent}>
                     <Show when={toolsOf(message()).length > 0}>
                       <Trace>
-                        <Index each={toolsOf(message())}>
+                        <For keyed={false} each={toolsOf(message())}>
                           {(part, at) => (
                             <CommandRow
                               part={part()}
@@ -161,7 +161,7 @@ export default function TerminalDemoTanstackAi() {
                               }
                             />
                           )}
-                        </Index>
+                        </For>
                       </Trace>
                     </Show>
                     <Show when={getMessageText(message())}>
@@ -172,7 +172,7 @@ export default function TerminalDemoTanstackAi() {
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

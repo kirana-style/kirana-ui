@@ -1,12 +1,12 @@
-import { mergeProps, splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Popover as PopoverPrimitive } from "@kirana-ui/solid/popover"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { popover } from "../../../styles/popover.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's popover, taking the Ark UI parts' props: `open`, `defaultOpen` and `onOpenChange`
@@ -21,17 +21,13 @@ function Popover(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
-    props,
-    ["onOpenChange", "children"],
-    ["sx", "class"]
-  )
+  const rest = omit(props, "onOpenChange", "children", "sx", "class")
   return (
     <PopoverPrimitive.Root
       {...rest}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </PopoverPrimitive.Root>
   )
 }
@@ -46,33 +42,31 @@ function PopoverContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        side: "bottom",
-        sideOffset: 4,
-        align: "center",
-        alignOffset: 0,
-      } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "bottom"}
+        sideOffset={props.sideOffset ?? 4}
+        align={props.align ?? "center"}
+        alignOffset={props.alignOffset ?? 0}
         {...styleProps(popover.positioner)}
       >
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           {...rest}
-          {...styleProps(local.class, popupMotion, popover.content, local.sx)}
+          {...styleProps(props.class, popupMotion, popover.content, props.sx)}
         >
-          {local.children}
+          {props.children}
         </PopoverPrimitive.Popup>
       </PopoverPrimitive.Positioner>
     </PopoverPrimitive.Portal>
@@ -85,14 +79,14 @@ function PopoverDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <PopoverPrimitive.Description
       data-slot="popover-description"
       {...rest}
-      {...styleProps(local.class, popover.description, local.sx)}
+      {...styleProps(props.class, popover.description, props.sx)}
     >
-      {local.children}
+      {props.children}
     </PopoverPrimitive.Description>
   )
 }
@@ -103,14 +97,14 @@ function PopoverHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="popover-header"
       {...rest}
-      {...styleProps(local.class, popover.header, local.sx)}
+      {...styleProps(props.class, popover.header, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -122,20 +116,15 @@ function PopoverTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <PopoverPrimitive.Title
       data-slot="popover-title"
       {...rest}
-      {...styleProps(local.class, popover.title, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, popover.title, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </PopoverPrimitive.Title>
   )
 }
@@ -147,20 +136,15 @@ function PopoverTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <PopoverPrimitive.Trigger
       data-slot="popover-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </PopoverPrimitive.Trigger>
   )
 }

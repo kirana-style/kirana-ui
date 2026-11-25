@@ -1,12 +1,19 @@
-import { createSignal, onCleanup, splitProps } from "solid-js"
+import { createSignal, omit, onCleanup } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Otp } from "@kirana-ui/solid/otp"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { inputOtp } from "../../../styles/input-otp.styles"
 import { IconPlaceholder } from "./icon-placeholder"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
+
+/** Ark UI's `type` as Kirana UI's `validationType`. */
+const VALIDATION = {
+  numeric: "numeric",
+  alphabetic: "alpha",
+  alphanumeric: "alphanumeric",
+} as const
 
 /**
  * Kirana UI's code input, with Solid's Ark UI parts' props: one input the code is typed in, laid
@@ -20,7 +27,10 @@ function InputOTP(props: {
   value?: string
   /** Ark's change, as a details object: the code as one string. */
   onValueChange?: (details: { value: string }) => void
-  /** Ark UI's `type`, Kirana UI's `mode`: any character, as upstream's, unless it narrows it. */
+  /**
+   * Ark UI's `type`, Kirana UI's `validationType`: letters and digits, as upstream's, unless it
+   * narrows them.
+   */
   type?: "numeric" | "alphabetic" | "alphanumeric"
   disabled?: boolean
   name?: string
@@ -30,40 +40,58 @@ function InputOTP(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, root, rest] = splitProps(
+  const rest = omit(
     props,
-    ["maxLength", "onValueChange", "type", "class", "sx", "children"],
-    ["defaultValue", "value", "disabled", "name", "form"]
+    "maxLength",
+    "onValueChange",
+    "type",
+    "class",
+    "sx",
+    "children",
+    "defaultValue",
+    "value",
+    "disabled",
+    "name",
+    "form"
   )
   // The container's height, which the input's font follows (`--root-height`), as `input-otp`
-  // measures it.
+  // measures it. The observer is made in the body, where its cleanup is taken, and given the
+  // element by the `ref`.
   const [height, setHeight] = createSignal(0)
+  let observed: HTMLElement | undefined
+  const observer = new ResizeObserver(() => {
+    if (observed) setHeight(observed.offsetHeight)
+  })
+  onCleanup(() => observer.disconnect())
   const measure = (element: HTMLElement) => {
-    const observer = new ResizeObserver(() => setHeight(element.offsetHeight))
+    observed = element
     observer.observe(element)
-    onCleanup(() => observer.disconnect())
   }
   const own = styleProps(inputOtp.container, inputOtp.containerKirana)
   return (
     <Otp.Root
       ref={measure}
-      length={local.maxLength}
-      mode={local.type ?? "alphanumeric"}
-      {...root}
-      onValueChange={(value: string) => local.onValueChange?.({ value })}
+      length={props.maxLength}
+      validationType={VALIDATION[props.type ?? "alphanumeric"]}
+      defaultValue={props.defaultValue}
+      value={props.value}
+      disabled={props.disabled}
+      name={props.name}
+      form={props.form}
+      onValueChange={(value: string) => props.onValueChange?.({ value })}
       class={own.class}
       style={{ ...own.style, "--root-height": `${height()}px` }}
     >
-      {local.children}
+      {props.children}
       <Otp.Input
         data-slot="input-otp"
         spellcheck={false}
         {...rest}
         {...styleProps(
-          local.class,
+          props.class,
           inputOtp.input,
           inputOtp.inputKirana,
-          local.sx
+          props.sx
         )}
       />
     </Otp.Root>
@@ -76,14 +104,14 @@ function InputOTPGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="input-otp-group"
       {...rest}
-      {...styleProps(local.class, inputOtp.group, local.sx)}
+      {...styleProps(props.class, inputOtp.group, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -93,13 +121,13 @@ function InputOTPSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <div
       data-slot="input-otp-separator"
       role="separator"
       {...rest}
-      {...styleProps(local.class, inputOtp.separator, local.sx)}
+      {...styleProps(props.class, inputOtp.separator, props.sx)}
     >
       <IconPlaceholder
         lucide="MinusIcon"
@@ -123,14 +151,14 @@ function InputOTPSlot(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["index", "asChild", "class", "sx"])
+  const rest = omit(props, "index", "asChild", "class", "sx")
   return (
     <Otp.Slot
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="input-otp-slot"
-      index={local.index}
+      index={props.index}
       {...rest}
-      {...styleProps(local.class, inputOtp.slot, local.sx)}
+      {...styleProps(props.class, inputOtp.slot, props.sx)}
     >
       <Otp.Caret {...styleProps(inputOtp.caret)}>
         <div sx={inputOtp.caretLine} />

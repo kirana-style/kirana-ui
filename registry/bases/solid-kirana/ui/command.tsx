@@ -5,13 +5,11 @@ import {
   Show,
   createContext,
   createSignal,
-  mergeProps,
-  onCleanup,
-  onMount,
-  splitProps,
+  omit,
+  onSettled,
   useContext,
 } from "solid-js"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
 import { command } from "../../../styles/command.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
@@ -32,12 +30,6 @@ type CommandContextValue = {
 
 const CommandContext = createContext<CommandContextValue>()
 
-function useCommand() {
-  const context = useContext(CommandContext)
-  if (!context) throw new Error("A command part must be used within a Command.")
-  return context
-}
-
 /**
  * cmdk's command menu on Kirana UI's: the items come from the markup, what is typed filters them by
  * their text and keywords, groups with no match leave, and choosing an item calls its `onSelect`,
@@ -52,10 +44,7 @@ function Command(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ shouldFilter: true } as const, props),
-    ["shouldFilter", "dir", "class", "sx", "children"]
-  )
+  const rest = omit(props, "shouldFilter", "dir", "class", "sx", "children")
   const selects = new Set<{ value: () => string; select: () => void }>()
   const context: CommandContextValue = {
     register(value, select) {
@@ -68,19 +57,19 @@ function Command(props: {
     for (const entry of selects) if (entry.value() === value) entry.select()
   }
   return (
-    <CommandContext.Provider value={context}>
+    <CommandContext value={context}>
       <CommandPrimitive.Root
         data-slot="command"
         {...{ "cmdk-root": "" }}
-        dir={local.dir}
-        filter={local.shouldFilter ? undefined : null}
+        dir={props.dir}
+        filter={props.shouldFilter === false ? null : undefined}
         onSelect={(value) => chosen(value)}
         {...rest}
-        {...styleProps(local.class, command.root, local.sx)}
+        {...styleProps(props.class, command.root, props.sx)}
       >
-        {local.children}
+        {props.children}
       </CommandPrimitive.Root>
-    </CommandContext.Provider>
+    </CommandContext>
   )
 }
 
@@ -93,29 +82,29 @@ function CommandDialog(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        title: "Command Palette",
-        description: "Search for a command to run...",
-        showCloseButton: false,
-      } as const,
-      props
-    ),
-    ["title", "description", "showCloseButton", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "title",
+    "description",
+    "showCloseButton",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Dialog {...rest}>
       <DialogHeader sx={visuallyHidden}>
-        <DialogTitle>{local.title}</DialogTitle>
-        <DialogDescription>{local.description}</DialogDescription>
+        <DialogTitle>{props.title ?? "Command Palette"}</DialogTitle>
+        <DialogDescription>
+          {props.description ?? "Search for a command to run..."}
+        </DialogDescription>
       </DialogHeader>
       <DialogContent
-        class={local.class}
-        sx={[command.dialog, local.sx]}
-        showCloseButton={local.showCloseButton}
+        class={props.class}
+        sx={[command.dialog, props.sx]}
+        showCloseButton={props.showCloseButton ?? false}
       >
-        {local.children}
+        {props.children}
       </DialogContent>
     </Dialog>
   )
@@ -127,15 +116,15 @@ function CommandEmpty(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <CommandPrimitive.Empty
       data-slot="command-empty"
       {...{ "cmdk-empty": "" }}
       {...rest}
-      {...styleProps(local.class, command.empty, local.sx)}
+      {...styleProps(props.class, command.empty, props.sx)}
     >
-      {local.children}
+      {props.children}
     </CommandPrimitive.Empty>
   )
 }
@@ -148,25 +137,20 @@ function CommandGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "heading",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "heading", "class", "sx", "children")
   return (
     <CommandPrimitive.Group
       data-slot="command-group"
       {...{ "cmdk-group": "" }}
       {...rest}
-      {...styleProps(local.class, command.group, local.sx)}
+      {...styleProps(props.class, command.group, props.sx)}
     >
-      <Show when={local.heading}>
+      <Show when={props.heading}>
         <CommandPrimitive.GroupHeading {...{ "cmdk-group-heading": "" }}>
-          {local.heading}
+          {props.heading}
         </CommandPrimitive.GroupHeading>
       </Show>
-      <div {...{ "cmdk-group-items": "" }}>{local.children}</div>
+      <div {...{ "cmdk-group-items": "" }}>{props.children}</div>
     </CommandPrimitive.Group>
   )
 }
@@ -176,7 +160,7 @@ function CommandInput(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <div data-slot="command-input-wrapper" sx={command.inputWrapper}>
       <InputGroup sx={command.inputGroup}>
@@ -187,7 +171,7 @@ function CommandInput(props: {
           autocorrect="off"
           spellcheck={false}
           {...rest}
-          {...styleProps(local.class, command.input, local.sx)}
+          {...styleProps(props.class, command.input, props.sx)}
         />
         <InputGroupAddon>
           <IconPlaceholder
@@ -215,18 +199,24 @@ function CommandItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ keywords: [] as string[], disabled: false }, props),
-    ["value", "keywords", "disabled", "onSelect", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "value",
+    "keywords",
+    "disabled",
+    "onSelect",
+    "class",
+    "sx",
+    "children"
   )
-  const context = useCommand()
+  const context = useContext(CommandContext)
   const [element, setElement] = createSignal<HTMLDivElement>()
   // Its text, read once it is in the page, for an item given no `value`.
   const [text, setText] = createSignal("")
-  const own = () => local.value ?? text()
-  onMount(() => {
+  const own = () => props.value ?? text()
+  onSettled(() => {
     setText(element()?.textContent?.trim() ?? "")
-    onCleanup(context.register(own, () => local.onSelect?.(own())))
+    return context.register(own, () => props.onSelect?.(own()))
   })
   return (
     <CommandPrimitive.Item
@@ -234,12 +224,12 @@ function CommandItem(props: {
       data-slot="command-item"
       {...{ "cmdk-item": "" }}
       value={own()}
-      keywords={local.keywords}
-      disabled={local.disabled}
+      keywords={props.keywords ?? []}
+      disabled={props.disabled ?? false}
       {...rest}
-      {...styleProps(local.class, command.item, local.sx)}
+      {...styleProps(props.class, command.item, props.sx)}
     >
-      {local.children}
+      {props.children}
       <IconPlaceholder
         lucide="CheckIcon"
         tabler="IconCheck"
@@ -258,16 +248,16 @@ function CommandList(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <CommandPrimitive.List
       data-slot="command-list"
       {...{ "cmdk-list": "" }}
       aria-label="Suggestions"
       {...rest}
-      {...styleProps(local.class, command.list, local.sx)}
+      {...styleProps(props.class, command.list, props.sx)}
     >
-      <div {...{ "cmdk-list-sizer": "" }}>{local.children}</div>
+      <div {...{ "cmdk-list-sizer": "" }}>{props.children}</div>
     </CommandPrimitive.List>
   )
 }
@@ -278,13 +268,13 @@ function CommandSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <CommandPrimitive.Separator
       data-slot="command-separator"
       {...{ "cmdk-separator": "" }}
       {...rest}
-      {...styleProps(local.class, command.separator, local.sx)}
+      {...styleProps(props.class, command.separator, props.sx)}
     />
   )
 }
@@ -295,14 +285,14 @@ function CommandShortcut(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="command-shortcut"
       {...rest}
-      {...styleProps(local.class, command.shortcut, local.sx)}
+      {...styleProps(props.class, command.shortcut, props.sx)}
     >
-      {local.children}
+      {props.children}
     </span>
   )
 }

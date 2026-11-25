@@ -1,8 +1,8 @@
-import { DraggableRow } from "./draggable-row"
-import { For, Show, createSignal, untrack } from "solid-js"
-import { isSortable } from "@dnd-kit/solid/sortable"
-import { DragDropProvider } from "@dnd-kit/solid"
-import { FlexRender, createTable } from "@tanstack/solid-table"
+import { DragDropContext, DraggableRow } from "./draggable-row"
+import { For, Show, createSignal, onCleanup, untrack } from "solid-js"
+import { DragDropManager } from "@dnd-kit/dom"
+import { isSortable } from "@dnd-kit/dom/sortable"
+import { FlexRender, createTable } from "../../../../../lib/solid2/table"
 import { IconPlaceholder } from "../../../ui/icon-placeholder"
 import { Badge } from "../../../ui/badge"
 import { Button } from "../../../ui/button"
@@ -61,6 +61,39 @@ export function DataTable(props: { data: Item[] }) {
     label: `${size}`,
     value: `${size}`,
   }))
+
+  // LF-032: `@dnd-kit/solid` has no Solid 2 version, so the table drives `@dnd-kit/dom`'s manager
+  // itself, as its `DragDropProvider` does: the rows register on it (`DraggableRow`), the dragged
+  // row's id is a signal, and the row dnd-kit moved in the document goes back to its place before
+  // the rows' order changes, so Solid moves it.
+  const manager = new DragDropManager()
+  const [dragging, setDragging] = createSignal<string | number>()
+  let saved: { element: Element; previous: Element | null } | undefined
+  const offs = [
+    manager.monitor.addEventListener("beforedragstart", (event) => {
+      const element = event.operation.source?.element
+      if (element) saved = { element, previous: element.previousElementSibling }
+    }),
+    manager.monitor.addEventListener("dragstart", (event) => {
+      setDragging(event.operation.source?.id)
+    }),
+    manager.monitor.addEventListener("dragend", (event) => {
+      setDragging(undefined)
+      if (saved) {
+        const { element, previous } = saved
+        if (element.previousElementSibling !== previous) {
+          if (previous) previous.after(element)
+          else element.parentElement?.prepend(element)
+        }
+        saved = undefined
+      }
+      handleDragEnd(event)
+    }),
+  ]
+  onCleanup(() => {
+    offs.forEach((off) => off())
+    manager.destroy()
+  })
 
   // dnd-kit has moved the row it dropped; the rows' order follows it.
   function handleDragEnd(event: {
@@ -185,7 +218,7 @@ export function DataTable(props: { data: Item[] }) {
       </div>
       <TabsContent value="outline" sx={styles.tabsContent}>
         <div sx={styles.dataTableDiv3}>
-          <DragDropProvider onDragEnd={handleDragEnd}>
+          <DragDropContext value={{ manager, dragging }}>
             <Table>
               <TableHeader sx={styles.tableHeader}>
                 <For each={table.getHeaderGroups()}>
@@ -218,7 +251,7 @@ export function DataTable(props: { data: Item[] }) {
                 )}
               </TableBody>
             </Table>
-          </DragDropProvider>
+          </DragDropContext>
         </div>
         <div sx={styles.dataTableDiv4}>
           <div sx={styles.dataTableDiv5}>

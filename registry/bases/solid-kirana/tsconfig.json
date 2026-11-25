@@ -1,19 +1,10 @@
 {
-  // Solid's JSX, where `sx` compiles to `class` (`@kirana-style/core/solid` types it).
+  // Solid 2's JSX, as the ui-sdk base checks (`bases/solid-uisdk`): Solid 2 and the packages on it
+  // resolve from the Solid 2 preview app, Kirana UI Primitives' Solid adapter among them.
+  "extends": "../solid-uisdk/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "types": ["@kirana-style/core/solid"],
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    // Kirana reads `jsxImportSource` from this file alone, not what it extends (KF-132).
+    "jsxImportSource": "@solidjs/web"
   },
-  "include": ["."]
+  "include": [".", "../../lib/solid2"]
 }

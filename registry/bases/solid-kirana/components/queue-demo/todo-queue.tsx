@@ -1,5 +1,5 @@
 import { TodoLine } from "./todo-line"
-import { For, Show, createMemo, splitProps } from "solid-js"
+import { For, Show, createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -19,7 +19,7 @@ export function TodoQueue(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["todos", "streaming", "sx", "class"])
+  const local = props
   const pending = createMemo(() =>
     local.todos.filter((todo) => todo.status !== "completed")
   )

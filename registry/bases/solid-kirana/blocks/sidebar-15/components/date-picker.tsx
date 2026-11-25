@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal, omit } from "solid-js"
 import { Calendar } from "../../../ui/calendar"
 import { SidebarGroup, SidebarGroupContent } from "../../../ui/sidebar"
 import { css } from "@kirana-style/core"
@@ -11,7 +11,8 @@ export function DatePicker(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     sidebarGroup: css({
       paddingInline: { "*": null, base: space["0"] },

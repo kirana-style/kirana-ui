@@ -1,5 +1,5 @@
 import { Tree } from "./tree"
-import { For, splitProps } from "solid-js"
+import { For, omit } from "solid-js"
 import {
   Sidebar,
   SidebarContent,
@@ -20,7 +20,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const data = {
     changes: [
       {

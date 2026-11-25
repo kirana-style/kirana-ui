@@ -1,7 +1,7 @@
-import { Show, splitProps } from "solid-js"
+import { Show, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../../ui/icon-placeholder"
-import { useIsMobile } from "../../../../../lib/solid/use-mobile"
+import { useIsMobile } from "../../../../../lib/solid2/use-mobile"
 import { Button } from "../../../ui/button"
 import { ChartContainer, ChartTooltipContent } from "../../../ui/chart"
 import {
@@ -35,7 +35,8 @@ export function TableCellViewer(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["item", "class", "sx"])
+  const local = props
+  const rest = omit(props, "item", "class", "sx")
   const isMobile = useIsMobile()
 
   const typeItems = [

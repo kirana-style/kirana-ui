@@ -1,6 +1,6 @@
 import { SubagentRow } from "../components/subagent-demo-tanstack-ai/subagent-row"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -110,7 +110,7 @@ export default function SubagentDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -126,14 +126,14 @@ export default function SubagentDemoTanstackAi() {
                   <MessageContent sx={styles.messageContent}>
                     <Show when={agentsOf(message()).length > 0}>
                       <Trace>
-                        <Index each={agentsOf(message())}>
+                        <For keyed={false} each={agentsOf(message())}>
                           {(part) => (
                             <SubagentRow
                               part={part()}
                               streaming={streaming(index)}
                             />
                           )}
-                        </Index>
+                        </For>
                       </Trace>
                     </Show>
                     <Show when={getMessageText(message())}>
@@ -144,7 +144,7 @@ export default function SubagentDemoTanstackAi() {
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

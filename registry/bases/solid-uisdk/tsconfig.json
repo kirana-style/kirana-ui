@@ -1,7 +1,7 @@
 {
   // Solid 2's JSX (`@solidjs/web`), where `sx` compiles to `class` (`@kirana-style/core/solid` types
   // it on Solid 2's JSX too, and Kirana detects Solid from `jsxImportSource`). Solid 2 and
-  // the packages on it resolve from the Solid 2 preview app, as its build does (`resolve.dedupe`).
+  // the packages on it (ui-sdk's and Kirana UI Primitives' adapters among them) resolve from the Solid 2 preview app, as its build does (`resolve.dedupe`).
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
@@ -40,6 +40,12 @@
       ],
       "@ui-sdk/core/*": [
         "../../../apps/preview-solid2/node_modules/@ui-sdk/core/dist/*"
+      ],
+      "@kirana-ui/solid": [
+        "../../../apps/preview-solid2/node_modules/@kirana-ui/solid/types/index.d.ts"
+      ],
+      "@kirana-ui/solid/*": [
+        "../../../apps/preview-solid2/node_modules/@kirana-ui/solid/types/*.d.ts"
       ],
       "solid-sonner": [
         "../../../apps/preview-solid2/node_modules/solid-sonner/dist/index.d.ts"

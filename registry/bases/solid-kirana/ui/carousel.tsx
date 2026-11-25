@@ -5,17 +5,17 @@ import type {
   EmblaOptionsType,
   EmblaPluginType,
 } from "embla-carousel"
-import createEmblaCarousel from "embla-carousel-solid"
+import EmblaCarousel from "embla-carousel"
 import {
   createContext,
   createEffect,
   createSignal,
-  mergeProps,
+  merge,
+  omit,
   onCleanup,
-  splitProps,
   useContext,
 } from "solid-js"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
 import type { button } from "../../../styles/button.styles"
 import { carousel } from "../../../styles/carousel.styles"
@@ -29,6 +29,8 @@ export type CarouselApi = EmblaCarouselType
 
 /** What a Carousel hands its parts, as React's context does: getters, so they follow it. */
 type CarouselContext = {
+  /** Embla's API, once the viewport is in the page. */
+  readonly api: CarouselApi | undefined
   readonly orientation: "horizontal" | "vertical"
   readonly canScrollPrev: boolean
   readonly canScrollNext: boolean
@@ -38,7 +40,7 @@ type CarouselContext = {
   scrollNext: () => void
 }
 
-const CarouselContext = createContext<CarouselContext>()
+const CarouselContext = createContext<CarouselContext | null>(null)
 
 function useCarousel() {
   const context = useContext(CarouselContext)
@@ -57,17 +59,25 @@ function Carousel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "horizontal" } as const, props),
-    ["opts", "plugins", "orientation", "setApi", "class", "sx", "children"]
+  const local = merge({ orientation: "horizontal" } as const, props)
+  const rest = omit(
+    local,
+    "opts",
+    "plugins",
+    "orientation",
+    "setApi",
+    "class",
+    "sx",
+    "children"
   )
-  const [carouselRef, api] = createEmblaCarousel(
-    () => ({
-      ...local.opts,
-      axis: local.orientation === "horizontal" ? "x" : "y",
-    }),
-    () => local.plugins ?? []
-  )
+  // Embla's own core on the viewport `CarouselContent` hands over (LF-032: its Solid adapter is
+  // Solid 1's), made once the viewport is in the page, reinitialised when the options or the
+  // plugins change, and destroyed with the carousel.
+  let viewport: HTMLElement | undefined
+  const carouselRef = (element: HTMLElement) => {
+    viewport = element
+  }
+  const [api, setEmbla] = createSignal<CarouselApi>()
   // Whether the arrows can move, read from Embla whenever it selects a slide or reinitialises.
   const [canScrollPrev, setCanScrollPrev] = createSignal(false)
   const [canScrollNext, setCanScrollNext] = createSignal(false)
@@ -75,13 +85,32 @@ function Carousel(props: {
     setCanScrollPrev(embla.canScrollPrev())
     setCanScrollNext(embla.canScrollNext())
   }
-  createEffect(() => {
-    const embla = api()
-    if (!embla) return
-    read(embla)
-    embla.on("reInit", read).on("select", read)
-    local.setApi?.(embla)
-    onCleanup(() => embla.off("reInit", read).off("select", read))
+  let embla: CarouselApi | undefined
+  createEffect(
+    () => ({
+      options: {
+        ...local.opts,
+        axis: local.orientation === "horizontal" ? "x" : "y",
+      } satisfies EmblaOptionsType,
+      plugins: local.plugins ?? [],
+    }),
+    ({ options, plugins }) => {
+      if (embla) {
+        embla.reInit(options, plugins)
+        return
+      }
+      if (!viewport) return
+      embla = EmblaCarousel(viewport, options, plugins)
+      embla.on("reInit", read).on("select", read)
+      read(embla)
+      setEmbla(embla)
+      local.setApi?.(embla)
+    }
+  )
+  onCleanup(() => {
+    embla?.off("reInit", read).off("select", read)
+    embla?.destroy()
+    embla = undefined
   })
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "ArrowLeft") {
@@ -93,8 +122,11 @@ function Carousel(props: {
     }
   }
   return (
-    <CarouselContext.Provider
+    <CarouselContext
       value={{
+        get api() {
+          return api()
+        },
         get orientation() {
           return local.orientation
         },
@@ -119,7 +151,7 @@ function Carousel(props: {
       >
         {local.children}
       </div>
-    </CarouselContext.Provider>
+    </CarouselContext>
   )
 }
 
@@ -129,7 +161,8 @@ function CarouselContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   const context = useCarousel()
   return (
     <div
@@ -159,7 +192,8 @@ function CarouselItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   const context = useCarousel()
   return (
     <div
@@ -187,10 +221,8 @@ function CarouselNext(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "outline", size: "icon-sm" } as const, props),
-    ["variant", "size", "class", "sx"]
-  )
+  const local = merge({ variant: "outline", size: "icon-sm" } as const, props)
+  const rest = omit(local, "variant", "size", "class", "sx")
   const context = useCarousel()
   return (
     <Button
@@ -228,10 +260,8 @@ function CarouselPrevious(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "outline", size: "icon-sm" } as const, props),
-    ["variant", "size", "class", "sx"]
-  )
+  const local = merge({ variant: "outline", size: "icon-sm" } as const, props)
+  const rest = omit(local, "variant", "size", "class", "sx")
   const context = useCarousel()
   return (
     <Button

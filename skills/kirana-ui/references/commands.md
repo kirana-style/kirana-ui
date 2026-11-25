@@ -34,7 +34,7 @@ npx @kirana-style/registry init --template @kirana/vite-react--none--eslint my-a
 ```
 
 A template's name is `<template>--<monorepo>--<tooling>`; every one is in
-`r/templates/index.json`. Solid on ui-sdk needs Solid 2: its template is `vite-solid2`.
+`r/templates/index.json`. Solid on Kirana UI and on ui-sdk need Solid 2: their template is `vite-solid2`.
 
 ## With shadcn/ui's CLI
 

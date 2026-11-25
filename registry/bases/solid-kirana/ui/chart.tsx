@@ -8,16 +8,16 @@ import {
   Show,
   createContext,
   createSignal,
-  mergeProps,
-  onCleanup,
-  onMount,
-  splitProps,
+  merge,
+  onSettled,
+  omit,
   useContext,
 } from "solid-js"
-import { Dynamic } from "solid-js/web"
+import { Dynamic } from "@solidjs/web"
 import { props as styleProps } from "@kirana-style/core"
-import { Chart } from "@tanstack/charts/solid"
-import type { Component, JSX } from "solid-js"
+import { Chart } from "../../../lib/solid2/charts"
+import type { Component } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { StyleHandle, Sx } from "@kirana-style/core"
 import type {
   ChartPoint,
@@ -49,11 +49,15 @@ export type ChartConfig = Record<
 >
 
 /** The chart's config, which its tooltip and legend read. */
-const ChartContext = createContext<{ readonly config: ChartConfig }>()
+const ChartContext = createContext<{ readonly config: ChartConfig } | null>(
+  null
+)
 /** The focused points the tooltip body shows, set by `ChartContainer` for each focus. */
+// `null` while no tooltip is open: Solid 2 throws on a context read with no provider and no
+// default, and a tooltip's content is made once outside the body that provides it.
 const PointsContext = createContext<{
   readonly points: readonly ChartPoint[]
-}>()
+} | null>(null)
 
 function ChartContainer(props: {
   config: ChartConfig
@@ -72,20 +76,19 @@ function ChartContainer(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ aspectRatio: 16 / 9 } as const, props),
-    [
-      "config",
-      "definition",
-      "aspectRatio",
-      "height",
-      "initialWidth",
-      "ariaLabel",
-      "tooltip",
-      "legend",
-      "class",
-      "sx",
-    ]
+  const local = merge({ aspectRatio: 16 / 9 } as const, props)
+  const rest = omit(
+    local,
+    "config",
+    "definition",
+    "aspectRatio",
+    "height",
+    "initialWidth",
+    "ariaLabel",
+    "tooltip",
+    "legend",
+    "class",
+    "sx"
   )
   const context = {
     get config() {
@@ -99,10 +102,10 @@ function ChartContainer(props: {
   let box: HTMLDivElement | undefined
   const [width, setWidth] = createSignal<number>()
   // Measured once laid out: a chart mounted in a drawer still opening measures 0 at first.
-  onMount(() => {
-    if (box)
-      onCleanup(measureWhenLaidOut(box, (measured) => setWidth(measured)))
-  })
+  // Solid 2 takes a settled callback's cleanup as its return.
+  onSettled(() =>
+    box ? measureWhenLaidOut(box, (measured) => setWidth(measured)) : undefined
+  )
   const own = () => styleProps(local.class, styles.container, local.sx)
   const plot = () => styleProps(styles.plot, fill() && styles.plotWithLegend)
   // Keyed by the width, as React's: the chart is drawn again at the box's.
@@ -129,7 +132,7 @@ function ChartContainer(props: {
               ? // The context read live: the adapter renders the body once a tooltip and
                 // changes its points under it as the pointer moves.
                 (tip) => (
-                  <PointsContext.Provider
+                  <PointsContext
                     value={{
                       get points() {
                         return tip.points
@@ -137,7 +140,7 @@ function ChartContainer(props: {
                     }}
                   >
                     {local.tooltip}
-                  </PointsContext.Provider>
+                  </PointsContext>
                 )
               : undefined
           }
@@ -146,7 +149,7 @@ function ChartContainer(props: {
     </For>
   )
   return (
-    <ChartContext.Provider value={context}>
+    <ChartContext value={context}>
       <div
         ref={(node) => (box = node)}
         data-slot="chart"
@@ -165,7 +168,7 @@ function ChartContainer(props: {
           </div>
         </Show>
       </div>
-    </ChartContext.Provider>
+    </ChartContext>
   )
 }
 
@@ -178,10 +181,11 @@ function ChartLegendContent(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ hideIcon: false, verticalAlign: "bottom" } as const, props),
-    ["hideIcon", "verticalAlign", "keys", "class", "sx"]
+  const local = merge(
+    { hideIcon: false, verticalAlign: "bottom" } as const,
+    props
   )
+  const rest = omit(local, "hideIcon", "verticalAlign", "keys", "class", "sx")
   const chart = useContext(ChartContext)
   const config = () => chart?.config ?? {}
   const entries = () =>
@@ -259,26 +263,25 @@ function ChartTooltipContent(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { indicator: "dot", hideLabel: false, hideIndicator: false } as const,
-      props
-    ),
-    [
-      "indicator",
-      "hideLabel",
-      "hideIndicator",
-      "label",
-      "labelFormatter",
-      "formatter",
-      "color",
-      "nameKey",
-      "labelKey",
-      "labelSx",
-      "row",
-      "class",
-      "sx",
-    ]
+  const local = merge(
+    { indicator: "dot", hideLabel: false, hideIndicator: false } as const,
+    props
+  )
+  const rest = omit(
+    local,
+    "indicator",
+    "hideLabel",
+    "hideIndicator",
+    "label",
+    "labelFormatter",
+    "formatter",
+    "color",
+    "nameKey",
+    "labelKey",
+    "labelSx",
+    "row",
+    "class",
+    "sx"
   )
   const chart = useContext(ChartContext)
   const points = useContext(PointsContext)

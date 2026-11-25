@@ -4,7 +4,7 @@ import { IconPlaceholder } from "../ui/icon-placeholder"
 import {
   HighlightedLine,
   useHighlightedCode,
-} from "../../../lib/solid/use-highlighted-code"
+} from "../../../lib/solid2/use-highlighted-code"
 import { Button } from "../ui/button"
 import {
   CodeBlock,
@@ -112,7 +112,7 @@ export function Chat() {
             <Button
               variant="ghost"
               size="xs"
-              aria-expanded={expanded()}
+              aria-expanded={expanded() ? "true" : "false"}
               aria-controls={id}
               onClick={() => setExpanded(!expanded())}
             >

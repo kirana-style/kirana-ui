@@ -1,13 +1,13 @@
-import { createContext, mergeProps, splitProps, useContext } from "solid-js"
+import { createContext, merge, omit, useContext } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Collapsible as CollapsiblePrimitive } from "@kirana-ui/solid/collapsible"
-import { asRender } from "../../../lib/solid/element"
-import type { JSX } from "solid-js"
+import { asRender } from "../../../lib/solid2/element"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /** Whether a closed panel stays in the page: Ark UI's `unmountOnExit={false}` on the root. */
-const KeepPanel = createContext<() => boolean>()
+const KeepPanel = createContext<(() => boolean) | null>(null)
 
 /**
  * Kirana UI's collapsible, with Solid's Ark UI part's props: `open`, `defaultOpen`, and
@@ -26,17 +26,23 @@ function Collapsible(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(mergeProps({ unmountOnExit: true }, props), [
+  const local = merge(props, {
+    get unmountOnExit() {
+      return props.unmountOnExit ?? true
+    },
+  })
+  const rest = omit(
+    local,
     "onOpenChange",
     "lazyMount",
     "unmountOnExit",
     "asChild",
     "class",
     "sx",
-    "children",
-  ])
+    "children"
+  )
   return (
-    <KeepPanel.Provider value={() => !local.unmountOnExit}>
+    <KeepPanel value={() => !local.unmountOnExit}>
       <CollapsiblePrimitive.Root
         render={asRender(local.asChild)}
         data-slot="collapsible"
@@ -46,7 +52,7 @@ function Collapsible(props: {
       >
         {local.children}
       </CollapsiblePrimitive.Root>
-    </KeepPanel.Provider>
+    </KeepPanel>
   )
 }
 
@@ -59,23 +65,17 @@ function CollapsibleContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "keepMounted",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "keepMounted", "asChild", "class", "sx", "children")
   const keep = useContext(KeepPanel)
   return (
     <CollapsiblePrimitive.Panel
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="collapsible-content"
-      keepMounted={local.keepMounted || keep?.()}
+      keepMounted={props.keepMounted || keep?.()}
       {...rest}
-      {...styleProps(local.class, local.sx)}
+      {...styleProps(props.class, props.sx)}
     >
-      {local.children}
+      {props.children}
     </CollapsiblePrimitive.Panel>
   )
 }
@@ -91,14 +91,9 @@ function CollapsibleTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   const asChild = (): AsChild<"button"> | undefined => {
-    const render = local.asChild
+    const render = props.asChild
     if (!render) return undefined
     return (childProps) =>
       render((userProps) => childProps({ type: "button", ...userProps }))
@@ -108,9 +103,9 @@ function CollapsibleTrigger(props: {
       render={asRender(asChild())}
       data-slot="collapsible-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
+      {...styleProps(props.class, props.sx)}
     >
-      {local.children}
+      {props.children}
     </CollapsiblePrimitive.Trigger>
   )
 }

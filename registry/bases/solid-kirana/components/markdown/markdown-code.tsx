@@ -1,6 +1,6 @@
 /** Inline code. Fenced code renders through `MarkdownPre`, which reads its element's text. */
 import { css } from "@kirana-style/core"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
 import { fontFamily, space } from "../../../../core/scales"
 import { radius, theme } from "../../../../core/tokens"

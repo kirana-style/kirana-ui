@@ -5,7 +5,7 @@
  */
 import { Toast as ToastPrimitive, createToaster } from "@kirana-ui/solid/toast"
 import type { ToastOptions as KiranaOptions } from "@kirana-ui/solid/toast"
-import { Match, Show, Switch, splitProps } from "solid-js"
+import { Match, Show, Switch, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
 
@@ -39,15 +39,14 @@ type PromiseStep<T> =
 export const toaster = createToaster({ limit: 3 })
 
 /**
- * Base UI's options as Kirana UI's: its `timeout` is their `duration` (`0` for one that stays), its
+ * Base UI's options as Kirana UI's: its `timeout` is theirs (`0` for one that stays), its
  * `actionProps` their `action`, its `priority` their politeness. Base UI's action leaves the toast
  * open: pressing it keeps the toast unless its handler closes it.
  */
 function optionsOf(options: ToastOptions): KiranaOptions & { id?: string } {
-  const { timeout, priority, actionProps, onClose, ...rest } = options
+  const { priority, actionProps, onClose, ...rest } = options
   return {
     ...rest,
-    duration: timeout === 0 ? Infinity : timeout,
     priority:
       priority === undefined
         ? undefined
@@ -104,13 +103,13 @@ function Toaster(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <ToastPrimitive.Viewport
       data-slot="toast-viewport"
       toaster={toaster}
       {...rest}
-      {...styleProps(local.class, styles.viewport, local.sx)}
+      {...styleProps(props.class, styles.viewport, props.sx)}
     >
       <ToastPrimitive.List>
         {(item) => {

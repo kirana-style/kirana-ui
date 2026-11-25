@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { NavigationMenuLink } from "../../ui/navigation-menu"
 import {
@@ -8,7 +8,7 @@ import {
   space,
 } from "../../../../core/scales"
 import { theme } from "../../../../core/tokens"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 export function ListItem(props: {
@@ -19,13 +19,8 @@ export function ListItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "title",
-    "href",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "title", "href", "class", "sx", "children")
   const styles = {
     listItem: css({
       display: "flex",

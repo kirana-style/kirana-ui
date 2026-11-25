@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { toast } from "solid-sonner"
 import { Input } from "../../../ui/input"
 import { Label } from "../../../ui/label"
@@ -12,7 +11,7 @@ export function EditableCell(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["item", "field", "sx", "class"])
+  const local = props
   // The target's and the limit's inline field: saved, as a toast says, when it is submitted.
 
   function save() {

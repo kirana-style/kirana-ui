@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { Separator } from "../../../ui/separator"
 import { SidebarTrigger } from "../../../ui/sidebar"
@@ -19,7 +19,8 @@ export function SiteHeader(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     siteHeaderHeader: css({
       display: "flex",

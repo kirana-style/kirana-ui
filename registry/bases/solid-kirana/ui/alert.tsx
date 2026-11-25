@@ -1,7 +1,7 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { alert } from "../../../styles/alert.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 type AlertVariants = NonNullable<Parameters<typeof alert.root>[0]>
@@ -13,10 +13,8 @@ function Alert(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" } as const, props),
-    ["variant", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default" } as const, props)
+  const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <div
       data-slot="alert"
@@ -41,7 +39,8 @@ function AlertAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="alert-action"
@@ -59,7 +58,8 @@ function AlertDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="alert-description"
@@ -77,7 +77,8 @@ function AlertTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="alert-title"

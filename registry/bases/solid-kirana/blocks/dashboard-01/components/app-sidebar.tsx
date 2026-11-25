@@ -2,7 +2,7 @@ import { NavDocuments } from "./nav-documents"
 import { NavMain } from "./nav-main"
 import { NavSecondary } from "./nav-secondary"
 import { NavUser } from "./nav-user"
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   Sidebar,
@@ -27,7 +27,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     sidebarMenuButton: css({
       // `data-[slot=sidebar-menu-button]:p-1.5!`: the button itself.

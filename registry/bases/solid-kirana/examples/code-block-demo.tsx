@@ -3,7 +3,7 @@ import { IconPlaceholder } from "../ui/icon-placeholder"
 import {
   HighlightedLine,
   useHighlightedCode,
-} from "../../../lib/solid/use-highlighted-code"
+} from "../../../lib/solid2/use-highlighted-code"
 import { Button } from "../ui/button"
 import {
   CodeBlock,
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
                 variant="ghost"
                 size="icon-xs"
                 aria-label="Wrap lines"
-                aria-pressed={wrap()}
+                aria-pressed={wrap() ? "true" : "false"}
                 sx={styles.button}
                 onClick={() => setWrap(!wrap())}
               >

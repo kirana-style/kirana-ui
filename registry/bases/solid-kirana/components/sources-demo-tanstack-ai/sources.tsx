@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -14,7 +14,7 @@ import type { Sx } from "@kirana-style/core"
 import type { Source } from "./types"
 
 export function Sources(props: { sources: Source[]; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["sources", "sx", "class"])
+  const local = props
   const styles = {
     sourcesSpan: css({
       borderWidth: "0",

@@ -48,12 +48,15 @@ describe("choices", () => {
     expect(isResolved(DEFAULT_CHOICES)).toBe(true)
   })
 
-  it("puts Solid on ui-sdk on Solid 2's template, and that template on it alone", () => {
+  it("puts Solid on ui-sdk and on Kirana UI on Solid 2's template, and that template on them alone", () => {
     expect(templatesFor("solid", "uisdk")).toEqual(["vite-solid2"])
     expect(templatesFor("solid", "ark")).not.toContain("vite-solid2")
-    expect(templatesFor("solid", "kirana")).not.toContain("vite-solid2")
-    expect(basesFor("solid", "vite-solid2")).toEqual(["uisdk"])
-    expect(basesFor("solid", "vite-solid")).toEqual(["ark", "kirana"])
+    expect(templatesFor("solid", "kirana")).toEqual(["vite-solid2"])
+    expect(basesFor("solid", "vite-solid2")).toEqual(
+      expect.arrayContaining(["uisdk", "kirana"])
+    )
+    expect(basesFor("solid", "vite-solid2")).not.toContain("ark")
+    expect(basesFor("solid", "vite-solid")).toEqual(["ark"])
     // The base is the design's: a template it does not run on moves to one it does.
     expect(
       resolveChoices({
@@ -72,7 +75,7 @@ describe("choices", () => {
     // Given no base, the template asked for picks one it runs.
     expect(
       resolveChoices({ framework: "solid", template: "vite-solid2" })
-    ).toMatchObject({ base: "uisdk", template: "vite-solid2" })
+    ).toMatchObject({ base: "kirana", template: "vite-solid2" })
     // Every other framework's bases take every template.
     for (const framework of ["react", "vue", "svelte", "angular"] as const)
       for (const template of TEMPLATES[framework])

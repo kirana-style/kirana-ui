@@ -1,4 +1,4 @@
-import { For, createSignal } from "solid-js"
+import { For, createSignal, createStore } from "solid-js"
 import { IconPlaceholder } from "../ui/icon-placeholder"
 import { css } from "@kirana-style/core"
 import { space, spacing } from "../../../core/scales"
@@ -30,7 +30,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import { createMutable } from "solid-js/store"
 
 export default function DropdownMenuExample() {
   const styles = {
@@ -65,7 +64,7 @@ export default function DropdownMenuExample() {
 
   const [showPanel, setShowPanel] = createSignal(false)
 
-  const notifications = createMutable({
+  const [notifications, setNotifications] = createStore({
     email: true,
     sms: false,
     push: true,
@@ -497,7 +496,11 @@ export default function DropdownMenuExample() {
                 checked={notifications.email}
                 onCheckedChange={(details: {
                   checked: typeof notifications.email
-                }) => (notifications.email = details.checked)}
+                }) =>
+                  setNotifications((state) => {
+                    state.email = details.checked
+                  })
+                }
               >
                 <IconPlaceholder
                   lucide="MailIcon"
@@ -512,7 +515,11 @@ export default function DropdownMenuExample() {
                 checked={notifications.sms}
                 onCheckedChange={(details: {
                   checked: typeof notifications.sms
-                }) => (notifications.sms = details.checked)}
+                }) =>
+                  setNotifications((state) => {
+                    state.sms = details.checked
+                  })
+                }
               >
                 <IconPlaceholder
                   lucide="MessageSquareIcon"
@@ -527,7 +534,11 @@ export default function DropdownMenuExample() {
                 checked={notifications.push}
                 onCheckedChange={(details: {
                   checked: typeof notifications.push
-                }) => (notifications.push = details.checked)}
+                }) =>
+                  setNotifications((state) => {
+                    state.push = details.checked
+                  })
+                }
               >
                 <IconPlaceholder
                   lucide="BellIcon"

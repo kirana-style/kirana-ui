@@ -23,7 +23,7 @@ import {
 } from "../../../ui/select"
 import { Textarea } from "../../../ui/textarea"
 import { FONT_INFO } from "../../../../../core/config"
-import { useDesign } from "../../../../../lib/solid/use-design"
+import { useDesign } from "../../../../../lib/solid2/use-design"
 import { css } from "@kirana-style/core"
 import { axes } from "../../../../../core/axes"
 import { font, theme } from "../../../../../core/tokens"

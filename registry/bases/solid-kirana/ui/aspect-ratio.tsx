@@ -1,7 +1,7 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { aspectRatio } from "../../../styles/aspect-ratio.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function AspectRatio(props: {
@@ -11,7 +11,8 @@ function AspectRatio(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["ratio", "class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "ratio", "class", "sx", "children")
   const own = () => styleProps(local.class, aspectRatio, local.sx)
   return (
     <div

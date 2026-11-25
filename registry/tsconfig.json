@@ -24,6 +24,7 @@
     "bases/solid-ark",
     "lib/solid",
     "bases/solid-uisdk",
+    "bases/solid-kirana",
     "lib/solid2",
     "lib/svelte",
     "bases/angular-ng"

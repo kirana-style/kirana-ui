@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
@@ -17,7 +17,7 @@ export function ReasoningRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["text", "running", "sx", "class"])
+  const local = props
   const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 
   const styles = {

@@ -1,10 +1,10 @@
-import { mergeProps, splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { NavigationMenu as NavigationMenuPrimitive } from "@kirana-ui/solid/navigation-menu"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import { asRender } from "../../../lib/solid/element"
-import type { AsChild } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
+import type { AsChild } from "../../../lib/solid2/element"
 import { navigationMenu } from "../../../styles/navigation-menu.styles"
 import { IconPlaceholder } from "./icon-placeholder"
 
@@ -22,25 +22,22 @@ function NavigationMenu(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ align: "start" } as const, props),
-    ["align", "onValueChange", "class", "sx", "children"]
-  )
+  const rest = omit(props, "align", "onValueChange", "class", "sx", "children")
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
       {...rest}
       onValueChange={(value) =>
-        local.onValueChange?.({ value: value == null ? "" : String(value) })
+        props.onValueChange?.({ value: value == null ? "" : String(value) })
       }
-      {...styleProps(local.class, navigationMenu.root, local.sx)}
+      {...styleProps(props.class, navigationMenu.root, props.sx)}
     >
-      {local.children}
+      {props.children}
       <NavigationMenuPrimitive.Portal>
         <NavigationMenuPrimitive.Positioner
           side="bottom"
           sideOffset={8}
-          align={local.align}
+          align={props.align ?? "start"}
           alignOffset={0}
           {...styleProps(navigationMenu.positioner)}
         >
@@ -61,15 +58,15 @@ function NavigationMenuContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   // Drawn in the viewport every item shares.
   return (
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
       {...rest}
-      {...styleProps(local.class, navigationMenu.content, local.sx)}
+      {...styleProps(props.class, navigationMenu.content, props.sx)}
     >
-      {local.children}
+      {props.children}
     </NavigationMenuPrimitive.Content>
   )
 }
@@ -80,14 +77,14 @@ function NavigationMenuIndicator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const rest = omit(props, "asChild", "class", "sx")
   // Base UI's `Icon`, which upstream's indicator draws: a mark on the open item's trigger.
   return (
     <NavigationMenuPrimitive.Icon
       data-slot="navigation-menu-indicator"
       {...rest}
-      {...styleProps(local.class, navigationMenu.indicator, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, navigationMenu.indicator, props.sx)}
+      render={asRender(props.asChild)}
     >
       <div sx={navigationMenu.arrow} />
     </NavigationMenuPrimitive.Icon>
@@ -102,14 +99,14 @@ function NavigationMenuItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
       {...rest}
-      {...styleProps(local.class, navigationMenu.item, local.sx)}
+      {...styleProps(props.class, navigationMenu.item, props.sx)}
     >
-      {local.children}
+      {props.children}
     </NavigationMenuPrimitive.Item>
   )
 }
@@ -123,19 +120,16 @@ function NavigationMenuLink(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ active: false } as const, props),
-    ["asChild", "active", "class", "sx", "children"]
-  )
+  const rest = omit(props, "asChild", "active", "class", "sx", "children")
   return (
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
-      active={local.active}
+      active={props.active ?? false}
       {...rest}
-      {...styleProps(local.class, navigationMenu.link, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, navigationMenu.link, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </NavigationMenuPrimitive.Link>
   )
 }
@@ -146,14 +140,14 @@ function NavigationMenuList(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
       {...rest}
-      {...styleProps(local.class, navigationMenu.list, local.sx)}
+      {...styleProps(props.class, navigationMenu.list, props.sx)}
     >
-      {local.children}
+      {props.children}
     </NavigationMenuPrimitive.List>
   )
 }
@@ -165,20 +159,15 @@ function NavigationMenuTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
       {...rest}
-      {...styleProps(local.class, navigationMenu.trigger, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, navigationMenu.trigger, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
       <IconPlaceholder
         lucide="ChevronDownIcon"
         tabler="IconChevronDown"

@@ -1,6 +1,6 @@
 import { ToolTrace } from "../components/trace-tool-calls/tool-trace"
-import { For, Index, Show, createMemo } from "solid-js"
-import { Chat } from "../../../lib/solid/chat"
+import { For, Show, createMemo } from "solid-js"
+import { Chat } from "../../../lib/solid2/chat"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -126,7 +126,7 @@ export default function TraceToolCalls() {
               ) : (
                 <Message>
                   <MessageContent sx={styles.messageContent}>
-                    <Index each={groupParts(message.parts)}>
+                    <For keyed={false} each={groupParts(message.parts)}>
                       {(run) => (
                         <>
                           {run().trace ? (
@@ -157,7 +157,7 @@ export default function TraceToolCalls() {
                           )}
                         </>
                       )}
-                    </Index>
+                    </For>
                   </MessageContent>
                 </Message>
               )}

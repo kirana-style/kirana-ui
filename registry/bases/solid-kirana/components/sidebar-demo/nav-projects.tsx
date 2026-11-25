@@ -1,4 +1,4 @@
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
@@ -38,7 +38,8 @@ export function NavProjects(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["projects", "class", "sx"])
+  const local = props
+  const rest = omit(props, "projects", "class", "sx")
   const styles = {
     navProjectsSidebarGroup: css({
       display: { [COLLAPSED]: "none" },

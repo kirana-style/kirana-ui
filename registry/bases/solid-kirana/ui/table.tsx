@@ -1,7 +1,7 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { table } from "../../../styles/table.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function Table(props: {
@@ -10,7 +10,8 @@ function Table(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div data-slot="table-container" sx={table.container}>
       <table
@@ -30,7 +31,8 @@ function TableBody(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <tbody
       data-slot="table-body"
@@ -48,7 +50,8 @@ function TableCaption(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <caption
       data-slot="table-caption"
@@ -66,7 +69,8 @@ function TableCell(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <td
       data-slot="table-cell"
@@ -84,7 +88,8 @@ function TableFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <tfoot
       data-slot="table-footer"
@@ -102,7 +107,8 @@ function TableHead(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <th
       data-slot="table-head"
@@ -120,7 +126,8 @@ function TableHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <thead
       data-slot="table-header"
@@ -138,7 +145,8 @@ function TableRow(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <tr
       data-slot="table-row"

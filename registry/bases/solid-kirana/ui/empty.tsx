@@ -1,7 +1,7 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { empty } from "../../../styles/empty.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function Empty(props: {
@@ -10,7 +10,8 @@ function Empty(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="empty"
@@ -28,7 +29,8 @@ function EmptyContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="empty-content"
@@ -46,7 +48,8 @@ function EmptyDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="empty-description"
@@ -64,7 +67,8 @@ function EmptyHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="empty-header"
@@ -85,10 +89,8 @@ function EmptyMedia(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" } as const, props),
-    ["variant", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default" } as const, props)
+  const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <div
       data-slot="empty-icon"
@@ -111,7 +113,8 @@ function EmptyTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="empty-title"

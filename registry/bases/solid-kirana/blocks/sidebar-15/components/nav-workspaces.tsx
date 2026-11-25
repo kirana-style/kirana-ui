@@ -1,5 +1,5 @@
-import type { JSX } from "solid-js"
-import { For, splitProps } from "solid-js"
+import type { JSX } from "@solidjs/web"
+import { For, omit } from "solid-js"
 import {
   Collapsible,
   CollapsibleContent,
@@ -36,7 +36,8 @@ export function NavWorkspaces(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["workspaces", "class", "sx"])
+  const local = props
+  const rest = omit(props, "workspaces", "class", "sx")
   const styles = {
     sidebarMenuAction: css({
       left: space[2],

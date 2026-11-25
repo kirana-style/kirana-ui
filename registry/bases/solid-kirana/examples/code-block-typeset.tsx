@@ -3,7 +3,7 @@ import { IconPlaceholder } from "../ui/icon-placeholder"
 import {
   HighlightedLine,
   useHighlightedCode,
-} from "../../../lib/solid/use-highlighted-code"
+} from "../../../lib/solid2/use-highlighted-code"
 import {
   CodeBlock,
   CodeBlockActions,

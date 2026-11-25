@@ -1,12 +1,12 @@
-import { mergeProps, splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { HoverCard as HoverCardPrimitive } from "@kirana-ui/solid/hover-card"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { hoverCard } from "../../../styles/hover-card.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's hover card, taking the Ark UI parts' props: `open`, `defaultOpen`, `onOpenChange`
@@ -24,19 +24,23 @@ function HoverCard(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["openDelay", "closeDelay", "onOpenChange", "children"],
-    ["sx", "class"]
+    "openDelay",
+    "closeDelay",
+    "onOpenChange",
+    "children",
+    "sx",
+    "class"
   )
   return (
     <HoverCardPrimitive.Root
       {...rest}
-      delay={local.openDelay}
-      closeDelay={local.closeDelay}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      delay={props.openDelay}
+      closeDelay={props.closeDelay}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </HoverCardPrimitive.Root>
   )
 }
@@ -51,33 +55,31 @@ function HoverCardContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        side: "bottom",
-        sideOffset: 4,
-        align: "center",
-        alignOffset: 4,
-      } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <HoverCardPrimitive.Portal>
       <HoverCardPrimitive.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "bottom"}
+        sideOffset={props.sideOffset ?? 4}
+        align={props.align ?? "center"}
+        alignOffset={props.alignOffset ?? 4}
         {...styleProps(hoverCard.positioner)}
       >
         <HoverCardPrimitive.Popup
           data-slot="hover-card-content"
           {...rest}
-          {...styleProps(local.class, popupMotion, hoverCard.content, local.sx)}
+          {...styleProps(props.class, popupMotion, hoverCard.content, props.sx)}
         >
-          {local.children}
+          {props.children}
         </HoverCardPrimitive.Popup>
       </HoverCardPrimitive.Positioner>
     </HoverCardPrimitive.Portal>
@@ -91,20 +93,15 @@ function HoverCardTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <HoverCardPrimitive.Trigger
       data-slot="hover-card-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </HoverCardPrimitive.Trigger>
   )
 }

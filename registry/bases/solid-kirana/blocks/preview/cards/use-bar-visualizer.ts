@@ -4,7 +4,7 @@
  * sequence for each state (`useBarAnimator`). Each takes its inputs as getters and returns its
  * value as an accessor.
  */
-import { createEffect, createMemo, createSignal, onCleanup } from "solid-js"
+import { createEffect, createMemo, createSignal } from "solid-js"
 
 export type AgentState =
   | "connecting"
@@ -91,8 +91,7 @@ export function useMultibandVolume(
     Array.from({ length: bands }, () => 0)
   )
 
-  createEffect(() => {
-    const stream = mediaStream()
+  createEffect(mediaStream, (stream) => {
     if (!stream) {
       setFrequencyBands(Array.from({ length: bands }, () => 0))
       return
@@ -126,10 +125,10 @@ export function useMultibandVolume(
       frameId = requestAnimationFrame(updateVolume)
     }
     frameId = requestAnimationFrame(updateVolume)
-    onCleanup(() => {
+    return () => {
       cleanup()
       cancelAnimationFrame(frameId)
-    })
+    }
   })
   return frequencyBands
 }
@@ -144,34 +143,36 @@ export function useFakeVolume(
     Array.from({ length: barCount() }, () => 0.2)
   )
 
-  createEffect(() => {
-    const on = enabled()
-    const current = state()
-    const count = barCount()
-    if (!on) return
-    if (current !== "speaking" && current !== "listening") {
-      setBands(Array.from({ length: count }, () => 0.2))
-      return
-    }
-    let lastUpdate = 0
-    let frameId = 0
-    const startTime = Date.now() / 1000
-    const update = (timestamp: number) => {
-      if (timestamp - lastUpdate >= 50) {
-        const time = Date.now() / 1000 - startTime
-        const next = Array.from({ length: count }, (_, i) => {
-          const baseVolume = Math.sin(time * 2 + i * 0.5) * 0.3 + 0.5
-          return Math.max(0.1, Math.min(1, baseVolume + Math.random() * 0.2))
-        })
-        if (next.some((value, i) => Math.abs(value - (bands()[i] ?? 0)) > 0.05))
-          setBands(next)
-        lastUpdate = timestamp
+  createEffect(
+    () => ({ on: enabled(), current: state(), count: barCount() }),
+    ({ on, current, count }) => {
+      if (!on) return
+      if (current !== "speaking" && current !== "listening") {
+        setBands(Array.from({ length: count }, () => 0.2))
+        return
+      }
+      let lastUpdate = 0
+      let frameId = 0
+      const startTime = Date.now() / 1000
+      const update = (timestamp: number) => {
+        if (timestamp - lastUpdate >= 50) {
+          const time = Date.now() / 1000 - startTime
+          const next = Array.from({ length: count }, (_, i) => {
+            const baseVolume = Math.sin(time * 2 + i * 0.5) * 0.3 + 0.5
+            return Math.max(0.1, Math.min(1, baseVolume + Math.random() * 0.2))
+          })
+          if (
+            next.some((value, i) => Math.abs(value - (bands()[i] ?? 0)) > 0.05)
+          )
+            setBands(next)
+          lastUpdate = timestamp
+        }
+        frameId = requestAnimationFrame(update)
       }
       frameId = requestAnimationFrame(update)
+      return () => cancelAnimationFrame(frameId)
     }
-    frameId = requestAnimationFrame(update)
-    onCleanup(() => cancelAnimationFrame(frameId))
-  })
+  )
   return bands
 }
 
@@ -202,23 +203,24 @@ export function useBarAnimator(
   })
   const [currentFrame, setCurrentFrame] = createSignal<number[]>([])
 
-  createEffect(() => {
-    const steps = sequence()
-    const every = interval()
-    let index = 0
-    setCurrentFrame(steps[0] ?? [])
-    let startTime = performance.now()
-    let frameId = 0
-    const animate = (time: DOMHighResTimeStamp) => {
-      if (time - startTime >= every) {
-        index = (index + 1) % steps.length
-        setCurrentFrame(steps[index] ?? [])
-        startTime = time
+  createEffect(
+    () => ({ steps: sequence(), every: interval() }),
+    ({ steps, every }) => {
+      let index = 0
+      setCurrentFrame(steps[0] ?? [])
+      let startTime = performance.now()
+      let frameId = 0
+      const animate = (time: DOMHighResTimeStamp) => {
+        if (time - startTime >= every) {
+          index = (index + 1) % steps.length
+          setCurrentFrame(steps[index] ?? [])
+          startTime = time
+        }
+        frameId = requestAnimationFrame(animate)
       }
       frameId = requestAnimationFrame(animate)
+      return () => cancelAnimationFrame(frameId)
     }
-    frameId = requestAnimationFrame(animate)
-    onCleanup(() => cancelAnimationFrame(frameId))
-  })
+  )
   return currentFrame
 }

@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { marker } from "../../../styles/marker.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 type MarkerVariants = NonNullable<Parameters<typeof marker.root>[0]>
 
@@ -17,10 +17,8 @@ function Marker(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" } as const, props),
-    ["variant", "asChild", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default" } as const, props)
+  const rest = omit(local, "variant", "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="div"
@@ -46,7 +44,8 @@ function MarkerContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="marker-content"
@@ -64,7 +63,8 @@ function MarkerIcon(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="marker-icon"

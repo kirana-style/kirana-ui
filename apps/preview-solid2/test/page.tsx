@@ -9,6 +9,9 @@ import { render } from "@solidjs/web"
 import { onTestFinished } from "vite-plus/test"
 
 import { frames, watchPage } from "@workspace/vite-config/browser-page"
+import { LanguageContext as KiranaLanguageContext } from "@workspace/registry/bases/solid-kirana/components/language-selector.tsx"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/solid-kirana/previews.ts"
+import { IconLibraryContext as KiranaIconLibraryContext } from "@workspace/registry/bases/solid-kirana/ui/icon-placeholder.tsx"
 import { LanguageContext } from "@workspace/registry/bases/solid-uisdk/components/language-selector.tsx"
 import { previews as uisdkPreviews } from "@workspace/registry/bases/solid-uisdk/previews.ts"
 import { IconLibraryContext } from "@workspace/registry/bases/solid-uisdk/ui/icon-placeholder.tsx"
@@ -16,7 +19,7 @@ import { IconLibraryContext } from "@workspace/registry/bases/solid-uisdk/ui/ico
 import { design } from "../src/design"
 
 /** Each base's example pages, as the preview's routes hold them. */
-export const BASES = { uisdk: uisdkPreviews }
+export const BASES = { uisdk: uisdkPreviews, kirana: kiranaPreviews }
 
 /** Lets Solid and the item settle: two frames. */
 export const settle = frames
@@ -35,11 +38,16 @@ export async function mountView(view: () => JSX.Element) {
           return null
         }}
       >
+        {/* Both bases' contexts: a part reads its own base's. */}
         <IconLibraryContext value={() => design().system.iconLibrary}>
-          <LanguageContext value={() => design().options.language}>
-            {/* Solid 2 reads a lazy part's module as an async value, which needs a boundary. */}
-            <Loading>{view()}</Loading>
-          </LanguageContext>
+          <KiranaIconLibraryContext value={() => design().system.iconLibrary}>
+            <LanguageContext value={() => design().options.language}>
+              <KiranaLanguageContext value={() => design().options.language}>
+                {/* Solid 2 reads a lazy part's module as an async value, which needs a boundary. */}
+                <Loading>{view()}</Loading>
+              </KiranaLanguageContext>
+            </LanguageContext>
+          </KiranaIconLibraryContext>
         </IconLibraryContext>
       </Errored>
     ),

@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For, omit } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
@@ -20,7 +20,8 @@ export function SourcesRow(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["sources", "running", "class", "sx"])
+  const local = props
+  const rest = omit(props, "sources", "running", "class", "sx")
   // Tailwind's `spin`.
   const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 

@@ -3,10 +3,8 @@ import {
   createContext,
   createMemo,
   createSignal,
-  mergeProps,
-  onCleanup,
-  onMount,
-  splitProps,
+  omit,
+  onSettled,
   untrack,
   useContext,
 } from "solid-js"
@@ -23,15 +21,15 @@ import {
 import { Input } from "./input"
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip"
 import { Skeleton } from "./skeleton"
-import { useIsMobile } from "../../../lib/solid/use-mobile"
+import { useIsMobile } from "../../../lib/solid2/use-mobile"
 import { Separator } from "./separator"
 import { IconPlaceholder } from "./icon-placeholder"
 import { Button } from "./button"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
-import type { JSX } from "solid-js"
+import { asRender } from "../../../lib/solid2/element"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 function Sidebar(props: {
   side?: "left" | "right"
@@ -43,23 +41,30 @@ function Sidebar(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { side: "left", variant: "sidebar", collapsible: "offcanvas" } as const,
-      props
-    ),
-    ["side", "variant", "collapsible", "dir", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "variant",
+    "collapsible",
+    "dir",
+    "class",
+    "sx",
+    "children"
   )
   const ctx = useSidebar()
+  const side = () => props.side ?? "left"
+  const variant = () => props.variant ?? "sidebar"
+  const collapsible = () => props.collapsible ?? "offcanvas"
+  const padded = () => variant() === "floating" || variant() === "inset"
   return (
     <>
-      {local.collapsible === "none" ? (
+      {collapsible() === "none" ? (
         <div
           data-slot="sidebar"
           {...rest}
-          {...styleProps(local.class, sidebar.static, local.sx)}
+          {...styleProps(props.class, sidebar.static, props.sx)}
         >
-          {local.children}
+          {props.children}
         </div>
       ) : (
         <>
@@ -72,12 +77,12 @@ function Sidebar(props: {
               }
             >
               <SheetContent
-                dir={local.dir}
+                dir={props.dir}
                 data-sidebar="sidebar"
                 data-slot="sidebar"
                 data-mobile="true"
                 sx={sidebar.mobile}
-                side={local.side}
+                side={side()}
                 showCloseButton={false}
               >
                 <SheetHeader sx={visuallyHidden}>
@@ -86,39 +91,32 @@ function Sidebar(props: {
                     Displays the mobile sidebar.
                   </SheetDescription>
                 </SheetHeader>
-                <div sx={sidebar.mobileInner}>{local.children}</div>
+                <div sx={sidebar.mobileInner}>{props.children}</div>
               </SheetContent>
             </Sheet>
           ) : (
             <div
               data-state={ctx.state}
-              data-collapsible={
-                ctx.state === "collapsed" ? local.collapsible : ""
-              }
-              data-variant={local.variant}
-              data-side={local.side}
+              data-collapsible={ctx.state === "collapsed" ? collapsible() : ""}
+              data-variant={variant()}
+              data-side={side()}
               data-slot="sidebar"
               sx={sidebar.root}
             >
               <div
                 data-slot="sidebar-gap"
-                sx={[
-                  sidebar.gap,
-                  (local.variant === "floating" || local.variant === "inset") &&
-                    sidebar.gapPadded,
-                ]}
+                sx={[sidebar.gap, padded() && sidebar.gapPadded]}
               />
               <div
                 data-slot="sidebar-container"
-                data-side={local.side}
-                dir={local.dir}
+                data-side={side()}
+                dir={props.dir}
                 {...rest}
                 {...styleProps(
-                  local.class,
+                  props.class,
                   sidebar.container,
-                  (local.variant === "floating" || local.variant === "inset") &&
-                    sidebar.containerPadded,
-                  local.sx
+                  padded() && sidebar.containerPadded,
+                  props.sx
                 )}
               >
                 <div
@@ -126,7 +124,7 @@ function Sidebar(props: {
                   data-slot="sidebar-inner"
                   sx={sidebar.inner}
                 >
-                  {local.children}
+                  {props.children}
                 </div>
               </div>
             </div>
@@ -143,15 +141,15 @@ function SidebarContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sidebar-content"
       data-sidebar="content"
       {...rest}
-      {...styleProps(local.class, sidebar.content, local.sx)}
+      {...styleProps(props.class, sidebar.content, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -162,15 +160,15 @@ function SidebarFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
       {...rest}
-      {...styleProps(local.class, sidebar.footer, local.sx)}
+      {...styleProps(props.class, sidebar.footer, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -181,15 +179,15 @@ function SidebarGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
       {...rest}
-      {...styleProps(local.class, sidebar.group, local.sx)}
+      {...styleProps(props.class, sidebar.group, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -201,22 +199,17 @@ function SidebarGroupAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="button"
       data-slot="sidebar-group-action"
       data-sidebar="group-action"
       {...rest}
-      {...styleProps(local.class, sidebar.groupAction, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, sidebar.groupAction, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Primitive>
   )
 }
@@ -227,15 +220,15 @@ function SidebarGroupContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
       {...rest}
-      {...styleProps(local.class, sidebar.groupContent, local.sx)}
+      {...styleProps(props.class, sidebar.groupContent, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -247,22 +240,17 @@ function SidebarGroupLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="div"
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
       {...rest}
-      {...styleProps(local.class, sidebar.groupLabel, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, sidebar.groupLabel, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Primitive>
   )
 }
@@ -273,15 +261,15 @@ function SidebarHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
       {...rest}
-      {...styleProps(local.class, sidebar.header, local.sx)}
+      {...styleProps(props.class, sidebar.header, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -291,14 +279,14 @@ function SidebarInput(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <Input
       data-slot="sidebar-input"
       data-sidebar="input"
       {...rest}
-      class={local.class}
-      sx={[sidebar.input, local.sx]}
+      class={props.class}
+      sx={[sidebar.input, props.sx]}
     />
   )
 }
@@ -309,14 +297,14 @@ function SidebarInset(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <main
       data-slot="sidebar-inset"
       {...rest}
-      {...styleProps(local.class, sidebar.inset, local.sx)}
+      {...styleProps(props.class, sidebar.inset, props.sx)}
     >
-      {local.children}
+      {props.children}
     </main>
   )
 }
@@ -327,15 +315,15 @@ function SidebarMenu(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
       {...rest}
-      {...styleProps(local.class, sidebar.menu, local.sx)}
+      {...styleProps(props.class, sidebar.menu, props.sx)}
     >
-      {local.children}
+      {props.children}
     </ul>
   )
 }
@@ -348,10 +336,7 @@ function SidebarMenuAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ showOnHover: false } as const, props),
-    ["asChild", "showOnHover", "class", "sx", "children"]
-  )
+  const rest = omit(props, "asChild", "showOnHover", "class", "sx", "children")
   return (
     <Primitive
       as="button"
@@ -359,14 +344,14 @@ function SidebarMenuAction(props: {
       data-sidebar="menu-action"
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         sidebar.menuAction,
-        local.showOnHover && sidebar.menuActionOnHover,
-        local.sx
+        props.showOnHover && sidebar.menuActionOnHover,
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Primitive>
   )
 }
@@ -377,15 +362,15 @@ function SidebarMenuBadge(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sidebar-menu-badge"
       data-sidebar="menu-badge"
       {...rest}
-      {...styleProps(local.class, sidebar.menuBadge, local.sx)}
+      {...styleProps(props.class, sidebar.menuBadge, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -403,28 +388,24 @@ function SidebarMenuButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { isActive: false, variant: "default", size: "default" } as const,
-      props
-    ),
-    [
-      "asChild",
-      "isActive",
-      "variant",
-      "size",
-      "tooltip",
-      "class",
-      "sx",
-      "children",
-    ]
+  const rest = omit(
+    props,
+    "asChild",
+    "isActive",
+    "variant",
+    "size",
+    "tooltip",
+    "class",
+    "sx",
+    "children"
   )
   const ctx = useSidebar()
+  const size = () => props.size ?? "default"
 
   const label = createMemo(() =>
-    typeof local.tooltip === "string"
-      ? { children: local.tooltip }
-      : local.tooltip
+    typeof props.tooltip === "string"
+      ? { children: props.tooltip }
+      : props.tooltip
   )
 
   const VARIANTS = { default: null, outline: sidebar.menuButtonOutline }
@@ -448,20 +429,20 @@ function SidebarMenuButton(props: {
                 {...childProps()}
                 data-slot="sidebar-menu-button"
                 data-sidebar="menu-button"
-                data-size={local.size}
-                data-active={local.isActive ? "" : undefined}
+                data-size={size()}
+                data-active={props.isActive ? "" : undefined}
                 {...rest}
                 {...styleProps(
                   childProps().class,
-                  local.class,
+                  props.class,
                   sidebar.menuButton,
-                  VARIANTS[local.variant],
-                  SIZES[local.size],
-                  local.sx
+                  VARIANTS[props.variant ?? "default"],
+                  SIZES[size()],
+                  props.sx
                 )}
-                render={asRender(local.asChild)}
+                render={asRender(props.asChild)}
               >
-                {local.children}
+                {props.children}
               </Primitive>
             )}
           />
@@ -474,19 +455,19 @@ function SidebarMenuButton(props: {
           as="button"
           data-slot="sidebar-menu-button"
           data-sidebar="menu-button"
-          data-size={local.size}
-          data-active={local.isActive ? "" : undefined}
+          data-size={size()}
+          data-active={props.isActive ? "" : undefined}
           {...rest}
           {...styleProps(
-            local.class,
+            props.class,
             sidebar.menuButton,
-            VARIANTS[local.variant],
-            SIZES[local.size],
-            local.sx
+            VARIANTS[props.variant ?? "default"],
+            SIZES[size()],
+            props.sx
           )}
-          render={asRender(local.asChild)}
+          render={asRender(props.asChild)}
         >
-          {local.children}
+          {props.children}
         </Primitive>
       )}
     </>
@@ -499,15 +480,15 @@ function SidebarMenuItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
       {...rest}
-      {...styleProps(local.class, sidebar.menuItem, local.sx)}
+      {...styleProps(props.class, sidebar.menuItem, props.sx)}
     >
-      {local.children}
+      {props.children}
     </li>
   )
 }
@@ -518,10 +499,7 @@ function SidebarMenuSkeleton(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ showIcon: false } as const, props),
-    ["showIcon", "class", "sx"]
-  )
+  const rest = omit(props, "showIcon", "class", "sx")
   // A width between 50 and 90%, so a list of them reads as text.
   const width = `${Math.floor(Math.random() * 40) + 50}%`
   return (
@@ -529,9 +507,9 @@ function SidebarMenuSkeleton(props: {
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
       {...rest}
-      {...styleProps(local.class, sidebar.menuSkeleton, local.sx)}
+      {...styleProps(props.class, sidebar.menuSkeleton, props.sx)}
     >
-      <Show when={local.showIcon}>
+      <Show when={props.showIcon}>
         <Skeleton
           data-sidebar="menu-skeleton-icon"
           sx={sidebar.menuSkeletonIcon}
@@ -552,15 +530,15 @@ function SidebarMenuSub(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <ul
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       {...rest}
-      {...styleProps(local.class, sidebar.menuSub, local.sx)}
+      {...styleProps(props.class, sidebar.menuSub, props.sx)}
     >
-      {local.children}
+      {props.children}
     </ul>
   )
 }
@@ -574,22 +552,27 @@ function SidebarMenuSubButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "md", isActive: false } as const, props),
-    ["asChild", "size", "isActive", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "asChild",
+    "size",
+    "isActive",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Primitive
       as="a"
       data-slot="sidebar-menu-sub-button"
       data-sidebar="menu-sub-button"
-      data-size={local.size}
-      data-active={local.isActive ? "" : undefined}
+      data-size={props.size ?? "md"}
+      data-active={props.isActive ? "" : undefined}
       {...rest}
-      {...styleProps(local.class, sidebar.menuSubButton, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, sidebar.menuSubButton, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Primitive>
   )
 }
@@ -600,15 +583,15 @@ function SidebarMenuSubItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <li
       data-slot="sidebar-menu-sub-item"
       data-sidebar="menu-sub-item"
       {...rest}
-      {...styleProps(local.class, sidebar.menuSubItem, local.sx)}
+      {...styleProps(props.class, sidebar.menuSubItem, props.sx)}
     >
-      {local.children}
+      {props.children}
     </li>
   )
 }
@@ -647,19 +630,24 @@ function SidebarProvider(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ defaultOpen: true } as const, props),
-    ["defaultOpen", "open", "onOpenChange", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "defaultOpen",
+    "open",
+    "onOpenChange",
+    "class",
+    "sx",
+    "children"
   )
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobileState] = createSignal(false)
   // The sidebar's own state, unless the caller controls it.
-  const [own, setOwn] = createSignal(untrack(() => local.defaultOpen))
-  const open = () => local.open ?? own()
+  const [own, setOwn] = createSignal(untrack(() => props.defaultOpen ?? true))
+  const open = () => props.open ?? own()
 
   function setOpen(value: boolean | ((value: boolean) => boolean)) {
     const openState = typeof value === "function" ? value(open()) : value
-    if (local.open !== undefined) local.onOpenChange?.(openState)
+    if (props.open !== undefined) props.onOpenChange?.(openState)
     else setOwn(openState)
     // Kept in a cookie, so the next page load starts in the same state.
     document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
@@ -675,7 +663,7 @@ function SidebarProvider(props: {
       : setOpen((current) => !current)
 
   // ⌘B or Ctrl+B toggles the sidebar.
-  onMount(() => {
+  onSettled(() => {
     const onKeydown = (event: KeyboardEvent) => {
       if (
         event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
@@ -686,7 +674,7 @@ function SidebarProvider(props: {
       }
     }
     window.addEventListener("keydown", onKeydown)
-    onCleanup(() => window.removeEventListener("keydown", onKeydown))
+    return () => window.removeEventListener("keydown", onKeydown)
   })
 
   const context: SidebarContextValue = {
@@ -709,15 +697,15 @@ function SidebarProvider(props: {
   }
 
   return (
-    <SidebarContext.Provider value={context}>
+    <SidebarContext value={context}>
       <div
         data-slot="sidebar-wrapper"
         {...rest}
-        {...styleProps(local.class, sidebar.wrapper, local.sx)}
+        {...styleProps(props.class, sidebar.wrapper, props.sx)}
       >
-        {local.children}
+        {props.children}
       </div>
-    </SidebarContext.Provider>
+    </SidebarContext>
   )
 }
 
@@ -726,7 +714,7 @@ function SidebarRail(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   const ctx = useSidebar()
   return (
     <button
@@ -736,7 +724,7 @@ function SidebarRail(props: {
       tabindex="-1"
       title="Toggle Sidebar"
       {...rest}
-      {...styleProps(local.class, sidebar.rail, local.sx)}
+      {...styleProps(props.class, sidebar.rail, props.sx)}
       onClick={ctx.toggleSidebar}
     />
   )
@@ -747,14 +735,14 @@ function SidebarSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <Separator
       data-slot="sidebar-separator"
       data-sidebar="separator"
       {...rest}
-      class={local.class}
-      sx={[sidebar.separator, local.sx]}
+      class={props.class}
+      sx={[sidebar.separator, props.sx]}
     />
   )
 }
@@ -764,7 +752,7 @@ function SidebarTrigger(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   const ctx = useSidebar()
   return (
     <Button
@@ -774,8 +762,8 @@ function SidebarTrigger(props: {
       size="icon-sm"
       onClick={ctx.toggleSidebar}
       {...rest}
-      class={local.class}
-      sx={[local.sx]}
+      class={props.class}
+      sx={[props.sx]}
     >
       <IconPlaceholder
         lucide="PanelLeftIcon"

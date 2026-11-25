@@ -1,4 +1,4 @@
-import { Show, splitProps } from "solid-js"
+import { Show } from "solid-js"
 import { IconPlaceholder } from "../../../ui/icon-placeholder"
 import type { Sx } from "@kirana-style/core"
 
@@ -14,7 +14,7 @@ export function Dashboard01Icon(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["icon", "sx", "class"])
+  const local = props
   /**
    * An icon this block's data names, drawn by a placeholder written out for each, as React's data
    * holds placeholder elements: a project's installer resolves only a placeholder whose

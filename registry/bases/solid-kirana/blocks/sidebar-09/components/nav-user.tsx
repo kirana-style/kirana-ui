@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
 import {
@@ -39,7 +39,8 @@ export function NavUser(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["user", "class", "sx"])
+  const local = props
+  const rest = omit(props, "user", "class", "sx")
   const overButton = <T extends object>(entries: T) => ({
     ...entries,
     [axes.style.maia]: entries,

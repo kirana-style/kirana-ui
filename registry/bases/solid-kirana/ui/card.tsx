@@ -1,7 +1,7 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { card } from "../../../styles/card.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function Card(
@@ -12,10 +12,8 @@ function Card(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "default" } as const, props),
-    ["size", "class", "sx", "children"]
-  )
+  const local = merge({ size: "default" } as const, props)
+  const rest = omit(local, "size", "class", "sx", "children")
   return (
     <div
       data-slot="card"
@@ -35,7 +33,8 @@ function CardAction(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="card-action"
@@ -54,7 +53,8 @@ function CardContent(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="card-content"
@@ -73,7 +73,8 @@ function CardDescription(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="card-description"
@@ -92,7 +93,8 @@ function CardFooter(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="card-footer"
@@ -111,7 +113,8 @@ function CardHeader(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="card-header"
@@ -130,7 +133,8 @@ function CardTitle(
     children?: JSX.Element
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="card-title"

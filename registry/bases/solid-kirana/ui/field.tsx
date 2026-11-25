@@ -1,9 +1,9 @@
-import { For, Show, createMemo, mergeProps, splitProps } from "solid-js"
+import { For, Show, createMemo, merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { field } from "../../../styles/field.styles"
 import { Label } from "./label"
 import { Separator } from "./separator"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function Field(props: {
@@ -13,10 +13,8 @@ function Field(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "vertical" } as const, props),
-    ["orientation", "class", "sx", "children"]
-  )
+  const local = merge({ orientation: "vertical" } as const, props)
+  const rest = omit(local, "orientation", "class", "sx", "children")
   return (
     <div
       data-slot="field"
@@ -36,7 +34,8 @@ function FieldContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="field-content"
@@ -54,7 +53,8 @@ function FieldDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <p
       data-slot="field-description"
@@ -73,7 +73,8 @@ function FieldError(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["errors", "class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "errors", "class", "sx", "children")
   /** The errors' messages, each once. */
   const messages = createMemo(() => [
     ...new Set(
@@ -114,7 +115,8 @@ function FieldGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="field-group"
@@ -132,7 +134,8 @@ function FieldLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <Label
       data-slot="field-label"
@@ -152,10 +155,8 @@ function FieldLegend(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "legend" } as const, props),
-    ["variant", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "legend" } as const, props)
+  const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <legend
       data-slot="field-legend"
@@ -174,7 +175,8 @@ function FieldSeparator(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="field-separator"
@@ -198,7 +200,8 @@ function FieldSet(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <fieldset
       data-slot="field-set"
@@ -216,7 +219,8 @@ function FieldTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="field-label"

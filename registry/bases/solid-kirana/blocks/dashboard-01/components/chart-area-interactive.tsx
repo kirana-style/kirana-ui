@@ -1,11 +1,11 @@
-import { createEffect, createMemo, createSignal, splitProps } from "solid-js"
+import { createEffect, createMemo, createSignal, omit } from "solid-js"
 import { areaY, defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
 import { d3Curve } from "@tanstack/charts/d3/shape"
 import { decorative } from "@tanstack/charts/mark/decorative"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { scalePoint } from "@tanstack/charts/scales/point"
 import { curveNatural } from "d3-shape"
-import { useIsMobile } from "../../../../../lib/solid/use-mobile"
+import { useIsMobile } from "../../../../../lib/solid2/use-mobile"
 import {
   Card,
   CardAction,
@@ -41,7 +41,8 @@ export function ChartAreaInteractive(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     chartAreaInteractiveCard: css({
       containerType: { "*": null, base: "inline-size" },
@@ -326,9 +327,12 @@ export function ChartAreaInteractive(props: {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = createSignal("90d")
   // A phone opens on the last 7 days, as upstream's.
-  createEffect(() => {
-    if (isMobile.current) setTimeRange("7d")
-  })
+  createEffect(
+    () => isMobile.current,
+    (mobile) => {
+      if (mobile) setTimeRange("7d")
+    }
+  )
   const chart = createMemo(() => chartFor(timeRange()))
 
   return (

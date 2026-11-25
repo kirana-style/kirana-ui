@@ -1,7 +1,7 @@
 import { ReasoningLine } from "../components/tool-approval/reasoning-line"
 import { For, Match, Show, Switch, createMemo } from "solid-js"
 import { IconPlaceholder } from "../ui/icon-placeholder"
-import { Chat } from "../../../lib/solid/chat"
+import { Chat } from "../../../lib/solid2/chat"
 import { lastAssistantMessageIsCompleteWithApprovalResponses } from "ai"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Bubble, BubbleContent } from "../ui/bubble"

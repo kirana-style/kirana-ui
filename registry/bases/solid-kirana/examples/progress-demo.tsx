@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js"
+import { createSignal, onSettled } from "solid-js"
 import { css } from "@kirana-style/core"
 import { Progress } from "../ui/progress"
 import { page } from "../../../styles/page.styles"
@@ -10,8 +10,9 @@ export default function ProgressDemo() {
 
   const [progress, setProgress] = createSignal(13)
 
-  onMount(() => {
-    setTimeout(() => setProgress(66), 500)
+  onSettled(() => {
+    const timer = setTimeout(() => setProgress(66), 500)
+    return () => clearTimeout(timer)
   })
 
   return (

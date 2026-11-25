@@ -3,7 +3,7 @@ import { css } from "@kirana-style/core"
 import { Card, CardContent } from "../../../ui/card"
 import { DARK_SCHEME, axes } from "../../../../../core/axes"
 import { FONT_INFO, STYLE_INFO } from "../../../../../core/config"
-import { useDesign } from "../../../../../lib/solid/use-design"
+import { useDesign } from "../../../../../lib/solid2/use-design"
 import { font, radius, theme } from "../../../../../core/tokens"
 import {
   breakpoint,

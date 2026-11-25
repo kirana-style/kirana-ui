@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For } from "solid-js"
 import { css, props as styleProps, select } from "@kirana-style/core"
 import {
   Collapsible,
@@ -18,7 +18,7 @@ import type { Sx } from "@kirana-style/core"
 type TreeItem = string | TreeItem[]
 
 export function Tree(props: { item: TreeItem; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["item", "sx", "class"])
+  const local = props
   const styles = {
     // `data-[active=true]:bg-transparent`: Base UI's button writes `data-active=""`, which it never
     // matches, so the current file keeps its highlight, as on upstream's site.

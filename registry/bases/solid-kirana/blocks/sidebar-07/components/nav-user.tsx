@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   fontSize,
@@ -37,7 +37,8 @@ export function NavUser(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["user", "class", "sx"])
+  const local = props
+  const rest = omit(props, "user", "class", "sx")
   const styles = {
     // The user's avatar is the team logo's rounded square, in the sidebar and its menu alike.
     avatarSquare: css({ borderRadius: { "*": null, base: radius.lg } }),

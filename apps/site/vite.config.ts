@@ -183,7 +183,8 @@ const PREVIEW_PORTS = {
   angular: 3006,
   // Kirana UI Primitives' own demos, raw and styled three ways (`apps/preview-primitives`).
   primitives: 3008,
-  // Solid on ui-sdk, on Solid 2 (`apps/preview-solid2`): `/preview/solid/uisdk/` (`ROUTED`).
+  // Solid on ui-sdk and on Kirana UI, on Solid 2 (`apps/preview-solid2`): `/preview/solid/uisdk/`
+  // and `/preview/solid/kirana/` (`ROUTED`).
   solid2: 3009,
 }
 
@@ -193,6 +194,7 @@ const PREVIEW_PORTS = {
  */
 const ROUTED: Record<string, keyof typeof PREVIEW_PORTS> = {
   "/preview/solid/uisdk/": "solid2",
+  "/preview/solid/kirana/": "solid2",
 }
 
 /**

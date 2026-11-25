@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { TraceIcon, TraceLine, TraceTitle } from "../../ui/trace"
 import type { Sx } from "@kirana-style/core"
@@ -10,7 +9,7 @@ export function TodoLine(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["todo", "streaming", "sx", "class"])
+  const local = props
   return (
     <TraceLine
       status={

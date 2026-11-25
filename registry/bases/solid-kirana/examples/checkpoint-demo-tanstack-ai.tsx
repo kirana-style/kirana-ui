@@ -1,6 +1,6 @@
-import { Index, Show, createMemo } from "solid-js"
+import { For, Show, createMemo } from "solid-js"
 import { toolDefinition } from "@tanstack/ai"
-import { useChat } from "@tanstack/ai-solid"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -109,7 +109,7 @@ export default function CheckpointDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message) => (
             <>
               {message().role === "user" ? (
@@ -148,7 +148,7 @@ export default function CheckpointDemoTanstackAi() {
               </Show>
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy() && nextMessage()}>
           <Button
             variant="outline"

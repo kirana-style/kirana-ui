@@ -1,4 +1,4 @@
-import { For, createSignal, splitProps } from "solid-js"
+import { For, createSignal, omit } from "solid-js"
 import { css } from "@kirana-style/core"
 import { addDays } from "date-fns"
 import { Example } from "../../components/example"
@@ -15,7 +15,8 @@ export function CalendarWithPresets(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     mxAutoWFitMaxW300Px: css({
       marginInline: "auto",

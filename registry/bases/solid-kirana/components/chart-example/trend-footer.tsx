@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { fontWeight, space } from "../../../../core/scales"
 import { theme } from "../../../../core/tokens"
@@ -12,7 +12,8 @@ export function TrendFooter(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["note", "class", "sx"])
+  const local = props
+  const rest = omit(props, "note", "class", "sx")
   const styles = {
     // The area and line cards' footer: `flex w-full items-start gap-2` around a `grid gap-2`.
     footerRow: css({

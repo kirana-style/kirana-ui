@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { styles } from "./table"
 import type { Sx } from "@kirana-style/core"
@@ -9,7 +9,8 @@ export function NumberHeader(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["field", "class", "sx"])
+  const local = props
+  const rest = omit(props, "field", "class", "sx")
   // The target's and the limit's header, aligned as their fields are.
 
   return (

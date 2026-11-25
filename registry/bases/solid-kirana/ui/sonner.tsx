@@ -1,6 +1,6 @@
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import type { ComponentProps } from "solid-js"
 import { Toaster as Sonner } from "solid-sonner"
 
@@ -17,7 +17,8 @@ function Toaster(
     sx?: Sx
   }
 ) {
-  const [local, rest] = splitProps(props, ["theme", "sx"])
+  const local = props
+  const rest = omit(props, "theme", "sx")
   return (
     <Sonner
       theme={local.theme ?? "system"}

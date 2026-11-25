@@ -1,4 +1,4 @@
-import { createMemo, splitProps } from "solid-js"
+import { createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { space } from "../../../../core/scales"
 import { CodeBlock, CodeBlockContent } from "../../ui/code-block"
@@ -21,7 +21,7 @@ export function ToolTrace(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["part", "live", "sx", "class"])
+  const local = props
   const styles = {
     codeBlockContent: css({
       maxHeight: { "*": null, base: space[64] },

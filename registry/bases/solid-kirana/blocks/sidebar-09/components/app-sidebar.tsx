@@ -1,5 +1,5 @@
 import { NavUser } from "./nav-user"
-import { For, Show, createSignal, splitProps } from "solid-js"
+import { For, Show, createSignal, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { Label } from "../../../ui/label"
 import {
@@ -28,7 +28,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 export function AppSidebar(props: {
@@ -37,7 +37,8 @@ export function AppSidebar(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   const overButton = <T extends object>(entries: T) => ({
     ...entries,
     [axes.style.maia]: entries,

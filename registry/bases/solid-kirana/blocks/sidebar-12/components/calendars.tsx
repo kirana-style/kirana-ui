@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For } from "solid-js"
 import { css, props as styleProps, select } from "@kirana-style/core"
 import {
   Collapsible,
@@ -37,7 +37,7 @@ export function Calendars(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["calendars", "sx", "class"])
+  const local = props
   const styles = {
     sidebarGroupLabel: css({
       width: "100%",
@@ -119,7 +119,7 @@ export function Calendars(props: {
                         <SidebarMenuItem>
                           <SidebarMenuButton>
                             <div
-                              data-active={itemIndex() < 2}
+                              data-active={itemIndex() < 2 ? "true" : "false"}
                               sx={styles.calendarsDiv}
                             >
                               <IconPlaceholder

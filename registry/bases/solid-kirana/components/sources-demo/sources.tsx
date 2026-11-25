@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -23,7 +23,7 @@ export function Sources(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["sources", "sx", "class"])
+  const local = props
   const styles = {
     sourcesSpan: css({
       borderWidth: "0",

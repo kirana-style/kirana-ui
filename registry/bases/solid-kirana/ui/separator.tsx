@@ -1,4 +1,4 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { separator } from "../../../styles/separator.styles"
 import type { Sx } from "@kirana-style/core"
@@ -9,10 +9,8 @@ function Separator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "horizontal" } as const, props),
-    ["orientation", "class", "sx"]
-  )
+  const local = merge({ orientation: "horizontal" } as const, props)
+  const rest = omit(local, "orientation", "class", "sx")
   return (
     <div
       data-slot="separator"

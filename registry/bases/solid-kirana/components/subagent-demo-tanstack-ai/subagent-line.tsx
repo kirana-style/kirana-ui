@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { TraceIcon, TraceLine, TraceTitle } from "../../ui/trace"
@@ -10,7 +9,7 @@ export function SubagentLine(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["done", "running", "sx", "class"])
+  const local = props
   const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 
   const styles = {

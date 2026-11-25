@@ -8,7 +8,7 @@ import { barY, defineChart } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 
-import { useDesign } from "../../../../../lib/solid/use-design"
+import { useDesign } from "../../../../../lib/solid2/use-design"
 import { chartTheme, chartTooltip } from "../../../ui/chart"
 
 type Margin = { top?: number; right?: number; bottom?: number; left?: number }

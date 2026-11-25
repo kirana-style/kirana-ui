@@ -1,12 +1,12 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { buttonGroup } from "../../../styles/button-group.styles"
 import { Separator } from "./separator"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
-import type { JSX } from "solid-js"
+import { asRender } from "../../../lib/solid2/element"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 type ButtonGroupVariants = NonNullable<Parameters<typeof buttonGroup.root>[0]>
 
@@ -17,12 +17,8 @@ function ButtonGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "orientation",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "orientation", "class", "sx", "children")
   return (
     <div
       data-slot="button-group"
@@ -47,10 +43,8 @@ function ButtonGroupSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "vertical" } as const, props),
-    ["orientation", "class", "sx"]
-  )
+  const local = merge({ orientation: "vertical" } as const, props)
+  const rest = omit(local, "orientation", "class", "sx")
   return (
     <Separator
       data-slot="button-group-separator"
@@ -69,12 +63,8 @@ function ButtonGroupText(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="div"

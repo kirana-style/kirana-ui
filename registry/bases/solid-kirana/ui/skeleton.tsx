@@ -1,7 +1,7 @@
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
-import { splitProps } from "solid-js"
-import type { JSX } from "solid-js"
+import { omit } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
 import { skeleton } from "../../../styles/skeleton.styles"
 
@@ -11,7 +11,8 @@ function Skeleton(
     sx?: Sx
   }
 ) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <div
       data-slot="skeleton"

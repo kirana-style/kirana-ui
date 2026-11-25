@@ -1,7 +1,7 @@
-import { createSignal, mergeProps, splitProps } from "solid-js"
+import { createSignal, omit, untrack } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Menu } from "@kirana-ui/solid/menu"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { IconPlaceholder } from "./icon-placeholder"
 import {
   menuCheckableRowPadding,
@@ -18,16 +18,16 @@ import {
 } from "../../../styles/menu.styles"
 import { dropdownMenu } from "../../../styles/dropdown-menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /** A popup's side, as Base UI names it: `inline-start` and `inline-end` follow the direction. */
 type Side = "top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"
 
 /**
  * Kirana UI's menu, taking the Ark UI parts' props: `open`, `defaultOpen`, `onOpenChange` (given
- * `{ open }`). It renders no element; the rest (`disabled`, `loop`, `modal`) goes to Kirana UI's
+ * `{ open }`). It renders no element; the rest (`disabled`, `loopFocus`, `modal`) goes to Kirana UI's
  * root. Closed, the popup leaves the page.
  */
 function DropdownMenu(props: {
@@ -44,17 +44,20 @@ function DropdownMenu(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["onOpenChange", "children"],
-    ["positioning", "sx", "class"]
+    "onOpenChange",
+    "children",
+    "positioning",
+    "sx",
+    "class"
   )
   return (
     <Menu.Root
       {...rest}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </Menu.Root>
   )
 }
@@ -75,51 +78,43 @@ function DropdownMenuCheckboxItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, , rest] = splitProps(
-    mergeProps(
-      {
-        defaultChecked: false,
-        inset: false,
-        checked: null,
-        closeOnSelect: false,
-      } as const,
-      props
-    ),
-    [
-      "defaultChecked",
-      "inset",
-      "checked",
-      "onCheckedChange",
-      "closeOnSelect",
-      "asChild",
-      "class",
-      "sx",
-      "children",
-    ],
-    // Ark names every item with `value`; Kirana UI's items need none.
-    ["value"]
+  // Ark names every item with `value`; Kirana UI's items need none.
+  const rest = omit(
+    props,
+    "defaultChecked",
+    "inset",
+    "checked",
+    "onCheckedChange",
+    "closeOnSelect",
+    "asChild",
+    "class",
+    "sx",
+    "children",
+    "value"
   )
   // The item's own state while the caller keeps none (`checked` is `null` then: a boolean would
   // read an absent one as `false`).
-  const [own, setOwn] = createSignal(local.defaultChecked)
+  const [own, setOwn] = createSignal(
+    untrack(() => props.defaultChecked ?? false)
+  )
   return (
     <Menu.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
-      closeOnClick={local.closeOnSelect}
-      checked={local.checked ?? own()}
+      closeOnClick={props.closeOnSelect ?? false}
+      checked={props.checked ?? own()}
       onCheckedChange={(next) => (
         setOwn(next),
-        local.onCheckedChange?.({ checked: next })
+        props.onCheckedChange?.({ checked: next })
       )}
-      data-inset={local.inset || undefined}
+      data-inset={props.inset || undefined}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuCheckableRowPadding,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
       <span
         data-slot="dropdown-menu-checkbox-item-indicator"
@@ -135,7 +130,7 @@ function DropdownMenuCheckboxItem(props: {
           />
         </Menu.CheckboxItemIndicator>
       </span>
-      {local.children}
+      {props.children}
     </Menu.CheckboxItem>
   )
 }
@@ -150,39 +145,37 @@ function DropdownMenuContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        side: "bottom",
-        sideOffset: 4,
-        align: "start",
-        alignOffset: 0,
-      } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Menu.Portal>
       <Menu.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "bottom"}
+        sideOffset={props.sideOffset ?? 4}
+        align={props.align ?? "start"}
+        alignOffset={props.alignOffset ?? 0}
         {...styleProps(menuPositioner)}
       >
         <Menu.Popup
           data-slot="dropdown-menu-content"
           {...rest}
           {...styleProps(
-            local.class,
+            props.class,
             popupMotion,
             menuSurface,
             dropdownMenu.content,
-            local.sx
+            props.sx
           )}
         >
-          {local.children}
+          {props.children}
         </Menu.Popup>
       </Menu.Positioner>
     </Menu.Portal>
@@ -196,21 +189,16 @@ function DropdownMenuGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   // A radio item inside it still finds the radio group around it, as Base UI's does.
   return (
     <Menu.Group
       data-slot="dropdown-menu-group"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.Group>
   )
 }
@@ -227,32 +215,35 @@ function DropdownMenuItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, , rest] = splitProps(
-    mergeProps(
-      { inset: false, variant: "default", closeOnSelect: true } as const,
-      props
-    ),
-    ["inset", "variant", "closeOnSelect", "asChild", "class", "sx", "children"],
-    // Ark names every item with `value`; Kirana UI's items need none.
-    ["value"]
+  // Ark names every item with `value`; Kirana UI's items need none.
+  const rest = omit(
+    props,
+    "inset",
+    "variant",
+    "closeOnSelect",
+    "asChild",
+    "class",
+    "sx",
+    "children",
+    "value"
   )
   return (
     <Menu.Item
       data-slot="dropdown-menu-item"
-      closeOnClick={local.closeOnSelect}
-      data-inset={local.inset || undefined}
-      data-variant={local.variant}
+      closeOnClick={props.closeOnSelect ?? true}
+      data-inset={props.inset || undefined}
+      data-variant={props.variant ?? "default"}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuRowPadding,
-        local.variant === "destructive" && menuRowDestructive,
-        local.sx
+        props.variant === "destructive" && menuRowDestructive,
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.Item>
   )
 }
@@ -265,20 +256,17 @@ function DropdownMenuLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ inset: false } as const, props),
-    ["inset", "asChild", "class", "sx", "children"]
-  )
+  const rest = omit(props, "inset", "asChild", "class", "sx", "children")
   // The group's label: inside its group, as Base UI's label must be.
   return (
     <Menu.GroupLabel
       data-slot="dropdown-menu-label"
-      data-inset={local.inset || undefined}
+      data-inset={props.inset || undefined}
       {...rest}
-      {...styleProps(local.class, menuLabel, menuLabelWeight, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, menuLabel, menuLabelWeight, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.GroupLabel>
   )
 }
@@ -288,10 +276,9 @@ function DropdownMenuPortal(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["children", "sx", "class"])
   // Upstream's portal around the content. The content here draws its own portal, so this only
   // passes its children through, for markup written for both.
-  return <>{local.children}</>
+  return <>{props.children}</>
 }
 
 function DropdownMenuRadioGroup<V extends string = string>(props: {
@@ -305,31 +292,32 @@ function DropdownMenuRadioGroup<V extends string = string>(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "value",
     "defaultValue",
     "onValueChange",
     "asChild",
     "class",
     "sx",
-    "children",
-  ])
+    "children"
+  )
   // The group's own value while the caller keeps none. A radio item finds the group through any
   // group between them, as Base UI's does.
-  const [own, setOwn] = createSignal<V | null>(local.defaultValue ?? null)
+  const [own, setOwn] = createSignal<V | null>(() => props.defaultValue ?? null)
   return (
     <Menu.RadioGroup<V>
       data-slot="dropdown-menu-radio-group"
-      value={local.value ?? own()}
+      value={props.value ?? own()}
       onValueChange={(next) => (
         setOwn(() => next),
-        local.onValueChange?.({ value: next })
+        props.onValueChange?.({ value: next })
       )}
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.RadioGroup>
   )
 }
@@ -345,24 +333,30 @@ function DropdownMenuRadioItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ inset: false, closeOnSelect: false } as const, props),
-    ["value", "inset", "closeOnSelect", "asChild", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "value",
+    "inset",
+    "closeOnSelect",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Menu.RadioItem
       data-slot="dropdown-menu-radio-item"
-      closeOnClick={local.closeOnSelect}
-      value={local.value}
-      data-inset={local.inset || undefined}
+      closeOnClick={props.closeOnSelect ?? false}
+      value={props.value}
+      data-inset={props.inset || undefined}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuCheckableRowPadding,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
       <span data-slot="dropdown-menu-radio-item-indicator" sx={menuIndicator}>
         <Menu.RadioItemIndicator>
@@ -375,7 +369,7 @@ function DropdownMenuRadioItem(props: {
           />
         </Menu.RadioItemIndicator>
       </span>
-      {local.children}
+      {props.children}
     </Menu.RadioItem>
   )
 }
@@ -385,12 +379,12 @@ function DropdownMenuSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <Menu.Separator
       data-slot="dropdown-menu-separator"
       {...rest}
-      {...styleProps(local.class, menuSeparator, local.sx)}
+      {...styleProps(props.class, menuSeparator, props.sx)}
     />
   )
 }
@@ -401,14 +395,14 @@ function DropdownMenuShortcut(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="dropdown-menu-shortcut"
       {...rest}
-      {...styleProps(local.class, menuShortcut, local.sx)}
+      {...styleProps(props.class, menuShortcut, props.sx)}
     >
-      {local.children}
+      {props.children}
     </span>
   )
 }
@@ -431,17 +425,20 @@ function DropdownMenuSub(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["onOpenChange", "children"],
-    ["positioning", "sx", "class"]
+    "onOpenChange",
+    "children",
+    "positioning",
+    "sx",
+    "class"
   )
   return (
     <Menu.SubmenuRoot
       {...rest}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </Menu.SubmenuRoot>
   )
 }
@@ -456,41 +453,39 @@ function DropdownMenuSubContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        side: "inline-end",
-        sideOffset: 0,
-        align: "start",
-        alignOffset: -3,
-      } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   // The content's look under the submenu's own, as Base UI's submenu is a `DropdownMenuContent`.
   return (
     <Menu.Portal>
       <Menu.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "inline-end"}
+        sideOffset={props.sideOffset ?? 0}
+        align={props.align ?? "start"}
+        alignOffset={props.alignOffset ?? -3}
         {...styleProps(menuPositioner)}
       >
         <Menu.Popup
           data-slot="dropdown-menu-sub-content"
           {...rest}
           {...styleProps(
-            local.class,
+            props.class,
             popupMotion,
             menuSurface,
             dropdownMenu.content,
             dropdownMenu.subContent,
-            local.sx
+            props.sx
           )}
         >
-          {local.children}
+          {props.children}
         </Menu.Popup>
       </Menu.Positioner>
     </Menu.Portal>
@@ -505,25 +500,22 @@ function DropdownMenuSubTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ inset: false } as const, props),
-    ["inset", "asChild", "class", "sx", "children"]
-  )
+  const rest = omit(props, "inset", "asChild", "class", "sx", "children")
   return (
     <Menu.SubmenuTrigger
       data-slot="dropdown-menu-sub-trigger"
-      data-inset={local.inset || undefined}
+      data-inset={props.inset || undefined}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuRowPadding,
         dropdownMenu.subTrigger,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
       <IconPlaceholder
         lucide="ChevronRightIcon"
         tabler="IconChevronRight"
@@ -543,22 +535,17 @@ function DropdownMenuTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   // `type="button"`: a trigger in a form opens the menu and submits nothing.
   return (
     <Menu.Trigger
       type="button"
       data-slot="dropdown-menu-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.Trigger>
   )
 }

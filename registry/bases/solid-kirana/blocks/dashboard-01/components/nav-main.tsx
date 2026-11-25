@@ -1,5 +1,5 @@
 import { Dashboard01Icon } from "./dashboard01-icon"
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import { Button } from "../../../ui/button"
 import {
   SidebarGroup,
@@ -31,7 +31,8 @@ export function NavMain(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["items", "class", "sx"])
+  const local = props
+  const rest = omit(props, "items", "class", "sx")
   const styles = {
     sidebarGroupContent: css({
       display: { "*": null, base: "flex" },

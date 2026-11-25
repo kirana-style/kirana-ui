@@ -1,7 +1,7 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { Button } from "../../ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 export function MessageAction(props: {
@@ -11,7 +11,8 @@ export function MessageAction(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, rest] = splitProps(props, ["label", "children", "sx", "class"])
+  const local = props
+  const rest = omit(props, "label", "children", "sx", "class")
   return (
     <Tooltip>
       <TooltipTrigger

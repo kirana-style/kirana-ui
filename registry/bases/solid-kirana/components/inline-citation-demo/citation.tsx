@@ -1,4 +1,4 @@
-import { createMemo, splitProps } from "solid-js"
+import { createMemo } from "solid-js"
 import { Button } from "../../ui/button"
 import {
   HoverCard,
@@ -22,7 +22,7 @@ type Source = {
 }
 
 export function Citation(props: { source: Source; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["source", "sx", "class"])
+  const local = props
   const styles = {
     citationHoverCardContent: css({
       display: { "*": null, base: "flex" },

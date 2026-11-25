@@ -1,10 +1,10 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { inputGroup } from "../../../styles/input-group.styles"
 import { Button } from "./button"
 import { Input } from "./input"
 import { Textarea } from "./textarea"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function InputGroup(props: {
@@ -13,7 +13,8 @@ function InputGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="input-group"
@@ -35,10 +36,8 @@ function InputGroupAddon(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ align: "inline-start" } as const, props),
-    ["align", "class", "sx", "children"]
-  )
+  const local = merge({ align: "inline-start" } as const, props)
+  const rest = omit(local, "align", "class", "sx", "children")
   /** A click on the addon, but not on a button in it, focuses the group's input. */
   function focusInput(event: MouseEvent) {
     if ((event.target as HTMLElement).closest("button")) return
@@ -82,13 +81,11 @@ function InputGroupButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { type: "button", variant: "ghost", size: "xs" } as const,
-      props
-    ),
-    ["type", "variant", "size", "class", "sx", "children"]
+  const local = merge(
+    { type: "button", variant: "ghost", size: "xs" } as const,
+    props
   )
+  const rest = omit(local, "type", "variant", "size", "class", "sx", "children")
   return (
     <Button
       type={local.type}
@@ -108,7 +105,8 @@ function InputGroupInput(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <Input
       data-slot="input-group-control"
@@ -125,7 +123,8 @@ function InputGroupText(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span {...rest} {...styleProps(local.class, inputGroup.text, local.sx)}>
       {local.children}
@@ -138,7 +137,8 @@ function InputGroupTextarea(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <Textarea
       data-slot="input-group-control"

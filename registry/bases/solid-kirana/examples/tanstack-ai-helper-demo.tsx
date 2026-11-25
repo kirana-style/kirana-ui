@@ -1,13 +1,6 @@
 import { MessageRow } from "../components/tanstack-ai-helper-demo/message-row"
-import {
-  Index,
-  Show,
-  createEffect,
-  createMemo,
-  createSignal,
-  on,
-} from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createEffect, createMemo, createSignal } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { css } from "@kirana-style/core"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { IconPlaceholder } from "../ui/icon-placeholder"
@@ -187,10 +180,10 @@ export default function TanstackAiHelperDemo() {
   const [viewport, setViewport] = createSignal<HTMLDivElement>()
   let pinned = true
   createEffect(
-    on(messages, () => {
-      const element = viewport()
+    () => [messages(), viewport()] as const,
+    ([, element]) => {
       if (element && pinned) element.scrollTop = element.scrollHeight
-    })
+    }
   )
 
   return (
@@ -267,12 +260,12 @@ export default function TanstackAiHelperDemo() {
                 <div
                   role="log"
                   aria-relevant="additions"
-                  aria-busy={busy()}
+                  aria-busy={busy() ? "true" : "false"}
                   sx={styles.transcript}
                 >
-                  <Index each={messages()}>
+                  <For keyed={false} each={messages()}>
                     {(message) => <MessageRow message={message()} />}
-                  </Index>
+                  </For>
                 </div>
               </div>
             </Show>

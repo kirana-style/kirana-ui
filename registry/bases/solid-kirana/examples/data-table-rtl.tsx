@@ -19,7 +19,7 @@ import {
   tableFeatures,
   createTable,
   FlexRender,
-} from "@tanstack/solid-table"
+} from "../../../lib/solid2/table"
 
 import { Button } from "../ui/button"
 import { Checkbox } from "../ui/checkbox"
@@ -406,7 +406,7 @@ export default function DataTableRtl() {
   ])
 
   // The table keeps its own sorting, filters, visibility, selection and pages (TanStack Table 9's
-  // atoms, which Solid's adapter makes reactive), where React's holds each in a state of its own.
+  // atoms, which `lib/solid2/table` makes reactive, LF-032), where React's holds each in a state of its own.
   const table = createTable({ features, data, columns })
 
   return (

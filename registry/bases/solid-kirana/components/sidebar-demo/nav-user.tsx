@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar"
@@ -37,7 +37,8 @@ export function NavUser(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["user", "class", "sx"])
+  const local = props
+  const rest = omit(props, "user", "class", "sx")
   const styles = {
     navUserSidebarMenuButton: css({
       backgroundColor: { '[data-state="open"]': theme.sidebarAccent },

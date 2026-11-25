@@ -1,8 +1,8 @@
-import { For, Show, createMemo, splitProps } from "solid-js"
+import { For, Show, createMemo, omit } from "solid-js"
 import {
   HighlightedLine,
   useHighlightedCode,
-} from "../../../lib/solid/use-highlighted-code"
+} from "../../../lib/solid2/use-highlighted-code"
 import {
   CodeBlock,
   CodeBlockActions,
@@ -32,7 +32,8 @@ export function StreamingBlock(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["block", "code", "class", "sx"])
+  const local = props
+  const rest = omit(props, "block", "code", "class", "sx")
   const rows = createMemo(() => local.code.split("\n"))
   // A diff row starts with +, - or a space. The marker is not part of the code.
   const source = createMemo(() =>

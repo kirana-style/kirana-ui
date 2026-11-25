@@ -1,6 +1,7 @@
 {
   // The app with Solid 2's JSX (`@solidjs/web`); the registry's Solid 2 markup checks with its own
-  // tsconfig (`registry/bases/solid-uisdk`), which resolves Solid 2 from here.
+  // tsconfig (`registry/bases/solid-uisdk`, which `solid-kirana`'s extends), which resolves Solid 2
+  // from here.
   "extends": "../../registry/bases/solid-uisdk/tsconfig.json",
   "compilerOptions": {
     "types": ["vite/client", "@kirana-style/core/solid"],
@@ -22,6 +23,8 @@
       "@ui-sdk/solid/*": ["./node_modules/@ui-sdk/solid/dist/*"],
       "@ui-sdk/core": ["./node_modules/@ui-sdk/core/dist/index.d.ts"],
       "@ui-sdk/core/*": ["./node_modules/@ui-sdk/core/dist/*"],
+      "@kirana-ui/solid": ["./node_modules/@kirana-ui/solid/types/index.d.ts"],
+      "@kirana-ui/solid/*": ["./node_modules/@kirana-ui/solid/types/*.d.ts"],
       "solid-sonner": ["./node_modules/solid-sonner/dist/index.d.ts"],
       "@dnd-kit/dom": ["./node_modules/@dnd-kit/dom/index.d.ts"],
       "@dnd-kit/dom/*": ["./node_modules/@dnd-kit/dom/*.d.ts"],

@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { ScrollArea as ScrollAreaPrimitive } from "@kirana-ui/solid/scroll-area"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { scrollArea } from "../../../styles/scroll-area.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /** The viewport holds the content directly, as React's: no content element between them. */
 function ScrollArea(props: {
@@ -15,12 +15,8 @@ function ScrollArea(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <ScrollAreaPrimitive.Root
       render={asRender(local.asChild)}
@@ -48,10 +44,8 @@ function ScrollBar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "vertical" } as const, props),
-    ["orientation", "asChild", "class", "sx"]
-  )
+  const local = merge({ orientation: "vertical" } as const, props)
+  const rest = omit(local, "orientation", "asChild", "class", "sx")
   return (
     <ScrollAreaPrimitive.Scrollbar
       render={asRender(local.asChild)}

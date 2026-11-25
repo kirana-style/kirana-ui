@@ -6,8 +6,9 @@
  * `useLocaleContext()` did.
  */
 import { DirectionProvider as DirectionPrimitive } from "@kirana-ui/solid/direction"
-import { createContext, createMemo, mergeProps, useContext } from "solid-js"
-import type { JSX } from "solid-js"
+import { createContext, createMemo, useContext } from "solid-js"
+import type { Accessor } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
 /** The reading direction a `DirectionProvider` gives the parts inside it. */
 export type Direction = { locale: string; dir: "ltr" | "rtl" }
@@ -20,22 +21,21 @@ function directionOf(locale: string): Direction {
   return { locale, dir: RTL.has(language) ? "rtl" : "ltr" }
 }
 
-const DirectionContext = createContext<() => Direction>()
+const DirectionContext = createContext<Accessor<Direction> | null>(null)
 
 function DirectionProvider(props: { locale?: string; children?: JSX.Element }) {
-  const merged = mergeProps({ locale: "en-US" }, props)
-  const direction = createMemo(() => directionOf(merged.locale))
+  const direction = createMemo(() => directionOf(props.locale ?? "en-US"))
   return (
-    <DirectionContext.Provider value={direction}>
+    <DirectionContext value={direction}>
       <DirectionPrimitive direction={direction().dir}>
-        {merged.children}
+        {props.children}
       </DirectionPrimitive>
-    </DirectionContext.Provider>
+    </DirectionContext>
   )
 }
 
 /** The direction around a part: `en-US` and `ltr` outside any `DirectionProvider`. */
-function useDirection(): () => Direction {
+function useDirection(): Accessor<Direction> {
   return useContext(DirectionContext) ?? (() => directionOf("en-US"))
 }
 

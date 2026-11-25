@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { css } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { CodeBlock, CodeBlockContent } from "../../ui/code-block"
@@ -15,7 +14,7 @@ import type { Sx } from "@kirana-style/core"
 import type { Step } from "./types"
 
 export function StepRow(props: { step: Step; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["step", "sx", "class"])
+  const local = props
   const styles = {
     stepRowCodeBlockContent: css({
       maxHeight: { "*": null, base: space[64] },

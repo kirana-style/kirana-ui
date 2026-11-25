@@ -31,7 +31,7 @@ export default function InlineCitationDemo() {
     },
     suspense: {
       url: "https://react.dev/reference/react/Suspense",
-      title: "<Suspense>",
+      title: "<Loading>",
       description:
         "Display a fallback until its children have finished loading.",
     },

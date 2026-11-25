@@ -4,7 +4,7 @@
  * trailing block (an empty heading, a list item without text) until its text arrives. Fenced code
  * is a Code Block with line numbers, its copy button disabled while the fence is still open.
  */
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps, select } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
 import { streamingMarkdownExtension } from "@tanstack/markdown/extensions/streaming"
@@ -16,8 +16,8 @@ import {
   space,
 } from "../../../../core/scales"
 import { theme } from "../../../../core/tokens"
-import { Markdown as MarkdownPrimitive } from "../../../../lib/solid/markdown"
-import type { MarkdownComponents } from "../../../../lib/solid/markdown"
+import { Markdown as MarkdownPrimitive } from "../../../../lib/solid2/markdown"
+import type { MarkdownComponents } from "../../../../lib/solid2/markdown"
 import { FenceOpen } from "./fence-open"
 import { MarkdownCode } from "./markdown-code"
 import { MarkdownPre } from "./markdown-pre"
@@ -114,12 +114,8 @@ export function Markdown(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "source",
-    "components",
-    "class",
-    "sx",
-  ])
+  const local = props
+  const rest = omit(props, "source", "components", "class", "sx")
 
   return (
     <div

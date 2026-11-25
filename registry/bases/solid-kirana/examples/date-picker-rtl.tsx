@@ -71,7 +71,7 @@ export default function DatePickerRtl() {
               <Button
                 {...props()}
                 variant="outline"
-                data-empty={!date()}
+                data-empty={!date() ? "true" : "false"}
                 sx={styles.button}
                 dir={translation.dir}
               >

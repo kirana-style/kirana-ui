@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount, splitProps } from "solid-js"
+import { For, Show, createSignal, onSettled, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { Button } from "../../../ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover"
@@ -27,7 +27,8 @@ export function NavActions(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     navActionsDiv: css({
       display: "flex",
@@ -215,9 +216,9 @@ export function NavActions(props: {
   ]
 
   const [isOpen, setIsOpen] = createSignal(false)
-  // The menu opens once the page is shown, as upstream's: a tick later, since Ark's Solid popover
-  // drops an `open` changed before its machine has started, as this `onMount` runs (LF-011).
-  onMount(() => queueMicrotask(() => setIsOpen(true)))
+  // The menu opens once the page is shown, as upstream's: a tick later, as on Ark UI, whose Solid
+  // popover drops an `open` changed before its machine has started (LF-011); harmless here.
+  onSettled(() => queueMicrotask(() => setIsOpen(true)))
 
   return (
     <div {...styleProps(local.class, styles.navActionsDiv, local.sx)} {...rest}>

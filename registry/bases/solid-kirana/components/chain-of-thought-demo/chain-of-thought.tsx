@@ -1,6 +1,6 @@
 import { StatusIcon } from "./status-icon"
 import { StepRow } from "./step-row"
-import { For, createMemo, createSignal, splitProps } from "solid-js"
+import { For, createMemo, createSignal } from "solid-js"
 import {
   Trace,
   TraceCollapsible,
@@ -20,13 +20,7 @@ export function ChainOfThought(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "steps",
-    "streaming",
-    "answering",
-    "sx",
-    "class",
-  ])
+  const local = props
   const [open, setOpen] = createSignal<boolean>()
   const running = createMemo(() => local.streaming && !local.answering)
   const failed = createMemo(

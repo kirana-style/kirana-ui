@@ -5,8 +5,22 @@
  *
  * The engines are `BROWSERS` (`chromium,firefox,webkit`, default `chromium`): CI runs each in a job
  * of its own. Chromium runs without the GPU: headless, it can stop drawing frames, and an animation
- * then never ends.
+ * then never ends. Firefox runs without its script caches (`FIREFOX_PREFS`).
  */
+
+/**
+ * Firefox without its script caches and its module preloads (LF-045). On CI's runners Firefox's
+ * page dies as the tests' modules load: its content process aborts on a check of its own module
+ * loader (`MOZ_RELEASE_ASSERT(!ModuleIsLinked(module))`, read from the kernel's log and the
+ * build's library), with memory to spare. The checks that fail there are about a module record met
+ * twice, which these caches and preloads are how a page gets. Nothing a test asserts depends on
+ * them. Remove them when a Firefox build ends the crash.
+ */
+const FIREFOX_PREFS = {
+  "dom.script_loader.experimental.navigation_cache": false,
+  "dom.script_loader.bytecode_cache.enabled": false,
+  "network.modulepreload": false,
+}
 
 /** The engines `BROWSERS` names. */
 export function browsers() {
@@ -45,7 +59,14 @@ export function browserTest(
                 },
               }),
             }
-          : { browser }
+          : browser === "firefox"
+            ? {
+                browser,
+                provider: playwright({
+                  launchOptions: { firefoxUserPrefs: FIREFOX_PREFS },
+                }),
+              }
+            : { browser }
       ),
     },
   }

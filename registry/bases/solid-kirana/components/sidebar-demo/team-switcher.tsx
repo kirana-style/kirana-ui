@@ -1,4 +1,4 @@
-import { For, Show, createSignal, splitProps, untrack } from "solid-js"
+import { For, Show, createSignal, untrack } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
@@ -42,7 +42,7 @@ export function TeamSwitcher(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["teams", "sx", "class"])
+  const local = props
   const styles = {
     teamSwitcherSidebarMenuButton: css({
       backgroundColor: { '[data-state="open"]': theme.sidebarAccent },

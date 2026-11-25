@@ -1,5 +1,5 @@
 import { Dashboard01Icon } from "./dashboard01-icon"
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   DropdownMenu,
@@ -39,7 +39,8 @@ export function NavDocuments(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["items", "class", "sx"])
+  const local = props
+  const rest = omit(props, "items", "class", "sx")
   const styles = {
     sidebarGroup: css({
       display: { [COLLAPSED]: "none" },

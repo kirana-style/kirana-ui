@@ -911,11 +911,13 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   OTP's one input over the cells. cmdk's attributes go through a spread
   (`{...{ "cmdk-item": "" }}`), which Svelte's types allow on a component.
 - **Solid on Kirana UI Primitives** is written from the Ark UI base, one file
-  per component, since Solid has no other base: `@kirana-ui/solid`'s parts are
+  per component, on Solid 2 (`@kirana-ui/solid` needs it: the base is in the
+  Solid 2 app, as ui-sdk's below, and its examples, blocks and charts are that
+  base's files): `@kirana-ui/solid`'s parts are
   React's with accessors (`render={(props, state) => <a {...props()} />}`), so
   each part follows its `react-kirana` twin's structure and keeps its
   `solid-ark` twin's props. Ark UI's `asChild` (called with a props function)
-  is a part's `render` through `asRender` (`lib/solid/element.tsx`), and an
+  is a part's `render` through `asRender` (`lib/solid2/element.tsx`), and an
   element of the design system's own that took `ark.span` is the primitives'
   `Primitive` (`@kirana-ui/solid/primitive`), with their merge rule. The preview provides each base's icon library and
   language contexts, since each base has its own copy of them.
@@ -929,9 +931,10 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   component whose template draws it around `<ng-content />`, its own element
   `display: contents` (`ui/dialog.ts` is the pattern). A model's change output
   is typed with `undefined` (`openChange.emit(!!$event)`).
-- **Solid on ui-sdk** runs on Solid 2, in its own app (`apps/preview-solid2`,
+- **Solid on ui-sdk** runs on Solid 2, in the app it shares with Solid on
+  Kirana UI (`apps/preview-solid2`,
   `/preview/solid2/`, which `_redirects` and the site's dev server serve at
-  `/preview/solid/uisdk/`): its Vite config dedupes `solid-js` and
+  `/preview/solid/uisdk/` and `/preview/solid/kirana/`): its Vite config dedupes `solid-js` and
   `@solidjs/web` so the registry's files resolve Solid 2 from it, and the base's
   tsconfig points them there for the types. Its files are the Ark UI base's
   moved to Solid 2 (`splitProps` → `omit`, `mergeProps` → `merge`, `onMount` →
@@ -941,8 +944,10 @@ On a framework's second base (Vue on Reka UI, Svelte on Bits UI):
   `jsxImportSource: "@solidjs/web"`, which the app's own `tsconfig.json` names
   (Kirana does not read it from a tsconfig it extends), and
   `@kirana-style/core/solid` types `sx` on Solid 2's JSX; the app builds with
-  `@solidjs/vite-plugin`, Solid 2's Vite plugin. A project installs it on Get
-  Code's Solid 2 template (`vite-solid2`), the only one the catalog offers it.
+  `@solidjs/vite-plugin`, Solid 2's Vite plugin. A project installs either base
+  on Get Code's Solid 2 template (`vite-solid2`), the only one the catalog
+  offers them. A library with a Solid 1 adapter only is used through its
+  framework-free core there (Embla, TanStack Table, dnd-kit).
 - **Svelte on ui-sdk** keeps Svelte's Ark UI parts' API (an `asChild` snippet,
   bound values, callbacks given `{ open }`, `{ value }`, `{ checked }`) on
   ui-sdk's parts, starting from the Bits UI base, whose library-free parts (on
@@ -1221,7 +1226,10 @@ the bases' `describe`). CI runs each through `scripts/ci-browser.sh`: when an
 engine's page crashes (Vitest ends with `VITEST_BROWSER_CONNECTION_CLOSED`, and
 its usual reporter has named no test by then), the tests run a second time with
 each test named as it finishes, and the engine's own last lines are printed, so
-the run says which test the page was on. A test that fails is never run again. A first
+the run says which test the page was on. A test that fails is never run again. Firefox runs without its script caches and module preloads
+(`FIREFOX_PREFS` in `packages/vite-config/browser.js`): on CI its content process
+aborts in its own module loader as the tests' modules load, with memory to
+spare, which the kernel's log the script prints names. A first
 run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
 a test:
 
@@ -1291,9 +1299,7 @@ these documents in the same change so the next person inherits the better one.
 
 `/docs/primitives` and `/docs/ai` document Kirana UI Primitives
 ([kirana-style/primitives](https://github.com/kirana-style/primitives)), which the site installs
-from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`). The pages are written from that
-pin for every framework; the registry's Solid base alone is built on `@kirana-ui/solid` 0.3.0
-(`registry/package.json`) until it moves to Solid 2.
+from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
 
 - **A page per component is generated, not written**: `apps/site/scripts/generate-primitives.ts`
   runs before the content is read and writes `content/docs/primitives/components/*.md`, their

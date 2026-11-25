@@ -1,8 +1,8 @@
 import { SourcesRow } from "../components/trace-demo-tanstack-ai/sources-row"
 import { ThinkingRow } from "../components/trace-demo-tanstack-ai/thinking-row"
 import { ToolRow } from "../components/trace-demo-tanstack-ai/tool-row"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -146,7 +146,7 @@ export default function TraceDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -167,7 +167,7 @@ export default function TraceDemoTanstackAi() {
                       }
                     >
                       <Trace>
-                        <Index each={reply(index).rows}>
+                        <For keyed={false} each={reply(index).rows}>
                           {(part, at) => (
                             <>
                               <Show when={thinkingPart(part())}>
@@ -193,7 +193,7 @@ export default function TraceDemoTanstackAi() {
                               </Show>
                             </>
                           )}
-                        </Index>
+                        </For>
                         <Show when={reply(index).sources.length > 0}>
                           <SourcesRow
                             sources={reply(index).sources}
@@ -213,7 +213,7 @@ export default function TraceDemoTanstackAi() {
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

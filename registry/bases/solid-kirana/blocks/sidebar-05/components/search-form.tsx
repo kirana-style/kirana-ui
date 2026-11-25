@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { Label } from "../../../ui/label"
 import {
@@ -17,7 +17,8 @@ export function SearchForm(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     sidebarGroup: css({
       paddingBlock: { "*": null, base: space["0"] },

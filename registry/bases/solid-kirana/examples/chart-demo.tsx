@@ -224,7 +224,7 @@ export default function ChartDemo() {
           <For each={SERIES}>
             {(series) => (
               <button
-                data-active={activeChart() === series}
+                data-active={activeChart() === series ? "true" : "false"}
                 sx={styles.figure}
                 onClick={() => setActiveChart(series)}
               >

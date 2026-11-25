@@ -63,7 +63,7 @@ apps/web/components/message-list.tsx
                 variant="ghost"
                 size="icon-xs"
                 aria-label="Wrap lines"
-                aria-pressed={wrap()}
+                aria-pressed={wrap() ? "true" : "false"}
                 sx={styles.ariaPressedTextForegroun}
                 onClick={() => setWrap(!wrap())}
               >

@@ -1,7 +1,7 @@
 import { For, Show, createSignal } from "solid-js"
 import { css } from "@kirana-style/core"
 import { toast } from "solid-sonner"
-import { useIsMobile } from "../../../lib/solid/use-mobile"
+import { useIsMobile } from "../../../lib/solid2/use-mobile"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import {

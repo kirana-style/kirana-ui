@@ -1,19 +1,19 @@
-import { Show, mergeProps, splitProps } from "solid-js"
+import { Show, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Dialog as DialogPrimitive } from "@kirana-ui/solid/dialog"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { IconPlaceholder } from "./icon-placeholder"
 import { sheet } from "../../../styles/sheet.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's dialog as a sheet, taking the Ark UI parts' props: `open`, `defaultOpen`,
- * `onOpenChange` (given `{ open }`), `modal`, and `closeOnInteractOutside` (the root's
- * `dismissible`). It renders no element.
+ * `onOpenChange` (given `{ open }`), `modal`, and `closeOnInteractOutside` (`false` is the root's
+ * `disablePointerDismissal`). It renders no element.
  */
 function Sheet(props: {
   open?: boolean
@@ -26,18 +26,21 @@ function Sheet(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["onOpenChange", "closeOnInteractOutside", "children"],
-    ["sx", "class"]
+    "onOpenChange",
+    "closeOnInteractOutside",
+    "children",
+    "sx",
+    "class"
   )
   return (
     <DialogPrimitive.Root
       {...rest}
-      dismissible={local.closeOnInteractOutside}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      disablePointerDismissal={props.closeOnInteractOutside === false}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Root>
   )
 }
@@ -49,20 +52,15 @@ function SheetClose(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DialogPrimitive.Close
       data-slot="sheet-close"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Close>
   )
 }
@@ -76,26 +74,23 @@ function SheetContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ side: "right", showCloseButton: true } as const, props),
-    ["side", "showCloseButton", "class", "sx", "children"]
-  )
+  const rest = omit(props, "side", "showCloseButton", "class", "sx", "children")
   return (
     <DialogPrimitive.Portal>
       <SheetOverlay />
       <DialogPrimitive.Popup
         data-slot="sheet-content"
-        data-side={local.side}
+        data-side={props.side ?? "right"}
         {...rest}
         {...styleProps(
-          local.class,
+          props.class,
           sheet.content,
-          sheet.side[local.side],
-          local.sx
+          sheet.side[props.side ?? "right"],
+          props.sx
         )}
       >
-        {local.children}
-        <Show when={local.showCloseButton}>
+        {props.children}
+        <Show when={props.showCloseButton ?? true}>
           <DialogPrimitive.Close
             data-slot="sheet-close"
             render={(closeProps) => (
@@ -128,14 +123,14 @@ function SheetDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <DialogPrimitive.Description
       data-slot="sheet-description"
       {...rest}
-      {...styleProps(local.class, sheet.description, local.sx)}
+      {...styleProps(props.class, sheet.description, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Description>
   )
 }
@@ -146,14 +141,14 @@ function SheetFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sheet-footer"
       {...rest}
-      {...styleProps(local.class, sheet.footer, local.sx)}
+      {...styleProps(props.class, sheet.footer, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -164,14 +159,14 @@ function SheetHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="sheet-header"
       {...rest}
-      {...styleProps(local.class, sheet.header, local.sx)}
+      {...styleProps(props.class, sheet.header, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -182,13 +177,13 @@ function SheetOverlay(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const rest = omit(props, "asChild", "class", "sx")
   return (
     <DialogPrimitive.Backdrop
       data-slot="sheet-overlay"
       {...rest}
-      {...styleProps(local.class, sheet.overlay, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, sheet.overlay, props.sx)}
+      render={asRender(props.asChild)}
     />
   )
 }
@@ -199,14 +194,14 @@ function SheetTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <DialogPrimitive.Title
       data-slot="sheet-title"
       {...rest}
-      {...styleProps(local.class, sheet.title, local.sx)}
+      {...styleProps(props.class, sheet.title, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Title>
   )
 }
@@ -218,20 +213,15 @@ function SheetTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DialogPrimitive.Trigger
       data-slot="sheet-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Trigger>
   )
 }

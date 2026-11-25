@@ -1,10 +1,10 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Switch as SwitchPrimitive } from "@kirana-ui/solid/switch"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { switchStyles } from "../../../styles/switch.styles"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's switch, with Solid's Ark UI part's `checked`, `defaultChecked` and
@@ -22,10 +22,12 @@ function Switch(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "default" } as const, props),
-    ["onCheckedChange", "size", "asChild", "class", "sx"]
-  )
+  const local = merge(props, {
+    get size() {
+      return props.size ?? ("default" as const)
+    },
+  })
+  const rest = omit(local, "onCheckedChange", "size", "asChild", "class", "sx")
   return (
     <SwitchPrimitive.Root
       render={asRender(local.asChild)}

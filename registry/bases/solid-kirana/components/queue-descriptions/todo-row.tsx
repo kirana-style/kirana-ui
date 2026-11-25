@@ -1,4 +1,3 @@
-import { splitProps } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   TraceCollapsible,
@@ -13,7 +12,7 @@ import type { Sx } from "@kirana-style/core"
 export type Todo = { title: string; description?: string; done: boolean }
 
 export function TodoRow(props: { todo: Todo; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["todo", "sx", "class"])
+  const local = props
   return (
     <>
       {local.todo.description ? (

@@ -1,5 +1,5 @@
 import { SidebarContentInner } from "./sidebar-content-inner"
-import { createMemo, splitProps } from "solid-js"
+import { createMemo, omit } from "solid-js"
 import { useTranslation } from "../../components/language-selector"
 import { SidebarProvider } from "../../ui/sidebar"
 import type { Sx } from "@kirana-style/core"
@@ -10,7 +10,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const translations: Translations = {
     en: {
       dir: "ltr",

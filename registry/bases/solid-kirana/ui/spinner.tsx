@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { spinner } from "../../../styles/spinner.styles"
 import { IconPlaceholder } from "./icon-placeholder"
@@ -9,7 +9,8 @@ function Spinner(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <IconPlaceholder
       data-slot="spinner"

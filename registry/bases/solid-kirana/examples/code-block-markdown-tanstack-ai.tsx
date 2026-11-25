@@ -1,9 +1,9 @@
-import { Markdown } from "../../../lib/solid/markdown"
+import { Markdown } from "../../../lib/solid2/markdown"
 import { FenceOpen } from "../components/code-block-markdown-tanstack-ai/fence-open"
 import { MarkdownCode } from "../components/code-block-markdown-tanstack-ai/markdown-code"
 import { MarkdownPre } from "../components/code-block-markdown-tanstack-ai/markdown-pre"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { streamingMarkdownExtension } from "@tanstack/markdown/extensions/streaming"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
@@ -98,7 +98,7 @@ Pass the debounced value to your fetch instead of the raw input.`
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -134,7 +134,7 @@ Pass the debounced value to your fetch instead of the raw input.`
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"
