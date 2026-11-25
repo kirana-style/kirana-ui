@@ -80,7 +80,10 @@ export function plain(condition: string) {
   return marker?.kind === "state" ? marker.key : condition
 }
 
-/** One property's value, flattened; `undefined` when every entry was another style's or base's. */
+/**
+ * One property's value, flattened; `undefined` when every entry was another style's or base's and
+ * it reset nothing.
+ */
 export function flattenValue(value: unknown, classify: Classify): unknown {
   const kept = new Map<string, { entry: Entry; styled: boolean }>()
   for (const entry of entriesOf(value)) {
@@ -99,8 +102,21 @@ export function flattenValue(value: unknown, classify: Classify): unknown {
       })
     }
   }
-  if (kept.size === 0) return undefined
-  return valueOf([...kept.values()].map(({ entry }) => entry))
+  // A reset (`"*": null`) drops what an earlier handle gave the property where the two are
+  // composed at a use site, so it stays, whichever entries of its own this style and base keep.
+  const reset =
+    typeof value === "object" &&
+    value !== null &&
+    (value as StyleObject)["*"] === null
+  if (kept.size === 0) return reset ? { "*": null } : undefined
+  const whole = valueOf([...kept.values()].map(({ entry }) => entry))
+  if (!reset) return whole
+  return {
+    "*": null,
+    ...(typeof whole === "object" && whole !== null
+      ? (whole as StyleObject)
+      : { base: whole }),
+  }
 }
 
 /** A style object with every property flattened, nested styles too. */

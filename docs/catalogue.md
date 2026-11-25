@@ -303,6 +303,30 @@ Writing one:
 - `vp run styles` compiles the registry with its own config and fails on any
   warning.
 
+### On Kirana UI Primitives alone
+
+Ten components are the registry's own, in shadcn/ui's language, with no shadcn/ui original: each is
+built on a Kirana UI Primitives part no other headless library here has as one part, so only the
+five Kirana UI bases have them (`KIRANA_ONLY` in `packages/builder/src/items.ts`). Each composes
+the handles that already follow the eight styles, and writes only its own layout.
+
+| Module                     | Component      | Built from                                                                 |
+| -------------------------- | -------------- | -------------------------------------------------------------------------- |
+| `password-input.styles.ts` | Password Input | Input Group's field, addon and button                                      |
+| `time-field.styles.ts`     | Time Field     | Input's chrome; a focused segment as a highlighted menu row                |
+| `rating.styles.ts`         | Rating         | `control.ts`'s icons and ring; a half is the filled copy clipped           |
+| `editable.styles.ts`       | Editable       | Input, for the preview and the input alike, so nothing moves on edit       |
+| `steps.styles.ts`          | Steps          | Its own marks and lines, the same in every style; Button for back and next |
+| `tags-input.styles.ts`     | Tags Input     | Combobox's chips, chip, remove and input                                   |
+| `file-upload.styles.ts`    | File Upload    | Empty for the dropzone, Item for a listed file, Button                     |
+| `tree.styles.ts`           | Tree           | A menu row for each item, a guide line per level                           |
+| `color-picker.styles.ts`   | Color Picker   | Popover, Slider's track and thumb, Input, Button                           |
+| `tour.styles.ts`           | Tour           | Popover's surface and motion, Dialog's backdrop colour for the spotlight   |
+
+Their states are `<name>State` in `registry/core/states.ts` (`ratingState.item.filled`), written from
+the primitives' vocabulary. Another framework's pages are compared with React's Kirana UI pages:
+`vp run conformance -- --framework vue/kirana --reference kirana --pages rating-demo`.
+
 ## The registry's markup (`registry/bases`)
 
 The components, once per framework and base, applying the style modules and

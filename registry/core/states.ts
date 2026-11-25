@@ -465,3 +465,554 @@ export const placeholder = {
 
 /** A separator's direction, declared beside the configuration that makes its keys exclusive. */
 export { orientation } from "./kirana"
+
+/**
+ * The states of the components Kirana UI Primitives added in 0.4.0, which only its bases have:
+ * each part's, as the primitives' vocabulary names them (`@kirana-ui/vocabulary`). Written as
+ * selectors until `@kirana-style/states/kirana-ui` has these components (KF-139); a state with
+ * values is one key per value.
+ */
+export const ratingState = {
+  root: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    hovering: { kirana: "[data-hovering]" },
+  },
+  item: {
+    checked: { kirana: "[data-checked]" },
+    filled: { kirana: "[data-filled]" },
+    half: { kirana: "[data-half]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+} as const
+
+export const stepsState = {
+  root: {
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+    complete: { kirana: "[data-complete]" },
+  },
+  list: {
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  item: {
+    current: { kirana: "[data-current]" },
+    complete: { kirana: "[data-complete]" },
+    incomplete: { kirana: "[data-incomplete]" },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  trigger: {
+    current: { kirana: "[data-current]" },
+    complete: { kirana: "[data-complete]" },
+    incomplete: { kirana: "[data-incomplete]" },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+    disabled: { kirana: "[data-disabled]" },
+  },
+  indicator: {
+    current: { kirana: "[data-current]" },
+    complete: { kirana: "[data-complete]" },
+    incomplete: { kirana: "[data-incomplete]" },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  separator: {
+    current: { kirana: "[data-current]" },
+    complete: { kirana: "[data-complete]" },
+    incomplete: { kirana: "[data-incomplete]" },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  content: {
+    current: { kirana: "[data-current]" },
+    complete: { kirana: "[data-complete]" },
+    incomplete: { kirana: "[data-incomplete]" },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  completed: {
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  previous: {
+    disabled: { kirana: "[data-disabled]" },
+  },
+  next: {
+    disabled: { kirana: "[data-disabled]" },
+  },
+} as const
+
+export const editableState = {
+  root: {
+    editing: { kirana: "[data-editing]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    placeholder: { kirana: "[data-placeholder]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+  preview: {
+    editing: { kirana: "[data-editing]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    placeholder: { kirana: "[data-placeholder]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+  input: {
+    editing: { kirana: "[data-editing]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    placeholder: { kirana: "[data-placeholder]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+  editTrigger: {
+    editing: { kirana: "[data-editing]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    placeholder: { kirana: "[data-placeholder]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+  submitTrigger: {
+    editing: { kirana: "[data-editing]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    placeholder: { kirana: "[data-placeholder]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+  cancelTrigger: {
+    editing: { kirana: "[data-editing]" },
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    placeholder: { kirana: "[data-placeholder]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+} as const
+
+export const passwordInputState = {
+  root: {
+    visible: { kirana: "[data-visible]" },
+    disabled: { kirana: "[data-disabled]" },
+  },
+  input: {
+    visible: { kirana: "[data-visible]" },
+    disabled: { kirana: "[data-disabled]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+    invalid: { kirana: "[data-invalid]" },
+  },
+  toggle: {
+    visible: { kirana: "[data-visible]" },
+    disabled: { kirana: "[data-disabled]" },
+  },
+  indicator: {
+    visible: { kirana: "[data-visible]" },
+    disabled: { kirana: "[data-disabled]" },
+  },
+} as const
+
+export const tagsInputState = {
+  root: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    focused: { kirana: "[data-focused]" },
+    empty: { kirana: "[data-empty]" },
+  },
+  list: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+  item: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    editing: { kirana: "[data-editing]" },
+  },
+  itemText: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+  itemInput: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+  itemRemove: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+  input: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+  clear: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+  },
+} as const
+
+export const fileUploadState = {
+  root: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+    empty: { kirana: "[data-empty]" },
+  },
+  dropzone: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  trigger: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  list: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  item: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  itemName: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  itemSize: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  itemRemove: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+  clear: {
+    disabled: { kirana: "[data-disabled]" },
+    dragging: { kirana: "[data-dragging]" },
+    required: { kirana: "[data-required]" },
+  },
+} as const
+
+export const timeFieldState = {
+  root: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    invalid: { kirana: "[data-invalid]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+  },
+  segment: {
+    segment: {
+      hour: { kirana: '[data-segment="hour"]' },
+      minute: { kirana: '[data-segment="minute"]' },
+      second: { kirana: '[data-segment="second"]' },
+      dayPeriod: { kirana: '[data-segment="dayPeriod"]' },
+      literal: { kirana: '[data-segment="literal"]' },
+    },
+    placeholder: { kirana: "[data-placeholder]" },
+    disabled: { kirana: "[data-disabled]" },
+    invalid: { kirana: "[data-invalid]" },
+    touched: { kirana: "[data-touched]" },
+    dirty: { kirana: "[data-dirty]" },
+    filled: { kirana: "[data-filled]" },
+    focused: { kirana: "[data-focused]" },
+    valid: { kirana: "[data-valid]" },
+  },
+} as const
+
+export const treeState = {
+  item: {
+    selected: { kirana: "[data-selected]" },
+    highlighted: { kirana: "[data-highlighted]" },
+    disabled: { kirana: "[data-disabled]" },
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    loading: { kirana: "[data-loading]" },
+  },
+  itemRow: {
+    selected: { kirana: "[data-selected]" },
+    highlighted: { kirana: "[data-highlighted]" },
+    disabled: { kirana: "[data-disabled]" },
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    loading: { kirana: "[data-loading]" },
+  },
+  itemIndicator: {
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    loading: { kirana: "[data-loading]" },
+  },
+  group: {
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    startingStyle: { kirana: "[data-starting-style]" },
+    endingStyle: { kirana: "[data-ending-style]" },
+  },
+} as const
+
+export const colorPickerState = {
+  root: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    format: {
+      hex: { kirana: '[data-format="hex"]' },
+      rgb: { kirana: '[data-format="rgb"]' },
+      hsl: { kirana: '[data-format="hsl"]' },
+    },
+  },
+  area: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+  },
+  areaThumb: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+  },
+  channelSlider: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    channel: {
+      hue: { kirana: '[data-channel="hue"]' },
+      alpha: { kirana: '[data-channel="alpha"]' },
+    },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  channelSliderTrack: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    channel: {
+      hue: { kirana: '[data-channel="hue"]' },
+      alpha: { kirana: '[data-channel="alpha"]' },
+    },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  channelSliderThumb: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    channel: {
+      hue: { kirana: '[data-channel="hue"]' },
+      alpha: { kirana: '[data-channel="alpha"]' },
+    },
+    orientation: {
+      horizontal: { kirana: '[data-orientation="horizontal"]' },
+      vertical: { kirana: '[data-orientation="vertical"]' },
+    },
+  },
+  channelInput: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    channel: {
+      hex: { kirana: '[data-channel="hex"]' },
+      red: { kirana: '[data-channel="red"]' },
+      green: { kirana: '[data-channel="green"]' },
+      blue: { kirana: '[data-channel="blue"]' },
+      hue: { kirana: '[data-channel="hue"]' },
+      saturation: { kirana: '[data-channel="saturation"]' },
+      lightness: { kirana: '[data-channel="lightness"]' },
+      alpha: { kirana: '[data-channel="alpha"]' },
+    },
+  },
+  swatch: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+  },
+  swatchTrigger: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    selected: { kirana: "[data-selected]" },
+  },
+  eyeDropperTrigger: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+  },
+  valueText: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    format: {
+      hex: { kirana: '[data-format="hex"]' },
+      rgb: { kirana: '[data-format="rgb"]' },
+      hsl: { kirana: '[data-format="hsl"]' },
+    },
+  },
+  formatTrigger: {
+    disabled: { kirana: "[data-disabled]" },
+    readonly: { kirana: "[data-readonly]" },
+    required: { kirana: "[data-required]" },
+    dragging: { kirana: "[data-dragging]" },
+    format: {
+      hex: { kirana: '[data-format="hex"]' },
+      rgb: { kirana: '[data-format="rgb"]' },
+      hsl: { kirana: '[data-format="hsl"]' },
+    },
+  },
+} as const
+
+export const tourState = {
+  spotlight: {
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    startingStyle: { kirana: "[data-starting-style]" },
+    endingStyle: { kirana: "[data-ending-style]" },
+    centered: { kirana: "[data-centered]" },
+  },
+  positioner: {
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    side: {
+      top: { kirana: '[data-side="top"]' },
+      right: { kirana: '[data-side="right"]' },
+      bottom: { kirana: '[data-side="bottom"]' },
+      left: { kirana: '[data-side="left"]' },
+      "inline-start": { kirana: '[data-side="inline-start"]' },
+      "inline-end": { kirana: '[data-side="inline-end"]' },
+    },
+    align: {
+      start: { kirana: '[data-align="start"]' },
+      center: { kirana: '[data-align="center"]' },
+      end: { kirana: '[data-align="end"]' },
+    },
+    centered: { kirana: "[data-centered]" },
+    anchorHidden: { kirana: "[data-anchor-hidden]" },
+  },
+  popup: {
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    startingStyle: { kirana: "[data-starting-style]" },
+    endingStyle: { kirana: "[data-ending-style]" },
+    side: {
+      top: { kirana: '[data-side="top"]' },
+      right: { kirana: '[data-side="right"]' },
+      bottom: { kirana: '[data-side="bottom"]' },
+      left: { kirana: '[data-side="left"]' },
+      "inline-start": { kirana: '[data-side="inline-start"]' },
+      "inline-end": { kirana: '[data-side="inline-end"]' },
+    },
+    align: {
+      start: { kirana: '[data-align="start"]' },
+      center: { kirana: '[data-align="center"]' },
+      end: { kirana: '[data-align="end"]' },
+    },
+    centered: { kirana: "[data-centered]" },
+  },
+  arrow: {
+    open: { kirana: "[data-open]" },
+    closed: { kirana: "[data-closed]" },
+    side: {
+      top: { kirana: '[data-side="top"]' },
+      right: { kirana: '[data-side="right"]' },
+      bottom: { kirana: '[data-side="bottom"]' },
+      left: { kirana: '[data-side="left"]' },
+      "inline-start": { kirana: '[data-side="inline-start"]' },
+      "inline-end": { kirana: '[data-side="inline-end"]' },
+    },
+    align: {
+      start: { kirana: '[data-align="start"]' },
+      center: { kirana: '[data-align="center"]' },
+      end: { kirana: '[data-align="end"]' },
+    },
+    uncentered: { kirana: "[data-uncentered]" },
+    centered: { kirana: "[data-centered]" },
+  },
+  previous: {
+    disabled: { kirana: "[data-disabled]" },
+  },
+  next: {
+    last: { kirana: "[data-last]" },
+  },
+} as const
