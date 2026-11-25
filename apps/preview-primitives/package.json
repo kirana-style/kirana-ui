@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@kirana-style/core": "catalog:",
-    "@kirana-ui/react": "0.3.0",
+    "@kirana-ui/react": "0.4.0",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

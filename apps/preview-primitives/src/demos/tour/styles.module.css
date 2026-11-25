@@ -1,0 +1,194 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.start {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.5rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.start:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.targets {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* What the tour points at, one after the other. */
+.target {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/*
+ * A layer over the page. The hole over the step's target is a box placed by the variables the
+ * part writes, its shadow dimming everything around it.
+ */
+.spotlight {
+  position: fixed;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  top: var(--spotlight-top);
+  left: var(--spotlight-left);
+  width: var(--spotlight-width);
+  height: var(--spotlight-height);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 9999px rgb(0 0 0 / 0.4);
+  /* From one target to the next, the hole moves. */
+  transition-property: top, left, width, height;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* What it animates in from, and out to. */
+.spotlight[data-starting-style],
+.spotlight[data-ending-style] {
+  opacity: 0;
+}
+
+.popup {
+  width: 16rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  color: var(--ink);
+  outline-style: none;
+  /* Grow from the point nearest the target. */
+  transform-origin: var(--transform-origin);
+  opacity: 1;
+  scale: 1;
+  transition-property: opacity, scale;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* What it animates in from, and out to. */
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.95;
+}
+
+/*
+ * A square turned on its corner, half of it past the popup's edge. The part places it along
+ * that edge; which edge is the side the popup is on, and the two borders drawn are the ones
+ * that face the target.
+ */
+.arrow {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid transparent;
+  background: var(--surface);
+  rotate: 45deg;
+}
+
+.arrow[data-side="bottom"] {
+  top: -0.25rem;
+  border-top-color: var(--line);
+  border-left-color: var(--line);
+}
+
+.arrow[data-side="top"] {
+  bottom: -0.25rem;
+  border-right-color: var(--line);
+  border-bottom-color: var(--line);
+}
+
+.arrow[data-side="left"] {
+  right: -0.25rem;
+  border-top-color: var(--line);
+  border-right-color: var(--line);
+}
+
+.arrow[data-side="right"] {
+  left: -0.25rem;
+  border-bottom-color: var(--line);
+  border-left-color: var(--line);
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.description {
+  margin: 0.25rem 0 1rem;
+  color: var(--quiet);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.count {
+  margin-inline-end: auto;
+  color: var(--quiet);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.back,
+.next {
+  margin: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.back:focus-visible,
+.next:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.back {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.back:hover:not([data-disabled]) {
+  background: var(--raised);
+}
+
+/* On the first step there is nowhere to go back to. */
+.back[data-disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.next {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}

@@ -45,12 +45,12 @@ the bridge reads the page, not the framework: only the lines that mount the form
 ## Which environment
 
 The bridge presses elements and types into them, so it needs a DOM. These are the results of the
-test on this page with `@kirana-ui/react` 0.3.0 and Vitest 5.1:
+test on this page with `@kirana-ui/react` 0.4.0 and Vitest 5.1:
 
 | Environment                          | Result                                                                                                             |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | A real browser (Vitest browser mode) | All six pass, with nothing added                                                                                   |
-| jsdom 31                             | All six pass once Web Animations is filled in (step 4). Without it the select's popup and `settled()` throw        |
+| jsdom 31                             | All six pass once `settled()` is given a stub for Web Animations (below). Without it every test times out          |
 | happy-dom 21                         | Two fail: a switch inside a `<label>` is toggled twice and ends where it started, and `faults()` throws on a style |
 
 Use a real browser. jsdom is a fallback for a project that cannot run one, with the stub below.
@@ -363,9 +363,9 @@ You should see:
  ✓ |chromium| src/settings-form.agent.test.tsx > the agent sees the form, and not what is hidden 41ms
  ✓ |chromium| src/settings-form.agent.test.tsx > its steps change the values, through the components' own handlers 109ms
  ✓ |chromium| src/settings-form.agent.test.tsx > a secret is never read back 44ms
- ✓ |chromium| src/settings-form.agent.test.tsx > a marked action needs a person's yes 92ms
- ✓ |chromium| src/settings-form.agent.test.tsx > the policy refuses what it does not list, and earlier steps stay done 45ms
- ✓ |chromium| src/settings-form.agent.test.tsx > the page has no faults after the agent's steps 87ms
+ ✓ |chromium| src/settings-form.agent.test.tsx > a marked action needs a person's yes 90ms
+ ✓ |chromium| src/settings-form.agent.test.tsx > the policy refuses what it does not list, and earlier steps stay done 44ms
+ ✓ |chromium| src/settings-form.agent.test.tsx > the page has no faults after the agent's steps 86ms
 
  Test Files  1 passed (1)
       Tests  6 passed (6)
@@ -376,19 +376,19 @@ test "a marked action needs a person's yes" fails, because the agent could press
 
 ## Without a browser: jsdom
 
-jsdom has no Web Animations. The primitives wait for a popup's animations to end before it leaves
-the page, and `settled()` asks the document whether anything is animating, so in jsdom both throw
-`getAnimations is not a function`. Nothing animates in jsdom, so "no animations" is the true answer
-and a stub is enough. Install jsdom:
+jsdom has no Web Animations. The components run without it: a popup opens and closes at once. But
+`settled()` asks the document whether anything is animating, and in jsdom that throws
+`getAnimations is not a function`, so the test never gets past `mount`. Nothing animates in jsdom,
+so "no animations" is the true answer and a stub is enough. Install jsdom:
 
 <!-- ::install dev="vitest jsdom" -->
 
 Add the stub as a setup file:
 
 ```ts title="test/web-animations.ts"
-// jsdom has no Web Animations: the primitives wait for a popup's animations to end
-// (`getAnimations()`) before it leaves the page, and `settled()` asks the document.
-// Nothing animates in jsdom, so "no animations" is the true answer.
+// jsdom has no Web Animations, and `settled()` asks the document whether anything
+// is animating (`getAnimations()`). Nothing animates in jsdom, so "no animations"
+// is the true answer.
 Element.prototype.getAnimations ??= () => []
 document.getAnimations ??= () => []
 ```
@@ -414,14 +414,14 @@ browser.
 
 ## What can go wrong
 
-| What you see                                                                | Why                                                                                               |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `TypeError: page.getAnimations is not a function`, and every test times out | jsdom or happy-dom without the Web Animations stub                                                |
-| `Nothing is called "Email alerts"` for a control that is on the screen      | It has no accessible name, a different one, or it is outside `root` or inside `data-agent-hidden` |
-| `"Email alerts" names 2 components: c3, c7. Use a ref.`                     | Two controls share a name. Give each its own, or name the step by the `ref` from a snapshot       |
-| `expected [ 'Grace', false, 'Dark' ]` under happy-dom                       | happy-dom toggles a switch inside a `<label>` twice. Run the test in a browser                    |
-| `Error: browserType.launch: Executable doesn't exist`                       | Playwright's browser is not installed: run `playwright install chromium`                          |
-| `faults()` lists `button has data-agent-confirm, which no vocabulary names` | Pass the bridge's marks in `allow`, as the test does                                              |
+| What you see                                                                                            | Why                                                                                               |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `TypeError: page.getAnimations is not a function`, and every test times out                             | `settled()` in jsdom or happy-dom without the Web Animations stub                                 |
+| `Nothing is called "Email alerts"` for a control that is on the screen                                  | It has no accessible name, a different one, or it is outside `root` or inside `data-agent-hidden` |
+| `"Email alerts" names 2 components: c3 (switch "Email alerts"), c7 (switch "Email alerts"). Use a ref.` | Two controls share a name. Give each its own, or name the step by the `ref` from a snapshot       |
+| `expected [ 'Grace', false, 'Dark' ]` under happy-dom                                                   | happy-dom toggles a switch inside a `<label>` twice. Run the test in a browser                    |
+| `Error: browserType.launch: Executable doesn't exist`                                                   | Playwright's browser is not installed: run `playwright install chromium`                          |
+| `faults()` lists `button has data-agent-confirm, which no vocabulary names`                             | Pass the bridge's marks in `allow`, as the test does                                              |
 
 ## Next
 

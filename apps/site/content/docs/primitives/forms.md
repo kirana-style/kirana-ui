@@ -31,13 +31,15 @@ control's props.
 `readOnly` shows a control as it is: it keeps its focus and its place in the form, its value is
 submitted, and it cannot be changed. These take it, and no other component:
 
-| Control                                              | Read only, it                                                        |
-| ---------------------------------------------------- | -------------------------------------------------------------------- |
-| Checkbox, Switch, RadioGroup, NumberField, DateField | Takes no press and no key that would change it                       |
-| Slider                                               | Moves no thumb, by key or pointer                                    |
-| Select, Combobox, Autocomplete                       | Still opens, and its list can be gone through; no item can be chosen |
-| Calendar                                             | Its days can be moved through, and none can be chosen                |
-| DatePicker                                           | Does not open                                                        |
+| Control                                                                      | Read only, it                                                        |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Checkbox, Switch, RadioGroup, Rating, NumberField, DateField, TimeField, Otp | Takes no press and no key that would change it                       |
+| TagsInput, ColorPicker                                                       | Shows what it holds; no key, press or drag changes it                |
+| Slider                                                                       | Moves no thumb, by key or pointer                                    |
+| Select, Combobox, Autocomplete                                               | Still opens, and its list can be gone through; no item can be chosen |
+| Calendar                                                                     | Its days can be moved through, and none can be chosen                |
+| DatePicker                                                                   | Does not open                                                        |
+| Editable                                                                     | Shows its text, and does not go into editing                         |
 
 A read-only part has `data-readonly`, to style it.
 
@@ -81,6 +83,11 @@ written beside it reaches it:
 A [Calendar](/docs/primitives/components/calendar) with a `name` is submitted through its
 `Calendar.Input` part: a day; the first and the last day of a range, as two entries; each day
 of a list (`mode="multiple"`).
+
+The chosen day pressed again is taken away, and the value is `null`. With `required`, a day once
+chosen stays chosen (with `mode="multiple"`, the last day cannot be taken away). `required` on a
+calendar does not make a form ask for a value; on a [Date Picker](/docs/primitives/components/date-picker)
+it does: inside a `Field`, an empty date picker is then invalid.
 
 ## Field
 

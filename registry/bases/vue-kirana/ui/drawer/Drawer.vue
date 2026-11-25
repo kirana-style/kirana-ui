@@ -32,12 +32,11 @@ provide(
 </script>
 
 <template>
-  <!-- Base UI's `disablePointerDismissal` as Kirana UI's `dismissible`, inverted. -->
   <Drawer.Root
     :modal="modal"
     :snap-points="snapPoints"
     :swipe-direction="swipeDirection"
-    :dismissible="disablePointerDismissal ? false : undefined"
+    :disable-pointer-dismissal="disablePointerDismissal"
   >
     <slot />
   </Drawer.Root>

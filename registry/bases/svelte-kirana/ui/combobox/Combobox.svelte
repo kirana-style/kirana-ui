@@ -8,8 +8,8 @@
   /**
    * Kirana UI's combobox, with Base UI's items-driven API as Svelte's Ark UI parts take it: `items`
    * go to the list's snippet (Kirana UI filters the items by their text), and their labels to
-   * Kirana UI's `items`, so the input shows a chosen item before the list opens; `multiple` takes
-   * `value` and `defaultValue` as Kirana UI's `values`. The values are the items themselves.
+   * Kirana UI's `items`, so the input shows a chosen item before the list opens; `multiple` makes
+   * `value` and `defaultValue` lists. The values are the items themselves.
    */
   let {
     items = [],
@@ -79,8 +79,8 @@
   <Combobox.Root
     multiple
     items={labels}
-    values={selected}
-    onValuesChange={(next: unknown[]) => report(next)}
+    value={selected}
+    onValueChange={(next: unknown[]) => report(next)}
     {autoHighlight}
     {disabled}
     {...rest}

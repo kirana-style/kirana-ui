@@ -2,13 +2,16 @@
 
 ## In jsdom (Vitest's or Jest's default DOM)
 
-Click-level tests of Select, Dialog, AlertDialog, Combobox and the others work, with one polyfill
-in the test setup: jsdom has no Web Animations API, and the components wait for a popup's exit
-animation through `element.getAnimations()`.
+Click-level tests of Select, Dialog, AlertDialog, Combobox and the others work. jsdom has no Web
+Animations API: on the Kirana UI base the components run without it (a popup opens and closes at
+once), but its testing kit's `settled()` asks the document for its animations, so give jsdom a
+polyfill in the test setup whenever a test awaits `settled()`, and on the other bases, whose
+popups wait for their exit animation through `element.getAnimations()`:
 
 ```ts
 // test/setup.ts
 if (!Element.prototype.getAnimations) Element.prototype.getAnimations = () => []
+if (!document.getAnimations) document.getAnimations = () => []
 ```
 
 jsdom has no layout either: positions, sizes and scroll are 0. Test what a user does and sees

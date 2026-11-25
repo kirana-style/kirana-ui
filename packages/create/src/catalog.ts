@@ -93,8 +93,8 @@ export const TEMPLATE_LABELS: Record<Template, string> = {
 /**
  * A major of a framework that only some templates and bases run on: Solid 2 (`solid-js` 2 with
  * `@solidjs/web`), which ui-sdk's Solid adapter requires, while Solid's other bases (Ark UI, and
- * Kirana UI, whose `@kirana-ui/solid` peers `solid-js` ^1.9) and its other templates are on
- * Solid 1. A template and a base go together when both name the same runtime or neither names one
+ * Kirana UI, on `@kirana-ui/solid` 0.3.0, the last release that peers `solid-js` ^1.9) and its
+ * other templates are on Solid 1. A template and a base go together when both name the same runtime or neither names one
  * (`templatesFor`, `basesFor` in `choices.ts`).
  */
 export const RUNTIMES = ["solid2"] as const

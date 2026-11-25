@@ -31,15 +31,14 @@ type ToastOptions = {
 }
 
 /**
- * Base UI's options as the primitives': its `timeout` is their `duration`, its `actionProps`
+ * Base UI's options as the primitives': its `actionProps`
  * their `action`, and its `priority` their politeness. Base UI's action leaves the toast open,
  * so pressing it keeps the toast unless its handler closes it.
  */
 function optionsOf(options: ToastOptions): KiranaOptions & { id?: string } {
-  const { timeout, priority, actionProps, onClose, ...rest } = options
+  const { priority, actionProps, onClose, ...rest } = options
   return {
     ...rest,
-    duration: timeout,
     priority:
       priority === undefined
         ? undefined

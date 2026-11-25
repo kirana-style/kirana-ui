@@ -57,10 +57,9 @@ type BaseItems =
   | Record<string, React.ReactNode>
 
 /**
- * Base UI's Select root on the primitives': `multiple` takes Base UI's `value`, `defaultValue` and
- * `onValueChange` as the primitives' `values`, `defaultValues` and `onValuesChange`; Base UI's
- * `items`, a list or a record, are the primitives' text labels, an item of value `null` the
- * placeholder Base UI shows for no value.
+ * Base UI's Select root on the primitives', whose `multiple`, `value`, `defaultValue` and
+ * `onValueChange` are Base UI's own; Base UI's `items`, a list or a record, are the primitives'
+ * text labels, an item of value `null` the placeholder Base UI shows for no value.
  */
 function Select<Value, Multiple extends boolean | undefined = false>({
   items,
@@ -81,6 +80,8 @@ function Select<Value, Multiple extends boolean | undefined = false>({
   | "values"
   | "defaultValues"
   | "onValuesChange"
+  | "itemToStringValue"
+  | "itemToStringLabel"
 > & {
   items?: BaseItems
   multiple?: Multiple
@@ -90,11 +91,9 @@ function Select<Value, Multiple extends boolean | undefined = false>({
     value: Multiple extends true ? Value[] : Value,
     details: ChangeDetails
   ) => void
-  /** Base UI's object values' keys: the primitives compare values themselves, so taken only. */
   itemToStringValue?: (item: Value) => string
   itemToStringLabel?: (item: Value) => string
 }) {
-  void itemToStringValue
   const list = items
     ? Array.isArray(items)
       ? (items as { label: React.ReactNode; value: unknown }[])
@@ -116,21 +115,14 @@ function Select<Value, Multiple extends boolean | undefined = false>({
   const change = onValueChange as
     | ((value: unknown, details: ChangeDetails) => void)
     | undefined
-  const values = multiple
-    ? {
-        multiple: true,
-        values: value as readonly Value[] | undefined,
-        defaultValues: defaultValue as readonly Value[] | undefined,
-        onValuesChange: change,
-      }
-    : {
-        value: value as Value | null | undefined,
-        defaultValue: defaultValue as Value | null | undefined,
-        onValueChange: change,
-      }
   return (
     <Labels value={labels}>
-      <SelectPrimitive.Root<Value>
+      <SelectPrimitive.Root<Value, boolean>
+        multiple={multiple}
+        value={value as Value | Value[] | null | undefined}
+        defaultValue={defaultValue as Value | Value[] | null | undefined}
+        onValueChange={change}
+        itemToStringValue={itemToStringValue}
         items={list
           ?.filter((item) => item.value !== null)
           .map((item) => ({
@@ -139,7 +131,6 @@ function Select<Value, Multiple extends boolean | undefined = false>({
               ? itemToStringLabel(item.value as Value)
               : textOf(item.label),
           }))}
-        {...values}
         {...props}
       />
     </Labels>
@@ -236,31 +227,6 @@ function SelectTrigger({
   )
 }
 
-/**
- * The page's scroll held while a popup that opens over its trigger is open, as Base UI's select
- * holds it: that popup is placed once, `fixed`, and the page scrolling under it would leave it
- * behind its trigger. Kirana UI's select does not hold it (PF-055). Mounted inside the popup, so it
- * holds exactly while the popup is in the page; the scrollbar's width is kept as padding, so the
- * page does not shift.
- */
-function ScrollLock() {
-  React.useEffect(() => {
-    const html = document.documentElement
-    const gap = window.innerWidth - html.clientWidth
-    const before = {
-      overflow: html.style.overflow,
-      padding: html.style.paddingInlineEnd,
-    }
-    html.style.overflow = "hidden"
-    if (gap > 0) html.style.paddingInlineEnd = `${gap}px`
-    return () => {
-      html.style.overflow = before.overflow
-      html.style.paddingInlineEnd = before.padding
-    }
-  }, [])
-  return null
-}
-
 function SelectContent({
   sx,
   children,
@@ -294,7 +260,6 @@ function SelectContent({
           {...props}
           {...styleProps(popupMotion, menuSurface, select.content, sx)}
         >
-          {alignItemWithTrigger ? <ScrollLock /> : null}
           <SelectScrollUpButton />
           <SelectPrimitive.List>{children}</SelectPrimitive.List>
           <SelectScrollDownButton />

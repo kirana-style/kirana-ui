@@ -62,8 +62,8 @@ function flat(items: readonly unknown[]): unknown[] {
 /**
  * Base UI's Combobox root on the primitives': its `items` go to the list's function child (the
  * primitives read the items from the markup and filter them by their text), and their labels to
- * the primitives' `items`, so the input shows a chosen value before the list opens. `multiple`
- * takes Base UI's `value` and `onValueChange` as the primitives' `values` and `onValuesChange`.
+ * the primitives' `items`, so the input shows a chosen value before the list opens. `multiple`,
+ * `value` and `onValueChange` are Base UI's own on the primitives.
  */
 function Combobox<Value, Multiple extends boolean | undefined = false>({
   items,
@@ -85,6 +85,8 @@ function Combobox<Value, Multiple extends boolean | undefined = false>({
   | "values"
   | "defaultValues"
   | "onValuesChange"
+  | "itemToStringValue"
+  | "itemToStringLabel"
 > & {
   items?: readonly Value[]
   multiple?: Multiple
@@ -94,11 +96,9 @@ function Combobox<Value, Multiple extends boolean | undefined = false>({
     value: Multiple extends true ? Value[] : Value | null,
     details: ChangeDetails
   ) => void
-  /** Base UI's object values' keys: the primitives compare values themselves, so taken only. */
   itemToStringValue?: (item: Value) => string
   itemToStringLabel?: (item: Value) => string
 }) {
-  void itemToStringValue
   const label = (itemToStringLabel ?? labelOf) as (item: unknown) => string
   // The value a function child reads: the caller's when controlled, else the last chosen.
   const [own, setOwn] = React.useState<unknown>(
@@ -115,27 +115,21 @@ function Combobox<Value, Multiple extends boolean | undefined = false>({
     () => ({ value: current, labelOf: label }),
     [current, label]
   )
-  const values = multiple
-    ? {
-        multiple: true,
-        values: value as readonly unknown[] | undefined,
-        defaultValues: defaultValue as readonly unknown[] | undefined,
-        onValuesChange: change,
-      }
-    : {
-        value: value as unknown,
-        defaultValue: defaultValue as unknown,
-        onValueChange: change,
-      }
   return (
     <Items value={items ?? []}>
       <Chosen value={chosen}>
-        <ComboboxPrimitive.Root<unknown>
+        <ComboboxPrimitive.Root<unknown, boolean>
+          multiple={multiple}
+          value={value}
+          defaultValue={defaultValue}
+          onValueChange={change}
+          itemToStringValue={
+            itemToStringValue as ((item: unknown) => string) | undefined
+          }
           items={flat(items ?? []).map((item) => ({
             value: item,
             label: label(item),
           }))}
-          {...values}
           {...props}
         >
           {children}

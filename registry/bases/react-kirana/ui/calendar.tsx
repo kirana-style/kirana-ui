@@ -10,7 +10,6 @@ import type {
   CalendarWeekday,
   DateRange as PrimitiveRange,
   IsoDate,
-  PartEvent,
 } from "@kirana-ui/react"
 import { DirectionProvider } from "@kirana-ui/react/direction"
 
@@ -324,24 +323,6 @@ function Calendar<Mode extends CalendarMode = "single">({
     onSelect?.(next as Selected<Mode>)
   }
 
-  /** Whether the selection holds `date`, and is a range that starts or ends there. */
-  const chosen = (date: Date) => {
-    const t = startOfDay(date)
-    if (mode === "range") {
-      const range = current as DateRange | undefined
-      if (!range?.from) return null
-      const start = startOfDay(range.from)
-      const end = startOfDay(range.to ?? range.from)
-      return t >= start && t <= end
-        ? { selected: true, start: t === start, end: t === end }
-        : null
-    }
-    const days = ([] as (Date | undefined)[]).concat(current as Date)
-    return days.some((d) => d && startOfDay(d) === t)
-      ? { selected: true, start: false, end: false }
-      : null
-  }
-
   const changeMonth = (next: Date) => {
     setOwnMonth(next)
     onMonthChange?.(next)
@@ -562,12 +543,9 @@ function Calendar<Mode extends CalendarMode = "single">({
       render={(cellProps, state) => {
         const date = fromIso(day.date)
         const range = mode === "range"
-        // A day of the month before or after that another month shown also draws is a copy (PF-046), which
-        // the primitive never marks chosen; react-day-picker marks it as its own month's day.
-        const copy = day.outside && numberOfMonths > 1 ? chosen(date) : null
-        const isSelected = !!state.selected || !!copy?.selected
-        const rangeStart = range && (!!state.rangeStart || !!copy?.start)
-        const rangeEnd = range && (!!state.rangeEnd || !!copy?.end)
+        const isSelected = !!state.selected
+        const rangeStart = range && !!state.rangeStart
+        const rangeEnd = range && !!state.rangeEnd
         const rangeMiddle = range && isSelected && !rangeStart && !rangeEnd
         const hidden = (day.outside && !showOutsideDays) || beyond(date)
         const isDisabled = !!state.unavailable || (!!state.disabled && !hidden)
@@ -630,18 +608,6 @@ function Calendar<Mode extends CalendarMode = "single">({
                 modifiers={dayModifiers}
                 locale={locale}
                 firstCell={showWeekNumber ? "second" : "first"}
-                onClick={
-                  mode === "single" && isSelected && !required
-                    ? (event: React.MouseEvent<HTMLButtonElement>) => {
-                        // react-day-picker takes a single day away when it is pressed again (PF-047),
-                        // unless `required`; Kirana UI's keeps it (PF-047).
-                        ;(
-                          event as PartEvent<typeof event>
-                        ).preventKiranaHandler()
-                        select(undefined)
-                      }
-                    : undefined
-                }
                 onFocus={() => setFocused(day.date)}
                 onBlur={() =>
                   setFocused((now) => (now === day.date ? null : now))
@@ -666,6 +632,7 @@ function Calendar<Mode extends CalendarMode = "single">({
       dir={dir}
       {...props}
       mode={mode}
+      required={required}
       value={toValue(mode, current)}
       onValueChange={(value) => select(fromValue(mode, value))}
       month={toIso(shown)}

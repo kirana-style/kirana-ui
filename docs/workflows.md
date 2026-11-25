@@ -1287,7 +1287,9 @@ these documents in the same change so the next person inherits the better one.
 
 `/docs/primitives` and `/docs/ai` document Kirana UI Primitives
 ([kirana-style/primitives](https://github.com/kirana-style/primitives)), which the site installs
-from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`).
+from npm, pinned (`@kirana-ui/*` in `apps/site/package.json`). The pages are written from that
+pin for every framework; the registry's Solid base alone is built on `@kirana-ui/solid` 0.3.0
+(`registry/package.json`) until it moves to Solid 2.
 
 - **A page per component is generated, not written**: `apps/site/scripts/generate-primitives.ts`
   runs before the content is read and writes `content/docs/primitives/components/*.md`, their

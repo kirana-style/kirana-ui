@@ -41,7 +41,6 @@ import {
 import type {
   CalendarDay as PrimitiveDay,
   CalendarMonth,
-  PartEvent,
 } from "@kirana-ui/angular"
 import type {
   Calendar as CalendarSystem,
@@ -298,11 +297,14 @@ class CalendarDayTemplate {}
               ></span>
             </div>
           } @else {
-            <!-- The part writes its own name of the month (\`abril de 2026\`), read out, and takes no
-              text of the caller's (PF-050); the caption shows day-picker's (\`abril 2026\`). -->
-            <span role="status" aria-live="polite" [sx]="styles.caption"
-              ><span kpCalendarHeading [attr.style]="hiddenStyle"></span
-              ><span aria-hidden="true">{{ caption(month.month) }}</span></span
+            <!-- The heading says day-picker's caption (\`abril 2026\`), its own content, in place of
+              the part's name of the month (\`abril de 2026\`). -->
+            <span
+              kpCalendarHeading
+              role="status"
+              aria-live="polite"
+              [sx]="styles.caption"
+              >{{ caption(month.month) }}</span
             >
           }
         </div>
@@ -384,7 +386,6 @@ class CalendarDayTemplate {}
                         mode() === 'range' ? String(day.rangeMiddle) : null
                       "
                       [class]="dayButton()"
-                      (click)="press($event, day)"
                       (focus)="focused.set(day.date)"
                       (blur)="focused() === day.date && focused.set(null)"
                     >
@@ -418,7 +419,10 @@ class Calendar {
   readonly mode = input<CalendarMode>("single")
   /** The selection: a date, a list of dates, or a range (`from`, `to`), by `mode`. */
   readonly selected = model<Date | Date[] | DateRange | undefined>(undefined)
-  /** With `mode: "single"`: a chosen day pressed again stays chosen. */
+  /**
+   * A chosen day pressed again stays chosen, and with `mode: "multiple"` the last day stays;
+   * without it, a second press takes the day away, as react-day-picker's.
+   */
   readonly required = input(false, { transform: booleanAttribute })
   /** The month shown first, while `month` is not given. */
   readonly defaultMonth = input<Date>()
@@ -570,6 +574,7 @@ class Calendar {
     })
     hostInputs(KpCalendar, {
       mode: this.mode,
+      required: this.required,
       value: toValue as never,
       month: computed(() => toIso(this.#shownMonth())),
       months: this.numberOfMonths,
@@ -616,9 +621,9 @@ class Calendar {
   /**
    * day-picker's `data-selected="true"` on each chosen cell, and `data-range-start` and
    * `data-range-end` (`"true"` or `"false"`) on each day of a range, over the primitive's: a part's
-   * own attribute (`data-selected=""`) wins over the element's binding of the same name here, where
-   * the other frameworks let the element's own win (PF-049). The
-   * bindings in the template hold where the part writes none (a copy of a day another month shows).
+   * own attribute (`data-selected=""`) wins over the element's binding of the same name (PF-049).
+   * The bindings in the template hold where the part writes none (a copy of a day another month
+   * shows).
    */
   #writeDayPicker() {
     const write = (element: Element, name: string, value: string | null) => {
@@ -764,14 +769,6 @@ class Calendar {
         .filter(Boolean)
         .join(" "),
     }
-  }
-
-  protected press(event: MouseEvent, day: Day) {
-    // react-day-picker takes a single day away when it is pressed again (PF-047), unless `required`;
-    // Kirana UI's keeps it (PF-047).
-    if (this.mode() !== "single" || !day.selected || this.required()) return
-    ;(event as PartEvent<MouseEvent>).preventKiranaHandler()
-    this.selected.set(undefined)
   }
 }
 

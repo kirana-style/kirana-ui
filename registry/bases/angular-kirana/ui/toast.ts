@@ -72,14 +72,13 @@ toaster.toasts.subscribe(() => {
 })
 
 /**
- * Base UI's options as Kirana UI's: its `timeout` is their `duration` (`0` for one that stays), its
+ * Base UI's options as Kirana UI's: its `timeout` is theirs (`0` for one that stays), its
  * `actionProps` their `action`, its `priority` their politeness. Base UI's action leaves the toast
  * open: pressing it keeps the toast unless its handler closes it.
  */
 function optionsOf(options: ToastOptions): KiranaOptions<ToastContent> {
   const {
     id: _id,
-    timeout,
     priority,
     actionProps,
     onClose,
@@ -88,7 +87,6 @@ function optionsOf(options: ToastOptions): KiranaOptions<ToastContent> {
   } = options
   return {
     ...rest,
-    duration: timeout === 0 ? Infinity : timeout,
     priority:
       priority === undefined
         ? undefined

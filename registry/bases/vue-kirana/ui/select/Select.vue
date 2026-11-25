@@ -9,7 +9,7 @@ defineOptions({ inheritAttrs: false })
 
 /**
  * Kirana UI's select, with Vue's Ark UI parts' props: `items` (an item of value `null` names the
- * placeholder), `v-model` and `default-value`, a list with `multiple`, as Kirana UI's `values`.
+ * placeholder), `v-model` and `default-value`, a list with `multiple`.
  */
 // A runtime declaration, so a project's type checker sees the props, while Vue's compiler resolves
 // no imported type (it would through TypeScript's JavaScript API, which TypeScript 7 lacks).
@@ -54,11 +54,11 @@ const list = (value: string | string[] | null | undefined) =>
     v-if="multiple"
     multiple
     :items="labels"
-    :default-values="list(defaultValue) ?? undefined"
-    :values="list(modelValue) ?? undefined"
+    :default-value="list(defaultValue) ?? undefined"
+    :value="list(modelValue) ?? undefined"
     v-bind="$attrs"
-    @values-change="
-      (value: unknown[]) => emit('update:modelValue', value as string[])
+    @value-change="
+      (value: unknown) => emit('update:modelValue', value as string[])
     "
   >
     <slot />

@@ -48,7 +48,7 @@ A part with no motion leaves at once.
 
 | Kind       | Parts                                                                                                                    |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Panels     | `Accordion.Panel`, `Collapsible.Panel`, `Tabs.Panel`                                                                     |
+| Panels     | `Accordion.Panel`, `Collapsible.Panel`, `Tabs.Panel`, `Tree.Group`                                                       |
 | Indicators | `Checkbox.Indicator`, `RadioGroup.Indicator`, and the item indicators of Select, Combobox, Listbox, Menu and ContextMenu |
 | Others     | `ScrollArea.Scrollbar`, `Combobox.Clear`, `Autocomplete.Clear`, `Avatar.Image`                                           |
 

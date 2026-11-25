@@ -23,6 +23,10 @@ The `testing` entry is what the library checks its own components with. It is an
 package you installed (`@kirana-ui/react/testing`, `@kirana-ui/vue/testing` and so on). It runs
 wherever there is a DOM: a browser test, a Playwright page, or jsdom for what needs no layout.
 
+The components run in jsdom too. There is no Web Animations API there, so a popup opens and
+closes at once, with no wait for a transition: a test of what a press changes needs no polyfill.
+Where a popup is placed, its size and what scrolls are for a real browser to test.
+
 ```ts
 import {
   faults,

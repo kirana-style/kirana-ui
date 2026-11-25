@@ -43,7 +43,7 @@ styles. You write the elements' look, in plain CSS, Tailwind or Kirana.
 | `@kirana-ui/react`      | The components for React 18 and 19                                                        |
 | `@kirana-ui/vue`        | For Vue                                                                                   |
 | `@kirana-ui/svelte`     | For Svelte 5                                                                              |
-| `@kirana-ui/solid`      | For Solid                                                                                 |
+| `@kirana-ui/solid`      | For Solid 2                                                                               |
 | `@kirana-ui/angular`    | For Angular 20 and later                                                                  |
 | `@kirana-ui/web`        | As custom elements, for a page with no framework                                          |
 | `@kirana-ui/core`       | The framework-free core every adapter draws: behaviour, the agent bridge, the testing kit |

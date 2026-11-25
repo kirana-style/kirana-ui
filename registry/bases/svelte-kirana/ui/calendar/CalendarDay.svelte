@@ -5,7 +5,7 @@
    * state by presence, `data-selected=""`, where the style module reads day-picker's `="true"`).
    */
   import { Calendar as CalendarPrimitive } from "@kirana-ui/svelte/calendar"
-  import type { CalendarDay, PartEvent } from "@kirana-ui/svelte"
+  import type { CalendarDay } from "@kirana-ui/svelte"
   import { props as styleProps } from "@kirana-style/core"
   import type { Snippet } from "svelte"
 
@@ -17,16 +17,13 @@
     cellProps,
     day,
     state,
-    copy,
     mode,
     unavailable,
     empty,
-    required,
     second,
     focused,
     locale,
     modifierClass,
-    ondeselect,
     onfocused,
     children,
   }: {
@@ -35,20 +32,16 @@
     day: CalendarDay
     /** The cell's state, as the primitive gives it. */
     state: Record<string, unknown>
-    /** A copy's place in the selection: the primitive never marks a copy chosen (PF-046). */
-    copy: { selected: boolean; start: boolean; end: boolean } | null
     mode: "single" | "multiple" | "range"
     unavailable: boolean
     /** Outside days hidden (`showOutsideDays={false}`), or past the dropdown's years. */
     empty: boolean
-    required: boolean
     /** The row's first day is its second cell, beside week numbers. */
     second: boolean
     /** Focused as react-day-picker's `focused`: the day that has the focus. */
     focused: boolean
     locale?: string
     modifierClass?: string
-    ondeselect: () => void
     onfocused: (on: boolean) => void
     /** The day's button content, given its date: the calendar's own, or the caller's `day`. */
     children?: Snippet<[{ date: Date; value: string; outside: boolean }]>
@@ -56,9 +49,9 @@
 
   const date = $derived(fromIso(day.date))
   const range = $derived(mode === "range")
-  const selected = $derived(!!state.selected || !!copy)
-  const start = $derived(range && (!!state.rangeStart || !!copy?.start))
-  const end = $derived(range && (!!state.rangeEnd || !!copy?.end))
+  const selected = $derived(!!state.selected)
+  const start = $derived(range && !!state.rangeStart)
+  const end = $derived(range && !!state.rangeEnd)
   const middle = $derived(range && selected && !start && !end)
   const disabled = $derived(unavailable || (!!state.disabled && !empty))
   const flag = (on: boolean) => (on ? "true" : undefined)
@@ -80,13 +73,6 @@
       .join(" ")
   )
 
-  function press(event: MouseEvent) {
-    // react-day-picker takes a single day away when it is pressed again (PF-047), unless `required`;
-    // Kirana UI's keeps it (PF-047).
-    if (mode !== "single" || !selected || required) return
-    ;(event as PartEvent<MouseEvent>).preventKiranaHandler()
-    ondeselect()
-  }
 </script>
 
 <td
@@ -110,7 +96,6 @@
   {#if !empty}
     <CalendarPrimitive.Day
       date={day.date}
-      onclick={press}
       onfocus={() => onfocused(true)}
       onblur={() => onfocused(false)}
     >

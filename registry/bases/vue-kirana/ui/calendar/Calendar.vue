@@ -26,13 +26,12 @@ import IconPlaceholder from "../../../../icons/IconPlaceholder.vue"
 import { button } from "../../../../styles/button.styles"
 import { calendar } from "../../../../styles/calendar.styles"
 import CalendarDay from "./CalendarDay.vue"
-import type { DateRange, Matcher, Selected } from "./matcher"
+import type { Matcher, Selected } from "./matcher"
 import {
   fromIso,
   fromValue,
   matches,
   pad,
-  startOfDay,
   toIso,
   toValue,
   weekNumber,
@@ -47,7 +46,7 @@ const props = withDefaults(
     mode?: Mode
     /** The selection: a date, a list of dates, or a range (`from`, `to`), by `mode`. */
     selected?: Selected<Mode>
-    /** With `mode: "single"`: a chosen day pressed again stays chosen. */
+    /** A chosen day pressed again stays chosen (with `mode: "multiple"`, the last one). */
     required?: boolean
     /** The month shown first, while `month` is not given. */
     defaultMonth?: Date
@@ -176,24 +175,6 @@ const own = (date: Date) =>
     .filter(Boolean)
     .join(" ")
 
-/** Whether the selection holds `date`, and is a range that starts or ends there. */
-function chosen(date: Date) {
-  const t = startOfDay(date)
-  if (props.mode === "range") {
-    const range = current.value as DateRange | undefined
-    if (!range?.from) return null
-    const start = startOfDay(range.from)
-    const end = startOfDay(range.to ?? range.from)
-    return t >= start && t <= end
-      ? { selected: true, start: t === start, end: t === end }
-      : null
-  }
-  const days = ([] as (Date | undefined)[]).concat(current.value as Date)
-  return days.some((d) => d && startOfDay(d) === t)
-    ? { selected: true, start: false, end: false }
-    : null
-}
-
 const intl = (options: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat(
     `${props.locale ?? "en-US"}-u-ca-${calendarSystem.value?.identifier ?? "gregory"}`,
@@ -233,6 +214,7 @@ const focused = ref<IsoDate | null>(null)
 <template>
   <CalendarPrimitive.Root
     :mode="mode ?? 'single'"
+    :required="required"
     :value="value as never"
     :month="toIso(shown)"
     :months="numberOfMonths"
@@ -456,23 +438,16 @@ const focused = ref<IsoDate | null>(null)
                         <CalendarDay
                           :day="day"
                           :state="state"
-                          :copy="
-                            day.outside && numberOfMonths > 1
-                              ? chosen(fromIso(day.date))
-                              : null
-                          "
                           :mode="mode ?? 'single'"
                           :unavailable="isDisabled(fromIso(day.date))"
                           :empty="
                             (day.outside && !showOutsideDays) ||
                             beyond(fromIso(day.date))
                           "
-                          :required="required"
                           :second="showWeekNumber"
                           :focused="focused === day.date"
                           :locale="locale"
                           :modifier-class="own(fromIso(day.date))"
-                          @deselect="select(undefined)"
                           @focused="
                             (on: boolean) =>
                               (focused = on

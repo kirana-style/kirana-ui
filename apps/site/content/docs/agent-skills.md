@@ -86,6 +86,8 @@ hear `source: "agent"` and may refuse.
   `data-agent-confirm="what it does"`: never `() => true`.
 - `data-agent-hidden` keeps a part out of its sight, and `data-agent-secret` a value out of its
   reading.
+- `undo()` and `undoSource("agent")` take an agent's changes back, and `stage()` shows them in the
+  controls before they are kept.
 - `agentTools` gives a model the bridge as tools; `registerTools` gives it to the browser's own
   agent (WebMCP), with its own `allow`.
 

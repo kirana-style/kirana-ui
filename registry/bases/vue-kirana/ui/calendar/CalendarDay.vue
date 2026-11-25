@@ -7,7 +7,7 @@
  * day-picker's `="true"`).
  */
 import { Calendar as CalendarPrimitive } from "@kirana-ui/vue/calendar"
-import type { CalendarDay, PartEvent } from "@kirana-ui/vue"
+import type { CalendarDay } from "@kirana-ui/vue"
 import { props as styleProps } from "@kirana-style/core"
 import { computed, defineComponent, h, mergeProps, useAttrs } from "vue"
 
@@ -22,13 +22,10 @@ const props = defineProps<{
   day: CalendarDay
   /** The cell's state, as the primitive gives it. */
   state: Record<string, unknown>
-  /** A copy's place in the selection: the primitive never marks a copy chosen (PF-046). */
-  copy: { selected: boolean; start: boolean; end: boolean } | null
   mode: "single" | "multiple" | "range"
   unavailable: boolean
   /** Outside days hidden (`showOutsideDays={false}`), or past the dropdown's years. */
   empty: boolean
-  required: boolean
   /** The row's first day is its second cell, beside week numbers. */
   second: boolean
   /** Focused as react-day-picker's `focused`: the day that has the focus. */
@@ -36,18 +33,14 @@ const props = defineProps<{
   locale?: string
   modifierClass?: string
 }>()
-const emit = defineEmits<{ deselect: []; focused: [on: boolean] }>()
+const emit = defineEmits<{ focused: [on: boolean] }>()
 const attrs = useAttrs()
 
 const date = computed(() => fromIso(props.day.date))
 const range = computed(() => props.mode === "range")
-const selected = computed(() => !!props.state.selected || !!props.copy)
-const start = computed(
-  () => range.value && (!!props.state.rangeStart || !!props.copy?.start)
-)
-const end = computed(
-  () => range.value && (!!props.state.rangeEnd || !!props.copy?.end)
-)
+const selected = computed(() => !!props.state.selected)
+const start = computed(() => range.value && !!props.state.rangeStart)
+const end = computed(() => range.value && !!props.state.rangeEnd)
 const middle = computed(
   () => range.value && selected.value && !start.value && !end.value
 )
@@ -107,14 +100,6 @@ const DayButton = defineComponent({
     return () => h(Button, mergeProps(given, own.over), slots)
   },
 })
-
-function press(event: MouseEvent) {
-  // react-day-picker takes a single day away when it is pressed again (PF-047), unless `required`; Kirana
-  // UI's keeps it (PF-047).
-  if (props.mode !== "single" || !selected.value || props.required) return
-  ;(event as PartEvent<MouseEvent>).preventKiranaHandler()
-  emit("deselect")
-}
 </script>
 
 <template>
@@ -138,7 +123,6 @@ function press(event: MouseEvent) {
           calendar.dayButton,
           second ? calendar.dayButtonSecond : calendar.dayButtonFirst,
         ]"
-        @click="press"
         @focus="emit('focused', true)"
         @blur="emit('focused', false)"
       >

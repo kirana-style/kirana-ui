@@ -35,6 +35,10 @@ an entry defines its element; `@kirana-ui/web` alone defines them all.
   `kui-part="root"` inside the custom element. A component whose root draws none (a dialog, a
   select) has no such part. The page it makes is the page the framework adapters draw: the
   library compares the two in its tests.
+- **A part's role, ARIA and state attributes are written over the element's own.** An attribute
+  the part has no value for stays yours (`aria-controls="note"` while the panel is not in the
+  page), and a part that writes its own text (a calendar's heading, a meter's value) writes it only
+  while its element has no content of its own.
 - **A part that is not shown is taken out of the page**, and put back where it was.
   `kui-keep-mounted` keeps it.
 - **A `portal` part is drawn at the end of `<body>`** while the component is open.

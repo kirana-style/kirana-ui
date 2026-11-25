@@ -45,6 +45,8 @@ const DESCRIPTIONS: Record<string, string> = {
   CheckboxGroup:
     "Several checkboxes that share one value, a list of what is checked, and a parent that checks them all.",
   Collapsible: "A panel that a button opens and closes.",
+  ColorPicker:
+    "A colour chosen on an area and sliders, or typed, in the format you ask for.",
   Combobox:
     "A text input that filters a list to choose one value from, or several.",
   Command:
@@ -54,8 +56,12 @@ const DESCRIPTIONS: Record<string, string> = {
   DatePicker: "A date field and a calendar in a popover that are one value.",
   Dialog: "A window over the page that holds focus until it is closed.",
   Drawer: "A dialog that comes from an edge and is dragged back to it.",
+  Editable:
+    "Text that is read until it is pressed, then edited in place and kept or put back.",
   Field: "A control with its label, description and error, and its validity.",
   Fieldset: "A group of fields with a legend that names it.",
+  FileUpload:
+    "Files chosen with a button or dropped on an area, checked and listed.",
   Form: "A form that checks its fields on submit and takes errors from a server.",
   HoverCard:
     "A card the pointer opens from a link, which the pointer may enter.",
@@ -74,23 +80,38 @@ const DESCRIPTIONS: Record<string, string> = {
     "A number typed, stepped with buttons or keys, and formatted for a locale.",
   Otp: "A one-time code typed into one input and drawn as a cell for each character.",
   Pagination: "The pages of a long list, with the gaps between them.",
+  PasswordInput: "A password input with a button that shows what is typed.",
   Popover: "A popup anchored to its trigger, for content of any kind.",
   Progress: "How far a task has come, or that it is under way.",
   QrCode: "A QR code drawn as an SVG.",
   RadioGroup: "A set of options of which one is chosen.",
+  Rating: "A score chosen from a row of items, whole or by halves.",
   Resizable: "Panels whose sizes are dragged, or set with the keyboard.",
   ScrollArea: "A scrolling area with scrollbars the design draws.",
   Select: "A button that opens a list to choose one value from.",
   Separator: "A line between things, said to a screen reader as one.",
   Slider: "A value, or a range, chosen along a track.",
+  Steps:
+    "A task in numbered steps, one shown at a time, with what is done and what is next.",
   Switch: "A control that is on or off.",
   Tabs: "Panels of which one is shown, chosen by its tab.",
+  TagsInput:
+    "A list of values typed one at a time, each a tag that can be edited or removed.",
+  TimeField: "A time typed part by part, each part a spin button.",
   Toast: "Short messages that appear over the page and leave by themselves.",
   Toggle: "A button that is pressed or not.",
   ToggleGroup: "Toggles that share one value: one pressed, or several.",
   Toolbar: "A row of controls that is one stop for Tab.",
   Tooltip: "A short label the pointer or focus opens.",
+  Tour: "Steps that point at parts of the page one after another, each in a popup.",
+  Tree: "Items in branches that open and close, chosen with the pointer or the keys.",
 }
+
+/**
+ * A demo's frame, in pixels, where the usual one is too short for what the demo opens: a popup
+ * with no room under its trigger would give the frame a scrollbar and move the demo.
+ */
+const HEIGHTS: Record<string, number> = { "color-picker": 560, tour: 480 }
 
 /** A name as it is said: `AlertDialog` is "Alert Dialog". */
 const TITLES: Record<string, string> = { Otp: "OTP", QrCode: "QR Code" }
@@ -465,7 +486,7 @@ keywords: [${[title(name).toLowerCase(), "primitive", "headless", "unstyled"].jo
 ${
   styled
     ? `
-<!-- ::start:primitive-demo demo="${slug}" source="${REPOSITORY}/tree/main/apps/preview-primitives/src/demos/${slug}" -->
+<!-- ::start:primitive-demo demo="${slug}"${HEIGHTS[slug] ? ` height="${HEIGHTS[slug]}"` : ""} source="${REPOSITORY}/tree/main/apps/preview-primitives/src/demos/${slug}" -->
 
 ${[
   fence('tsx title="React · CSS Modules · demo.tsx"', styled.css.component),

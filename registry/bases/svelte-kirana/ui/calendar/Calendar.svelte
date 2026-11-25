@@ -20,8 +20,8 @@
   import { button } from "../../../../styles/button.styles"
   import { calendar } from "../../../../styles/calendar.styles"
   import CalendarDay from "./CalendarDay.svelte"
-  import type { DateRange, Matcher, Selected } from "./matcher"
-  import { fromIso, fromValue, matches, pad, startOfDay, toIso, toValue, weekNumber } from "./matcher"
+  import type { Matcher, Selected } from "./matcher"
+  import { fromIso, fromValue, matches, pad, toIso, toValue, weekNumber } from "./matcher"
 
   type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
@@ -56,7 +56,7 @@
     /** The selection: a date, a list of dates, or a range (`from`, `to`), by `mode`. */
     selected?: Selected<Mode>
     onSelectedChange?: (details: { selected: Selected<Mode> }) => void
-    /** With `mode: "single"`: a chosen day pressed again stays chosen. */
+    /** A chosen day pressed again stays chosen (with `mode: "multiple"`, the last one). */
     required?: boolean
     /** The month shown first, while `month` is not given. */
     defaultMonth?: Date
@@ -153,22 +153,6 @@
       .filter(Boolean)
       .join(" ")
 
-  /** Whether the selection holds `date`, and is a range that starts or ends there. */
-  function chosen(date: Date) {
-    const t = startOfDay(date)
-    if (mode === "range") {
-      const range = current as DateRange | undefined
-      if (!range?.from) return null
-      const start = startOfDay(range.from)
-      const end = startOfDay(range.to ?? range.from)
-      return t >= start && t <= end ? { selected: true, start: t === start, end: t === end } : null
-    }
-    const days = ([] as (Date | undefined)[]).concat(current as Date)
-    return days.some((d) => d && startOfDay(d) === t)
-      ? { selected: true, start: false, end: false }
-      : null
-  }
-
   const intl = (options: Intl.DateTimeFormatOptions) =>
     new Intl.DateTimeFormat(
       `${locale ?? "en-US"}-u-ca-${calendarSystem?.identifier ?? "gregory"}`,
@@ -206,6 +190,7 @@
 
 <CalendarPrimitive.Root
   mode={mode ?? "single"}
+  {required}
   value={toValue(mode ?? "single", current) as never}
   month={toIso(shown)}
   months={numberOfMonths}
@@ -398,16 +383,13 @@
                                     cellProps={props}
                                     day={cellDay}
                                     {state}
-                                    copy={cellDay.outside && numberOfMonths > 1 ? chosen(cellDate) : null}
                                     mode={mode ?? "single"}
                                     unavailable={isDisabled(cellDate)}
                                     empty={(cellDay.outside && !showOutsideDays) || beyond(cellDate)}
-                                    {required}
                                     second={showWeekNumber}
                                     focused={focused === cellDay.date}
                                     {locale}
                                     modifierClass={own(cellDate)}
-                                    ondeselect={() => select(undefined)}
                                     onfocused={(on: boolean) =>
                                       (focused = on ? cellDay.date : focused === cellDay.date ? null : focused)}
                                   >
