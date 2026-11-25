@@ -1226,7 +1226,10 @@ the bases' `describe`). CI runs each through `scripts/ci-browser.sh`: when an
 engine's page crashes (Vitest ends with `VITEST_BROWSER_CONNECTION_CLOSED`, and
 its usual reporter has named no test by then), the tests run a second time with
 each test named as it finishes, and the engine's own last lines are printed, so
-the run says which test the page was on. A test that fails is never run again. A first
+the run says which test the page was on. A test that fails is never run again. Firefox runs without its script caches and module preloads
+(`FIREFOX_PREFS` in `packages/vite-config/browser.js`): on CI its content process
+aborts in its own module loader as the tests' modules load, with memory to
+spare, which the kernel's log the script prints names. A first
 run needs the engines: `bunx playwright install chromium firefox webkit`. Writing
 a test:
 
