@@ -112,6 +112,9 @@ function markupOf(name: string, combination: Combination): string {
   }
 }
 
+/** The frameworks that have the components built on Kirana UI Primitives alone (`["kirana"]`): all five. */
+const KIRANA_ONLY: Framework[] = ["react", "vue", "svelte", "solid", "angular"]
+
 /** Every framework: the components each one has (Button, Card, Skeleton so far). */
 const ALL: Framework[] = ["react", "vue", "svelte", "solid", "angular"]
 
@@ -837,6 +840,78 @@ const ALL_ITEMS: Item[] = [
     ["react", "vue"],
     // React Aria has no toast: its pages use Sonner. Angular's comes with its own (P6).
     ["base", "ark", "ng", "reka", "uisdk", "kirana"]
+  ),
+  // The components Kirana UI Primitives has and no other headless library here does as one part:
+  // the registry's own, in shadcn/ui's language, on the Kirana UI bases alone.
+  component(
+    "password-input",
+    "Password Input",
+    "An input for a password, with a button that shows what is typed.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "time-field",
+    "Time Field",
+    "A time typed part by part: hours, minutes and the day period.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "rating",
+    "Rating",
+    "A score chosen from a row of stars, whole or by halves.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "editable",
+    "Editable",
+    "Text that is pressed to edit in place, then kept or put back.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "steps",
+    "Steps",
+    "A task in numbered steps, with what is done and what is next.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "tags-input",
+    "Tags Input",
+    "A list of values typed one at a time, each a tag that can be removed.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "file-upload",
+    "File Upload",
+    "Files chosen with a button or dropped on an area, then listed.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "tree",
+    "Tree",
+    "Items in branches that open and close, chosen with the pointer or the keys.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "color-picker",
+    "Color Picker",
+    "A colour chosen on an area and sliders, or typed.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "tour",
+    "Tour",
+    "Steps that point at parts of the page one after another.",
+    KIRANA_ONLY,
+    ["kirana"]
   ),
   component(
     "resizable",

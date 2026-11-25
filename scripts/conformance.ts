@@ -24,6 +24,8 @@
  * already matches upstream. A page is any item in the framework's `examples` folder, `-example`
  * pages and docs demos alike, against Base UI's of the same name; `--all` is every one React's Base
  * UI also has. Their reviewed differences are `conformance/framework-differences.json`.
+ * `--reference kirana` compares with React's Kirana UI pages instead, for the components only the
+ * Kirana UI bases have.
  *
  * Upstream's captures are cached between runs (`node_modules/.cache/kirana-ui-conformance`, by the
  * manifest's pin; `CONFORMANCE_CACHE` to move it): upstream needs serving only for a page not
@@ -74,6 +76,9 @@ const { values } = parseArgs({
     list: { type: "boolean", default: false },
     pages: { type: "string" },
     framework: { type: "string" },
+    // React's base a framework's pages are compared with: Base UI's, or another (`kirana`) for
+    // the items only that base has.
+    reference: { type: "string" },
   },
 })
 const changedFrom = values.changed ? (values.since ?? "origin/main") : undefined
@@ -124,6 +129,9 @@ if (framework && values.changed) {
   console.error("conformance: --framework takes --pages or --all")
   process.exit(2)
 }
+
+/** React's base the other frameworks' pages are compared with (`--reference`, Base UI's unless said). */
+const reference = values.reference ?? "base"
 
 /** Example files upstream's site serves on no route (`component-example`: its registry only). */
 const NOT_ON_UPSTREAM = new Set(["component-example.tsx"])
@@ -276,7 +284,7 @@ function compare(name: string, paths: string[], ...options: string[]) {
             "--label",
             "react",
             "--expected-path",
-            `/preview/${frameworkName}/${framework.base}/=/preview/react/base/`,
+            `/preview/${frameworkName}/${framework.base}/=/preview/react/${reference}/`,
             "--expected-differences",
             FRAMEWORK_EXPECTED,
           ]
@@ -334,16 +342,16 @@ function frameworkRoutes() {
   const { base, extension } = framework!
   const folder = join(BASES, `${frameworkName}-${base}`, "examples")
   const react = new Set(
-    readdirSync(join(BASES, "react-base", "examples")).map((file) =>
+    readdirSync(join(BASES, `react-${reference}`, "examples")).map((file) =>
       file.replace(/\.tsx$/, "")
     )
   )
   // Blocks too: a block the framework has (`blocks/<name>/page<extension>`) that React's base has.
   const blocks = join(BASES, `${frameworkName}-${base}`, "blocks")
-  const reactBlocks = join(BASES, "react-base", "blocks")
+  const reactBlocks = join(BASES, `react-${reference}`, "blocks")
   if (existsSync(reactBlocks))
     for (const block of readdirSync(reactBlocks)) react.add(block)
-  const reactCharts = join(BASES, "react-base", "charts")
+  const reactCharts = join(BASES, `react-${reference}`, "charts")
   if (existsSync(reactCharts))
     for (const file of readdirSync(reactCharts))
       react.add(file.replace(/\.tsx$/, ""))

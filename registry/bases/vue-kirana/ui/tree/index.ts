@@ -1,0 +1,6 @@
+export { default as Tree } from "./Tree.vue"
+export { default as TreeItem } from "./TreeItem.vue"
+export { default as TreeItemContent } from "./TreeItemContent.vue"
+export { default as TreeItemIndicator } from "./TreeItemIndicator.vue"
+export { default as TreeItemText } from "./TreeItemText.vue"
+export { default as TreeGroup } from "./TreeGroup.vue"
