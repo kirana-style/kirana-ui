@@ -90,6 +90,13 @@ async function styles(): Promise<Styles<string>> {
 // The site's colour mode, which the frame's own `prefers-color-scheme` does not follow.
 const mode = /(?:^|; )kirana-theme=(light|dark)/.exec(document.cookie)?.[1]
 if (mode) document.documentElement.style.colorScheme = mode
+// And follows it when the reader changes it: the site's theme control tells every page of the
+// site on this channel (named after the cookie). "system" hands the choice back to the browser.
+if ("BroadcastChannel" in window)
+  new BroadcastChannel("kirana-theme").onmessage = (event: MessageEvent) => {
+    document.documentElement.style.colorScheme =
+      event.data === "light" || event.data === "dark" ? event.data : ""
+  }
 
 const root = document.getElementById("app")!
 if (!demos.has(name)) root.textContent = "No demo has that name."

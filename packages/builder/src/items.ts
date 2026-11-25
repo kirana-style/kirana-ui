@@ -484,6 +484,25 @@ const ALL_ITEMS: Item[] = [
               : ["lib/angular/use-mobile.ts"],
   },
   {
+    name: "use-copy-to-clipboard",
+    type: "registry:lib",
+    title: "useCopyToClipboard",
+    description:
+      "Copies a text to the clipboard and says for a moment that it did, for Copy Button.",
+    files: (combination) => [
+      react(combination)
+        ? "lib/use-copy-to-clipboard.ts"
+        : combination.framework === "vue"
+          ? "lib/vue/use-copy-to-clipboard.ts"
+          : combination.framework === "svelte"
+            ? "lib/svelte/use-copy-to-clipboard.svelte.ts"
+            : combination.framework === "solid"
+              ? `${solidLib(combination)}/use-copy-to-clipboard.ts`
+              : "lib/angular/use-copy-to-clipboard.ts",
+      "lib/clipboard.ts",
+    ],
+  },
+  {
     name: "use-highlighted-code",
     type: "registry:lib",
     title: "useHighlightedCode",
@@ -910,6 +929,43 @@ const ALL_ITEMS: Item[] = [
     "tour",
     "Tour",
     "Steps that point at parts of the page one after another.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  // Composed from the registry's own parts, with no shadcn/ui original either: on the Kirana UI
+  // bases, as the ten above.
+  component(
+    "segmented-control",
+    "Segmented Control",
+    "One value chosen from a few, always one chosen.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "copy-button",
+    "Copy Button",
+    "A button that copies a value to the clipboard and shows for a moment that it did.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "timeline",
+    "Timeline",
+    "An ordered list of events along a line, each with its marker, title and time.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "progress-circle",
+    "Progress Circle",
+    "Progress drawn as a ring, with its value in the middle.",
+    KIRANA_ONLY,
+    ["kirana"]
+  ),
+  component(
+    "marquee",
+    "Marquee",
+    "Content that scrolls in a loop, by CSS alone, and stands still under reduced motion.",
     KIRANA_ONLY,
     ["kirana"]
   ),

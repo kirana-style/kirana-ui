@@ -323,6 +323,17 @@ the handles that already follow the eight styles, and writes only its own layout
 | `color-picker.styles.ts`   | Color Picker   | Popover, Slider's track and thumb, Input, Button                           |
 | `tour.styles.ts`           | Tour           | Popover's surface and motion, Dialog's backdrop colour for the spotlight   |
 
+Five more are composed from the registry's own parts or are plain markup and CSS, on the same
+five bases:
+
+| Module                        | Component         | Built from                                                              |
+| ----------------------------- | ----------------- | ----------------------------------------------------------------------- |
+| `segmented-control.styles.ts` | Segmented Control | Tabs' default list and trigger, on a toggle group that is never empty   |
+| `copy-button.styles.ts`       | Copy Button       | Button, the registry's clipboard helper (`use-copy-to-clipboard` item)  |
+| `timeline.styles.ts`          | Timeline          | A grid per item: marker, connector, content; Steps' text sizes          |
+| `progress-circle.styles.ts`   | Progress Circle   | The primitives' Progress, an SVG ring read from a value the root writes |
+| `marquee.styles.ts`           | Marquee           | A keyframe on two copies, `marqueeCtx` for its speed and gap            |
+
 Their states are `<name>State` in `registry/core/states.ts` (`ratingState.item.filled`), written from
 the primitives' vocabulary. Another framework's pages are compared with React's Kirana UI pages:
 `vp run conformance -- --framework vue/kirana --reference kirana --pages rating-demo`.

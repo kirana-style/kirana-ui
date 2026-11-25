@@ -1016,3 +1016,8 @@ export const tourState = {
     last: { kirana: "[data-last]" },
   },
 } as const
+
+/** A progress bar with no value yet, which Kirana UI Primitives mark on its root. */
+export const progressState = {
+  root: { indeterminate: { kirana: "[data-indeterminate]" } },
+} as const
