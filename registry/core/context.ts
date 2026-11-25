@@ -139,3 +139,12 @@ export const shimmerCtx = defineTokens("shimmerCtx", {
   angle: { value: "20deg", syntax: "<angle>" },
   highlight: { syntax: "*" },
 })
+
+/**
+ * Marquee's knobs, set on its root and read by its copies with `fallback()`: `duration`, one loop,
+ * and `gap`, the space between items and between the two copies.
+ */
+export const marqueeCtx = defineTokens("marqueeCtx", {
+  duration: { syntax: "*" },
+  gap: { syntax: "*" },
+})
