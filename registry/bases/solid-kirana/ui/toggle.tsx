@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Toggle as TogglePrimitive } from "@kirana-ui/solid/toggle"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { toggle, toggleScope } from "../../../styles/toggle.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 type ToggleVariants = NonNullable<Parameters<typeof toggle>[0]>
 
@@ -22,9 +22,22 @@ function Toggle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default", size: "default" } as const, props),
-    ["variant", "size", "asChild", "class", "sx", "children"]
+  const local = merge(props, {
+    get variant() {
+      return props.variant ?? ("default" as const)
+    },
+    get size() {
+      return props.size ?? ("default" as const)
+    },
+  })
+  const rest = omit(
+    local,
+    "variant",
+    "size",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <TogglePrimitive

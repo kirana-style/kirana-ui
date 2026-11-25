@@ -1,11 +1,10 @@
-import { splitProps } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import type { Sx } from "@kirana-style/core"
 import type { Status } from "./types"
 
 export function StatusIcon(props: { status: Status; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["status", "sx", "class"])
+  const local = props
   const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 
   const styles = {

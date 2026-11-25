@@ -1,5 +1,5 @@
 import qrcode from "qrcode-generator"
-import { Show, createMemo, mergeProps, splitProps } from "solid-js"
+import { Show, createMemo, merge } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 
 export function QRCode(props: {
@@ -12,17 +12,14 @@ export function QRCode(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(
-    mergeProps(
-      {
-        size: 256,
-        level: "L",
-        bgColor: "#FFFFFF",
-        fgColor: "#000000",
-      } as const,
-      props
-    ),
-    ["value", "size", "level", "bgColor", "fgColor", "title", "sx", "class"]
+  const local = merge(
+    {
+      size: 256,
+      level: "L",
+      bgColor: "#FFFFFF",
+      fgColor: "#000000",
+    } as const,
+    props
   )
   /**
    * A QR code as an SVG, `react-qr-code`'s markup (MIT): its light and dark modules each one path,

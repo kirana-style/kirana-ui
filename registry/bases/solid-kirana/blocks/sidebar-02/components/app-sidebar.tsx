@@ -1,6 +1,6 @@
 import { SearchForm } from "./search-form"
 import { VersionSwitcher } from "./version-switcher"
-import { For, splitProps } from "solid-js"
+import { For, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   Collapsible,
@@ -39,7 +39,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     sidebarContent: css({
       gap: { "*": null, base: space["0"] },

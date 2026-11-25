@@ -121,14 +121,14 @@ Each component comes with the ones it needs, and its files land under
 
 ## Frameworks and templates
 
-| Framework | Base                  | Template                                                                                           | Components |
-| --------- | --------------------- | -------------------------------------------------------------------------------------------------- | ---------- |
-| React     | Base UI or React Aria | `vite-react`, `tanstack-start`, `react-router`, `next-turbopack`, `astro-react`, `laravel-inertia` | 64, 61     |
-| Vue       | Ark UI                | `vite-vue`, `nuxt`                                                                                 | 61         |
-| Svelte    | Ark UI                | `vite-svelte`, `sveltekit`                                                                         | 61         |
-| Solid     | Ark UI                | `vite-solid`, `solid-start`, `tanstack-start-solid`                                                | 61         |
-| Solid     | UI SDK (Solid 2)      | `vite-solid2`                                                                                      | 61         |
-| Angular   | ng-primitives         | `analog-angular`, `angular-cli`                                                                    | 62         |
+| Framework | Base                          | Template                                                                                           | Components |
+| --------- | ----------------------------- | -------------------------------------------------------------------------------------------------- | ---------- |
+| React     | Base UI or React Aria         | `vite-react`, `tanstack-start`, `react-router`, `next-turbopack`, `astro-react`, `laravel-inertia` | 64, 61     |
+| Vue       | Ark UI                        | `vite-vue`, `nuxt`                                                                                 | 61         |
+| Svelte    | Ark UI                        | `vite-svelte`, `sveltekit`                                                                         | 61         |
+| Solid     | Ark UI                        | `vite-solid`, `solid-start`, `tanstack-start-solid`                                                | 61         |
+| Solid     | Kirana UI or UI SDK (Solid 2) | `vite-solid2`                                                                                      | 61         |
+| Angular   | ng-primitives                 | `analog-angular`, `angular-cli`                                                                    | 62         |
 
 Every framework has the blocks and the charts too. Each template is named after Kirana's
 example it was built from; `--framework` and `--base` tell `init` which components to
@@ -137,9 +137,10 @@ install where the project does not say. Astro's components are React islands
 (`composer install` and `php artisan key:generate` set the PHP side up, `vite build` needs
 none of it).
 
-Solid on UI SDK runs on Solid 2 (`solid-js` 2 with `@solidjs/web`), which Solid's other
-bases and templates do not: it installs into `vite-solid2`, Kirana's Vite + Solid 2 example,
-and Get Code offers that template with it alone.
+Solid on Kirana UI and on UI SDK run on Solid 2 (`solid-js` 2 with `@solidjs/web`), which
+their headless libraries' Solid packages need. Solid on Ark UI and Solid's other templates
+are on Solid 1. So those two bases install into `vite-solid2`, Kirana's Vite + Solid 2
+example, and Get Code offers that template with them alone.
 
 Where a template has no file that renders `<html>`, `init` sets the document up the
 framework's way. On Nuxt it puts the attributes and `:sx="htmlStyles"` on the `<Html>` in

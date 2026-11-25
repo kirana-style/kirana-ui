@@ -1,5 +1,5 @@
 import { Sidebar16Icon } from "./sidebar16-icon"
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -25,7 +25,8 @@ export function NavSecondary(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["items", "class", "sx"])
+  const local = props
+  const rest = omit(props, "items", "class", "sx")
   return (
     <SidebarGroup {...rest} class={local.class} sx={[local.sx]}>
       <SidebarGroupContent>

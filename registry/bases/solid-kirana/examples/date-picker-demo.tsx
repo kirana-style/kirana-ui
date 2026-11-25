@@ -34,7 +34,7 @@ export default function DatePickerDemo() {
             <Button
               {...props()}
               variant="outline"
-              data-empty={!date()}
+              data-empty={!date() ? "true" : "false"}
               sx={styles.button}
             >
               {date() ? format(date()!, "PPP") : <span>Pick a date()</span>}

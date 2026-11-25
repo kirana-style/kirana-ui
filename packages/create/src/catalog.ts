@@ -92,10 +92,9 @@ export const TEMPLATE_LABELS: Record<Template, string> = {
 
 /**
  * A major of a framework that only some templates and bases run on: Solid 2 (`solid-js` 2 with
- * `@solidjs/web`), which ui-sdk's Solid adapter requires, while Solid's other bases (Ark UI, and
- * Kirana UI, on `@kirana-ui/solid` 0.3.0, the last release that peers `solid-js` ^1.9) and its
- * other templates are on Solid 1. A template and a base go together when both name the same runtime or neither names one
- * (`templatesFor`, `basesFor` in `choices.ts`).
+ * `@solidjs/web`), which ui-sdk's and Kirana UI Primitives' Solid adapters require, while Solid on
+ * Ark UI and Solid's other templates are on Solid 1. A template and a base go together when both
+ * name the same runtime or neither names one (`templatesFor`, `basesFor` in `choices.ts`).
  */
 export const RUNTIMES = ["solid2"] as const
 export type Runtime = (typeof RUNTIMES)[number]
@@ -107,10 +106,10 @@ export const TEMPLATE_RUNTIMES: Partial<Record<Template, Runtime>> = {
   "vite-solid2": "solid2",
 }
 
-/** The bases that need a runtime, per framework: Solid on ui-sdk needs Solid 2. */
+/** The bases that need a runtime, per framework: Solid on ui-sdk and on Kirana UI need Solid 2. */
 export const BASE_RUNTIMES: Partial<
   Record<Framework, Partial<Record<Base, Runtime>>>
-> = { solid: { uisdk: "solid2" } }
+> = { solid: { uisdk: "solid2", kirana: "solid2" } }
 
 /** A template's framework. */
 export function frameworkOf(template: Template): Framework {

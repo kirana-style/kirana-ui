@@ -1,11 +1,11 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { RadioGroup as RadioGroupPrimitive } from "@kirana-ui/solid/radio-group"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { radioGroup } from "../../../styles/radio-group.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's radio group, with Solid's Ark UI part's `value`, `defaultValue` and
@@ -21,24 +21,25 @@ function RadioGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "onValueChange",
     "asChild",
     "class",
     "sx",
-    "children",
-  ])
+    "children"
+  )
   return (
     <RadioGroupPrimitive.Root
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="radio-group"
       {...rest}
       onValueChange={(value: unknown) =>
-        local.onValueChange?.({ value: (value as string | null) ?? "" })
+        props.onValueChange?.({ value: (value as string | null) ?? "" })
       }
-      {...styleProps(local.class, radioGroup.root, local.sx)}
+      {...styleProps(props.class, radioGroup.root, props.sx)}
     >
-      {local.children}
+      {props.children}
     </RadioGroupPrimitive.Root>
   )
 }
@@ -55,14 +56,14 @@ function RadioGroupItem(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["value", "asChild", "class", "sx"])
+  const rest = omit(props, "value", "asChild", "class", "sx")
   return (
     <RadioGroupPrimitive.Item
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="radio-group-item"
-      value={local.value}
+      value={props.value}
       {...rest}
-      {...styleProps(local.class, radioGroup.item, local.sx)}
+      {...styleProps(props.class, radioGroup.item, props.sx)}
     >
       <RadioGroupPrimitive.Indicator
         data-slot="radio-group-indicator"

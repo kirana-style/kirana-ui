@@ -1,5 +1,5 @@
 import { TodoLine } from "./todo-line"
-import { Index, Show, createMemo, splitProps } from "solid-js"
+import { For, Show, createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -19,7 +19,7 @@ export function TodoQueue(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["todos", "streaming", "sx", "class"])
+  const local = props
   const pending = createMemo(() =>
     local.todos.filter((todo) => todo.status !== "completed")
   )
@@ -47,11 +47,11 @@ export function TodoQueue(props: {
           </TraceCollapsibleTrigger>
           <TraceCollapsibleContent>
             <Trace>
-              <Index each={pending()}>
+              <For keyed={false} each={pending()}>
                 {(todo) => (
                   <TodoLine todo={todo()} streaming={local.streaming} />
                 )}
-              </Index>
+              </For>
             </Trace>
           </TraceCollapsibleContent>
         </TraceCollapsible>
@@ -74,11 +74,11 @@ export function TodoQueue(props: {
           </TraceCollapsibleTrigger>
           <TraceCollapsibleContent>
             <Trace>
-              <Index each={completed()}>
+              <For keyed={false} each={completed()}>
                 {(todo) => (
                   <TodoLine todo={todo()} streaming={local.streaming} />
                 )}
-              </Index>
+              </For>
             </Trace>
           </TraceCollapsibleContent>
         </TraceCollapsible>

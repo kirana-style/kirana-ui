@@ -19,7 +19,7 @@ import {
   rowSelectionFeature,
   rowSortingFeature,
   tableFeatures,
-} from "@tanstack/solid-table"
+} from "../../../../../lib/solid2/table"
 import { curveNatural } from "d3-shape"
 import { z } from "zod"
 

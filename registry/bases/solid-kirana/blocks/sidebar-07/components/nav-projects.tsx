@@ -1,5 +1,5 @@
 import { Sidebar07Icon } from "./sidebar07-icon"
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { alpha, theme } from "../../../../../core/tokens"
 import { IconPlaceholder } from "../../../ui/icon-placeholder"
@@ -39,7 +39,8 @@ export function NavProjects(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["projects", "class", "sx"])
+  const local = props
+  const rest = omit(props, "projects", "class", "sx")
   const styles = {
     // Hidden while the sidebar is collapsed to its icons.
     group: css({ display: { [COLLAPSED]: "none" } }),

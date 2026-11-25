@@ -1,7 +1,7 @@
 import {
   createContext,
   createSignal,
-  splitProps,
+  omit,
   untrack,
   useContext,
 } from "solid-js"
@@ -13,7 +13,7 @@ import {
   CollapsibleTrigger,
 } from "./collapsible"
 import { IconPlaceholder } from "./icon-placeholder"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function Trace(props: {
@@ -22,7 +22,8 @@ function Trace(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="trace"
@@ -43,10 +44,14 @@ function TraceCollapsible(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   // Its content asks to stay in the page while closed (`keepMounted`, Base UI's panel's): Ark
   // mounts from the root, so the root lets it.
-  const [keepMounted, setKeepMounted] = createSignal(false)
+  // Written by the content as it renders (`ownedWrite`, which Solid 2 asks for such a write).
+  const [keepMounted, setKeepMounted] = createSignal(false, {
+    ownedWrite: true,
+  })
   return (
     <Collapsible
       data-slot="trace-collapsible"
@@ -56,9 +61,7 @@ function TraceCollapsible(props: {
       class={local.class}
       sx={[trace.collapsible, local.sx]}
     >
-      <KeepMounted.Provider value={setKeepMounted}>
-        {local.children}
-      </KeepMounted.Provider>
+      <KeepMounted value={setKeepMounted}>{local.children}</KeepMounted>
     </Collapsible>
   )
 }
@@ -71,12 +74,8 @@ function TraceCollapsibleContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "keepMounted",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "keepMounted", "class", "sx", "children")
   // Read once, as the root mounts from it.
   if (untrack(() => local.keepMounted)) useContext(KeepMounted)?.(true)
   return (
@@ -101,7 +100,8 @@ function TraceCollapsibleTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <CollapsibleTrigger
       data-slot="trace-collapsible-trigger"
@@ -129,7 +129,8 @@ function TraceDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="trace-description"
@@ -147,7 +148,8 @@ function TraceIcon(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="trace-icon"
@@ -167,7 +169,8 @@ function TraceLine(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["status", "class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "status", "class", "sx", "children")
   return (
     <span
       data-slot="trace-line"
@@ -186,7 +189,8 @@ function TraceTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="trace-title"

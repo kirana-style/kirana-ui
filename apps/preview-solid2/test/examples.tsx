@@ -1,5 +1,5 @@
 /**
- * Every example page on ui-sdk (Solid 2), and every chat demo on TanStack AI (`*-tanstack-ai`) and
+ * Every example page on ui-sdk and on Kirana UI (Solid 2), and every chat demo on TanStack AI (`*-tanstack-ai`) and
  * helper demo (`*-helper-demo`), mounted as its preview page mounts it and every trigger it has
  * pressed: nothing may throw, and no press may submit a form. A chat demo then replays or sends its
  * conversation once and streams a while.
@@ -26,7 +26,12 @@ function sendButton(container: HTMLElement) {
   )
 }
 
-for (const base of Object.keys(BASES) as (keyof typeof BASES)[]) {
+/**
+ * `base`'s example pages, chat demos and helper demos, each mounted and every trigger pressed. Each
+ * base has a test file of its own (`examples.<base>.test.tsx`): a file is a page of its own, so a
+ * base's memory is released before the next one's.
+ */
+export function testExamples(base: keyof typeof BASES) {
   describe(base, () => {
     const examples = Object.keys(BASES[base]).filter(
       (item) => item.endsWith("-example") || isChat(item)

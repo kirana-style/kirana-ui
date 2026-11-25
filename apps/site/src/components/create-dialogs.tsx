@@ -241,7 +241,7 @@ const REASONS = {
 
 /**
  * Why a template is not offered with the base (`RUNTIMES`): it is on a major the base does not run
- * on (Solid 2, for Solid on UI SDK alone), or the base needs one the template is not on.
+ * on (Solid 2, for Solid on UI SDK and on Kirana UI), or the base needs one the template is not on.
  */
 function runtimeReason(framework: Framework, base: Base, template: Template) {
   const own = TEMPLATE_RUNTIMES[template]

@@ -1,7 +1,7 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { input } from "../../../styles/input.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 function Input(
@@ -11,7 +11,8 @@ function Input(
     sx?: Sx
   }
 ) {
-  const [local, rest] = splitProps(props, ["value", "class", "sx"])
+  const local = props
+  const rest = omit(props, "value", "class", "sx")
   /** `value`, as on a native one, its changes the caller's `onInput`. */
   return (
     <input

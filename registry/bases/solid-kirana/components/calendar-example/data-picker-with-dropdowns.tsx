@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { format } from "date-fns"
 import { Example } from "../../components/example"
@@ -16,7 +16,8 @@ export function DataPickerWithDropdowns(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     wAutoP0: css({ width: "auto", padding: { "*": null, base: "0" } }),
     w72: css({ marginInline: "auto", width: { "*": null, base: space[72] } }),

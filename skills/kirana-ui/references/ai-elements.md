@@ -7,14 +7,14 @@ uses, and never mix them in one chat.
 
 ## The packages
 
-| Framework             | AI SDK                                                                                       | TanStack AI                                                                                             |
-| --------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| React                 | `ai @ai-sdk/react` (`useChat`)                                                               | `@tanstack/ai @tanstack/ai-react` (`useChat`)                                                           |
-| Vue                   | `ai @ai-sdk/vue` (`useChat`)                                                                 | `@tanstack/ai @tanstack/ai-vue` (`useChat`)                                                             |
-| Svelte                | `ai @ai-sdk/svelte` (`new Chat()`)                                                           | `@tanstack/ai @tanstack/ai-svelte` (`createChat`)                                                       |
-| Solid (Solid 1)       | `ai`: no current adapter, the demo's `Chat` is the SDK's `AbstractChat` over Solid's signals | `@tanstack/ai @tanstack/ai-solid` (`useChat`)                                                           |
-| Solid 2 (ui-sdk base) | as Solid 1                                                                                   | `@tanstack/ai @tanstack/ai-client`: `@tanstack/ai-solid` is Solid 1 only; a `useChat` over `ChatClient` |
-| Angular               | `ai`: the demo's `Chat` over Angular's signals                                               | `@tanstack/ai @tanstack/ai-angular` (`injectChat`)                                                      |
+| Framework                            | AI SDK                                                                                       | TanStack AI                                                                                             |
+| ------------------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| React                                | `ai @ai-sdk/react` (`useChat`)                                                               | `@tanstack/ai @tanstack/ai-react` (`useChat`)                                                           |
+| Vue                                  | `ai @ai-sdk/vue` (`useChat`)                                                                 | `@tanstack/ai @tanstack/ai-vue` (`useChat`)                                                             |
+| Svelte                               | `ai @ai-sdk/svelte` (`new Chat()`)                                                           | `@tanstack/ai @tanstack/ai-svelte` (`createChat`)                                                       |
+| Solid 1 (Ark UI base)                | `ai`: no current adapter, the demo's `Chat` is the SDK's `AbstractChat` over Solid's signals | `@tanstack/ai @tanstack/ai-solid` (`useChat`)                                                           |
+| Solid 2 (Kirana UI and ui-sdk bases) | as Solid 1                                                                                   | `@tanstack/ai @tanstack/ai-client`: `@tanstack/ai-solid` is Solid 1 only; a `useChat` over `ChatClient` |
+| Angular                              | `ai`: the demo's `Chat` over Angular's signals                                               | `@tanstack/ai @tanstack/ai-angular` (`injectChat`)                                                      |
 
 Each pattern's docs page has an "AI SDK | TanStack AI" switch: its demo and its code follow it.
 

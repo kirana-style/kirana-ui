@@ -97,11 +97,9 @@ export async function POST(request: Request) {
   const [length, setLength] = createSignal(total)
 
   // The code grows three characters a frame until it is whole.
-  let timeout: ReturnType<typeof setTimeout> | undefined
-  createEffect(() => {
-    const value = length()
-    clearTimeout(timeout)
-    if (value < total) timeout = setTimeout(() => setLength(value + 3), 16)
+  createEffect(length, (value) => {
+    if (value >= total) return
+    const timeout = setTimeout(() => setLength(value + 3), 16)
     return () => clearTimeout(timeout)
   })
 

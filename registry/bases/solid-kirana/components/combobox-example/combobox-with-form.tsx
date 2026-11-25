@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css } from "@kirana-style/core"
 import { toast } from "solid-sonner"
 import { Example } from "../../components/example"
@@ -14,7 +14,7 @@ import {
 } from "../../ui/combobox"
 import { Field, FieldGroup, FieldLabel } from "../../ui/field"
 import { containerSize } from "../../../../core/scales"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 export function ComboboxWithForm(props: {
@@ -23,7 +23,8 @@ export function ComboboxWithForm(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   const styles = {
     wFullMaxWSm: css({
       width: { "*": null, base: "100%" },

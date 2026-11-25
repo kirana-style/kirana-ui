@@ -1,4 +1,4 @@
-import { For, Show, createSignal, splitProps } from "solid-js"
+import { For, Show, createSignal, omit } from "solid-js"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -43,7 +43,8 @@ export function SettingsDialog(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     dialogContent: css({
       overflow: { "*": null, base: "hidden" },

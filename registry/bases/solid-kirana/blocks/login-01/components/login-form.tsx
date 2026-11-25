@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { fontSize, lineHeight, space } from "../../../../../core/scales"
 import { Button } from "../../../ui/button"
@@ -23,7 +23,8 @@ export function LoginForm(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     root: css({ display: "flex", flexDirection: "column", gap: space[6] }),
     labelRow: css({ display: "flex", alignItems: "center" }),

@@ -1,0 +1,14 @@
+{
+  "name": "@workspace/registry-solid-kirana",
+  "private": true,
+  "description": "The version ranges Solid on Kirana UI installs: Solid 2 and the packages on it, where Solid on Ark UI takes Solid 1's (Kirana's ui build reads a base's package.json first). Not a workspace; the Solid 2 preview app installs them.",
+  "dependencies": {
+    "@dnd-kit/abstract": "^0.5.3",
+    "@dnd-kit/dom": "^0.5.3",
+    "@kirana-ui/solid": "0.4.0",
+    "@solidjs/web": "^2.0.3",
+    "@tanstack/table-core": "^9.3.1",
+    "solid-js": "^2.0.3",
+    "solid-sonner": "^1.0.0"
+  }
+}

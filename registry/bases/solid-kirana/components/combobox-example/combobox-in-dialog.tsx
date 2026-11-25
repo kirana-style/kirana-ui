@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal, omit } from "solid-js"
 import { css } from "@kirana-style/core"
 import { toast } from "solid-sonner"
 import { Example } from "../../components/example"
@@ -23,7 +23,7 @@ import {
 import { Field, FieldLabel } from "../../ui/field"
 import { breakpoint } from "../../../../core/scales"
 import { visuallyHidden } from "../../../../styles/visually-hidden.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 export function ComboboxInDialog(props: {
@@ -32,7 +32,8 @@ export function ComboboxInDialog(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   const styles = {
     narrow: css({
       maxWidth: {

@@ -1,5 +1,5 @@
 import { Step } from "./step"
-import { For, Show, createMemo, splitProps } from "solid-js"
+import { For, Show, createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { Badge } from "../../ui/badge"
 import { CodeBlock, CodeBlockContent } from "../../ui/code-block"
@@ -16,13 +16,7 @@ export function StepRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "part",
-    "result",
-    "streaming",
-    "sx",
-    "class",
-  ])
+  const local = props
   const styles = {
     stepRowCodeBlockContent: css({
       maxHeight: { "*": null, base: space[64] },

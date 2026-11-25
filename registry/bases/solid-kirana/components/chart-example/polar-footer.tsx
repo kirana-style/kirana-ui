@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { fontWeight, space } from "../../../../core/scales"
 import { theme } from "../../../../core/tokens"
@@ -13,7 +13,8 @@ export function PolarFooter(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["note", "row", "class", "sx"])
+  const local = props
+  const rest = omit(props, "note", "row", "class", "sx")
   const styles = {
     trendRow: css({
       display: "flex",

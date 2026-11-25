@@ -1,17 +1,23 @@
 import { Button as ButtonPrimitive } from "@kirana-ui/solid/button"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
-import { mergeProps, splitProps } from "solid-js"
-import type { JSX } from "solid-js"
+import { omit } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
-import type { AsChild } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
+import type { AsChild } from "../../../lib/solid2/element"
 import { button, buttonLabel } from "../../../styles/button.styles"
 
 type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
-type ButtonProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
+type ButtonProps = Omit<
+  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+  "class" | "disabled"
+> &
   ButtonVariants & {
     class?: string
+    /** Kirana UI's button's: a boolean, where Solid's element also takes `""`. */
+    disabled?: boolean
     sx?: Sx
     /**
      * `false` where a part renders the button as an element whose content its own caller writes
@@ -64,59 +70,40 @@ function labelRuns(element: HTMLElement) {
 }
 
 /**
- * A caller's own element as the button (`asChild`, a link for the most part): its props merged
- * under the part's, as `asRender` does, then its role, a link's unless it names one: Kirana UI's
- * button writes `role="button"` over the caller's (PF-056), where Base UI's keeps a link a link.
- */
-function linkRender(asChild: AsChild<"button"> | undefined) {
-  if (!asChild) return undefined
-  return (props: () => Record<string, unknown>) =>
-    asChild((userProps) => {
-      const user = (userProps ?? {}) as Record<string, unknown>
-      return mergeProps(user, props(), {
-        role: (user.role as string | undefined) ?? "link",
-      }) as JSX.HTMLAttributes<any>
-    })
-}
-
-/**
  * Kirana UI's button, which a caller renders as its own element (`asChild`, Ark UI's render
  * function, as Vue's `as-child`), given the button's props and a native button's keyboard. A
  * caller's `sx` merges after the button's own, so it wins.
  */
 function Button(props: ButtonProps) {
-  const [local, rest] = splitProps(props, [
+  const local = props
+  const rest = omit(
+    props,
     "variant",
     "size",
     "class",
     "sx",
     "asChild",
     "labelText",
-    "ref",
-  ])
+    "ref"
+  )
   const label = (element: HTMLElement) =>
     local.labelText !== false && labelRuns(element)
   // A part rendered as the button (a dialog's Close) hands its own `ref` in the props: the part's
   // DOM work attaches through it, so the label's runs are added beside it, not in its place.
   // Rendered as its child (`asChild`), the button's `ref` reaches that child's element, so its
-  // text is labelled once, there.
-  const ref = (element: HTMLElement) => {
-    const given = local.ref as unknown
-    if (typeof given === "function") given(element)
-    label(element)
-  }
+  // text is labelled once, there. A link that navigates stays a link, with no role written.
   return (
     <ButtonPrimitive
       data-slot="button"
       nativeButton={local.asChild ? false : undefined}
-      render={linkRender(local.asChild)}
+      render={asRender(local.asChild)}
       {...rest}
       {...styleProps(
         local.class,
         button({ variant: local.variant, size: local.size }),
         local.sx
       )}
-      ref={ref}
+      ref={[local.ref, label]}
     />
   )
 }

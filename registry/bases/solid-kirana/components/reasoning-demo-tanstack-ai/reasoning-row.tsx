@@ -1,4 +1,4 @@
-import { createSignal, splitProps, untrack } from "solid-js"
+import { createSignal, untrack } from "solid-js"
 import {
   TraceCollapsible,
   TraceCollapsibleContent,
@@ -16,13 +16,7 @@ export function ReasoningRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "defaultOpen",
-    "text",
-    "running",
-    "sx",
-    "class",
-  ])
+  const local = props
   const styles = {
     reasoningRowTraceCollapsibleContent: css({
       whiteSpace: { "*": null, base: "pre-wrap" },

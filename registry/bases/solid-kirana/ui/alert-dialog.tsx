@@ -1,14 +1,14 @@
-import { mergeProps, splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { AlertDialog as AlertDialogPrimitive } from "@kirana-ui/solid/alert-dialog"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { Button } from "./button"
 import { alertDialog } from "../../../styles/alert-dialog.styles"
 import { backdropMotion, modalMotion } from "../../../styles/overlay.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { button } from "../../../styles/button.styles"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's alert dialog, taking the Ark UI parts' props: `open`, `defaultOpen` and
@@ -23,17 +23,13 @@ function AlertDialog(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
-    props,
-    ["onOpenChange", "children"],
-    ["sx", "class"]
-  )
+  const rest = omit(props, "onOpenChange", "children", "sx", "class")
   return (
     <AlertDialogPrimitive.Root
       {...rest}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </AlertDialogPrimitive.Root>
   )
 }
@@ -44,15 +40,15 @@ function AlertDialogAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <Button
       data-slot="alert-dialog-action"
       {...rest}
-      class={local.class}
-      sx={[local.sx]}
+      class={props.class}
+      sx={[props.sx]}
     >
-      {local.children}
+      {props.children}
     </Button>
   )
 }
@@ -67,10 +63,7 @@ function AlertDialogCancel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "outline", size: "default" } as const, props),
-    ["variant", "size", "class", "sx", "children"]
-  )
+  const rest = omit(props, "variant", "size", "class", "sx", "children")
   return (
     <AlertDialogPrimitive.Close
       data-slot="alert-dialog-cancel"
@@ -78,12 +71,12 @@ function AlertDialogCancel(props: {
       render={(childProps) => (
         <Button
           {...childProps()}
-          variant={local.variant}
-          size={local.size}
-          class={local.class}
-          sx={[local.sx]}
+          variant={props.variant ?? "outline"}
+          size={props.size ?? "default"}
+          class={props.class}
+          sx={[props.sx]}
         >
-          {local.children}
+          {props.children}
         </Button>
       )}
     />
@@ -97,20 +90,17 @@ function AlertDialogContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "default" } as const, props),
-    ["size", "class", "sx", "children"]
-  )
+  const rest = omit(props, "size", "class", "sx", "children")
   return (
     <AlertDialogPrimitive.Portal>
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Popup
         data-slot="alert-dialog-content"
-        data-size={local.size}
+        data-size={props.size ?? "default"}
         {...rest}
-        {...styleProps(local.class, modalMotion, alertDialog.content, local.sx)}
+        {...styleProps(props.class, modalMotion, alertDialog.content, props.sx)}
       >
-        {local.children}
+        {props.children}
       </AlertDialogPrimitive.Popup>
     </AlertDialogPrimitive.Portal>
   )
@@ -122,14 +112,14 @@ function AlertDialogDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <AlertDialogPrimitive.Description
       data-slot="alert-dialog-description"
       {...rest}
-      {...styleProps(local.class, alertDialog.description, local.sx)}
+      {...styleProps(props.class, alertDialog.description, props.sx)}
     >
-      {local.children}
+      {props.children}
     </AlertDialogPrimitive.Description>
   )
 }
@@ -140,14 +130,14 @@ function AlertDialogFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="alert-dialog-footer"
       {...rest}
-      {...styleProps(local.class, alertDialog.footer, local.sx)}
+      {...styleProps(props.class, alertDialog.footer, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -158,14 +148,14 @@ function AlertDialogHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="alert-dialog-header"
       {...rest}
-      {...styleProps(local.class, alertDialog.header, local.sx)}
+      {...styleProps(props.class, alertDialog.header, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -176,14 +166,14 @@ function AlertDialogMedia(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="alert-dialog-media"
       {...rest}
-      {...styleProps(local.class, alertDialog.media, local.sx)}
+      {...styleProps(props.class, alertDialog.media, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -194,18 +184,18 @@ function AlertDialogOverlay(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const rest = omit(props, "asChild", "class", "sx")
   return (
     <AlertDialogPrimitive.Backdrop
       data-slot="alert-dialog-overlay"
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         backdropMotion,
         alertDialog.overlay,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     />
   )
 }
@@ -216,14 +206,14 @@ function AlertDialogTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <AlertDialogPrimitive.Title
       data-slot="alert-dialog-title"
       {...rest}
-      {...styleProps(local.class, alertDialog.title, local.sx)}
+      {...styleProps(props.class, alertDialog.title, props.sx)}
     >
-      {local.children}
+      {props.children}
     </AlertDialogPrimitive.Title>
   )
 }
@@ -235,20 +225,15 @@ function AlertDialogTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <AlertDialogPrimitive.Trigger
       data-slot="alert-dialog-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </AlertDialogPrimitive.Trigger>
   )
 }

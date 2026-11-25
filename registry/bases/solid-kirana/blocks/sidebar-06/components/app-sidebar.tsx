@@ -1,6 +1,6 @@
 import { NavMain } from "./nav-main"
 import { SidebarOptInForm } from "./sidebar-opt-in-form"
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   Sidebar,
@@ -22,7 +22,8 @@ export function AppSidebar(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     appSidebarDiv: css({
       display: "flex",

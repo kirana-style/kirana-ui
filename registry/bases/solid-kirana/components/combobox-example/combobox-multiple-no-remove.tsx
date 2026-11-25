@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For, omit } from "solid-js"
 import { Example } from "../../components/example"
 import { example } from "../../../../styles/example.styles"
 import {
@@ -12,7 +12,7 @@ import {
   ComboboxList,
   ComboboxValue,
 } from "../../ui/combobox"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 export function ComboboxMultipleNoRemove(props: {
@@ -21,7 +21,8 @@ export function ComboboxMultipleNoRemove(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   const frameworks = [
     "Next.js",
     "SvelteKit",

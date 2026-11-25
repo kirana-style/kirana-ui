@@ -5,15 +5,15 @@ import {
   createContext,
   createMemo,
   createSignal,
-  mergeProps,
+  omit,
   Show,
-  splitProps,
+  untrack,
   useContext,
 } from "solid-js"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
-import { asRender } from "../../../lib/solid/element"
-import type { AsChild } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
+import type { AsChild } from "../../../lib/solid2/element"
 import { drawer } from "../../../styles/drawer.styles"
 
 export type SwipeDirection = "up" | "down" | "left" | "right"
@@ -30,8 +30,7 @@ const DrawerContext = createContext<DrawerContext>()
 
 /**
  * Base UI's drawer on Kirana UI's: `swipeDirection` (the edge it leaves by, `down` by default),
- * `snapPoints`, `modal`, `showSwipeHandle`, `disablePointerDismissal` (the primitives'
- * `dismissible`, inverted), `open` or `defaultOpen`; `onOpenChange` gets `details.open`, the Ark
+ * `snapPoints`, `modal`, `showSwipeHandle`, `disablePointerDismissal`, `open` or `defaultOpen`; `onOpenChange` gets `details.open`, the Ark
  * UI parts' shape every Solid base keeps. The swipe, the snap points and the nested drawers are
  * the primitives' own, which write Base UI's variables for the styles.
  */
@@ -48,45 +47,23 @@ function Drawer(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local] = splitProps(
-    mergeProps(
-      {
-        modal: true,
-        showSwipeHandle: false,
-        swipeDirection: "down",
-        disablePointerDismissal: false,
-      } as const,
-      props
-    ),
-    [
-      "open",
-      "defaultOpen",
-      "onOpenChange",
-      "modal",
-      "showSwipeHandle",
-      "snapPoints",
-      "swipeDirection",
-      "disablePointerDismissal",
-      "children",
-    ]
-  )
   // The first value only, as Base UI's `defaultOpen`.
-  const [own, setOwn] = createSignal(local.defaultOpen ?? false)
-  const open = () => local.open ?? own()
+  const [own, setOwn] = createSignal(untrack(() => props.defaultOpen ?? false))
+  const open = () => props.open ?? own()
   return (
-    <DrawerContext.Provider
+    <DrawerContext
       value={{
         get hasSnapPoints() {
-          return (local.snapPoints?.length ?? 0) > 0
+          return (props.snapPoints?.length ?? 0) > 0
         },
         get modal() {
-          return local.modal
+          return props.modal ?? true
         },
         get showSwipeHandle() {
-          return local.showSwipeHandle
+          return props.showSwipeHandle ?? false
         },
         get swipeDirection() {
-          return local.swipeDirection
+          return props.swipeDirection ?? "down"
         },
       }}
     >
@@ -94,16 +71,16 @@ function Drawer(props: {
         open={open()}
         onOpenChange={(next) => {
           setOwn(next)
-          local.onOpenChange?.({ open: next })
+          props.onOpenChange?.({ open: next })
         }}
-        modal={local.modal}
-        snapPoints={local.snapPoints}
-        swipeDirection={local.swipeDirection}
-        dismissible={local.disablePointerDismissal ? false : undefined}
+        modal={props.modal ?? true}
+        snapPoints={props.snapPoints}
+        swipeDirection={props.swipeDirection ?? "down"}
+        disablePointerDismissal={props.disablePointerDismissal ?? false}
       >
-        {local.children}
+        {props.children}
       </DrawerPrimitive.Root>
-    </DrawerContext.Provider>
+    </DrawerContext>
   )
 }
 
@@ -113,9 +90,8 @@ function DrawerContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   const context = useContext(DrawerContext)
-  if (!context) throw new Error("DrawerContent must be used within a Drawer.")
   const swipeAxis = createMemo(() =>
     context.swipeDirection === "down" || context.swipeDirection === "up"
       ? "y"
@@ -140,13 +116,13 @@ function DrawerContent(props: {
           data-swipe-axis={swipeAxis()}
           data-snap-points={context.hasSnapPoints ? "" : undefined}
           {...rest}
-          {...styleProps(local.class, drawer.popup, drawer.motion, local.sx)}
+          {...styleProps(props.class, drawer.popup, drawer.motion, props.sx)}
         >
           <Show when={context.showSwipeHandle}>
             <DrawerSwipeHandle />
           </Show>
           <div data-slot="drawer-content" sx={drawer.content}>
-            {local.children}
+            {props.children}
           </div>
         </DrawerPrimitive.Popup>
       </div>
@@ -161,20 +137,15 @@ function DrawerClose(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DrawerPrimitive.Close
       data-slot="drawer-close"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, local.sx)}
+      {...styleProps(props.class, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DrawerPrimitive.Close>
   )
 }
@@ -185,14 +156,14 @@ function DrawerDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <DrawerPrimitive.Description
       data-slot="drawer-description"
       {...rest}
-      {...styleProps(local.class, drawer.description, local.sx)}
+      {...styleProps(props.class, drawer.description, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DrawerPrimitive.Description>
   )
 }
@@ -203,14 +174,14 @@ function DrawerFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="drawer-footer"
       {...rest}
-      {...styleProps(local.class, drawer.footer, local.sx)}
+      {...styleProps(props.class, drawer.footer, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -221,14 +192,14 @@ function DrawerHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="drawer-header"
       {...rest}
-      {...styleProps(local.class, drawer.header, local.sx)}
+      {...styleProps(props.class, drawer.header, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -239,13 +210,13 @@ function DrawerOverlay(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const rest = omit(props, "asChild", "class", "sx")
   return (
     <DrawerPrimitive.Backdrop
       data-slot="drawer-overlay"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, drawer.overlay, local.sx)}
+      {...styleProps(props.class, drawer.overlay, props.sx)}
     />
   )
 }
@@ -255,13 +226,13 @@ function DrawerSwipeHandle(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <div
       data-slot="drawer-swipe-handle"
       aria-hidden="true"
       {...rest}
-      {...styleProps(local.class, drawer.swipeHandle, local.sx)}
+      {...styleProps(props.class, drawer.swipeHandle, props.sx)}
     />
   )
 }
@@ -273,20 +244,15 @@ function DrawerTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DrawerPrimitive.Title
       data-slot="drawer-title"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, drawer.title, local.sx)}
+      {...styleProps(props.class, drawer.title, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DrawerPrimitive.Title>
   )
 }
@@ -298,20 +264,15 @@ function DrawerTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DrawerPrimitive.Trigger
       data-slot="drawer-trigger"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, local.sx)}
+      {...styleProps(props.class, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DrawerPrimitive.Trigger>
   )
 }

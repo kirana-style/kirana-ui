@@ -1,5 +1,5 @@
 import { StatusIcon } from "./status-icon"
-import { For, createMemo, createSignal, splitProps } from "solid-js"
+import { For, createMemo, createSignal } from "solid-js"
 import {
   Trace,
   TraceCollapsible,
@@ -18,7 +18,7 @@ export function TaskRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["task", "streaming", "sx", "class"])
+  const local = props
   function getStepStatus(
     status: TaskPart["data"]["steps"][number]["status"],
     streaming: boolean

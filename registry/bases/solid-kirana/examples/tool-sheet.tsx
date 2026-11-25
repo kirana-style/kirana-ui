@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createMemo } from "solid-js"
 import { IconPlaceholder } from "../ui/icon-placeholder"
-import { Chat } from "../../../lib/solid/chat"
+import { Chat } from "../../../lib/solid2/chat"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"

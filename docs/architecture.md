@@ -447,10 +447,8 @@ UI base's do. **Solid's second base
 is Kirana UI Primitives** (`registry/bases/solid-kirana`, at
 `/preview/solid/kirana/`, on `@kirana-ui/solid`), with all 61 of Solid's
 components: its parts take the Ark UI twin's props, Ark's `asChild` becoming a
-part's `render`. It stays on `@kirana-ui/solid` 0.3.0, the last release on
-Solid 1, where the other Kirana UI bases follow the site's pin: the adapter needs
-Solid 2 from 0.4.0, and the base moves there with the app that runs Solid 2
-(`apps/preview-solid2`). Every Kirana UI base draws the calendar with the primitives' own
+part's `render`. It runs on **Solid 2**, which `@kirana-ui/solid` needs, in the
+app that ui-sdk's base is in (below). Every Kirana UI base draws the calendar with the primitives' own
 Calendar (several days, several months, the month held by the caller), as
 react-day-picker's markup and attributes, so `calendar.styles.ts` serves them
 unchanged. **Angular's
@@ -461,13 +459,13 @@ directive, since the primitives' selectors are the registry's (`kuiDialog` …);
 a content part draws the primitives' structural portal in its template around
 the caller's children. **Solid's third base is ui-sdk**
 (`registry/bases/solid-uisdk`, at `/preview/solid/uisdk/`), on **Solid 2**:
-ui-sdk's Solid adapter needs Solid 2, which Solid's other bases do not run on
-yet, so it builds in an app of its own (`apps/preview-solid2`, served at the
-same URLs by a rewrite), with its own helpers (`registry/lib/solid2`) and Solid
-2 resolved from that app for the registry's files too. A project installs it
-from Get Code's Solid 2 template (`vite-solid2`, from Kirana's example of the
-same name), the one Solid template it runs on and the one base that template
-takes.
+ui-sdk's Solid adapter needs Solid 2, as Kirana UI Primitives' does, and Ark
+UI's runs on Solid 1. So the two build in an app of their own
+(`apps/preview-solid2`, served at the same URLs by a rewrite), with their own
+helpers (`registry/lib/solid2`) and Solid 2 resolved from that app for the
+registry's files too. A project installs either from Get Code's Solid 2
+template (`vite-solid2`, from Kirana's example of the same name), the one Solid
+template they run on, which takes no other base.
 
 **Angular is on ng-primitives, and it carries 59 of the 64; four more come from
 the Angular CDK and two packages.** Checked against ng-primitives 0.131.4,
@@ -582,7 +580,7 @@ imports them as `@workspace/ui/*`, and the tooling's configuration sits at the
 root over every package. Adding a template, a tool or a workspace kind is an
 entry in the catalog and its layer: the dialog, the build and the install check
 read the catalog. A template and a base on a framework's other major say so in
-it (`RUNTIMES`: Solid 2, for `vite-solid2` and Solid on ui-sdk), and go only
+it (`RUNTIMES`: Solid 2, for `vite-solid2` and Solid on ui-sdk and on Kirana UI), and go only
 with each other. Installed so, each combination
 renders the site's preview pages, value for value. A style module imports only
 what every framework installs: a control's width inside a Field is in

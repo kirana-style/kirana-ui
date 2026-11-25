@@ -1,6 +1,6 @@
 import { StatusIcon } from "./status-icon"
 import { StepRow } from "./step-row"
-import { Index, createMemo, createSignal, splitProps } from "solid-js"
+import { For, createMemo, createSignal } from "solid-js"
 import {
   Trace,
   TraceCollapsible,
@@ -21,14 +21,7 @@ export function ChainOfThought(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "steps",
-    "results",
-    "streaming",
-    "answering",
-    "sx",
-    "class",
-  ])
+  const local = props
   const [open, setOpen] = createSignal<boolean>()
   const running = createMemo(() => local.streaming && !local.answering)
   const failed = createMemo(
@@ -58,7 +51,7 @@ export function ChainOfThought(props: {
         </TraceCollapsibleTrigger>
         <TraceCollapsibleContent keepMounted>
           <Trace>
-            <Index each={local.steps}>
+            <For keyed={false} each={local.steps}>
               {(part) => (
                 <StepRow
                   part={part()}
@@ -68,7 +61,7 @@ export function ChainOfThought(props: {
                   streaming={local.streaming}
                 />
               )}
-            </Index>
+            </For>
           </Trace>
         </TraceCollapsibleContent>
       </TraceCollapsible>

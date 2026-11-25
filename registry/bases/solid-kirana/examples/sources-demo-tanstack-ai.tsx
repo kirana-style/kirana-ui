@@ -1,6 +1,6 @@
 import { Sources } from "../components/sources-demo-tanstack-ai/sources"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -105,7 +105,7 @@ export default function SourcesDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message) => (
             <>
               {message().role === "user" ? (
@@ -130,7 +130,7 @@ export default function SourcesDemoTanstackAi() {
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

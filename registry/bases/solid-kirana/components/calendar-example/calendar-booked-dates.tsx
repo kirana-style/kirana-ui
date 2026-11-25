@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal, omit } from "solid-js"
 import { css, props as styleProps, select } from "@kirana-style/core"
 import { Example } from "../../components/example"
 import { Calendar } from "../../ui/calendar"
@@ -10,7 +10,8 @@ export function CalendarBookedDates(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     // `[&>button]:line-through opacity-100`: a booked day, struck through and not dimmed as disabled.
     booked: css({

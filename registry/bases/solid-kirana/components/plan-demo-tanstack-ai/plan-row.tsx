@@ -1,4 +1,4 @@
-import { Index, createMemo, splitProps } from "solid-js"
+import { For, createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -23,7 +23,7 @@ export function PlanRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["plan", "streaming", "sx", "class"])
+  const local = props
   const done = createMemo(
     () => local.plan.steps.filter((step) => step.status === "done").length
   )
@@ -52,7 +52,7 @@ export function PlanRow(props: {
       </TraceCollapsibleTrigger>
       <TraceCollapsibleContent>
         <Trace>
-          <Index each={local.plan.steps}>
+          <For keyed={false} each={local.plan.steps}>
             {(step) => (
               <>
                 <TraceLine
@@ -99,7 +99,7 @@ export function PlanRow(props: {
                 </TraceLine>
               </>
             )}
-          </Index>
+          </For>
         </Trace>
       </TraceCollapsibleContent>
     </TraceCollapsible>

@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { bubble } from "../../../styles/bubble.styles"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
-import type { JSX } from "solid-js"
+import { asRender } from "../../../lib/solid2/element"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 function Bubble(props: {
   variant?:
@@ -22,10 +22,8 @@ function Bubble(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default", align: "start" } as const, props),
-    ["variant", "align", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default", align: "start" } as const, props)
+  const rest = omit(local, "variant", "align", "class", "sx", "children")
   return (
     <div
       data-slot="bubble"
@@ -46,12 +44,8 @@ function BubbleContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="div"
@@ -71,7 +65,8 @@ function BubbleGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="bubble-group"
@@ -91,10 +86,8 @@ function BubbleReactions(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ side: "bottom", align: "end" } as const, props),
-    ["side", "align", "class", "sx", "children"]
-  )
+  const local = merge({ side: "bottom", align: "end" } as const, props)
+  const rest = omit(local, "side", "align", "class", "sx", "children")
   return (
     <div
       data-slot="bubble-reactions"

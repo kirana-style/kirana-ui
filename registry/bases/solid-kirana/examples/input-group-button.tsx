@@ -1,6 +1,6 @@
 import { createSignal } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
-import { useCopyToClipboard } from "../../../lib/solid/use-copy-to-clipboard"
+import { useCopyToClipboard } from "../../../lib/solid2/use-copy-to-clipboard"
 import { IconPlaceholder } from "../ui/icon-placeholder"
 import {
   InputGroup,
@@ -128,7 +128,7 @@ export default function InputGroupButtonExample() {
                 hugeicons="StarIcon"
                 phosphor="StarIcon"
                 remixicon="RiStarLine"
-                data-favorite={isFavorite()}
+                data-favorite={isFavorite() ? "true" : "false"}
                 {...styleProps(styles.dataFavoriteTrueFillBlue)}
               />
             </InputGroupButton>

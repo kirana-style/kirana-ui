@@ -11,7 +11,6 @@
     "@fontsource-variable/geist": "catalog:",
     "@fontsource-variable/inter": "catalog:",
     "@kirana-style/core": "catalog:",
-    "@kirana-ui/solid": "0.3.0",
     "@workspace/fonts": "workspace:*",
     "@workspace/registry": "workspace:*",
     "solid-js": "catalog:"

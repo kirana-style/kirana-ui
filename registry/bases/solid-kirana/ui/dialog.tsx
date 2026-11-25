@@ -1,20 +1,20 @@
-import { Show, mergeProps, splitProps } from "solid-js"
+import { Show, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Dialog as DialogPrimitive } from "@kirana-ui/solid/dialog"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { IconPlaceholder } from "./icon-placeholder"
 import { dialog } from "../../../styles/dialog.styles"
 import { backdropMotion, modalMotion } from "../../../styles/overlay.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's dialog, taking the Ark UI parts' props: `open`, `defaultOpen`, `onOpenChange` (given
- * `{ open }`), `modal`, and `closeOnInteractOutside` (the root's `dismissible`). It renders no
- * element.
+ * `{ open }`), `modal`, and `closeOnInteractOutside` (`false` is the root's
+ * `disablePointerDismissal`). It renders no element.
  */
 function Dialog(props: {
   open?: boolean
@@ -27,18 +27,21 @@ function Dialog(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["onOpenChange", "closeOnInteractOutside", "children"],
-    ["sx", "class"]
+    "onOpenChange",
+    "closeOnInteractOutside",
+    "children",
+    "sx",
+    "class"
   )
   return (
     <DialogPrimitive.Root
       {...rest}
-      dismissible={local.closeOnInteractOutside}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      disablePointerDismissal={props.closeOnInteractOutside === false}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Root>
   )
 }
@@ -50,20 +53,15 @@ function DialogClose(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DialogPrimitive.Close
       data-slot="dialog-close"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Close>
   )
 }
@@ -76,20 +74,17 @@ function DialogContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ showCloseButton: true } as const, props),
-    ["showCloseButton", "class", "sx", "children"]
-  )
+  const rest = omit(props, "showCloseButton", "class", "sx", "children")
   return (
     <DialogPrimitive.Portal>
       <DialogOverlay />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         {...rest}
-        {...styleProps(local.class, modalMotion, dialog.content, local.sx)}
+        {...styleProps(props.class, modalMotion, dialog.content, props.sx)}
       >
-        {local.children}
-        <Show when={local.showCloseButton}>
+        {props.children}
+        <Show when={props.showCloseButton ?? true}>
           <DialogPrimitive.Close
             data-slot="dialog-close"
             render={(closeProps) => (
@@ -122,14 +117,14 @@ function DialogDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
       {...rest}
-      {...styleProps(local.class, dialog.description, local.sx)}
+      {...styleProps(props.class, dialog.description, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Description>
   )
 }
@@ -141,18 +136,15 @@ function DialogFooter(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ showCloseButton: false } as const, props),
-    ["showCloseButton", "class", "sx", "children"]
-  )
+  const rest = omit(props, "showCloseButton", "class", "sx", "children")
   return (
     <div
       data-slot="dialog-footer"
       {...rest}
-      {...styleProps(local.class, dialog.footer, local.sx)}
+      {...styleProps(props.class, dialog.footer, props.sx)}
     >
-      {local.children}
-      <Show when={local.showCloseButton}>
+      {props.children}
+      <Show when={props.showCloseButton}>
         <DialogPrimitive.Close
           render={(closeProps) => (
             <Button {...closeProps()} variant="outline">
@@ -171,14 +163,14 @@ function DialogHeader(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="dialog-header"
       {...rest}
-      {...styleProps(local.class, dialog.header, local.sx)}
+      {...styleProps(props.class, dialog.header, props.sx)}
     >
-      {local.children}
+      {props.children}
     </div>
   )
 }
@@ -189,13 +181,13 @@ function DialogOverlay(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const rest = omit(props, "asChild", "class", "sx")
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       {...rest}
-      {...styleProps(local.class, backdropMotion, dialog.overlay, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, backdropMotion, dialog.overlay, props.sx)}
+      render={asRender(props.asChild)}
     />
   )
 }
@@ -206,14 +198,14 @@ function DialogTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
       {...rest}
-      {...styleProps(local.class, dialog.title, local.sx)}
+      {...styleProps(props.class, dialog.title, props.sx)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Title>
   )
 }
@@ -225,20 +217,15 @@ function DialogTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <DialogPrimitive.Trigger
       data-slot="dialog-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </DialogPrimitive.Trigger>
   )
 }

@@ -1,13 +1,13 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { breadcrumb } from "../../../styles/breadcrumb.styles"
 import { IconPlaceholder } from "./icon-placeholder"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
-import type { JSX } from "solid-js"
+import { asRender } from "../../../lib/solid2/element"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 function Breadcrumb(props: {
   class?: string
@@ -15,7 +15,8 @@ function Breadcrumb(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <nav
       data-slot="breadcrumb"
@@ -33,7 +34,8 @@ function BreadcrumbEllipsis(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <span
       data-slot="breadcrumb-ellipsis"
@@ -60,7 +62,8 @@ function BreadcrumbItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <li
       data-slot="breadcrumb-item"
@@ -79,12 +82,8 @@ function BreadcrumbLink(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="a"
@@ -104,7 +103,8 @@ function BreadcrumbList(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <ol
       data-slot="breadcrumb-list"
@@ -122,7 +122,8 @@ function BreadcrumbPage(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="breadcrumb-page"
@@ -143,7 +144,8 @@ function BreadcrumbSeparator(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <li
       data-slot="breadcrumb-separator"

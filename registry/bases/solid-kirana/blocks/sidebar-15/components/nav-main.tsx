@@ -1,5 +1,5 @@
 import { Sidebar15Icon } from "./sidebar15-icon"
-import { For, Show, splitProps } from "solid-js"
+import { For, Show, omit } from "solid-js"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -24,7 +24,8 @@ export function NavMain(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["items", "class", "sx"])
+  const local = props
+  const rest = omit(props, "items", "class", "sx")
   return (
     <SidebarMenu {...rest} class={local.class} sx={[local.sx]}>
       <For each={local.items}>

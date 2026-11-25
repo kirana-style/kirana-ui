@@ -63,9 +63,9 @@ export default function ButtonGroupInputGroup() {
                         setVoiceEnabled(!voiceEnabled())
                       }}
                       size="icon-xs"
-                      data-active={voiceEnabled()}
+                      data-active={voiceEnabled() ? "true" : "false"}
                       sx={styles.dataActiveTrueBgOrange10}
-                      aria-pressed={voiceEnabled()}
+                      aria-pressed={voiceEnabled() ? "true" : "false"}
                     >
                       <IconPlaceholder
                         lucide="AudioLinesIcon"

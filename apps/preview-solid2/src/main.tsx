@@ -5,8 +5,11 @@ import "@workspace/registry/styles/reset.css"
 // Code Block's typeset demo draws in the `typeset` layer, as React's preview loads it.
 import "@workspace/registry/styles/typeset.css"
 import { css, props } from "@kirana-style/core"
+import { LanguageContext as KiranaLanguageContext } from "@workspace/registry/bases/solid-kirana/components/language-selector.tsx"
+import { previews as kiranaPreviews } from "@workspace/registry/bases/solid-kirana/previews.ts"
+import { IconLibraryContext as KiranaIconLibraryContext } from "@workspace/registry/bases/solid-kirana/ui/icon-placeholder.tsx"
 import { LanguageContext } from "@workspace/registry/bases/solid-uisdk/components/language-selector.tsx"
-import { previews } from "@workspace/registry/bases/solid-uisdk/previews.ts"
+import { previews as uisdkPreviews } from "@workspace/registry/bases/solid-uisdk/previews.ts"
 import { IconLibraryContext } from "@workspace/registry/bases/solid-uisdk/ui/icon-placeholder.tsx"
 import { axes } from "@workspace/registry/core/axes.ts"
 import { root } from "@workspace/registry/core/root.ts"
@@ -33,33 +36,42 @@ const list = css({
 })
 
 /**
- * Solid on ui-sdk, on Solid 2: ui-sdk's Solid adapter needs Solid 2, which Solid's other bases (Ark
- * UI, Kirana UI Primitives) do not run on yet, so it is an app of its own. One page per item, as
- * `/preview/solid/uisdk/<item>` (the site's `_redirects` serves this app's page there); anything
+ * Solid's bases on Solid 2: ui-sdk's, whose Solid adapter needs it, and Kirana UI Primitives', whose
+ * adapter does too. Ark UI's is Solid 1's, in its own app (`apps/preview-solid`). One page per item,
+ * as `/preview/solid/<base>/<item>` (the site's `_redirects` serves this app's page there); anything
  * else lists them.
  */
-const item = location.pathname.match(
-  /\/uisdk\/([a-z0-9-]+?)(?:\.html)?\/?$/
-)?.[1]
+const route = location.pathname.match(
+  /\/(uisdk|kirana)\/([a-z0-9-]+?)(?:\.html)?\/?$/
+)
+const base = route?.[1] === "kirana" ? "kirana" : "uisdk"
+const item = route?.[2]
+const previews = base === "kirana" ? kiranaPreviews : uisdkPreviews
 const load = item ? previews[item] : undefined
 const Current = load ? lazy(load) : undefined
-// Sonner's toaster (`top-center`, as upstream's site mounts it) and the toast's, after the page.
+// Sonner's toaster (`top-center`, as upstream's site mounts it) and the toast's, after the page:
+// each base's own, since its items call their own `toast()`.
 const Toaster = lazy(() =>
-  import("@workspace/registry/bases/solid-uisdk/ui/sonner.tsx").then(
-    (module) => ({ default: module.Toaster })
-  )
+  (base === "kirana"
+    ? import("@workspace/registry/bases/solid-kirana/ui/sonner.tsx")
+    : import("@workspace/registry/bases/solid-uisdk/ui/sonner.tsx")
+  ).then((module) => ({ default: module.Toaster }))
 )
 const ToastToaster = lazy(() =>
-  import("@workspace/registry/bases/solid-uisdk/ui/toast.tsx").then(
-    (module) => ({ default: module.Toaster })
-  )
+  (base === "kirana"
+    ? import("@workspace/registry/bases/solid-kirana/ui/toast.tsx")
+    : import("@workspace/registry/bases/solid-uisdk/ui/toast.tsx")
+  ).then((module) => ({ default: module.Toaster }))
 )
+// Each base reads its own contexts (a part's module is the base's own copy).
+const Icons = base === "kirana" ? KiranaIconLibraryContext : IconLibraryContext
+const Language = base === "kirana" ? KiranaLanguageContext : LanguageContext
 
 render(
   () => (
-    <IconLibraryContext value={() => design().system.iconLibrary}>
+    <Icons value={() => design().system.iconLibrary}>
       {/* A right-to-left demo's language, from `?lang=` and the docs page's selector. */}
-      <LanguageContext value={() => design().options.language}>
+      <Language value={() => design().options.language}>
         {Current ? (
           // Solid 2 reads a lazy component's module as an async value, which needs a boundary.
           <Loading>
@@ -70,12 +82,12 @@ render(
         ) : (
           <nav sx={list}>
             <For each={Object.keys(previews)}>
-              {(name) => <a href={`/preview/solid/uisdk/${name}`}>{name}</a>}
+              {(name) => <a href={`/preview/solid/${base}/${name}`}>{name}</a>}
             </For>
           </nav>
         )}
-      </LanguageContext>
-    </IconLibraryContext>
+      </Language>
+    </Icons>
   ),
   document.getElementById("app")!
 )

@@ -1,8 +1,7 @@
 /**
  * A tooltip or popover trigger in a form never submits it, as its own button or through `asChild`
- * with the registry's Button, on each base. Ark UI's tooltip trigger is a `<button>` with no type,
- * which submits the form (LF-021): its `TooltipTrigger` passes `type="button"`. Kirana UI's was
- * too until its 0.3.0, whose trigger writes `type="button"` itself (PF-029); this test holds that.
+ * with the registry's Button, on Ark UI. Its tooltip trigger is a `<button>` with no type, which
+ * submits the form (LF-021): its `TooltipTrigger` passes `type="button"`.
  */
 import { describe, expect, it } from "vite-plus/test"
 import { page, userEvent } from "vite-plus/test/browser"
@@ -11,15 +10,11 @@ import { pressTriggers, triggers } from "@workspace/vite-config/browser-page"
 import * as arkButton from "@workspace/registry/bases/solid-ark/ui/button.tsx"
 import * as arkPopover from "@workspace/registry/bases/solid-ark/ui/popover.tsx"
 import * as arkTooltip from "@workspace/registry/bases/solid-ark/ui/tooltip.tsx"
-import * as kiranaButton from "@workspace/registry/bases/solid-kirana/ui/button.tsx"
-import * as kiranaPopover from "@workspace/registry/bases/solid-kirana/ui/popover.tsx"
-import * as kiranaTooltip from "@workspace/registry/bases/solid-kirana/ui/tooltip.tsx"
 
 import { mountView, settle } from "./page"
 
 const BASES = {
   ark: { ...arkButton, ...arkPopover, ...arkTooltip },
-  kirana: { ...kiranaButton, ...kiranaPopover, ...kiranaTooltip },
 }
 
 for (const [base, parts] of Object.entries(BASES)) {

@@ -1,6 +1,6 @@
 import { TaskRow } from "../components/task-demo-tanstack-ai/task-row"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -131,7 +131,7 @@ export default function TaskDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -147,14 +147,14 @@ export default function TaskDemoTanstackAi() {
                   <MessageContent sx={styles.messageContent}>
                     <Show when={tasksOf(message()).length > 0}>
                       <Trace>
-                        <Index each={tasksOf(message())}>
+                        <For keyed={false} each={tasksOf(message())}>
                           {(task) => (
                             <TaskRow
                               task={task()}
                               streaming={streaming(index)}
                             />
                           )}
-                        </Index>
+                        </For>
                       </Trace>
                     </Show>
                     <Show when={getMessageText(message())}>
@@ -165,7 +165,7 @@ export default function TaskDemoTanstackAi() {
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

@@ -1,12 +1,12 @@
-import { mergeProps, splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Tooltip as TooltipPrimitive } from "@kirana-ui/solid/tooltip"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { popupMotion } from "../../../styles/overlay.styles"
 import { tooltip } from "../../../styles/tooltip.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's tooltip, taking the Ark UI parts' props: `open`, `defaultOpen`, `onOpenChange` (given
@@ -25,19 +25,23 @@ function Tooltip(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
-    mergeProps({ openDelay: 0 } as const, props),
-    ["openDelay", "closeDelay", "onOpenChange", "children"],
-    ["sx", "class"]
+  const rest = omit(
+    props,
+    "openDelay",
+    "closeDelay",
+    "onOpenChange",
+    "children",
+    "sx",
+    "class"
   )
   return (
     <TooltipPrimitive.Root
       {...rest}
-      delay={local.openDelay}
-      closeDelay={local.closeDelay}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      delay={props.openDelay ?? 0}
+      closeDelay={props.closeDelay}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </TooltipPrimitive.Root>
   )
 }
@@ -52,28 +56,31 @@ function TooltipContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { side: "top", sideOffset: 4, align: "center", alignOffset: 0 } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "top"}
+        sideOffset={props.sideOffset ?? 4}
+        align={props.align ?? "center"}
+        alignOffset={props.alignOffset ?? 0}
         {...styleProps(tooltip.positioner)}
       >
         <TooltipPrimitive.Popup
           data-slot="tooltip-content"
           {...rest}
-          {...styleProps(local.class, popupMotion, tooltip.content, local.sx)}
+          {...styleProps(props.class, popupMotion, tooltip.content, props.sx)}
         >
-          {local.children}
+          {props.children}
           <TooltipPrimitive.Arrow {...styleProps(tooltip.arrow)} />
         </TooltipPrimitive.Popup>
       </TooltipPrimitive.Positioner>
@@ -88,20 +95,15 @@ function TooltipTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <TooltipPrimitive.Trigger
       data-slot="tooltip-trigger"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </TooltipPrimitive.Trigger>
   )
 }

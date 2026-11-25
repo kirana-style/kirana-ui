@@ -1,4 +1,4 @@
-import { For, Show, createMemo, mergeProps, splitProps } from "solid-js"
+import { For, Show, createMemo, merge } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { duration, easing, space } from "../../../../core/scales"
 import { chart } from "../../../../styles/chart.styles"
@@ -14,15 +14,7 @@ export function TooltipDemo(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local] = splitProps(mergeProps({ indicator: "dot" } as const, props), [
-    "indicator",
-    "label",
-    "payload",
-    "hideLabel",
-    "hideIndicator",
-    "class",
-    "sx",
-  ])
+  const local = merge({ indicator: "dot" } as const, props)
   const styles = {
     // `transition-all ease-in-out hover:-translate-y-0.5`, over the Chart's tooltip.
     tooltip: css({

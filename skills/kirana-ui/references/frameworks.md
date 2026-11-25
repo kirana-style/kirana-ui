@@ -55,7 +55,7 @@ Each framework's default base is the first one its registry index names; the pro
 - **Vue:** a part merges your `:sx` with its own; `v-model` where the shadcn/ui-vue port has it.
 - **Svelte:** components take `sx` and `class`; Svelte 5 runes; the `asChild` snippet is the way
   to change the element.
-- **Solid:** on Ark UI and Kirana UI, Solid 1; on ui-sdk, Solid 2 (`@solidjs/web`), its own
-  template. Spread `props()` (a function) in `asChild`.
+- **Solid:** on Ark UI, Solid 1; on Kirana UI and ui-sdk, Solid 2 (`@solidjs/web`), with their
+  own template (`vite-solid2`). Spread `props()` (a function) in `asChild`.
 - **Angular:** each part is a standalone directive (`kuiButton`, `kuiDialogTrigger`); import the
   directives a template uses into its component; `[sx]` works on parts and plain elements alike.

@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 /**
- * What `/preview/solid/ark/<item>` can show: every example in `examples/`, by its file's name, every
+ * What `/preview/solid/kirana/<item>` can show: every example in `examples/`, by its file's name, every
  * block in `blocks/`, by its folder's (its `page.tsx`), and every chart in `charts/`, each loaded
  * only on its own page (a page that loaded the whole map would download every item), as Svelte's
  * `previews.ts`. The site lists the same names from the folder (`virtual:preview-names`).

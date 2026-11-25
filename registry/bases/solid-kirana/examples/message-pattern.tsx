@@ -54,8 +54,8 @@ Wrap the button in a \`DialogTrigger\` and put the settings form in \`DialogCont
   const [copied, setCopied] = createSignal(false)
   const [feedback, setFeedback] = createSignal<"like" | "dislike" | null>(null)
   // Back to "Copy" two seconds after a copy.
-  createEffect(() => {
-    if (!copied()) return
+  createEffect(copied, (isCopied) => {
+    if (!isCopied) return
     const timeout = setTimeout(() => setCopied(false), 2000)
     return () => clearTimeout(timeout)
   })
@@ -126,7 +126,7 @@ Wrap the button in a \`DialogTrigger\` and put the settings form in \`DialogCont
               </MessageAction>
               <MessageAction
                 label="Good response"
-                aria-pressed={feedback() === "like"}
+                aria-pressed={feedback() === "like" ? "true" : "false"}
                 onClick={() =>
                   setFeedback(feedback() === "like" ? null : "like")
                 }
@@ -144,7 +144,7 @@ Wrap the button in a \`DialogTrigger\` and put the settings form in \`DialogCont
               </MessageAction>
               <MessageAction
                 label="Bad response"
-                aria-pressed={feedback() === "dislike"}
+                aria-pressed={feedback() === "dislike" ? "true" : "false"}
                 onClick={() =>
                   setFeedback(feedback() === "dislike" ? null : "dislike")
                 }

@@ -1,5 +1,5 @@
 import { Sidebar07Icon } from "./sidebar07-icon"
-import { For, Show, createSignal, splitProps, untrack } from "solid-js"
+import { For, Show, createSignal, untrack } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   fontSize,
@@ -43,7 +43,7 @@ export function TeamSwitcher(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["teams", "sx", "class"])
+  const local = props
   const styles = {
     trigger: css({
       backgroundColor: { "[data-open]": theme.sidebarAccent },

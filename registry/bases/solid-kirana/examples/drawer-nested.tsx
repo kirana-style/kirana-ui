@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js"
 import { css } from "@kirana-style/core"
-import { useIsMobile } from "../../../lib/solid/use-mobile"
+import { useIsMobile } from "../../../lib/solid2/use-mobile"
 import { Button } from "../ui/button"
 import {
   Drawer,

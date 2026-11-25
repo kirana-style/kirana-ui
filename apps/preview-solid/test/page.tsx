@@ -11,14 +11,11 @@ import { frames, watchPage } from "@workspace/vite-config/browser-page"
 import { LanguageContext } from "@workspace/registry/bases/solid-ark/components/language-selector.tsx"
 import { previews as arkPreviews } from "@workspace/registry/bases/solid-ark/previews.ts"
 import { IconLibraryContext } from "@workspace/registry/bases/solid-ark/ui/icon-placeholder.tsx"
-import { LanguageContext as KiranaLanguageContext } from "@workspace/registry/bases/solid-kirana/components/language-selector.tsx"
-import { previews as kiranaPreviews } from "@workspace/registry/bases/solid-kirana/previews.ts"
-import { IconLibraryContext as KiranaIconLibraryContext } from "@workspace/registry/bases/solid-kirana/ui/icon-placeholder.tsx"
 
 import { design } from "../src/design"
 
 /** Each base's example pages, as the preview's routes hold them. */
-export const BASES = { ark: arkPreviews, kirana: kiranaPreviews }
+export const BASES = { ark: arkPreviews }
 
 /** Lets Solid and the item settle: two frames. */
 export const settle = frames
@@ -37,17 +34,9 @@ export async function mountView(view: () => JSX.Element) {
         }}
       >
         <IconLibraryContext.Provider value={() => design().system.iconLibrary}>
-          <KiranaIconLibraryContext.Provider
-            value={() => design().system.iconLibrary}
-          >
-            <LanguageContext.Provider value={() => design().options.language}>
-              <KiranaLanguageContext.Provider
-                value={() => design().options.language}
-              >
-                {view()}
-              </KiranaLanguageContext.Provider>
-            </LanguageContext.Provider>
-          </KiranaIconLibraryContext.Provider>
+          <LanguageContext.Provider value={() => design().options.language}>
+            {view()}
+          </LanguageContext.Provider>
         </IconLibraryContext.Provider>
       </ErrorBoundary>
     ),

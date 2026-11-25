@@ -1,7 +1,7 @@
-import { createSignal, mergeProps, splitProps } from "solid-js"
+import { createSignal, omit, untrack } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { ContextMenu as Menu } from "@kirana-ui/solid/context-menu"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { IconPlaceholder } from "./icon-placeholder"
 import {
   menuCheckableRowPadding,
@@ -17,16 +17,16 @@ import {
 } from "../../../styles/menu.styles"
 import { contextMenu } from "../../../styles/context-menu.styles"
 import { popupMotion } from "../../../styles/overlay.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /** A popup's side, as Base UI names it: `inline-start` and `inline-end` follow the direction. */
 type Side = "top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"
 
 /**
  * Kirana UI's context menu, taking the Ark UI parts' props: `open`, `defaultOpen`, `onOpenChange` (given
- * `{ open }`). It renders no element; the rest (`disabled`, `loop`, `modal`) goes to Kirana UI's
+ * `{ open }`). It renders no element; the rest (`disabled`, `loopFocus`, `modal`) goes to Kirana UI's
  * root. Closed, the popup leaves the page.
  */
 function ContextMenu(props: {
@@ -43,17 +43,20 @@ function ContextMenu(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["onOpenChange", "children"],
-    ["positioning", "sx", "class"]
+    "onOpenChange",
+    "children",
+    "positioning",
+    "sx",
+    "class"
   )
   return (
     <Menu.Root
       {...rest}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </Menu.Root>
   )
 }
@@ -74,52 +77,44 @@ function ContextMenuCheckboxItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, , rest] = splitProps(
-    mergeProps(
-      {
-        defaultChecked: false,
-        inset: false,
-        checked: null,
-        closeOnSelect: false,
-      } as const,
-      props
-    ),
-    [
-      "defaultChecked",
-      "inset",
-      "checked",
-      "onCheckedChange",
-      "closeOnSelect",
-      "asChild",
-      "class",
-      "sx",
-      "children",
-    ],
-    // Ark names every item with `value`; Kirana UI's items need none.
-    ["value"]
+  // Ark names every item with `value`; Kirana UI's items need none.
+  const rest = omit(
+    props,
+    "defaultChecked",
+    "inset",
+    "checked",
+    "onCheckedChange",
+    "closeOnSelect",
+    "asChild",
+    "class",
+    "sx",
+    "children",
+    "value"
   )
   // The item's own state while the caller keeps none (`checked` is `null` then: a boolean would
   // read an absent one as `false`).
-  const [own, setOwn] = createSignal(local.defaultChecked)
+  const [own, setOwn] = createSignal(
+    untrack(() => props.defaultChecked ?? false)
+  )
   return (
     <Menu.CheckboxItem
       data-slot="context-menu-checkbox-item"
-      closeOnClick={local.closeOnSelect}
-      checked={local.checked ?? own()}
+      closeOnClick={props.closeOnSelect ?? false}
+      checked={props.checked ?? own()}
       onCheckedChange={(next) => (
         setOwn(next),
-        local.onCheckedChange?.({ checked: next })
+        props.onCheckedChange?.({ checked: next })
       )}
-      data-inset={local.inset || undefined}
+      data-inset={props.inset || undefined}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuCheckableRowPadding,
         contextMenu.checkableRow,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
       <span sx={contextMenu.indicator}>
         <Menu.CheckboxItemIndicator>
@@ -132,7 +127,7 @@ function ContextMenuCheckboxItem(props: {
           />
         </Menu.CheckboxItemIndicator>
       </span>
-      {local.children}
+      {props.children}
     </Menu.CheckboxItem>
   )
 }
@@ -147,34 +142,37 @@ function ContextMenuContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { side: "right", sideOffset: 0, align: "start", alignOffset: 4 } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Menu.Portal>
       <Menu.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "right"}
+        sideOffset={props.sideOffset ?? 0}
+        align={props.align ?? "start"}
+        alignOffset={props.alignOffset ?? 4}
         {...styleProps(menuPositioner)}
       >
         <Menu.Popup
           data-slot="context-menu-content"
           {...rest}
           {...styleProps(
-            local.class,
+            props.class,
             popupMotion,
             menuSurface,
             contextMenu.content,
-            local.sx
+            props.sx
           )}
         >
-          {local.children}
+          {props.children}
         </Menu.Popup>
       </Menu.Positioner>
     </Menu.Portal>
@@ -188,21 +186,16 @@ function ContextMenuGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   // A radio item inside it still finds the radio group around it, as Base UI's does.
   return (
     <Menu.Group
       data-slot="context-menu-group"
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.Group>
   )
 }
@@ -219,32 +212,35 @@ function ContextMenuItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, , rest] = splitProps(
-    mergeProps(
-      { inset: false, variant: "default", closeOnSelect: true } as const,
-      props
-    ),
-    ["inset", "variant", "closeOnSelect", "asChild", "class", "sx", "children"],
-    // Ark names every item with `value`; Kirana UI's items need none.
-    ["value"]
+  // Ark names every item with `value`; Kirana UI's items need none.
+  const rest = omit(
+    props,
+    "inset",
+    "variant",
+    "closeOnSelect",
+    "asChild",
+    "class",
+    "sx",
+    "children",
+    "value"
   )
   return (
     <Menu.Item
       data-slot="context-menu-item"
-      closeOnClick={local.closeOnSelect}
-      data-inset={local.inset || undefined}
-      data-variant={local.variant}
+      closeOnClick={props.closeOnSelect ?? true}
+      data-inset={props.inset || undefined}
+      data-variant={props.variant ?? "default"}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuRowPadding,
-        local.variant === "destructive" && menuRowDestructive,
-        local.sx
+        props.variant === "destructive" && menuRowDestructive,
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.Item>
   )
 }
@@ -257,20 +253,17 @@ function ContextMenuLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ inset: false } as const, props),
-    ["inset", "asChild", "class", "sx", "children"]
-  )
+  const rest = omit(props, "inset", "asChild", "class", "sx", "children")
   // The group's label: inside its group, as Base UI's label must be.
   return (
     <Menu.GroupLabel
       data-slot="context-menu-label"
-      data-inset={local.inset || undefined}
+      data-inset={props.inset || undefined}
       {...rest}
-      {...styleProps(local.class, menuLabel, menuLabelWeight, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, menuLabel, menuLabelWeight, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.GroupLabel>
   )
 }
@@ -280,10 +273,9 @@ function ContextMenuPortal(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["children", "sx", "class"])
   // Upstream's portal around the content. The content here draws its own portal, so this only
   // passes its children through, for markup written for both.
-  return <>{local.children}</>
+  return <>{props.children}</>
 }
 
 function ContextMenuRadioGroup<V extends string = string>(props: {
@@ -297,31 +289,32 @@ function ContextMenuRadioGroup<V extends string = string>(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "value",
     "defaultValue",
     "onValueChange",
     "asChild",
     "class",
     "sx",
-    "children",
-  ])
+    "children"
+  )
   // The group's own value while the caller keeps none. A radio item finds the group through any
   // group between them, as Base UI's does.
-  const [own, setOwn] = createSignal<V | null>(local.defaultValue ?? null)
+  const [own, setOwn] = createSignal<V | null>(() => props.defaultValue ?? null)
   return (
     <Menu.RadioGroup<V>
       data-slot="context-menu-radio-group"
-      value={local.value ?? own()}
+      value={props.value ?? own()}
       onValueChange={(next) => (
         setOwn(() => next),
-        local.onValueChange?.({ value: next })
+        props.onValueChange?.({ value: next })
       )}
       {...rest}
-      {...styleProps(local.class, local.sx)}
-      render={asRender(local.asChild)}
+      {...styleProps(props.class, props.sx)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
     </Menu.RadioGroup>
   )
 }
@@ -337,25 +330,31 @@ function ContextMenuRadioItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ inset: false, closeOnSelect: false } as const, props),
-    ["value", "inset", "closeOnSelect", "asChild", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "value",
+    "inset",
+    "closeOnSelect",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Menu.RadioItem
       data-slot="context-menu-radio-item"
-      closeOnClick={local.closeOnSelect}
-      value={local.value}
-      data-inset={local.inset || undefined}
+      closeOnClick={props.closeOnSelect ?? false}
+      value={props.value}
+      data-inset={props.inset || undefined}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuCheckableRowPadding,
         contextMenu.checkableRow,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
       <span sx={contextMenu.indicator}>
         <Menu.RadioItemIndicator>
@@ -368,7 +367,7 @@ function ContextMenuRadioItem(props: {
           />
         </Menu.RadioItemIndicator>
       </span>
-      {local.children}
+      {props.children}
     </Menu.RadioItem>
   )
 }
@@ -378,12 +377,12 @@ function ContextMenuSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <Menu.Separator
       data-slot="context-menu-separator"
       {...rest}
-      {...styleProps(local.class, menuSeparator, local.sx)}
+      {...styleProps(props.class, menuSeparator, props.sx)}
     />
   )
 }
@@ -394,14 +393,14 @@ function ContextMenuShortcut(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="context-menu-shortcut"
       {...rest}
-      {...styleProps(local.class, menuShortcut, local.sx)}
+      {...styleProps(props.class, menuShortcut, props.sx)}
     >
-      {local.children}
+      {props.children}
     </span>
   )
 }
@@ -424,17 +423,20 @@ function ContextMenuSub(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local, , rest] = splitProps(
+  const rest = omit(
     props,
-    ["onOpenChange", "children"],
-    ["positioning", "sx", "class"]
+    "onOpenChange",
+    "children",
+    "positioning",
+    "sx",
+    "class"
   )
   return (
     <Menu.SubmenuRoot
       {...rest}
-      onOpenChange={(open) => local.onOpenChange?.({ open })}
+      onOpenChange={(open) => props.onOpenChange?.({ open })}
     >
-      {local.children}
+      {props.children}
     </Menu.SubmenuRoot>
   )
 }
@@ -449,35 +451,38 @@ function ContextMenuSubContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { side: "right", sideOffset: 0, align: "start", alignOffset: 4 } as const,
-      props
-    ),
-    ["side", "sideOffset", "align", "alignOffset", "class", "sx", "children"]
+  const rest = omit(
+    props,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <Menu.Portal>
       <Menu.Positioner
-        side={local.side}
-        sideOffset={local.sideOffset}
-        align={local.align}
-        alignOffset={local.alignOffset}
+        side={props.side ?? "right"}
+        sideOffset={props.sideOffset ?? 0}
+        align={props.align ?? "start"}
+        alignOffset={props.alignOffset ?? 4}
         {...styleProps(menuPositioner)}
       >
         <Menu.Popup
           data-slot="context-menu-sub-content"
           {...rest}
           {...styleProps(
-            local.class,
+            props.class,
             popupMotion,
             menuSurface,
             contextMenu.content,
             contextMenu.subContent,
-            local.sx
+            props.sx
           )}
         >
-          {local.children}
+          {props.children}
         </Menu.Popup>
       </Menu.Positioner>
     </Menu.Portal>
@@ -492,25 +497,22 @@ function ContextMenuSubTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ inset: false } as const, props),
-    ["inset", "asChild", "class", "sx", "children"]
-  )
+  const rest = omit(props, "inset", "asChild", "class", "sx", "children")
   return (
     <Menu.SubmenuTrigger
       data-slot="context-menu-sub-trigger"
-      data-inset={local.inset || undefined}
+      data-inset={props.inset || undefined}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuRowPadding,
         contextMenu.subTrigger,
-        local.sx
+        props.sx
       )}
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
     >
-      {local.children}
+      {props.children}
       <IconPlaceholder
         lucide="ChevronRightIcon"
         tabler="IconChevronRight"
@@ -529,15 +531,15 @@ function ContextMenuTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   // A div, as Base UI's trigger: a region, not a button.
   return (
     <Menu.Trigger
       data-slot="context-menu-trigger"
       {...rest}
-      {...styleProps(local.class, contextMenu.trigger, local.sx)}
+      {...styleProps(props.class, contextMenu.trigger, props.sx)}
     >
-      {local.children}
+      {props.children}
     </Menu.Trigger>
   )
 }

@@ -1,4 +1,4 @@
-import { For, Show, splitProps } from "solid-js"
+import { For, Show } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar"
@@ -199,15 +199,7 @@ export function SidebarContentInner(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "dir",
-    "t",
-    "navMain",
-    "projects",
-    "user",
-    "sx",
-    "class",
-  ])
+  const local = props
   const styles = {
     sidebarContentInnerDiv: css({
       display: "flex",

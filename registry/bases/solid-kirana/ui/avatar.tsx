@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Avatar as AvatarPrimitive } from "@kirana-ui/solid/avatar"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { avatar } from "../../../styles/avatar.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 function Avatar(props: {
   size?: "default" | "sm" | "lg"
@@ -14,10 +14,8 @@ function Avatar(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ size: "default" } as const, props),
-    ["size", "class", "sx", "children"]
-  )
+  const local = merge({ size: "default" } as const, props)
+  const rest = omit(local, "size", "class", "sx", "children")
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
@@ -36,7 +34,8 @@ function AvatarBadge(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="avatar-badge"
@@ -55,7 +54,8 @@ function AvatarFallback(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
@@ -73,7 +73,8 @@ function AvatarGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="avatar-group"
@@ -91,7 +92,8 @@ function AvatarGroupCount(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="avatar-group-count"
@@ -110,7 +112,8 @@ function AvatarImage(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx")
   return (
     <AvatarPrimitive.Image
       render={asRender(local.asChild)}

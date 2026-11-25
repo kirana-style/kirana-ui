@@ -11,11 +11,12 @@ import {
   For,
   onCleanup,
   Show,
-  splitProps,
+  omit,
   useContext,
 } from "solid-js"
-import type { Accessor, JSX } from "solid-js"
-import { Dynamic } from "solid-js/web"
+import type { Accessor } from "solid-js"
+import type { JSX } from "@solidjs/web"
+import { Dynamic } from "@solidjs/web"
 
 import { DEFAULT_DESIGN_SYSTEM } from "../../../core/config"
 import type { IconLibrary } from "../../../core/config"
@@ -41,13 +42,15 @@ type Names = {
 export function IconPlaceholder(
   props: Names & Omit<JSX.SvgSVGAttributes<SVGSVGElement>, keyof Names>
 ) {
-  const [names, rest] = splitProps(props, [
+  const names = props
+  const rest = omit(
+    props,
     "lucide",
     "hugeicons",
     "tabler",
     "phosphor",
-    "remixicon",
-  ])
+    "remixicon"
+  )
   const library = useContext(IconLibraryContext)
   // Draws again when a library's data arrives (Tabler, Phosphor and Remix Icon load on demand).
   const [version, setVersion] = createSignal(iconDataVersion())

@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal, omit } from "solid-js"
 import { css } from "@kirana-style/core"
 import { Example } from "../../components/example"
 import { Calendar } from "../../ui/calendar"
@@ -10,7 +10,8 @@ export function CalendarWeekNumbers(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     mxAutoWFitP0: css({
       marginInline: "auto",

@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, onMount } from "solid-js"
+import { createSignal, onSettled } from "solid-js"
 import { css } from "@kirana-style/core"
 import { IconPlaceholder } from "../ui/icon-placeholder"
 import {
@@ -59,8 +59,10 @@ export default function CommandDialogExample() {
       setOpen(!open())
     }
   }
-  onMount(() => document.addEventListener("keydown", down))
-  onCleanup(() => document.removeEventListener("keydown", down))
+  onSettled(() => {
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  })
 
   return (
     <div sx={page.example}>

@@ -20,7 +20,7 @@ import {
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { breakpoint, space } from "../../../core/scales"
-import { useIsMobile } from "../../../lib/solid/use-mobile"
+import { useIsMobile } from "../../../lib/solid2/use-mobile"
 import { page } from "../../../styles/page.styles"
 
 export default function DrawerDialog() {

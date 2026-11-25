@@ -2,17 +2,11 @@ import { Toggle as TogglePrimitive } from "@kirana-ui/solid/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@kirana-ui/solid/toggle-group"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
-import {
-  createContext,
-  createMemo,
-  mergeProps,
-  splitProps,
-  useContext,
-} from "solid-js"
-import type { JSX } from "solid-js"
+import { createContext, createMemo, merge, omit, useContext } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
-import { asRender } from "../../../lib/solid/element"
-import type { AsChild } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
+import type { AsChild } from "../../../lib/solid2/element"
 import { toggleGroup } from "../../../styles/toggle-group.styles"
 import { toggle, toggleScope } from "../../../styles/toggle.styles"
 
@@ -25,7 +19,7 @@ type ToggleGroupContext = {
   readonly spacing: number
 }
 
-const ToggleGroupContext = createContext<ToggleGroupContext>()
+const ToggleGroupContext = createContext<ToggleGroupContext | null>(null)
 
 /**
  * Kirana UI's toggle group, with Solid's Ark UI part's props: `multiple`, and a value that is
@@ -45,23 +39,29 @@ function ToggleGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ spacing: 2, orientation: "horizontal" } as const, props),
-    [
-      "variant",
-      "size",
-      "spacing",
-      "orientation",
-      "onValueChange",
-      "asChild",
-      "class",
-      "sx",
-      "children",
-    ]
+  const local = merge(props, {
+    get spacing() {
+      return props.spacing ?? 2
+    },
+    get orientation() {
+      return props.orientation ?? ("horizontal" as const)
+    },
+  })
+  const rest = omit(
+    local,
+    "variant",
+    "size",
+    "spacing",
+    "orientation",
+    "onValueChange",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   const own = () => styleProps(local.class, toggleGroup.root, local.sx)
   return (
-    <ToggleGroupContext.Provider
+    <ToggleGroupContext
       value={{
         get variant() {
           return local.variant
@@ -92,7 +92,7 @@ function ToggleGroup(props: {
       >
         {local.children}
       </ToggleGroupPrimitive>
-    </ToggleGroupContext.Provider>
+    </ToggleGroupContext>
   )
 }
 
@@ -106,9 +106,23 @@ function ToggleGroupItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default", size: "default" } as const, props),
-    ["value", "variant", "size", "asChild", "class", "sx", "children"]
+  const local = merge(props, {
+    get variant() {
+      return props.variant ?? ("default" as const)
+    },
+    get size() {
+      return props.size ?? ("default" as const)
+    },
+  })
+  const rest = omit(
+    local,
+    "value",
+    "variant",
+    "size",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   const context = useContext(ToggleGroupContext)
   const chosen = createMemo(() => ({

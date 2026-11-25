@@ -1,11 +1,11 @@
-import { children as resolve, splitProps } from "solid-js"
+import { children as resolve, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Progress as ProgressPrimitive } from "@kirana-ui/solid/progress"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { progress } from "../../../styles/progress.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 function Progress(props: {
   value?: number | null
@@ -15,13 +15,8 @@ function Progress(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "value",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "value", "asChild", "class", "sx", "children")
   // `value`, as Base UI's, for a progress its caller moves: none is "under way, how far unknown".
   return (
     <ProgressPrimitive.Root
@@ -46,12 +41,8 @@ function ProgressIndicator(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <ProgressPrimitive.Indicator
       render={asRender(local.asChild)}
@@ -71,12 +62,8 @@ function ProgressLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <ProgressPrimitive.Label
       render={asRender(local.asChild)}
@@ -96,12 +83,8 @@ function ProgressTrack(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <ProgressPrimitive.Track
       render={asRender(local.asChild)}
@@ -125,12 +108,8 @@ function ProgressValue(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "class", "sx", "children")
   const content = resolve(() => local.children)
   return (
     <ProgressPrimitive.Value

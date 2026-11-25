@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For } from "solid-js"
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +12,7 @@ export function QuestionList(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["questions", "sx", "class"])
+  const local = props
   return (
     <Accordion defaultValue={["0"]}>
       <For each={local.questions}>

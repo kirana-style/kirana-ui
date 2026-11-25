@@ -1,4 +1,4 @@
-import { For, createMemo, mergeProps, splitProps } from "solid-js"
+import { For, createMemo, merge, omit } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { radius, theme } from "../../../../../core/tokens"
 import { duration, easing, space } from "../../../../../core/scales"
@@ -22,28 +22,27 @@ export function BarVisualizer(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        barCount: 15,
-        minHeight: 20,
-        maxHeight: 100,
-        demo: false,
-        centerAlign: false,
-      } as const,
-      props
-    ),
-    [
-      "state",
-      "barCount",
-      "mediaStream",
-      "minHeight",
-      "maxHeight",
-      "demo",
-      "centerAlign",
-      "class",
-      "sx",
-    ]
+  const local = merge(
+    {
+      barCount: 15,
+      minHeight: 20,
+      maxHeight: 100,
+      demo: false,
+      centerAlign: false,
+    } as const,
+    props
+  )
+  const rest = omit(
+    local,
+    "state",
+    "barCount",
+    "mediaStream",
+    "minHeight",
+    "maxHeight",
+    "demo",
+    "centerAlign",
+    "class",
+    "sx"
   )
   /** Tailwind's `animate-pulse`. */
   const pulse = keyframes({ "50%": { opacity: 0.5 } })
@@ -133,7 +132,9 @@ export function BarVisualizer(props: {
         {(volume, index) => (
           <>
             <div
-              data-highlighted={highlighted().includes(index())}
+              data-highlighted={
+                highlighted().includes(index()) ? "true" : "false"
+              }
               sx={[
                 styles.bar,
                 local.state === "speaking" && styles.speaking,

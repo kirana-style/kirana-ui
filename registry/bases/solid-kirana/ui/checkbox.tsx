@@ -1,11 +1,11 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Checkbox as CheckboxPrimitive } from "@kirana-ui/solid/checkbox"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { IconPlaceholder } from "./icon-placeholder"
 import { checkbox } from "../../../styles/checkbox.styles"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's checkbox, with Solid's Ark UI part's props: `checked` (`true`, `false` or
@@ -23,28 +23,29 @@ function Checkbox(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
+  const rest = omit(
+    props,
     "checked",
     "onCheckedChange",
     "asChild",
     "class",
-    "sx",
-  ])
+    "sx"
+  )
   return (
     <CheckboxPrimitive.Root
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="checkbox"
       {...rest}
-      checked={local.checked === undefined ? undefined : local.checked === true}
+      checked={props.checked === undefined ? undefined : props.checked === true}
       indeterminate={
-        local.checked === undefined
+        props.checked === undefined
           ? (rest.indeterminate as boolean | undefined)
-          : local.checked === "indeterminate"
+          : props.checked === "indeterminate"
       }
       onCheckedChange={(checked: boolean) =>
-        local.onCheckedChange?.({ checked })
+        props.onCheckedChange?.({ checked })
       }
-      {...styleProps(local.class, checkbox.root, local.sx)}
+      {...styleProps(props.class, checkbox.root, props.sx)}
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"

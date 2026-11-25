@@ -1,4 +1,4 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge } from "solid-js"
 import { Checkbox } from "../../../ui/checkbox"
 import { styles } from "./table"
 import type { Sx } from "@kirana-style/core"
@@ -12,14 +12,7 @@ export function SelectCell(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(mergeProps({ header: false } as const, props), [
-    "checked",
-    "label",
-    "header",
-    "onToggle",
-    "sx",
-    "class",
-  ])
+  const local = merge({ header: false } as const, props)
   // The selection column: the header's box selects the page's rows, a row's box selects its row.
 
   return (

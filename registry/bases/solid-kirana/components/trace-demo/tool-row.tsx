@@ -1,4 +1,4 @@
-import { createMemo, splitProps } from "solid-js"
+import { createMemo } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { space } from "../../../../core/scales"
@@ -22,13 +22,7 @@ export function ToolRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, [
-    "part",
-    "streaming",
-    "defaultOpen",
-    "sx",
-    "class",
-  ])
+  const local = props
   // Tailwind's `spin`.
   const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 

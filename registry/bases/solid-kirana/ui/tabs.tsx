@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Tabs as TabsPrimitive } from "@kirana-ui/solid/tabs"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { tabs } from "../../../styles/tabs.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /**
  * Kirana UI's tabs, with Solid's Ark UI part's `value`, `defaultValue` and
@@ -23,9 +23,19 @@ function Tabs(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "horizontal" } as const, props),
-    ["onValueChange", "orientation", "asChild", "class", "sx", "children"]
+  const local = merge(props, {
+    get orientation() {
+      return props.orientation ?? ("horizontal" as const)
+    },
+  })
+  const rest = omit(
+    local,
+    "onValueChange",
+    "orientation",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <TabsPrimitive.Root
@@ -52,23 +62,17 @@ function TabsContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "value",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "value", "asChild", "class", "sx", "children")
   // Ark's required `value` is declared here and passed on, so a project's type checker sees it.
   return (
     <TabsPrimitive.Panel
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="tabs-content"
-      value={local.value}
+      value={props.value}
       {...rest}
-      {...styleProps(local.class, tabs.content, local.sx)}
+      {...styleProps(props.class, tabs.content, props.sx)}
     >
-      {local.children}
+      {props.children}
     </TabsPrimitive.Panel>
   )
 }
@@ -81,10 +85,12 @@ function TabsList(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" } as const, props),
-    ["variant", "asChild", "class", "sx", "children"]
-  )
+  const local = merge(props, {
+    get variant() {
+      return props.variant ?? ("default" as const)
+    },
+  })
+  const rest = omit(local, "variant", "asChild", "class", "sx", "children")
   return (
     <TabsPrimitive.List
       render={asRender(local.asChild)}
@@ -111,23 +117,17 @@ function TabsTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "value",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "value", "asChild", "class", "sx", "children")
   // Ark's required `value` is declared here and passed on, so a project's type checker sees it.
   return (
     <TabsPrimitive.Tab
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       data-slot="tabs-trigger"
-      value={local.value}
+      value={props.value}
       {...rest}
-      {...styleProps(local.class, tabs.trigger, local.sx)}
+      {...styleProps(props.class, tabs.trigger, props.sx)}
     >
-      {local.children}
+      {props.children}
     </TabsPrimitive.Tab>
   )
 }

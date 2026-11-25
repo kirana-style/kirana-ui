@@ -40,7 +40,6 @@
     "@kirana-style/states": "catalog:",
     "@kirana-ui/angular": "0.4.0",
     "@kirana-ui/react": "0.4.0",
-    "@kirana-ui/solid": "0.3.0",
     "@kirana-ui/svelte": "0.4.0",
     "@kirana-ui/vue": "0.4.0",
     "@shadcn/helpers": "catalog:",

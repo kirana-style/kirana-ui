@@ -1,11 +1,11 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { badge } from "../../../styles/badge.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 type BadgeVariants = NonNullable<Parameters<typeof badge>[0]>
 
@@ -17,10 +17,8 @@ function Badge(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" } as const, props),
-    ["variant", "asChild", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "default" } as const, props)
+  const rest = omit(local, "variant", "asChild", "class", "sx", "children")
   return (
     <Primitive
       as="span"

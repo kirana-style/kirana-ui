@@ -1,17 +1,11 @@
-import {
-  createContext,
-  mergeProps,
-  Show,
-  splitProps,
-  useContext,
-} from "solid-js"
+import { createContext, merge, Show, omit, useContext } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Resizable } from "@kirana-ui/solid/resizable"
-import { asRender } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
 import { resizable } from "../../../styles/resizable.styles"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 
 /** A panel as the group names it, Ark UI's `panels` entry: its id and its limits, in percent. */
 type PanelEntry = { id: string; minSize?: number; maxSize?: number }
@@ -23,7 +17,7 @@ type PanelSizes = (id: string) => {
   maxSize?: number
 }
 
-const PanelSizesContext = createContext<PanelSizes>()
+const PanelSizesContext = createContext<PanelSizes | null>(null)
 
 function ResizableHandle(props: {
   id: `${string}:${string}`
@@ -32,10 +26,8 @@ function ResizableHandle(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ withHandle: false } as const, props),
-    ["id", "withHandle", "class", "sx"]
-  )
+  const local = merge({ withHandle: false } as const, props)
+  const rest = omit(local, "id", "withHandle", "class", "sx")
   // Ark's required `id`, the two panels it sits between (`"a:b"`), is declared and left out:
   // Kirana UI's handle knows them by its place between the panels. A handle never shrinks.
   return (
@@ -64,13 +56,8 @@ function ResizablePanel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "id",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "id", "asChild", "class", "sx", "children")
   // Ark's required `id`, one of the group's `panels`: its share and limits come from there. It is
   // not the element's id, which several groups on a page would repeat.
   const sizes = useContext(PanelSizesContext)
@@ -107,21 +94,20 @@ function ResizablePanelGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ orientation: "horizontal" } as const, props),
-    [
-      "panels",
-      "defaultSize",
-      "orientation",
-      "onResize",
-      "asChild",
-      "class",
-      "sx",
-      "children",
-    ]
+  const local = merge({ orientation: "horizontal" } as const, props)
+  const rest = omit(
+    local,
+    "panels",
+    "defaultSize",
+    "orientation",
+    "onResize",
+    "asChild",
+    "class",
+    "sx",
+    "children"
   )
   // Inside another group's panel: the outer group's sizes are there to find.
-  const nested = useContext(PanelSizesContext) !== undefined
+  const nested = useContext(PanelSizesContext) !== null
   const sizes: PanelSizes = (id) => {
     const index = local.panels.findIndex((panel) => panel.id === id)
     const panel = local.panels[index]
@@ -132,7 +118,7 @@ function ResizablePanelGroup(props: {
     }
   }
   return (
-    <PanelSizesContext.Provider value={sizes}>
+    <PanelSizesContext value={sizes}>
       <Resizable.Group
         render={asRender(local.asChild)}
         data-slot="resizable-panel-group"
@@ -149,7 +135,7 @@ function ResizablePanelGroup(props: {
       >
         {local.children}
       </Resizable.Group>
-    </PanelSizesContext.Provider>
+    </PanelSizesContext>
   )
 }
 

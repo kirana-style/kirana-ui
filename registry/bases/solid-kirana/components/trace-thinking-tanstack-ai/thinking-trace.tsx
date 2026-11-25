@@ -1,4 +1,4 @@
-import { createSignal, splitProps } from "solid-js"
+import { createSignal } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   TraceCollapsible,
@@ -17,7 +17,7 @@ export function ThinkingTrace(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["text", "running", "sx", "class"])
+  const local = props
   const styles = {
     content: css({
       whiteSpace: { "*": null, base: "pre-wrap" },

@@ -1,4 +1,4 @@
-import { For, splitProps } from "solid-js"
+import { For, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   DropdownMenu,
@@ -32,7 +32,8 @@ export function NavFavorites(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["favorites", "class", "sx"])
+  const local = props
+  const rest = omit(props, "favorites", "class", "sx")
   const styles = {
     sidebarGroup: css({
       display: { [COLLAPSED]: "none" },

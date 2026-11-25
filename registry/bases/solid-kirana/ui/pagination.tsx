@@ -1,10 +1,10 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { pagination } from "../../../styles/pagination.styles"
 import { IconPlaceholder } from "./icon-placeholder"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { button } from "../../../styles/button.styles"
 
@@ -14,7 +14,8 @@ function Pagination(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <nav
       role="navigation"
@@ -34,7 +35,8 @@ function PaginationContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <ul
       data-slot="pagination-content"
@@ -51,7 +53,8 @@ function PaginationEllipsis(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <span
       aria-hidden="true"
@@ -77,7 +80,8 @@ function PaginationItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <li
       data-slot="pagination-item"
@@ -99,10 +103,8 @@ function PaginationLink(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ isActive: false, size: "icon" } as const, props),
-    ["isActive", "size", "class", "sx", "children"]
-  )
+  const local = merge({ isActive: false, size: "icon" } as const, props)
+  const rest = omit(local, "isActive", "size", "class", "sx", "children")
   return (
     <Button
       variant={local.isActive ? "outline" : "ghost"}
@@ -131,10 +133,8 @@ function PaginationNext(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ text: "Next" } as const, props),
-    ["text", "class", "sx"]
-  )
+  const local = merge({ text: "Next" } as const, props)
+  const rest = omit(local, "text", "class", "sx")
   return (
     <PaginationLink
       aria-label="Go to next page"
@@ -163,10 +163,8 @@ function PaginationPrevious(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ text: "Previous" } as const, props),
-    ["text", "class", "sx"]
-  )
+  const local = merge({ text: "Previous" } as const, props)
+  const rest = omit(local, "text", "class", "sx")
   return (
     <PaginationLink
       aria-label="Go to previous page"

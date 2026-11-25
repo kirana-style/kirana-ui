@@ -1,5 +1,5 @@
 import { TestRow } from "./test-row"
-import { For, createMemo, splitProps } from "solid-js"
+import { For, createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -19,7 +19,7 @@ export function TestResultsRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["part", "streaming", "sx", "class"])
+  const local = props
   function countTests(tests: Test[]) {
     return {
       total: tests.length,

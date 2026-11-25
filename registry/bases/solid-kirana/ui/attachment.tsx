@@ -1,12 +1,12 @@
-import { mergeProps, splitProps } from "solid-js"
+import { merge, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { attachment } from "../../../styles/attachment.styles"
 import { Button } from "./button"
 import { Primitive } from "@kirana-ui/solid/primitive"
-import { asRender } from "../../../lib/solid/element"
-import type { JSX } from "solid-js"
+import { asRender } from "../../../lib/solid2/element"
+import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
-import type { AsChild } from "../../../lib/solid/element"
+import type { AsChild } from "../../../lib/solid2/element"
 import type { button } from "../../../styles/button.styles"
 
 function Attachment(props: {
@@ -18,12 +18,18 @@ function Attachment(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { state: "done", size: "default", orientation: "horizontal" } as const,
-      props
-    ),
-    ["state", "size", "orientation", "class", "sx", "children"]
+  const local = merge(
+    { state: "done", size: "default", orientation: "horizontal" } as const,
+    props
+  )
+  const rest = omit(
+    local,
+    "state",
+    "size",
+    "orientation",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <div
@@ -49,10 +55,8 @@ function AttachmentAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "ghost", size: "icon-xs" } as const, props),
-    ["variant", "size", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "ghost", size: "icon-xs" } as const, props)
+  const rest = omit(local, "variant", "size", "class", "sx", "children")
   return (
     <Button
       data-slot="attachment-action"
@@ -73,7 +77,8 @@ function AttachmentActions(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="attachment-actions"
@@ -91,7 +96,8 @@ function AttachmentContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="attachment-content"
@@ -109,7 +115,8 @@ function AttachmentDescription(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="attachment-description"
@@ -127,7 +134,8 @@ function AttachmentGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <div
       data-slot="attachment-group"
@@ -146,10 +154,8 @@ function AttachmentMedia(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "icon" } as const, props),
-    ["variant", "class", "sx", "children"]
-  )
+  const local = merge({ variant: "icon" } as const, props)
+  const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <div
       data-slot="attachment-media"
@@ -173,7 +179,8 @@ function AttachmentTitle(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const local = props
+  const rest = omit(props, "class", "sx", "children")
   return (
     <span
       data-slot="attachment-title"
@@ -198,13 +205,8 @@ function AttachmentTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "type",
-    "class",
-    "sx",
-    "children",
-  ])
+  const local = props
+  const rest = omit(props, "asChild", "type", "class", "sx", "children")
   return (
     <Primitive
       as="button"

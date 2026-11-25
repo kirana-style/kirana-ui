@@ -1,4 +1,4 @@
-import { For, Show, createSignal, splitProps, untrack } from "solid-js"
+import { For, Show, createSignal, omit, untrack } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   DropdownMenu,
@@ -23,12 +23,8 @@ export function VersionSwitcher(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "versions",
-    "defaultVersion",
-    "class",
-    "sx",
-  ])
+  const local = props
+  const rest = omit(props, "versions", "defaultVersion", "class", "sx")
   const styles = {
     sidebarMenuButton: css({
       backgroundColor: { "[data-open]": theme.sidebarAccent },

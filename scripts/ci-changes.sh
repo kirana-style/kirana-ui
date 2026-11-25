@@ -70,8 +70,9 @@ while IFS= read -r file; do
     registry/bases/react-* | apps/preview-react/*) wanted[react]=1 ;;
     registry/bases/vue-* | registry/lib/vue/* | apps/preview-vue/*) wanted[vue]=1 ;;
     registry/bases/svelte-* | registry/lib/svelte/* | apps/preview-svelte/*) wanted[svelte]=1 ;;
-    # Solid on ui-sdk is Solid 2's app of its own (`solid2`); matched before Solid's other bases.
-    registry/bases/solid-uisdk/* | registry/lib/solid2/* | apps/preview-solid2/*) wanted[solid2]=1 ;;
+    # Solid on ui-sdk and on Kirana UI are Solid 2's, in an app of their own (`solid2`); matched
+    # before Solid's other base.
+    registry/bases/solid-uisdk/* | registry/bases/solid-kirana/* | registry/lib/solid2/* | apps/preview-solid2/*) wanted[solid2]=1 ;;
     registry/bases/solid-* | registry/lib/solid/* | apps/preview-solid/*) wanted[solid]=1 ;;
     # Angular's preview and the primitives' demos have no browser tests here.
     registry/bases/angular-* | registry/lib/angular/* | apps/preview-angular/* | apps/preview-primitives/*) ;;

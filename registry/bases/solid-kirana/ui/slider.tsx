@@ -1,7 +1,7 @@
 import { Slider as SliderPrimitive } from "@kirana-ui/solid/slider"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
-import { createMemo, For, mergeProps, splitProps } from "solid-js"
+import { createMemo, For, merge, omit } from "solid-js"
 
 import { slider } from "../../../styles/slider.styles"
 
@@ -23,15 +23,24 @@ function Slider<V extends Value = Value>(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(mergeProps({ min: 0, max: 100 }, props), [
+  const local = merge(props, {
+    get min() {
+      return props.min ?? 0
+    },
+    get max() {
+      return props.max ?? 100
+    },
+  })
+  const rest = omit(
+    local,
     "defaultValue",
     "value",
     "onValueChange",
     "min",
     "max",
     "class",
-    "sx",
-  ])
+    "sx"
+  )
   // The thumbs counted as React's: one per value of a list, and for one number (or none)
   // upstream's `[min, max]`, both drawing it.
   const thumbs = createMemo(() => {

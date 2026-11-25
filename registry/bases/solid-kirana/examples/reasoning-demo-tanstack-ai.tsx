@@ -1,6 +1,6 @@
 import { ReasoningRow } from "../components/reasoning-demo-tanstack-ai/reasoning-row"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -81,7 +81,7 @@ export default function ReasoningDemoTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -97,7 +97,7 @@ export default function ReasoningDemoTanstackAi() {
                   <MessageContent sx={styles.messageContent}>
                     <Show when={thinkingOf(message()).length > 0}>
                       <Trace>
-                        <Index each={thinkingOf(message())}>
+                        <For keyed={false} each={thinkingOf(message())}>
                           {(part) => (
                             <ReasoningRow
                               text={part().content}
@@ -107,7 +107,7 @@ export default function ReasoningDemoTanstackAi() {
                               defaultOpen={busy() ? undefined : true}
                             />
                           )}
-                        </Index>
+                        </For>
                       </Trace>
                     </Show>
                     <Show when={getMessageText(message())}>
@@ -118,7 +118,7 @@ export default function ReasoningDemoTanstackAi() {
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

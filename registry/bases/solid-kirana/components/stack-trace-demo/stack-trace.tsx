@@ -1,4 +1,4 @@
-import { For, createMemo, splitProps } from "solid-js"
+import { For, createMemo } from "solid-js"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import {
   Trace,
@@ -20,7 +20,7 @@ import {
 import type { Sx } from "@kirana-style/core"
 
 export function StackTrace(props: { stack: string; sx?: Sx; class?: string }) {
-  const [local] = splitProps(props, ["stack", "sx", "class"])
+  const local = props
   const styles = {
     stackTraceTraceCollapsibleContent: css({
       display: { "*": null, base: "flex" },

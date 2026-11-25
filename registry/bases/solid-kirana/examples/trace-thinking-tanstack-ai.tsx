@@ -1,6 +1,6 @@
 import { ThinkingTrace } from "../components/trace-thinking-tanstack-ai/thinking-trace"
-import { Index, Show, createMemo } from "solid-js"
-import { useChat } from "@tanstack/ai-solid"
+import { For, Show, createMemo } from "solid-js"
+import { useChat } from "../../../lib/solid2/tanstack-chat"
 import { createChat, getMessageText } from "../../../lib/tanstack-ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"
@@ -102,7 +102,7 @@ export default function TraceThinkingTanstackAi() {
   return (
     <div sx={page.example}>
       <div sx={styles.div}>
-        <Index each={messages()}>
+        <For keyed={false} each={messages()}>
           {(message, index) => (
             <>
               {message().role === "user" ? (
@@ -116,12 +116,12 @@ export default function TraceThinkingTanstackAi() {
               ) : (
                 <Message>
                   <MessageContent sx={styles.messageContent}>
-                    <Index each={groupParts(message().parts)}>
+                    <For keyed={false} each={groupParts(message().parts)}>
                       {(run) => (
                         <>
                           {run().trace ? (
                             <Trace>
-                              <Index each={run().parts}>
+                              <For keyed={false} each={run().parts}>
                                 {(part) => (
                                   <Show when={thinkingPart(part())}>
                                     {(thinking) => (
@@ -135,26 +135,26 @@ export default function TraceThinkingTanstackAi() {
                                     )}
                                   </Show>
                                 )}
-                              </Index>
+                              </For>
                             </Trace>
                           ) : (
-                            <Index each={run().parts}>
+                            <For keyed={false} each={run().parts}>
                               {(part) => (
                                 <Show when={textPart(part())}>
                                   {(text) => <p>{text().content}</p>}
                                 </Show>
                               )}
-                            </Index>
+                            </For>
                           )}
                         </>
                       )}
-                    </Index>
+                    </For>
                   </MessageContent>
                 </Message>
               )}
             </>
           )}
-        </Index>
+        </For>
         <Show when={!busy()}>
           <Button
             variant="outline"

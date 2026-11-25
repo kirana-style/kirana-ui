@@ -1,5 +1,5 @@
 /**
- * Every example page, on Ark UI and on Kirana UI, and every chat demo on TanStack AI (`*-tanstack-ai`)
+ * Every example page on Ark UI, and every chat demo on TanStack AI (`*-tanstack-ai`)
  * and helper demo (`*-helper-demo`), mounted as its preview page mounts it and every trigger it has
  * pressed: nothing may throw, and no press may submit a form. A chat demo then replays or sends its
  * conversation once and streams a while.

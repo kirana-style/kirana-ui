@@ -3,7 +3,7 @@ import { For, useContext } from "solid-js"
 import {
   HighlightedLine,
   useHighlightedCode,
-} from "../../../../lib/solid/use-highlighted-code"
+} from "../../../../lib/solid2/use-highlighted-code"
 import {
   CodeBlock,
   CodeBlockActions,

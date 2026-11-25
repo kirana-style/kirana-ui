@@ -1,13 +1,4 @@
-import {
-  Show,
-  createEffect,
-  createSignal,
-  mergeProps,
-  onCleanup,
-  onMount,
-  splitProps,
-  untrack,
-} from "solid-js"
+import { Show, createEffect, merge, onSettled, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { theme } from "../../../../../core/tokens"
 import { space } from "../../../../../core/scales"
@@ -38,51 +29,50 @@ export function LiveWaveform(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        active: false,
-        processing: false,
-        barWidth: 3,
-        barHeight: 4,
-        barGap: 1,
-        barRadius: 1.5,
-        fadeEdges: true,
-        fadeWidth: 24,
-        height: 64,
-        sensitivity: 1,
-        smoothingTimeConstant: 0.8,
-        fftSize: 256,
-        historySize: 60,
-        updateRate: 30,
-        mode: "static",
-      } as const,
-      props
-    ),
-    [
-      "active",
-      "processing",
-      "deviceId",
-      "barWidth",
-      "barHeight",
-      "barGap",
-      "barRadius",
-      "barColor",
-      "fadeEdges",
-      "fadeWidth",
-      "height",
-      "sensitivity",
-      "smoothingTimeConstant",
-      "fftSize",
-      "historySize",
-      "updateRate",
-      "mode",
-      "onError",
-      "onStreamReady",
-      "onStreamEnd",
-      "class",
-      "sx",
-    ]
+  const local = merge(
+    {
+      active: false,
+      processing: false,
+      barWidth: 3,
+      barHeight: 4,
+      barGap: 1,
+      barRadius: 1.5,
+      fadeEdges: true,
+      fadeWidth: 24,
+      height: 64,
+      sensitivity: 1,
+      smoothingTimeConstant: 0.8,
+      fftSize: 256,
+      historySize: 60,
+      updateRate: 30,
+      mode: "static",
+    } as const,
+    props
+  )
+  const rest = omit(
+    local,
+    "active",
+    "processing",
+    "deviceId",
+    "barWidth",
+    "barHeight",
+    "barGap",
+    "barRadius",
+    "barColor",
+    "fadeEdges",
+    "fadeWidth",
+    "height",
+    "sensitivity",
+    "smoothingTimeConstant",
+    "fftSize",
+    "historySize",
+    "updateRate",
+    "mode",
+    "onError",
+    "onStreamReady",
+    "onStreamEnd",
+    "class",
+    "sx"
   )
   /**
    * A microphone's waveform on a canvas, React's `LiveWaveform`: bars at rest (`static`) or a
@@ -113,10 +103,8 @@ export function LiveWaveform(props: {
     }),
   }
 
-  const [canvasRef, setCanvasRef] = createSignal<HTMLCanvasElement | null>(null)
-  const [containerRef, setContainerRef] = createSignal<HTMLDivElement | null>(
-    null
-  )
+  let canvasRef: HTMLCanvasElement | undefined
+  let containerRef: HTMLDivElement | undefined
   let history: number[] = []
   let analyser: AnalyserNode | null = null
   let audioContext: AudioContext | null = null
@@ -132,12 +120,11 @@ export function LiveWaveform(props: {
   let lastWidth = 0
 
   // The canvas follows its container's size.
-  let resizeObserver: ResizeObserver | undefined
-  onMount(() => {
-    const canvas = canvasRef()
-    const container = containerRef()
+  onSettled(() => {
+    const canvas = canvasRef
+    const container = containerRef
     if (!canvas || !container) return
-    resizeObserver = new ResizeObserver(() => {
+    const resizeObserver = new ResizeObserver(() => {
       const rect = container.getBoundingClientRect()
       const dpr = window.devicePixelRatio || 1
       canvas.width = rect.width * dpr
@@ -150,19 +137,19 @@ export function LiveWaveform(props: {
       needsRedraw = true
     })
     resizeObserver.observe(container)
+    return () => resizeObserver.disconnect()
   })
-  onCleanup(() => resizeObserver?.disconnect())
 
   // Processing: a wave, blended from the last live bars; stopped, a fade to idle.
-  createEffect(() => {
-    void [
+  createEffect(
+    () => [
       local.processing,
       local.active,
       local.barWidth,
       local.barGap,
       local.mode,
-    ]
-    untrack(() => {
+    ],
+    () => {
       if (local.processing && !local.active) {
         let time = 0
         transitionProgress = 0
@@ -171,7 +158,7 @@ export function LiveWaveform(props: {
           transitionProgress = Math.min(1, transitionProgress + 0.02)
           const data: number[] = []
           const barCount = Math.floor(
-            (containerRef()?.getBoundingClientRect().width || 200) /
+            (containerRef?.getBoundingClientRect().width || 200) /
               (local.barWidth + local.barGap)
           )
           const half =
@@ -206,9 +193,9 @@ export function LiveWaveform(props: {
           processingAnimation = requestAnimationFrame(animateProcessing)
         }
         animateProcessing()
-        onCleanup(
-          () => processingAnimation && cancelAnimationFrame(processingAnimation)
-        )
+        return () => {
+          if (processingAnimation) cancelAnimationFrame(processingAnimation)
+        }
       } else if (!local.active && !local.processing) {
         const hasData =
           local.mode === "static" ? staticBars.length > 0 : history.length > 0
@@ -227,8 +214,8 @@ export function LiveWaveform(props: {
         }
         fadeToIdle()
       }
-    })
-  })
+    }
+  )
 
   function stopMicrophone() {
     if (stream) {
@@ -247,15 +234,15 @@ export function LiveWaveform(props: {
   }
 
   // The microphone, open while active.
-  createEffect(() => {
-    void [
+  createEffect(
+    () => [
       local.active,
       local.deviceId,
       local.fftSize,
       local.smoothingTimeConstant,
-    ]
-    const smoothing = local.smoothingTimeConstant
-    untrack(() => {
+    ],
+    () => {
+      const smoothing = local.smoothingTimeConstant
       if (!local.active) {
         stopMicrophone()
         return
@@ -288,14 +275,14 @@ export function LiveWaveform(props: {
           local.onError?.(error as Error)
         }
       })()
-      onCleanup(stopMicrophone)
-    })
-  })
+      return stopMicrophone
+    }
+  )
 
   // The drawing loop.
   let rafId = 0
-  onMount(() => {
-    const canvas = canvasRef()
+  onSettled(() => {
+    const canvas = canvasRef
     const ctx = canvas?.getContext("2d")
     if (!canvas || !ctx) return
     const animate = (currentTime: number) => {
@@ -393,24 +380,26 @@ export function LiveWaveform(props: {
       rafId = requestAnimationFrame(animate)
     }
     rafId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(rafId)
   })
   // Any change redraws, as React's effect restarting does.
-  createEffect(() => {
-    void [
+  createEffect(
+    () => [
       local.processing,
       local.mode,
       local.barColor,
       local.barWidth,
       local.barGap,
-    ]
-    needsRedraw = true
-  })
-  onCleanup(() => cancelAnimationFrame(rafId))
+    ],
+    () => {
+      needsRedraw = true
+    }
+  )
 
   const own = () => styleProps(local.class, styles.root, local.sx)
   return (
     <div
-      ref={setContainerRef}
+      ref={(element: HTMLDivElement) => (containerRef = element)}
       {...rest}
       class={own().class}
       aria-label={
@@ -430,7 +419,11 @@ export function LiveWaveform(props: {
       <Show when={!local.active && !local.processing}>
         <div sx={styles.line} />
       </Show>
-      <canvas ref={setCanvasRef} sx={styles.canvas} aria-hidden="true" />
+      <canvas
+        ref={(element: HTMLCanvasElement) => (canvasRef = element)}
+        sx={styles.canvas}
+        aria-hidden="true"
+      />
     </div>
   )
 }

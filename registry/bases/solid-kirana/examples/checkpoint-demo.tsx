@@ -1,5 +1,5 @@
 import { For, Show, createMemo } from "solid-js"
-import { Chat } from "../../../lib/solid/chat"
+import { Chat } from "../../../lib/solid2/chat"
 import { createChat, getMessageText } from "../../../lib/ai"
 import { Bubble, BubbleContent } from "../ui/bubble"
 import { Button } from "../ui/button"

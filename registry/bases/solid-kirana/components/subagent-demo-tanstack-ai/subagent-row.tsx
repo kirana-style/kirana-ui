@@ -1,6 +1,6 @@
 import { StepRow } from "./step-row"
 import { SubagentLine } from "./subagent-line"
-import { For, Show, createMemo, splitProps } from "solid-js"
+import { For, Show, createMemo } from "solid-js"
 import {
   Trace,
   TraceCollapsible,
@@ -18,7 +18,7 @@ export function SubagentRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["part", "streaming", "sx", "class"])
+  const local = props
   const styles = {
     subagentRowTraceCollapsibleContent: css({
       display: { "*": null, base: "flex" },

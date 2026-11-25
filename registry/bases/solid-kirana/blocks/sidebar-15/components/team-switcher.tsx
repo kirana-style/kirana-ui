@@ -1,5 +1,5 @@
 import { Sidebar15Icon } from "./sidebar15-icon"
-import { For, Show, createSignal, splitProps, untrack } from "solid-js"
+import { For, Show, createSignal, untrack } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import {
   DropdownMenu,
@@ -41,7 +41,7 @@ export function TeamSwitcher(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["teams", "sx", "class"])
+  const local = props
   const styles = {
     sidebarMenuButton: css({
       width: { "*": null, base: "fit-content" },

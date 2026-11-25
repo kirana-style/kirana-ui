@@ -1,4 +1,4 @@
-import { Index, Show, splitProps } from "solid-js"
+import { For, Show } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "../../ui/icon-placeholder"
 import { Bubble, BubbleContent } from "../../ui/bubble"
@@ -22,7 +22,7 @@ export function MessageRow(props: {
   sx?: Sx
   class?: string
 }) {
-  const [local] = splitProps(props, ["message", "sx", "class"])
+  const local = props
   const styles = {
     reasoning: css({
       width: "100%",
@@ -78,18 +78,18 @@ export function MessageRow(props: {
   return (
     <Message align={user() ? "end" : "start"}>
       <MessageContent>
-        <Index each={parts()}>
+        <For keyed={false} each={parts()}>
           {(part) => (
             <Show
               when={part().type === "reasoning"}
               fallback={
                 <Bubble variant={user() ? "muted" : "ghost"}>
                   <BubbleContent sx={styles.bubbleContent}>
-                    <Index each={paragraphs(part().text)}>
+                    <For keyed={false} each={paragraphs(part().text)}>
                       {(paragraph) => (
                         <p sx={styles.paragraph}>{paragraph()}</p>
                       )}
-                    </Index>
+                    </For>
                   </BubbleContent>
                 </Bubble>
               }
@@ -107,14 +107,14 @@ export function MessageRow(props: {
                   Reasoning
                 </div>
                 <div sx={styles.reasoningText}>
-                  <Index each={paragraphs(part().text)}>
+                  <For keyed={false} each={paragraphs(part().text)}>
                     {(paragraph) => <p sx={styles.paragraph}>{paragraph()}</p>}
-                  </Index>
+                  </For>
                 </div>
               </div>
             </Show>
           )}
-        </Index>
+        </For>
       </MessageContent>
     </Message>
   )

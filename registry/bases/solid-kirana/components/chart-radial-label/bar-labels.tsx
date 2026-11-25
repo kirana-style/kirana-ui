@@ -1,4 +1,4 @@
-import { For, createUniqueId, splitProps } from "solid-js"
+import { For, createUniqueId, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { theme } from "../../../../core/tokens"
 import { radialBands } from "../../ui/chart"
@@ -10,7 +10,8 @@ export function BarLabels(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   const styles = {
     labels: css({
       position: "absolute",

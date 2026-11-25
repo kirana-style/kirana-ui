@@ -1,5 +1,5 @@
-import { For, Show, createSignal, mergeProps, splitProps } from "solid-js"
-import type { JSX } from "solid-js"
+import { For, Show, createSignal, merge, omit, untrack } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import { props as styleProps } from "@kirana-style/core"
 import type { Sx } from "@kirana-style/core"
 import { Calendar as CalendarPrimitive } from "@kirana-ui/solid/calendar"
@@ -7,7 +7,6 @@ import type {
   CalendarDay as PrimitiveDay,
   CalendarMonth,
   IsoDate,
-  PartEvent,
 } from "@kirana-ui/solid"
 import type {
   Calendar as CalendarSystem,
@@ -162,7 +161,7 @@ function Calendar<Mode extends CalendarMode = "single">(props: {
   /** The selection: a date, a list of dates, or a range (`from`, `to`), by `mode`. */
   selected?: Selected<Mode>
   onSelectedChange?: (details: { selected: Selected<Mode> }) => void
-  /** With `mode: "single"`: a chosen day pressed again stays chosen. */
+  /** A chosen day pressed again stays chosen; without it, as react-day-picker, it is taken away. */
   required?: boolean
   /** The month shown first, while `month` is not given. */
   defaultMonth?: Date
@@ -211,46 +210,56 @@ function Calendar<Mode extends CalendarMode = "single">(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        mode: "single" as Mode,
-        numberOfMonths: 1,
-        captionLayout: "label",
-        showOutsideDays: true,
-        showWeekNumber: false,
-        fixedWeeks: false,
-        buttonVariant: "ghost",
-      } as const,
-      props
-    ),
-    [
-      "mode",
-      "selected",
-      "onSelectedChange",
-      "required",
-      "defaultMonth",
-      "month",
-      "onMonthChange",
-      "numberOfMonths",
-      "pagedNavigation",
-      "captionLayout",
-      "disabled",
-      "modifiers",
-      "modifiersClassNames",
-      "showOutsideDays",
-      "showWeekNumber",
-      "fixedWeeks",
-      "buttonVariant",
-      "locale",
-      "weekStartsOn",
-      "createCalendar",
-      "dir",
-      "formatters",
-      "day",
-      "class",
-      "sx",
-    ]
+  const local = merge(props, {
+    get mode() {
+      return props.mode ?? ("single" as Mode)
+    },
+    get numberOfMonths() {
+      return props.numberOfMonths ?? 1
+    },
+    get captionLayout() {
+      return props.captionLayout ?? ("label" as const)
+    },
+    get showOutsideDays() {
+      return props.showOutsideDays ?? true
+    },
+    get showWeekNumber() {
+      return props.showWeekNumber ?? false
+    },
+    get fixedWeeks() {
+      return props.fixedWeeks ?? false
+    },
+    get buttonVariant() {
+      return props.buttonVariant ?? ("ghost" as const)
+    },
+  })
+  const rest = omit(
+    local,
+    "mode",
+    "selected",
+    "onSelectedChange",
+    "required",
+    "defaultMonth",
+    "month",
+    "onMonthChange",
+    "numberOfMonths",
+    "pagedNavigation",
+    "captionLayout",
+    "disabled",
+    "modifiers",
+    "modifiersClassNames",
+    "showOutsideDays",
+    "showWeekNumber",
+    "fixedWeeks",
+    "buttonVariant",
+    "locale",
+    "weekStartsOn",
+    "createCalendar",
+    "dir",
+    "formatters",
+    "day",
+    "class",
+    "sx"
   )
   const mode = () => local.mode ?? "single"
 
@@ -279,7 +288,7 @@ function Calendar<Mode extends CalendarMode = "single">(props: {
 
   // The month is the caller's while it gives one; otherwise the calendar's own, from today's.
   const [ownMonth, setOwnMonth] = createSignal<Date>(
-    local.defaultMonth ?? local.month ?? new Date()
+    untrack(() => local.defaultMonth ?? local.month ?? new Date())
   )
   const shown = () => local.month ?? ownMonth()
   function changeMonth(next: Date) {
@@ -310,24 +319,6 @@ function Calendar<Mode extends CalendarMode = "single">(props: {
       .map(([name]) => local.modifiersClassNames?.[name])
       .filter(Boolean)
       .join(" ")
-
-  /** Whether the selection holds `date`, and is a range that starts or ends there. */
-  function chosen(date: Date) {
-    const t = day(date)
-    if (mode() === "range") {
-      const range = current() as DateRange | undefined
-      if (!range?.from) return null
-      const start = day(range.from)
-      const end = day(range.to ?? range.from)
-      return t >= start && t <= end
-        ? { selected: true, start: t === start, end: t === end }
-        : null
-    }
-    const days = ([] as (Date | undefined)[]).concat(current() as Date)
-    return days.some((d) => d && day(d) === t)
-      ? { selected: true, start: false, end: false }
-      : null
-  }
 
   const intl = (options: Intl.DateTimeFormatOptions) =>
     new Intl.DateTimeFormat(
@@ -408,18 +399,13 @@ function Calendar<Mode extends CalendarMode = "single">(props: {
             cellProps={cellProps()}
             day={cellDay}
             state={state()}
-            copy={
-              cellDay.outside && local.numberOfMonths > 1 ? chosen(date) : null
-            }
             mode={mode()}
             unavailable={isDisabled(date)}
             empty={(cellDay.outside && !local.showOutsideDays) || beyond(date)}
-            required={!!local.required}
             second={local.showWeekNumber}
             focused={focused() === cellDay.date}
             locale={local.locale}
             modifierClass={own(date)}
-            onDeselect={() => select(undefined)}
             onFocused={(on) =>
               setFocused((now) =>
                 on ? cellDay.date : now === cellDay.date ? null : now
@@ -566,6 +552,7 @@ function Calendar<Mode extends CalendarMode = "single">(props: {
   return (
     <CalendarPrimitive.Root
       mode={mode()}
+      required={local.required}
       value={toValue(mode(), current()) as never}
       month={toIso(shown())}
       months={local.numberOfMonths}
@@ -662,20 +649,16 @@ function CalendarDay(props: {
   day: PrimitiveDay
   /** The cell's state, as the primitive gives it. */
   state: Record<string, unknown>
-  /** A copy's place in the selection: the primitive never marks a copy chosen (PF-046). */
-  copy: { selected: boolean; start: boolean; end: boolean } | null
   mode: CalendarMode
   unavailable: boolean
   /** Outside days hidden (`showOutsideDays={false}`), or past the dropdown's years. */
   empty: boolean
-  required: boolean
   /** The row's first day is its second cell, beside week numbers. */
   second: boolean
   /** Focused as react-day-picker's `focused`: the day that has the focus. */
   focused: boolean
   locale?: string
   modifierClass?: string
-  onDeselect: () => void
   onFocused: (on: boolean) => void
   /** The day's button content, given its date: the calendar's own, or the caller's `day`. */
   children?: (
@@ -684,10 +667,9 @@ function CalendarDay(props: {
 }) {
   const date = () => fromIso(props.day.date)
   const range = () => props.mode === "range"
-  const selected = () => !!props.state.selected || !!props.copy
-  const start = () =>
-    range() && (!!props.state.rangeStart || !!props.copy?.start)
-  const end = () => range() && (!!props.state.rangeEnd || !!props.copy?.end)
+  const selected = () => !!props.state.selected
+  const start = () => range() && !!props.state.rangeStart
+  const end = () => range() && !!props.state.rangeEnd
   const middle = () => range() && selected() && !start() && !end()
   const disabled = () =>
     props.unavailable || (!!props.state.disabled && !props.empty)
@@ -708,14 +690,6 @@ function CalendarDay(props: {
     ]
       .filter(Boolean)
       .join(" ")
-
-  function press(event: MouseEvent) {
-    // react-day-picker takes a single day away when it is pressed again (PF-047), unless `required`;
-    // Kirana UI's keeps it (PF-047).
-    if (props.mode !== "single" || !selected() || props.required) return
-    ;(event as PartEvent<MouseEvent>).preventKiranaHandler()
-    props.onDeselect()
-  }
 
   return (
     <td
@@ -739,12 +713,11 @@ function CalendarDay(props: {
       <Show when={!props.empty}>
         <CalendarPrimitive.Day
           date={props.day.date}
-          onClick={press}
           onFocus={() => props.onFocused(true)}
           onBlur={() => props.onFocused(false)}
           render={(dayProps) => (
             <Button
-              {...(dayProps() as JSX.ButtonHTMLAttributes<HTMLButtonElement>)}
+              {...(dayProps() as Parameters<typeof Button>[0])}
               variant="ghost"
               size="icon"
               data-day={date().toLocaleDateString(props.locale)}

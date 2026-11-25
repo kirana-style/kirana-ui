@@ -1,4 +1,4 @@
-import { splitProps } from "solid-js"
+import { omit } from "solid-js"
 import { IconPlaceholder } from "../../../ui/icon-placeholder"
 import { Button } from "../../../ui/button"
 import {
@@ -16,7 +16,8 @@ export function RowActions(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const local = props
+  const rest = omit(props, "class", "sx")
   return (
     <DropdownMenu {...rest} class={local.class} sx={[local.sx]}>
       <DropdownMenuTrigger

@@ -7,16 +7,16 @@ import {
   createContext,
   createMemo,
   createSignal,
-  mergeProps,
-  onMount,
-  splitProps,
+  merge,
+  omit,
+  onSettled,
   untrack,
   useContext,
 } from "solid-js"
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 
-import { asRender } from "../../../lib/solid/element"
-import type { AsChild } from "../../../lib/solid/element"
+import { asRender } from "../../../lib/solid2/element"
+import type { AsChild } from "../../../lib/solid2/element"
 import { combobox } from "../../../styles/combobox.styles"
 import {
   menuCheckableRowPadding,
@@ -49,9 +49,11 @@ type ComboboxContextValue = {
   setChips: (chips: boolean) => void
 }
 
-const ComboboxContext = createContext<ComboboxContextValue>()
+const ComboboxContext = createContext<ComboboxContextValue | null>(null)
 /** A group's items, which its `ComboboxCollection` draws. */
-const ComboboxGroupContext = createContext<() => readonly unknown[]>()
+const ComboboxGroupContext = createContext<(() => readonly unknown[]) | null>(
+  null
+)
 
 function useCombobox() {
   const context = useContext(ComboboxContext)
@@ -66,7 +68,7 @@ function useCombobox() {
  * `ComboboxList` and `ComboboxCollection`, which draw each through their `children` function (the
  * primitives show the ones whose text matches what is typed), and their labels to the primitives'
  * `items`, so the input shows a chosen item before the list opens; a value or a list of them
- * (`multiple`, the primitives' `values`), the items themselves; `autoHighlight`.
+ * (`multiple`), the items themselves; `autoHighlight`.
  */
 function Combobox(props: {
   items?: readonly unknown[]
@@ -80,34 +82,38 @@ function Combobox(props: {
   // `any`: a caller's callback takes its own items' type, which `unknown` would refuse.
   // oxlint-disable-next-line no-explicit-any
   itemToStringLabel?: (item: any) => string
-  /** Base UI's object values' keys: the primitives compare the values themselves, so taken only. */
+  /** Base UI's object values' keys: the text a form is sent for each. */
   // oxlint-disable-next-line no-explicit-any
   itemToStringValue?: (item: any) => string
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        items: [] as readonly unknown[],
-        multiple: false,
-        autoHighlight: false,
-        disabled: false,
-      },
-      props
-    ),
-    [
-      "items",
-      "defaultValue",
-      "value",
-      "onValueChange",
-      "multiple",
-      "autoHighlight",
-      "disabled",
-      "itemToStringLabel",
-      "itemToStringValue",
-      "children",
-    ]
+  const local = merge(props, {
+    get items() {
+      return props.items ?? ([] as readonly unknown[])
+    },
+    get multiple() {
+      return props.multiple ?? false
+    },
+    get autoHighlight() {
+      return props.autoHighlight ?? false
+    },
+    get disabled() {
+      return props.disabled ?? false
+    },
+  })
+  const rest = omit(
+    local,
+    "items",
+    "defaultValue",
+    "value",
+    "onValueChange",
+    "multiple",
+    "autoHighlight",
+    "disabled",
+    "itemToStringLabel",
+    "itemToStringValue",
+    "children"
   )
   const isGroup = (item: unknown): item is { items: unknown[] } =>
     typeof item === "object" &&
@@ -154,7 +160,7 @@ function Combobox(props: {
     setChips,
   }
   return (
-    <ComboboxContext.Provider value={context}>
+    <ComboboxContext value={context}>
       <Show
         when={local.multiple}
         fallback={
@@ -162,6 +168,7 @@ function Combobox(props: {
             items={labels()}
             value={selected()[0] ?? null}
             onValueChange={(next) => report(next)}
+            itemToStringValue={local.itemToStringValue}
             autoHighlight={local.autoHighlight}
             disabled={local.disabled}
             {...rest}
@@ -173,8 +180,9 @@ function Combobox(props: {
         <ComboboxPrimitive.Root
           multiple
           items={labels()}
-          values={selected()}
-          onValuesChange={(next) => report(next)}
+          value={selected()}
+          onValueChange={(next) => report(next)}
+          itemToStringValue={local.itemToStringValue}
           autoHighlight={local.autoHighlight}
           disabled={local.disabled}
           {...rest}
@@ -182,7 +190,7 @@ function Combobox(props: {
           {local.children}
         </ComboboxPrimitive.Root>
       </Show>
-    </ComboboxContext.Provider>
+    </ComboboxContext>
   )
 }
 
@@ -196,10 +204,12 @@ function ComboboxChip(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps({ showRemove: true } as const, props),
-    ["showRemove", "value", "class", "sx", "children"]
-  )
+  const local = merge(props, {
+    get showRemove() {
+      return props.showRemove ?? true
+    },
+  })
+  const rest = omit(local, "showRemove", "value", "class", "sx", "children")
   return (
     <ComboboxPrimitive.Chip
       as="div"
@@ -241,16 +251,18 @@ function ComboboxChips(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   const ctx = useCombobox()
-  onMount(() => ctx.setChips(true))
+  onSettled(() => {
+    ctx.setChips(true)
+  })
   return (
     <ComboboxPrimitive.Chips
       data-slot="combobox-chips"
       {...rest}
-      {...styleProps(local.class, combobox.chips, local.sx)}
+      {...styleProps(props.class, combobox.chips, props.sx)}
     >
-      {local.children}
+      {props.children}
     </ComboboxPrimitive.Chips>
   )
 }
@@ -261,13 +273,13 @@ function ComboboxChipsInput(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["asChild", "class", "sx"])
+  const rest = omit(props, "asChild", "class", "sx")
   return (
     <ComboboxPrimitive.Input
       data-slot="combobox-chip-input"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, combobox.chipInput, local.sx)}
+      {...styleProps(props.class, combobox.chipInput, props.sx)}
     />
   )
 }
@@ -278,7 +290,7 @@ function ComboboxClear(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <ComboboxPrimitive.Clear
       data-slot="combobox-clear"
@@ -288,8 +300,8 @@ function ComboboxClear(props: {
           {...childProps()}
           variant="ghost"
           size="icon-xs"
-          class={local.class}
-          sx={[local.sx]}
+          class={props.class}
+          sx={[props.sx]}
         >
           <IconPlaceholder
             lucide="XIcon"
@@ -309,11 +321,10 @@ function ComboboxCollection(props: {
   // oxlint-disable-next-line no-explicit-any
   children?: (entry: { item: any; index: number }) => JSX.Element
 }) {
-  const [local] = splitProps(props, ["children"])
   const items = useContext(ComboboxGroupContext)
   return (
     <For each={items?.() ?? []}>
-      {(item, index) => local.children?.({ item, index: index() })}
+      {(item, index) => props.children?.({ item, index: index() })}
     </For>
   )
 }
@@ -331,26 +342,30 @@ function ComboboxContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      {
-        side: "bottom",
-        sideOffset: 6,
-        align: "start",
-        alignOffset: 0,
-      } as const,
-      props
-    ),
-    [
-      "side",
-      "sideOffset",
-      "align",
-      "alignOffset",
-      "anchor",
-      "class",
-      "sx",
-      "children",
-    ]
+  const local = merge(props, {
+    get side() {
+      return props.side ?? ("bottom" as const)
+    },
+    get sideOffset() {
+      return props.sideOffset ?? 6
+    },
+    get align() {
+      return props.align ?? ("start" as const)
+    },
+    get alignOffset() {
+      return props.alignOffset ?? 0
+    },
+  })
+  const rest = omit(
+    local,
+    "side",
+    "sideOffset",
+    "align",
+    "alignOffset",
+    "anchor",
+    "class",
+    "sx",
+    "children"
   )
   const ctx = useCombobox()
   const anchor = () =>
@@ -391,14 +406,14 @@ function ComboboxEmpty(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx", "children"])
+  const rest = omit(props, "class", "sx", "children")
   return (
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
       {...rest}
-      {...styleProps(local.class, combobox.empty, local.sx)}
+      {...styleProps(props.class, combobox.empty, props.sx)}
     >
-      {local.children}
+      {props.children}
     </ComboboxPrimitive.Empty>
   )
 }
@@ -412,24 +427,18 @@ function ComboboxGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "items",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "items", "asChild", "class", "sx", "children")
   return (
-    <ComboboxGroupContext.Provider value={() => local.items ?? []}>
+    <ComboboxGroupContext value={() => props.items ?? []}>
       <ComboboxPrimitive.Group
         data-slot="combobox-group"
-        render={asRender(local.asChild)}
+        render={asRender(props.asChild)}
         {...rest}
-        {...styleProps(local.class, local.sx)}
+        {...styleProps(props.class, props.sx)}
       >
-        {local.children}
+        {props.children}
       </ComboboxPrimitive.Group>
-    </ComboboxGroupContext.Provider>
+    </ComboboxGroupContext>
   )
 }
 
@@ -442,12 +451,25 @@ function ComboboxInput(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(
-    mergeProps(
-      { disabled: false, showTrigger: true, showClear: false } as const,
-      props
-    ),
-    ["disabled", "showTrigger", "showClear", "class", "sx", "children"]
+  const local = merge(props, {
+    get disabled() {
+      return props.disabled ?? false
+    },
+    get showTrigger() {
+      return props.showTrigger ?? true
+    },
+    get showClear() {
+      return props.showClear ?? false
+    },
+  })
+  const rest = omit(
+    local,
+    "disabled",
+    "showTrigger",
+    "showClear",
+    "class",
+    "sx",
+    "children"
   )
   return (
     <InputGroup class={local.class} sx={[combobox.input, local.sx]}>
@@ -499,31 +521,25 @@ function ComboboxItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "value",
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "value", "asChild", "class", "sx", "children")
   const ctx = useCombobox()
   // Base UI's `value`: the item itself, as the combobox's `items` hold it.
   return (
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
-      value={local.value}
-      label={ctx.label(local.value)}
-      render={asRender(local.asChild)}
+      value={props.value}
+      label={ctx.label(props.value)}
+      render={asRender(props.asChild)}
       {...rest}
       {...styleProps(
-        local.class,
+        props.class,
         menuRowBase,
         menuCheckableRowPadding,
         combobox.item,
-        local.sx
+        props.sx
       )}
     >
-      {local.children}
+      {props.children}
       <ComboboxPrimitive.ItemIndicator
         {...styleProps(menuIndicator, combobox.indicator)}
       >
@@ -546,20 +562,15 @@ function ComboboxLabel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   return (
     <ComboboxPrimitive.GroupLabel
       data-slot="combobox-label"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, menuLabel, combobox.label, local.sx)}
+      {...styleProps(props.class, menuLabel, combobox.label, props.sx)}
     >
-      {local.children}
+      {props.children}
     </ComboboxPrimitive.GroupLabel>
   )
 }
@@ -573,23 +584,18 @@ function ComboboxList(props: {
   children?: (entry: { item: any; index: number }) => JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   const ctx = useCombobox()
   // The primitives show the items that match what is typed.
   return (
     <ComboboxPrimitive.List
       data-slot="combobox-list"
-      render={asRender(local.asChild)}
+      render={asRender(props.asChild)}
       {...rest}
-      {...styleProps(local.class, combobox.list, local.sx)}
+      {...styleProps(props.class, combobox.list, props.sx)}
     >
       <For each={ctx.items}>
-        {(item, index) => local.children?.({ item, index: index() })}
+        {(item, index) => props.children?.({ item, index: index() })}
       </For>
     </ComboboxPrimitive.List>
   )
@@ -600,12 +606,12 @@ function ComboboxSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, ["class", "sx"])
+  const rest = omit(props, "class", "sx")
   return (
     <ComboboxPrimitive.Separator
       data-slot="combobox-separator"
       {...rest}
-      {...styleProps(local.class, menuSeparator, local.sx)}
+      {...styleProps(props.class, menuSeparator, props.sx)}
     />
   )
 }
@@ -625,12 +631,7 @@ function ComboboxTrigger(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const [local, rest] = splitProps(props, [
-    "asChild",
-    "class",
-    "sx",
-    "children",
-  ])
+  const rest = omit(props, "asChild", "class", "sx", "children")
   const chevron = () => (
     <IconPlaceholder
       lucide="ChevronDownIcon"
@@ -643,14 +644,14 @@ function ComboboxTrigger(props: {
   )
   return (
     <Show
-      when={local.asChild}
+      when={props.asChild}
       fallback={
         <ComboboxPrimitive.Trigger
           data-slot="combobox-trigger"
           {...rest}
-          {...styleProps(local.class, combobox.triggerOwn, local.sx)}
+          {...styleProps(props.class, combobox.triggerOwn, props.sx)}
         >
-          {local.children}
+          {props.children}
           {chevron()}
         </ComboboxPrimitive.Trigger>
       }
@@ -659,7 +660,7 @@ function ComboboxTrigger(props: {
         <ComboboxPrimitive.Trigger
           data-slot="combobox-trigger"
           {...rest}
-          {...styleProps(local.class, combobox.triggerOwn, local.sx)}
+          {...styleProps(props.class, combobox.triggerOwn, props.sx)}
           render={asRender((childProps) => child()(childProps, chevron))}
         />
       )}
