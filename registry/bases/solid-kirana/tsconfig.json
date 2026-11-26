@@ -2,9 +2,5 @@
   // Solid 2's JSX, as the ui-sdk base checks (`bases/solid-uisdk`): Solid 2 and the packages on it
   // resolve from the Solid 2 preview app, Kirana UI Primitives' Solid adapter among them.
   "extends": "../solid-uisdk/tsconfig.json",
-  "compilerOptions": {
-    // Kirana reads `jsxImportSource` from this file alone, not what it extends (KF-132).
-    "jsxImportSource": "@solidjs/web"
-  },
   "include": [".", "../../lib/solid2"]
 }

@@ -5,9 +5,6 @@
   "extends": "../../registry/bases/solid-uisdk/tsconfig.json",
   "compilerOptions": {
     "types": ["vite/client", "@kirana-style/core/solid"],
-    // Written here too, though the base's tsconfig has it: Kirana reads `jsxImportSource` from this
-    // file alone, not what it extends, to detect Solid (KF-132).
-    "jsxImportSource": "@solidjs/web",
     "allowImportingTsExtensions": true,
     "paths": {
       "@workspace/registry/*": ["../../registry/*"],
