@@ -1,4 +1,4 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { pagination } from "../../../styles/pagination.styles"
 import { IconPlaceholder } from "./icon-placeholder"
@@ -7,6 +7,7 @@ import { Button } from "./button"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { button } from "../../../styles/button.styles"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Pagination(props: {
   class?: string
@@ -103,7 +104,7 @@ function PaginationLink(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ isActive: false, size: "icon" } as const, props)
+  const local = withDefaults({ isActive: false, size: "icon" } as const, props)
   const rest = omit(local, "isActive", "size", "class", "sx", "children")
   return (
     <Button
@@ -133,7 +134,7 @@ function PaginationNext(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ text: "Next" } as const, props)
+  const local = withDefaults({ text: "Next" } as const, props)
   const rest = omit(local, "text", "class", "sx")
   return (
     <PaginationLink
@@ -163,7 +164,7 @@ function PaginationPrevious(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ text: "Previous" } as const, props)
+  const local = withDefaults({ text: "Previous" } as const, props)
   const rest = omit(local, "text", "class", "sx")
   return (
     <PaginationLink

@@ -1,4 +1,4 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Avatar as AvatarPrimitive } from "@kirana-ui/solid/avatar"
 import { asRender } from "../../../lib/solid2/element"
@@ -6,6 +6,7 @@ import { avatar } from "../../../styles/avatar.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Avatar(props: {
   size?: "default" | "sm" | "lg"
@@ -14,7 +15,7 @@ function Avatar(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ size: "default" } as const, props)
+  const local = withDefaults({ size: "default" } as const, props)
   const rest = omit(local, "size", "class", "sx", "children")
   return (
     <AvatarPrimitive.Root

@@ -1,6 +1,6 @@
 /** One entry of `collapsible-file-tree`'s tree: a folder that opens on its entries, or a file. */
 import { props as styleProps } from "@kirana-style/core"
-import { For, merge } from "solid-js"
+import { For } from "solid-js"
 
 import { Button } from "../ui/button"
 import { fileTree } from "../../../styles/file-tree.styles"
@@ -10,6 +10,7 @@ import {
   CollapsibleTrigger,
 } from "../ui/collapsible"
 import { IconPlaceholder } from "../ui/icon-placeholder"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 export type FileTreeEntry =
   | { name: string }
@@ -21,7 +22,7 @@ export function FileTreeItem(props: {
   folderIcon?: string
   fileIcon?: string
 }) {
-  const merged = merge(
+  const merged = withDefaults(
     { folderIcon: "FolderIcon", fileIcon: "FileIcon" },
     props
   )

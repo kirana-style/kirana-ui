@@ -1,4 +1,4 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { inputGroup } from "../../../styles/input-group.styles"
 import { Button } from "./button"
@@ -6,6 +6,7 @@ import { Input } from "./input"
 import { Textarea } from "./textarea"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function InputGroup(props: {
   class?: string
@@ -36,7 +37,7 @@ function InputGroupAddon(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ align: "inline-start" } as const, props)
+  const local = withDefaults({ align: "inline-start" } as const, props)
   const rest = omit(local, "align", "class", "sx", "children")
   /** A click on the addon, but not on a button in it, focuses the group's input. */
   function focusInput(event: MouseEvent) {
@@ -81,7 +82,7 @@ function InputGroupButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { type: "button", variant: "ghost", size: "xs" } as const,
     props
   )

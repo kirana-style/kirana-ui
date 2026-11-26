@@ -8,7 +8,6 @@ import {
   Show,
   createContext,
   createSignal,
-  merge,
   onSettled,
   omit,
   useContext,
@@ -32,6 +31,7 @@ import {
   seriesColors,
   pointValue,
 } from "../../../lib/chart"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 export * from "../../../lib/chart"
 
@@ -76,7 +76,7 @@ function ChartContainer(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ aspectRatio: 16 / 9 } as const, props)
+  const local = withDefaults({ aspectRatio: 16 / 9 } as const, props)
   const rest = omit(
     local,
     "config",
@@ -181,7 +181,7 @@ function ChartLegendContent(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { hideIcon: false, verticalAlign: "bottom" } as const,
     props
   )
@@ -263,7 +263,7 @@ function ChartTooltipContent(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { indicator: "dot", hideLabel: false, hideIndicator: false } as const,
     props
   )

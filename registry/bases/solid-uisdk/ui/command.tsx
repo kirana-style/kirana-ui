@@ -17,7 +17,7 @@ import {
   CommandSeparator as UisdkCommandSeparator,
 } from "@ui-sdk/solid/command"
 import type { JSX } from "@solidjs/web"
-import { createSignal, merge, omit, onSettled, Show } from "solid-js"
+import { createSignal, omit, onSettled, Show } from "solid-js"
 
 import { UisdkPart } from "../../../lib/solid2/uisdk-part"
 import { command } from "../../../styles/command.styles"
@@ -31,6 +31,7 @@ import {
 } from "./dialog"
 import { IconPlaceholder } from "./icon-placeholder"
 import { InputGroup, InputGroupAddon } from "./input-group"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Command(props: {
   shouldFilter?: boolean
@@ -40,7 +41,7 @@ function Command(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ shouldFilter: true } as const, props)
+  const local = withDefaults({ shouldFilter: true } as const, props)
   const rest = omit(local, "shouldFilter", "dir", "class", "sx", "children")
   return (
     <UisdkPart
@@ -68,7 +69,7 @@ function CommandDialog(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     {
       title: "Command Palette",
       description: "Search for a command to run...",
@@ -217,7 +218,10 @@ function CommandItem(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ keywords: [] as string[], disabled: false }, props)
+  const local = withDefaults(
+    { keywords: [] as string[], disabled: false },
+    props
+  )
   const rest = omit(
     local,
     "value",

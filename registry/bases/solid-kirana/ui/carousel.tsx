@@ -10,7 +10,6 @@ import {
   createContext,
   createEffect,
   createSignal,
-  merge,
   omit,
   onCleanup,
   useContext,
@@ -22,6 +21,7 @@ import { carousel } from "../../../styles/carousel.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
 import { IconPlaceholder } from "./icon-placeholder"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
@@ -59,7 +59,7 @@ function Carousel(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ orientation: "horizontal" } as const, props)
+  const local = withDefaults({ orientation: "horizontal" } as const, props)
   const rest = omit(
     local,
     "opts",
@@ -221,7 +221,10 @@ function CarouselNext(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "outline", size: "icon-sm" } as const, props)
+  const local = withDefaults(
+    { variant: "outline", size: "icon-sm" } as const,
+    props
+  )
   const rest = omit(local, "variant", "size", "class", "sx")
   const context = useCarousel()
   return (
@@ -260,7 +263,10 @@ function CarouselPrevious(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "outline", size: "icon-sm" } as const, props)
+  const local = withDefaults(
+    { variant: "outline", size: "icon-sm" } as const,
+    props
+  )
   const rest = omit(local, "variant", "size", "class", "sx")
   const context = useCarousel()
   return (

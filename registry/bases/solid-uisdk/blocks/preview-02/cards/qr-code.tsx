@@ -1,6 +1,7 @@
 import qrcode from "qrcode-generator"
-import { Show, createMemo, merge } from "solid-js"
+import { Show, createMemo } from "solid-js"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../../../lib/solid2/with-defaults"
 
 export function QRCode(props: {
   value: string
@@ -12,7 +13,7 @@ export function QRCode(props: {
   sx?: Sx
   class?: string
 }) {
-  const local = merge(
+  const local = withDefaults(
     {
       size: 256,
       level: "L",

@@ -16,12 +16,13 @@ import {
 } from "@ui-sdk/solid/toast"
 import type { ToastOptions as UisdkToastOptions } from "@ui-sdk/solid/toast"
 import type { JSX } from "@solidjs/web"
-import { Match, merge, omit, Show, Switch } from "solid-js"
+import { Match, omit, Show, Switch } from "solid-js"
 
 import { UisdkPart } from "../../../lib/solid2/uisdk-part"
 import { toast as styles } from "../../../styles/toast.styles"
 import { Button } from "./button"
 import { IconPlaceholder } from "./icon-placeholder"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type ToastType = "success" | "error" | "info" | "warning" | "loading"
 
@@ -188,7 +189,7 @@ function Toaster(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ limit: 3 }, props)
+  const local = withDefaults({ limit: 3 }, props)
   const rest = omit(local, "limit", "class", "sx")
   const root = () => styleProps(styles.root)
   return (

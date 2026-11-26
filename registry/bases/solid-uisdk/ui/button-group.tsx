@@ -1,4 +1,4 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { buttonGroup } from "../../../styles/button-group.styles"
 import { Separator } from "./separator"
@@ -6,6 +6,7 @@ import { Element } from "../../../lib/solid2/element"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type ButtonGroupVariants = NonNullable<Parameters<typeof buttonGroup.root>[0]>
 
@@ -42,7 +43,7 @@ function ButtonGroupSeparator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ orientation: "vertical" } as const, props)
+  const local = withDefaults({ orientation: "vertical" } as const, props)
   const rest = omit(local, "orientation", "class", "sx")
   return (
     <Separator

@@ -1,10 +1,11 @@
-import { For, Show, createMemo, merge, omit } from "solid-js"
+import { For, Show, createMemo, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { field } from "../../../styles/field.styles"
 import { Label } from "./label"
 import { Separator } from "./separator"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Field(props: {
   orientation?: "vertical" | "horizontal" | "responsive"
@@ -13,7 +14,7 @@ function Field(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ orientation: "vertical" } as const, props)
+  const local = withDefaults({ orientation: "vertical" } as const, props)
   const rest = omit(local, "orientation", "class", "sx", "children")
   return (
     <div
@@ -155,7 +156,7 @@ function FieldLegend(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "legend" } as const, props)
+  const local = withDefaults({ variant: "legend" } as const, props)
   const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <legend

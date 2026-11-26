@@ -1,4 +1,4 @@
-import { createContext, merge, Show, omit, useContext } from "solid-js"
+import { createContext, Show, omit, useContext } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Resizable } from "@kirana-ui/solid/resizable"
 import { asRender } from "../../../lib/solid2/element"
@@ -6,6 +6,7 @@ import { resizable } from "../../../styles/resizable.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 /** A panel as the group names it, Ark UI's `panels` entry: its id and its limits, in percent. */
 type PanelEntry = { id: string; minSize?: number; maxSize?: number }
@@ -26,7 +27,7 @@ function ResizableHandle(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ withHandle: false } as const, props)
+  const local = withDefaults({ withHandle: false } as const, props)
   const rest = omit(local, "id", "withHandle", "class", "sx")
   // Ark's required `id`, the two panels it sits between (`"a:b"`), is declared and left out:
   // Kirana UI's handle knows them by its place between the panels. A handle never shrinks.
@@ -94,7 +95,7 @@ function ResizablePanelGroup(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ orientation: "horizontal" } as const, props)
+  const local = withDefaults({ orientation: "horizontal" } as const, props)
   const rest = omit(
     local,
     "panels",

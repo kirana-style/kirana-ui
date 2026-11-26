@@ -1,4 +1,4 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { attachment } from "../../../styles/attachment.styles"
 import { Button } from "./button"
@@ -8,6 +8,7 @@ import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
 import type { button } from "../../../styles/button.styles"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Attachment(props: {
   state?: "idle" | "uploading" | "processing" | "error" | "done"
@@ -18,7 +19,7 @@ function Attachment(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { state: "done", size: "default", orientation: "horizontal" } as const,
     props
   )
@@ -55,7 +56,10 @@ function AttachmentAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "ghost", size: "icon-xs" } as const, props)
+  const local = withDefaults(
+    { variant: "ghost", size: "icon-xs" } as const,
+    props
+  )
   const rest = omit(local, "variant", "size", "class", "sx", "children")
   return (
     <Button
@@ -154,7 +158,7 @@ function AttachmentMedia(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "icon" } as const, props)
+  const local = withDefaults({ variant: "icon" } as const, props)
   const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <div

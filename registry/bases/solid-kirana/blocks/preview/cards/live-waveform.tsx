@@ -1,8 +1,9 @@
-import { Show, createEffect, merge, onSettled, omit } from "solid-js"
+import { Show, createEffect, onSettled, omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { theme } from "../../../../../core/tokens"
 import { space } from "../../../../../core/scales"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../../../lib/solid2/with-defaults"
 
 export function LiveWaveform(props: {
   active?: boolean
@@ -29,7 +30,7 @@ export function LiveWaveform(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     {
       active: false,
       processing: false,

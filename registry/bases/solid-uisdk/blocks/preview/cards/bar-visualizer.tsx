@@ -1,4 +1,4 @@
-import { For, createMemo, merge, omit } from "solid-js"
+import { For, createMemo, omit } from "solid-js"
 import { css, keyframes, props as styleProps } from "@kirana-style/core"
 import { radius, theme } from "../../../../../core/tokens"
 import { duration, easing, space } from "../../../../../core/scales"
@@ -9,6 +9,7 @@ import {
 } from "./use-bar-visualizer"
 import type { Sx } from "@kirana-style/core"
 import type { AgentState } from "./use-bar-visualizer"
+import { withDefaults } from "../../../../../lib/solid2/with-defaults"
 
 export function BarVisualizer(props: {
   state?: AgentState
@@ -22,7 +23,7 @@ export function BarVisualizer(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     {
       barCount: 15,
       minHeight: 20,

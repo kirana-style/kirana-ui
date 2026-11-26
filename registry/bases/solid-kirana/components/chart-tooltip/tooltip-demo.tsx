@@ -1,8 +1,9 @@
-import { For, Show, createMemo, merge } from "solid-js"
+import { For, Show, createMemo } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { duration, easing, space } from "../../../../core/scales"
 import { chart } from "../../../../styles/chart.styles"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../../lib/solid2/with-defaults"
 
 export function TooltipDemo(props: {
   indicator?: "line" | "dot" | "dashed"
@@ -14,7 +15,7 @@ export function TooltipDemo(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ indicator: "dot" } as const, props)
+  const local = withDefaults({ indicator: "dot" } as const, props)
   const styles = {
     // `transition-all ease-in-out hover:-translate-y-0.5`, over the Chart's tooltip.
     tooltip: css({

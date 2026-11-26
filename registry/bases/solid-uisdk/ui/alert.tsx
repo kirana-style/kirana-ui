@@ -1,8 +1,9 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { alert } from "../../../styles/alert.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type AlertVariants = NonNullable<Parameters<typeof alert.root>[0]>
 
@@ -13,7 +14,7 @@ function Alert(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default" } as const, props)
+  const local = withDefaults({ variant: "default" } as const, props)
   const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <div

@@ -1,8 +1,9 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { message } from "../../../styles/message.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Message(props: {
   align?: "start" | "end"
@@ -11,7 +12,7 @@ function Message(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ align: "start" } as const, props)
+  const local = withDefaults({ align: "start" } as const, props)
   const rest = omit(local, "align", "class", "sx", "children")
   return (
     <div

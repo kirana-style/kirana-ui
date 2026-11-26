@@ -1,9 +1,10 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { IconPlaceholder } from "./icon-placeholder"
 import { nativeSelect } from "../../../styles/native-select.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function NativeSelect(
   props: Omit<
@@ -17,7 +18,7 @@ function NativeSelect(
     children?: JSX.Element
   }
 ) {
-  const local = merge({ size: "default" } as const, props)
+  const local = withDefaults({ size: "default" } as const, props)
   const rest = omit(local, "value", "size", "class", "sx", "children")
   /** `value` on the select, as on a native one; the caller's `sx` is the wrapper's. */
   return (

@@ -1,4 +1,4 @@
-import { For, createMemo, createSignal, merge, onCleanup, omit } from "solid-js"
+import { For, createMemo, createSignal, onCleanup, omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { codeBlock } from "../../../styles/code-block.styles"
 import { IconPlaceholder } from "./icon-placeholder"
@@ -7,6 +7,7 @@ import { Button } from "./button"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { button } from "../../../styles/button.styles"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function CodeBlock(props: {
   variant?: "default" | "destructive"
@@ -16,7 +17,10 @@ function CodeBlock(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default", size: "default" } as const, props)
+  const local = withDefaults(
+    { variant: "default", size: "default" } as const,
+    props
+  )
   const rest = omit(local, "variant", "size", "class", "sx", "children")
   return (
     <div
@@ -64,7 +68,7 @@ function CodeBlockContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { wrap: false, lineNumbers: false, startLine: 1 } as const,
     props
   )
@@ -124,7 +128,10 @@ function CodeBlockCopyButton(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "ghost", size: "icon-xs" } as const, props)
+  const local = withDefaults(
+    { variant: "ghost", size: "icon-xs" } as const,
+    props
+  )
   const rest = omit(local, "value", "variant", "size", "class", "sx")
   const [copied, setCopied] = createSignal(false)
   let timeout: ReturnType<typeof setTimeout> | undefined
@@ -223,7 +230,7 @@ function CodeBlockLine(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default" } as const, props)
+  const local = withDefaults({ variant: "default" } as const, props)
   const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <span

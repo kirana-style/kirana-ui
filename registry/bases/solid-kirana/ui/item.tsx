@@ -1,4 +1,4 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Primitive } from "@kirana-ui/solid/primitive"
 import { asRender } from "../../../lib/solid2/element"
@@ -7,6 +7,7 @@ import { Separator } from "./separator"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type ItemVariants = NonNullable<Parameters<typeof item.root>[0]>
 
@@ -19,7 +20,10 @@ function Item(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default", size: "default" } as const, props)
+  const local = withDefaults(
+    { variant: "default", size: "default" } as const,
+    props
+  )
   const rest = omit(
     local,
     "variant",
@@ -173,7 +177,7 @@ function ItemMedia(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default" } as const, props)
+  const local = withDefaults({ variant: "default" } as const, props)
   const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <div

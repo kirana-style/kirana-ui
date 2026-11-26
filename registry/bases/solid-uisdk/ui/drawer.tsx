@@ -17,11 +17,12 @@ import {
   DrawerTrigger as UisdkDrawerTrigger,
 } from "@ui-sdk/solid/drawer"
 import type { JSX } from "@solidjs/web"
-import { createContext, merge, omit, Show, useContext } from "solid-js"
+import { createContext, omit, Show, useContext } from "solid-js"
 
 import { UisdkPart } from "../../../lib/solid2/uisdk-part"
 import type { AsChild } from "../../../lib/solid2/uisdk-part"
 import { drawer } from "../../../styles/drawer.styles"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 export type SwipeDirection = "up" | "down" | "left" | "right"
 
@@ -70,7 +71,7 @@ function Drawer(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { modal: true, showSwipeHandle: false, swipeDirection: "down" } as const,
     props
   )
