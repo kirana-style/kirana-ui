@@ -137,7 +137,7 @@
         "@kirana-ui/solid": "0.4.1",
         "@solidjs/web": "2.0.3",
         "@tanstack/table-core": "9.3.1",
-        "@ui-sdk/core": "0.1.0-beta.12",
+        "@ui-sdk/core": "0.1.0-beta.14",
         "@ui-sdk/solid": "0.1.0-beta.12",
         "@workspace/fonts": "workspace:*",
         "@workspace/registry": "workspace:*",
@@ -606,7 +606,7 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@ui-sdk/core": "0.1.0-beta.12",
+    "@ui-sdk/core": "0.1.0-beta.14",
     "@ui-sdk/react": "0.1.0-beta.12",
     "@ui-sdk/svelte": "0.1.0-beta.12",
     "@ui-sdk/vue": "0.1.0-beta.12",
@@ -1705,7 +1705,7 @@
 
     "@typescript/typescript-win32-x64": ["@typescript/typescript-win32-x64@7.0.2", "", { "os": "win32", "cpu": "x64" }, "sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g=="],
 
-    "@ui-sdk/core": ["@ui-sdk/core@0.1.0-beta.12", "", {}, "sha512-d/V1nH+0KJdUu0+dFsJjd//ZCcnx42R/vRWNXXu5k6L8jS2fKUrTeN5KR8lGrnk4Gy40X0kjSmKj20yQF2MDtg=="],
+    "@ui-sdk/core": ["@ui-sdk/core@0.1.0-beta.14", "", {}, "sha512-SHm5qLYBqxT5+d3svaBeP5uoBMIQbETKBqcZ/6b+WhhXlz6YoeNqjtMfpmq4yGA329DFwzu+y7+xGJjw4fnTPQ=="],
 
     "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.12", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.12", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-qltB3kTIuMUH1npVAS6AstSEwE9YURAc+g95oSeMKB3ehmiSvGBRqpsTJ1uZaa1wyq5prG3cXo85CWbu+DaLPA=="],
 
