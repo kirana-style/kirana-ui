@@ -138,7 +138,7 @@
         "@solidjs/web": "2.0.3",
         "@tanstack/table-core": "9.3.1",
         "@ui-sdk/core": "0.1.0-beta.12",
-        "@ui-sdk/solid": "0.1.0-beta.12",
+        "@ui-sdk/solid": "0.1.0-beta.14",
         "@workspace/fonts": "workspace:*",
         "@workspace/registry": "workspace:*",
         "solid-js": "2.0.3",
@@ -1709,7 +1709,7 @@
 
     "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.12", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.12", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-qltB3kTIuMUH1npVAS6AstSEwE9YURAc+g95oSeMKB3ehmiSvGBRqpsTJ1uZaa1wyq5prG3cXo85CWbu+DaLPA=="],
 
-    "@ui-sdk/solid": ["@ui-sdk/solid@0.1.0-beta.12", "", { "peerDependencies": { "@solidjs/web": "^2.0.0", "@ui-sdk/core": "^0.1.0-beta.12", "solid-js": "^2.0.0" } }, "sha512-sMmp2ColKimlfcODujzRmjqHHx6LWB+cmIHxdiHkwJwSD9Wfnx39v6p0UcN4uR2BCp/Nit4t2DFhjsru8wJYsQ=="],
+    "@ui-sdk/solid": ["@ui-sdk/solid@0.1.0-beta.14", "", { "peerDependencies": { "@solidjs/web": "^2.0.0", "@ui-sdk/core": "^0.1.0-beta.14", "solid-js": "^2.0.0" } }, "sha512-CgxLnKmX4pBIpKkmpPznUl4mg0TY2O/fBwOAxfjUrrubhty4YsPT3mS0mnxc07McEjzCUkuQMfMPbQ2M1urwpQ=="],
 
     "@ui-sdk/svelte": ["@ui-sdk/svelte@0.1.0-beta.12", "", { "peerDependencies": { "@ui-sdk/core": "^0.1.0-beta.12", "svelte": ">=5.33" } }, "sha512-MXuuZqJLgxMHfVyGZV5I25fazpMs1r2zJ93DCRiELr5vg1SDIR/d6bJ7UiNh6Fp5E2kSIWYzF8zf77aIv7O3ZA=="],
 
