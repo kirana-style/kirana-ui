@@ -1,20 +1,36 @@
 ---
 title: Introduction
-description: shadcn/ui's components, blocks and styles, rebuilt on Kirana's compiled styles and installed into your own project.
+description: shadcn/ui's design system on your framework and your headless library, compiled by Kirana and installed into your own project.
 section: start
 order: 1
-keywords: [kirana ui, shadcn, components, registry, design system]
+keywords:
+  [
+    kirana ui,
+    shadcn,
+    components,
+    registry,
+    design system,
+    react,
+    vue,
+    svelte,
+    solid,
+    angular,
+  ]
 ---
 
 # Introduction
 
-kirana/ui is [shadcn/ui](https://ui.shadcn.com) rebuilt on
-[Kirana](https://github.com/kirana-style/kirana): the same components, blocks and
-styles, written as typed styles that Kirana compiles into one plain stylesheet.
-There is no Tailwind and no class names to merge.
+kirana/ui is shadcn/ui's design system on your framework and your headless
+library: React, Vue, Svelte, Solid or Angular, on the library you already use or
+on Kirana UI Primitives, the family's own. Each component's look is written once,
+as typed styles that [Kirana](https://kirana.style) compiles into one plain
+stylesheet, so a button is the same button on every one of them. There is no
+Tailwind and no class names to merge.
 
-As with shadcn/ui, you do not install a component library. You copy each
-component's source into your project, and from then on it is yours to change.
+The components, blocks and styles are [shadcn/ui](https://ui.shadcn.com)'s, and
+so is the way you get them: you do not install a component library. You copy
+each component's source into your project, and from then on it is yours to
+change.
 
 <!-- ::preview item="button-demo" -->
 
@@ -24,9 +40,22 @@ component's source into your project, and from then on it is yours to change.
   same design as on shadcn/ui's site.
 - **Every design axis.** Base colour, theme, chart colours, fonts, radius, the
   icon library and menus, chosen once and carried in a short preset code.
-- **More than React.** Components on Base UI and React Aria for React, on Ark UI
-  for Vue, Svelte and Solid, and on ng-primitives for Angular, from one style
-  module per component.
+- **Your framework, your headless library.** One style module per component
+  draws it on each of these:
+
+  | Framework | Headless libraries                                |
+  | --------- | ------------------------------------------------- |
+  | React     | Kirana UI Primitives, Base UI, React Aria, UI SDK |
+  | Vue       | Kirana UI Primitives, Ark UI, Reka UI, UI SDK     |
+  | Svelte    | Kirana UI Primitives, Ark UI, Bits UI, UI SDK     |
+  | Solid     | Kirana UI Primitives, Ark UI, UI SDK              |
+  | Angular   | Kirana UI Primitives, ng-primitives               |
+
+  A component's page says which of them it is on.
+
+- **Checked as it is written.** A misspelled property or value is a compiler
+  diagnostic that names the fix, and a part's states are typed keys, so one it
+  never writes is a type error. That holds for you and for an agent alike.
 - **Two ways to install.** Kirana's own `kirana-style ui`, which installs into
   every framework, and shadcn/ui's CLI, from an export of the same registry.
 
