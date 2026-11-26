@@ -607,7 +607,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@ui-sdk/core": "0.1.0-beta.12",
-    "@ui-sdk/react": "0.1.0-beta.12",
+    "@ui-sdk/react": "0.1.0-beta.14",
     "@ui-sdk/svelte": "0.1.0-beta.12",
     "@ui-sdk/vue": "0.1.0-beta.12",
     "@vitejs/plugin-vue": "^6.0.11",
@@ -1707,7 +1707,7 @@
 
     "@ui-sdk/core": ["@ui-sdk/core@0.1.0-beta.12", "", {}, "sha512-d/V1nH+0KJdUu0+dFsJjd//ZCcnx42R/vRWNXXu5k6L8jS2fKUrTeN5KR8lGrnk4Gy40X0kjSmKj20yQF2MDtg=="],
 
-    "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.12", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.12", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-qltB3kTIuMUH1npVAS6AstSEwE9YURAc+g95oSeMKB3ehmiSvGBRqpsTJ1uZaa1wyq5prG3cXo85CWbu+DaLPA=="],
+    "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.14", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.14", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-qfriaLQEd+Iy7+PhAK6d2j3e1Hs6A4lh50+d+6rSAADoBwkQ/jf11SGzfXV5pCuYFGps3Ekz2W4RwtiR6yryjg=="],
 
     "@ui-sdk/solid": ["@ui-sdk/solid@0.1.0-beta.12", "", { "peerDependencies": { "@solidjs/web": "^2.0.0", "@ui-sdk/core": "^0.1.0-beta.12", "solid-js": "^2.0.0" } }, "sha512-sMmp2ColKimlfcODujzRmjqHHx6LWB+cmIHxdiHkwJwSD9Wfnx39v6p0UcN4uR2BCp/Nit4t2DFhjsru8wJYsQ=="],
 
