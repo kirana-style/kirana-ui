@@ -24,7 +24,7 @@
     "@kirana-style/preset-scales": "catalog:",
     "@kirana-style/states": "catalog:",
     "@tanstack/charts": "catalog:",
-    "@tanstack/markdown": "^1.2.0",
+    "@tanstack/markdown": "^1.2.1",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
     "@workspace/create": "workspace:*",
@@ -51,6 +51,6 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
-    "wrangler": "^4.163.0"
+    "wrangler": "^4.166.0"
   }
 }
