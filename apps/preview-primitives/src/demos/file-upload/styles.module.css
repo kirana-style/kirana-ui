@@ -5,7 +5,8 @@
   width: 18rem;
 }
 
-/* Pressed, it opens the file picker too; files dragged over it light it up. */
+/* A group, not a control: a pointer's press opens the file picker too, and the trigger is
+   the keyboard's way in. Files dragged over it light it up. */
 .dropzone {
   display: flex;
   flex-direction: column;
@@ -22,11 +23,6 @@
 .dropzone[data-dragging] {
   border-color: var(--accent);
   background: var(--raised);
-}
-
-.dropzone:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
 }
 
 .hint {

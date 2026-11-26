@@ -78,6 +78,48 @@ written beside it reaches it:
 <label htmlFor="plan-free">Free</label>
 ```
 
+## A label for an input part
+
+Where a component types into an input part, an `id` given to that part is kept, so a label
+written anywhere on the page names it. This holds for `NumberField.Input` (its buttons'
+`aria-controls` follow it), `Editable.Input`, `Otp.Input` and `TagsInput.Input`:
+
+```tsx
+<label htmlFor="quantity">Quantity</label>
+<NumberField.Root defaultValue={1}>
+  <NumberField.Group>
+    <NumberField.Decrement>-</NumberField.Decrement>
+    <NumberField.Input id="quantity" />
+    <NumberField.Increment>+</NumberField.Increment>
+  </NumberField.Group>
+</NumberField.Root>
+```
+
+## Files
+
+[File Upload](/docs/primitives/components/file-upload) draws the hidden file input as the last
+child of its root: that input is what the form submits under the root's `name`, and what the file
+picker fills. So a `Trigger` alone is enough to choose files, with no area to drop them on:
+
+```tsx
+<FileUpload.Root name="cv" accept=".pdf">
+  <FileUpload.Trigger>Choose a file</FileUpload.Trigger>
+  <FileUpload.List>
+    <FileUpload.Items>
+      {(entry) => (
+        <FileUpload.Item entry={entry}>
+          <FileUpload.ItemName />
+        </FileUpload.Item>
+      )}
+    </FileUpload.Items>
+  </FileUpload.List>
+</FileUpload.Root>
+```
+
+A `Dropzone` adds a place to drop files, and a pointer's press on it opens the picker too. It is a
+group, not a control: it takes no Tab stop and no keys, and the `Trigger` inside it or beside it
+is the keyboard's way in. Name the group with `aria-label`.
+
 ## A calendar in a form
 
 A [Calendar](/docs/primitives/components/calendar) with a `name` is submitted through its

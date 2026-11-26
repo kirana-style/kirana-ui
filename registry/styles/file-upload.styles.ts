@@ -7,9 +7,10 @@
  * padding and type; what is written here is the same in every style: the gaps between the parts,
  * the dropzone's states, and a file's name and size.
  *
- * The dropzone's border and surface change while files are dragged over it (`data-dragging`), as
- * they do on hover, and it draws the control's ring on focus. A disabled dropzone is half visible
- * and takes no pointer; the buttons dim as disabled Buttons do.
+ * The dropzone is a group, not a control: a pointer's press on it opens the file picker, and the
+ * trigger, a Button with Button's focus ring, is the keyboard's way in. Its border and surface
+ * change while files are dragged over it (`data-dragging`), as its surface does on hover. A
+ * disabled dropzone is half visible and takes no pointer; the buttons dim as disabled Buttons do.
  */
 import { css } from "@kirana-style/core"
 
@@ -23,7 +24,7 @@ import {
 } from "../core/scales"
 import { fileUploadState, when } from "../core/states"
 import { alpha, theme } from "../core/tokens"
-import { controlIcons, focusRing, laterRings } from "./control"
+import { controlIcons } from "./control"
 
 export const fileUpload = {
   // The root: its parts in a column, each at its own width but the list and the dropzone.
@@ -35,23 +36,16 @@ export const fileUpload = {
     gap: space[3],
   }),
 
-  // Over `empty.root`: its dashed border drawn, its states and the control's ring.
+  // Over `empty.root`: its dashed border drawn, and its hover, dragging and disabled states.
   dropzone: css({
     borderWidth: "1px",
-    outlineStyle: "none",
-    transitionProperty: "color, background-color, border-color, box-shadow",
+    transitionProperty: "color, background-color, border-color",
     transitionDuration: duration[150],
     transitionTimingFunction: easing.inOut,
-    borderColor: {
-      ":focus-visible": theme.ring,
-      ...when(fileUploadState.dropzone.dragging, theme.ring),
-    },
+    borderColor: when(fileUploadState.dropzone.dragging, theme.ring),
     backgroundColor: {
       ":hover": alpha.muted50,
       ...when(fileUploadState.dropzone.dragging, theme.muted),
-    },
-    boxShadow: {
-      ":focus-visible": focusRing(alpha.ring50, laterRings(alpha.ring30)),
     },
     pointerEvents: when(fileUploadState.dropzone.disabled, "none"),
     opacity: when(fileUploadState.dropzone.disabled, 0.5),

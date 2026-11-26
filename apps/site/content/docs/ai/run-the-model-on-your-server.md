@@ -72,7 +72,7 @@ Then, in `my-assistant`, install the primitives and your runtime:
 
 <!-- ::end:tabs -->
 
-This page was checked with `@kirana-ui/react` 0.4.0, `ai` 7.0.177, `@ai-sdk/react` 4.0.181,
+This page was checked with `@kirana-ui/react` 0.4.1, `ai` 7.0.177, `@ai-sdk/react` 4.0.181,
 `@ai-sdk/anthropic` 4.0.107, `@tanstack/ai` 1.7.0, `@tanstack/ai-react` 1.1.0 and
 `@tanstack/ai-anthropic` 1.2.1.
 
@@ -509,6 +509,7 @@ Then send "Reset my settings". The bridge asks `confirm` first, and the browser'
 | A tool call has arrived and not started    | It does not run. The AI SDK records it as stopped; TanStack AI drops it                                                                                                                                               |
 | A step is running                          | That step finishes. No step after it runs, and `act` resolves with `ok: false` and the step that was stopped                                                                                                          |
 | A step is waiting for `allow` or `confirm` | The wait ends and the step fails with "Stopped", where your `confirm` answers with a promise. `window.confirm` holds the page until it is answered, so there the step waits for the person, and no step after it runs |
+| Before a step's `confirm` is asked         | It is never asked: the step fails with "Stopped", and no dialog is shown                                                                                                                                              |
 | Results are waiting to go back             | They are not sent: the model does not take another step until the person writes again                                                                                                                                 |
 | A change was already made                  | It stays. `agent.undo()` takes the agent's last change back, through the same handlers; a press cannot be taken back                                                                                                  |
 
@@ -551,7 +552,8 @@ it to one part of the page. See [Make a screen ready for an agent](/docs/ai/make
 
 The code on this page was type-checked with the versions above. The bridge's part of Stop was
 run in Chromium: aborted while `confirm` waited, `act` resolved with "Stopped" at that step and
-ran no step after it. The chat itself, against a stand-in for the model's API, was not run with
+ran no step after it; aborted before a marked step's `confirm` was asked, it resolved with
+"Stopped" there without asking it. The chat itself, against a stand-in for the model's API, was not run with
 these versions; a real model was not called, and Stop during a running step was not exercised.
 
 ## Next

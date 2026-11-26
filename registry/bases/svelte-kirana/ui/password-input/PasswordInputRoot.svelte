@@ -11,7 +11,8 @@
 
   /**
    * Kirana UI's password input: `visible` (or `bind:visible`), `defaultVisible`, read once, and
-   * `onVisibleChange(visible, details)`. A caller's `sx` arrives as `class`, merged after the
+   * `onVisibleChange(visible, details)`; `toggleLabels` (`{ show, hide }`) is what the show/hide
+   * button is called. A caller's `sx` arrives as `class`, merged after the
    * field's own.
    */
   let {
@@ -27,6 +28,7 @@
     onVisibleChange?: (visible: boolean, details: ChangeDetails) => void
     onValueChange?: (value: string, details: ChangeDetails) => void
     disabled?: boolean
+    toggleLabels?: { show?: string; hide?: string }
     class?: ClassValue | null
     children?: Snippet
     [attribute: string]: unknown

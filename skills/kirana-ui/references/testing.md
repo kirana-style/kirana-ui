@@ -4,9 +4,9 @@
 
 Click-level tests of Select, Dialog, AlertDialog, Combobox and the others work. jsdom has no Web
 Animations API: on the Kirana UI base the components run without it (a popup opens and closes at
-once), but its testing kit's `settled()` asks the document for its animations, so give jsdom a
-polyfill in the test setup whenever a test awaits `settled()`, and on the other bases, whose
-popups wait for their exit animation through `element.getAnimations()`:
+once), and its testing kit's `settled()` resolves without it too, so that base needs no polyfill.
+On the other bases, whose popups wait for their exit animation through `element.getAnimations()`,
+give jsdom one in the test setup:
 
 ```ts
 // test/setup.ts
@@ -29,9 +29,12 @@ of (its section of `llms.txt` has every export):
 
 - `faults(root)`: what is wrong under `root`, as sentences: an attribute no vocabulary names, a
   state written as a value it does not take (`data-open="false"`), a reference to an id that is not
-  in the page, one id twice. `expect(faults(container)).toEqual([])`.
+  in the page, one id twice. `expect(faults(container)).toEqual([])`. `data-testid` and the agent
+  bridge's `data-agent-*` marks are accepted; name any other attribute of the page's own in
+  `faults(container, known(), { allow: ["data-qa"] })`.
 - `settled()`: resolves once nothing is moving (no frame of an entrance or exit, no animation).
-  Await it after a press instead of a timeout.
+  Await it after a press instead of a timeout. It rejects after 5 seconds, saying what still
+  moves, and at once when it cannot look at the page.
 - `recorder()`: hand it as a change callback (`onValueChange: heard.listen`) and assert what it
   heard: `heard.said()` is `["value reason", …]`; `heard.refuse()` makes every change refused.
 

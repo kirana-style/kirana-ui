@@ -160,6 +160,35 @@ panel's share). A few layouts need a line or two from the design to work at all:
 An avatar's root says how its picture is doing, to style the whole of it:
 `[data-image-loading-status="loaded"]`, `"loading"`, `"error"` or `"idle"`.
 
+## A value drawn by your design
+
+A progress bar's indicator has its width written for you. For anything else drawn from the value
+(a ring, a gauge, a label that follows the bar), the root of a Progress writes `--progress-value`
+and the root of a Meter `--meter-value`: the value's share of the range, a number from 0 at `min`
+to 1 at `max`, which every part inherits. `--progress-value` is absent while the value is not
+known (`null`).
+
+```css
+/* A ring: an SVG circle measured as 100 (pathLength="100"), its dashes in px. */
+.ring-arc {
+  stroke-dasharray: 100px;
+  stroke-dashoffset: calc((1 - var(--progress-value, 0)) * 100px);
+}
+```
+
+## A state with no ARIA attribute
+
+Style a state by the attribute the library lists for it, not by an ARIA attribute you expect.
+Password Input's toggle is a plain button named "Show password" or "Hide password", with no
+`aria-pressed`: whether the password shows is its `[data-visible]`, also on the root, the input
+and the indicator.
+
+```css
+.toggle[data-visible] {
+  color: var(--ink);
+}
+```
+
 ## The contract as data
 
 `@kirana-ui/vocabulary` publishes every part's states and variables, generated from the

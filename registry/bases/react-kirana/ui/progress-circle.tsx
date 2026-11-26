@@ -13,12 +13,6 @@ import {
 
 type ProgressCircleVariants = NonNullable<Parameters<typeof progressCircle>[0]>
 
-/** The value's share of the range, from 0 to 1, or `undefined` while it is not known. */
-function shareOf(value: number | null, min = 0, max = 100) {
-  if (value === null || max <= min) return undefined
-  return Math.min(1, Math.max(0, (value - min) / (max - min)))
-}
-
 /** The whole range: a ring in the progress track's colour. */
 function ProgressCircleTrack({
   sx,
@@ -69,9 +63,6 @@ function ProgressCircleLabel({
 function ProgressCircle({
   sx,
   size = "default",
-  value,
-  min,
-  max,
   children,
   ...props
 }: Omit<
@@ -79,31 +70,12 @@ function ProgressCircle({
   "className" | "style"
 > &
   ProgressCircleVariants & { sx?: Sx }) {
-  const share = shareOf(value, min, max)
-  const own = styleProps(
-    progressCircleParts.scope,
-    progressCircle({ size }),
-    sx
-  )
-
   return (
     <ProgressPrimitive.Root
-      value={value}
-      min={min}
-      max={max}
       data-slot="progress-circle"
       data-size={size}
       {...props}
-      className={own.className}
-      // The value's share of the range, which the arc is drawn from.
-      style={
-        share === undefined
-          ? own.style
-          : ({
-              "--progress-circle-value": share,
-              ...own.style,
-            } as React.CSSProperties)
-      }
+      {...styleProps(progressCircleParts.scope, progressCircle({ size }), sx)}
     >
       <svg
         data-slot="progress-circle-svg"

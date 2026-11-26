@@ -26,7 +26,7 @@ components. What it can find, read and do there is decided by the screen's marku
 you give `createAgent`. Walk this list with your team before an agent uses a screen, then keep it
 true with [a test](/docs/ai/test-what-an-agent-can-do).
 
-Every result quoted below is what the bridge in `@kirana-ui/react` 0.4.0 returned, run in Chromium.
+Every result quoted below is what the bridge in `@kirana-ui/react` 0.4.1 returned, run in Chromium.
 
 ## The checklist
 
@@ -164,10 +164,12 @@ After:
 }
 ```
 
+A list's choices are covered too. A select of customers marked so was read back as
+`"value": "[redacted]"` in a snapshot, and `query({ within })` on it returned the select with no
+`items` and left it closed, so its choices, "Acme Ltd" and "Globex", never reached the agent.
+
 The mark covers what a control holds, not what it is called: a control's label is still read.
-And a list's choices are still read by `query({ within })`: a select of customers marked so was
-read back as `"value": "[redacted]"` in a snapshot, and its choices, "Acme Ltd" and "Globex", by
-`query`. Keep a secret out of labels, and hide a list whose choices are private (next item).
+Keep a secret out of labels.
 
 ## What the agent should not see is hidden
 
