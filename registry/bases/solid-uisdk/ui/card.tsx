@@ -1,8 +1,9 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { card } from "../../../styles/card.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Card(
   props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
@@ -12,7 +13,7 @@ function Card(
     children?: JSX.Element
   }
 ) {
-  const local = merge({ size: "default" } as const, props)
+  const local = withDefaults({ size: "default" } as const, props)
   const rest = omit(local, "size", "class", "sx", "children")
   return (
     <div

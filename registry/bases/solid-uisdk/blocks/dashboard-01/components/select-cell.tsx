@@ -1,7 +1,7 @@
-import { merge } from "solid-js"
 import { Checkbox } from "../../../ui/checkbox"
 import { styles } from "./table"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../../../lib/solid2/with-defaults"
 
 export function SelectCell(props: {
   checked: boolean | "indeterminate"
@@ -12,7 +12,7 @@ export function SelectCell(props: {
   sx?: Sx
   class?: string
 }) {
-  const local = merge({ header: false } as const, props)
+  const local = withDefaults({ header: false } as const, props)
   // The selection column: the header's box selects the page's rows, a row's box selects its row.
 
   return (

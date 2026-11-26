@@ -1,10 +1,11 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { bubble } from "../../../styles/bubble.styles"
 import { Element } from "../../../lib/solid2/element"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Bubble(props: {
   variant?:
@@ -21,7 +22,10 @@ function Bubble(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default", align: "start" } as const, props)
+  const local = withDefaults(
+    { variant: "default", align: "start" } as const,
+    props
+  )
   const rest = omit(local, "variant", "align", "class", "sx", "children")
   return (
     <div
@@ -85,7 +89,7 @@ function BubbleReactions(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ side: "bottom", align: "end" } as const, props)
+  const local = withDefaults({ side: "bottom", align: "end" } as const, props)
   const rest = omit(local, "side", "align", "class", "sx", "children")
   return (
     <div

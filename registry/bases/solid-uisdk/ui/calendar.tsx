@@ -18,20 +18,13 @@ import {
   CalendarPrevious,
 } from "@ui-sdk/solid/calendar"
 import type { JSX } from "@solidjs/web"
-import {
-  createMemo,
-  createSignal,
-  For,
-  merge,
-  omit,
-  Show,
-  untrack,
-} from "solid-js"
+import { createMemo, createSignal, For, omit, Show, untrack } from "solid-js"
 
 import { button } from "../../../styles/button.styles"
 import { calendar } from "../../../styles/calendar.styles"
 import { Button } from "./button"
 import { IconPlaceholder } from "./icon-placeholder"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 /** A range of days, as react-day-picker's `DateRange`. */
 export type DateRange = { from: Date | undefined; to?: Date | undefined }
@@ -144,7 +137,7 @@ function Calendar<
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     {
       mode: "single" as Mode,
       numberOfMonths: 1,

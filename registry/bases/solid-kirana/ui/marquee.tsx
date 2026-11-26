@@ -1,10 +1,11 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 
 import { marqueeCtx } from "../../../core/context"
 import { marquee } from "../../../styles/marquee.styles"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type MarqueeDirection = "left" | "right" | "up" | "down"
 
@@ -58,7 +59,7 @@ function Marquee(
     fade?: boolean
   }
 ) {
-  const local = merge(
+  const local = withDefaults(
     {
       direction: "left",
       speed: "40s",

@@ -3,7 +3,6 @@ import {
   createContext,
   createMemo,
   createSignal,
-  merge,
   onSettled,
   omit,
   untrack,
@@ -30,6 +29,7 @@ import { Button } from "./button"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Sidebar(props: {
   side?: "left" | "right"
@@ -41,7 +41,7 @@ function Sidebar(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { side: "left", variant: "sidebar", collapsible: "offcanvas" } as const,
     props
   )
@@ -353,7 +353,7 @@ function SidebarMenuAction(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ showOnHover: false } as const, props)
+  const local = withDefaults({ showOnHover: false } as const, props)
   const rest = omit(local, "asChild", "showOnHover", "class", "sx", "children")
   return (
     <Element
@@ -407,7 +407,7 @@ function SidebarMenuButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { isActive: false, variant: "default", size: "default" } as const,
     props
   )
@@ -522,7 +522,7 @@ function SidebarMenuSkeleton(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ showIcon: false } as const, props)
+  const local = withDefaults({ showIcon: false } as const, props)
   const rest = omit(local, "showIcon", "class", "sx")
   // A width between 50 and 90%, so a list of them reads as text.
   const width = `${Math.floor(Math.random() * 40) + 50}%`
@@ -577,7 +577,7 @@ function SidebarMenuSubButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ size: "md", isActive: false } as const, props)
+  const local = withDefaults({ size: "md", isActive: false } as const, props)
   const rest = omit(
     local,
     "asChild",
@@ -657,7 +657,7 @@ function SidebarProvider(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ defaultOpen: true } as const, props)
+  const local = withDefaults({ defaultOpen: true } as const, props)
   const rest = omit(
     local,
     "defaultOpen",

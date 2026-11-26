@@ -1,8 +1,9 @@
-import { merge, omit, Show } from "solid-js"
+import { omit, Show } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { timeline } from "../../../styles/timeline.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type TimelineMarkerVariants = NonNullable<Parameters<typeof timeline.marker>[0]>
 
@@ -14,7 +15,7 @@ function Timeline(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { orientation: "vertical", align: "start" } as const,
     props
   )
@@ -62,7 +63,7 @@ function TimelineMarker(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default" } as const, props)
+  const local = withDefaults({ variant: "default" } as const, props)
   const rest = omit(local, "variant", "class", "sx", "children")
   return (
     <span

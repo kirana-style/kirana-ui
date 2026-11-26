@@ -1,10 +1,11 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { Element } from "../../../lib/solid2/element"
 import { badge } from "../../../styles/badge.styles"
 import type { JSX } from "@solidjs/web"
 import type { Sx } from "@kirana-style/core"
 import type { AsChild } from "../../../lib/solid2/element"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type BadgeVariants = NonNullable<Parameters<typeof badge>[0]>
 
@@ -16,7 +17,7 @@ function Badge(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ variant: "default" } as const, props)
+  const local = withDefaults({ variant: "default" } as const, props)
   const rest = omit(local, "variant", "asChild", "class", "sx", "children")
   return (
     <Element

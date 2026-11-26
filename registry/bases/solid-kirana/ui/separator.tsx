@@ -1,7 +1,8 @@
-import { merge, omit } from "solid-js"
+import { omit } from "solid-js"
 import { props as styleProps } from "@kirana-style/core"
 import { separator } from "../../../styles/separator.styles"
 import type { Sx } from "@kirana-style/core"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 function Separator(props: {
   orientation?: "horizontal" | "vertical"
@@ -9,7 +10,7 @@ function Separator(props: {
   sx?: Sx
   [attribute: string]: unknown
 }) {
-  const local = merge({ orientation: "horizontal" } as const, props)
+  const local = withDefaults({ orientation: "horizontal" } as const, props)
   const rest = omit(local, "orientation", "class", "sx")
   return (
     <div

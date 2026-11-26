@@ -32,7 +32,6 @@ import {
   createContext,
   createSignal,
   For,
-  merge,
   omit,
   onCleanup,
   Show,
@@ -61,6 +60,7 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "./input-group"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 /** Base UI's sides: the physical four and the logical two, which ui-sdk names `start` and `end`. */
 type BaseSide =
@@ -181,7 +181,7 @@ function ComboboxChip(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge({ showRemove: true } as const, props)
+  const local = withDefaults({ showRemove: true } as const, props)
   const rest = omit(local, "showRemove", "class", "sx", "children")
   return (
     <UisdkPart
@@ -331,7 +331,7 @@ function ComboboxContent(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { side: "bottom", sideOffset: 6, align: "start", alignOffset: 0 } as const,
     props
   )
@@ -448,7 +448,7 @@ function ComboboxInput(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     { disabled: false, showTrigger: true, showClear: false } as const,
     props
   )

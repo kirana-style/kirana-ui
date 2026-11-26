@@ -1,4 +1,4 @@
-import { merge, omit, untrack } from "solid-js"
+import { omit, untrack } from "solid-js"
 import type { Sx } from "@kirana-style/core"
 import type { JSX } from "@solidjs/web"
 
@@ -8,6 +8,7 @@ import { copyButton } from "../../../styles/copy-button.styles"
 import { visuallyHidden } from "../../../styles/visually-hidden.styles"
 import { Button } from "./button"
 import { IconPlaceholder } from "./icon-placeholder"
+import { withDefaults } from "../../../lib/solid2/with-defaults"
 
 type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
 
@@ -33,7 +34,7 @@ function CopyButton(props: {
   children?: JSX.Element
   [attribute: string]: unknown
 }) {
-  const local = merge(
+  const local = withDefaults(
     {
       timeout: 2000,
       copyLabel: "Copy",

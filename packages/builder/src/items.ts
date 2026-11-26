@@ -399,8 +399,9 @@ const ALL_ITEMS: Item[] = [
         : combination.framework === "svelte" && combination.base === "kirana"
           ? ["lib/svelte/as-child.ts"]
           : solid2(combination)
-            ? // An element of the design system's own takes Ark UI's `asChild` here too.
-              ["lib/solid2/element.tsx"]
+            ? // An element of the design system's own takes Ark UI's `asChild` here too; and a
+              // part's defaults on Solid 2, which hold while a prop is `undefined`.
+              ["lib/solid2/element.tsx", "lib/solid2/with-defaults.ts"]
             : undefined,
   },
   {
