@@ -1,6 +1,6 @@
 ---
 title: Components
-description: Every component ported so far, each in eight styles, on Base UI and React Aria, and on Vue, Svelte, Solid and Angular where it has markup there.
+description: Every component, each in eight styles, and the frameworks and headless libraries it is on.
 section: components
 order: 0
 keywords: [components, list, all components]
@@ -8,19 +8,25 @@ keywords: [components, list, all components]
 
 # Components
 
-Each component has a page per framework and base it is on, at
-`/docs/components/<framework>/<base>/<name>` (`/docs/components/vue/ark/button`): the component
-live, how to install it, how to use it there, and the code installing it writes. Choose your framework in the
-Frameworks menu of the bar at the top; under a page's title, its framework's bases (React: Base UI
-and React Aria) lead to each other, and every link to a component follows the framework and base
-you are on. React has every component, on Base UI and React
-Aria; Vue has every one Ark UI and Reka UI carry, Svelte every one Ark UI carries and all but the
-toast on Bits UI, Solid every one on Ark UI, and Angular those ng-primitives carries; a page lists
-only the frameworks and bases its component is on.
+Each component has a page per framework and headless library it is on, at
+`/docs/components/<framework>/<library>/<name>` (`/docs/components/vue/ark/button`): the component
+live, how to install it, how to use it there, and the code installing it writes. Choose your
+framework in the Frameworks menu of the bar at the top; under a page's title, its framework's
+libraries lead to each other, and every link to a component follows the framework and library you
+are on.
 
 ## New Components
 
 <!-- ::components-list variant="new" -->
+
+## Where each component is
+
+A row is a component, a column a headless library on a framework: point at a library's mark for
+its name. A dot is a page: press it to open the component there. A component with Kirana's mark
+after its name is the registry's own, on Kirana UI alone: it is built on a part of Kirana UI
+Primitives that no other library here has as one part.
+
+<!-- ::components-matrix -->
 
 ## All Components
 

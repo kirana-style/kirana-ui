@@ -44,7 +44,8 @@ export const page = {
   example: css({
     display: "flex",
     width: "100%",
-    // A demo the React showcase draws among its cards (`data-showcase`) takes only its own size.
+    // A demo the React showcase draws among its cards, or an `-example` page among its frames
+    // (`data-showcase`), takes only its own size.
     minHeight: { base: "100dvh", ":is([data-showcase] *)": "auto" },
     alignItems: "center",
     justifyContent: "center",

@@ -3,8 +3,9 @@
  * `registry/bases.ts` has them and Bits UI's site icon (a disc), inline so they take
  * `currentColor`; Ark UI's, Reka UI's and
  * ng-primitives' are their sites' icons, kept in `brands/` as the other logos are and drawn as images. The docs'
- * frameworks row and `/create`'s Get Code draw them from here. A base with no official mark (ui-sdk,
- * whose site's icon is Vercel's own, and Kirana UI Primitives, whose brand has none yet) draws none.
+ * frameworks row, the components' table and `/create`'s Get Code draw them from here. ui-sdk has no
+ * mark of its own and draws Vercel's, whose project it is and whose its site's icon is; Kirana UI
+ * Primitives draws Kirana's, the family's (both by the maintainer's choice).
  */
 import type { ReactNode } from "react"
 
@@ -39,6 +40,29 @@ const IMAGES: Partial<Record<Base, SvglIcon>> = {
 }
 
 const INLINE: Partial<Record<Base, ReactNode>> = {
+  kirana: (
+    <svg
+      viewBox="0 0 16 21.5"
+      width="100%"
+      height="100%"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path
+        d="M0 16.5829L0 0A5 5 0 0 1 5 5L5 8.8131A55 55 0 0 0 1.1191 13.9874A8 8 0 0 0 0 16.5829Z"
+        stroke="currentColor"
+        strokeWidth="0.2"
+        strokeLinejoin="round"
+      />
+      <path d="M8.4322 9.8213L13.9389 13.8222A5 5 0 0 1 16 17.8673L16 21.5L7.3023 15.1808A3 3 0 0 1 8.4322 9.8213Z" />
+      <path d="M0 16.5829A8 8 0 0 1 1.1191 13.9874A55 55 0 0 1 9.2279 4.3493A8 8 0 0 1 12.6708 2.4335A13 13 0 0 1 16 2A8 8 0 0 1 15.2857 5.3043A5 5 0 0 1 12.8439 7.7713L4.2366 11.7819A8 8 0 0 0 0 16.5829Z" />
+    </svg>
+  ),
+  uisdk: (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true">
+      <path fill="currentColor" d="M12 2 23.5 22h-23z" />
+    </svg>
+  ),
   bits: (
     <svg viewBox="0 0 11 11" width="100%" height="100%" aria-hidden="true">
       <circle cx="5.5" cy="5.5" r="5" fill="currentColor" />

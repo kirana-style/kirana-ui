@@ -253,3 +253,14 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   under the component's install, a step installs the reader's chat runtime for the framework shown
   (`runtimePackages` in `runtime.ts`: `ai` and `@ai-sdk/<framework>`, or `@tanstack/ai` and
   `@tanstack/ai-<framework>`, with what a framework without an adapter does instead).
+- **`::components-matrix`** (`markdown/components-matrix.tsx`): where each component of a section
+  is, as a table. A row per component, a column per variant (a framework and a headless library,
+  the library as its mark with its name and count in a tooltip), a dot linking to the page where
+  there is one; a component one library has alone carries that library's mark after its name. It
+  reads the provider's `pages`, and narrows to one framework, to the components one library has
+  alone, or to those missing somewhere.
+- **`::section-cards` takes `index` and `columns`**: the index's URL where it is not the
+  section's slug (the primitives' components, whose list drew nothing for it), and `columns="3"`
+  for a long list as smaller cards.
+- **Every base has a mark** (`base-logos.tsx`): ui-sdk draws Vercel's and Kirana UI Primitives
+  Kirana's, by the maintainer's choice, so the frameworks row and Get Code show them too.

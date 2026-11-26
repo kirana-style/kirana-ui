@@ -2,7 +2,8 @@
  * `<!-- ::section-cards section="ai-elements" -->`: every page of a section but its index, each a
  * card with its title and description, as shadcn/ui's AI Elements page lists its patterns
  * (`LinkedCard`s in a grid). It reads the navigation the sidebar draws, so a page is listed the day
- * it is written.
+ * it is written. `index="/docs/primitives/components"` names the index where it is not at the
+ * section's slug, and `columns="3"` draws a long list as smaller cards, three to a row.
  */
 import { css } from "@kirana-style/core"
 
@@ -54,24 +55,52 @@ const styles = {
     transitionProperty: "background-color",
     transitionDuration: "150ms",
   }),
+  // A long list: three to a row from `lg`, each card closer to its text.
+  grid3: css({
+    gridTemplateColumns: {
+      [breakpoint.sm]: "repeat(2, minmax(0, 1fr))",
+      [breakpoint.lg]: "repeat(3, minmax(0, 1fr))",
+    },
+    gap: spacing[3],
+  }),
+  card3: css({
+    padding: { "*": null, base: spacing[4] },
+    borderRadius: radius.xl,
+  }),
   title: css({ fontWeight: fontWeight.medium }),
   // `leading-relaxed text-muted-foreground`.
   description: css({ lineHeight: "1.625", color: theme.mutedForeground }),
 }
 
-export function SectionCards({ section }: { section?: string }) {
+export function SectionCards({
+  section,
+  index,
+  columns,
+}: {
+  section?: string
+  index?: string
+  columns?: string
+}) {
+  const dense = columns === "3"
   const { nav, Link } = useDocs()
   const pages = (nav.find((group) => group.slug === section)?.items ?? [])
     .flatMap((node): readonly NavItem[] =>
       isBranch(node) ? node.items : [node]
     )
     // The index itself is not one of its pages.
-    .filter((item) => item.href !== `/docs/${section}`)
+    .filter((item) => item.href !== (index ?? `/docs/${section}`))
   if (!pages.length) return null
   return (
-    <div sx={styles.grid} data-slot="section-cards">
+    <div
+      sx={[styles.grid, dense ? styles.grid3 : null]}
+      data-slot="section-cards"
+    >
       {pages.map((item) => (
-        <Link key={item.href} href={item.href} sx={styles.card}>
+        <Link
+          key={item.href}
+          href={item.href}
+          sx={[styles.card, dense ? styles.card3 : null]}
+        >
           <span sx={styles.title}>{item.title}</span>
           {item.description ? (
             <span sx={styles.description}>{item.description}</span>

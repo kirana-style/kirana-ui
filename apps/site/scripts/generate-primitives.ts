@@ -691,7 +691,7 @@ ${components().length} components, the same on React, Vue, Svelte, Solid, Angula
 is generated from the packages themselves (\`@kirana-ui/*\` ${version}): what it lists is what
 that version does.
 
-<!-- ::section-cards section="primitives/components" -->
+<!-- ::section-cards section="primitives-components" index="/docs/primitives/components" columns="3" -->
 `
 )
 write(new URL("../frameworks.md", folder), frameworks())
