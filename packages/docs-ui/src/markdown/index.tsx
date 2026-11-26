@@ -1,4 +1,4 @@
-import { Children, createContext, use } from "react"
+import { Children, Suspense, createContext, lazy, use } from "react"
 import { css } from "@kirana-style/core"
 import type { MarkdownComponents } from "@tanstack/markdown/react"
 
@@ -49,6 +49,20 @@ import { Installation } from "./installation.tsx"
 import { MarkdownFrameworks } from "./frameworks.tsx"
 import { MarkdownPreview } from "./preview.tsx"
 import { MarkdownPicker, MarkdownTabPanel, MarkdownTabs } from "./tabs.tsx"
+
+// The components' table loads with the one page that draws it, so the others do not carry it.
+const LazyComponentsMatrix = lazy(() =>
+  import("./components-matrix.tsx").then((module) => ({
+    default: module.ComponentsMatrix,
+  }))
+)
+function ComponentsMatrix(props: { section?: string }) {
+  return (
+    <Suspense>
+      <LazyComponentsMatrix {...props} />
+    </Suspense>
+  )
+}
 
 /** Where a linked heading lands: under the docs chrome (or the site header), with room above it. */
 const ANCHOR = `calc(${DOCS_CHROME} + ${spacing[4]})`
@@ -388,6 +402,8 @@ export function createMarkdownComponents(
       steps: MarkdownSteps as unknown as CommentRegistry[string],
       figure: MarkdownFigure as CommentRegistry[string],
       "components-list": ComponentsList as CommentRegistry[string],
+      "components-matrix":
+        ComponentsMatrix as unknown as CommentRegistry[string],
       "section-cards": SectionCards as CommentRegistry[string],
       anatomy: Anatomy as CommentRegistry[string],
       props: PropsTable as CommentRegistry[string],

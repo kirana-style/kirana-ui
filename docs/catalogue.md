@@ -334,9 +334,14 @@ five bases:
 | `progress-circle.styles.ts`   | Progress Circle   | The primitives' Progress, an SVG ring read from a value the root writes |
 | `marquee.styles.ts`           | Marquee           | A keyframe on two copies, `marqueeCtx` for its speed and gap            |
 
-Their states are `<name>State` in `registry/core/states.ts` (`ratingState.item.filled`), written from
-the primitives' vocabulary. Another framework's pages are compared with React's Kirana UI pages:
+Their states are `<name>State` in `registry/core/states.ts` (`ratingState.item.filled`), read from
+`@kirana-style/states/kirana-ui`. Another framework's pages are compared with React's Kirana UI pages:
 `vp run conformance -- --framework vue/kirana --reference kirana --pages rating-demo`.
+
+Each of the fifteen has an `-example` page on every Kirana UI base (`rating-example`): its demos,
+each in an `Example` frame. The frame carries `data-showcase`, which lets a demo take its own size
+where alone on its page it fills the viewport (`page.example`). The browser tests mount these
+pages and press every trigger, as they do upstream's.
 
 ## The registry's markup (`registry/bases`)
 
