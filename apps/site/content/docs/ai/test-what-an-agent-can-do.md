@@ -45,16 +45,16 @@ the bridge reads the page, not the framework: only the lines that mount the form
 ## Which environment
 
 The bridge presses elements and types into them, so it needs a DOM. These are the results of the
-test on this page with `@kirana-ui/react` 0.4.0 and Vitest 5.1:
+test on this page with `@kirana-ui/react` 0.4.1 and Vitest 5.1:
 
 | Environment                          | Result                                                                                                             |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | A real browser (Vitest browser mode) | All six pass, with nothing added                                                                                   |
-| jsdom 31                             | All six pass once `settled()` is given a stub for Web Animations (below). Without it every test times out          |
+| jsdom 31                             | All six pass, with nothing added                                                                                   |
 | happy-dom 21                         | Two fail: a switch inside a `<label>` is toggled twice and ends where it started, and `faults()` throws on a style |
 
-Use a real browser. jsdom is a fallback for a project that cannot run one, with the stub below.
-happy-dom gives wrong answers for these components today.
+Use a real browser. jsdom is a fallback for a project that cannot run one (below). happy-dom gives
+wrong answers for these components today.
 
 ## 1. Install the test runner
 
@@ -335,11 +335,7 @@ test("the page has no faults after the agent's steps", async () => {
   })
   await settled()
 
-  expect(
-    faults(host, known(), {
-      allow: ["data-agent-confirm", "data-agent-hidden", "data-agent-secret"],
-    })
-  ).toEqual([])
+  expect(faults(host, known())).toEqual([])
 })
 ```
 
@@ -350,8 +346,9 @@ What each part is for:
 - **`confirm` stands in for the person.** In the app it opens a dialog and resolves with the
   person's answer; here the test plays both answers. Never give the app itself `() => true`.
 - **`flushSync` and `settled()`** make sure the form is drawn and still before the agent reads it.
-- **`faults()` is told about the bridge's marks** (`allow: ["data-agent-…"]`): they are the page's
-  own attributes, not ones a part wrote, and without that line it lists each one as a fault.
+- **`faults()` knows the bridge's marks**: `data-agent-confirm`, `data-agent-hidden` and
+  `data-agent-secret` are accepted without being named, so the page's marks are not listed as
+  faults.
 
 ## 5. Run it
 
@@ -376,22 +373,11 @@ test "a marked action needs a person's yes" fails, because the agent could press
 
 ## Without a browser: jsdom
 
-jsdom has no Web Animations. The components run without it: a popup opens and closes at once. But
-`settled()` asks the document whether anything is animating, and in jsdom that throws
-`getAnimations is not a function`, so the test never gets past `mount`. Nothing animates in jsdom,
-so "no animations" is the true answer and a stub is enough. Install jsdom:
+jsdom has no Web Animations. The components run without it: a popup opens and closes at once.
+`settled()` runs there too: with nothing able to animate, it waits only for the framework's turn.
+Install jsdom:
 
 <!-- ::install dev="vitest jsdom" -->
-
-Add the stub as a setup file:
-
-```ts title="test/web-animations.ts"
-// jsdom has no Web Animations, and `settled()` asks the document whether anything
-// is animating (`getAnimations()`). Nothing animates in jsdom, so "no animations"
-// is the true answer.
-Element.prototype.getAnimations ??= () => []
-document.getAnimations ??= () => []
-```
 
 And run the same test file with this configuration:
 
@@ -402,7 +388,6 @@ export default defineConfig({
   test: {
     include: ["src/**/*.test.tsx"],
     environment: "jsdom",
-    setupFiles: ["./test/web-animations.ts"],
   },
 })
 ```
@@ -416,12 +401,10 @@ browser.
 
 | What you see                                                                                            | Why                                                                                               |
 | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `TypeError: page.getAnimations is not a function`, and every test times out                             | `settled()` in jsdom or happy-dom without the Web Animations stub                                 |
 | `Nothing is called "Email alerts"` for a control that is on the screen                                  | It has no accessible name, a different one, or it is outside `root` or inside `data-agent-hidden` |
 | `"Email alerts" names 2 components: c3 (switch "Email alerts"), c7 (switch "Email alerts"). Use a ref.` | Two controls share a name. Give each its own, or name the step by the `ref` from a snapshot       |
 | `expected [ 'Grace', false, 'Dark' ]` under happy-dom                                                   | happy-dom toggles a switch inside a `<label>` twice. Run the test in a browser                    |
 | `Error: browserType.launch: Executable doesn't exist`                                                   | Playwright's browser is not installed: run `playwright install chromium`                          |
-| `faults()` lists `button has data-agent-confirm, which no vocabulary names`                             | Pass the bridge's marks in `allow`, as the test does                                              |
 
 ## Next
 

@@ -9,7 +9,8 @@ export default {
     gap: "0.75rem",
     width: "18rem",
   }),
-  // Pressed, it opens the file picker too; files dragged over it light it up.
+  // A group, not a control: a pointer's press opens the file picker too, and the trigger is
+  // the keyboard's way in. Files dragged over it light it up.
   dropzone: css({
     display: "flex",
     flexDirection: "column",
@@ -24,10 +25,6 @@ export default {
     backgroundColor: { base: theme.surface, "[data-dragging]": theme.raised },
     color: theme.ink,
     cursor: "pointer",
-    outlineWidth: "2px",
-    outlineStyle: { base: "none", ":focus-visible": "solid" },
-    outlineColor: theme.ring,
-    outlineOffset: "2px",
   }),
   hint: css({ color: theme.quiet }),
   trigger: css({

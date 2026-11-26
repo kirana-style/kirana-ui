@@ -24,8 +24,9 @@ package you installed (`@kirana-ui/react/testing`, `@kirana-ui/vue/testing` and 
 wherever there is a DOM: a browser test, a Playwright page, or jsdom for what needs no layout.
 
 The components run in jsdom too. There is no Web Animations API there, so a popup opens and
-closes at once, with no wait for a transition: a test of what a press changes needs no polyfill.
-Where a popup is placed, its size and what scrolls are for a real browser to test.
+closes at once, with no wait for a transition, and `settled()` waits for no animation: a test of
+what a press changes needs no polyfill. Where a popup is placed, its size and what scrolls are for
+a real browser to test.
 
 ```ts
 import {
@@ -37,13 +38,13 @@ import {
 } from "@kirana-ui/react/testing"
 ```
 
-| Function                         | What it does                                                                                  |
-| -------------------------------- | --------------------------------------------------------------------------------------------- |
-| `faults(root, known?, options?)` | Reads a page for what a component must never do, and lists what it finds as sentences         |
-| `known(...definitions)`          | The vocabulary `faults` accepts: the library's own, with any components of yours added        |
-| `serialize(root)`                | The page as text, the same for two frameworks that draw the same thing                        |
-| `settled()`                      | Resolves once nothing is moving: no entrance, no exit, no running animation                   |
-| `recorder()`                     | Records what a change callback hears (value, reason, source), and can refuse what it is asked |
+| Function                         | What it does                                                                                                                                                                                    |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `faults(root, known?, options?)` | Reads a page for what a component must never do, and lists what it finds as sentences                                                                                                           |
+| `known(...definitions)`          | The vocabulary `faults` accepts: the library's own, with any components of yours added                                                                                                          |
+| `serialize(root)`                | The page as text, the same for two frameworks that draw the same thing                                                                                                                          |
+| `settled()`                      | Resolves once nothing is moving: no entrance, no exit, no running animation. Rejects after its `timeout` (5 seconds), saying what was still moving, and at once when it cannot look at the page |
+| `recorder()`                     | Records what a change callback hears (value, reason, source), and can refuse what it is asked                                                                                                   |
 
 ## Faults
 
@@ -54,19 +55,21 @@ import {
 - a reference (`aria-controls`, `aria-labelledby`, `for`) to an id that is not in the page;
 - one id on two elements.
 
-The first of these includes your page's own `data-*` attributes, which no part wrote. Name them
-in `options.allow`, or a page with test ids always has faults:
+The first of these includes your page's own `data-*` attributes, which no part wrote.
+`data-testid` and the [agent bridge](/docs/ai/agent-bridge)'s marks (`data-agent-confirm`,
+`data-agent-hidden`, `data-agent-secret`) are accepted as they are. Name any other in
+`options.allow`, or the page always has faults:
 
 ```ts
 trigger.click()
 await settled()
-expect(faults(document.body, known(), { allow: ["data-testid"] })).toEqual([])
+expect(faults(document.body, known(), { allow: ["data-qa"] })).toEqual([])
 ```
 
-| Option  | What it is                                                                    |
-| ------- | ----------------------------------------------------------------------------- |
-| `allow` | `data-*` attributes of the page's own, which no part wrote: `["data-testid"]` |
-| `free`  | State attributes whose value may be anything: a number, a word a caller chose |
+| Option  | What it is                                                                      |
+| ------- | ------------------------------------------------------------------------------- |
+| `allow` | Other `data-*` attributes of the page's own, which no part wrote: `["data-qa"]` |
+| `free`  | State attributes whose value may be anything: a number, a word a caller chose   |
 
 ## A component of your own
 

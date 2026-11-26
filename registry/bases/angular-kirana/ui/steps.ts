@@ -1,14 +1,10 @@
 import {
   Component,
-  DestroyRef,
   Directive,
-  ElementRef,
-  afterNextRender,
   booleanAttribute,
   computed,
   inject,
   input,
-  signal,
 } from "@angular/core"
 import {
   KpSteps,
@@ -32,25 +28,6 @@ import { steps } from "../../../styles/steps.styles"
 import { buttonLabels } from "./button"
 
 type ButtonVariants = NonNullable<Parameters<typeof button>[0]>
-
-/**
- * Whether the host carries a state attribute Kirana UI writes on it (`data-complete`), read off the
- * element: Angular's parts give a template no state to draw from, where React's `render` and Vue's
- * slot do (PF-080).
- */
-function hostFlag(name: string) {
-  const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
-  const flag = signal(false)
-  const destroy = inject(DestroyRef)
-  afterNextRender(() => {
-    const read = () => flag.set(element.hasAttribute(name))
-    read()
-    const observer = new MutationObserver(read)
-    observer.observe(element, { attributes: true, attributeFilter: [name] })
-    destroy.onDestroy(() => observer.disconnect())
-  })
-  return flag.asReadonly()
-}
 
 /**
  * A task in steps: `<div kuiSteps [(step)]="step">`, on Kirana UI's steps (`KpSteps`), its
@@ -184,7 +161,10 @@ class StepsTrigger {
 })
 class StepsIndicator {
   readonly sx = input<SxInput>()
-  protected readonly complete = hostFlag("data-complete")
+  private readonly indicator = inject(KpStepsIndicator, { self: true })
+  protected readonly complete = computed(
+    () => this.indicator.state().complete === true
+  )
   protected readonly part = computed(() => partSx(steps.indicator, this.sx()))
 }
 

@@ -42,6 +42,12 @@ In a `Field`, with a description and a check run when the form is sent: the inpu
 
 <!-- ::preview item="password-input-form" height="480" combinations="react/kirana" -->
 
+### Labels
+
+`toggleLabels` names the show/hide button in the page's language: `show` while the password is hidden, `hide` while it can be read. Without it the button is called "Show password" and "Hide password".
+
+<!-- ::preview item="password-input-labels" height="360" combinations="react/kirana" -->
+
 ### Controlled
 
 Hold whether the password can be read with `visible` and `onVisibleChange`: here a checkbox shows it as well as the button.
@@ -82,11 +88,12 @@ The whole field: `PasswordInputRoot` holding a `PasswordInputInput` and a `Passw
 | `onVisibleChange` | `(visible: boolean, details: ChangeDetails) => void` | -       | Called as the password is about to be shown or hidden.             |
 | `onValueChange`   | `(value: string, details: ChangeDetails) => void`    | -       | Called with what is typed, each time it changes.                   |
 | `disabled`        | `boolean`                                            | `false` | Whether nothing can be typed and the button cannot be pressed.     |
+| `toggleLabels`    | `{ show?: string; hide?: string }`                   | -       | What the button is called: "Show password" and "Hide password".    |
 | `sx`              | `Sx`                                                 | -       | Styles merged with the field's own (the root draws the field).     |
 
 ### PasswordInputRoot
 
-The field: its border, fill, corners and focus ring, around the input and the toggle. It takes the same own props as `PasswordInput` (`visible`, `defaultVisible`, `onVisibleChange`, `onValueChange`, `disabled`) and `children`.
+The field: its border, fill, corners and focus ring, around the input and the toggle. It takes the same own props as `PasswordInput` (`visible`, `defaultVisible`, `onVisibleChange`, `onValueChange`, `disabled`, `toggleLabels`) and `children`.
 
 | Prop | Type | Default | Description                         |
 | ---- | ---- | ------- | ----------------------------------- |
@@ -102,7 +109,7 @@ The `<input>`: a password, or text while it is shown. It takes what an `<input>`
 
 ### PasswordInputToggle
 
-The show/hide button, a ghost icon button at the field's inline end. It names itself "Show password" or "Hide password" and says whether it is pressed.
+The show/hide button, a ghost icon button at the field's inline end. It names itself "Show password" or "Hide password", or as the root's `toggleLabels` say, and an `aria-label` given to it wins over both. Its name is how its state is told: it is a plain button, with no `aria-pressed`, and it has `data-visible` while the password can be read.
 
 | Prop       | Type        | Default                    | Description                          |
 | ---------- | ----------- | -------------------------- | ------------------------------------ |

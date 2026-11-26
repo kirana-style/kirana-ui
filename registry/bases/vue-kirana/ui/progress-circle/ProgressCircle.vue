@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue"
 import { Progress } from "@kirana-ui/vue/progress"
 import { useSx } from "@kirana-style/core/vue"
 
@@ -30,27 +29,15 @@ const {
   size?: ProgressCircleVariants["size"]
 }>()
 const { sx, attrs } = useSx()
-
-/** The value's share of the range, from 0 to 1, or `undefined` while it is not known. */
-const share = computed(() => {
-  const low = min ?? 0
-  const high = max ?? 100
-  if (value === null || high <= low) return undefined
-  return Math.min(1, Math.max(0, (value - low) / (high - low)))
-})
 </script>
 
 <template>
-  <!-- The value's share of the range, which the arc is drawn from. -->
   <Progress.Root
     data-slot="progress-circle"
     :data-size="size"
     :value="value"
     :min="min"
     :max="max"
-    :style="
-      share === undefined ? undefined : { '--progress-circle-value': share }
-    "
     v-bind="attrs"
     :sx="[progressCircleParts.scope, progressCircle({ size }), sx]"
   >

@@ -235,7 +235,7 @@ the error is ignored and the first tools, on the first bridge, stay.
 
 ## What was not run here
 
-The code on this page was type-checked with `@kirana-ui/react` 0.4.0, and run in Chromium with a
+The code on this page was type-checked with `@kirana-ui/react` 0.4.1, and run in Chromium with a
 stand-in for `document.modelContext`: the three tools were registered with the hints above,
 `snapshot` returned what is shown above, `act` turned the switch on, the press was refused by
 `registerTools`'s `allow`, and the removal aborted the signal all three were registered with. It was not run against a browser's own agent.

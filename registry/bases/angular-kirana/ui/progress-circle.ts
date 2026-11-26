@@ -1,4 +1,4 @@
-import { Component, Directive, computed, inject, input } from "@angular/core"
+import { Component, Directive, computed, input } from "@angular/core"
 import { KpProgress, KpProgressValue } from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
@@ -85,8 +85,6 @@ class ProgressCircleLabel {
   host: {
     "data-slot": "progress-circle",
     "[attr.data-size]": "size()",
-    // The value's share of the range, which the arc is drawn from.
-    "[style.--progress-circle-value]": "share()",
     "[class]": "part().class",
     "[style]": "part().style",
   },
@@ -102,15 +100,6 @@ class ProgressCircle {
   readonly size = input<ProgressCircleVariants["size"]>("default")
   readonly sx = input<SxInput>()
   protected readonly svg = progressCircleParts.svg
-  private readonly progress = inject(KpProgress)
-  /** The value's share of the range, from 0 to 1, or `null` while it is not known. */
-  protected readonly share = computed(() => {
-    const value = this.progress.value()
-    const min = this.progress.min() ?? 0
-    const max = this.progress.max() ?? 100
-    if (value === null || max <= min) return null
-    return Math.min(1, Math.max(0, (value - min) / (max - min)))
-  })
   protected readonly part = computed(() =>
     partSx(
       [progressCircleParts.scope, progressCircle({ size: this.size() })],

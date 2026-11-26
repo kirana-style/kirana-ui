@@ -37,11 +37,13 @@ type PasswordInputOwnProps = Pick<
   | "onVisibleChange"
   | "onValueChange"
   | "disabled"
+  | "toggleLabels"
 >
 
 /**
  * The whole field: the input and its show/hide button. Its props are the input's (`id`, `name`,
- * `placeholder`, `autoComplete` …) and the root's own; `sx` styles the field, as the root draws it.
+ * `placeholder`, `autoComplete` …) and the root's own, `toggleLabels` (`{ show, hide }`) among them,
+ * what the show/hide button is called; `sx` styles the field, as the root draws it.
  */
 function PasswordInput({
   sx,
@@ -50,6 +52,7 @@ function PasswordInput({
   onVisibleChange,
   onValueChange,
   disabled,
+  toggleLabels,
   ...props
 }: Omit<InputProps, "sx" | "disabled"> & PasswordInputOwnProps & { sx?: Sx }) {
   return (
@@ -59,6 +62,7 @@ function PasswordInput({
       onVisibleChange={onVisibleChange}
       onValueChange={onValueChange}
       disabled={disabled}
+      toggleLabels={toggleLabels}
       sx={sx}
     >
       <PasswordInputInput {...props} />

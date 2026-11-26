@@ -5,11 +5,11 @@
  * (`theme.muted`) and over it an arc in the primary colour, and whatever the root is given sits in
  * the middle (a label, the written value in tabular figures).
  *
- * The arc's length is the value's share of the range, which the root writes as
- * `--progress-circle-value` (0 to 1): each ring is measured as 100 (`pathLength`), so the arc is a
- * dash of 100 pushed back by what is left of the range. The dashes are written in `px`, the SVG's
- * own units, which `pathLength` scales: Firefox drops a dash offset written as a bare `calc()`
- * number. The arc starts at the top and runs clockwise, and the other way in a right-to-left page,
+ * The arc's length is the value's share of the range, which the primitive's root writes as
+ * `--progress-value` (0 to 1, absent while the value is not known) and every part inherits. Each
+ * ring is measured as 100 (`pathLength`), so the arc is a dash of 100 pushed back by what is left
+ * of the range. The dashes are written in `px`, the SVG's own units, which `pathLength` scales:
+ * Firefox drops a dash offset written as a bare `calc()` number. The arc starts at the top and runs clockwise, and the other way in a right-to-left page,
  * where the linear progress fills from the right. While the value is not known (the primitive's
  * `data-indeterminate` on the root) a quarter of the ring spins, and stands still without motion
  * (`prefers-reduced-motion: reduce`).
@@ -48,8 +48,8 @@ const REDUCED = "@media (prefers-reduced-motion: reduce)"
 
 /** The ring's thickness, set on the root by its size. */
 const THICKNESS = "var(--progress-circle-thickness)"
-/** The value's share of the range, 0 to 1, written on the root by the part. */
-const VALUE = "var(--progress-circle-value, 0)"
+/** The value's share of the range, 0 to 1, written on the root by the primitive. */
+const VALUE = "var(--progress-value, 0)"
 
 const spin = keyframes({ to: { transform: "rotate(360deg)" } })
 

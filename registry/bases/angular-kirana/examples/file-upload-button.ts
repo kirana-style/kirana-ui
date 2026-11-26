@@ -6,7 +6,6 @@ import { page } from "../../../styles/page.styles"
 import { IconPlaceholder } from "../../../icons/angular"
 import {
   FileUpload,
-  FileUploadDropzone,
   FileUploadList,
   FileUploadTrigger,
 } from "../ui/file-upload"
@@ -19,7 +18,6 @@ const styles = {
   selector: "file-upload-button",
   imports: [
     FileUpload,
-    FileUploadDropzone,
     FileUploadList,
     FileUploadTrigger,
     IconPlaceholder,
@@ -28,8 +26,6 @@ const styles = {
   template: `
     <div [sx]="page.example">
       <div kuiFileUpload [accept]="'.pdf,.doc,.docx'" [sx]="styles.upload">
-        <!-- PF-079: the file input is drawn by the dropzone, so a button-only upload keeps one, hidden. -->
-        <div kuiFileUploadDropzone hidden></div>
         <button kuiFileUploadTrigger>
           <svg
             iconPlaceholder

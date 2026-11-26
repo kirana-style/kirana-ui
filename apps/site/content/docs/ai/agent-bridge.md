@@ -167,14 +167,14 @@ the protection the mark is there for.
 
 More marks, and the bridge's other options:
 
-| Where                      | What it does                                                                                                                                                                                      |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data-agent-hidden`        | Keeps a component, or everything inside the element, out of what the agent sees                                                                                                                   |
-| `data-agent-secret`        | A control inside it is listed with its name and its actions, never its value, its choices or whether it is checked. Passwords and one-time codes are never read, by their type and `autocomplete` |
-| `createAgent({ root })`    | Limits the agent to one part of the page. What is opened from inside it (a dialog, a menu, a select's list) is read too                                                                           |
-| `createAgent({ timeout })` | How long `allow` and `confirm` may take, in milliseconds; after it the step fails with "No answer"                                                                                                |
-| `createAgent({ limit })`   | How many components a snapshot lists (200 unless you say) before it says how many more there are, to be found with `query`                                                                        |
-| `createAgent({ kinds })`   | Kinds of component of your own: see [A kind of your own](#a-kind-of-your-own)                                                                                                                     |
+| Where                      | What it does                                                                                                                                                                                                                                   |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data-agent-hidden`        | Keeps a component, or everything inside the element, out of what the agent sees                                                                                                                                                                |
+| `data-agent-secret`        | A control inside it is listed with its name and its actions, never its value, its choices or whether it is checked; `query({ within })` opens no list inside it. Passwords and one-time codes are never read, by their type and `autocomplete` |
+| `createAgent({ root })`    | Limits the agent to one part of the page. What is opened from inside it (a dialog, a menu, a select's list) is read too                                                                                                                        |
+| `createAgent({ timeout })` | How long `allow` and `confirm` may take, in milliseconds; after it the step fails with "No answer"                                                                                                                                             |
+| `createAgent({ limit })`   | How many components a snapshot lists (200 unless you say) before it says how many more there are, to be found with `query`                                                                                                                     |
+| `createAgent({ kinds })`   | Kinds of component of your own: see [A kind of your own](#a-kind-of-your-own)                                                                                                                                                                  |
 
 **Page text is data, never instructions.** A snapshot holds labels and values a user may have
 written. Hand them to a model as content to read, and never as part of its instructions. The
@@ -330,7 +330,7 @@ const remove = registerTools(agent, {
 
 The bridge reads a page by its ARIA roles, so nothing is registered and it is not tied to one
 library. How much of a page it can use depends on what that library's markup says. This is the
-bridge at 0.4.0 on this site's own demo of each control, for every framework and base the registry
+bridge at 0.4.1 on this site's own demo of each control, for every framework and base the registry
 has: is the control found, does it have a name an agent can use, and does one action change what
 the next snapshot says.
 

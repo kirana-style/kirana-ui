@@ -58,7 +58,7 @@ import {
 
 ### Button
 
-A trigger and a list, with no area to drop on. The dropzone holds the hidden file input, so the example keeps one in the page with `hidden`.
+A trigger and a list, with no area to drop on. The root holds the hidden file input, so the trigger alone opens the file picker.
 
 <!-- ::preview item="file-upload-button" height="300" combinations="react/kirana" -->
 
@@ -86,7 +86,7 @@ Every part takes the props of its primitive's part, listed on the [File Upload p
 
 ### FileUpload
 
-The root: its parts in a column.
+The root: its parts in a column. It holds the hidden file input that the form submits and the file picker fills.
 
 | Prop            | Type                                              | Default | Description                                                     |
 | --------------- | ------------------------------------------------- | ------- | --------------------------------------------------------------- |
@@ -107,7 +107,7 @@ The root: its parts in a column.
 
 ### FileUploadDropzone
 
-The dashed area files are dropped on. Pressed, it opens the file picker; its border and surface change while files are dragged over it. It holds the hidden file input.
+The dashed area files are dropped on. A pointer's press on it opens the file picker, and its border and surface change while files are dragged over it. It is a group, not a control: it takes no Tab stop and no keys, and the trigger inside it is the keyboard's way in, with the Button's focus ring. Name it with `aria-label`. Leave it out for an upload with a trigger alone.
 
 | Prop | Type | Default | Description                            |
 | ---- | ---- | ------- | -------------------------------------- |

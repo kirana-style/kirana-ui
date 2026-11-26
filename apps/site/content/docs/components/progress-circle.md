@@ -12,7 +12,7 @@ keywords:
 
 <!-- ::preview item="progress-circle-demo" height="360" combinations="react/kirana" -->
 
-Progress Circle is built on the [Progress primitive](/docs/primitives/components/progress) of Kirana UI Primitives, so its role, its value and the attributes it writes are the primitive's. It draws a ring in the track's colour and over it an arc in the primary colour, as long as the value's share of the range, starting at the top and running clockwise (the other way in a right-to-left page). What it is given is drawn in the middle.
+Progress Circle is built on the [Progress primitive](/docs/primitives/components/progress) of Kirana UI Primitives, so its role, its value and the attributes it writes are the primitive's. It draws a ring in the track's colour and over it an arc in the primary colour, as long as the value's share of the range, which the primitive's root writes as `--progress-value` (0 to 1), starting at the top and running clockwise (the other way in a right-to-left page). What it is given is drawn in the middle.
 
 ## Installation
 
@@ -83,7 +83,7 @@ The whole range: a ring in the progress track's colour. `ProgressCircle` draws i
 
 ### ProgressCircleIndicator
 
-The filled part: an arc in the primary colour, as long as the value's share of the range. `ProgressCircle` draws it.
+The filled part: an arc in the primary colour, as long as the value's share of the range. Its length is read from `--progress-value`, which the root writes and every part inherits, so a part of your own can read it too. `ProgressCircle` draws it.
 
 | Prop | Type | Default | Description                       |
 | ---- | ---- | ------- | --------------------------------- |

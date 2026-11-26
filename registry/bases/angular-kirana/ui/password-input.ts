@@ -1,15 +1,11 @@
 import {
   Component,
-  DestroyRef,
   Directive,
-  ElementRef,
-  afterNextRender,
   booleanAttribute,
   computed,
   inject,
   input,
   numberAttribute,
-  signal,
 } from "@angular/core"
 import {
   KpPasswordInput,
@@ -29,27 +25,8 @@ import { passwordInput } from "../../../styles/password-input.styles"
 /** The root's inputs and outputs each part hosting Kirana UI's password input exposes. */
 const ROOT = {
   directive: KpPasswordInput,
-  inputs: ["visible", "defaultVisible", "disabled"],
+  inputs: ["visible", "defaultVisible", "disabled", "toggleLabels"],
   outputs: ["visibleChange", "visibleChanged", "valueChanged"],
-}
-
-/**
- * Whether the host carries a state attribute Kirana UI writes on it (`data-visible`), read off the
- * element: Angular's parts give a template no state to draw from, where React's `render` and Vue's
- * slot do (PF-080).
- */
-function hostFlag(name: string) {
-  const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement
-  const flag = signal(false)
-  const destroy = inject(DestroyRef)
-  afterNextRender(() => {
-    const read = () => flag.set(element.hasAttribute(name))
-    read()
-    const observer = new MutationObserver(read)
-    observer.observe(element, { attributes: true, attributeFilter: [name] })
-    destroy.onDestroy(() => observer.disconnect())
-  })
-  return flag.asReadonly()
 }
 
 /**
@@ -91,7 +68,10 @@ function hostFlag(name: string) {
 })
 class PasswordInputIndicator {
   readonly sx = input<SxInput>()
-  protected readonly visible = hostFlag("data-visible")
+  private readonly indicator = inject(KpPasswordInputIndicator, { self: true })
+  protected readonly visible = computed(
+    () => this.indicator.state().visible === true
+  )
   protected readonly part = computed(() =>
     partSx(passwordInput.indicator, this.sx())
   )
@@ -155,7 +135,8 @@ class PasswordInputInput {
 /**
  * The field's root, around its input and toggle: `<div kuiPasswordInputRoot>`, on Kirana UI's
  * password input (`KpPasswordInput`), its `[(visible)]`, `defaultVisible` and `disabled` the
- * primitive's, `(visibleChanged)` and `(valueChanged)` its changes with their details.
+ * primitive's, `toggleLabels` (`{ show, hide }`) what the toggle is called, `(visibleChanged)` and
+ * `(valueChanged)` its changes with their details.
  */
 @Directive({
   selector: "[kuiPasswordInputRoot]",

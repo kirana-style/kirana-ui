@@ -31,24 +31,14 @@
     children?: Snippet
     [attribute: string]: unknown
   } = $props()
-
-  /** The value's share of the range, from 0 to 1, or `undefined` while it is not known. */
-  const share = $derived.by(() => {
-    const low = min ?? 0
-    const high = max ?? 100
-    if (value === null || high <= low) return undefined
-    return Math.min(1, Math.max(0, (value - low) / (high - low)))
-  })
 </script>
 
-<!-- The value's share of the range, which the arc is drawn from. -->
 <Progress.Root
   data-slot="progress-circle"
   data-size={size}
   {value}
   {min}
   {max}
-  style={share === undefined ? undefined : `--progress-circle-value: ${share}`}
   {...rest}
   sx={[progressCircleParts.scope, progressCircle({ size }), className as Sx]}
 >
