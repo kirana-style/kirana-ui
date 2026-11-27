@@ -7,7 +7,7 @@ import registryCss from "@/styles/registry.css?url"
 /** `/create`: the full editor of the site's design, and the project it starts. */
 export const Route = createFileRoute("/create")({
   head: () => ({
-    meta: [{ title: "Create · kirana/ui" }],
+    meta: [{ title: "Create · Kirana UI" }],
     links: [{ rel: "stylesheet", href: registryCss }],
   }),
   component: Create,

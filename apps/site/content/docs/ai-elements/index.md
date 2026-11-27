@@ -1,6 +1,6 @@
 ---
 title: AI Elements
-description: Patterns for agentic interfaces, built from kirana/ui's components.
+description: Patterns for agentic interfaces, built from Kirana UI's components.
 section: ai-elements
 order: 0
 keywords: [ai elements, patterns, agent, chat, ai sdk, trace]
@@ -8,7 +8,7 @@ keywords: [ai elements, patterns, agent, chat, ai sdk, trace]
 
 # AI Elements
 
-AI Elements are patterns for building agentic interfaces. Each one is a composition of kirana/ui's components that you copy into your project. There is no package to install. The code is yours.
+AI Elements are patterns for building agentic interfaces. Each one is a composition of Kirana UI's components that you copy into your project. There is no package to install. The code is yours.
 
 A [Chat](/docs/ai-elements/chat) is a list of [Message](/docs/ai-elements/message) turns inside a [Message Scroller](/docs/components/message-scroller). The steps an agent takes inside a turn, like [Reasoning](/docs/ai-elements/reasoning), [Tool](/docs/ai-elements/tool) and [Plan](/docs/ai-elements/plan), are built on [Trace](/docs/components/trace), so every step has the same shape.
 
@@ -28,7 +28,7 @@ If you used AI SDK Elements from [elements.ai-sdk.dev](https://elements.ai-sdk.d
 
 You do not need to migrate. When you installed components from elements.ai-sdk.dev, the code was copied into your project. It is yours, and it keeps working as is.
 
-To move a wrapper onto kirana/ui's components, use the prompt in the **Migrating from AI SDK Elements** section of its pattern page. Paste it into your coding agent. It rebuilds the file in `components/ai-elements` on Trace, Code Block and the other components, and keeps every export and its props, so the code that uses it does not change.
+To move a wrapper onto Kirana UI's components, use the prompt in the **Migrating from AI SDK Elements** section of its pattern page. Paste it into your coding agent. It rebuilds the file in `components/ai-elements` on Trace, Code Block and the other components, and keeps every export and its props, so the code that uses it does not change.
 
 For example, the [Queue](/docs/ai-elements/queue#migrating-from-ai-sdk-elements) prompt rebuilds `queue.tsx` on Trace, and the [Inline Citation](/docs/ai-elements/inline-citation#migrating-from-ai-sdk-elements) prompt rebuilds `inline-citation.tsx` on Hover Card.
 
@@ -36,7 +36,7 @@ For example, the [Queue](/docs/ai-elements/queue#migrating-from-ai-sdk-elements)
 
 Each file from AI SDK Elements, and the pattern or component that replaces it.
 
-| AI SDK Elements        | kirana/ui                                              |
+| AI SDK Elements        | Kirana UI                                              |
 | ---------------------- | ------------------------------------------------------ |
 | `agent.tsx`            | [Subagent](/docs/ai-elements/subagent)                 |
 | `attachments.tsx`      | [Attachment](/docs/components/attachment)              |
@@ -67,7 +67,7 @@ Each file from AI SDK Elements, and the pattern or component that replaces it.
 
 ### Elements without a replacement
 
-shadcn/ui did not rebuild these elements: each one is used little, and each is a small composition of components kirana/ui already has, listed below. Your copy keeps working.
+shadcn/ui did not rebuild these elements: each one is used little, and each is a small composition of components Kirana UI already has, listed below. Your copy keeps working.
 
 | AI SDK Elements                                                                                       | Build it with                                                                                                              |
 | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -90,7 +90,7 @@ shadcn/ui did not rebuild these elements: each one is used little, and each is a
 
 ### New projects
 
-Build from kirana/ui's components instead.
+Build from Kirana UI's components instead.
 
 <!-- ::start:steps -->
 

@@ -20,7 +20,7 @@ keywords:
 
 # Introduction
 
-kirana/ui is shadcn/ui's design system on your framework and your headless
+Kirana UI is shadcn/ui's design system on your framework and your headless
 library: React, Vue, Svelte, Solid or Angular, on the library you already use or
 on Kirana UI Primitives, the family's own. Each component's look is written once,
 as typed styles that [Kirana](https://kirana.style) compiles into one plain

@@ -10,14 +10,14 @@ import { Card, CardGrid } from "@/components/page/cards"
 import { Accent, Page, PageHero, PageSection } from "@/components/page/page"
 import registryCss from "@/styles/registry.css?url"
 
-/** `/partners`, as the Kirana site's: the services kirana/ui is built and served on. */
+/** `/partners`, as the Kirana site's: the services Kirana UI is built and served on. */
 export const Route = createFileRoute("/partners")({
   head: () => ({
     meta: [
-      { title: "Partners · kirana/ui" },
+      { title: "Partners · Kirana UI" },
       {
         name: "description",
-        content: "The services kirana/ui is built and served on.",
+        content: "The services Kirana UI is built and served on.",
       },
     ],
     links: [{ rel: "stylesheet", href: registryCss }],
@@ -35,7 +35,7 @@ function Partners() {
             The services it <Accent>runs on.</Accent>
           </>
         }
-        lede="kirana/ui runs on the same services as Kirana. Kirana's partners, and how to become one, are on its own page."
+        lede="Kirana UI runs on the same services as Kirana. Kirana's partners, and how to become one, are on its own page."
         actions={
           <SecondaryCta
             render={

@@ -406,6 +406,6 @@ And the selection's count:
 
 ## RTL
 
-To enable RTL support in kirana/ui, see the [RTL configuration guide](/docs/design-system/rtl).
+To enable RTL support in Kirana UI, see the [RTL configuration guide](/docs/design-system/rtl).
 
 <!-- ::preview item="data-table-rtl" height="460" combinations="svelte/uisdk" direction="rtl" -->

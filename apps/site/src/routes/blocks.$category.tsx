@@ -17,7 +17,7 @@ export const Route = createFileRoute("/blocks/$category")({
   },
   head: ({ loaderData }) => ({
     meta: loaderData
-      ? [{ title: `${loaderData.category.name} Blocks · kirana/ui` }]
+      ? [{ title: `${loaderData.category.name} Blocks · Kirana UI` }]
       : [],
   }),
   component: Category,

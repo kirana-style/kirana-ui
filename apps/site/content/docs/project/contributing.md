@@ -1,6 +1,6 @@
 ---
 title: Contributing
-description: Report a bug, port a component or a block, or fix a page, in kirana/ui's repository.
+description: Report a bug, port a component or a block, or fix a page, in Kirana UI's repository.
 section: project
 order: 1
 keywords: [contributing, issues, pull request, port, conformance]
@@ -8,7 +8,7 @@ keywords: [contributing, issues, pull request, port, conformance]
 
 # Contributing
 
-kirana/ui is built in the open, in
+Kirana UI is built in the open, in
 [kirana-style/kirana-ui](https://github.com/kirana-style/kirana-ui). Issues and pull requests are
 welcome there.
 

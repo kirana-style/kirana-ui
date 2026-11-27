@@ -137,7 +137,7 @@ export function SiteDocsProvider({ children }: { children: React.ReactNode }) {
       })
     },
     siteUrl: "https://ui.kirana.style",
-    siteName: "kirana/ui",
+    siteName: "Kirana UI",
     // An item's preview page for a combination, Base UI's by default; it reads the reader's design
     // from the cookie, and takes a change from the customizer by message.
     // The reader's framework, where pages differ by it (U-025's navigation): Components and AI

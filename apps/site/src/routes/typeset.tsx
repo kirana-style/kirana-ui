@@ -10,7 +10,7 @@ import registryCss from "@/styles/registry.css?url"
 export const Route = createFileRoute("/typeset")({
   head: () => ({
     meta: [
-      { title: "Typeset · kirana/ui" },
+      { title: "Typeset · Kirana UI" },
       {
         name: "description",
         content:

@@ -265,9 +265,9 @@ await generate({
   },
   site: {
     url: "https://ui.kirana.style",
-    fullTitle: "kirana/ui documentation",
+    fullTitle: "Kirana UI documentation",
     llms: [
-      "# kirana/ui",
+      "# Kirana UI",
       "",
       "> shadcn/ui's components, blocks and styles, rebuilt on Kirana's compiled styles and",
       "> installed into your own project with `kirana-style ui` or shadcn/ui's CLI.",

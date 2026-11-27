@@ -177,7 +177,7 @@ If you added Stack Trace from [AI SDK Elements](https://elements.ai-sdk.dev), yo
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/stack-trace.tsx from AI SDK Elements to kirana/ui's Trace component.
+Migrate components/ai-elements/stack-trace.tsx from AI SDK Elements to Kirana UI's Trace component.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 
@@ -200,7 +200,7 @@ Keep every export, with the same name and props, so the code that imports it kee
 <!-- ::start:only react/aria -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/stack-trace.tsx from AI SDK Elements to kirana/ui's Trace component.
+Migrate components/ai-elements/stack-trace.tsx from AI SDK Elements to Kirana UI's Trace component.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 

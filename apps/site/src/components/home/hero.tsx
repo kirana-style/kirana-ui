@@ -147,7 +147,7 @@ const styles = {
 }
 
 /**
- * One engine, as the Kirana site's drawings: kirana/ui's engine on top, the frameworks in a row
+ * One engine, as the Kirana site's drawings: Kirana UI's engine on top, the frameworks in a row
  * under it, a wire fanning down to each.
  */
 function Art() {
@@ -165,7 +165,7 @@ function Art() {
         sx={styles.artScene}
       >
         <At x={50} y={24}>
-          <Tile mark primary size={50} caption="kirana ui" title="kirana/ui" />
+          <Tile mark primary size={50} caption="kirana ui" title="Kirana UI" />
         </At>
         {FRAMEWORKS.map((brand, index) => (
           <At key={brand.title} x={XS[index]!} y={82}>

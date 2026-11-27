@@ -51,8 +51,8 @@ export function ObservabilityCard() {
       <div sx={styles.div} />
       <img
         src="/scenes/highlands-800.webp"
-        alt="The highlands at sunrise, from kirana/ui\'s scenery"
-        title="The highlands at sunrise, from kirana/ui\'s scenery"
+        alt="The highlands at sunrise, from Kirana UI\'s scenery"
+        title="The highlands at sunrise, from Kirana UI\'s scenery"
         sx={styles.img}
       />
       <CardHeader>

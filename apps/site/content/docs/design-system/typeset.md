@@ -47,7 +47,7 @@ export function Article({ html }: { html: string }) {
 ```
 
 The `typeset` layer has to come before Kirana's rules. A project set up with
-`kirana-style ui init` spreads kirana/ui's `installConfig`, which lists it:
+`kirana-style ui init` spreads Kirana UI's `installConfig`, which lists it:
 `layers: { before: ["reset", "typeset"] }` in `kirana.config.ts`.
 
 ## Rhythm
@@ -124,7 +124,7 @@ inside the container wins, with nothing else to do:
 ## Keeping a component out
 
 A component inside the container keeps its own styles: anything with a
-`data-slot`, which every kirana/ui component writes, is left alone, and gets only
+`data-slot`, which every Kirana UI component writes, is left alone, and gets only
 the space above it a paragraph would. To keep anything else out, give it
 `data-not-typeset` (or the `not-typeset` class); it covers the element and
 everything inside it.

@@ -76,8 +76,8 @@ export const Route = createFileRoute("/docs/$")({
       meta: [
         {
           title: variant
-            ? `${meta.title} for ${variant.name} · kirana/ui`
-            : `${meta.title} · kirana/ui`,
+            ? `${meta.title} for ${variant.name} · Kirana UI`
+            : `${meta.title} · Kirana UI`,
         },
         {
           name: "description",

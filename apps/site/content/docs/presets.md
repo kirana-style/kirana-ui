@@ -17,7 +17,7 @@ k0          the default: Nova, Neutral, Inter, Lucide, Base UI on React
 klmNKQS     Lyra on Stone, the blue theme, square corners
 ```
 
-kirana/ui writes `k` codes. It also reads shadcn/ui's own `a` and `b` codes, so a
+Kirana UI writes `k` codes. It also reads shadcn/ui's own `a` and `b` codes, so a
 preset made on shadcn/ui's site opens here as it looks there, with React on Base UI
 for the framework and base those codes do not hold.
 

@@ -12,15 +12,15 @@ import { Card, CardGrid } from "@/components/page/cards"
 import { Accent, Page, PageHero, PageSection } from "@/components/page/page"
 import registryCss from "@/styles/registry.css?url"
 
-/** `/open-source`, as the Kirana site's: why kirana/ui is free, and how to take part. */
+/** `/open-source`, as the Kirana site's: why Kirana UI is free, and how to take part. */
 export const Route = createFileRoute("/open-source")({
   head: () => ({
     meta: [
-      { title: "Open source · kirana/ui" },
+      { title: "Open source · Kirana UI" },
       {
         name: "description",
         content:
-          "Why kirana/ui is MIT licensed, what it owes shadcn/ui, and how to take part.",
+          "Why Kirana UI is MIT licensed, what it owes shadcn/ui, and how to take part.",
       },
     ],
     links: [{ rel: "stylesheet", href: registryCss }],
@@ -38,7 +38,7 @@ function OpenSource() {
             Built in the open, <Accent>kept free.</Accent>
           </>
         }
-        lede="kirana/ui is MIT licensed and built in public, part of Kirana. Every component you install is a file in your project, yours to change."
+        lede="Kirana UI is MIT licensed and built in public, part of Kirana. Every component you install is a file in your project, yours to change."
       />
       <PageSection number="01" label="Principles" title="Four principles">
         <CardGrid cols={4}>
@@ -70,10 +70,10 @@ function OpenSource() {
             Report a bug, port a component or a block, fix a page.
           </Card>
           <Card icon={FavouriteIcon} title="Sponsor" href="/sponsor">
-            Support Kirana, and kirana/ui with it.
+            Support Kirana, and Kirana UI with it.
           </Card>
           <Card icon={JusticeScale01Icon} title="The licence" href="/license">
-            MIT, and what kirana/ui builds on.
+            MIT, and what Kirana UI builds on.
           </Card>
         </CardGrid>
       </PageSection>

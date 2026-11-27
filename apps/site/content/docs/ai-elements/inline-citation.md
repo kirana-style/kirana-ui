@@ -135,7 +135,7 @@ If you added Inline Citation from [AI SDK Elements](https://elements.ai-sdk.dev)
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/inline-citation.tsx from AI SDK Elements to kirana/ui's Hover Card and Button components.
+Migrate components/ai-elements/inline-citation.tsx from AI SDK Elements to Kirana UI's Hover Card and Button components.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 
@@ -156,7 +156,7 @@ Keep every export, with the same name and props, so the code that imports it kee
 <!-- ::start:only react/aria -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/inline-citation.tsx from AI SDK Elements to kirana/ui's Hover Card and Button components.
+Migrate components/ai-elements/inline-citation.tsx from AI SDK Elements to Kirana UI's Hover Card and Button components.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 

@@ -9,7 +9,7 @@ import registryCss from "@/styles/registry.css?url"
 
 /**
  * The home page: the hero as the Kirana site's (the claim, Create and Get started, the scene with
- * what kirana/ui is made of), what an agent does with it (`home/agents.tsx`), the showcase of cards in the reader's design, and the footer, in the
+ * what Kirana UI is made of), what an agent does with it (`home/agents.tsx`), the showcase of cards in the reader's design, and the footer, in the
  * heritage street and its terracotta.
  */
 export const Route = createFileRoute("/")({

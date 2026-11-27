@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Start a project with kirana/ui's design system, or add it to one you have, with kirana-style ui.
+description: Start a project with Kirana UI's design system, or add it to one you have, with kirana-style ui.
 section: start
 order: 2
 keywords:
@@ -36,7 +36,7 @@ keywords:
 
 # Installation
 
-kirana/ui installs with `kirana-style ui`, Kirana's registry client. It sets Kirana
+Kirana UI installs with `kirana-style ui`, Kirana's registry client. It sets Kirana
 up where a project lacks it, installs the design system and wires it in, and then
 copies each component you add into your project.
 
@@ -88,7 +88,7 @@ as they are, with their `build` script alone:
 <!-- ::install run="@kirana-style/registry init --template vite-react my-app --preset k0" -->
 
 > [!NOTE] Before the launch
-> `kirana-style ui` looks for kirana/ui's registry at `ui.kirana.style`, which is
+> `kirana-style ui` looks for Kirana UI's registry at `ui.kirana.style`, which is
 > not attached yet. Until it is, name the registry where it is served today, once,
 > when you run `init`; the project keeps it:
 > `--registry @kirana=https://ui.kirana-style.workers.dev/r/{name}.json`.

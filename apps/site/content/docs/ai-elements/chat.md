@@ -110,7 +110,7 @@ If you added Conversation from [AI SDK Elements](https://elements.ai-sdk.dev), y
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/conversation.tsx from AI SDK Elements to kirana/ui's Message Scroller component.
+Migrate components/ai-elements/conversation.tsx from AI SDK Elements to Kirana UI's Message Scroller component.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 
@@ -132,7 +132,7 @@ Keep every export, with the same name and props, so the code that imports it kee
 <!-- ::start:only react/aria -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/conversation.tsx from AI SDK Elements to kirana/ui's Message Scroller component.
+Migrate components/ai-elements/conversation.tsx from AI SDK Elements to Kirana UI's Message Scroller component.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 

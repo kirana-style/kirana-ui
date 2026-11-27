@@ -55,7 +55,7 @@ This design keeps the API flexible and consistent across all methods. You'll see
 
 ## Anatomy
 
-Here's a basic example of a form using the `<Field />` component from Formisch and kirana/ui's `<Field />` component.
+Here's a basic example of a form using the `<Field />` component from Formisch and Kirana UI's `<Field />` component.
 
 ```tsx showLineNumbers {3-21}
 <Form of={form} onSubmit={handleSubmit}>
@@ -86,7 +86,7 @@ Here's a basic example of a form using the `<Field />` component from Formisch a
 ```
 
 > [!NOTE]
-> **Note:** Formisch ships its own `Field` component. To avoid a name clash with kirana/ui's `Field`, the examples below import the Formisch one as `FormischField` and keep kirana/ui's `Field` under its original name. In your own code you can alias either side — just be consistent.
+> **Note:** Formisch ships its own `Field` component. To avoid a name clash with Kirana UI's `Field`, the examples below import the Formisch one as `FormischField` and keep Kirana UI's `Field` under its original name. In your own code you can alias either side — just be consistent.
 
 ## Form
 
@@ -161,7 +161,7 @@ The `<Form />` component wraps a native `<form>` element. It calls `event.preven
 
 ### Build the form
 
-We can now build the form using the `<Field />` component from Formisch and kirana/ui's `<Field />` component.
+We can now build the form using the `<Field />` component from Formisch and Kirana UI's `<Field />` component.
 
 <!-- ::demo-source item="form-formisch-demo" title="form.tsx" combinations="react/kirana,react/base,react/aria,react/uisdk" -->
 

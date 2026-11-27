@@ -12,7 +12,7 @@ export const Route = createFileRoute("/charts/$type")({
     return { type, charts }
   },
   head: ({ loaderData }) => ({
-    meta: loaderData ? [{ title: `${loaderData.type.name} · kirana/ui` }] : [],
+    meta: loaderData ? [{ title: `${loaderData.type.name} · Kirana UI` }] : [],
   }),
   component: ChartType,
 })

@@ -47,7 +47,7 @@
 
 <Card sx={styles.card}>
   <div sx={styles.div}></div>
-  <img src={'/scenes/highlands-800.webp'} alt="The highlands at sunrise, from kirana/ui's scenery" title="The highlands at sunrise, from kirana/ui's scenery" sx={styles.img} />
+  <img src={'/scenes/highlands-800.webp'} alt="The highlands at sunrise, from Kirana UI's scenery" title="The highlands at sunrise, from Kirana UI's scenery" sx={styles.img} />
   <CardHeader>
     <CardTitle>
       Observability Plus is replacing Monitoring
