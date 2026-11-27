@@ -2,6 +2,7 @@
 import { Component } from "@angular/core"
 
 import { Example, ExampleWrapper } from "../components/example"
+import { example } from "../../../styles/example.styles"
 import TimelineDemo from "./timeline-demo"
 import TimelineActivity from "./timeline-activity"
 import TimelineAlternate from "./timeline-alternate"
@@ -30,7 +31,12 @@ import TimelineIcons from "./timeline-icons"
       <div kuiExample title="Alternate" data-showcase>
         <timeline-alternate />
       </div>
-      <div kuiExample title="Horizontal" data-showcase>
+      <div
+        kuiExample
+        title="Horizontal"
+        [containerSx]="example.fullRow"
+        data-showcase
+      >
         <timeline-horizontal />
       </div>
       <div kuiExample title="Icons" data-showcase>
@@ -39,4 +45,6 @@ import TimelineIcons from "./timeline-icons"
     </div>
   `,
 })
-export default class TimelineExample {}
+export default class TimelineExample {
+  protected readonly example = example
+}

@@ -19,6 +19,12 @@ it was, names included.
   its twin, whose header names it and links the others, and the shared URL has the default
   variant's twin, so a link to it in another twin reads a page. `DocsConfig.variants` and
   `checkVariants` (the app's check against its source of truth). A candidate for the Kirana copy.
+- `generate.ts`, the manifest (`content.gen.ts`): `PAGES` is written packed and unpacked where the
+  module loads. A variant source is one entry (what its pages share, then each page's variant,
+  URL and what only it has), and a group's pages read one `siblings` array. Written out, each
+  variant page repeated its source and listed every sibling: 4.7 MB of source for 1,620 pages,
+  in the chunk every page loads. `PAGES` itself is unchanged. A candidate for the Kirana copy
+  once it has variants.
 - `package.json`: no `test` script or coverage dependencies. The workspace's `vp run test` runs
   `test/`; `vitest.config.ts` (the coverage floor) is not copied.
 - `tsconfig.json`: no `vitest.config.ts` in `include`.

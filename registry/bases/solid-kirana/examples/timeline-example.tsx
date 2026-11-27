@@ -1,5 +1,6 @@
 /** Timeline's demos on one page, each in its frame; `data-showcase` lets a demo take its own size. */
 import { Example, ExampleWrapper } from "../components/example"
+import { example } from "../../../styles/example.styles"
 import TimelineDemo from "./timeline-demo"
 import TimelineActivity from "./timeline-activity"
 import TimelineAlternate from "./timeline-alternate"
@@ -18,7 +19,7 @@ export default function TimelineExample() {
       <Example title="Alternate" data-showcase>
         <TimelineAlternate />
       </Example>
-      <Example title="Horizontal" data-showcase>
+      <Example title="Horizontal" containerSx={example.fullRow} data-showcase>
         <TimelineHorizontal />
       </Example>
       <Example title="Icons" data-showcase>

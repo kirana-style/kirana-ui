@@ -245,6 +245,7 @@ function blockItem(name: string): Item {
 /** The icon placeholder's data: the map, and the libraries it loads when a design draws them. */
 const ICON_DATA = [
   "icons/data.ts",
+  "icons/hugeicons.ts",
   "icons/tabler.ts",
   "icons/phosphor.ts",
   "icons/remixicon.ts",

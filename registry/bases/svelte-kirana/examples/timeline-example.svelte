@@ -1,6 +1,7 @@
 <!-- Timeline's demos on one page, each in its frame; `data-showcase` lets a demo take its own size. -->
 <script lang="ts">
   import { Example, ExampleWrapper } from "../components/example"
+  import { example } from "../../../styles/example.styles"
   import TimelineDemo from "./timeline-demo.svelte"
   import TimelineActivity from "./timeline-activity.svelte"
   import TimelineAlternate from "./timeline-alternate.svelte"
@@ -18,7 +19,7 @@
   <Example title="Alternate" data-showcase>
     <TimelineAlternate />
   </Example>
-  <Example title="Horizontal" data-showcase>
+  <Example title="Horizontal" containerSx={example.fullRow} data-showcase>
     <TimelineHorizontal />
   </Example>
   <Example title="Icons" data-showcase>

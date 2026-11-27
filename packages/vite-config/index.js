@@ -78,14 +78,24 @@ export function defineAppConfig(options = {}) {
     build: {
       cssMinify: true,
       minify: true,
-      // Published beside the bundles, so a stack trace from the deployed site, and Lighthouse's
-      // look at the largest chunks, read the source. The code is open source anyway.
-      sourcemap: true,
+      // No source maps beside the bundles: each is a static file, and the Worker serves 20,000 at
+      // most (they were 1,689 of them). The code is open source; build with one to read a trace.
+      sourcemap: false,
       // Kirana's browser floor (Chrome 123, Safari 17.5, Firefox 120), the first versions with
       // `light-dark()`. Vite's default target is older, so its CSS minifier would rewrite
       // `light-dark()` in plain stylesheets into `--lightningcss-light/dark` switches that nothing
       // sets, and every colour written there would vanish in production only.
       cssTarget: ["chrome123", "safari17.5", "firefox120"],
+      rolldownOptions: {
+        treeshake: {
+          // A compiled style module keeps what its styles were written from as bare reads
+          // (`Base.Dialog.Popup.open;`), which a bundler keeps in case a getter has an effect, and
+          // with them every state vocabulary in each page's JavaScript. Nothing here reads a
+          // property for its effect. A workaround for KF-146: remove it, and `when`'s mark in
+          // `registry/core/states.ts`, with the Kirana release that drops those reads itself.
+          propertyReadSideEffects: /** @type {false} */ (false),
+        },
+      },
     },
   }))
 }

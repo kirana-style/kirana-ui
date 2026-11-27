@@ -119,6 +119,9 @@ export const timeline = {
     flex: { [ACROSS]: "1 1 0%" },
     columnGap: { base: space[3], [ACROSS]: "0" },
     rowGap: { [ACROSS]: space[3] },
+    // Across the page the items stretch to the tallest; its rows keep their own height at the
+    // top, or a shorter item's spare room would push its mark below the line.
+    alignContent: { [ACROSS]: "start" },
     gridTemplateColumns: {
       base: COLUMNS_DOWN,
       [ACROSS]: COLUMNS_ACROSS,

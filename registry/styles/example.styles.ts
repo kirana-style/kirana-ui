@@ -103,6 +103,8 @@ export const example = {
   }),
   // `items-center justify-center`, on the examples that hold one trigger (Dialog's).
   centred: css({ alignItems: "center", justifyContent: "center" }),
+  // An example that takes the whole row of the page's grid, for a demo that needs the width.
+  fullRow: css({ gridColumn: { [breakpoint.md]: "1 / -1" } }),
   // A row of the card: the width its `*:[div]:w-full` gave it.
   row: css({ width: "100%" }),
 }

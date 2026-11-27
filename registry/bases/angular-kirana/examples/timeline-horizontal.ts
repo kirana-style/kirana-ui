@@ -14,7 +14,7 @@ import {
 } from "../ui/timeline"
 
 const styles = {
-  timeline: css({ maxWidth: containerSize.xl }),
+  timeline: css({ maxWidth: containerSize["3xl"] }),
 }
 
 const PHASES = [
