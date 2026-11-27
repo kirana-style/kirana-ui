@@ -15,6 +15,7 @@
  * - for A2UI, the components an agent may compose a screen from (`registry/a2ui/manifest.ts`):
  *   `<out>/a2ui/manifest.json` and the A2UI v1.0 catalog `<out>/a2ui/catalog.json` (`a2ui.ts`).
  */
+import { shipped as asShipped } from "./comments"
 import { spawnSync } from "node:child_process"
 import {
   mkdirSync,
@@ -95,17 +96,6 @@ const shipped = new Map(
     return [combination.id, modules] as const
   })
 )
-
-const BASE_NAMES = {
-  base: "Base UI",
-  aria: "React Aria",
-  ark: "Ark UI",
-  ng: "ng-primitives",
-  reka: "Reka UI",
-  bits: "Bits UI",
-  uisdk: "ui-sdk",
-  kirana: "Kirana UI",
-} as const
 
 const started = performance.now()
 // In this order: the stand-in first, then Kirana's session, whose configuration loads the registry's
@@ -221,7 +211,8 @@ try {
           specifier: `./${owner.replace(/\.ts$/, "")}`,
           own: false,
         }),
-        header: `// ${module.replace(".styles.ts", "")}: the ${combination.style} style on ${BASE_NAMES[combination.base]}, flattened from Kirana UI's registry.`,
+        // No header: a project's file opens on its code (`comments.ts`).
+        header: "",
       }).code
       mkdirSync(join(dist, combination.id), { recursive: true })
       writeFileSync(join(dist, combination.id, module), code)
@@ -257,11 +248,16 @@ const versions = versionsFrom(ROOT)
 let itemCount = 0
 const index: { combinations: object[] } = { combinations: [] }
 for (const combination of COMBINATIONS) {
+  // As it ships: without the comments written for whoever maintains the registry.
   const contentOf = (source: string) => {
     const module = /^styles\/(.+\.styles\.ts)$/.exec(source)?.[1]
-    return module
-      ? flattened.get(`${combination.id}/${module}`)!
-      : readFileSync(join(REGISTRY, source), "utf8")
+    return asShipped(
+      source,
+      module
+        ? flattened.get(`${combination.id}/${module}`)!
+        : readFileSync(join(REGISTRY, source), "utf8"),
+      problems
+    )
   }
   const built = buildCombination(REGISTRY, combination, contentOf, versions)
   problems.push(...built.problems)

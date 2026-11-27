@@ -13,6 +13,8 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs"
 import { basename, dirname, join, relative } from "node:path"
 
+import { BASE_NAMES, JOURNEY } from "../packages/builder/src/comments"
+
 export type AuditChoices = {
   framework: string
   base: string
@@ -63,37 +65,9 @@ const ICON_PACKAGES: Record<string, RegExp> = {
   remixicon: /^(@remixicon\/|remixicon)/,
 }
 
-/**
- * A comment that tells the registry's own story, not the reader's code: a tracker's code, what
- * upstream wrote, the site or its builder, a Tailwind utility the line was ported from.
- */
-const JOURNEY: [what: string, pattern: RegExp][] = [
-  ["a tracker's code", /\b(KF|LF|PF|MC|CLI|U)-\d+\b|\bP\d{1,2}-\d+\w?\b/],
-  [
-    "upstream or the port",
-    /\bupstream\b|shadcn\/ui's|\bported\b|the Kirana site/,
-  ],
-  [
-    "the registry's own site or tools",
-    /\bthe (registry|site|builder|customizer|installer)\b|\bpreview (page|app)s?\b/,
-  ],
-  [
-    "a Tailwind utility",
-    /`[!-]?[a-z0-9-]+(\/\d+)?(:[a-z0-9[\]&>*=_"'-]+)+`|`\*:\[|`(dark|group|peer|has|data|aria)-?[\w[\]=/-]*:[^`]+`/,
-  ],
-]
-
-/** The names a comment gives the other headless libraries. */
-const BASE_NAMES: Record<string, RegExp> = {
-  base: /\bBase UI\b/,
-  aria: /\bReact Aria\b/,
-  ark: /\bArk UI\b/,
-  ng: /\bng-primitives\b/,
-  reka: /\bReka UI\b/,
-  bits: /\bBits UI\b/,
-  uisdk: /\bui-sdk\b/,
-  kirana: /\bKirana UI Primitives\b/,
-}
+/** Whether a line ends a block comment: a script's, or a template's (`-->`, and `--!>`). */
+const closes = (line: string) =>
+  line.includes("*/") || line.includes("-->") || line.includes("--!>")
 
 /** A file's comment lines: `//`, a block's lines, a JSX or template comment. */
 function commentLines(text: string): string[] {
@@ -101,10 +75,11 @@ function commentLines(text: string): string[] {
   let block = false
   for (const raw of text.split("\n")) {
     const line = raw.trim()
-    const opens = /^(\/\*|\{\/\*|<!--)/.test(line)
+    const opens =
+      line.startsWith("/*") || line.startsWith("{/*") || line.startsWith("<!--")
     if (block || opens || line.startsWith("//")) lines.push(line)
-    if (opens) block = !/(\*\/|-->)/.test(line)
-    else if (block && /(\*\/|-->)/.test(line)) block = false
+    if (opens) block = !closes(line)
+    else if (block && closes(line)) block = false
   }
   return lines
 }
@@ -285,7 +260,7 @@ export function audit(root: string, choices: AuditChoices): Finding[] {
       )
     // One finding per file and kind, with the first line that shows it and how many do.
     const comments = commentLines(text)
-    const kinds: [string, RegExp][] = [
+    const kinds: (readonly [string, RegExp])[] = [
       ...JOURNEY,
       ...Object.entries(BASE_NAMES)
         .filter(
@@ -393,7 +368,7 @@ export function audit(root: string, choices: AuditChoices): Finding[] {
  * The rules a finding of which fails an install today. The others are reported until the registry
  * is clean of them (each is a fault being fixed); a rule moves here in the change that clears it.
  */
-export const ENFORCED: readonly string[] = ["tooling", "leftover"]
+export const ENFORCED: readonly string[] = ["tooling", "leftover", "comments"]
 
 /** The findings as lines, grouped by rule; `limit` lines per rule, then a count. */
 export function report(findings: Finding[], limit = 12): string {

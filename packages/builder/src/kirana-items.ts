@@ -9,6 +9,7 @@
  * which installation rewrites to the project's alias for the type; two files installed in one folder
  * keep a relative import.
  */
+import { shipped } from "./comments"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
@@ -109,6 +110,7 @@ export function designOf(): KiranaDesign {
  * own; `ui init --all-designs` keeps every value, for a project with a theme switcher of its own.
  */
 function colourBuilds(
+  registry: string,
   shared: BuiltFile[]
 ): Record<string, Record<string, KiranaFile[]>> {
   const source = (name: string) => {
@@ -120,7 +122,12 @@ function colourBuilds(
     COLOR_AXES.map((spec) => {
       const data = source(spec.paletteFile)
       const entries = source(spec.file)
-      const { palette, commit } = readPaletteModule(data.content, spec)
+      // From the source, whose header names the commit the palette was taken at: the file as it
+      // ships has no header.
+      const { palette, commit } = readPaletteModule(
+        readFileSync(join(registry, data.source), "utf8"),
+        spec
+      )
       return [
         spec.axis,
         Object.fromEntries(
@@ -129,11 +136,17 @@ function colourBuilds(
             [
               kiranaFile({
                 ...data,
-                content: paletteModule(spec, palette, commit, value),
+                content: shipped(
+                  data.source,
+                  paletteModule(spec, palette, commit, value)
+                ),
               }),
               kiranaFile({
                 ...entries,
-                content: axisModule(spec, palette, commit, value),
+                content: shipped(
+                  entries.source,
+                  axisModule(spec, palette, commit, value)
+                ),
               }),
             ],
           ])
@@ -259,10 +272,11 @@ export function buildKiranaRegistry(
   const read = (combination: Combination, source: string): BuiltFile => ({
     source,
     installed: installedPath(source),
+    // As it ships: without the comments written for whoever maintains the registry.
     content: rewriteImports(
       registry,
       source,
-      readFileSync(join(registry, source), "utf8"),
+      shipped(source, readFileSync(join(registry, source), "utf8"), problems),
       combination,
       "@/registry"
     ),
@@ -421,7 +435,7 @@ export function buildKiranaRegistry(
       ...(Object.keys(builds).length > 0
         ? { flattened: { axis: "style", builds } }
         : kindOf(item) === "design-system"
-          ? { flattened: { axes: colourBuilds(shared) } }
+          ? { flattened: { axes: colourBuilds(registry, shared) } }
           : {}),
       ...(kindOf(item) === "design-system" ? { design: designOf() } : {}),
       ...(item.setup ? { setup: item.setup } : {}),
