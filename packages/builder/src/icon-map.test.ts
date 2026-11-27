@@ -4,6 +4,7 @@ import { join } from "node:path"
 import { describe, expect, it } from "vite-plus/test"
 
 import { resolveIcon } from "../../../registry/icons/data"
+import hugeicons from "../../../registry/icons/hugeicons"
 
 const ROOT = join(import.meta.dirname, "..", "..", "..", "registry")
 
@@ -31,13 +32,16 @@ function namesFor(library: "lucide" | "hugeicons") {
   return names
 }
 
-// Lucide and Hugeicons are listed by hand in `data.ts`; an icon a placeholder names but the map
+// Lucide is listed by hand in `data.ts`, Hugeicons in `hugeicons.ts`; an icon a placeholder names but the map
 // lacks draws nothing (Lucide is the default design's library).
 describe("the icon map", () => {
   for (const library of ["lucide", "hugeicons"] as const) {
     it(`has every ${library} icon a placeholder names`, () => {
-      const missing = [...namesFor(library)].filter(
-        ([name]) => resolveIcon(library, { [library]: name }) === null
+      // Hugeicons' data loads on demand in a browser; here it is read from its file.
+      const missing = [...namesFor(library)].filter(([name]) =>
+        library === "hugeicons"
+          ? !(name in hugeicons.icons)
+          : resolveIcon(library, { [library]: name }) === null
       )
       expect(missing.map(([name, file]) => `${name} (${file})`)).toEqual([])
     })

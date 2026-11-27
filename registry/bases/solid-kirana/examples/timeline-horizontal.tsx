@@ -14,7 +14,7 @@ import { containerSize } from "../../../core/scales"
 import { page } from "../../../styles/page.styles"
 
 const styles = {
-  timeline: css({ maxWidth: containerSize.xl }),
+  timeline: css({ maxWidth: containerSize["3xl"] }),
 }
 
 const PHASES = [

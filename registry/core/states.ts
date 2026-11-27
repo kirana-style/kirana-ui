@@ -48,7 +48,11 @@ export type StateKeys = {
   kirana?: string
 }
 
-/** `value` under every base's key for `state`. */
+/**
+ * `value` under every base's key for `state`. Marked free of side effects, so a compiled style
+ * module's leftover calls are dropped from a page's JavaScript (KF-146, until Kirana drops them).
+ */
+/* @__NO_SIDE_EFFECTS__ */
 export function when<Value>(state: StateKeys, value: Value) {
   return {
     ...(state.base ? { [state.base]: value } : {}),
