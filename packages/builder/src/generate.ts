@@ -286,7 +286,7 @@ export function generate(
     if (code !== undefined) body.push(`export const ${name} = ${code}`)
   }
 
-  const head: string[] = [options.header]
+  const head: string[] = options.header ? [options.header] : []
   const kiranaImports = [...used.kirana]
     .sort()
     .map((name) =>

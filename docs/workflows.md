@@ -1148,6 +1148,32 @@ here than usual: a local `theme` or `spacing` state hides the design token of th
 same name for the rest of the function. Name the inner binding for what it holds
 (`themeMode`, `child`, `option`, `rows`).
 
+## What an installed file holds
+
+A source in `registry/` is commented for whoever maintains it: what the original wrote, why a
+workaround stands, which headless library does what. A project that installs the file is another
+reader, so the builder ships each file without those comments
+(`packages/builder/src/comments.ts`). What stays:
+
+| Kept                                                     | Example                                                              |
+| -------------------------------------------------------- | -------------------------------------------------------------------- |
+| A tool's directive                                       | `// eslint-disable-next-line`, `@ts-expect-error`, `/* @__PURE__ */` |
+| A doc comment on an export that speaks of the code alone | `/** The button's sizes. */`                                         |
+
+A doc comment is dropped too when it names a tracker's code, the original it was ported from, the
+site or its tools, a Tailwind utility, or a headless library. So write the comment a project's
+owner should read as a doc comment on the export, in words about the code, and everything else
+as an ordinary comment.
+
+The builder holds the result to the source: both are transpiled and must come out the same, or
+the build fails and names the file. The docs' code panels and both installers get the same text.
+
+`scripts/install-audit.ts` reads a project after it is installed, in the install test
+(`vp run install`): no comment of the kinds above, no other linter's or workspace tool's files.
+It also reports, without failing yet, another icon library, another headless library, another
+library's state keys and a file nothing imports. `bun scripts/install-smoke.ts --audit --all
+--icons hugeicons <combination>` installs one project, reads it and builds nothing.
+
 ## Tasks and their cache
 
 Every command in the README's table is a task in the root `vite.config.ts`, run by

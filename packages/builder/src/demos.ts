@@ -7,6 +7,7 @@
  * default aliases, and its icon placeholders resolve for each icon library as `ui add` resolves
  * them; a demo without icons is one source.
  */
+import { shipped } from "./comments"
 import { existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
@@ -150,7 +151,10 @@ export function demoCode(
     registry,
     source,
     withoutFrame(
-      withoutPortNote(readFileSync(join(registry, source), "utf8")),
+      shipped(
+        source,
+        withoutPortNote(readFileSync(join(registry, source), "utf8"))
+      ),
       combination.framework
     ),
     combination,
@@ -227,7 +231,10 @@ export function demoParts(
       const code = rewriteImports(
         registry,
         source,
-        withoutPortNote(readFileSync(join(registry, source), "utf8")),
+        shipped(
+          source,
+          withoutPortNote(readFileSync(join(registry, source), "utf8"))
+        ),
         combination,
         "@/registry"
       )

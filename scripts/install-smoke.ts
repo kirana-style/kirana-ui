@@ -12,6 +12,9 @@
  *   bun scripts/install-smoke.ts [<framework>-<base>-<style>[@<skeleton>] …]   # what `vp run install` runs
  *   bun scripts/install-smoke.ts react-base-nova@next-turbopack--turbo--biome    # one skeleton
  *   bun scripts/install-smoke.ts --shard 2/4      # every fourth of the default list, from the second
+ *   bun scripts/install-smoke.ts --audit --icons hugeicons --all react-kirana-nova
+ *       # what the project holds alone (`scripts/install-audit.ts`): installed with that icon
+ *       # library and every item its base has, read, every finding reported, nothing built
  *
  * A skeleton is `<template>--<monorepo>--<tooling>` (`r/templates/index.json` lists them); without
  * one, the framework's Vite app alone with ESLint. Needs the site, its registry and the templates
@@ -43,6 +46,8 @@ import {
   templateReference,
 } from "../packages/create/src/commands"
 import { encodePreset, readDesignSystem } from "../registry/core/preset"
+import { ENFORCED, audit, report } from "./install-audit"
+import type { Finding } from "./install-audit"
 
 const ROOT = join(import.meta.dirname, "..")
 const STATIC = join(ROOT, "apps", "site", "dist", "client")
@@ -164,7 +169,13 @@ const SLICES = {
 
 const INDEX = JSON.parse(
   readFileSync(join(STATIC, "r", "index.json"), "utf8")
-) as { items: { name: string; frameworks?: Record<string, string[]> }[] }
+) as {
+  items: {
+    name: string
+    type?: string
+    frameworks?: Record<string, string[]>
+  }[]
+}
 
 function itemsOf(framework: string, base: string): string[] {
   if (framework === "react") return [...SLICES.react]
@@ -175,6 +186,25 @@ function itemsOf(framework: string, base: string): string[] {
   )
   // `typeset` is plain CSS, the same for every framework.
   return SLICES.vue.filter((name) => name === "typeset" || has.has(name))
+}
+
+/** Every item the registry's index gives `framework` on `base`. */
+function everyItemOf(framework: string, base: string): string[] {
+  return INDEX.items
+    .filter(
+      (item) =>
+        item.frameworks?.[framework]?.includes(base) &&
+        // A font is the design's, and the numbered blocks of a family write the same file
+        // (`login-form.tsx`): the first of each stands for them.
+        item.type !== "font" &&
+        // The site's own placeholder with its icon data, which a component never needs installed.
+        item.name !== "icon-placeholder" &&
+        // `dashboard-01` writes `app-sidebar.tsx`, as `sidebar-01` does.
+        item.name !== "dashboard-01" &&
+        (!/^(login|signup|sidebar)-\d+$/.test(item.name) ||
+          item.name.endsWith("-01"))
+    )
+    .map((item) => item.name)
 }
 
 const catalog = (
@@ -342,6 +372,27 @@ async function run(cwd: string, command: string, ...args: string[]) {
  * The combinations asked for, else the default list; `--shard <i>/<n>` keeps every n-th of the
  * default list from the i-th, so CI installs it on n runners side by side.
  */
+/** `--name <value>` taken out of `argv`. */
+function option(argv: string[], name: string): string | undefined {
+  const at = argv.indexOf(name)
+  if (at === -1) return undefined
+  return argv.splice(at, 2)[1]
+}
+/** `--name` taken out of `argv`. */
+function flag(argv: string[], name: string): boolean {
+  const at = argv.indexOf(name)
+  if (at !== -1) argv.splice(at, 1)
+  return at !== -1
+}
+const ARGV = process.argv.slice(2)
+/** Read what is installed and report, building nothing. */
+const AUDIT_ONLY = flag(ARGV, "--audit")
+/** Every item the base has, not the slice. */
+const ALL_ITEMS = flag(ARGV, "--all")
+/** The design's icon library, where the style's own is not asked for. */
+const ICONS = option(ARGV, "--icons")
+const audited: { name: string; findings: Finding[] }[] = []
+
 function selected(argv: string[]) {
   const at = argv.indexOf("--shard")
   if (at === -1) return argv.length ? argv : DEFAULT
@@ -351,7 +402,7 @@ function selected(argv: string[]) {
   return DEFAULT.filter((_, position) => position % count === index - 1)
 }
 
-for (const asked of selected(process.argv.slice(2))) {
+for (const asked of selected(ARGV)) {
   const [combination = "", named] = asked.split("@")
   const [framework, base, style] = combination.split("-") as [
     Framework,
@@ -377,7 +428,12 @@ for (const asked of selected(process.argv.slice(2))) {
   const id = skeletonId(skeleton)
   // The code the site's customizer gives this combination, with the rules between axes applied.
   const system = readDesignSystem(
-    new URLSearchParams({ framework, base, style })
+    new URLSearchParams({
+      framework,
+      base,
+      style,
+      ...(ICONS ? { iconLibrary: ICONS } : {}),
+    })
   ).system
   const preset = encodePreset(system)
   console.log(`\n== ${combination} ${id} (${preset})`)
@@ -437,9 +493,35 @@ for (const asked of selected(process.argv.slice(2))) {
     )
     process.exit(1)
   }
-  const items = itemsOf(framework, base)
+  const items = ALL_ITEMS
+    ? everyItemOf(framework, base)
+    : itemsOf(framework, base)
   console.log(`install: ${items.length} items for ${framework} on ${base}`)
   await run(app, "bunx", "kirana-style", "ui", "add", ...items)
+  // What the project now holds, read as its owner reads it: nothing it did not choose.
+  const findings = audit(root, {
+    framework,
+    base,
+    iconLibrary: system.iconLibrary,
+    tooling: skeleton.tooling,
+    monorepo: skeleton.monorepo,
+  })
+  if (findings.length > 0) {
+    console.error(
+      `install: ${asked} holds what it did not choose\n${report(findings)}`
+    )
+    if (
+      !AUDIT_ONLY &&
+      findings.some((finding) => ENFORCED.includes(finding.rule))
+    )
+      process.exit(1)
+  }
+  if (AUDIT_ONLY) {
+    audited.push({ name: `${asked} ${system.iconLibrary}`, findings })
+    if (!process.env.KEEP) rmSync(folder, { recursive: true, force: true })
+    else console.log(`install: kept ${root}`)
+    continue
+  }
   // The style's preset has the default colours, whose values are the tokens' own: no entries,
   // and Neutral alone in each palette.
   expectColours(project, ["palette=neutral"], "installed")
@@ -500,4 +582,16 @@ for (const asked of selected(process.argv.slice(2))) {
 }
 
 server.close()
+if (AUDIT_ONLY) {
+  console.log("\ninstall: what each project holds that it did not choose")
+  for (const { name, findings } of audited) {
+    const rules = new Map<string, number>()
+    for (const finding of findings)
+      rules.set(finding.rule, (rules.get(finding.rule) ?? 0) + 1)
+    console.log(
+      `  ${name}: ${findings.length === 0 ? "nothing" : [...rules].map(([rule, count]) => `${rule} ${count}`).join(", ")}`
+    )
+  }
+  process.exit(audited.some(({ findings }) => findings.length > 0) ? 1 : 0)
+}
 console.log("\ninstall: every combination installed, built and validated")
