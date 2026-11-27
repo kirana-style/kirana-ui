@@ -1,6 +1,6 @@
 ---
 title: kirana-style ui
-description: The commands that install, update and remove kirana/ui's components, and change a project's design.
+description: The commands that install, update and remove Kirana UI's components, and change a project's design.
 section: start
 order: 3
 keywords:

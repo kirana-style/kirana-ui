@@ -197,7 +197,7 @@ If you added Plan from [AI SDK Elements](https://elements.ai-sdk.dev), your proj
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/plan.tsx from AI SDK Elements to kirana/ui's Trace component.
+Migrate components/ai-elements/plan.tsx from AI SDK Elements to Kirana UI's Trace component.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 
@@ -220,7 +220,7 @@ Keep every export, with the same name and props, so the code that imports it kee
 <!-- ::start:only react/aria -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/plan.tsx from AI SDK Elements to kirana/ui's Trace component.
+Migrate components/ai-elements/plan.tsx from AI SDK Elements to Kirana UI's Trace component.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 

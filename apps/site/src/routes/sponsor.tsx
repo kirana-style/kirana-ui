@@ -12,15 +12,15 @@ import registryCss from "@/styles/registry.css?url"
 
 const KIRANA_SPONSORS = "https://kirana.style/sponsors"
 
-/** `/sponsor`, as the Kirana site's: kirana/ui is part of Kirana, so its sponsors are Kirana's. */
+/** `/sponsor`, as the Kirana site's: Kirana UI is part of Kirana, so its sponsors are Kirana's. */
 export const Route = createFileRoute("/sponsor")({
   head: () => ({
     meta: [
-      { title: "Sponsor · kirana/ui" },
+      { title: "Sponsor · Kirana UI" },
       {
         name: "description",
         content:
-          "kirana/ui is part of Kirana; sponsoring Kirana keeps both free and independent.",
+          "Kirana UI is part of Kirana; sponsoring Kirana keeps both free and independent.",
       },
     ],
     links: [{ rel: "stylesheet", href: registryCss }],
@@ -38,7 +38,7 @@ function Sponsor() {
             Keep it <Accent>independent.</Accent>
           </>
         }
-        lede="kirana/ui is part of Kirana, built by the same people. Sponsoring Kirana supports both: the compiler, its installer and this registry."
+        lede="Kirana UI is part of Kirana, built by the same people. Sponsoring Kirana supports both: the compiler, its installer and this registry."
         actions={
           <SecondaryCta
             render={

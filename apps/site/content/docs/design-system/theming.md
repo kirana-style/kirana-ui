@@ -68,7 +68,7 @@ project with fourteen components, the stylesheet is 2.7 KB gzip with the default
 design and 3.6 KB with Stone, Cyan and Green, against 9.5 KB when every colour was
 installed.
 
-To let your readers switch between kirana/ui's designs, a picker of your own that
+To let your readers switch between Kirana UI's designs, a picker of your own that
 sets the attributes on `<html>` (`data-base-color`, `data-theme`,
 `data-chart-color`, `data-style` …), keep every design installed:
 
@@ -77,7 +77,7 @@ sets the attributes on `<html>` (`data-base-color`, `data-theme`,
 It records `ui.allDesigns` in `kirana.config.ts`: every style's modules and every
 colour stay as written, and the stylesheet carries them all.
 
-For colours of your own rather than kirana/ui's, override the tokens with
+For colours of your own rather than Kirana UI's, override the tokens with
 Kirana's `defineTheme` and apply it where they hold:
 
 ```ts

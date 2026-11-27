@@ -6,7 +6,7 @@ import { Card, CardGrid } from "@/components/page/cards"
 import { Accent, Page, PageHero, PageSection } from "@/components/page/page"
 import registryCss from "@/styles/registry.css?url"
 
-/** Each project kirana/ui builds on, with its licence, as each package declares it. */
+/** Each project Kirana UI builds on, with its licence, as each package declares it. */
 const BUILDS_ON = [
   {
     name: "shadcn/ui",
@@ -63,15 +63,15 @@ const BUILDS_ON = [
   },
 ] as const
 
-/** `/license`, as the Kirana site's: kirana/ui's licence, and what it builds on. */
+/** `/license`, as the Kirana site's: Kirana UI's licence, and what it builds on. */
 export const Route = createFileRoute("/license")({
   head: () => ({
     meta: [
-      { title: "License · kirana/ui" },
+      { title: "License · Kirana UI" },
       {
         name: "description",
         content:
-          "kirana/ui is MIT licensed, and so is most of what it builds on.",
+          "Kirana UI is MIT licensed, and so is most of what it builds on.",
       },
     ],
     links: [{ rel: "stylesheet", href: registryCss }],
@@ -89,7 +89,7 @@ function License() {
             MIT, <Accent>and what it builds on.</Accent>
           </>
         }
-        lede="kirana/ui is released under the MIT License, copyright the Kirana authors. The components you install are files in your project, yours to change."
+        lede="Kirana UI is released under the MIT License, copyright the Kirana authors. The components you install are files in your project, yours to change."
         actions={
           <SecondaryCta
             render={

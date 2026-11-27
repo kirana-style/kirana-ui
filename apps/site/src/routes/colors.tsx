@@ -23,7 +23,7 @@ const DESCRIPTION =
 export const Route = createFileRoute("/colors")({
   head: () => ({
     meta: [
-      { title: "Colors · kirana/ui" },
+      { title: "Colors · Kirana UI" },
       { name: "description", content: DESCRIPTION },
     ],
     links: [{ rel: "stylesheet", href: registryCss }],

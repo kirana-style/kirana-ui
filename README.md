@@ -1,4 +1,4 @@
-# kirana/ui
+# Kirana UI
 
 [![ci](https://github.com/kirana-style/kirana-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/kirana-style/kirana-ui/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -26,7 +26,7 @@ The site is at [ui.kirana-style.workers.dev](https://ui.kirana-style.workers.dev
 
 ## Status
 
-kirana/ui is before its first release. React is complete on both bases and checked
+Kirana UI is before its first release. React is complete on both bases and checked
 against shadcn/ui's own site, computed style by computed style. The other frameworks
 follow React's pages, checked against them the same way: Vue has 61 of the components
 (all but the three no Vue library carries: Menubar, Message Scroller and Questionnaire) with
@@ -150,5 +150,5 @@ The compiler, its packages and its specification are in
 
 [MIT](LICENSE). The components, blocks and examples are ported from
 [shadcn/ui](https://github.com/shadcn-ui/ui) (MIT, Copyright (c) 2023 shadcn), whose
-notice is in [`LICENSE`](LICENSE). kirana/ui is not affiliated with or endorsed by
+notice is in [`LICENSE`](LICENSE). Kirana UI is not affiliated with or endorsed by
 shadcn/ui.

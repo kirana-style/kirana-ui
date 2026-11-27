@@ -1,6 +1,6 @@
 ---
 title: Your own registry
-description: Serve a registry of your own in Kirana's format, and install from it beside kirana/ui's.
+description: Serve a registry of your own in Kirana's format, and install from it beside Kirana UI's.
 section: registry
 order: 2
 keywords: [registry, publish, namespace, private registry, format, validate]
@@ -10,7 +10,7 @@ keywords: [registry, publish, namespace, private registry, format, validate]
 
 A registry is static JSON anyone can host: one document per item at a URL that holds
 the item's name, and an index, the item named `index`. `kirana-style ui` reads yours
-as it reads kirana/ui's.
+as it reads Kirana UI's.
 
 ## Naming it
 
@@ -27,7 +27,7 @@ export default defineConfig({
 })
 ```
 
-and installs from it by namespace, beside kirana/ui's (`@kirana`, a name alone):
+and installs from it by namespace, beside Kirana UI's (`@kirana`, a name alone):
 
 <!-- ::install exec="kirana-style ui add @acme/card button" -->
 

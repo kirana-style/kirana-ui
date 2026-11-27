@@ -26,7 +26,7 @@ const DESCRIPTION =
 export const Route = createFileRoute("/blocks")({
   head: () => ({
     meta: [
-      { title: "Blocks · kirana/ui" },
+      { title: "Blocks · Kirana UI" },
       { name: "description", content: DESCRIPTION },
     ],
     links: [{ rel: "stylesheet", href: docsCss }],

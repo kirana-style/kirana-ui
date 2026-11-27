@@ -1,6 +1,6 @@
 /**
  * The header's links and menus, ported from the Kirana site's header (its own links before the
- * menus, as kirana/ui's components lead): the registry's `NavigationMenu` parts in a root and popup
+ * menus, as Kirana UI's components lead): the registry's `NavigationMenu` parts in a root and popup
  * of the header's own (Base UI's), which morphs between panels as the content slides in from the
  * side the pointer came from, with
  * one pill over the triggers gliding to the one under the pointer, or the open one. Each panel is

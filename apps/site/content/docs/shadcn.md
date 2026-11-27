@@ -1,6 +1,6 @@
 ---
 title: shadcn/ui's CLI
-description: kirana/ui's registry also serves an export for shadcn/ui's own CLI, for the React components on Base UI and React Aria.
+description: Kirana UI's registry also serves an export for shadcn/ui's own CLI, for the React components on Base UI and React Aria.
 section: start
 order: 4
 keywords: [shadcn, shadcn add, components.json, export, registry]

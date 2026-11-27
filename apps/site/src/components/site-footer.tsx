@@ -1,5 +1,5 @@
 /**
- * The site's footer, as the Kirana site's: the mark and the wordmark, a line on what kirana/ui is,
+ * The site's footer, as the Kirana site's: the mark and the wordmark, a line on what Kirana UI is,
  * the licence and the colour mode (`D` steps it), the link groups (`header/nav.ts`'s `FOOTER`), and
  * the page's scene in pixels dissolving up into them, all in the page's rail.
  */

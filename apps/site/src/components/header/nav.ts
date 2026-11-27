@@ -1,6 +1,6 @@
 /**
  * What the site header links to, as the Kirana site's `nav.ts` lays its menus out: one list, so
- * the header, the phone's sheet and the footer never disagree. kirana/ui is its components, so
+ * the header, the phone's sheet and the footer never disagree. Kirana UI is its components, so
  * they lead, with the blocks, the charts and the typeset builder, as links of their own (the colours are under Docs); Headless
  * (Kirana UI Primitives and its AI pages), Docs and Community are the menus, each page in one of them. Create, to `/create`, is the button at the end, as
  * the Kirana site's Quick start is.
@@ -95,7 +95,7 @@ export type Menu = {
 
 export const REPOSITORY = "https://github.com/kirana-style/kirana-ui"
 
-/** The header's links of their own, before the menus: what kirana/ui is. */
+/** The header's links of their own, before the menus: what Kirana UI is. */
 export const LINKS: readonly NavLinkItem[] = [
   {
     title: "Components",
@@ -236,7 +236,7 @@ export const MENUS: readonly Menu[] = [
         links: [
           {
             title: "Introduction",
-            description: "What kirana/ui is, and what you get",
+            description: "What Kirana UI is, and what you get",
             href: "/docs",
             icon: BookOpen01Icon,
             scene: "highlands",

@@ -210,7 +210,7 @@ If you added Confirmation from [AI SDK Elements](https://elements.ai-sdk.dev), y
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/confirmation.tsx from AI SDK Elements to kirana/ui's Item and Button components.
+Migrate components/ai-elements/confirmation.tsx from AI SDK Elements to Kirana UI's Item and Button components.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 
@@ -231,7 +231,7 @@ Keep every export, with the same name and props, so the code that imports it kee
 <!-- ::start:only react/aria -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/confirmation.tsx from AI SDK Elements to kirana/ui's Item and Button components.
+Migrate components/ai-elements/confirmation.tsx from AI SDK Elements to Kirana UI's Item and Button components.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 

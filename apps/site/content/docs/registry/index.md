@@ -1,6 +1,6 @@
 ---
 title: The registry
-description: What kirana/ui's registry serves, in Kirana's format and in shadcn/ui's.
+description: What Kirana UI's registry serves, in Kirana's format and in shadcn/ui's.
 section: registry
 order: 1
 keywords: [registry, json, items, index, flattened, export]

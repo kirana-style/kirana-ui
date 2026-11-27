@@ -1,5 +1,5 @@
 /**
- * The home page's "for agents" chapter, under the hero: what an agent does with kirana/ui, a
+ * The home page's "for agents" chapter, under the hero: what an agent does with Kirana UI, a
  * picture card per verb, in the Kirana site's own language of cards. Build shows the command an
  * agent runs and what the compiler really answers (`kirana-style check --format json`, for a
  * width written without its unit); Drive shows a step of the agent bridge reaching the control it

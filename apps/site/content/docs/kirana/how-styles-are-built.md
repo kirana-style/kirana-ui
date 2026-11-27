@@ -17,7 +17,7 @@ keywords:
 
 # How the styles are built
 
-shadcn/ui writes its components in Tailwind classes and its styles as CSS. kirana/ui
+shadcn/ui writes its components in Tailwind classes and its styles as CSS. Kirana UI
 writes them as typed styles next to the components, which
 [Kirana](https://github.com/kirana-style/kirana) compiles at build time into one
 plain stylesheet. Nothing styles a page at runtime.

@@ -123,8 +123,8 @@ export function HeaderActions({ create = true }: { create?: boolean }) {
         variant="ghost"
         size="icon"
         nativeButton={false}
-        aria-label="kirana/ui on GitHub"
-        title="kirana/ui on GitHub"
+        aria-label="Kirana UI on GitHub"
+        title="Kirana UI on GitHub"
         sx={styles.github}
         render={<a href={REPOSITORY} target="_blank" rel="noreferrer" />}
       >
@@ -134,7 +134,7 @@ export function HeaderActions({ create = true }: { create?: boolean }) {
         variant="ghost"
         size="icon"
         nativeButton={false}
-        aria-label="Sponsor Kirana and kirana/ui"
+        aria-label="Sponsor Kirana and Kirana UI"
         title="Sponsor"
         sx={styles.sponsor}
         render={<DocsLink href={SPONSOR.href} />}

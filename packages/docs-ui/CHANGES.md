@@ -126,11 +126,11 @@ Candidates for the Kirana copy, which would serve any registry's docs:
   switch of the page's framework's bases the page has (siblings of the same framework only,
   labelled by their base), none where it has one; at the row's end, the chosen base's logo where it
   has an official one (`hasBaseLogo`; ui-sdk has none). Choosing a framework is the app's
-  (kirana/ui: a picker at the top of the Components and AI Elements sidebars, through
+  (Kirana UI: a picker at the top of the Components and AI Elements sidebars, through
   `sidebarHeader`, and a Frameworks menu in the header of its other pages), so the row does not
   name the framework; this row once listed every sibling as tabs.
 - `provider.tsx` and `sidebar.tsx`: `sidebarHeader(tab)`, content above the sidebar's list for the
-  active tab, outside its scroll (kirana/ui's framework picker). `combination.ts`: a
+  active tab, outside its scroll (Kirana UI's framework picker). `combination.ts`: a
   variant page's combination wins over the saved choice. `docs-layout.tsx`: the section of a
   `current` that is a variant source's shared URL is its variants'.
 - `framework-logos.ts` (new): the frameworks' marks (React, Vue, Svelte, Solid, Angular), from

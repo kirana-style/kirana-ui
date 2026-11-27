@@ -64,8 +64,8 @@ const styles = {
       <div [sx]="styles.div"></div>
       <img
         [attr.src]="'/scenes/highlands-800.webp'"
-        alt="The highlands at sunrise, from kirana/ui's scenery"
-        title="The highlands at sunrise, from kirana/ui's scenery"
+        alt="The highlands at sunrise, from Kirana UI's scenery"
+        title="The highlands at sunrise, from Kirana UI's scenery"
         [sx]="styles.img"
       />
       <div kuiCardHeader>

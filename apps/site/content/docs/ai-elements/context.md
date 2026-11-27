@@ -142,7 +142,7 @@ If you added Context from [AI SDK Elements](https://elements.ai-sdk.dev), your p
 <!-- ::start:only react/kirana,react/base,react/uisdk -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/context.tsx from AI SDK Elements to kirana/ui's Hover Card and Progress components.
+Migrate components/ai-elements/context.tsx from AI SDK Elements to Kirana UI's Hover Card and Progress components.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 
@@ -163,7 +163,7 @@ Keep every export, with the same name and props, so the code that imports it kee
 <!-- ::start:only react/aria -->
 
 ```txt title="Prompt" prompt
-Migrate components/ai-elements/context.tsx from AI SDK Elements to kirana/ui's Hover Card and Progress components.
+Migrate components/ai-elements/context.tsx from AI SDK Elements to Kirana UI's Hover Card and Progress components.
 
 Keep every export, with the same name and props, so the code that imports it keeps working. Only change how each part renders.
 

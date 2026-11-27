@@ -24,7 +24,7 @@ const DESCRIPTION =
 export const Route = createFileRoute("/charts")({
   head: () => ({
     meta: [
-      { title: "Charts · kirana/ui" },
+      { title: "Charts · Kirana UI" },
       { name: "description", content: DESCRIPTION },
     ],
     links: [{ rel: "stylesheet", href: docsCss }],

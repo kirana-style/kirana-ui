@@ -45,7 +45,7 @@ export function fontInstall(params: TypesetParams) {
 /** One prompt with the reader's picks, for a coding agent, as upstream's. */
 export function typesetPrompt(params: TypesetParams, site: string): string {
   const fonts = fontInstall(params)
-  return `Add typeset to this project, which uses Kirana and kirana/ui.
+  return `Add typeset to this project, which uses Kirana and Kirana UI.
 
 Typeset styles rendered markdown and other HTML: wrap the output in a container with the \`typeset\` class and the \`typeset\` handle, and everything inside (headings, lists, tables, code, blockquotes, math) is styled. Everything outside is untouched.
 
@@ -53,7 +53,7 @@ Typeset styles rendered markdown and other HTML: wrap the output in a container 
 
 npx kirana-style ui add typeset
 
-Then import \`typeset.css\` in the app's entry, after Kirana's stylesheet and the registry's reset. Its rules are in the \`typeset\` layer; the project's \`kirana.config.ts\` lists it under \`layers.before\` (kirana/ui's \`installConfig\` does).
+Then import \`typeset.css\` in the app's entry, after Kirana's stylesheet and the registry's reset. Its rules are in the \`typeset\` layer; the project's \`kirana.config.ts\` lists it under \`layers.before\` (Kirana UI's \`installConfig\` does).
 
 2. Install the fonts and import them in the app's entry:
 
@@ -73,7 +73,7 @@ If the surface already has its own typography (styled markdown components, a pro
 
 Notes:
 
-- To keep an embedded component out of typeset's styles, give it the \`data-not-typeset\` attribute. An element with a \`data-slot\` (every kirana/ui component) keeps its own styles.
+- To keep an embedded component out of typeset's styles, give it the \`data-not-typeset\` attribute. An element with a \`data-slot\` (every Kirana UI component) keeps its own styles.
 - Verify on the surface the user picked: headings, lists, tables and code inside the container are styled with no styles on the content itself.
 - Docs: ${site}/docs/design-system/typeset`
 }
