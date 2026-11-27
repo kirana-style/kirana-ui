@@ -27,6 +27,10 @@ updates:
       # keeps 3.2 until that is reduced and reported upstream.
       - dependency-name: "vue-tsc"
         versions: [">=3.3.0"]
+      # Solid's majors are chosen per base, not per release: Ark UI's base and its preview run
+      # Solid 1, the ui-sdk and Kirana UI bases Solid 2 in an app of their own.
+      - dependency-name: "solid-js"
+        update-types: ["version-update:semver-major"]
     groups:
       # Every Kirana package at one version, the one scripts/use-kirana.ts pins.
       kirana:

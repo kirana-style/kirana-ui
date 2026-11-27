@@ -137,8 +137,8 @@
         "@kirana-ui/solid": "0.4.1",
         "@solidjs/web": "2.0.3",
         "@tanstack/table-core": "9.3.1",
-        "@ui-sdk/core": "0.1.0-beta.12",
-        "@ui-sdk/solid": "0.1.0-beta.12",
+        "@ui-sdk/core": "0.1.0-beta.17",
+        "@ui-sdk/solid": "0.1.0-beta.17",
         "@workspace/fonts": "workspace:*",
         "@workspace/registry": "workspace:*",
         "solid-js": "2.0.3",
@@ -606,10 +606,10 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@ui-sdk/core": "0.1.0-beta.12",
-    "@ui-sdk/react": "0.1.0-beta.12",
-    "@ui-sdk/svelte": "0.1.0-beta.12",
-    "@ui-sdk/vue": "0.1.0-beta.12",
+    "@ui-sdk/core": "0.1.0-beta.17",
+    "@ui-sdk/react": "0.1.0-beta.17",
+    "@ui-sdk/svelte": "0.1.0-beta.17",
+    "@ui-sdk/vue": "0.1.0-beta.17",
     "@vitejs/plugin-vue": "^6.0.11",
     "@vitest/browser-playwright": "5.1.1",
     "ai": "^7.0.177",
@@ -1705,15 +1705,15 @@
 
     "@typescript/typescript-win32-x64": ["@typescript/typescript-win32-x64@7.0.2", "", { "os": "win32", "cpu": "x64" }, "sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g=="],
 
-    "@ui-sdk/core": ["@ui-sdk/core@0.1.0-beta.12", "", {}, "sha512-d/V1nH+0KJdUu0+dFsJjd//ZCcnx42R/vRWNXXu5k6L8jS2fKUrTeN5KR8lGrnk4Gy40X0kjSmKj20yQF2MDtg=="],
+    "@ui-sdk/core": ["@ui-sdk/core@0.1.0-beta.17", "", {}, "sha512-wBWNqT0Qf1sE6fqD1XuBnSGBFcY6+cek1z7rKl/r4j2bsv2or9i7z44PLy0J9hmflm3IJ5MLW0P4ur2H9BCIvg=="],
 
-    "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.12", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.12", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-qltB3kTIuMUH1npVAS6AstSEwE9YURAc+g95oSeMKB3ehmiSvGBRqpsTJ1uZaa1wyq5prG3cXo85CWbu+DaLPA=="],
+    "@ui-sdk/react": ["@ui-sdk/react@0.1.0-beta.17", "", { "peerDependencies": { "@types/react": ">=19.2.10", "@ui-sdk/core": "^0.1.0-beta.17", "react": ">=19", "react-dom": ">=19" }, "optionalPeers": ["@types/react"] }, "sha512-oAJu+/e8woA5gboO28nm3aiO2qZbjccGc8hukCijSz3biX71AYBw8mo14HkMAZUuPlbSnzVAuNYQMaW0z8vsrw=="],
 
-    "@ui-sdk/solid": ["@ui-sdk/solid@0.1.0-beta.12", "", { "peerDependencies": { "@solidjs/web": "^2.0.0", "@ui-sdk/core": "^0.1.0-beta.12", "solid-js": "^2.0.0" } }, "sha512-sMmp2ColKimlfcODujzRmjqHHx6LWB+cmIHxdiHkwJwSD9Wfnx39v6p0UcN4uR2BCp/Nit4t2DFhjsru8wJYsQ=="],
+    "@ui-sdk/solid": ["@ui-sdk/solid@0.1.0-beta.17", "", { "peerDependencies": { "@solidjs/web": "^2.0.0", "@ui-sdk/core": "^0.1.0-beta.17", "solid-js": "^2.0.0" } }, "sha512-jdvIex6YOCbCCmMLXp5TzeiBUtyGZOHCE/PdF+DdL3KTJrNJTym+2jIvlJkmpvdkrY4CB6o1zz2DuGJDsdonaA=="],
 
-    "@ui-sdk/svelte": ["@ui-sdk/svelte@0.1.0-beta.12", "", { "peerDependencies": { "@ui-sdk/core": "^0.1.0-beta.12", "svelte": ">=5.33" } }, "sha512-MXuuZqJLgxMHfVyGZV5I25fazpMs1r2zJ93DCRiELr5vg1SDIR/d6bJ7UiNh6Fp5E2kSIWYzF8zf77aIv7O3ZA=="],
+    "@ui-sdk/svelte": ["@ui-sdk/svelte@0.1.0-beta.17", "", { "peerDependencies": { "@ui-sdk/core": "^0.1.0-beta.17", "svelte": ">=5.33" } }, "sha512-iqtDoSGFt3jUa/38Y2cNVm6Tbi3gtpl1FPs4+QXK5e6dkDzI8UvY68xtEADD/D8xsrZReizD9yQOsWbVZ/VLNw=="],
 
-    "@ui-sdk/vue": ["@ui-sdk/vue@0.1.0-beta.12", "", { "peerDependencies": { "@nuxt/kit": "^4.0.0 || ^5.0.0-0", "@nuxt/schema": "^4.0.0 || ^5.0.0-0", "@ui-sdk/core": "^0.1.0-beta.12", "nuxt": "^4.0.0 || ^5.0.0-0", "vue": ">=3.5" }, "optionalPeers": ["@nuxt/kit", "@nuxt/schema", "nuxt"] }, "sha512-sO11DnvEe0DE1hyLuIUuDxBM7jNvaSQ3LR6GXMJx8cDXU7aZXRVkidwvENa6wWVsvtuLNWac0sDBfLz4CKa9GQ=="],
+    "@ui-sdk/vue": ["@ui-sdk/vue@0.1.0-beta.17", "", { "peerDependencies": { "@nuxt/kit": "^4.0.0 || ^5.0.0-0", "@nuxt/schema": "^4.0.0 || ^5.0.0-0", "@ui-sdk/core": "^0.1.0-beta.17", "nuxt": "^4.0.0 || ^5.0.0-0", "vue": ">=3.5" }, "optionalPeers": ["@nuxt/kit", "@nuxt/schema", "nuxt"] }, "sha512-4wx8xdVwXLp++/XEnf0MEMeshHb0UDdotTatfIObbQ2D+QQUG3OMLD0thjQWayMFY5phdYBM9t+YlIJdzYAq5Q=="],
 
     "@vercel/oidc": ["@vercel/oidc@3.2.0", "", {}, "sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug=="],
 
