@@ -1,4 +1,4 @@
-import { For, Show, createSignal, splitProps } from "solid-js"
+import { For, Show, createSignal, splitProps, Match, Switch } from "solid-js"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -296,7 +296,144 @@ export function SettingsDialog(props: {
                             asChild={(childProps) => (
                               <a {...childProps()} href="#">
                                 <Show when={item.icon}>
-                                  <IconPlaceholder {...item.icon} />
+                                  <Switch>
+                                    <Match
+                                      when={item.icon.lucide === "BellIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="BellIcon"
+                                        tabler="IconBell"
+                                        hugeicons="NotificationIcon"
+                                        phosphor="BellIcon"
+                                        remixicon="RiNotificationLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "MenuIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="MenuIcon"
+                                        tabler="IconMenu"
+                                        hugeicons="Menu09Icon"
+                                        phosphor="ListIcon"
+                                        remixicon="RiMenuLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "HomeIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="HomeIcon"
+                                        tabler="IconHome"
+                                        hugeicons="HomeIcon"
+                                        phosphor="HouseIcon"
+                                        remixicon="RiHomeLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={
+                                        item.icon.lucide === "PaintbrushIcon"
+                                      }
+                                    >
+                                      <IconPlaceholder
+                                        lucide="PaintbrushIcon"
+                                        tabler="IconPalette"
+                                        hugeicons="PaintBoardIcon"
+                                        phosphor="PaletteIcon"
+                                        remixicon="RiPaletteLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={
+                                        item.icon.lucide === "MessageCircleIcon"
+                                      }
+                                    >
+                                      <IconPlaceholder
+                                        lucide="MessageCircleIcon"
+                                        tabler="IconMessageQuestion"
+                                        hugeicons="MessageIcon"
+                                        phosphor="ChatCircleIcon"
+                                        remixicon="RiChat1Line"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "GlobeIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="GlobeIcon"
+                                        tabler="IconWorld"
+                                        hugeicons="Globe02Icon"
+                                        phosphor="GlobeIcon"
+                                        remixicon="RiGlobalLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "KeyboardIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="KeyboardIcon"
+                                        tabler="IconKeyboard"
+                                        hugeicons="KeyboardIcon"
+                                        phosphor="KeyboardIcon"
+                                        remixicon="RiKeyboardLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "CheckIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="CheckIcon"
+                                        tabler="IconCheck"
+                                        hugeicons="Tick02Icon"
+                                        phosphor="CheckIcon"
+                                        remixicon="RiCheckLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "VideoIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="VideoIcon"
+                                        tabler="IconVideoPlus"
+                                        hugeicons="RecordIcon"
+                                        phosphor="VideoIcon"
+                                        remixicon="RiVideoLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "LinkIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="LinkIcon"
+                                        tabler="IconLink"
+                                        hugeicons="LinkIcon"
+                                        phosphor="LinkIcon"
+                                        remixicon="RiLinksLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "LockIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="LockIcon"
+                                        tabler="IconLock"
+                                        hugeicons="ShieldIcon"
+                                        phosphor="LockIcon"
+                                        remixicon="RiLockLine"
+                                      />
+                                    </Match>
+                                    <Match
+                                      when={item.icon.lucide === "SettingsIcon"}
+                                    >
+                                      <IconPlaceholder
+                                        lucide="SettingsIcon"
+                                        tabler="IconSettings"
+                                        hugeicons="SettingsIcon"
+                                        phosphor="GearIcon"
+                                        remixicon="RiSettingsLine"
+                                      />
+                                    </Match>
+                                  </Switch>
                                 </Show>
                                 <span>{item.name}</span>
                               </a>

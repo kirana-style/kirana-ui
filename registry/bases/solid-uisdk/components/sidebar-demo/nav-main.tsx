@@ -49,7 +49,7 @@ export function NavMain(props: {
       transitionDuration: duration[200],
       transitionProperty: "transform, translate, scale, rotate",
       transitionTimingFunction: easing.inOut,
-      rotate: { [OPEN.base]: "90deg" },
+      rotate: { [OPEN.uisdk]: "90deg" },
     }),
   }
 

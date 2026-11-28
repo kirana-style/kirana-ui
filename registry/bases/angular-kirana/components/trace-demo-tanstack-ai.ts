@@ -232,8 +232,7 @@ export class ToolRow {
   readonly result = input<ToolResultPart>()
   readonly streaming = input(false)
   readonly defaultOpen = input(false)
-  // Read once, as Base UI's `defaultOpen` is: ng-primitives' follows it, and the chat's end would
-  // open the row again.
+  // Read once, as Base UI's `defaultOpen` is, so the chat's end never opens the row again.
   protected readonly initiallyOpen = signal(false)
   protected readonly styles = styles
   protected readonly command = computed(() => {

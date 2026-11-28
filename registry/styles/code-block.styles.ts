@@ -47,8 +47,11 @@ const FOCUSED = codeBlockScope.within(":focus-within")
 const NUMBERED = codeBlockContentScope.within("[data-numbered]")
 const WRAPPED = codeBlockContentScope.within("[data-wrap]")
 
-/** Floating over the block, as its own child (`[[data-slot=code-block]>&]:`). */
-const FLOATING = ':is([data-slot="code-block"] > *)'
+/**
+ * Floating over the block, as its own child (`[[data-slot=code-block]>&]:`): the block's relation,
+ * read from its child.
+ */
+const FLOATING = codeBlockScope.parent()
 const COARSE = "@media (pointer: coarse)"
 
 type Step = { nova: string; wide: string; tight: string; luma: string }

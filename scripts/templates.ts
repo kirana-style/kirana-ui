@@ -26,7 +26,7 @@ import {
   TOOLING_LABELS,
 } from "../packages/create/src/catalog"
 import { everySkeleton, skeletonId } from "../packages/create/src/choices"
-import { composeProject } from "../packages/create/src/compose"
+import { composeProject, packedManagers } from "../packages/create/src/compose"
 import { tar } from "../packages/create/src/tar"
 
 const ROOT = join(import.meta.dirname, "..")
@@ -49,13 +49,21 @@ if (existsSync(out)) rmSync(out, { recursive: true })
 mkdirSync(out, { recursive: true })
 const skeletons = everySkeleton()
 let bytes = 0
+/** A skeleton's archive for a package manager: `<id>.tgz`, or `<id>.<manager>.tgz` apart. */
+const archiveOf = (id: string, manager?: string) =>
+  manager ? `${id}.${manager}.tgz` : `${id}.tgz`
+let archives = 0
 for (const skeleton of skeletons) {
   const id = skeletonId(skeleton)
-  const archive = gzipSync(tar(composeProject(skeleton, versions), id), {
-    level: 9,
-  })
-  writeFileSync(join(out, `${id}.tgz`), archive)
-  bytes += archive.length
+  for (const manager of packedManagers(skeleton.monorepo)) {
+    const archive = gzipSync(
+      tar(composeProject(skeleton, versions, { manager }), id),
+      { level: 9 }
+    )
+    writeFileSync(join(out, archiveOf(id, manager)), archive)
+    bytes += archive.length
+    archives++
+  }
 }
 /** A skeleton's title, as the dialog names its parts. */
 const titleOf = (skeleton: (typeof skeletons)[number]) =>
@@ -76,7 +84,15 @@ writeFileSync(
       templates: skeletons.map((skeleton) => ({
         name: skeletonId(skeleton),
         title: titleOf(skeleton),
-        file: `${skeletonId(skeleton)}.tgz`,
+        file: archiveOf(skeletonId(skeleton)),
+        ...Object.fromEntries(
+          packedManagers(skeleton.monorepo)
+            .filter((manager) => manager !== undefined)
+            .map((manager) => [
+              "files",
+              { [manager]: archiveOf(skeletonId(skeleton), manager) },
+            ])
+        ),
         meta: { ...skeleton, versions },
       })),
     },
@@ -85,5 +101,5 @@ writeFileSync(
   )}\n`
 )
 console.log(
-  `templates: ${skeletons.length} skeletons, ${(bytes / 1024).toFixed(0)} KB, in ${out}`
+  `templates: ${skeletons.length} skeletons in ${archives} archives, ${(bytes / 1024).toFixed(0)} KB, in ${out}`
 )

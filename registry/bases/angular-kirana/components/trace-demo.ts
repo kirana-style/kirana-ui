@@ -209,8 +209,7 @@ export class ToolRow {
   readonly part = input.required<Extract<Part, { type: "tool-runCommand" }>>()
   readonly streaming = input(false)
   readonly defaultOpen = input(false)
-  // Read once, as Base UI's `defaultOpen` is: ng-primitives' follows it, and the chat's end would
-  // open the row again.
+  // Read once, as Base UI's `defaultOpen` is, so the chat's end never opens the row again.
   protected readonly initiallyOpen = signal(false)
   protected readonly styles = styles
   protected readonly command = computed(() => this.part().input?.command)

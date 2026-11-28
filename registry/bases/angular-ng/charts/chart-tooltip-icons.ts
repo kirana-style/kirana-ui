@@ -1,9 +1,10 @@
-import { Component } from "@angular/core"
+import { Component, computed, viewChild } from "@angular/core"
 import { barY, defineChart, stack } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { theme } from "../../../core/tokens"
 import type { ChartConfig, ChartIcon } from "../ui/chart"
+import { IconPlaceholder } from "../../../icons/angular"
 import {
   chartTheme,
   chartTooltip,
@@ -29,33 +30,14 @@ const chartData = [
   { date: "2024-07-20", running: 480, swimming: 400 },
 ]
 
-/** The series' icon, for the tooltip. */
-const FootprintsIcon: ChartIcon = {
-  lucide: "FootprintsIcon",
-  tabler: "IconShoe",
-  hugeicons: "FootprintsIcon",
-  phosphor: "FootprintsIcon",
-  remixicon: "RiFootprintLine",
-}
-/** The series' icon, for the tooltip. */
-const WavesIcon: ChartIcon = {
-  lucide: "WavesIcon",
-  tabler: "IconRipple",
-  hugeicons: "WavesIcon",
-  phosphor: "WavesIcon",
-  remixicon: "RiFloodLine",
-}
-
 const chartConfig = {
   running: {
     label: "Running",
     color: theme.chart1,
-    icon: FootprintsIcon,
   },
   swimming: {
     label: "Swimming",
     color: theme.chart2,
-    icon: WavesIcon,
   },
 } satisfies ChartConfig
 
@@ -122,6 +104,7 @@ const chart = defineChart(
 @Component({
   selector: "chart-tooltip-icons",
   imports: [
+    IconPlaceholder,
     Card,
     CardContent,
     CardDescription,
@@ -132,6 +115,26 @@ const chart = defineChart(
     ChartTooltipContent,
   ],
   template: `
+    <ng-template #footprintsIcon>
+      <svg
+        iconPlaceholder
+        lucide="FootprintsIcon"
+        tabler="IconShoe"
+        hugeicons="FootprintsIcon"
+        phosphor="FootprintsIcon"
+        remixicon="RiFootprintLine"
+      ></svg>
+    </ng-template>
+    <ng-template #wavesIcon>
+      <svg
+        iconPlaceholder
+        lucide="WavesIcon"
+        tabler="IconRipple"
+        hugeicons="WavesIcon"
+        phosphor="WavesIcon"
+        remixicon="RiFloodLine"
+      ></svg>
+    </ng-template>
     <div kuiCard>
       <div kuiCardHeader>
         <div kuiCardTitle>Tooltip - Icons</div>
@@ -140,7 +143,7 @@ const chart = defineChart(
       <div kuiCardContent>
         <div
           kuiChartContainer
-          [config]="chartConfig"
+          [config]="chartConfig()"
           [definition]="chart"
           ariaLabel="Running and swimming by day, 15 to 20 July 2024"
           [initialWidth]="480"
@@ -154,6 +157,15 @@ const chart = defineChart(
   `,
 })
 export default class ChartTooltipIcons {
-  protected readonly chartConfig = chartConfig
+  private readonly footprintsIcon =
+    viewChild.required<ChartIcon>("footprintsIcon")
+  private readonly wavesIcon = viewChild.required<ChartIcon>("wavesIcon")
+  protected readonly chartConfig = computed(
+    () =>
+      ({
+        running: { ...chartConfig.running, icon: this.footprintsIcon() },
+        swimming: { ...chartConfig.swimming, icon: this.wavesIcon() },
+      }) satisfies ChartConfig
+  )
   protected readonly chart = chart
 }

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core"
+import { Component, computed, viewChild } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
 import { areaY, defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
@@ -57,20 +57,10 @@ const chartData = [
   { month: "June", desktop: 214 },
 ]
 
-/** The series' icon, for the legend. */
-const ActivityIcon: ChartIcon = {
-  lucide: "ActivityIcon",
-  tabler: "IconActivity",
-  hugeicons: "Activity01Icon",
-  phosphor: "PulseIcon",
-  remixicon: "RiPulseLine",
-}
-
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: theme.chart1,
-    icon: ActivityIcon,
   },
 } satisfies ChartConfig
 
@@ -151,6 +141,16 @@ const chart = defineChart(
     SxDirective,
   ],
   template: `
+    <ng-template #activityIcon>
+      <svg
+        iconPlaceholder
+        lucide="ActivityIcon"
+        tabler="IconActivity"
+        hugeicons="Activity01Icon"
+        phosphor="PulseIcon"
+        remixicon="RiPulseLine"
+      ></svg>
+    </ng-template>
     <div kuiCard>
       <div kuiCardHeader>
         <div kuiCardTitle>Area Chart - Step</div>
@@ -161,7 +161,7 @@ const chart = defineChart(
       <div kuiCardContent>
         <div
           kuiChartContainer
-          [config]="chartConfig"
+          [config]="chartConfig()"
           [definition]="chart"
           ariaLabel="Desktop visitors, January to June 2024"
           [initialWidth]="480"
@@ -195,6 +195,12 @@ const chart = defineChart(
 })
 export default class ChartAreaStep {
   protected readonly styles = styles
-  protected readonly chartConfig = chartConfig
+  private readonly activityIcon = viewChild.required<ChartIcon>("activityIcon")
+  protected readonly chartConfig = computed(
+    () =>
+      ({
+        desktop: { ...chartConfig.desktop, icon: this.activityIcon() },
+      }) satisfies ChartConfig
+  )
   protected readonly chart = chart
 }

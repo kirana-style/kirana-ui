@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { h } from "vue"
 import { css } from "@kirana-style/core"
 import { areaY, defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
 import { decorative } from "@tanstack/charts/mark/decorative"
@@ -10,6 +9,8 @@ import { curveNatural } from "d3-shape"
 import { fontWeight, space } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
 import IconPlaceholder from "../../../icons/IconPlaceholder.vue"
+import TrendingDownIcon from "../components/chart-area-icons/TrendingDownIcon.vue"
+import TrendingUpIcon from "../components/chart-area-icons/TrendingUpIcon.vue"
 import {
   Card,
   CardContent,
@@ -57,25 +58,6 @@ const chartData = [
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
 ]
-
-/** The series' icon, for the legend. */
-const TrendingDownIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "TrendingDownIcon",
-    tabler: "IconTrendingDown",
-    hugeicons: "ChartDownIcon",
-    phosphor: "TrendDownIcon",
-    remixicon: "RiArrowRightDownLine",
-  })
-/** The series' icon, for the legend. */
-const TrendingUpIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "TrendingUpIcon",
-    tabler: "IconTrendingUp",
-    hugeicons: "ChartUpIcon",
-    phosphor: "TrendUpIcon",
-    remixicon: "RiLineChartLine",
-  })
 
 const chartConfig = {
   desktop: {

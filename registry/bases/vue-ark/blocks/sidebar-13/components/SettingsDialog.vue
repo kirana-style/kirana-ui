@@ -277,7 +277,104 @@ const open = ref(true)
                       as-child
                     >
                       <a href="#">
-                        <IconPlaceholder v-if="item.icon" v-bind="item.icon" />
+                        <template v-if="item.icon">
+                          <IconPlaceholder
+                            v-if="item.icon.lucide === 'BellIcon'"
+                            lucide="BellIcon"
+                            tabler="IconBell"
+                            hugeicons="NotificationIcon"
+                            phosphor="BellIcon"
+                            remixicon="RiNotificationLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'MenuIcon'"
+                            lucide="MenuIcon"
+                            tabler="IconMenu"
+                            hugeicons="Menu09Icon"
+                            phosphor="ListIcon"
+                            remixicon="RiMenuLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'HomeIcon'"
+                            lucide="HomeIcon"
+                            tabler="IconHome"
+                            hugeicons="HomeIcon"
+                            phosphor="HouseIcon"
+                            remixicon="RiHomeLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'PaintbrushIcon'"
+                            lucide="PaintbrushIcon"
+                            tabler="IconPalette"
+                            hugeicons="PaintBoardIcon"
+                            phosphor="PaletteIcon"
+                            remixicon="RiPaletteLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'MessageCircleIcon'"
+                            lucide="MessageCircleIcon"
+                            tabler="IconMessageQuestion"
+                            hugeicons="MessageIcon"
+                            phosphor="ChatCircleIcon"
+                            remixicon="RiChat1Line"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'GlobeIcon'"
+                            lucide="GlobeIcon"
+                            tabler="IconWorld"
+                            hugeicons="Globe02Icon"
+                            phosphor="GlobeIcon"
+                            remixicon="RiGlobalLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'KeyboardIcon'"
+                            lucide="KeyboardIcon"
+                            tabler="IconKeyboard"
+                            hugeicons="KeyboardIcon"
+                            phosphor="KeyboardIcon"
+                            remixicon="RiKeyboardLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'CheckIcon'"
+                            lucide="CheckIcon"
+                            tabler="IconCheck"
+                            hugeicons="Tick02Icon"
+                            phosphor="CheckIcon"
+                            remixicon="RiCheckLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'VideoIcon'"
+                            lucide="VideoIcon"
+                            tabler="IconVideoPlus"
+                            hugeicons="RecordIcon"
+                            phosphor="VideoIcon"
+                            remixicon="RiVideoLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'LinkIcon'"
+                            lucide="LinkIcon"
+                            tabler="IconLink"
+                            hugeicons="LinkIcon"
+                            phosphor="LinkIcon"
+                            remixicon="RiLinksLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'LockIcon'"
+                            lucide="LockIcon"
+                            tabler="IconLock"
+                            hugeicons="ShieldIcon"
+                            phosphor="LockIcon"
+                            remixicon="RiLockLine"
+                          />
+                          <IconPlaceholder
+                            v-else-if="item.icon.lucide === 'SettingsIcon'"
+                            lucide="SettingsIcon"
+                            tabler="IconSettings"
+                            hugeicons="SettingsIcon"
+                            phosphor="GearIcon"
+                            remixicon="RiSettingsLine"
+                          />
+                        </template>
                         <span>
                           {{ item.name }}
                         </span>

@@ -44,7 +44,7 @@ const styles = {
     transitionDuration: duration[150],
     transitionProperty: "transform, translate, scale, rotate",
     transitionTimingFunction: easing.inOut,
-    rotate: { [OPEN.base]: "90deg" },
+    rotate: { [OPEN.reka]: "90deg" },
   }),
   calendarsDiv: css({
     // Tailwind's `rounded-xs`, outside the radius scale.

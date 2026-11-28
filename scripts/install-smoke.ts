@@ -15,6 +15,13 @@
  *   bun scripts/install-smoke.ts --audit --icons hugeicons --all react-kirana-nova
  *       # what the project holds alone (`scripts/install-audit.ts`): installed with that icon
  *       # library and every item its base has, read, every finding reported, nothing built
+ *   bun scripts/install-smoke.ts --matrix --audit --filter '*--turbo--*' --summary out.json
+ *       # Get Code's whole matrix (`scripts/install-matrix.ts`), or the entries the globs match,
+ *       # every entry run to its end, each outcome written to the summary
+ *
+ * A combination may end in `/<icons>` and `/<runner>`: that icon library in the preset, and Get
+ * Code's command line for that runner (`npx`, `pnpm dlx`, `yarn dlx`, `bunx --bun`, `vpx`), run as
+ * written; without a runner, `bunx`.
  *
  * A skeleton is `<template>--<monorepo>--<tooling>` (`r/templates/index.json` lists them); without
  * one, the framework's Vite app alone with ESLint. Needs the site, its registry and the templates
@@ -29,6 +36,7 @@ import {
   readdirSync,
   rmSync,
   statSync,
+  writeFileSync,
 } from "node:fs"
 import { createServer } from "node:http"
 import type { AddressInfo } from "node:net"
@@ -37,17 +45,27 @@ import { join, relative } from "node:path"
 import { gzipSync } from "node:zlib"
 
 import { APPS } from "../packages/create/src/apps/index"
-import { PROJECT, TEMPLATES, WORKSPACE } from "../packages/create/src/catalog"
-import type { Framework } from "../packages/create/src/catalog"
+import {
+  PROJECT,
+  RUNNERS,
+  TEMPLATES,
+  WORKSPACE,
+} from "../packages/create/src/catalog"
+import type { Framework, Runner } from "../packages/create/src/catalog"
 import { parseSkeletonId, skeletonId } from "../packages/create/src/choices"
 import {
   REGISTRY_PACKAGE,
+  commandLines,
   initArguments,
+  projectSteps,
   templateReference,
 } from "../packages/create/src/commands"
+import { ICON_LIBRARIES } from "../registry/core/config"
 import { encodePreset, readDesignSystem } from "../registry/core/preset"
-import { ENFORCED, audit, report } from "./install-audit"
+import { ENFORCED, audit, choicesAsAsked, report } from "./install-audit"
 import type { Finding } from "./install-audit"
+import { filtered, matrix, shard, signatureOf } from "./install-matrix"
+import type { Outcome } from "./install-matrix"
 
 const ROOT = join(import.meta.dirname, "..")
 const STATIC = join(ROOT, "apps", "site", "dist", "client")
@@ -275,15 +293,8 @@ function filesOf(root: string): string[] {
   )
 }
 
-/** The colour axes' modules a project installs, one value each (KF-080). */
-const COLOUR_FILES = [
-  "base-colors.ts",
-  "themes.ts",
-  "chart-colors.ts",
-  "base-color-palette.ts",
-  "theme-palette.ts",
-  "chart-color-palette.ts",
-]
+/** The colour axes' modules a project installs, one value each with its colours written in. */
+const COLOUR_FILES = ["base-colors.ts", "themes.ts", "chart-colors.ts"]
 
 /**
  * Every colour value the installed modules hold: the entries' attributes (`theme=cyan`) and the
@@ -293,12 +304,8 @@ function colourValues(root: string): string[] {
   const files = filesOf(root).filter((file) =>
     COLOUR_FILES.some((name) => file.endsWith(`/${name}`))
   )
-  if (files.length !== COLOUR_FILES.length) {
-    console.error(
-      `install: ${COLOUR_FILES.join(", ")} not all installed in ${root}`
-    )
-    process.exit(1)
-  }
+  if (files.length !== COLOUR_FILES.length)
+    fail(`${COLOUR_FILES.join(", ")} not all installed in ${root}`)
   const found = new Set<string>()
   for (const file of files) {
     const text = readFileSync(join(root, file), "utf8")
@@ -314,12 +321,10 @@ function colourValues(root: string): string[] {
 
 function expectColours(root: string, expected: string[], when: string) {
   const found = colourValues(root)
-  if (found.join() !== [...expected].sort().join()) {
-    console.error(
-      `install: ${when}, the colour axes hold ${found.join(", ") || "no value"}, not ${expected.join(", ") || "no value"}`
+  if (found.join() !== [...expected].sort().join())
+    fail(
+      `${when}, the colour axes hold ${found.join(", ") || "no value"}, not ${expected.join(", ") || "no value"}`
     )
-    process.exit(1)
-  }
   console.log(
     `install: ${when}, colours ${found.join(", ") || "the default's"}`
   )
@@ -328,10 +333,7 @@ function expectColours(root: string, expected: string[], when: string) {
 /** The built stylesheets' size, gzip, for the log. */
 function stylesheetSize(app: string, output: string) {
   const folder = join(app, output)
-  if (!existsSync(folder)) {
-    console.error(`install: no build output at ${folder}`)
-    process.exit(1)
-  }
+  if (!existsSync(folder)) fail(`no build output at ${folder}`)
   const css = readdirSync(folder, {
     recursive: true,
     encoding: "utf8",
@@ -341,6 +343,12 @@ function stylesheetSize(app: string, output: string) {
     0
   )
   return `${(bytes / 1024).toFixed(1)} KB gzip`
+}
+
+/** A step that failed: the entry stops, and the run with it unless it keeps going. */
+class Failure extends Error {}
+function fail(message: string): never {
+  throw new Failure(message)
 }
 
 /**
@@ -361,17 +369,10 @@ async function run(cwd: string, command: string, ...args: string[]) {
     })
     child.on("close", resolve)
   })
-  if (status !== 0) {
-    console.error(`install: ${command} ${args[0] ?? ""} failed in ${cwd}`)
-    process.exit(1)
-  }
+  if (status !== 0) fail(`${command} ${args[0] ?? ""} failed in ${cwd}`)
   return output
 }
 
-/**
- * The combinations asked for, else the default list; `--shard <i>/<n>` keeps every n-th of the
- * default list from the i-th, so CI installs it on n runners side by side.
- */
 /** `--name <value>` taken out of `argv`. */
 function option(argv: string[], name: string): string | undefined {
   const at = argv.indexOf(name)
@@ -391,19 +392,44 @@ const AUDIT_ONLY = flag(ARGV, "--audit")
 const ALL_ITEMS = flag(ARGV, "--all")
 /** The design's icon library, where the style's own is not asked for. */
 const ICONS = option(ARGV, "--icons")
+/** These items alone (comma-separated), in place of the slice. */
+const ITEMS = option(ARGV, "--items")?.split(",")
+/** Get Code's whole matrix in place of the default list. */
+const MATRIX = flag(ARGV, "--matrix")
+/** Comma-separated globs an entry's name must match one of. */
+const FILTER = option(ARGV, "--filter")
+/** Every n-th entry from the i-th, so CI installs the list on n runners side by side. */
+const SHARD = option(ARGV, "--shard")
+/** Where each entry's outcome is written, as JSON; every entry then runs to its end. */
+const SUMMARY = option(ARGV, "--summary")
+// The flag is read first: reading it takes it off the list of combinations.
+const KEEP_GOING = flag(ARGV, "--keep-going") || SUMMARY !== undefined
 const audited: { name: string; findings: Finding[] }[] = []
+const outcomes: Outcome[] = []
 
-function selected(argv: string[]) {
-  const at = argv.indexOf("--shard")
-  if (at === -1) return argv.length ? argv : DEFAULT
-  const [index = 0, count = 0] = (argv[at + 1] ?? "").split("/").map(Number)
-  if (!(count >= 1 && index >= 1 && index <= count))
-    throw new Error(`--shard takes <i>/<n>, 1 <= i <= n: ${argv[at + 1]}`)
-  return DEFAULT.filter((_, position) => position % count === index - 1)
+/**
+ * The combinations asked for, else the matrix (`--matrix`) or the default list; `--filter` and
+ * `--shard` then narrow it.
+ */
+function selected(argv: string[]): string[] {
+  const list = argv.length
+    ? argv
+    : MATRIX
+      ? matrix().map((entry) => entry.name)
+      : DEFAULT
+  const names = FILTER
+    ? filtered(
+        list.map((name) => ({ name })),
+        FILTER
+      ).map((entry) => entry.name)
+    : list
+  return shard(names, SHARD)
 }
 
-for (const asked of selected(ARGV)) {
-  const [combination = "", named] = asked.split("@")
+/** An entry asked for: the combination, the skeleton, and its icon library and runner if named. */
+function parse(asked: string) {
+  const [combination = "", rest] = asked.split("@")
+  const [named, ...options] = (rest ?? "").split("/")
   const [framework, base, style] = combination.split("-") as [
     Framework,
     string,
@@ -414,7 +440,7 @@ for (const asked of selected(ARGV)) {
     process.exit(2)
   }
   const skeleton = parseSkeletonId(
-    named ??
+    named ||
       skeletonId({
         template: TEMPLATES[framework][0],
         monorepo: "none",
@@ -425,6 +451,51 @@ for (const asked of selected(ARGV)) {
     console.error(`install: not a skeleton for ${framework}: ${named}`)
     process.exit(2)
   }
+  const icons = options.find((value) =>
+    (ICON_LIBRARIES as readonly string[]).includes(value)
+  )
+  const runner = options.find((value) =>
+    (RUNNERS as readonly string[]).includes(value)
+  ) as Runner | undefined
+  const unknown = options.filter((value) => value !== icons && value !== runner)
+  if (unknown.length) {
+    console.error(
+      `install: neither an icon library nor a runner: ${unknown.join(", ")}`
+    )
+    process.exit(2)
+  }
+  return {
+    combination,
+    framework,
+    base,
+    style,
+    skeleton,
+    icons: icons ?? ICONS,
+    runner,
+  }
+}
+
+async function install(asked: string): Promise<Outcome> {
+  const { combination, framework, base, style, skeleton, icons, runner } =
+    parse(asked)
+  // The project's binaries and scripts through the runner that started it, as its reader runs
+  // them (Yarn's Plug'n'Play has no node_modules for `bunx` to find them in); Bun's otherwise.
+  const kiranaStyle = (cwd: string, ...args: string[]) =>
+    runner && runner !== "bun"
+      ? run(
+          cwd,
+          "sh",
+          "-c",
+          commandLines(
+            [{ exec: ["kirana-style", ...args].join(" ") }],
+            runner
+          )[0]!
+        )
+      : run(cwd, "bunx", "kirana-style", ...args)
+  const script = (cwd: string, name: string) =>
+    runner && runner !== "bun"
+      ? run(cwd, runner === "vp" ? "pnpm" : runner, "run", name)
+      : run(cwd, "bun", "run", name)
   const id = skeletonId(skeleton)
   // The code the site's customizer gives this combination, with the rules between axes applied.
   const system = readDesignSystem(
@@ -432,26 +503,41 @@ for (const asked of selected(ARGV)) {
       framework,
       base,
       style,
-      ...(ICONS ? { iconLibrary: ICONS } : {}),
+      ...(icons ? { iconLibrary: icons } : {}),
     })
   ).system
   const preset = encodePreset(system)
-  console.log(`\n== ${combination} ${id} (${preset})`)
+  console.log(
+    `\n== ${combination} ${id} (${preset}${runner ? `, ${runner}` : ""})`
+  )
 
   const folder = mkdtempSync(join(tmpdir(), `kirana-ui-${combination}-`))
   const choices = { ...skeleton, base: system.base, pointer: true, rtl: false }
-  // Get Code's command, under Bun: the skeleton fetched from this checkout's templates, installed,
-  // the design system installed with the preset, `data-pointer` on `<html>`.
-  await run(
-    folder,
-    "bunx",
-    `${REGISTRY_PACKAGE}@${kirana}`,
-    "init",
-    "--template",
-    templateReference(skeleton),
-    PROJECT.directory,
-    ...initArguments(choices, system, registry).split(" ")
-  )
+  // Get Code's command: the skeleton fetched from this checkout's templates, installed, the design
+  // system installed with the preset, `data-pointer` on `<html>`. With a runner, the line Get Code
+  // writes for it, the registry package at this checkout's Kirana; else under Bun.
+  if (runner) {
+    const [line = ""] = commandLines(
+      projectSteps(choices, system, registry),
+      runner
+    )
+    await run(
+      folder,
+      "sh",
+      "-c",
+      line.replace(`${REGISTRY_PACKAGE} `, `${REGISTRY_PACKAGE}@${kirana} `)
+    )
+  } else
+    await run(
+      folder,
+      "bunx",
+      `${REGISTRY_PACKAGE}@${kirana}`,
+      "init",
+      "--template",
+      templateReference(skeleton),
+      PROJECT.directory,
+      ...initArguments(choices, system, registry).split(" ")
+    )
   const root = join(folder, PROJECT.directory)
   const workspace = skeleton.monorepo !== "none"
   const app = workspace ? join(root, "apps", PROJECT.app) : root
@@ -462,12 +548,10 @@ for (const asked of selected(ARGV)) {
     !/<html[^>]*\bdata-pointer\b/i.test(
       readFileSync(join(app, example.document), "utf8")
     )
-  ) {
-    console.error(
-      `install: init --pointer did not set data-pointer on <html> in ${example.document}`
+  )
+    fail(
+      `init --pointer did not set data-pointer on <html> in ${example.document}`
     )
-    process.exit(1)
-  }
   // The preset's font is Inter: `init` installs its item, which imports the family's stylesheet
   // in the app (on the Angular CLI, lists it in angular.json's `styles`), and its package in the
   // app's manifest, also in a workspace.
@@ -477,35 +561,60 @@ for (const asked of selected(ARGV)) {
         readFileSync(join(app, file), "utf8")
       )
     )
-  ) {
-    console.error(`install: init did not import the preset's font in ${app}`)
-    process.exit(1)
-  }
+  )
+    fail(`init did not import the preset's font in ${app}`)
   const manifest = JSON.parse(
     readFileSync(join(app, "package.json"), "utf8")
   ) as Record<string, Record<string, string> | undefined>
   if (
     !manifest.dependencies?.["@fontsource-variable/inter"] &&
     !manifest.devDependencies?.["@fontsource-variable/inter"]
-  ) {
-    console.error(
-      `install: init did not add the preset's font's package to ${join(app, "package.json")}`
+  )
+    fail(
+      `init did not add the preset's font's package to ${join(app, "package.json")}`
     )
-    process.exit(1)
-  }
-  const items = ALL_ITEMS
-    ? everyItemOf(framework, base)
-    : itemsOf(framework, base)
+  const items = ITEMS
+    ? ITEMS
+    : ALL_ITEMS
+      ? everyItemOf(framework, base)
+      : itemsOf(framework, base)
   console.log(`install: ${items.length} items for ${framework} on ${base}`)
-  await run(app, "bunx", "kirana-style", "ui", "add", ...items)
-  // What the project now holds, read as its owner reads it: nothing it did not choose.
-  const findings = audit(root, {
+  await kiranaStyle(app, "ui", "add", ...items)
+  // What the project now holds, read as its owner reads it: nothing it did not choose, and each
+  // choice as it was asked.
+  const asks = {
     framework,
     base,
     iconLibrary: system.iconLibrary,
     tooling: skeleton.tooling,
     monorepo: skeleton.monorepo,
-  })
+  }
+  const findings = [
+    ...audit(root, asks),
+    ...choicesAsAsked(root, {
+      ...asks,
+      template: skeleton.template,
+      design: system,
+      preset,
+      runner: runner ?? "bun",
+    }),
+  ]
+  const outcome: Outcome = {
+    name: asked,
+    status: findings.length ? "findings" : "ok",
+    rules: Object.fromEntries(
+      [...new Set(findings.map((finding) => finding.rule))].map((rule) => [
+        rule,
+        findings.filter((finding) => finding.rule === rule).length,
+      ])
+    ),
+    details: findings
+      .filter((finding) =>
+        ["choices", "tooling", "leftover"].includes(finding.rule)
+      )
+      .map((finding) => `${finding.rule} ${finding.file}: ${finding.detail}`),
+    signature: signatureOf(root),
+  }
   if (findings.length > 0) {
     console.error(
       `install: ${asked} holds what it did not choose\n${report(findings)}`
@@ -514,18 +623,18 @@ for (const asked of selected(ARGV)) {
       !AUDIT_ONLY &&
       findings.some((finding) => ENFORCED.includes(finding.rule))
     )
-      process.exit(1)
+      fail(`${asked} breaks an enforced rule`)
   }
   if (AUDIT_ONLY) {
     audited.push({ name: `${asked} ${system.iconLibrary}`, findings })
     if (!process.env.KEEP) rmSync(folder, { recursive: true, force: true })
     else console.log(`install: kept ${root}`)
-    continue
+    return outcome
   }
   // The style's preset has the default colours, whose values are the tokens' own: no entries,
   // and Neutral alone in each palette.
-  expectColours(project, ["palette=neutral"], "installed")
-  await run(root, "bun", "run", "build")
+  expectColours(project, [], "installed")
+  await script(root, "build")
   console.log(`install: stylesheets ${stylesheetSize(app, example.output)}`)
   // Another design's colours replace the modules, and coming back leaves none of them. Before the
   // formatter runs: `ui preset` stops at a file the reader changed, and a formatter's pass counts.
@@ -535,13 +644,14 @@ for (const asked of selected(ARGV)) {
         framework,
         base,
         style,
+        ...(icons ? { iconLibrary: icons } : {}),
         baseColor: "stone",
         theme: "cyan",
         chartColor: "green",
       })
     ).system
   )
-  await run(app, "bunx", "kirana-style", "ui", "preset", colours)
+  await kiranaStyle(app, "ui", "preset", colours)
   expectColours(
     project,
     [
@@ -554,9 +664,9 @@ for (const asked of selected(ARGV)) {
     ],
     `after ui preset ${colours}`
   )
-  await run(root, "bun", "run", "build")
-  await run(app, "bunx", "kirana-style", "ui", "preset", preset)
-  expectColours(project, ["palette=neutral"], `back at ${preset}`)
+  await script(root, "build")
+  await kiranaStyle(app, "ui", "preset", preset)
+  expectColours(project, [], `back at ${preset}`)
   // The skeleton's own scripts, from the root: the installed files formatted (so `lint` and
   // `typecheck` read them as the reader would commit them), linted, type-checked and built again.
   const scripts = (
@@ -564,24 +674,50 @@ for (const asked of selected(ARGV)) {
       scripts: Record<string, string>
     }
   ).scripts
-  for (const script of ["format", "lint", "typecheck"])
-    if (scripts[script]) await run(root, "bun", "run", script)
-  if (scripts.check) await run(root, "bun", "run", "check")
-  await run(root, "bun", "run", "build")
+  for (const name of ["format", "lint", "typecheck"])
+    if (scripts[name]) await script(root, name)
+  if (scripts.check) await script(root, "check")
+  await script(root, "build")
   // `kirana-style ui` runs in the app, which has the registry package; the lockfile is the
   // project's.
-  await run(
+  await kiranaStyle(
     app,
-    "bunx",
-    "kirana-style",
     "ui",
     "validate",
     join(relative(app, project), "kirana-style.lock.json")
   )
   rmSync(folder, { recursive: true, force: true })
+  return outcome
+}
+
+const list = selected(ARGV)
+console.log(`install: ${list.length} entr${list.length === 1 ? "y" : "ies"}`)
+for (const asked of list) {
+  try {
+    outcomes.push(await install(asked))
+  } catch (error) {
+    if (!(error instanceof Failure)) throw error
+    console.error(`install: ${asked}: ${error.message}`)
+    outcomes.push({
+      name: asked,
+      status: "failed",
+      error: error.message,
+      rules: {},
+    })
+    if (!KEEP_GOING) {
+      server.close()
+      process.exit(1)
+    }
+  }
+  if (SUMMARY) writeFileSync(SUMMARY, `${JSON.stringify(outcomes, null, 2)}\n`)
 }
 
 server.close()
+const failed = outcomes.filter((outcome) => outcome.status === "failed")
+if (failed.length)
+  console.log(
+    `\ninstall: ${failed.length} of ${outcomes.length} failed\n${failed.map((outcome) => `  ${outcome.name}: ${outcome.error}`).join("\n")}`
+  )
 if (AUDIT_ONLY) {
   console.log("\ninstall: what each project holds that it did not choose")
   for (const { name, findings } of audited) {
@@ -592,6 +728,15 @@ if (AUDIT_ONLY) {
       `  ${name}: ${findings.length === 0 ? "nothing" : [...rules].map(([rule, count]) => `${rule} ${count}`).join(", ")}`
     )
   }
-  process.exit(audited.some(({ findings }) => findings.length > 0) ? 1 : 0)
+  // With a summary, the findings are its to report: the run fails on a failed install or an
+  // enforced rule alone.
+  const counted = (findings: Finding[]) =>
+    SUMMARY === undefined
+      ? findings.length > 0
+      : findings.some((finding) => ENFORCED.includes(finding.rule))
+  process.exit(
+    failed.length || audited.some(({ findings }) => counted(findings)) ? 1 : 0
+  )
 }
+if (failed.length) process.exit(1)
 console.log("\ninstall: every combination installed, built and validated")

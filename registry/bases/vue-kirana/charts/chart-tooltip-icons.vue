@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { h } from "vue"
-
-import IconPlaceholder from "../../../icons/IconPlaceholder.vue"
+import FootprintsIcon from "../components/chart-tooltip-icons/FootprintsIcon.vue"
+import WavesIcon from "../components/chart-tooltip-icons/WavesIcon.vue"
 import { barY, defineChart, stack } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
@@ -30,25 +29,6 @@ const chartData = [
   { date: "2024-07-19", running: 600, swimming: 350 },
   { date: "2024-07-20", running: 480, swimming: 400 },
 ]
-
-/** The series' icon, for the tooltip. */
-const FootprintsIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "FootprintsIcon",
-    tabler: "IconShoe",
-    hugeicons: "FootprintsIcon",
-    phosphor: "FootprintsIcon",
-    remixicon: "RiFootprintLine",
-  })
-/** The series' icon, for the tooltip. */
-const WavesIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "WavesIcon",
-    tabler: "IconRipple",
-    hugeicons: "WavesIcon",
-    phosphor: "WavesIcon",
-    remixicon: "RiFloodLine",
-  })
 
 const chartConfig = {
   running: {

@@ -37,7 +37,6 @@ import {
   ChartTooltipBodyDirective,
 } from "@tanstack/charts/angular"
 
-import { IconPlaceholder } from "../../../icons/angular"
 import {
   categoryOf,
   measureWhenLaidOut,
@@ -51,14 +50,11 @@ export * from "../../../lib/chart"
 
 type Theme = "light" | "dark"
 
-/** An icon by its names in each library, as `iconPlaceholder` takes them. */
-export type ChartIcon = {
-  lucide: string
-  tabler: string
-  hugeicons: string
-  phosphor: string
-  remixicon: string
-}
+/**
+ * A series' icon: the caller's `<ng-template>` holding it, as React's config takes a component,
+ * drawn in place of the series' swatch.
+ */
+export type ChartIcon = TemplateRef<unknown>
 
 export type ChartConfig = Record<
   string,
@@ -102,7 +98,7 @@ class ChartTooltipRow {}
 /** The legend: `<div kuiChartLegendContent>` inside the container, under the chart. */
 @Component({
   selector: "[kuiChartLegendContent]",
-  imports: [IconPlaceholder, SxDirective],
+  imports: [NgTemplateOutlet, SxDirective],
   providers: [provideSxPart()],
   host: {
     "[class]": "part().class",
@@ -113,14 +109,7 @@ class ChartTooltipRow {}
     @for (key of entries(); track key) {
       <div [sx]="styles.legendItem">
         @if (config()[key]!.icon && !hideIcon()) {
-          <svg
-            iconPlaceholder
-            [lucide]="config()[key]!.icon!.lucide"
-            [tabler]="config()[key]!.icon!.tabler"
-            [hugeicons]="config()[key]!.icon!.hugeicons"
-            [phosphor]="config()[key]!.icon!.phosphor"
-            [remixicon]="config()[key]!.icon!.remixicon"
-          ></svg>
+          <ng-container [ngTemplateOutlet]="config()[key]!.icon!" />
         } @else {
           <div
             [sx]="styles.legendSwatch"
@@ -160,7 +149,7 @@ class ChartLegendContent {
 /** The tooltip's body: the focused category and a row per series. */
 @Component({
   selector: "[kuiChartTooltipContent]",
-  imports: [IconPlaceholder, NgTemplateOutlet, SxDirective],
+  imports: [NgTemplateOutlet, SxDirective],
   providers: [provideSxPart()],
   host: {
     "[class]": "part().class",
@@ -197,14 +186,7 @@ class ChartLegendContent {
             }}
           } @else {
             @if (row.item?.icon; as icon) {
-              <svg
-                iconPlaceholder
-                [lucide]="icon.lucide"
-                [tabler]="icon.tabler"
-                [hugeicons]="icon.hugeicons"
-                [phosphor]="icon.phosphor"
-                [remixicon]="icon.remixicon"
-              ></svg>
+              <ng-container [ngTemplateOutlet]="icon" />
             } @else if (!hideIndicator()) {
               <div
                 [sx]="indicatorLook()"

@@ -10,14 +10,18 @@ and the install check agree and a new option is one entry.
 | `apps/*.ts`   | one `AppSkeleton` per template: its files, manifest parts, scripts, type check and Vite config spec, built from Kirana's example of the same name with a welcome page in place of the probe                                                                                                      |
 | `tooling.ts`  | the ESLint + Prettier, Oxlint + Oxfmt, Biome and Vite+ layers: configuration files, scripts, packages, Kirana's rules as this repository runs them                                                                                                                                               |
 | `monorepo.ts` | the Turborepo and Vite+ workspace roots around `apps/web`, with `packages/ui` (its manifest and tsconfig per framework) and the tooling at the root                                                                                                                                              |
-| `compose.ts`  | `composeProject(skeleton, versions, options)`: every file of the project, deterministic                                                                                                                                                                                                          |
+| `compose.ts`  | `composeProject(skeleton, versions, options)`: every file of the project for a package manager (`options.manager`), deterministic                                                                                                                                                                |
 | `commands.ts` | the one command Get Code writes (`kirana-style ui init --template @kirana/<id>`, `--workspace packages/ui` in a workspace) and its line per runner                                                                                                                                               |
 | `tar.ts`      | the tarball the site serves, which `init --template` unpacks                                                                                                                                                                                                                                     |
 | `versions.ts` | every package range the skeletons name, in one table                                                                                                                                                                                                                                             |
 
 `scripts/templates.ts` (`vp run templates`) packs every skeleton into `apps/site/dist/client/r/templates/`
 with `index.json` in Kirana's registry-templates schema (a Turborepo's root names `{packageManager}`,
-which `init` fills; a workspace root's `kirana-template.project` names the app); `scripts/install-smoke.ts`
+which `init` fills; a workspace root's `kirana-template.project` names the app). A skeleton is packed
+twice (`packedManagers`): `<id>.tgz` for npm, Yarn and Bun, and `<id>.pnpm.tgz`, which the index's
+`files.pnpm` names and `init` takes under pnpm, with `pnpm-workspace.yaml` (a Turborepo's packages,
+and `strictDepBuilds: false`, so an install with an unapproved build script finishes); a Vite+
+monorepo, on pnpm whatever starts it, is packed once with the file; `scripts/install-smoke.ts`
 (`vp run install`) runs Get Code's command against them, then `add` and the skeleton's `format`, `lint`,
 `typecheck` and `build` scripts.
 

@@ -34,8 +34,8 @@ const styles = {
   chevronDownIcon: css({
     marginLeft: "auto",
     // Upstream's `group-data-[panel-open]/button:rotate-180`: the trigger is the icon's parent.
-    // ng-primitives' trigger writes `data-open`, where Base UI's writes `data-panel-open`.
-    rotate: { ":where([data-open] > *)": "180deg" },
+    // Kirana UI's trigger writes Base UI's `data-panel-open`.
+    rotate: { ":where([data-panel-open] > *)": "180deg" },
   }),
   collapsibleContent: css({
     display: { "*": null, base: "flex" },

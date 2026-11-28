@@ -41,7 +41,12 @@ import type { DemoCode, DemoParts } from "./demos"
 import { demoCode, demoParts, previewedItems } from "./demos"
 import { evaluate, installStub, tagStates } from "./evaluate"
 import { writeA2ui } from "./a2ui"
-import { classifier, flattenHandle, flattenRecipe } from "./flatten"
+import {
+  classifier,
+  flattenHandle,
+  flattenRecipe,
+  keepsConstant,
+} from "./flatten"
 import { generate } from "./generate"
 import { UNEXPORTED_BASES } from "../../../registry/core/config"
 import { COMBINATIONS, FRAMEWORK_BASES, ITEMS } from "./items"
@@ -204,6 +209,7 @@ try {
       const code = generate(exports, names, {
         flatten: (handle) => flattenHandle(handle, classify),
         flattenRecipe: (handle) => flattenRecipe(handle, classify),
+        keep: (value) => keepsConstant(value, classify),
         imports: (core) => `@/registry/${combination.id}/lib/kirana/${core}`,
         module,
         // Installed beside each other in `ui/`.

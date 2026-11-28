@@ -1,4 +1,4 @@
-import { Component } from "@angular/core"
+import { Component, computed, viewChild } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
 import { defineChart } from "@tanstack/charts"
@@ -71,33 +71,14 @@ const chartData = [
   { month: "June", desktop: 214, mobile: 140 },
 ]
 
-/** The series' icon, for the legend. */
-const ArrowDownFromLineIcon: ChartIcon = {
-  lucide: "ArrowDownFromLineIcon",
-  tabler: "IconArrowBarToDown",
-  hugeicons: "ArrowDown01Icon",
-  phosphor: "ArrowLineDownIcon",
-  remixicon: "RiArrowDownLine",
-}
-/** The series' icon, for the legend. */
-const ArrowUpFromLineIcon: ChartIcon = {
-  lucide: "ArrowUpFromLineIcon",
-  tabler: "IconArrowBarToUp",
-  hugeicons: "ArrowUp01Icon",
-  phosphor: "ArrowLineUpIcon",
-  remixicon: "RiArrowUpLine",
-}
-
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: theme.chart1,
-    icon: ArrowDownFromLineIcon,
   },
   mobile: {
     label: "Mobile",
     color: theme.chart2,
-    icon: ArrowUpFromLineIcon,
   },
 } satisfies ChartConfig
 
@@ -211,6 +192,26 @@ const chart = defineChart(
     SxDirective,
   ],
   template: `
+    <ng-template #arrowDownFromLineIcon>
+      <svg
+        iconPlaceholder
+        lucide="ArrowDownFromLineIcon"
+        tabler="IconArrowBarToDown"
+        hugeicons="ArrowDown01Icon"
+        phosphor="ArrowLineDownIcon"
+        remixicon="RiArrowDownLine"
+      ></svg>
+    </ng-template>
+    <ng-template #arrowUpFromLineIcon>
+      <svg
+        iconPlaceholder
+        lucide="ArrowUpFromLineIcon"
+        tabler="IconArrowBarToUp"
+        hugeicons="ArrowUp01Icon"
+        phosphor="ArrowLineUpIcon"
+        remixicon="RiArrowUpLine"
+      ></svg>
+    </ng-template>
     <div kuiCard>
       <div kuiCardHeader [sx]="styles.header">
         <div kuiCardTitle>Radar Chart - Icons</div>
@@ -221,7 +222,7 @@ const chart = defineChart(
       <div kuiCardContent>
         <div
           kuiChartContainer
-          [config]="chartConfig"
+          [config]="chartConfig()"
           [definition]="chart"
           ariaLabel="Desktop and Mobile visitors by month, January to June 2024"
           [initialWidth]="250"
@@ -254,6 +255,18 @@ const chart = defineChart(
 })
 export default class ChartRadarIcons {
   protected readonly styles = styles
-  protected readonly chartConfig = chartConfig
+  private readonly arrowDownFromLineIcon = viewChild.required<ChartIcon>(
+    "arrowDownFromLineIcon"
+  )
+  private readonly arrowUpFromLineIcon = viewChild.required<ChartIcon>(
+    "arrowUpFromLineIcon"
+  )
+  protected readonly chartConfig = computed(
+    () =>
+      ({
+        desktop: { ...chartConfig.desktop, icon: this.arrowDownFromLineIcon() },
+        mobile: { ...chartConfig.mobile, icon: this.arrowUpFromLineIcon() },
+      }) satisfies ChartConfig
+  )
   protected readonly chart = chart
 }

@@ -21,6 +21,7 @@ import {
   space,
 } from "../../../../../core/scales"
 import type { Sx } from "@kirana-style/core"
+import { Sidebar10Icon } from "./sidebar10-icon"
 
 export function NavActions(props: {
   class?: string
@@ -269,7 +270,7 @@ export function NavActions(props: {
                             <SidebarMenuItem>
                               <SidebarMenuButton>
                                 <Show when={item.icon}>
-                                  <IconPlaceholder {...item.icon} />
+                                  <Sidebar10Icon icon={item.icon} />
                                 </Show>
                                 <span>{item.label}</span>
                               </SidebarMenuButton>

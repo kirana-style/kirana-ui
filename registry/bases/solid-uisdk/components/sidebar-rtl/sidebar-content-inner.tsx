@@ -231,10 +231,10 @@ export function SidebarContentInner(props: {
       transitionProperty: "transform, translate, scale, rotate",
       transitionTimingFunction: easing.inOut,
       rotate: {
-        [OPEN.base]: "90deg",
+        [OPEN.uisdk]: "90deg",
         ":dir(rtl)": {
           base: "180deg",
-          [OPEN.base]: "90deg",
+          [OPEN.uisdk]: "90deg",
         },
       },
     }),

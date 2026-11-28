@@ -16,7 +16,7 @@
  * Removing a condition can change which entry wins (03, "Flattening, precisely"), so `check.ts` asks
  * Kirana for the winners before and after.
  */
-import { only, split } from "./markers"
+import { marker as markerText, only, split } from "./markers"
 import type { RecipeHandle, StyleHandle, StyleObject } from "./kirana-stub"
 import {
   byConditionSet,
@@ -72,6 +72,17 @@ export function classifier(target: Target): Classify {
           if (!writes(target.base, part.base)) return "drop"
     return "keep"
   }
+}
+
+/**
+ * Whether a module's constant is kept: an exported object's string member (`OPEN.aria`, a relation
+ * read of React Aria's open state) is dropped when one of its conditions is another base's or
+ * style's, as an entry under it is, so a project holds its own base's keys alone.
+ */
+export function keepsConstant(value: string, classify: Classify): boolean {
+  return split(value).every(
+    (part) => typeof part === "string" || classify(markerText(part)) !== "drop"
+  )
 }
 
 /** A kept condition as Kirana reads it: a state key is its plain text. */

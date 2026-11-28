@@ -5,19 +5,16 @@ import {
   computed,
   input,
 } from "@angular/core"
+import {
+  KpCollapsible,
+  KpCollapsiblePanel,
+  KpCollapsibleTrigger,
+} from "@kirana-ui/angular"
 import { SxDirective, partSx, provideSxPart } from "@kirana-style/angular"
 import type { SxInput } from "@kirana-style/angular"
-import {
-  NgpCollapsible,
-  NgpCollapsibleTrigger,
-  injectCollapsibleState,
-} from "ng-primitives/collapsible"
 
 import { IconPlaceholder } from "../../../icons/angular"
-import { presence } from "../../../lib/angular/presence"
 import { trace } from "../../../styles/trace.styles"
-
-let next = 0
 
 @Directive({
   selector: "[kuiTrace]",
@@ -33,18 +30,17 @@ class Trace {
   protected readonly part = computed(() => partSx(trace.root, this.sx()))
 }
 
-/** A step that opens on its details: Collapsible's, in the trace's look. `[(open)]`, `defaultOpen`. */
+/**
+ * A step that opens on its details: Kirana UI's collapsible (`KpCollapsible`), in the trace's look.
+ * `[(open)]`, `defaultOpen`, `disabled`.
+ */
 @Directive({
   selector: "[kuiTraceCollapsible]",
   hostDirectives: [
     {
-      directive: NgpCollapsible,
-      inputs: [
-        "ngpCollapsibleOpen: open",
-        "ngpCollapsibleDefaultOpen: defaultOpen",
-        "ngpCollapsibleDisabled: disabled",
-      ],
-      outputs: ["ngpCollapsibleOpenChange: openChange"],
+      directive: KpCollapsible,
+      inputs: ["open", "defaultOpen", "disabled"],
+      outputs: ["openChange"],
     },
   ],
   providers: [provideSxPart()],
@@ -60,49 +56,44 @@ class TraceCollapsible {
 }
 
 /**
- * Its details, out of the page while closed, as Base UI's panel (`presence`), or in it and hidden
- * with `keepMounted`, as Base UI's panel with its `keepMounted`.
+ * Its details: Kirana UI's panel, structural (`*kpCollapsiblePanel`, out of the page while closed,
+ * `--collapsible-panel-height` its height while it moves), so the part draws it around the
+ * caller's content, its own element drawing nothing. `keepMounted` keeps it in the page, hidden.
  */
 @Component({
   selector: "[kuiTraceCollapsibleContent]",
-  imports: [SxDirective],
+  imports: [KpCollapsiblePanel, SxDirective],
   providers: [provideSxPart()],
-  host: {
-    "data-slot": "trace-collapsible-content",
-    "[attr.id]": "id",
-    "[attr.data-open]": "state().open() ? '' : null",
-    "[attr.data-closed]": "state().open() ? null : ''",
-    "[class]": "part",
-  },
-  template: `<div data-slot="trace-collapsible-content-inner" [sx]="inner()">
-    <ng-content />
-  </div>`,
+  host: { style: "display: contents" },
+  template: `
+    <div
+      *kpCollapsiblePanel="options()"
+      data-slot="trace-collapsible-content"
+      [class]="part"
+    >
+      <div data-slot="trace-collapsible-content-inner" [sx]="inner()">
+        <ng-content />
+      </div>
+    </div>
+  `,
 })
 class TraceCollapsibleContent {
   readonly sx = input<SxInput>()
   readonly keepMounted = input(false, { transform: booleanAttribute })
-  protected readonly id = `kui-trace-content-${next++}`
-  protected readonly state = injectCollapsibleState()
+  protected readonly options = computed(() =>
+    this.keepMounted() ? { keepMounted: true } : ""
+  )
   protected readonly part = partSx(trace.content, undefined).class
   protected readonly inner = computed(
     () => [trace.contentInner, this.sx()] as SxInput
   )
-
-  constructor() {
-    this.state().setContent(this.id)
-    presence(() => this.state().open(), {
-      heightVar: "--collapsible-panel-height",
-      widthVar: "--collapsible-panel-width",
-      keepMounted: this.keepMounted,
-    })
-  }
 }
 
 /** The button that opens it, with its chevron. */
 @Component({
   selector: "button[kuiTraceCollapsibleTrigger]",
   imports: [IconPlaceholder, SxDirective],
-  hostDirectives: [NgpCollapsibleTrigger],
+  hostDirectives: [KpCollapsibleTrigger],
   providers: [provideSxPart()],
   host: {
     "data-slot": "trace-collapsible-trigger",
