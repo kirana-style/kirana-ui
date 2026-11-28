@@ -419,14 +419,58 @@ const data = {
                         [sx]="styles.sidebarMenuButton2"
                       >
                         @if (item.icon) {
-                          <svg
-                            iconPlaceholder
-                            [lucide]="item.icon.lucide"
-                            [tabler]="item.icon.tabler"
-                            [hugeicons]="item.icon.hugeicons"
-                            [phosphor]="item.icon.phosphor"
-                            [remixicon]="item.icon.remixicon"
-                          ></svg>
+                          @switch (item.icon.lucide) {
+                            @case ("InboxIcon") {
+                              <svg
+                                iconPlaceholder
+                                lucide="InboxIcon"
+                                tabler="IconInbox"
+                                hugeicons="InboxIcon"
+                                phosphor="TrayIcon"
+                                remixicon="RiInboxLine"
+                              ></svg>
+                            }
+                            @case ("FileIcon") {
+                              <svg
+                                iconPlaceholder
+                                lucide="FileIcon"
+                                tabler="IconFile"
+                                hugeicons="FileIcon"
+                                phosphor="FileIcon"
+                                remixicon="RiFileLine"
+                              ></svg>
+                            }
+                            @case ("SendIcon") {
+                              <svg
+                                iconPlaceholder
+                                lucide="SendIcon"
+                                tabler="IconSend"
+                                hugeicons="SentIcon"
+                                phosphor="PaperPlaneTiltIcon"
+                                remixicon="RiSendPlaneLine"
+                              ></svg>
+                            }
+                            @case ("ArchiveXIcon") {
+                              <svg
+                                iconPlaceholder
+                                lucide="ArchiveXIcon"
+                                tabler="IconArchiveOff"
+                                hugeicons="ArchiveIcon"
+                                phosphor="ArchiveIcon"
+                                remixicon="RiArchiveLine"
+                              ></svg>
+                            }
+                            @case ("Trash2Icon") {
+                              <svg
+                                iconPlaceholder
+                                lucide="Trash2Icon"
+                                tabler="IconTrash"
+                                hugeicons="Delete02Icon"
+                                phosphor="TrashIcon"
+                                remixicon="RiDeleteBinLine"
+                              ></svg>
+                            }
+                          }
                         }
                         <span>{{ item.title }}</span>
                       </button>

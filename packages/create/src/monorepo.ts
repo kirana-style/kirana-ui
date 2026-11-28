@@ -219,7 +219,6 @@ function uiPackage(
       },
       include: rest.include ?? ["src"],
     }),
-    [`${WORKSPACE.uiPath}/src/.gitkeep`]: "",
     ...Object.fromEntries(
       Object.entries(files).map(([path, content]) => [
         `${WORKSPACE.uiPath}/${path}`,
@@ -230,19 +229,50 @@ function uiPackage(
 }
 
 /**
+ * The package managers a project is packed apart for. pnpm alone reads `pnpm-workspace.yaml`:
+ * a Turborepo's packages, and for every project the setting that lets an install finish where a
+ * package has a build script nobody approved (esbuild, lmdb, sharp …), which pnpm 11 and later
+ * stop at. So pnpm's archive has the file and the one for npm, Yarn and Bun has not. A Vite+
+ * monorepo runs on pnpm whatever starts it (`vp`), and keeps the file in its one archive.
+ */
+export function packedManagers(
+  monorepo: Monorepo
+): readonly ("pnpm" | undefined)[] {
+  return monorepo === "vite-plus" ? [undefined] : [undefined, "pnpm"]
+}
+
+/**
+ * `pnpm-workspace.yaml`: a workspace's packages, if any, and installs that finish with the
+ * packages' build scripts left for the reader to approve (`pnpm approve-builds`).
+ */
+export function pnpmWorkspace(workspace: boolean): string {
+  return `${workspace ? `packages:\n${WORKSPACES.map((entry) => `  - "${entry}"`).join("\n")}\n` : ""}# A package's build script runs once approved (pnpm approve-builds); until then the install
+# finishes without it.
+strictDepBuilds: false
+`
+}
+
+/**
  * The root files of a workspace holding the app at `apps/web` and the components in
- * `packages/ui`; none for a single app. `kirana` is Kirana's release, for the root's lint plugin.
+ * `packages/ui`; none for a single app. `kirana` is Kirana's release, for the root's lint plugin;
+ * `manager` the package manager the archive is for (`packedManagers`).
  */
 export function workspaceLayer(
   monorepo: Monorepo,
   tooling: Tooling,
   app: AppSkeleton,
-  versions: { kirana: string; vitePlus: string }
+  versions: { kirana: string; vitePlus: string },
+  manager?: "pnpm"
 ): Record<string, string> {
   if (monorepo === "none") return {}
   const ignores = ignored(app)
+  const pnpm = monorepo === "vite-plus" || manager === "pnpm"
   const common = {
-    "pnpm-workspace.yaml": `packages:\n${WORKSPACES.map((entry) => `  - "${entry}"`).join("\n")}\n`,
+    ...(pnpm
+      ? {
+          "pnpm-workspace.yaml": pnpmWorkspace(true),
+        }
+      : {}),
     ".gitignore": `${GITIGNORE}\n# What the app writes\n${ignores
       .filter((entry) => !GITIGNORE.includes(`${entry}\n`))
       .map((entry) => `apps/${PROJECT.app}/${entry}`)

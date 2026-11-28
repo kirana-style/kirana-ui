@@ -416,7 +416,17 @@
                       hidden: false,
                     }} onclick={() => { select(item) }} isActive={activeItem?.title === item.title} sx={styles.sidebarMenuButton2}>
                     {#if item.icon}
-                      <IconPlaceholder {...item.icon} />
+                      {#if item.icon.lucide === 'InboxIcon'}
+                        <IconPlaceholder lucide="InboxIcon" tabler="IconInbox" hugeicons="InboxIcon" phosphor="TrayIcon" remixicon="RiInboxLine" />
+                      {:else if item.icon.lucide === 'FileIcon'}
+                        <IconPlaceholder lucide="FileIcon" tabler="IconFile" hugeicons="FileIcon" phosphor="FileIcon" remixicon="RiFileLine" />
+                      {:else if item.icon.lucide === 'SendIcon'}
+                        <IconPlaceholder lucide="SendIcon" tabler="IconSend" hugeicons="SentIcon" phosphor="PaperPlaneTiltIcon" remixicon="RiSendPlaneLine" />
+                      {:else if item.icon.lucide === 'ArchiveXIcon'}
+                        <IconPlaceholder lucide="ArchiveXIcon" tabler="IconArchiveOff" hugeicons="ArchiveIcon" phosphor="ArchiveIcon" remixicon="RiArchiveLine" />
+                      {:else if item.icon.lucide === 'Trash2Icon'}
+                        <IconPlaceholder lucide="Trash2Icon" tabler="IconTrash" hugeicons="Delete02Icon" phosphor="TrashIcon" remixicon="RiDeleteBinLine" />
+                      {/if}
                     {/if}
                     <span>
                       {item.title}

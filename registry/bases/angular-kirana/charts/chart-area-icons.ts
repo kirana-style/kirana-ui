@@ -1,4 +1,4 @@
-import { Component } from "@angular/core"
+import { Component, computed, viewChild } from "@angular/core"
 import { SxDirective } from "@kirana-style/angular"
 import { css } from "@kirana-style/core"
 import { areaY, defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
@@ -59,33 +59,14 @@ const chartData = [
   { month: "June", desktop: 214, mobile: 140 },
 ]
 
-/** The series' icon, for the legend. */
-const TrendingDownIcon: ChartIcon = {
-  lucide: "TrendingDownIcon",
-  tabler: "IconTrendingDown",
-  hugeicons: "ChartDownIcon",
-  phosphor: "TrendDownIcon",
-  remixicon: "RiArrowRightDownLine",
-}
-/** The series' icon, for the legend. */
-const TrendingUpIcon: ChartIcon = {
-  lucide: "TrendingUpIcon",
-  tabler: "IconTrendingUp",
-  hugeicons: "ChartUpIcon",
-  phosphor: "TrendUpIcon",
-  remixicon: "RiLineChartLine",
-}
-
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: theme.chart1,
-    icon: TrendingDownIcon,
   },
   mobile: {
     label: "Mobile",
     color: theme.chart2,
-    icon: TrendingUpIcon,
   },
 } satisfies ChartConfig
 
@@ -197,6 +178,26 @@ const chart = defineChart(
     SxDirective,
   ],
   template: `
+    <ng-template #trendingDownIcon>
+      <svg
+        iconPlaceholder
+        lucide="TrendingDownIcon"
+        tabler="IconTrendingDown"
+        hugeicons="ChartDownIcon"
+        phosphor="TrendDownIcon"
+        remixicon="RiArrowRightDownLine"
+      ></svg>
+    </ng-template>
+    <ng-template #trendingUpIcon>
+      <svg
+        iconPlaceholder
+        lucide="TrendingUpIcon"
+        tabler="IconTrendingUp"
+        hugeicons="ChartUpIcon"
+        phosphor="TrendUpIcon"
+        remixicon="RiLineChartLine"
+      ></svg>
+    </ng-template>
     <div kuiCard>
       <div kuiCardHeader>
         <div kuiCardTitle>Area Chart - Icons</div>
@@ -207,7 +208,7 @@ const chart = defineChart(
       <div kuiCardContent>
         <div
           kuiChartContainer
-          [config]="chartConfig"
+          [config]="chartConfig()"
           [definition]="chart"
           ariaLabel="Desktop and Mobile visitors, January to June 2024"
           [initialWidth]="480"
@@ -242,7 +243,16 @@ const chart = defineChart(
 })
 export default class ChartAreaIcons {
   protected readonly styles = styles
-  protected readonly TrendingUpIcon = TrendingUpIcon
-  protected readonly chartConfig = chartConfig
+  private readonly trendingDownIcon =
+    viewChild.required<ChartIcon>("trendingDownIcon")
+  private readonly trendingUpIcon =
+    viewChild.required<ChartIcon>("trendingUpIcon")
+  protected readonly chartConfig = computed(
+    () =>
+      ({
+        desktop: { ...chartConfig.desktop, icon: this.trendingDownIcon() },
+        mobile: { ...chartConfig.mobile, icon: this.trendingUpIcon() },
+      }) satisfies ChartConfig
+  )
   protected readonly chart = chart
 }

@@ -26,7 +26,7 @@ const styles = {
     transitionDuration: duration[200],
     transitionProperty: "transform, translate, scale, rotate",
     transitionTimingFunction: easing.inOut,
-    rotate: { [OPEN.base]: "90deg" },
+    rotate: { [OPEN.ng]: "90deg" },
   }),
 }
 

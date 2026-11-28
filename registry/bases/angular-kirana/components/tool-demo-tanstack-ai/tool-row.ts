@@ -96,8 +96,7 @@ export class ToolRow {
   readonly result = input<ToolResultPart>()
   readonly streaming = input.required<boolean>()
   readonly defaultOpen = input<boolean>()
-  // Read once, as Base UI's `defaultOpen` is: ng-primitives' follows it, and the chat's end would
-  // open a failed call again.
+  // Read once, as Base UI's `defaultOpen` is, so the chat's end never opens a failed call again.
   protected readonly initiallyOpen = signal<boolean | undefined>(undefined)
   protected readonly command = computed<string | undefined>(
     () => this.part().input?.command

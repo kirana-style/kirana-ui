@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { h } from "vue"
 import { css } from "@kirana-style/core"
 import { defineChart } from "@tanstack/charts"
 import { decorative } from "@tanstack/charts/mark/decorative"
@@ -17,6 +16,8 @@ import { curveLinearClosed } from "d3-shape"
 import { fontWeight, space } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
 import IconPlaceholder from "../../../icons/IconPlaceholder.vue"
+import ArrowDownFromLineIcon from "../components/chart-radar-icons/ArrowDownFromLineIcon.vue"
+import ArrowUpFromLineIcon from "../components/chart-radar-icons/ArrowUpFromLineIcon.vue"
 import {
   Card,
   CardContent,
@@ -69,25 +70,6 @@ const chartData = [
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
 ]
-
-/** The series' icon, for the legend. */
-const ArrowDownFromLineIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "ArrowDownFromLineIcon",
-    tabler: "IconArrowBarToDown",
-    hugeicons: "ArrowDown01Icon",
-    phosphor: "ArrowLineDownIcon",
-    remixicon: "RiArrowDownLine",
-  })
-/** The series' icon, for the legend. */
-const ArrowUpFromLineIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "ArrowUpFromLineIcon",
-    tabler: "IconArrowBarToUp",
-    hugeicons: "ArrowUp01Icon",
-    phosphor: "ArrowLineUpIcon",
-    remixicon: "RiArrowUpLine",
-  })
 
 const chartConfig = {
   desktop: {

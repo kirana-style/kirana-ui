@@ -1168,11 +1168,87 @@ as an ordinary comment.
 The builder holds the result to the source: both are transpiled and must come out the same, or
 the build fails and names the file. The docs' code panels and both installers get the same text.
 
+### The design system files
+
+The design system item, `kirana`, is written for the project, not copied from `registry/core/`
+(`packages/builder/src/design-system.ts`). A project installed for one design gets:
+
+| File               | What it holds                                                                     |
+| ------------------ | --------------------------------------------------------------------------------- |
+| `kirana.ts`        | Its base's state vocabularies and the exclusive pairs its installed code can meet |
+| `config.ts`        | Only the constants and types its installed files import                           |
+| `base-colors.ts` … | One module per colour axis, its value's colours written in; no palette module     |
+| no `states.ts`     | A flattened style module reads no state module                                    |
+
+Markup that writes a state through `when()` (a sidebar block's separator) is written with its
+base's selectors when the registry is built; markup that reads `states.ts` any other way fails
+the build, and so does an installed import from `config.ts` that cannot be written out (a
+function). Only `ui init --all-designs` installs the whole `kirana.ts` and `states.ts`, because
+its style modules travel as written, with every base's keys.
+
+### Style modules
+
+A style module is flattened to the project's style and base, its exported constants included: an
+exported object whose members are conditions, one per base (`OPEN` in `collapsible.styles.ts`),
+keeps only the member of the project's base (on Kirana UI Primitives, Base UI's). So markup names
+its own base's member (`OPEN.ark` on Ark UI, `OPEN.uisdk` on ui-sdk), never another base's: that
+member is gone once installed. A part, example, block or demo imports only its own base's headless
+library. One exception: React Aria's Drawer is Base UI's, as in shadcn/ui's React Aria copy.
+
+### Icons
+
+Every framework's markup writes each icon as the placeholder with every library's name on it
+(`<IconPlaceholder lucide=… tabler=… hugeicons=… phosphor=… remixicon=… />`, on Angular
+`<svg iconPlaceholder …>`), and `kirana-style ui` replaces it with the design's library: its own
+package where the library has one for the framework, otherwise that one library's SVG written
+inline. A placeholder never takes its names at run time: no spread, no `v-bind` object, no
+`h(IconPlaceholder, …)`, no bound Angular names.
+
+| Where                                        | Write                                                    |
+| -------------------------------------------- | -------------------------------------------------------- |
+| Data chooses the icon                        | A placeholder per icon, picked by the data's Lucide name |
+| A component's config takes an icon (a chart) | A component that draws it; on Angular an `<ng-template>` |
+
+The builder resolves every file with Kirana's resolver for every library and fails on a
+placeholder it cannot resolve. A file whose placeholders all resolve does not depend on the
+`icon-placeholder` item, so a project gets no icon data and no other library's package.
+
+### The audit
+
 `scripts/install-audit.ts` reads a project after it is installed, in the install test
-(`vp run install`): no comment of the kinds above, no other linter's or workspace tool's files.
-It also reports, without failing yet, another icon library, another headless library, another
-library's state keys and a file nothing imports. `bun scripts/install-smoke.ts --audit --all
---icons hugeicons <combination>` installs one project, reads it and builds nothing.
+(`vp run install`), and fails it on any of these:
+
+| Rule                  | What it finds                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| `comments`            | A comment of the kinds above                                                         |
+| `tooling`             | Another linter's configuration, a script calling another tool, a misplaced workspace |
+| `choices`             | Another package manager's file, another framework's runtime, a choice not recorded   |
+| `icons`               | An unresolved placeholder, icon data, a missing icon package                         |
+| `base`                | Another headless library's import                                                    |
+| `states`, `framework` | Another library's state keys, a list of every framework or base                      |
+| `unused`, `leftover`  | A file nothing imports, something the template carried for the installer             |
+
+`bun scripts/install-smoke.ts --audit --all --icons hugeicons <combination>` installs one project
+with every item, reads it and builds nothing.
+
+### Get Code's whole matrix
+
+`bun scripts/install-matrix.ts --list` lists what Get Code offers as install entries: every
+skeleton the site packs, each with a base, a style and an icon library turned in order so every
+value meets every framework, every icon library on one skeleton per framework, and npm, pnpm and
+Yarn on a single app and on a Turborepo.
+
+| Command                                           | What it does                                                     |
+| ------------------------------------------------- | ---------------------------------------------------------------- |
+| `bun scripts/install-smoke.ts --matrix`           | Installs them, each with the line Get Code writes for its runner |
+| `… --filter <globs>`, `--shard i/n`               | A part of the list                                               |
+| `… --summary <file>`                              | Writes each outcome and lets every entry run to its end          |
+| `… --audit`                                       | Reads each project, builds nothing                               |
+| `bun scripts/install-matrix.ts --summary <files>` | A table per option value, and any two values giving one project  |
+
+A skeleton is packed once for npm, Yarn and Bun and once for pnpm, whose archive alone has
+`pnpm-workspace.yaml`. The `install matrix` workflow runs the whole list weekly, with builds, in
+16 shards; it is not a required check.
 
 ## Tasks and their cache
 

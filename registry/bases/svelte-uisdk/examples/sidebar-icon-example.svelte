@@ -90,7 +90,7 @@
       transitionDuration: duration[100],
       transitionProperty: "transform, translate, scale, rotate",
       transitionTimingFunction: easing.inOut,
-      rotate: { [OPEN.base]: "90deg" },
+      rotate: { [OPEN.uisdk]: "90deg" },
     }),
     sidebarGroup: css({
       display: { [COLLAPSED]: "none" },

@@ -23,6 +23,7 @@
     lineHeight,
     space,
   } from "../../../../../core/scales"
+  import Sidebar10Icon from "./Sidebar10Icon.svelte"
 
   let {
     class: className,
@@ -249,7 +250,7 @@
                     <SidebarMenuItem>
                       <SidebarMenuButton>
                         {#if item.icon}
-                          <IconPlaceholder {...item.icon} />
+                          <Sidebar10Icon icon={item.icon} />
                         {/if}
                         <span>
                           {item.label}

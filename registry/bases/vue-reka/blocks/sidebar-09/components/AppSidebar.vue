@@ -412,7 +412,48 @@ const { setOpen } = useSidebar()
                     :is-active="activeItem?.title === item.title"
                     :sx="styles.sidebarMenuButton2"
                   >
-                    <IconPlaceholder v-if="item.icon" v-bind="item.icon" />
+                    <template v-if="item.icon">
+                      <IconPlaceholder
+                        v-if="item.icon.lucide === 'InboxIcon'"
+                        lucide="InboxIcon"
+                        tabler="IconInbox"
+                        hugeicons="InboxIcon"
+                        phosphor="TrayIcon"
+                        remixicon="RiInboxLine"
+                      />
+                      <IconPlaceholder
+                        v-else-if="item.icon.lucide === 'FileIcon'"
+                        lucide="FileIcon"
+                        tabler="IconFile"
+                        hugeicons="FileIcon"
+                        phosphor="FileIcon"
+                        remixicon="RiFileLine"
+                      />
+                      <IconPlaceholder
+                        v-else-if="item.icon.lucide === 'SendIcon'"
+                        lucide="SendIcon"
+                        tabler="IconSend"
+                        hugeicons="SentIcon"
+                        phosphor="PaperPlaneTiltIcon"
+                        remixicon="RiSendPlaneLine"
+                      />
+                      <IconPlaceholder
+                        v-else-if="item.icon.lucide === 'ArchiveXIcon'"
+                        lucide="ArchiveXIcon"
+                        tabler="IconArchiveOff"
+                        hugeicons="ArchiveIcon"
+                        phosphor="ArchiveIcon"
+                        remixicon="RiArchiveLine"
+                      />
+                      <IconPlaceholder
+                        v-else-if="item.icon.lucide === 'Trash2Icon'"
+                        lucide="Trash2Icon"
+                        tabler="IconTrash"
+                        hugeicons="Delete02Icon"
+                        phosphor="TrashIcon"
+                        remixicon="RiDeleteBinLine"
+                      />
+                    </template>
                     <span>
                       {{ item.title }}
                     </span>

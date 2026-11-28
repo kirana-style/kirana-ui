@@ -32,7 +32,7 @@ const styles = {
     transitionProperty: "transform, translate, scale, rotate",
     transitionDuration: duration[200],
     transitionTimingFunction: easing.inOut,
-    rotate: { [OPEN.base]: "90deg" },
+    rotate: { [OPEN.uisdk]: "90deg" },
   }),
 }
 

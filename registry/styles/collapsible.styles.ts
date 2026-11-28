@@ -1,8 +1,9 @@
 /**
  * Collapsible draws nothing of its own (shadcn/ui's `bases/base/ui/collapsible.tsx` and
  * `bases/aria/ui/collapsible.tsx`, MIT, at commit `481d523`). What a page puts in one reads it as
- * upstream's `group/collapsible`: the page anchors `collapsibleScope` on the root and reads
- * `OPEN`, every base's open state, inside it.
+ * upstream's `group/collapsible`: the page anchors `collapsibleScope` on the root and reads its
+ * own base's entry of `OPEN` inside it (`OPEN.ark`; Kirana UI Primitives write Base UI's). A
+ * project gets its base's entry alone.
  */
 import { relation } from "@kirana-style/core"
 
@@ -12,8 +13,8 @@ import { disclosure } from "../core/states"
 export const collapsibleScope = relation("collapsible")
 
 /**
- * Inside an open section, on Base UI (`data-open`), React Aria (`data-expanded`), Ark UI and Reka
- * UI (`data-state="open"`) or ng-primitives and ui-sdk (`data-open`).
+ * Inside an open section, on Base UI (`data-open`), React Aria (`data-expanded`), Ark UI, Reka UI
+ * and Bits UI (`data-state="open"`) or ng-primitives and ui-sdk (`data-open`).
  */
 export const OPEN = {
   base: collapsibleScope.within(disclosure.open.base),

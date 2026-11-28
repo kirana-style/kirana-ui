@@ -23,14 +23,17 @@ import {
   FRAMEWORK_BASES,
 } from "../../../registry/core/config"
 import { LAYOUTS } from "../../../registry/core/preset"
+import {
+  configModule,
+  importsFrom,
+  kiranaModule,
+  withoutStates,
+} from "./design-system"
+import type { Imported } from "./design-system"
+import type { Base } from "./flatten"
 import type { Combination, Framework, Item } from "./items"
 import { COMBINATIONS, ITEMS, installedPath } from "./items"
-import {
-  COLOR_AXES,
-  axisModule,
-  paletteModule,
-  readPaletteModule,
-} from "./palette-modules"
+import { COLOR_AXES, axisModule, readPaletteModule } from "./palette-modules"
 import type { BuiltFile, Versions } from "./registry"
 import { dependenciesOf, ownersOf, rewriteImports, sourcesOf } from "./registry"
 
@@ -104,56 +107,102 @@ export function designOf(): KiranaDesign {
 }
 
 /**
- * The colour axes' builds for the design system (KF-080): for each value of the base colour, the
- * theme and the chart colour, that axis's module with that value's colours and entries alone, in
- * place of the module with every value. `ui init --preset` and `ui preset` install the design's
- * own; `ui init --all-designs` keeps every value, for a project with a theme switcher of its own.
+ * The colour axes' entries modules as a project installs them, with the colours they read written
+ * in (no palette module): `all` with every value, for `ui init --all-designs` (a project with a
+ * theme switcher of its own); and the builds for the design system (KF-080), for each value of the
+ * base colour, the theme and the chart colour that value's alone, which `ui init --preset` and
+ * `ui preset` install in place of every value's.
  */
-function colourBuilds(
-  registry: string,
-  shared: BuiltFile[]
-): Record<string, Record<string, KiranaFile[]>> {
+function colourModules(registry: string, shared: BuiltFile[]) {
   const source = (name: string) => {
     const file = shared.find((entry) => entry.source === `core/${name}`)
     if (!file) throw new Error(`the design system has no core/${name}`)
     return file
   }
-  return Object.fromEntries(
-    COLOR_AXES.map((spec) => {
-      const data = source(spec.paletteFile)
-      const entries = source(spec.file)
-      // From the source, whose header names the commit the palette was taken at: the file as it
-      // ships has no header.
-      const { palette, commit } = readPaletteModule(
-        readFileSync(join(registry, data.source), "utf8"),
-        spec
-      )
-      return [
-        spec.axis,
-        Object.fromEntries(
-          AXES[spec.axis].map((value) => [
-            value,
-            [
-              kiranaFile({
-                ...data,
-                content: shipped(
-                  data.source,
-                  paletteModule(spec, palette, commit, value)
-                ),
-              }),
-              kiranaFile({
-                ...entries,
-                content: shipped(
-                  entries.source,
-                  axisModule(spec, palette, commit, value)
-                ),
-              }),
-            ],
-          ])
-        ),
-      ]
+  const all = new Map<string, BuiltFile>()
+  const builds: Record<string, Record<string, KiranaFile[]>> = {}
+  for (const spec of COLOR_AXES) {
+    const entries = source(spec.file)
+    // From the palette's source, whose header names the commit it was taken at: the file as it
+    // ships has no header.
+    const { palette, commit } = readPaletteModule(
+      readFileSync(join(registry, "core", spec.paletteFile), "utf8"),
+      spec
+    )
+    const written = (value?: string) => ({
+      ...entries,
+      content: shipped(
+        entries.source,
+        axisModule(spec, palette, commit, value, true)
+      ),
     })
+    all.set(entries.source, written())
+    builds[spec.axis] = Object.fromEntries(
+      AXES[spec.axis].map((value) => [value, [kiranaFile(written(value))]])
+    )
+  }
+  return { all, builds }
+}
+
+/** The registry's modules a project never installs: the palettes are written into the entries. */
+const NOT_INSTALLED = new Set(
+  COLOR_AXES.map((spec) => `core/${spec.paletteFile}`)
+)
+
+/**
+ * What only a project with every design installs (`ui init --all-designs`), whose style modules
+ * travel as written: the states with every base's keys, and the configuration naming every
+ * vocabulary. Any other project gets `kirana.ts` for its base (`kiranaModule`) and no `states.ts`.
+ */
+const ALL_DESIGNS_ONLY = new Set(["core/kirana.ts", "core/states.ts"])
+
+/**
+ * The design system's item from its shared files: `config.ts` as the installed files read it, the
+ * colours written into their entries, and the per-base `kirana.ts` as the build for every style
+ * and base, which installation takes in place of `styles` (the whole `kirana.ts` and `states.ts`)
+ * unless the project keeps every design. Kirana's format has no other way to install a file only
+ * with every design: a build cannot be empty (KF-147).
+ */
+function designSystemFiles(
+  registry: string,
+  shared: BuiltFile[],
+  imported: Imported,
+  codeOf: (base: Base) => string,
+  problems: string[]
+) {
+  const colours = colourModules(registry, shared)
+  const files = shared
+    .filter(
+      (file) =>
+        !NOT_INSTALLED.has(file.source) && !ALL_DESIGNS_ONLY.has(file.source)
+    )
+    .map((file) =>
+      file.source === "core/config.ts"
+        ? { ...file, content: configModule(imported, problems) }
+        : (colours.all.get(file.source) ?? file)
+    )
+  const styles = shared.filter((file) => ALL_DESIGNS_ONLY.has(file.source))
+  const whole = styles.find((file) => file.source === "core/kirana.ts")
+  if (!whole) throw new Error("the design system has no core/kirana.ts")
+  const perBase = new Map(
+    BASES.map((combination) => [
+      combination.base,
+      [
+        kiranaFile({
+          ...whole,
+          content: kiranaModule(combination.base, codeOf(combination.base)),
+        }),
+      ],
+    ])
   )
+  const builds = Object.fromEntries(
+    AXES.style.map((style) => [style, Object.fromEntries(perBase)])
+  )
+  return {
+    files: files.map(kiranaFile),
+    styles: styles.map(kiranaFile),
+    flattened: { axis: "style", builds, axes: colours.builds },
+  }
 }
 
 export type KiranaItem = {
@@ -269,18 +318,25 @@ export function buildKiranaRegistry(
   ) => string | undefined = () => undefined
 ) {
   const problems: string[] = []
-  const read = (combination: Combination, source: string): BuiltFile => ({
-    source,
-    installed: installedPath(source),
+  const read = (combination: Combination, source: string): BuiltFile => {
     // As it ships: without the comments written for whoever maintains the registry.
-    content: rewriteImports(
+    const content = rewriteImports(
       registry,
       source,
       shipped(source, readFileSync(join(registry, source), "utf8"), problems),
       combination,
       "@/registry"
-    ),
-  })
+    )
+    return {
+      source,
+      installed: installedPath(source),
+      // Markup reading a state through `when()` gets its base's keys: no project installs
+      // `states.ts` but one with every design.
+      content: /^(core|styles)\//.test(source)
+        ? content
+        : withoutStates(source, content, combination.base, problems),
+    }
+  }
 
   // Each item's files for each framework and base.
   const perBase = new Map<Item, Map<string, BuiltFile[]>>()
@@ -302,6 +358,39 @@ export function buildKiranaRegistry(
       [...bases.values()].map((files): [Item, BuiltFile[]] => [item, files]),
       owner
     )
+
+  // What the installed files read of `config.ts`, and each base's installed code (its markup and
+  // its flattened style modules), for the design system's files.
+  const imported: Imported = { values: new Set(), types: new Set() }
+  const baseCode = new Map<Base, string[]>()
+  const codeFor = (base: Base) =>
+    baseCode.get(base) ?? baseCode.set(base, []).get(base)!
+  for (const bases of perBase.values())
+    for (const [key, files] of bases) {
+      const base = key.split("/")[1] as Base
+      const combinations = COMBINATIONS.filter(
+        (combination) => baseKey(combination) === key
+      )
+      for (const file of files) {
+        if (file.source === "core/config.ts" || NOT_INSTALLED.has(file.source))
+          continue
+        importsFrom(
+          file.content,
+          (specifier) =>
+            specifier === "@/registry/lib/kirana/config" ||
+            (file.source.startsWith("core/") && specifier === "./config"),
+          imported
+        )
+        const module = /^styles\/(.+\.styles\.ts)$/.exec(file.source)?.[1]
+        if (module)
+          for (const combination of combinations) {
+            const flat = flattenedOf(combination, module)
+            if (flat) codeFor(base).push(flat)
+          }
+        else if (!file.source.startsWith("core/"))
+          codeFor(base).push(file.content)
+      }
+    }
 
   const items: KiranaItem[] = []
   for (const [item, bases] of perBase) {
@@ -394,6 +483,16 @@ export function buildKiranaRegistry(
       }
 
     const axes = axesOf(styles.map((file) => file.content).join("\n"))
+    const design =
+      kindOf(item) === "design-system"
+        ? designSystemFiles(
+            registry,
+            shared,
+            imported,
+            (base) => (baseCode.get(base) ?? []).join("\n"),
+            problems
+          )
+        : undefined
 
     // The style modules flattened for each style and each base the item has (D-110), from the
     // modules the builder flattened and checked for the shadcn export, imports written as an
@@ -429,14 +528,16 @@ export function buildKiranaRegistry(
       ...(registryDependencies.length > 0 ? { registryDependencies } : {}),
       ...(Object.keys(dependencies).length > 0 ? { dependencies } : {}),
       ...(axes.length > 0 ? { axes } : {}),
-      ...(styles.length > 0 ? { styles: styles.map(kiranaFile) } : {}),
-      ...(listsBases ? { frameworks } : {}),
-      ...(shared.length > 0 ? { files: shared.map(kiranaFile) } : {}),
-      ...(Object.keys(builds).length > 0
-        ? { flattened: { axis: "style", builds } }
-        : kindOf(item) === "design-system"
-          ? { flattened: { axes: colourBuilds(registry, shared) } }
-          : {}),
+      ...(design
+        ? design
+        : {
+            ...(styles.length > 0 ? { styles: styles.map(kiranaFile) } : {}),
+            ...(listsBases ? { frameworks } : {}),
+            ...(shared.length > 0 ? { files: shared.map(kiranaFile) } : {}),
+            ...(Object.keys(builds).length > 0
+              ? { flattened: { axis: "style", builds } }
+              : {}),
+          }),
       ...(kindOf(item) === "design-system" ? { design: designOf() } : {}),
       ...(item.setup ? { setup: item.setup } : {}),
     })

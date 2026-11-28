@@ -46,6 +46,14 @@ keywords:
 
 <!-- ::installation name="drawer" combinations="react/kirana,react/base,react/aria,react/uisdk,vue/kirana,vue/ark,vue/reka,vue/uisdk,svelte/kirana,svelte/ark,svelte/bits,svelte/uisdk,solid/kirana,solid/ark,solid/uisdk,angular/kirana,angular/ng" -->
 
+<!-- ::start:only react/aria -->
+
+On React Aria, the Drawer is Base UI's, as in shadcn/ui's React Aria copy: React Aria Components
+has no drawer with this one's swipe properties, snap points and nested stacking. Installing it
+adds `@base-ui/react` to the project.
+
+<!-- ::end:only -->
+
 On iOS Safari, the drawer's overlay is absolutely positioned, and covers the viewport after the page
 is scrolled only inside a positioned `body`. Add it to your global styles (see the
 [Base UI docs](https://base-ui.com/react/overview/quick-start#ios-26-safari)):

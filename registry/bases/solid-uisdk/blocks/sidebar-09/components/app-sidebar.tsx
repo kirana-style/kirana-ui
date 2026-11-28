@@ -1,5 +1,12 @@
 import { NavUser } from "./nav-user"
-import { For, Show, createSignal, omit } from "solid-js"
+import {
+  For,
+  Show,
+  createSignal,
+  omit,
+  Match,
+  Switch as Choose,
+} from "solid-js"
 import { css, props as styleProps } from "@kirana-style/core"
 import { Label } from "../../../ui/label"
 import {
@@ -427,7 +434,53 @@ export function AppSidebar(props: {
                           sx={styles.sidebarMenuButton2}
                         >
                           <Show when={item.icon}>
-                            <IconPlaceholder {...item.icon} />
+                            <Choose>
+                              <Match when={item.icon.lucide === "InboxIcon"}>
+                                <IconPlaceholder
+                                  lucide="InboxIcon"
+                                  tabler="IconInbox"
+                                  hugeicons="InboxIcon"
+                                  phosphor="TrayIcon"
+                                  remixicon="RiInboxLine"
+                                />
+                              </Match>
+                              <Match when={item.icon.lucide === "FileIcon"}>
+                                <IconPlaceholder
+                                  lucide="FileIcon"
+                                  tabler="IconFile"
+                                  hugeicons="FileIcon"
+                                  phosphor="FileIcon"
+                                  remixicon="RiFileLine"
+                                />
+                              </Match>
+                              <Match when={item.icon.lucide === "SendIcon"}>
+                                <IconPlaceholder
+                                  lucide="SendIcon"
+                                  tabler="IconSend"
+                                  hugeicons="SentIcon"
+                                  phosphor="PaperPlaneTiltIcon"
+                                  remixicon="RiSendPlaneLine"
+                                />
+                              </Match>
+                              <Match when={item.icon.lucide === "ArchiveXIcon"}>
+                                <IconPlaceholder
+                                  lucide="ArchiveXIcon"
+                                  tabler="IconArchiveOff"
+                                  hugeicons="ArchiveIcon"
+                                  phosphor="ArchiveIcon"
+                                  remixicon="RiArchiveLine"
+                                />
+                              </Match>
+                              <Match when={item.icon.lucide === "Trash2Icon"}>
+                                <IconPlaceholder
+                                  lucide="Trash2Icon"
+                                  tabler="IconTrash"
+                                  hugeicons="Delete02Icon"
+                                  phosphor="TrashIcon"
+                                  remixicon="RiDeleteBinLine"
+                                />
+                              </Match>
+                            </Choose>
                           </Show>
                           <span>{item.title}</span>
                         </SidebarMenuButton>

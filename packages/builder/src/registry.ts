@@ -13,9 +13,15 @@ import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { join, posix } from "node:path"
 
 import {
+  ICON_LIBRARIES,
   importsOf,
   packageOf,
+  resolveIcons,
   versionsFrom as kiranaVersionsFrom,
+} from "@kirana-style/registry"
+import type {
+  InlineIcon,
+  Framework as KiranaFramework,
 } from "@kirana-style/registry"
 import { registryItemSchema, registrySchema } from "@shadcn/registry/schema"
 
@@ -38,13 +44,72 @@ const FRAMEWORK_PACKAGES = new Set([
 ])
 
 /**
- * React's icon placeholder, which shadcn/ui's CLI resolves at install: each `<IconPlaceholder … />`
- * becomes the project's icon library's component (`iconLibrary` in `components.json`), and the
- * import of a path holding `icon-placeholder` is dropped. A component that imports it does not
- * depend on the `icon-placeholder` item, which stays in the registry for a project that wants the
- * placeholder itself.
+ * Each framework's icon placeholder, by its installed place. The installers resolve it: each
+ * `<IconPlaceholder … />` (Angular's `<svg iconPlaceholder …>`) becomes the project's icon
+ * library's own icon (`iconLibrary`: shadcn/ui's CLI for React, `kirana-style ui` for every
+ * framework), and the placeholder's import is dropped. A file whose placeholders all resolve does
+ * not depend on the `icon-placeholder` item, which stays in the registry for a project that wants
+ * the placeholder itself.
  */
-const RESOLVED_AT_INSTALL = "lib/kirana/icons/icon-placeholder"
+const PLACEHOLDERS = new Set([
+  "lib/kirana/icons/icon-placeholder",
+  "lib/kirana/icons/IconPlaceholder.vue",
+  "lib/kirana/icons/IconPlaceholder.svelte",
+  "lib/kirana/icons/angular",
+  // Solid's, one per base.
+  "ui/icon-placeholder",
+])
+
+/** The framework Kirana's icon step reads a file as: only Angular's placeholder is resolved apart. */
+function iconFramework(file: BuiltFile): KiranaFramework {
+  if (file.installed.endsWith(".vue")) return "vue"
+  if (file.installed.endsWith(".svelte")) return "svelte"
+  return /icons\/angular["']/.test(file.content) ? "angular" : "react"
+}
+
+/** Any icon an inline drawing asks for: the check reads the markup, not the library's data. */
+class AnyIcon extends Map<string, InlineIcon> {
+  override get(): InlineIcon {
+    return { attributes: [], inner: "" }
+  }
+}
+
+/** A placeholder still in a file once the installer is done with it. */
+const LEFT =
+  /<IconPlaceholder\b|\bh\(\s*IconPlaceholder\b|<svg\b[^>]*\siconPlaceholder[\s>]/
+
+/**
+ * A file as Kirana's installer writes it (for Lucide), and what is wrong with it for any library:
+ * a placeholder that names no icon for a library stops the install, and one left in the file (a
+ * bound name, a spread, a render function's) needs every library's data at run time.
+ */
+export function resolvedIcons(file: BuiltFile): {
+  content: string
+  problems: string[]
+} {
+  const framework = iconFramework(file)
+  const problems = new Set<string>()
+  let content = file.content
+  for (const library of ICON_LIBRARIES) {
+    try {
+      const resolved = resolveIcons(
+        file.installed,
+        file.content,
+        framework,
+        library,
+        new AnyIcon()
+      ).content
+      if (library === "lucide") content = resolved
+      if (LEFT.test(resolved))
+        problems.add(
+          `${file.installed} keeps an icon placeholder the installer cannot resolve: write each icon's names on it`
+        )
+    } catch (error) {
+      problems.add(error instanceof Error ? error.message : String(error))
+    }
+  }
+  return { content, problems: [...problems] }
+}
 
 // Reading a file's imports and naming their packages are Kirana's own (`ui build`, KRN-DX-034).
 export { importsOf, packageOf } from "@kirana-style/registry"
@@ -164,17 +229,42 @@ export function dependenciesOf(
     else if (provider !== item) registryDependencies.add(provider)
   }
   for (const file of files) {
-    for (const specifier of importsOf(file.content)) {
+    const imports = importsOf(file.content)
+    const placeOf = (specifier: string) =>
+      specifier.startsWith("./")
+        ? withoutExtension(posix.join(posix.dirname(file.installed), specifier))
+        : specifier.startsWith(`${prefix}/`)
+          ? withoutExtension(specifier.slice(prefix.length + 1))
+          : undefined
+    // A placeholder the installer resolves is no dependency; one it leaves is a problem, and the
+    // placeholder's import it keeps (Angular's `IconDrawing`) still is.
+    let kept: Set<string> | undefined
+    if (
+      imports.some((specifier) => {
+        const place = placeOf(specifier)
+        return place !== undefined && PLACEHOLDERS.has(place) && !own.has(place)
+      })
+    ) {
+      const resolved = resolvedIcons(file)
+      problems.push(
+        ...resolved.problems.map((problem) => `${item}: ${problem}`)
+      )
+      kept = new Set(importsOf(resolved.content))
+    }
+    for (const specifier of imports) {
+      const place = placeOf(specifier)
+      if (
+        place !== undefined &&
+        kept &&
+        PLACEHOLDERS.has(place) &&
+        !kept.has(specifier)
+      )
+        continue
       if (specifier.startsWith("./")) {
         // Installed in the same folder: the item's own file, or another item's (a dependency).
-        provide(
-          file,
-          specifier,
-          withoutExtension(posix.join(posix.dirname(file.installed), specifier))
-        )
+        provide(file, specifier, place!)
       } else if (specifier.startsWith(`${prefix}/`)) {
-        const path = withoutExtension(specifier.slice(prefix.length + 1))
-        if (path !== RESOLVED_AT_INSTALL) provide(file, specifier, path)
+        provide(file, specifier, place!)
       } else if (!specifier.startsWith(".")) {
         const name = packageOf(specifier)
         if (FRAMEWORK_PACKAGES.has(name)) continue

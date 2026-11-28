@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { h } from "vue"
 import { css } from "@kirana-style/core"
 import { areaY, defineChart, dot, lineY, whenFocused } from "@tanstack/charts"
 import { d3Curve } from "@tanstack/charts/d3/shape"
@@ -9,6 +8,7 @@ import { curveStep } from "d3-shape"
 import { fontWeight, space } from "../../../core/scales"
 import { theme } from "../../../core/tokens"
 import IconPlaceholder from "../../../icons/IconPlaceholder.vue"
+import ActivityIcon from "../components/chart-area-step/ActivityIcon.vue"
 import {
   Card,
   CardContent,
@@ -55,16 +55,6 @@ const chartData = [
   { month: "May", desktop: 209 },
   { month: "June", desktop: 214 },
 ]
-
-/** The series' icon, for the legend. */
-const ActivityIcon = () =>
-  h(IconPlaceholder, {
-    lucide: "ActivityIcon",
-    tabler: "IconActivity",
-    hugeicons: "Activity01Icon",
-    phosphor: "PulseIcon",
-    remixicon: "RiPulseLine",
-  })
 
 const chartConfig = {
   desktop: {

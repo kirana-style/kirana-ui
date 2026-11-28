@@ -292,7 +292,31 @@
                       {#snippet asChild(props)}
                         <a {...props()} href="#">
                           {#if item.icon}
-                            <IconPlaceholder {...item.icon} />
+                            {#if item.icon.lucide === 'BellIcon'}
+                              <IconPlaceholder lucide="BellIcon" tabler="IconBell" hugeicons="NotificationIcon" phosphor="BellIcon" remixicon="RiNotificationLine" />
+                            {:else if item.icon.lucide === 'MenuIcon'}
+                              <IconPlaceholder lucide="MenuIcon" tabler="IconMenu" hugeicons="Menu09Icon" phosphor="ListIcon" remixicon="RiMenuLine" />
+                            {:else if item.icon.lucide === 'HomeIcon'}
+                              <IconPlaceholder lucide="HomeIcon" tabler="IconHome" hugeicons="HomeIcon" phosphor="HouseIcon" remixicon="RiHomeLine" />
+                            {:else if item.icon.lucide === 'PaintbrushIcon'}
+                              <IconPlaceholder lucide="PaintbrushIcon" tabler="IconPalette" hugeicons="PaintBoardIcon" phosphor="PaletteIcon" remixicon="RiPaletteLine" />
+                            {:else if item.icon.lucide === 'MessageCircleIcon'}
+                              <IconPlaceholder lucide="MessageCircleIcon" tabler="IconMessageQuestion" hugeicons="MessageIcon" phosphor="ChatCircleIcon" remixicon="RiChat1Line" />
+                            {:else if item.icon.lucide === 'GlobeIcon'}
+                              <IconPlaceholder lucide="GlobeIcon" tabler="IconWorld" hugeicons="Globe02Icon" phosphor="GlobeIcon" remixicon="RiGlobalLine" />
+                            {:else if item.icon.lucide === 'KeyboardIcon'}
+                              <IconPlaceholder lucide="KeyboardIcon" tabler="IconKeyboard" hugeicons="KeyboardIcon" phosphor="KeyboardIcon" remixicon="RiKeyboardLine" />
+                            {:else if item.icon.lucide === 'CheckIcon'}
+                              <IconPlaceholder lucide="CheckIcon" tabler="IconCheck" hugeicons="Tick02Icon" phosphor="CheckIcon" remixicon="RiCheckLine" />
+                            {:else if item.icon.lucide === 'VideoIcon'}
+                              <IconPlaceholder lucide="VideoIcon" tabler="IconVideoPlus" hugeicons="RecordIcon" phosphor="VideoIcon" remixicon="RiVideoLine" />
+                            {:else if item.icon.lucide === 'LinkIcon'}
+                              <IconPlaceholder lucide="LinkIcon" tabler="IconLink" hugeicons="LinkIcon" phosphor="LinkIcon" remixicon="RiLinksLine" />
+                            {:else if item.icon.lucide === 'LockIcon'}
+                              <IconPlaceholder lucide="LockIcon" tabler="IconLock" hugeicons="ShieldIcon" phosphor="LockIcon" remixicon="RiLockLine" />
+                            {:else if item.icon.lucide === 'SettingsIcon'}
+                              <IconPlaceholder lucide="SettingsIcon" tabler="IconSettings" hugeicons="SettingsIcon" phosphor="GearIcon" remixicon="RiSettingsLine" />
+                            {/if}
                           {/if}
                           <span>
                             {item.name}

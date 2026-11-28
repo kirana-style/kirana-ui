@@ -305,14 +305,128 @@ const data = {
                           href="#"
                         >
                           @if (item.icon) {
-                            <svg
-                              iconPlaceholder
-                              [lucide]="item.icon.lucide"
-                              [tabler]="item.icon.tabler"
-                              [hugeicons]="item.icon.hugeicons"
-                              [phosphor]="item.icon.phosphor"
-                              [remixicon]="item.icon.remixicon"
-                            ></svg>
+                            @switch (item.icon.lucide) {
+                              @case ("BellIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="BellIcon"
+                                  tabler="IconBell"
+                                  hugeicons="NotificationIcon"
+                                  phosphor="BellIcon"
+                                  remixicon="RiNotificationLine"
+                                ></svg>
+                              }
+                              @case ("MenuIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="MenuIcon"
+                                  tabler="IconMenu"
+                                  hugeicons="Menu09Icon"
+                                  phosphor="ListIcon"
+                                  remixicon="RiMenuLine"
+                                ></svg>
+                              }
+                              @case ("HomeIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="HomeIcon"
+                                  tabler="IconHome"
+                                  hugeicons="HomeIcon"
+                                  phosphor="HouseIcon"
+                                  remixicon="RiHomeLine"
+                                ></svg>
+                              }
+                              @case ("PaintbrushIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="PaintbrushIcon"
+                                  tabler="IconPalette"
+                                  hugeicons="PaintBoardIcon"
+                                  phosphor="PaletteIcon"
+                                  remixicon="RiPaletteLine"
+                                ></svg>
+                              }
+                              @case ("MessageCircleIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="MessageCircleIcon"
+                                  tabler="IconMessageQuestion"
+                                  hugeicons="MessageIcon"
+                                  phosphor="ChatCircleIcon"
+                                  remixicon="RiChat1Line"
+                                ></svg>
+                              }
+                              @case ("GlobeIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="GlobeIcon"
+                                  tabler="IconWorld"
+                                  hugeicons="Globe02Icon"
+                                  phosphor="GlobeIcon"
+                                  remixicon="RiGlobalLine"
+                                ></svg>
+                              }
+                              @case ("KeyboardIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="KeyboardIcon"
+                                  tabler="IconKeyboard"
+                                  hugeicons="KeyboardIcon"
+                                  phosphor="KeyboardIcon"
+                                  remixicon="RiKeyboardLine"
+                                ></svg>
+                              }
+                              @case ("CheckIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="CheckIcon"
+                                  tabler="IconCheck"
+                                  hugeicons="Tick02Icon"
+                                  phosphor="CheckIcon"
+                                  remixicon="RiCheckLine"
+                                ></svg>
+                              }
+                              @case ("VideoIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="VideoIcon"
+                                  tabler="IconVideoPlus"
+                                  hugeicons="RecordIcon"
+                                  phosphor="VideoIcon"
+                                  remixicon="RiVideoLine"
+                                ></svg>
+                              }
+                              @case ("LinkIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="LinkIcon"
+                                  tabler="IconLink"
+                                  hugeicons="LinkIcon"
+                                  phosphor="LinkIcon"
+                                  remixicon="RiLinksLine"
+                                ></svg>
+                              }
+                              @case ("LockIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="LockIcon"
+                                  tabler="IconLock"
+                                  hugeicons="ShieldIcon"
+                                  phosphor="LockIcon"
+                                  remixicon="RiLockLine"
+                                ></svg>
+                              }
+                              @case ("SettingsIcon") {
+                                <svg
+                                  iconPlaceholder
+                                  lucide="SettingsIcon"
+                                  tabler="IconSettings"
+                                  hugeicons="SettingsIcon"
+                                  phosphor="GearIcon"
+                                  remixicon="RiSettingsLine"
+                                ></svg>
+                              }
+                            }
                           }
                           <span>{{ item.name }}</span>
                         </a>

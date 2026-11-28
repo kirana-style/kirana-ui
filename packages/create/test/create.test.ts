@@ -203,9 +203,29 @@ describe("compose", () => {
       versions
     )
     expect(turbo.has("turbo.json")).toBe(true)
-    expect(turbo.has("pnpm-workspace.yaml")).toBe(true)
+    // pnpm's workspace file in pnpm's archive alone; npm, Yarn and Bun read `workspaces`.
+    expect(turbo.has("pnpm-workspace.yaml")).toBe(false)
+    const pnpm = composeProject(
+      { template: "tanstack-start", monorepo: "turbo", tooling: "biome" },
+      versions,
+      { manager: "pnpm" }
+    )
+    expect([...pnpm.keys()].filter((path) => !turbo.has(path))).toEqual([
+      "pnpm-workspace.yaml",
+    ])
     // A font's package goes into the app that imports it (`init`): nothing hoisted.
-    expect(turbo.get("pnpm-workspace.yaml")).not.toContain("publicHoistPattern")
+    expect(pnpm.get("pnpm-workspace.yaml")).not.toContain("publicHoistPattern")
+    expect(pnpm.get("pnpm-workspace.yaml")).toContain("strictDepBuilds: false")
+    // A single app's pnpm archive has the setting alone, no workspace.
+    const single = composeProject(
+      { template: "analog-angular", monorepo: "none", tooling: "vite-plus" },
+      versions,
+      { manager: "pnpm" }
+    )
+    expect(single.get("pnpm-workspace.yaml")).not.toContain("packages:")
+    expect(single.get("pnpm-workspace.yaml")).toContain(
+      "strictDepBuilds: false"
+    )
     expect(turbo.has("bunfig.toml")).toBe(false)
     const root = JSON.parse(turbo.get("package.json")!)
     expect(root.scripts).toMatchObject({
@@ -244,6 +264,82 @@ describe("compose", () => {
     expect(JSON.parse(vitePlus.get("package.json")!).scripts.check).toBe(
       "vp check"
     )
+  })
+
+  it("gives every skeleton its tooling and workspace alone", () => {
+    const configs: Record<string, string[]> = {
+      eslint: ["eslint.config.js", ".prettierrc", ".prettierignore"],
+      oxlint: [".oxlintrc.json", ".oxfmtrc.json"],
+      biome: ["biome.json"],
+      "vite-plus": [],
+    }
+    const tools: [RegExp, string][] = [
+      [/(^|\s)(eslint|prettier)(\s|$)/, "eslint"],
+      [/(^|\s)(oxlint|oxfmt)(\s|$)/, "oxlint"],
+      [/(^|\s)biome(\s|$)/, "biome"],
+      [/(^|\s)vp (check|lint|fmt)(\s|$)/, "vite-plus"],
+    ]
+    for (const skeleton of everySkeleton()) {
+      const id = skeletonId(skeleton)
+      const files = composeProject(skeleton, versions)
+      const workspace = skeleton.monorepo !== "none"
+      // Each configuration the tooling asked for at the root, and no other tooling's anywhere.
+      for (const [tooling, names] of Object.entries(configs))
+        for (const path of files.keys()) {
+          const name = path.split("/").at(-1)!
+          if (!names.includes(name)) continue
+          expect(
+            tooling === skeleton.tooling && path === name,
+            `${id}: ${path}`
+          ).toBe(true)
+        }
+      for (const name of configs[skeleton.tooling]!)
+        expect(files.has(name), `${id}: ${name}`).toBe(true)
+      // Vite+'s lint settings in the one config Vite+ checks from.
+      for (const [path, content] of files) {
+        if (!path.endsWith("vite.config.ts")) continue
+        const own =
+          skeleton.tooling === "vite-plus" && path === "vite.config.ts"
+        expect(content.includes("lint: {"), `${id}: ${path}`).toBe(own)
+      }
+      // The scripts call the chosen tool and no other, the lint and format ones at the root.
+      for (const [path, content] of files) {
+        if (!path.endsWith("package.json")) continue
+        const manifest = JSON.parse(content) as {
+          scripts?: Record<string, string>
+          devDependencies?: Record<string, string>
+          workspaces?: string[]
+        }
+        for (const [script, command] of Object.entries(manifest.scripts ?? {}))
+          for (const [pattern, tool] of tools)
+            if (pattern.test(command))
+              expect(tool, `${id}: ${path} ${script}`).toBe(skeleton.tooling)
+        if (path === "package.json") {
+          expect(manifest.scripts?.lint, id).toBeDefined()
+          expect(manifest.scripts?.format, id).toBeDefined()
+          expect(Array.isArray(manifest.workspaces), id).toBe(workspace)
+        } else {
+          expect(manifest.scripts?.lint, `${id}: ${path}`).toBeUndefined()
+          expect(manifest.scripts?.format, `${id}: ${path}`).toBeUndefined()
+        }
+        expect(
+          "turbo" in (manifest.devDependencies ?? {}),
+          `${id}: ${path}`
+        ).toBe(skeleton.monorepo === "turbo" && path === "package.json")
+      }
+      // A workspace's app in apps/web and the components' package in packages/ui; a single app
+      // has neither.
+      for (const path of ["apps/web/package.json", "packages/ui/package.json"])
+        expect(files.has(path), `${id}: ${path}`).toBe(workspace)
+      expect(files.has("turbo.json"), id).toBe(skeleton.monorepo === "turbo")
+      expect(files.has("pnpm-workspace.yaml"), id).toBe(
+        skeleton.monorepo === "vite-plus"
+      )
+      expect(
+        [...files.keys()].some((path) => path.endsWith(".gitkeep")),
+        id
+      ).toBe(false)
+    }
   })
 
   it("composes every skeleton deterministically", () => {

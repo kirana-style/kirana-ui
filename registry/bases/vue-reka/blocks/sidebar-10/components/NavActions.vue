@@ -21,6 +21,7 @@ import {
   lineHeight,
   space,
 } from "../../../../../core/scales"
+import Sidebar10Icon from "./Sidebar10Icon.vue"
 
 const styles = {
   navActionsDiv: css({
@@ -252,7 +253,7 @@ onMounted(() => (isOpen.value = true))
                     :key="itemIndex"
                   >
                     <SidebarMenuButton>
-                      <IconPlaceholder v-if="item.icon" v-bind="item.icon" />
+                      <Sidebar10Icon v-if="item.icon" :icon="item.icon" />
 
                       <span>
                         {{ item.label }}

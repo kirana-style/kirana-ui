@@ -276,14 +276,138 @@ const data = [
                         <li kuiSidebarMenuItem>
                           <button kuiSidebarMenuButton>
                             @if (item.icon) {
-                              <svg
-                                iconPlaceholder
-                                [lucide]="item.icon.lucide"
-                                [tabler]="item.icon.tabler"
-                                [hugeicons]="item.icon.hugeicons"
-                                [phosphor]="item.icon.phosphor"
-                                [remixicon]="item.icon.remixicon"
-                              ></svg>
+                              @switch (item.icon.lucide) {
+                                @case ("Settings2Icon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="Settings2Icon"
+                                    tabler="IconSettings"
+                                    hugeicons="Settings05Icon"
+                                    phosphor="GearIcon"
+                                    remixicon="RiSettingsLine"
+                                  ></svg>
+                                }
+                                @case ("FileTextIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="FileTextIcon"
+                                    tabler="IconFileText"
+                                    hugeicons="File01Icon"
+                                    phosphor="FileTextIcon"
+                                    remixicon="RiFileTextLine"
+                                  ></svg>
+                                }
+                                @case ("LinkIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="LinkIcon"
+                                    tabler="IconLink"
+                                    hugeicons="LinkIcon"
+                                    phosphor="LinkIcon"
+                                    remixicon="RiLinksLine"
+                                  ></svg>
+                                }
+                                @case ("CopyIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="CopyIcon"
+                                    tabler="IconCopy"
+                                    hugeicons="Copy01Icon"
+                                    phosphor="CopyIcon"
+                                    remixicon="RiFileCopyLine"
+                                  ></svg>
+                                }
+                                @case ("CornerUpRightIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="CornerUpRightIcon"
+                                    tabler="IconCornerUpRight"
+                                    hugeicons="RedoIcon"
+                                    phosphor="ArrowBendUpRightIcon"
+                                    remixicon="RiCornerUpRightLine"
+                                  ></svg>
+                                }
+                                @case ("Trash2Icon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="Trash2Icon"
+                                    tabler="IconTrash"
+                                    hugeicons="Delete02Icon"
+                                    phosphor="TrashIcon"
+                                    remixicon="RiDeleteBinLine"
+                                  ></svg>
+                                }
+                                @case ("CornerUpLeftIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="CornerUpLeftIcon"
+                                    tabler="IconCornerUpLeft"
+                                    hugeicons="UndoIcon"
+                                    phosphor="ArrowBendUpLeftIcon"
+                                    remixicon="RiCornerUpLeftLine"
+                                  ></svg>
+                                }
+                                @case ("ChartLineIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="ChartLineIcon"
+                                    tabler="IconChartLine"
+                                    hugeicons="ChartIcon"
+                                    phosphor="ChartLineIcon"
+                                    remixicon="RiLineChartLine"
+                                  ></svg>
+                                }
+                                @case ("GalleryVerticalEndIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="GalleryVerticalEndIcon"
+                                    tabler="IconLayoutRows"
+                                    hugeicons="LayoutBottomIcon"
+                                    phosphor="RowsIcon"
+                                    remixicon="RiGalleryLine"
+                                  ></svg>
+                                }
+                                @case ("TrashIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="TrashIcon"
+                                    tabler="IconTrash"
+                                    hugeicons="DeleteIcon"
+                                    phosphor="TrashIcon"
+                                    remixicon="RiDeleteBinLine"
+                                  ></svg>
+                                }
+                                @case ("BellIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="BellIcon"
+                                    tabler="IconBell"
+                                    hugeicons="NotificationIcon"
+                                    phosphor="BellIcon"
+                                    remixicon="RiNotificationLine"
+                                  ></svg>
+                                }
+                                @case ("ArrowUpIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="ArrowUpIcon"
+                                    tabler="IconArrowUp"
+                                    hugeicons="ArrowUpIcon"
+                                    phosphor="ArrowUpIcon"
+                                    remixicon="RiArrowUpLine"
+                                  ></svg>
+                                }
+                                @case ("ArrowDownIcon") {
+                                  <svg
+                                    iconPlaceholder
+                                    lucide="ArrowDownIcon"
+                                    tabler="IconArrowDown"
+                                    hugeicons="ArrowDownIcon"
+                                    phosphor="ArrowDownIcon"
+                                    remixicon="RiArrowDownLine"
+                                  ></svg>
+                                }
+                              }
                             }
                             <span>{{ item.label }}</span>
                           </button>

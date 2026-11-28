@@ -59,6 +59,11 @@ export function generate(
   options: {
     flatten: (handle: StyleHandle) => StyleHandle
     flattenRecipe: (handle: RecipeHandle) => RecipeHandle
+    /**
+     * Whether a string member of an exported object is written: a constant of conditions, one per
+     * base (`OPEN.aria`), keeps the target's alone. Every member is written when it is not given.
+     */
+    keep?: (value: string) => boolean
     imports: (module: CoreModule) => string
     header: string
     /** The style module being written (`field.styles.ts`); its relations are its own to declare. */
@@ -244,6 +249,8 @@ export function generate(
       const members = [
         ...once(
           Object.entries(entry).flatMap(([name, part]) => {
+            if (typeof part === "string" && options.keep && !options.keep(part))
+              return []
             const code = member(part, `${path}.${name}`, inner)
             return code === undefined
               ? []

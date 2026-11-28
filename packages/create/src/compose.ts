@@ -19,7 +19,12 @@ import {
   withKiranaRelease,
 } from "./manifest.ts"
 import type { Manifest } from "./manifest.ts"
-import { gitignore, workspaceLayer } from "./monorepo.ts"
+import {
+  gitignore,
+  packedManagers,
+  pnpmWorkspace,
+  workspaceLayer,
+} from "./monorepo.ts"
 import { ignored, toolingLayer, vitePlusOptions } from "./tooling.ts"
 import { VITE_PLUS_VITE } from "./versions.ts"
 
@@ -112,7 +117,8 @@ function vitePlusScripts(scripts: Readonly<Record<string, string>>) {
 function appFiles(
   skeleton: Skeleton,
   versions: Versions,
-  prefix: string
+  prefix: string,
+  manager?: "pnpm"
 ): Map<string, string> {
   const app = APPS[skeleton.template]
   const alone = skeleton.monorepo === "none"
@@ -150,6 +156,8 @@ function appFiles(
       renderVite(app.vite, app, skeleton.tooling, skeleton.monorepo)
     )
   if (alone) files.set(`${prefix}.gitignore`, gitignore(app))
+  if (alone && manager === "pnpm")
+    files.set("pnpm-workspace.yaml", pnpmWorkspace(false))
   const dependencies: Dependency[] = [
     ...app.dependencies,
     ...kiranaPackages(
@@ -195,20 +203,30 @@ function appFiles(
   return files
 }
 
-/** Every file of the project, by path, sorted. */
+/**
+ * Every file of the project, by path, sorted; `options.manager` the package manager the archive
+ * is for, where the workspace differs by it (`packedManagers`).
+ */
 export function composeProject(
   skeleton: Skeleton,
-  versions: Versions
+  versions: Versions,
+  options: { manager?: "pnpm" } = {}
 ): Map<string, string> {
   const app = APPS[skeleton.template]
   const prefix = skeleton.monorepo === "none" ? "" : `apps/${PROJECT.app}/`
   const files = new Map<string, string>([
-    ...appFiles(skeleton, versions, prefix),
+    ...appFiles(skeleton, versions, prefix, options.manager),
     ...Object.entries(
-      workspaceLayer(skeleton.monorepo, skeleton.tooling, app, versions)
+      workspaceLayer(
+        skeleton.monorepo,
+        skeleton.tooling,
+        app,
+        versions,
+        options.manager
+      )
     ),
   ])
   return new Map([...files].sort(([a], [b]) => a.localeCompare(b)))
 }
 
-export { skeletonId }
+export { packedManagers, skeletonId }
